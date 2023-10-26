@@ -1,0 +1,64 @@
+{
+    "projects": [
+    {
+        "index": 1,
+        "date": { "quarter": 1, "year": 2008 },
+        "description": "Provided training to Tier 1+ call center staff on SOP and effectively escalated Tier 2 issues at HUD.",
+        "id": "HUD-1",
+        "images": [{ "url": "https://example.com/image1.jpg" }],
+        "link": "https://app.url/project1",
+        "name": "Tier 1+ Call Center Training",
+        "startDate": "2008-01-01",
+        "endDate": "2008-03-31",
+        "organization": "HUD"
+    },
+    {
+        "index": 2,
+        "date": { "quarter": 2, "year": 2008 },
+        "description": "Handled Tier 1 support, including basic access troubleshooting, password resets, account unlocking, and permissions management at HUD.",
+        "id": "HUD-2",
+        "images": [{ "url": "https://example.com/image2.jpg" }],
+        "link": "https://app.url/project2",
+        "name": "Tier 1 Access Troubleshooting",
+        "startDate": "2008-04-01",
+        "endDate": "2008-06-30",
+        "organization": "HUD"
+    },
+    {
+        "index": 3,
+        "date": { "quarter": 3, "year": 2008 },
+        "description": "Contributed to the Knowledge Base (KB) in Remedy by providing suggestions for RCA and responses based on frequently asked questions and the top 100 requests at HUD.",
+        "id": "HUD-3",
+        "images": [{ "url": "https://example.com/image3.jpg" }],
+        "link": "https://app.url/project3",
+        "name": "KB Contribution in Remedy",
+        "startDate": "2008-07-01",
+        "endDate": "2008-09-30",
+        "organization": "HUD"
+    },
+    {
+        "index": 4,
+        "date": { "quarter": 4, "year": 2008 },
+        "description": "Modified the phone system through the GUI to ensure fair queue assignment and improve overall call center efficiency at HUD.",
+        "id": "HUD-4",
+        "images": [{ "url": "https://example.com/image4.jpg" }],
+        "link": "https://app.url/project4",
+        "name": "Phone System Modification",
+        "startDate": "2008-10-01",
+        "endDate": "2008-12-31",
+        "organization": "HUD"
+    },
+    {
+        "index": 5,
+        "date": { "year": 2009 },
+        "description": "Successfully procured technical system improvements for local client systems, enhancing service quality and user experience at HUD.",
+        "id": "HUD-5",
+        "images": [{ "url": "https://example.com/image5.jpg" }],
+        "link": "https://app.url/project5",
+        "name": "Technical System Improvements",
+        "startDate": "2009-01-01",
+        "endDate": "2009-12-31",
+        "organization": "HUD"
+    }
+    ]
+}
