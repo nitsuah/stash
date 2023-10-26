@@ -1,0 +1,36 @@
+#USERDATA
+UserData 
+{ 
+  {
+#CLI
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco install pip --source python
+
+#GITHUB
+choco install git
+choco install gh
+ssh-keygen -b 4096
+##rsa-pub = C:\Users\username\.ssh\id_rsa.pub
+git config --global user.email "username@gmail.com"
+
+#AWScLI
+choco install awscli
+aws configure
+
+#DOCKER
+choco install docker-desktop
+
+#S3 // TODO - Create a new S3 bucket with the following properties:
+
+#IAM // TODO - Create a new IAM user with the following properties:
+
+#LOCALDEV - TODO: Create a new folder on your local machine and pull the bucket into it:
+mkdir D:\CODE\repos\homepage
+cd D:\CODE\repos\homepage
+git pull
+git status
+aws s3 cp ./ s3://nitsuahlabs/ --recursive
+python -m SimpleHTTPServer
+
+  }
+}

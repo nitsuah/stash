@@ -1,0 +1,1 @@
+ldapadd -x -h PROD -D "ou=users,ou=ou,dc=dc,dc=dc" -w secret -b -H ldap:// -f C:\newusers.ldif
