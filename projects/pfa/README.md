@@ -1,5 +1,7 @@
 # Power Failure Alarm Circuit
 
+![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/pfa/pfa_pcb.png)
+
 This is a simple electronic circuit that can be used as a power failure alarm. The circuit is powered by a USB power source and contains the following components:
 
 - Diode (D1): 1N4001
