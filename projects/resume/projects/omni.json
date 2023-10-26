@@ -1,0 +1,172 @@
+{
+    "projects": [
+        {
+            "index": 1,
+            "date": { "quarter": 1, "year": 2012 },
+            "description": "Deployed Symantec Endpoint Protection across the enterprise, ensuring comprehensive security against threats and vulnerabilities.",
+            "id": "OMNI-1",
+            "images": [{ "url": "https://example.com/image5.jpg" }],
+            "link": "https://app.url/project5",
+            "name": "Symantec Endpoint Protection Deployment",
+            "startDate": "2012-01-01",
+            "endDate": "2012-03-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 2,
+            "date": { "quarter": 3, "year": 2012 },
+            "description": "Virtualized internal and client on-premise systems to vSphere, improving resource utilization and scalability.",
+            "id": "OMNI-2",
+            "images": [{ "url": "https://example.com/image6.jpg" }],
+            "link": "https://app.url/project6",
+            "name": "Virtualization with vSphere",
+            "startDate": "2012-07-01",
+            "endDate": "2012-09-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 3,
+            "date": { "quarter": 4, "year": 2012 },
+            "description": "Reorganized local infrastructure and cabling, optimizing network layout and accessibility for improved operations.",
+            "id": "OMNI-3",
+            "images": [{ "url": "https://example.com/image7.jpg" }],
+            "link": "https://app.url/project7",
+            "name": "Local Infrastructure Reorganization",
+            "startDate": "2012-10-01",
+            "endDate": "2012-12-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 4,
+            "date": { "quarter": 1, "year": 2013 },
+            "description": "Implemented SysAid for internal Help Desk triage and client support, enhancing service efficiency and support quality.",
+            "id": "OMNI-4",
+            "images": [{ "url": "https://example.com/image3.jpg" }],
+            "link": "https://app.url/project3",
+            "name": "SysAid Implementation for Help Desk",
+            "startDate": "2013-01-01",
+            "endDate": "2013-03-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 5,
+            "date": { "quarter": 2, "year": 2013 },
+            "description": "Worked on web design and photo editing projects for USVISC, USVIPD, and UVI.edu, improving website visuals and user experience.",
+            "id": "OMNI-5",
+            "images": [{ "url": "https://example.com/image4.jpg" }],
+            "link": "https://app.url/project4",
+            "name": "Web Design & Photo Editing",
+            "startDate": "2013-04-01",
+            "endDate": "2013-06-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 6,
+            "date": { "quarter": 2, "year": 2013 },
+            "description": "Set up and supported local servers and clients while providing data recovery solutions, ensuring reliable and secure data management.",
+            "id": "OMNI-6",
+            "images": [{ "url": "https://example.com/image8.jpg" }],
+            "link": "https://app.url/project8",
+            "name": "Local Server and Client Support",
+            "startDate": "2013-01-01",
+            "endDate": "2013-03-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 7,
+            "date": { "quarter": 3, "year": 2013 },
+            "description": "Centralized NAS for ISO, CD, key, and document management, streamlining access and data control within the company.",
+            "id": "OMNI-7",
+            "images": [{ "url": "https://example.com/image9.jpg" }],
+            "link": "https://app.url/project9",
+            "name": "NAS Centralization for Data Management",
+            "startDate": "2013-04-01",
+            "endDate": "2013-06-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 8,
+            "date": { "quarter": 4, "year": 2013 },
+            "description": "Served as a subject matter expert (SME) for executives on technical requirements for various projects, ensuring alignment with business goals.",
+            "id": "OMNI-8",
+            "images": [{ "url": "https://example.com/image10.jpg" }],
+            "link": "https://app.url/project10",
+            "name": "Technical Requirements Expertise for Executives",
+            "startDate": "2013-07-01",
+            "endDate": "2013-09-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 9,
+            "date": { "quarter": 1, "year": 2014 },
+            "description": "Engaged in various technical projects, demonstrating your expertise and versatility in handling different tasks and responsibilities.",
+            "id": "OMNI-9",
+            "images": [{ "url": "https://example.com/image11.jpg" }],
+            "link": "https://app.url/project11",
+            "name": "Versatile Technical Projects",
+            "startDate": "2014-01-01",
+            "endDate": "2014-03-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 10,
+            "date": { "quarter": 3, "year": 2016 },
+            "description": "Supported the Azure Hybrid Cloud migration for USVI clients, ensuring a smooth transition and mitigating potential issues before the 2017 hurricanes.",
+            "id": "OMNI-10",
+            "images": [{ "url": "https://example.com/image12.jpg" }],
+            "link": "https://app.url/project12",
+            "name": "Azure Hybrid Cloud Migration Support",
+            "startDate": "2016-07-01",
+            "endDate": "2016-09-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 11,
+            "date": { "quarter": 3, "year": 2016 },
+            "description": "Led the virtualization of client on-premise systems to vSphere, Azure, and VirtualBox, including VMDK creation and hybrid setup, following cutover SOP.",
+            "id": "OMNI-11",
+            "images": [{ "url": "https://example.com/image13.jpg" }],
+            "link": "https://app.url/project13",
+            "name": "Client OnPremise Virtualization",
+            "startDate": "2016-07-01",
+            "endDate": "2016-09-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 12,
+            "date": { "quarter": 1, "year": 2014 },
+            "description": "Joined the contract team DMCS initially as a Production Control Engineer, later assuming the role of Help Desk Supervising Administrator.",
+            "id": "OMNI-12",
+            "images": [{ "url": "https://example.com/image14.jpg" }],
+            "link": "https://app.url/project14",
+            "name": "DMCS Contract Team - Production Control and Help Desk",
+            "startDate": "2014-01-01",
+            "endDate": "2014-03-31",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 13,
+            "date": { "quarter": 2, "year": 2013 },
+            "description": "Developed the USVIEDA Marketplace, utilizing CMS, HTML, PHP, and creating SOPs while collaborating with vendors. Archived using Wayback Time Machine.",
+            "id": "OMNI-13",
+            "images": [{ "url": "https://example.com/image1.jpg" }],
+            "link": "https://app.url/project1",
+            "name": "USVIEDA Marketplace Development",
+            "startDate": "2013-04-01",
+            "endDate": "2013-06-30",
+            "organization": "OmniSystems"
+        },
+        {
+            "index": 14,
+            "date": { "quarter": 3, "year": 2013 },
+            "description": "Installed Mitel VoIP and configured Lync for Government House, involving 99 steps of setup and configuration for USVIEDA and USVIFS.",
+            "id": "OMNI-14",
+            "images": [{ "url": "https://example.com/image2.jpg" }],
+            "link": "https://app.url/project2",
+            "name": "Mitel VoIP & Lync Installation",
+            "startDate": "2013-08-01",
+            "endDate": "2013-08-30",
+            "organization": "OmniSystems"
+        }
+    ]
+}

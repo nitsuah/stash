@@ -1,0 +1,203 @@
+{
+	"basics": {
+	  "name": "Austin J. Hardy",
+	  "title": "Systems Engineer",
+	  "website": "https://nitsuah.io",
+	  "picture": "https://i.postimg.cc/zBwYQ6c0/ajh.jpg",
+	  "summary": "Ut prosim. Ready for any challenge or opportunity from over 15 years in Enterprise IT.",
+	  "location": {
+		"countryCode": "US",
+		"address": "United States",
+		"city": "Sevierville"
+	  },
+	  "profiles": [
+		{
+		  "network": "LinkedIn",
+		  "username": "austinjhardy",
+		  "url": "https://www.linkedin.com/in/austinjhardy/"
+		},
+		{
+			"network": "Github",
+			"username": "nitsuah",
+			"url": "https://www.github.com/nitsuah/"
+		  }
+	  ]
+	},
+	"work": [
+	 {
+		"name": "Coinbase Global Inc.",
+		"highlights": ["Product Launch Calendar - Transformed cross-functional approval & rollout process for tracking features, releases, and programs, benefiting millions of global customers.","Rolling Intake - Streamlined IT Program Management with automated Insights self-service, enhancing efficiency for dynamic datasets.","MNPI Issue Level Security - Automated Restricted issue access for MNPI compliance across the organization.","WEB3 Demo to IT - Immersed in web3, completed Crypto-U courses, and served as COINbassador.","AUDIT-omation - Automated SOC & R+D Expense artifact gathering in Jira, supporting $400M+ in refunds and time savings for tax and audit needs."],
+		"position": "Systems Engineer",
+		"startDate": "2022-04-09",
+		"summary": "As a System Engineer on the IT Operations Atlassian team, I oversee the Atlassian Suite, integrating Confluence, Jira, and Jira Service Management, along with Third-Party integrations. I've upgraded systems and plugins, ensuring tool currency and site reliability. Seamlessly integrating solutions across teams, I manage user access, drive agile automation, and troubleshoot effectively. Dedicated to scaling, cost-saving, and inventive collaboration, I collaborate with teams for dependable support and clear communication while maintaining meticulous documentation.",
+		"website": "https://www.linkedin.com/company/coinbase/"
+	  },
+	  {
+		"name": "Blackboard, Inc.",
+		"position": "Senior Systems Administrator",
+		"startDate": "2018-04-09",
+		"endDate": "2022-04-01",
+		"highlights": ["SRE for Atlassian Server and Datacenter apps, supporting teams and CI/CD pipelines","Managed Third Party SaaS apps, assessed toolset for Security, AX, UX, PX","Executed Atlassian Cloud migration strategy with Platinum partner","Collaborated with vendors for security and accessibility features","Removed technical debt: legacy integrations, unused licenses, 200 old projects","Decommissioned VMs, promoted AWS usage, eliminating toil and blockers","Led Jira SAFe transformation, integrated Jira Align across PDD programs","Standardized schemes for 100+ active projects' fields, permissions, workflows","Enforced best practices and policies through config, automation, behaviors","Created self-help pages, Slack channels for best practices and features","Coordinated SAML, SCIM, Azure AD changes for improved authentication","Deployed self-service Jira AIO add-on, enabling Power BI reports via AWS","Served as Scrum Master, facilitating Agile activities, sprint metrics, roadmap plans"
+		],
+		"summary": "As Senior System Admin for Shared Services Tools Team I managed critical apps and VM systems for Product Development and Delivery teams, handling user authorization, integration config, and toolset support. I ensured acceptance criteria aligned with security, architecture, and accessibility goals. Led Agile transformation and reduced technical debt. Implemented improvements and drove collaboration.",
+		"website": "https://www.linkedin.com/company/blackboard/"
+		},
+		{
+			"name": "MAXIMUS sub. Omni",
+			"position": "Application Administrator",
+			"startDate": "2016-10-01",
+			"endDate": "2018-04-01",
+			"highlights": ["Managed Middleware, SecOps, Help Desk, Auth, TFA, TLS, SLA, DevOps tools","Supported primary app with 4,000 users 24/7/365","Standardized change management processes and environment procedures","Coordinated DBA and System admin cleanup efforts for continuous improvement","Improved legacy systems incl. Symantec TFA, TLS 1.2, and compliance","Managed Help Desk app, database, client reporting, SSIS coordination","Subject matter expert, collaborated across teams for DevOps and tools","Developed new apps, fulfilled automation needs, upgraded legacy tools"
+			],
+			"summary": "Managed Middleware group at the Dept of Education Debt Management System, supporting 4,000 users 24/7/365. Led standardization, system improvements, and compliance efforts. Supported Help Desk, client reporting, and collaborated on cross-team initiatives. Developed new applications and enhanced toolsets for team efficiency and excellence.",
+			"website": "https://www.linkedin.com/company/maximus/"
+			},
+	  {
+		"name": "MAXIMUS sub. Omni",
+		"highlights": ["ProdOps/24/7/ETL, Help Desk Admin, SOP/SLAs, Triage, SysAid, ReportsDB, SQL, SSMS, SSIS, HTML"],
+		"position": "Production Control Specialist (SME)",
+        "endDate": "2016-09-30",
+		"startDate": "2014-08-01",
+		"summary": "As a Production Control Specialist (SME) and Help Desk Supervising Administrator (HDSA) I provided 24/7/365/99.999% support and site reliability engineering for our primary application Debt Manager. In addition to normal Production activities I provided full development support to the Help Desk Operations team. Including the design, testing, and implementation of new features and settings in a production environment.\n \n Production Control support and subject matter expert for the DMCS Production Operations team overseeing the operations of DBA's, Application, and System Administrators. As well as monitoring the ETL's executing within the FICO Debt Management system. I even helped repair the reports database dsv & smdl mappings for client reporting.",
+        "website": "https://www.linkedin.com/company/maximus/"
+	  },
+	  {
+		"name": "Xerox sub. Omni",
+		"highlights": ["ProdOps/24/7/ETL, JBOSS, SLAs, Reporting, Contract Transition"],
+		"position": "Production Operations Support",
+        "endDate": "2014-07-31",
+		"startDate": "2014-01-31",
+		"summary": "Facilitated Production Control support and subject matter expert for the DMCS Production Operations team overseeing the operations of DBA's, Application, and System Administrators for DMCS. As well as monitoring the ETL's executing within the financial application. I worked to document and transition the contracts procedures and policies to ensure a smooth transition to the next contact as an SME.",
+        "website": "https://www.linkedin.com/company/xerox/"
+	  },
+	  {
+		"name": "OmniSystems, Inc.",
+		"highlights": ["Worked on the DMCS contract as a subcontractor, Consulted on internal projects and new business"],
+		"position": "Systems Engineer I",
+        "endDate": "2018-04-01",
+		"startDate": "2014-04-01",
+		"summary": "Acted as a key resource for Executive staff to utilize for IT projects and assignments. My responsibilities ranged from configuration of an office WiFi-DMZ to initializing an internal Help Desk to centralize all IT SOP KBs. I maintained the server room including the organization of equipment, power efficiency and usage reduction analysis, as well as documentation of server room layout in Visio format. No task was too great or too small.",
+		"website": "https://www.linkedin.com/company/omni-systems-inc./"
+	  },
+	  {
+		"name": "OmniSystems, Inc.",
+		"highlights": ["USVI: EDA Marketplace, Superior Court, Police Dept, Fire Services, WAPA, WICO, UVI.edu","Taught a former Lieutenant General to use iCloud, saved client wedding photos, held executives accountable for insecure devices"],
+		"position": "Junior Systems Engineer",
+        "endDate": "2014-03-31",
+		"startDate": "2010-04-01",
+		"summary": "Acted as a key resource for Executive staff to utilize for IT projects and assignments. My responsibilities ranged from configuration of an office WiFi-DMZ to initializing an internal Help Desk to centralize all our IT processes. I maintained the server room including the organization of equipment, power & airflow efficiency improvements. As well as providing an analysis recommending system usage reduction stratified by a documented layout of the server room in Visio format.",
+        "website": "https://www.linkedin.com/company/omni-systems-inc./"
+	  },
+	  {
+		"name": "REAC-TAC Dept of HUD - sub:TomSawyerLLC",
+		"highlights": ["HUD, Remedy, Support, Training"],
+		"position": "Call Center Representative (Tier 1+)",
+        "endDate": "2009-02-14",
+		"startDate": "2008-11-30",
+		"summary": "As Tier 1+ Help Desk Support I trained call center staff & modified systems we utilized. My primary responsibilities included answering customer calls with required remediation ranging from password resets to data entry and status updates. This included further escalation to Tier 2 support teams for collaborative remediation.",
+        "website": "https://hud-reac-tac-community.force.com/REACTAC/"
+	  },
+	  {
+		"name": "REAC-TAC Dept of HUD - sub:CCSI",
+		"highlights": ["HUD, Remedy, Support"],
+		"position": "Call Center Representative (Tier 1)",
+        "endDate": "2008-07-31",
+		"startDate": "2008-05-01",
+		"summary": "Performed any assigned duties as a first tier Help Desk Support. My responsibilities included answering customer calls with required remediation ranging from password resets to data entry and status updates, as well as further escalation to Tier 2 support teams.",
+        "website": "https://hud-reac-tac-community.force.com/REACTAC/"
+	  }
+	],
+	"skills": [
+		{
+			"name": "Atlassian Suite",
+			"level": "Master",
+			"keywords": ["Jira", "Confluence", "Bitbucket", "Crowd", "Bamboo", "Jira Align", "Access", "Cloud/Server/Datacenter", "Fisheye", "Crucible"]
+		},
+		{
+			"name": "AWS",
+			"level": "Master",
+			"keywords": ["EC2", "S3", "IAM", "RDS", "CloudFormation", "Terraform", "Pulumi", "CloudWatch", "CloudTrail", "Lambda", "ECS", "EKS", "EBS", "Route 53", "VPC", "CloudFront", "AWS CDK"]
+		},
+		{
+			"name": "Communication",
+			"level": "Intermediate",
+			"keywords": ["Executive Quarterlies", "All-hands","Product Features & KB"]
+		},
+		{
+			"name": "CMS",
+			"level": "Advanced",
+			"keywords": ["Magento", "WordPress", "S3", "Dropbox Ent.", "Drupal", "Wix", "Joomla", "Hubspot", "TYPO3"]
+		},
+		{
+			"name": "CRM",
+			"level": "Advanced",
+			"keywords": ["Salesforce", "SysAid", "Rational", "Remedy", "Bullhorn", "Zendesk Sell", "Monday.com", "Hubspot CRM"]
+		},
+		{
+			"name": "Databases",
+			"level": "Advanced",
+			"keywords": ["Postgres", "DynamoDB", "Neo4j", "Microsoft SQL Server/Express/Access", "SSMS/SSRS/SSIS", "MySQL", "NoSQL"]
+		},
+		{
+			"name": "Development",
+			"level": "Intermediate",
+			"keywords": ["Java", "Javascript", "Typescript", "Groovy", "Vault", "react", "semantic-ui", "git", "npm", "yarn", "lint", "C++", "t-SQL", "Visual Basic/VBA", "PHP", "ASP", "HTML", "CSS", "Pascal"]
+		},
+		{
+			"name": "Design",
+			"level": "Master",
+			"keywords": ["Figma", "Maquette", "GIMP", "Adobe CS6", "UE5",  "Unity", "Blender", "Sketchup", "LucidChart", "Visio", "Paint3D","Spline.design"]
+		},
+		{
+			"name": "Microsoft Suite",
+			"level": "Master",
+			"keywords": ["Azure Active Directory (AD)", "PowerBI", "Workplace", "Sharepoint", "Office 365", "Access", "Outlook", "Word", "Excel", "PowerPoint", "OneNote"]
+		},
+		{
+			"name": "Operating Systems (OS)",
+			"level": "Master",
+			"keywords": ["Linux", "Ubuntu", "RedHat", "OSX", "iOS", "Android", "Windows 08/12/16/19 DC", "Windows 10/8.1/7/XP"]
+		},
+		{
+			"name": "OS cli/shell",
+			"level": "Master",
+			"keywords": ["Powershell", "bat", "bash", "apt", "yum", "ssh", "winRM", "cygwin", "aws cli", "git", "gh cli", "vim", "UNIX"]
+		},
+		{
+			"name": "Third Party SaaS",
+			"level": "Master",
+			"keywords": ["Asana", "Ally.io", "BugCrowd", "Fortify-on-Demand", "GitHub", "IntelliJ", "JFrog", "Miro", "NewRelic", "PagerDuty", "PractiTest", "Slack", "StatusPage", "Stoplight", "ZenGRC"]
+		},
+		{
+			"name": "Virtualization",
+			"level": "Master",
+			"keywords": ["AWS EC2", "Azure VM", "vSphere", "Hyper-V", "VMware", "VirtualBox", "G-Suite", "Citrix", "Xen"]
+		},
+		{
+			"name": "Web Services",
+			"level": "Master",
+			"keywords": ["Apache", "Tomcat", "Catalina", "JBOSS/Java", "mod_python", "IIS", "ASP", "PHP", ".NET", "SOAP", "Lua", "Tuxedo"]
+		}
+	],	
+	"education": [
+	  {
+		"institution": "Virginia Tech",
+		"area": "Psychology",
+		"studyType": "Bachelor's Degree",
+		"startDate": "2008-07-31",
+		"endDate": "2013-12-31",
+		"courses": ["Child Development","I/O PSYCH","STAT 1/2/3/4","JAVA 1/2","ACIS 1504","CALC 1/2"]
+	  }
+	],
+    "languages": [	
+      {	
+        "language": "en",	
+        "fluency": "Native Speaker"	
+      },
+      {	
+        "language": "es",	
+        "fluency": "Intermediate"	
+      }	
+    ],
+	"projects": []
+}
