@@ -26,12 +26,39 @@ Code from my IT travels
 
 ### Confluence
 
+## IAS
+
+- Ubuntu USERDATA example
+- Windows USERDATA example
+
+## Projects
+
+### Power Failure Alarm (PFA)
+
+Basic Power Failure Alarm circuit diagram
+
+### Remora
+
+Advanced Privileged Access Management (PAM) Tool
+Stores user access lists and reports on RBAC across multiple systems.
+Links to authorized signatory documents in shared folders for RBAC audits.
+Built using Microsoft Access, Excel, and VBA.
+
+### Sampler
+
+Advanced PDF Random Sampling Tool
+Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in
+
+### VMT
+
+Basic Assets & Vulnerability Management (CMBD) Tool
+Stores asset lists and reports on vulnerabilities across multiple systems.
+Built using Microsoft Access, Excel, and VBA.
+
 ## SAAS
 
 - PagerDuty
 - Slack
-
-## IAS
 
 ## Windows
 
@@ -40,21 +67,3 @@ Code from my IT travels
 ### pwsh
 
 ### VBA
-
-#### Remora
-
-Advanced Privileged Access Management (PAM) Tool
-Stores user access lists and reports on RBAC across multiple systems.
-Links to authorized signatory documents in shared folders for RBAC audits.
-Built using Microsoft Access, Excel, and VBA.
-
-#### VMT
-
-Basic Assets & Vulnerability Management (CMBD) Tool
-Stores asset lists and reports on vulnerabilities across multiple systems.
-Built using Microsoft Access, Excel, and VBA.
-
-#### Sampler
-
-Advanced PDF Random Sampling Tool
-Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in
