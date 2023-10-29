@@ -1,5 +1,7 @@
 # VBA Automation for Mouse Movements and PDF Interaction
 
+![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-home.png)
+
 This repository contains Visual Basic for Applications (VBA) code for automating mouse movements and interactions with PDF files.
 
 This VBA code is intended for use in a Microsoft Access environment with Adobe Acrobat installed. The code is designed to automate the process of splitting and filtering PDF files based on a notice type. The code can be used to split a PDF file into smaller chunks, and then filter the chunks based on a notice type. The code can also be used to generate random pages for a notice type. This allows for Randomized sampling of PDF files or mailing notices for manual review.
@@ -62,6 +64,8 @@ Functions for interacting with PDF files are available:
 - `UpdateST()`: Updates the search text value based on the `TypeNotice` function.
 
 ### Calibration and Initialization - form-calibration.vb
+
+![sampler-calibration.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-calibration.png)
 
 Functions for calibration and initialization:
 
