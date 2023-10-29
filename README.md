@@ -40,20 +40,26 @@ Basic Power Failure Alarm circuit diagram
 
 ### Remora
 
-Advanced Privileged Access Management (PAM) Tool
-Stores user access lists and reports on RBAC across multiple systems.
-Links to authorized signatory documents in shared folders for RBAC audits.
+![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/remora/assets/remora-home.png)
+
+Advanced Privileged Access Management (PAM) Tool that
+stores user access lists and reports on access across multiple systems.
+Links to authorized signatory documents in shared folders for access audits.
 Built using Microsoft Access, Excel, and VBA.
 
 ### Sampler
 
-Advanced PDF Random Sampling Tool
-Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in
+![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-home.png)
+
+Advanced PDF Random Sampling Tool that randomly samples based upon a given text string found in a PDF file containing multiple different pages.
+
+Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in.
 
 ### VMT
 
 Basic Assets & Vulnerability Management (CMBD) Tool
-Stores asset lists and reports on vulnerabilities across multiple systems.
+that stores asset lists and joins reports on vulnerabilities across multiple systems.
+
 Built using Microsoft Access, Excel, and VBA.
 
 ## SAAS

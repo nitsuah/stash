@@ -2,19 +2,19 @@
 
 ![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/pfa/pfa_pcb.png)
 
-This is a simple electronic circuit that can be used as a power failure alarm. The circuit is powered by a USB power source and contains the following components:
+A nifty electronic circuit designed for a power failure alarm, fueled by a USB power source. Components include:
 
-- Diode (D1): 1N4001
-- Transistor (Q1): 2N2905
-- Resistor (R1): 5kΩ
-- Resistor (R2): 10kΩ
-- Capacitor (C2): 2nF
-- Buzzer (BUZZ1): 8Ω
+- `Diode (D1): 1N4001` - Ensures one-way current flow, preventing capacitor discharge into the power source.
+- `Transistor (Q1): 2N2905` - Acts as a switch; turned off when power is connected, allowing alarm activation upon power disconnection.
+- `Resistor (R1): 5kΩ` - Limits charging current for capacitor C2, ensuring a smooth charging process.
+- `Resistor (R2): 10kΩ` = Controls current to the transistor's base, influencing its switching behavior.
+- `Capacitor (C2): 2nF` = Stores energy; discharges through the buzzer, producing an alarm sound when power is cut.
+- `Buzzer (BUZZ1): 8Ω` - Produces audible alert when powered by the discharged capacitor upon power failure.
 
 ## Circuit Description
 
-When the USB power source is connected, the capacitor C2 charges up through the diode D1 and the resistor R1. The transistor Q1 is turned off, so no current flows through the buzzer BUZZ1. When the USB power source is disconnected, the capacitor C2 discharges through the buzzer BUZZ1, producing a sound.
+Upon USB connection, the capacitor (C2) charges via D1 and R1, keeping Q1 off, and BUZZ1 silent. When power disconnects, C2 discharges through BUZZ1, generating a sound alert until fully discharged.
 
 ## Disclaimer
 
-Please note that while this circuit can be used as a power failure alarm, it may not be as reliable as a dedicated power failure alarm circuit. Alarm duration is limited by the capacitor and buzzers used. The circuit may not work with some USB power sources. Use at your own risk.
+While effective, note that this circuit may not match the reliability of dedicated power failure alarms. Alarm duration depends on capacitor and buzzer specifics, and compatibility issues may arise with certain USB power sources. Use at your own discretion.

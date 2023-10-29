@@ -45,7 +45,7 @@ Below is some of the original text source and json format I converted to.
 - 2018Q3 Vendor management & feedback loop channels
 - 2018Q2 Slack ADFS & auth fixes (dupe users, SSO, MFA)
 
-## FSA DEPT OF EDUCATION - DEBT MANAGEMENT COLLECTION SYSTEM (DMCS)
+## DEBT MANAGEMENT COLLECTION SYSTEM (DMCS) - FEDERAL STUDENT AID (FSA) PROGRAM - DEPT OF EDUCATION (DoED)
 
 ### DMCS DEVOPS (2017-2018)
 
@@ -103,7 +103,7 @@ Below is some of the original text source and json format I converted to.
 - Reorganized local infrastructure & cabling
 - Local Server/Client setup, support, data recovery
 - NAS centralization of company ISO/CD/key/doc
-- SME for Execs on technical requirements for projects
+- 2010-2014 SME for Execs on technical requirements for projects
 
 ## DEPT OF HOUSING & URBAN DEVELOPMENT (HUD)
 
