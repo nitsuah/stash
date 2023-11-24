@@ -1,0 +1,1660 @@
+{
+    "projects": [
+        {
+            "index": 1,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2022
+            },
+            "description": "Dark Mode for Jira - Plugin - Accessibility options",
+            "id": "CB-1",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Dark Mode for Jira",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Plugin",
+            "value": "",
+            "startDate": "6/2022",
+            "endDate": "6/2022"
+        },
+        {
+            "index": 2,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "TopDog 3 of 4wks - #ask - ",
+            "id": "CB-2",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "TopDog 3 of 4wks",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#ask",
+            "value": "",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 3,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "Ekant gave praise - #yay - ",
+            "id": "CB-3",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Ekant gave praise",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#yay",
+            "value": "",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 4,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "Jira 101 - Lunch&Learn - ",
+            "id": "CB-4",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira 101",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Lunch&Learn",
+            "value": "",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 5,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "Jira PAM Monitor/alert/incident - Splunk - ",
+            "id": "CB-5",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira PAM Monitor/alert/incident",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Splunk",
+            "value": "",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 6,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "Web Monitoring (telem) - Jira & Confluence response & auth - Splunk - A standard private location from NewRelic/DataDog can have an additional cost or license tier requirement, ours is a FREE splunk plugin.",
+            "id": "CB-6",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Web Monitoring (telem) - Jira & Confluence response & auth",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "< 1hr/Eng",
+            "type": "Splunk",
+            "value": "$50,000 - $100,000 - < 1hr/Eng",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 7,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2022
+            },
+            "description": "Applause (rogue) - SSO - ",
+            "id": "CB-7",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Applause (rogue)",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "SSO",
+            "value": "",
+            "startDate": "9/2022",
+            "endDate": "9/2022"
+        },
+        {
+            "index": 8,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2022
+            },
+            "description": "Applause <> Jira - Integration - ",
+            "id": "CB-8",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Applause <> Jira",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "10/2022",
+            "endDate": "10/2022"
+        },
+        {
+            "index": 9,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2022
+            },
+            "description": "Splunk <> Jira  - Integration - ",
+            "id": "CB-9",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Splunk <> Jira ",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "10/2022",
+            "endDate": "10/2022"
+        },
+        {
+            "index": 10,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2022
+            },
+            "description": "ZIP <> Jira - Integration - ",
+            "id": "CB-10",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "ZIP <> Jira",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "10/2022",
+            "endDate": "10/2022"
+        },
+        {
+            "index": 11,
+            "date": {
+                "quarter": 4,
+                "month": 11,
+                "year": 2022
+            },
+            "description": "Jira Staging Admin Bootcamp to SecEng with elevated access - Lunch&Learn - ",
+            "id": "CB-11",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira Staging Admin Bootcamp to SecEng with elevated access",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Lunch&Learn",
+            "value": "",
+            "startDate": "11/2022",
+            "endDate": "11/2022"
+        },
+        {
+            "index": 12,
+            "date": {
+                "quarter": 4,
+                "month": 11,
+                "year": 2022
+            },
+            "description": "EazyBI Global Compliance - Report - ",
+            "id": "CB-12",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "EazyBI Global Compliance",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "< 1hr/Eng",
+            "type": "Report",
+            "value": " - < 1hr/Eng",
+            "startDate": "11/2022",
+            "endDate": "11/2022"
+        },
+        {
+            "index": 13,
+            "date": {
+                "quarter": 4,
+                "month": 11,
+                "year": 2022
+            },
+            "description": "R&D 2021 Tax Credits - Report - Per Mark Williams, may have come out less than this, but that was the initial target",
+            "id": "CB-13",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "R&D 2021 Tax Credits",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Report",
+            "value": "$343,000,000 - ",
+            "startDate": "11/2022",
+            "endDate": "11/2022"
+        },
+        {
+            "index": 14,
+            "date": {
+                "quarter": 4,
+                "month": 12,
+                "year": 2022
+            },
+            "description": "Project Configurator for Jira, from procure to prod - Plugin - ",
+            "id": "CB-14",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Project Configurator for Jira, from procure to prod",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Plugin",
+            "value": "",
+            "startDate": "12/2022",
+            "endDate": "12/2022"
+        },
+        {
+            "index": 15,
+            "date": {
+                "quarter": 1,
+                "month": 1,
+                "year": 2023
+            },
+            "description": "LastPass Remediation (~200 PAT's) - Incident - ",
+            "id": "CB-15",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "LastPass Remediation (~200 PAT's)",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Incident",
+            "value": "",
+            "startDate": "1/2023",
+            "endDate": "1/2023"
+        },
+        {
+            "index": 16,
+            "date": {
+                "quarter": 1,
+                "month": 1,
+                "year": 2023
+            },
+            "description": "ZIP <> Jira - resolved 50+ field mapping issues x4 projects - Integration - ",
+            "id": "CB-16",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "ZIP <> Jira - resolved 50+ field mapping issues x4 projects",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "1/2023",
+            "endDate": "1/2023"
+        },
+        {
+            "index": 17,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Jira - Insights - HR Job Profiles (~1500 dynamic/cascade list) - Assets - ",
+            "id": "CB-17",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira - Insights - HR Job Profiles (~1500 dynamic/cascade list)",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Assets",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 18,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Jira - Insights - Asset Management  - Assets - Deployed Assets object schema for Hardware prototype",
+            "id": "CB-18",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira - Insights - Asset Management ",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Assets",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 19,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Glean <> Jira & Confluence - Integration - Potential Annual Savings per Engineer = 1 * 52 * $60 = $3,120\nTotal Potential Annual Savings = $3,120 * 3,000 = $9,360,000\nI was also the ENG who raised the Incident regarding Glean S3 buckets",
+            "id": "CB-19",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Glean <> Jira & Confluence",
+            "organization": "Coinbase",
+            "pillar": "Be an Owner",
+            "team": "> 1hr/Eng",
+            "type": "Integration",
+            "value": "$9,360,000> 1hr/Eng",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 20,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "LucidChart <> Jira - Integration - ",
+            "id": "CB-20",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "LucidChart <> Jira",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 21,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Uservoice <> Jira - Integration - ",
+            "id": "CB-21",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Uservoice <> Jira",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 22,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Applause - reduced friction in Bug workflow validation & automation - Integration - ",
+            "id": "CB-22",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Applause - reduced friction in Bug workflow validation & automation",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 23,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Project Nightfall - PLC&RI --> Jira Migration Discovery & Planning - Migration - ",
+            "id": "CB-23",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Project Nightfall - PLC&RI --> Jira Migration Discovery & Planning",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Migration",
+            "value": "$500,000 - ",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 24,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Web Monitoring (telem) - Okta & Duo response & auth - Splunk - ",
+            "id": "CB-24",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Web Monitoring (telem) - Okta & Duo response & auth",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Splunk",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 25,
+            "date": {
+                "quarter": 1,
+                "month": 2,
+                "year": 2023
+            },
+            "description": "Resolved 120+ tickets - Tickets - ",
+            "id": "CB-25",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Resolved 120+ tickets",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Tickets",
+            "value": "",
+            "startDate": "2/2023",
+            "endDate": "2/2023"
+        },
+        {
+            "index": 26,
+            "date": {
+                "quarter": 1,
+                "month": 3,
+                "year": 2023
+            },
+            "description": "TopDog 4 of 4wks - #ask - ",
+            "id": "CB-26",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "TopDog 4 of 4wks",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#ask",
+            "value": "",
+            "startDate": "3/2023",
+            "endDate": "3/2023"
+        },
+        {
+            "index": 27,
+            "date": {
+                "quarter": 1,
+                "month": 3,
+                "year": 2023
+            },
+            "description": "Project Nightfall - Completed Migration of PLC&RI - 0 complaints - Migration - Potential Annual Savings per Sr.Engineer/Lead = 1 * 52 * $60 = $3,120\nTotal Potential Annual Savings = $3,120 * 250 = $780,000",
+            "id": "CB-27",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Project Nightfall - Completed Migration of PLC&RI - 0 complaints",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "> 1hr/Lead",
+            "type": "Migration",
+            "value": "$780,000> 1hr/Lead",
+            "startDate": "3/2023",
+            "endDate": "3/2023"
+        },
+        {
+            "index": 28,
+            "date": {
+                "quarter": 2,
+                "month": 4,
+                "year": 2023
+            },
+            "description": "Bret Farmer gave praise - #yay - ",
+            "id": "CB-28",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Bret Farmer gave praise",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#yay",
+            "value": "",
+            "startDate": "4/2023",
+            "endDate": "4/2023"
+        },
+        {
+            "index": 29,
+            "date": {
+                "quarter": 2,
+                "month": 4,
+                "year": 2023
+            },
+            "description": "PLC/RI - Cleanup, fixed forms, XFN sync, N+1 Dogfood automation - Automation - ",
+            "id": "CB-29",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "PLC/RI - Cleanup, fixed forms, XFN sync, N+1 Dogfood automation",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Automation",
+            "value": "",
+            "startDate": "4/2023",
+            "endDate": "4/2023"
+        },
+        {
+            "index": 30,
+            "date": {
+                "quarter": 2,
+                "month": 4,
+                "year": 2023
+            },
+            "description": "Resolved 90+ tickets - Tickets - ",
+            "id": "CB-30",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Resolved 90+ tickets",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Tickets",
+            "value": "",
+            "startDate": "4/2023",
+            "endDate": "4/2023"
+        },
+        {
+            "index": 31,
+            "date": {
+                "quarter": 2,
+                "month": 5,
+                "year": 2023
+            },
+            "description": "John Shin gave praise for PLC/RI - #yay - ",
+            "id": "CB-31",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "John Shin gave praise for PLC/RI",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#yay",
+            "value": "",
+            "startDate": "5/2023",
+            "endDate": "5/2023"
+        },
+        {
+            "index": 32,
+            "date": {
+                "quarter": 2,
+                "month": 5,
+                "year": 2023
+            },
+            "description": "Hanah Tamrat gave praise - #yay - ",
+            "id": "CB-32",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Hanah Tamrat gave praise",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "#yay",
+            "value": "",
+            "startDate": "5/2023",
+            "endDate": "5/2023"
+        },
+        {
+            "index": 33,
+            "date": {
+                "quarter": 2,
+                "month": 5,
+                "year": 2023
+            },
+            "description": "SRE Global Time-Tracking & Planned-vs-Scheduled work automation - Automation - Potential Annual Savings per Manager/Scrum Master = 1 * 52 * $75 = $3,900\nTotal Potential Annual Savings = $3,900 * 100 = $390,000",
+            "id": "CB-33",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "SRE Global Time-Tracking & Planned-vs-Scheduled work automation",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "> 1hr/Mgr",
+            "type": "Automation",
+            "value": "$390,000> 1hr/Mgr",
+            "startDate": "5/2023",
+            "endDate": "5/2023"
+        },
+        {
+            "index": 34,
+            "date": {
+                "quarter": 2,
+                "month": 5,
+                "year": 2023
+            },
+            "description": "Atlassian Three-Strike Automation to reduce ticket MTTR/TTR - Automation - ",
+            "id": "CB-34",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Atlassian Three-Strike Automation to reduce ticket MTTR/TTR",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "> 1hr/Eng",
+            "type": "Automation",
+            "value": "> 1hr/Eng",
+            "startDate": "5/2023",
+            "endDate": "5/2023"
+        },
+        {
+            "index": 35,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "Created New Hire Onboarding (NHO) Confluence & Jira automation - Automation - ",
+            "id": "CB-35",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Created New Hire Onboarding (NHO) Confluence & Jira automation",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Automation",
+            "value": "",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 36,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "IT Web3 Showcase Demo - Demo - IT-web3 ",
+            "id": "CB-36",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "IT Web3 Showcase Demo",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Demo",
+            "value": "",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 37,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "R&D 2022 Tax Credits - US - Report - Massive financial impact from past expenses",
+            "id": "CB-37",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "R&D 2022 Tax Credits - US",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Report",
+            "value": "$43,000,000 - ",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 38,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "R&D 2022 Tax Credits - Canada - Report - Massive financial impact from past expenses",
+            "id": "CB-38",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "R&D 2022 Tax Credits - Canada",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Report",
+            "value": "$1,200,000 - ",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 39,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "R&D - team collab'ed to improve record/field export of 250k+ - Report - Continuous improvement & innovation to the \"Best in CB\" audit/export capabilities of our team.\nEfficiency gains and enhanced data analysis, potentially resulting in cost savings of tens to hundreds of thousands of dollars annually.\n\nThese improvements empower the system administration team to save time, make informed decisions, collaborate effectively, and reduce compliance risks, leading to improved overall operational performance and productivity.",
+            "id": "CB-39",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "R&D - team collab'ed to improve record/field export of 250k+",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "< 1hr/Eng",
+            "type": "Report",
+            "value": "$100,000 - $500,000 - < 1hr/Eng",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 40,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "Resolved 70+ tickets - Tickets - ",
+            "id": "CB-40",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Resolved 70+ tickets",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Tickets",
+            "value": "",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 41,
+            "date": {
+                "quarter": 2,
+                "month": 6,
+                "year": 2023
+            },
+            "description": "Advanced Roadmaps Demo to ESTO - Demo - Advanced Roadmaps",
+            "id": "CB-41",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Advanced Roadmaps Demo to ESTO",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Demo",
+            "value": "",
+            "startDate": "6/2023",
+            "endDate": "6/2023"
+        },
+        {
+            "index": 42,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "IM: Ownership Registry - deprecating homebrew solution - Assets - ",
+            "id": "CB-42",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "IM: Ownership Registry - deprecating homebrew solution",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "> 1hr/Eng",
+            "type": "Assets",
+            "value": "> 1hr/Eng",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 43,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "PST: HR FAQ auto & canned responses for JSD - Automation - ",
+            "id": "CB-43",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "PST: HR FAQ auto & canned responses for JSD",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "> 1hr/Eng",
+            "type": "Automation",
+            "value": "$300.000 - $600,000> 1hr/Eng",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 44,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "PLC: Inactive Approvers automation & webhook - Automation - ",
+            "id": "CB-44",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "PLC: Inactive Approvers automation & webhook",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "< 1hr/Eng",
+            "type": "Automation",
+            "value": " - < 1hr/Eng",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 45,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "RI: Gantt support in Roadmaps - Automation - Automated Created as Start date for Gantt/Roadmaps",
+            "id": "CB-45",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "RI: Gantt support in Roadmaps",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "< 1hr/Eng",
+            "type": "Automation",
+            "value": " - < 1hr/Eng",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 46,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "NHO: Onboarded new contractor Tarun - NHO - Cost savings per engineer per week = 1 hour * $80.77 = $80.77\nTotal potential cost savings per week = $80.77 * 3 (engineers) = $242.31",
+            "id": "CB-46",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "NHO: Onboarded new contractor Tarun",
+            "organization": "Coinbase",
+            "pillar": "Owner",
+            "team": "< 1hr/Eng",
+            "type": "NHO",
+            "value": " - < 1hr/Eng",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 47,
+            "date": {
+                "quarter": 3,
+                "month": 7,
+                "year": 2023
+            },
+            "description": "Resolved 60+ tickets - Tickets - ",
+            "id": "CB-47",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Resolved 60+ tickets",
+            "organization": "Coinbase",
+            "pillar": "Repeatable Innovation, Owner",
+            "team": "",
+            "type": "Tickets",
+            "value": "",
+            "startDate": "7/2023",
+            "endDate": "7/2023"
+        },
+        {
+            "index": 48,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "RI: Deprecated Tech Debt moving Team, Sub-Team, DRI to Insights - Assets - Reduced Sub-Team setup from 15mins per change to seconds. \nScalable Insights dataset governance allows RI owners to self-manage going forward.",
+            "id": "CB-48",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "RI: Deprecated Tech Debt moving Team, Sub-Team, DRI to Insights",
+            "organization": "Coinbase",
+            "pillar": "Innovation, Customer Focus",
+            "team": "> 1hr/Eng",
+            "type": "Assets",
+            "value": "> 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 49,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Created webhook to access Insights attribute metadata parsing json - Automation - Got Alex what he needed, even though Jira doesnt always support it out of the box.",
+            "id": "CB-49",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Created webhook to access Insights attribute metadata parsing json",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "< 1hr/Eng",
+            "type": "Automation",
+            "value": " - < 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 50,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Jira Automation & Webhooks Paved Roads - Automation - https://confluence.coinbase-corp.com/display/IOI/PagerDuty+Jira+Automation+Integration",
+            "id": "CB-50",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Jira Automation & Webhooks Paved Roads",
+            "organization": "Coinbase",
+            "pillar": "Repeatable Innovation",
+            "team": "< 1hr/Eng",
+            "type": "Automation",
+            "value": " - < 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 51,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Helped Bret Hash et. al with Roadmaps - Lunch&Learn - https://jira.coinbase-corp.com/browse/MY-252",
+            "id": "CB-51",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Helped Bret Hash et. al with Roadmaps",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "< 1hr/Eng",
+            "type": "Lunch&Learn",
+            "value": " - < 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 52,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Attended ERG Serve Managing Stress & Difficult emotions workshop - Workshop - Gave me the tools to deal with difficult situations.",
+            "id": "CB-52",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Attended ERG Serve Managing Stress & Difficult emotions workshop",
+            "organization": "Coinbase",
+            "pillar": "Positive Energy",
+            "team": "",
+            "type": "Workshop",
+            "value": "Priceless - ",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 53,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "MY PROJECT - https://confluence.coinbase-corp.com/display/MY/Project+Overview - Demo - Trello for free! - https://confluence.coinbase-corp.com/display/MY/Project+Overview",
+            "id": "CB-53",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "MY PROJECT - https://confluence.coinbase-corp.com/display/MY/Project+Overview",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "",
+            "type": "Demo",
+            "value": "",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 54,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Assets for Incident Management (Ownership Registry) - Assets - https://jira.coinbase-corp.com/browse/GSD-335261",
+            "id": "CB-54",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Assets for Incident Management (Ownership Registry)",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "> 1hr/Eng",
+            "type": "Assets",
+            "value": "> 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 55,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Assets for R&D (Project Inventory) - Assets - https://jira-staging.coinbase-corp.com/secure/ObjectSchema.jspa?id=15&typeId=24&view=list&objectId=441003",
+            "id": "CB-55",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Assets for R&D (Project Inventory)",
+            "organization": "Coinbase",
+            "pillar": "Repeatable Innovation",
+            "team": "< 1hr/Eng",
+            "type": "Assets",
+            "value": " - < 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 56,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Atlassian Intake - discussions (Ivan/Halle/others) - DM - https://jira.coinbase-corp.com/browse/MY-253",
+            "id": "CB-56",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Atlassian Intake - discussions (Ivan/Halle/others)",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "",
+            "type": "DM",
+            "value": "",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 57,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Provided input on Docebo <> Slack integration - DM - https://jira.coinbase-corp.com/browse/INFOSECSD-16354\nDocebo for Slack",
+            "id": "CB-57",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Provided input on Docebo <> Slack integration",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "",
+            "type": "DM",
+            "value": "",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 58,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Rolled out Sub-Team self-service & reduced errors/null data bugs - Assets - Removed technical debt and blockers from scaling self-service securely for sub-teams",
+            "id": "CB-58",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Rolled out Sub-Team self-service & reduced errors/null data bugs",
+            "organization": "Coinbase",
+            "pillar": "Repeatable Innovation",
+            "team": "> 1hr/Eng",
+            "type": "Assets",
+            "value": "> 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 59,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Updated automation in ESTO Project to prevent duplicates  - Automation - https://jira.coinbase-corp.com/browse/GSD-337029",
+            "id": "CB-59",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Updated automation in ESTO Project to prevent duplicates ",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "> 1hr/Eng",
+            "type": "Automation",
+            "value": "> 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 60,
+            "date": {
+                "quarter": 3,
+                "month": 8,
+                "year": 2023
+            },
+            "description": "Added ESTO Slack notification - Slack - natausha.horton was added to product-esto-coplan-notifs by Austin Hardy\nnatausha.horton - 15:12\n@Austin Hardy / @tim.howard - I LOVE THIS - THANK YOU",
+            "id": "CB-60",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Added ESTO Slack notification",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "> 1hr/Eng",
+            "type": "Slack",
+            "value": "> 1hr/Eng",
+            "startDate": "8/2023",
+            "endDate": "8/2023"
+        },
+        {
+            "index": 61,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "Add Jira Project attribute to Teams in Ownership Registry - Assets - https://jira.coinbase-corp.com/browse/COLLAB-2692",
+            "id": "CB-61",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Add Jira Project attribute to Teams in Ownership Registry",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Assets",
+            "value": "",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 62,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "BITFLIP to Software project: Workflows, Users & Roles, Permissions - Automation - Hundreds of users with explicit access were remapped. Big process change. little to no impacts",
+            "id": "CB-62",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "BITFLIP to Software project: Workflows, Users & Roles, Permissions",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus",
+            "team": "> 1hr/Eng",
+            "type": "Automation",
+            "value": "> 1hr/Eng",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 63,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "Add automation that tags T3 in admin comment pre SLA breach - Automation - https://jira.coinbase-corp.com/browse/COLLAB-2644 ",
+            "id": "CB-63",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Add automation that tags T3 in admin comment pre SLA breach",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Automation",
+            "value": "",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 64,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "Fixed PagerDuty Splunk alerts and monitors - Automation - https://jira.coinbase-corp.com/browse/COLLAB-2518",
+            "id": "CB-64",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Fixed PagerDuty Splunk alerts and monitors",
+            "organization": "Coinbase",
+            "pillar": "",
+            "team": "",
+            "type": "Automation",
+            "value": "",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 65,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "Applause - Configured 4 new integrations for projects - Integration - Configured 4 new program enablements for Applause to route bugs from external testing",
+            "id": "CB-65",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Applause - Configured 4 new integrations for projects",
+            "organization": "Coinbase",
+            "pillar": "Owner",
+            "team": "",
+            "type": "Integration",
+            "value": "",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 66,
+            "date": {
+                "quarter": 3,
+                "month": 9,
+                "year": 2023
+            },
+            "description": "Setup Contractor Atlassian Support LDAP group - Team - Add Tarun/Naveen to group for access to GH/Splunk/etc",
+            "id": "CB-66",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Setup Contractor Atlassian Support LDAP group",
+            "organization": "Coinbase",
+            "pillar": "Owner",
+            "team": "",
+            "type": "Team",
+            "value": "",
+            "startDate": "9/2023",
+            "endDate": "9/2023"
+        },
+        {
+            "index": 67,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2023
+            },
+            "description": "Austin Hardy received public praise from Johan McGwire! - #yay - Every time an opportunity comes up to work with Austin, it puts a smile on my face.\nI look forward to his one Coinbase mentality and ensuring that we take both the most achievable and secure pathways to accomplishing a goal.\nThank you so much for being apart of this team. You truly embody all the values we cherish the most here.\n",
+            "id": "CB-67",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Austin Hardy received public praise from Johan McGwire!",
+            "organization": "Coinbase",
+            "pillar": "Championship Team, Positive Energy",
+            "team": "",
+            "type": "#yay",
+            "value": "",
+            "startDate": "10/2023",
+            "endDate": "10/2023"
+        },
+        {
+            "index": 68,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2023
+            },
+            "description": "Productize Forms for Jira - Product - https://jira.coinbase-corp.com/browse/COLLAB-2331",
+            "id": "CB-68",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Productize Forms for Jira",
+            "organization": "Coinbase",
+            "pillar": "Repeatable Innovation",
+            "team": "",
+            "type": "Product",
+            "value": "",
+            "startDate": "10/2023",
+            "endDate": "10/2023"
+        },
+        {
+            "index": 69,
+            "date": {
+                "quarter": 4,
+                "month": 10,
+                "year": 2023
+            },
+            "description": "Assets for Jira - Demo - Demo - Assets for Jira",
+            "id": "CB-69",
+            "images": [
+                {
+                    "url": ""
+                }
+            ],
+            "link": "https://app.url/",
+            "name": "Assets for Jira - Demo",
+            "organization": "Coinbase",
+            "pillar": "Customer Focus, Repeatable Innovation",
+            "team": "> 1hr/Eng",
+            "type": "Demo",
+            "value": "SELF-SERVE & GOVERN > 1hr/Eng",
+            "startDate": "10/2023",
+            "endDate": "10/2023"
+        }
+    ]
+}
