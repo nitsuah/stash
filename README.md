@@ -36,7 +36,8 @@ Code from my IT travels
 ### Power Failure Alarm (PFA)
 
 ![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/pfa/pfa_pcb.png)
-Basic Power Failure Alarm circuit diagram
+
+Basic Power Failure Alarm circuit design diagram
 
 ### Remora
 
