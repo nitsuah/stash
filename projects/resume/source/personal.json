@@ -1,0 +1,43 @@
+{
+    "references": [
+        {
+            "LAURA H.": "We always find a way.",
+            "WILLIAM H.": "You are born with your name and your word.",
+            "ANITA A.": "A team is built on responsibility, people count on you and the stakes matter.",
+            "AMAR M.": "If you aren't having a little fun then you're doing it wrong.",
+            "CURTIS J.": "Accessibility matters. Everywhere. All the time.",
+            "JOE F.": "Do the right thing at the right time for the right reason.",
+            "IAN T.":"An employee is more than just a number.",
+            "REGINALD V.":"The customer will tell you everything. Just listen.",
+            "JAIME": "DO THE DUE DILIGENCE. ALWAYS.",
+            "SHARON R.": "You protect your team and client best by being honest with them.",
+            "JB": "Keep it simple enough for a child to understand.",
+            "TREVOR A.": "The planning of the plan is just as important as the plan",
+            "ASHLEY H.": "Humans are the most important part of any project.",
+            "CRAIG N.": "Keep it simple & deliver value incrementally.",
+            "COLLEEN A.": "Never lose your passion!",
+            "WILL C.": "Focus on the customer and the rest will follow."
+        }
+    ],
+    "competencies": [
+        {
+            "Management": ["Portfolio","Program","Product","Project","Assets/MDM"],
+            "Agile": ["Scrum","Kanban","Lean","Roadmaps","SAFe","Align"],
+            "Documentation": ["Planning","SOP","Help Desk","FAQ","HowTO"],
+            "Configuration": ["OS","App","DB","Mail","API","OAuth"],
+            "Support": ["Customer","Client","Internal","Technical"],
+            "QA": ["Selenium","Kali","Nessus","BugCrowd"]
+        }
+    ],
+    "volunteer": [],
+    "interests": [],
+    "lessons": [
+        {
+            "Authenticity": "Practice it daily",
+            "Outcomes": "Surrender what you cannot control",
+            "Ethic": "Volunteer the uncomfortable hard work",
+            "GaryVee" : "Do shit you love",
+            "LIFE": "https://www.youtube.com/watch?v=WmP9xXVV9Yw"
+        }
+    ]
+}
