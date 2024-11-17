@@ -1,0 +1,42 @@
+{
+    "references": [
+        {
+            "Laura Hardy": "We always find a way.",
+            "Bill Hardy": "You are born with your name and your word.",
+            "Anita Heuyard": "A team is built on responsibility; people count on you and the stakes matter.",
+            "Amar A. Mehta": "If you aren't having a little fun, then you're doing it wrong.",
+            "Curtis Jones": "hashtag#Accessibility matters. Everywhere. All the time.",
+            "Joseph Farrington, PMP": "Do the right thing at the right time for the right reasons.",
+            "Ian Tomlinson": "An employee is more than just a number.",
+            "Reginald Vigilant": "The customer will tell you, but you must listen.",
+            "Jaime Casiano": "DO THE DUE DILIGENCE.",
+            "Sharon Reese": "You protect your team and client best by being totally transparent.",
+            "Trevor Akiyama": "The planning of the plan is just as important as the plan.",
+            "Ashley Hunsberger": "People over process.",
+            "Craig Nottingham": "Keep it simple & deliver value incrementally.",
+            "Colleen Adams": "Never lose your passion!",
+            "David Leavitt": "Quality over quantity"
+        }
+    ],
+    "competencies": [
+        {
+            "Management": ["Portfolio","Program","Product","Project","Assets/MDM"],
+            "Agile": ["Scrum","Kanban","Lean","Roadmaps","SAFe","Align"],
+            "Documentation": ["Planning","SOP","Help Desk","FAQ","HowTO"],
+            "Configuration": ["OS","App","DB","Mail","API","OAuth"],
+            "Support": ["Customer","Client","Internal","Technical"],
+            "QA": ["Selenium","Kali","Nessus","BugCrowd"]
+        }
+    ],
+    "volunteer": [],
+    "interests": [],
+    "lessons": [
+        {
+            "Authenticity": "Practice it daily",
+            "Outcomes": "Surrender what you cannot control",
+            "Ethic": "Volunteer the uncomfortable hard work",
+            "GaryVee" : "Do shit you love",
+            "LIFE": "https://www.youtube.com/watch?v=WmP9xXVV9Yw"
+        }
+    ]
+}
