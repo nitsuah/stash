@@ -8,8 +8,9 @@ A nifty electronic circuit designed for a power failure alarm, fueled by a USB p
 - `Transistor (Q1): 2N2905` - Acts as a switch; turned off when power is connected, allowing alarm activation upon power disconnection.
 - `Resistor (R1): 5kΩ` - Limits charging current for capacitor C2, ensuring a smooth charging process.
 - `Resistor (R2): 10kΩ` = Controls current to the transistor's base, influencing its switching behavior.
-- `Capacitor (C2): 2nF` = Stores energy; discharges through the buzzer, producing an alarm sound when power is cut.
+- `Capacitor (C2): 200µF` = Stores energy; discharges through the buzzer, producing an alarm sound when power is cut.
 - `Buzzer (BUZZ1): 8Ω` - Produces audible alert when powered by the discharged capacitor upon power failure.
+- `USB 5V` - Provides power to the device via a USB connection.
 
 ## Circuit Description
 
