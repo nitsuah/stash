@@ -1,0 +1,172 @@
+{
+    "basics": {
+      "name": "Sharon Reese",
+      "label": "IT Helpdesk Manager & ServiceNow Administrator",
+      "image": "",
+      "email": "Sadorsey3@comcast.net",
+      "phone": "301-651-3098",
+      "url": "https://www.linkedin.com/in/sharon-reese-4ba5a012/",
+      "summary": "Seasoned professional with extensive experience supporting large-scale production environments for Federal Student Aid programs. Demonstrates strategic planning and the ability to excel in high-stress, fast-paced settings. Proven expertise in team building, client relations, and production development.",
+      "location": {
+        "address": "Hagerstown, MD",
+        "postalCode": "",
+        "city": "Hagerstown",
+        "countryCode": "US",
+        "region": "Maryland"
+      },
+      "profiles": [
+        {
+          "network": "LinkedIn",
+          "username": "sharon-reese-4ba5a012",
+          "url": "https://www.linkedin.com/in/sharon-reese-4ba5a012/"
+        }
+      ]
+    },
+    "work": [
+      {
+        "name": "Maximus",
+        "position": "ADVS Helpdesk Manager",
+        "url": "https://maximus.com",
+        "startDate": "2023-10-01",
+        "endDate": "2024-04-01",
+        "summary": "Managed a Helpdesk Team of 13 members, overseeing high-volume ticket submissions and assignments with precise handling.",
+        "highlights": [
+          "Configured and set up assignment queues in ServiceNow.",
+          "Assisted with process improvements and new initiatives in ServiceNow to support Helpdesk calls for the Aidvantage/USDS contract.",
+          "Supported access request and termination submissions via ServiceNow for various systems."
+        ]
+      },
+      {
+        "name": "Maximus",
+        "position": "Interface/Helpdesk Manager",
+        "url": "https://maximus.com",
+        "startDate": "2014-08-01",
+        "endDate": "2023-10-01",
+        "summary": "Managed interface/production planning and output, providing both management and technical leadership.",
+        "highlights": [
+          "Managed Tier 1 Helpdesk staff, growing ticket submissions from 13,000 to 51,000 annually.",
+          "Conducted thorough quality checks of raw materials, processes, and output.",
+          "Prepared and participated in production audits/inspections for A123 audits and SSAE with supporting artifacts."
+        ]
+      },
+      {
+        "name": "ACS/Xerox",
+        "position": "Interface/Helpdesk Manager",
+        "url": "https://xerox.com",
+        "startDate": "2009-08-01",
+        "endDate": "2014-07-01",
+        "summary": "Managed interface/production planning and output, providing both management and technical leadership.",
+        "highlights": [
+          "Directed subordinates to complete assignments using established guidelines, procedures, and policies.",
+          "Assisted in the development of business policies and conducted special business-related studies.",
+          "Developed recommendations on areas needing cost reduction and process or profit improvement."
+        ]
+      }
+    ],
+    "education": [],
+    "certificates": [
+      {
+        "name": "ITIL Certification",
+        "date": "",
+        "issuer": "",
+        "url": ""
+      },
+      {
+        "name": "CMMI II Appraisal / CMMI III",
+        "date": "",
+        "issuer": "",
+        "url": ""
+      }
+    ],
+    "skills": [
+      {
+        "name": "Leadership & Team Management",
+        "level": "Expert",
+        "keywords": []
+      },
+      {
+        "name": "Access Management",
+        "level": "Expert",
+        "keywords": []
+      },
+      {
+        "name": "System Setup & Support",
+        "level": "Expert",
+        "keywords": []
+      },
+      {
+        "name": "Quality Control & Reconciliation",
+        "level": "Expert",
+        "keywords": []
+      },
+      {
+        "name": "Cost and Risk Analysis",
+        "level": "Advanced",
+        "keywords": []
+      },
+      {
+        "name": "Security Awareness and Code of Conduct",
+        "level": "Advanced",
+        "keywords": []
+      },
+      {
+        "name": "ServiceNow",
+        "level": "Advanced",
+        "keywords": []
+      },
+      {
+        "name": "SailPoint",
+        "level": "Intermediate",
+        "keywords": []
+      },
+      {
+        "name": "Microsoft Office Suite",
+        "level": "Expert",
+        "keywords": [
+          "Excel",
+          "Word",
+          "Access",
+          "Visio",
+          "Teams"
+        ]
+      },
+      {
+        "name": "Programming Languages",
+        "level": "Intermediate",
+        "keywords": [
+          "DCL",
+          "JCL",
+          "Oracle SQL",
+          "DB2 SQL"
+        ]
+      },
+      {
+        "name": "Operating Systems",
+        "level": "Advanced",
+        "keywords": [
+          "Open VMS",
+          "MVS",
+          "OS-390",
+          "Windows",
+          "DOS",
+          "MVS – IBM"
+        ]
+      }
+    ],
+    "languages": [
+      {
+        "language": "English",
+        "fluency": "Native speaker"
+      }
+    ],
+    "projects": [],
+    "awards": [
+      {
+        "title": "Recognized for support of the DLSS transfer to Nelnet platform",
+        "date": "",
+        "awarder": "",
+        "summary": "This was a large data conversion effort consisting of records for more than fourteen million borrowers and fifty million loans converted through building and processing more than 2,100 formatted conversion files."
+      }
+    ]
+  }
+  

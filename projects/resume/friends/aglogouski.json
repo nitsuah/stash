@@ -1,0 +1,85 @@
+{
+  "basics": {
+    "name": "Annglogouski",
+    "label": "Compliance and Risk Specialist",
+    "contact": {
+      "phone": "(717)-494-1128",
+      "email": "aglogouski@gmail.com"
+    },
+    "location": {
+      "street": "8 Nottingham Drive",
+      "city": "Chambersburg",
+      "state": "PA",
+      "zip": "17201",
+      "country": "US"
+    },
+    "summary": "Experienced Compliance and Risk Specialist with over 10 years of expertise in IT Security, specializing in Security Compliance and Administration. Proven track record in conducting comprehensive compliance assessments for High Value Asset (HVA) Systems, particularly for government clients. Demonstrates strong leadership and collaboration skills, with a talent for effectively communicating complex security concepts and fostering successful team environments."
+  },
+  "experience": [
+    {
+      "company": "OMNISystems, Inc.",
+      "title": "Compliance and Risk Management Specialist",
+      "start_date": "2016",
+      "responsibilities": [
+        "Conduct FISMA-required Internal Security Assessments (ISA) following NIST 800-53 to identify and mitigate risks to client systems.",
+        "Lead external IT security audits and assessments (e.g., FISMA, OMB, DHS OIG, A-123, SSAE-18, SOC1, OSA, and ATO), ensuring compliance with NIST and FISCAM frameworks.",
+        "Complete Course of Action Plans, False Positive, STIG/CIS Exceptions, and Accepted Risk mitigation strategies for findings from various assessments.",
+        "Manage remediation efforts and track findings using the Governance, Risk, and Compliance Tool (GRCT) (formerly CSAM), providing regular compliance updates to management."
+      ]
+    },
+    {
+      "company": "OMNISystems, Inc.",
+      "title": "Information Security Analyst",
+      "start_date": "2016",
+      "end_date": "2018",
+      "responsibilities": [
+        "Process security clearances, background investigations, and onboarding for new personnel.",
+        "Review and grant access to FSA systems and tools based on documented procedures.",
+        "Develop and maintain Standard Operating Procedures and conduct regular validation of Non-Privileged and Privileged accounts and personnel security records."
+      ]
+    },
+    {
+      "company": "Maximus Federal Services",
+      "title": "Staff Trainer/Research Specialist",
+      "start_date": "2014",
+      "end_date": "2016",
+      "responsibilities": [
+        "Provided customer service and reviewed borrower account requests to ensure optimal processing.",
+        "Analyzed and processed student loan discharge applications, detecting fraud and identity theft using various tools.",
+        "Served as Subject Matter Expert (SME) to assist with operational knowledge transition during outsourcing.",
+        "Processed suspense transactions, refunds, reversals, and treasury offset payments (TOP).",
+        "Managed compromise settlement write-offs and assessed chargebacks and credit card voids.",
+        "Conducted research on missing information and resolved post-transfer adjustment issues."
+      ]
+    }
+  ],
+  "skills": {
+    "technical": [
+      "Risk Assessment & Mitigation",
+      "Project Management",
+      "Analytical Thinking"
+    ],
+    "soft": [
+      "Time Management",
+      "Attention to Detail",
+      "Effective Communicator",
+      "Ethical Judgment & Integrity",
+      "Strategic Partner"
+    ]
+  },
+  "education": [
+    {
+      "institution": "Pennsylvania State University",
+      "degrees": [
+        "B.S. - Security and Risk Analysis",
+        "M.N. - Info. Sciences and Technology",
+        "Cert. - National Security Agency"
+      ]
+    }
+  ],
+  "languages": [
+    { "name": "English", "proficiency": "Fluent" },
+    { "name": "French", "proficiency": "Basic" },
+    { "name": "Spanish", "proficiency": "Intermediate" }
+  ]
+}
