@@ -48,12 +48,12 @@
         "Rolling Intake - Streamlined IT Program Management with automated Insights self-service, enhancing efficiency for dynamic datasets.",
         "MNPI Issue Level Security - Automated Restricted issue access for MNPI compliance across the organization.",
         "WEB3 Demo to IT - Immersed in web3, completed Crypto-U courses, and served as COINbassador.",
-        "AUDIT-omation - Automated SOC & R+D Expense artifact gathering in Jira, supporting $400M+ in refunds and time savings for tax and audit needs."
+        "AUDIT-omation - Automated SOC & R+D Expense artifact gathering in Jira, supported $400M+ in refunds and time savings for tax and audit needs."
       ],
       "position": "Systems Engineer",
       "startDate": "2022-04-09",
       "endDate": "2023-11-04",
-      "summary": "As a System Engineer on the IT Operations Atlassian team, I oversee the Atlassian Suite, integrating Confluence, Jira, and Jira Service Management, along with Third-Party integrations. I've upgraded systems and plugins, ensuring tool currency and site reliability. Seamlessly integrating solutions across teams, I manage user access, drive agile automation, and troubleshoot effectively. Dedicated to scaling, cost-saving, and inventive collaboration, I collaborate with teams for dependable support and clear communication while maintaining meticulous documentation.",
+      "summary": "As a System Engineer on the IT Operations Atlassian team, I oversaw the Atlassian Suite, integrated Confluence, Jira, and Jira Service Management, along with Third-Party integrations. I upgraded systems and plugins, ensured tool currency and site reliability. Seamlessly integrated solutions across teams, managed user access, drove agile automation, and troubleshot effectively. Dedicated to scaling, cost-saving, and inventive collaboration, I collaborated with teams for dependable support and clear communication while maintaining meticulous documentation.",
       "website": "https://www.linkedin.com/company/coinbase/"
     },
     {
@@ -62,7 +62,7 @@
       "startDate": "2018-04-09",
       "endDate": "2022-04-01",
       "highlights": [
-        "SRE for Atlassian Server and Datacenter apps, supporting teams and CI/CD pipelines",
+        "SRE for Atlassian Server and Datacenter apps, supported teams and CI/CD pipelines",
         "Managed Third Party SaaS apps, assessed toolset for Security, Accessibility (AX), User Experience (UX), and Product Experience (PX)",
         "Executed Atlassian Cloud migration strategy with Platinum partner",
         "Collaborated with vendors for security and accessibility features",
@@ -73,10 +73,10 @@
         "Enforced best practices and policies through configuration, automation, and behaviors",
         "Created self-help pages, Slack channels for best practices and features",
         "Coordinated SAML, SCIM, Azure AD changes for improved authentication",
-        "Deployed self-service Jira AIO add-on, enabling Power BI reports via AWS",
-        "Served as Scrum Master, facilitating Agile activities, sprint metrics, and roadmap plans"
+        "Deployed self-service Jira AIO add-on, enabled Power BI reports via AWS",
+        "Served as Scrum Master, facilitated Agile activities, sprint metrics, and roadmap plans"
       ],
-      "summary": "As Senior System Admin for the Shared Services Tools Team, I managed critical apps and VM systems for Product Development and Delivery teams, handling user authorization, integration configuration, and toolset support. I ensured acceptance criteria aligned with security, architecture, and accessibility goals. Led Agile transformation and reduced technical debt. Implemented improvements and drove collaboration.",
+      "summary": "As Senior System Admin for the Shared Services Tools Team, I managed critical apps and VM systems for Product Development and Delivery teams, handled user authorization, integration configuration, and toolset support. I ensured acceptance criteria aligned with security, architecture, and accessibility goals. Led Agile transformation and reduced technical debt. Implemented improvements and drove collaboration.",
       "website": "https://www.linkedin.com/company/blackboard/"
     },
     {
@@ -91,10 +91,10 @@
         "Coordinated DBA and System admin cleanup efforts for continuous improvement",
         "Improved legacy systems including Symantec TFA, TLS 1.2, and compliance",
         "Managed Help Desk app, database, client reporting, SSIS coordination",
-        "Subject Matter Expert, collaborated across teams for DevOps and tools",
+        "Acted as Subject Matter Expert, collaborated across teams for DevOps and tools",
         "Developed new apps, fulfilled automation needs, upgraded legacy tools"
       ],
-      "summary": "Managed the Middleware group at the Dept of Education Debt Management System, supporting 4,000 users 24/7/365. Led standardization, system improvements, and compliance efforts. Supported Help Desk, client reporting, and collaborated on cross-team initiatives. Developed new applications and enhanced toolsets for team efficiency and excellence.",
+      "summary": "Managed the Middleware group at the Dept of Education Debt Management System, supported 4,000 users 24/7/365. Led standardization, system improvements, and compliance efforts. Supported Help Desk, client reporting, and collaborated on cross-team initiatives. Developed new applications and enhanced toolsets for team efficiency and excellence.",
       "website": "https://www.linkedin.com/company/maximus/"
     },
     {
@@ -105,7 +105,7 @@
       "position": "Production Control Specialist (SME)",
       "endDate": "2016-09-30",
       "startDate": "2014-08-01",
-      "summary": "As a Production Control Specialist (SME) and Help Desk Supervising Administrator (HDSA), I provided 24/7/365/99.999% support and site reliability engineering for our primary application, Debt Manager. In addition to normal production activities, I provided full development support to the Help Desk Operations team, including the design, testing, and implementation of new features and settings in a production environment.\n\nProduction Control support and subject matter expert for the DMCS Production Operations team, overseeing the operations of DBAs, Application, and System Administrators, as well as monitoring the ETLs executing within the FICO Debt Management system. I even helped repair the reports database DSV & SMDL mappings for client reporting.",
+      "summary": "As a Production Control Specialist (SME) and Help Desk Supervising Administrator (HDSA), I provided 24/7/365/99.999% support and site reliability engineering for our primary application, Debt Manager. In addition to normal production activities, I provided full development support to the Help Desk Operations team, including the design, testing, and implementation of new features and settings in a production environment.\n\nProvided Production Control support and acted as subject matter expert for the DMCS Production Operations team, oversaw the operations of DBAs, Application, and System Administrators, as well as monitored the ETLs executing within the FICO Debt Management system. I also helped repair the reports database DSV & SMDL mappings for client reporting.",
       "website": "https://www.linkedin.com/company/maximus/"
     },
     {
@@ -116,13 +116,13 @@
       "position": "Production Operations Support",
       "endDate": "2014-07-31",
       "startDate": "2014-01-31",
-      "summary": "Facilitated Production Control support and served as subject matter expert for the DMCS Production Operations team, overseeing the operations of DBAs, Application, and System Administrators for DMCS, as well as monitoring the ETLs executing within the financial application. I worked to document and transition the contract procedures and policies to ensure a smooth transition to the next contract as an SME.",
+      "summary": "Facilitated Production Control support and served as subject matter expert for the DMCS Production Operations team, oversaw the operations of DBAs, Application, and System Administrators for DMCS, as well as monitored the ETLs executing within the financial application. I documented and transitioned the contract procedures and policies to ensure a smooth transition to the next contract as an SME.",
       "website": "https://www.linkedin.com/company/xerox/"
     },
     {
       "name": "OmniSystems, Inc.",
       "highlights": [
-        "Worked on the DMCS contract as a subcontractor, Consulted on internal projects and new business"
+        "Worked on the DMCS contract as a subcontractor, consulted on internal projects and new business"
       ],
       "position": "Systems Engineer I",
       "endDate": "2018-04-01",
@@ -136,9 +136,9 @@
         "USVI: EDA Marketplace, Superior Court, Police Dept, Fire Services, WAPA, WICO, UVI.edu",
         "Taught a former Lieutenant General to use iCloud, saved clients' wedding photos, and held executives accountable for insecure devices"
       ],
-	  "position": "Junior Systems Engineer",
-	  "startDate": "2010-04-01",
-	  "endDate": "2014-04-01",
+      "position": "Junior Systems Engineer",
+      "startDate": "2010-04-01",
+      "endDate": "2014-04-01",
       "summary": "Acted as a key resource for Executive staff to use for IT projects and assignments. My responsibilities ranged from configuring an office WiFi-DMZ to initializing an internal Help Desk to centralize all our IT processes. I maintained the server room, including organizing equipment and improving power and airflow efficiency, as well as providing an analysis recommending system usage reduction, stratified by a documented layout of the server room in Visio format.",
       "website": "https://www.linkedin.com/company/omni-systems-inc./"
     },
@@ -161,7 +161,7 @@
       "position": "Call Center Representative (Tier 1)",
       "endDate": "2008-07-31",
       "startDate": "2008-05-01",
-      "summary": "Performed any assigned duties as a first tier Help Desk Support. My responsibilities included answering customer calls and providing remediation, ranging from password resets to data entry and status updates, as well as further escalation to Tier 2 support teams.",
+      "summary": "Performed any assigned duties as a first tier Help Desk Support. My responsibilities included answering customer calls and providing remediation, which ranged from password resets to data entry and status updates, as well as further escalation to Tier 2 support teams.",
       "website": "https://hud-reac-tac-community.force.com/REACTAC/"
     }
   ],
