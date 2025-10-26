@@ -2,7 +2,9 @@
 
 ![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/remora/assets/remora-home.png)
 
-Remora is an Advanced Privileged Access Management (PAM) Tool built using Microsoft Access, Excel, and VBA. Built for a SecOps team it stores user access, links to other collected artifacts, and reports on role based access controls (RBAC) and provisioned access across multiple systems.
+Remora is an enterprise-grade Privileged Access Management (PAM) solution built using Microsoft Access, Excel, and VBA. Developed for SecOps teams, it provides comprehensive user access governance, audit artifact management, and automated compliance reporting across distributed systems.
+
+**Business Value**: Transforms manual access reviews into automated governance workflows, reduces audit preparation time, and ensures continuous compliance with federal security requirements through intelligent artifact linking and automated health checks.
 
 ## Features
 
