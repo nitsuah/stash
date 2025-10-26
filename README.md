@@ -1,8 +1,12 @@
 # CodeStash
 
-> Austin J. Hardy's technical code repository from 15+ years in Enterprise IT, Developer Productivity, and AI-assisted development.
+> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and developer productivity innovation.
 
-A comprehensive collection of enterprise automation tools, AI/GenAI integrations, security utilities, and system administration scripts developed throughout my career at Netflix, Coinbase, Blackboard, and other organizations.
+## Overview
+
+This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven developer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
+
+**Technical Philosophy**: Build tools that eliminate manual toil, scale human capabilities, and empower teams to focus on high-value work through intelligent automation.
 
 ## Atlassian
 
