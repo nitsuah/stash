@@ -1,0 +1,411 @@
+{
+  "projects": [
+    {
+      "id": "jirawala-mcp",
+      "name": "Jirawala MCP Server",
+      "company": "Netflix",
+      "category": "AI/GenAI",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2024-01-01",
+      "endDate": null,
+      "description": "Transformed Jirawala Slack bot into a sophisticated Model Context Protocol (MCP) server enabling natural language Jira operations. Implemented Spring AI @Tool annotations framework for conversational AI interfaces.",
+      "technologies": [
+        "Spring AI",
+        "Model Context Protocol (MCP)",
+        "Java",
+        "Spring Boot",
+        "Jira REST API",
+        "Slack Bolt SDK",
+        "OpenAI API",
+        "Tool Annotation Framework"
+      ],
+      "highlights": [
+        "Architected MCP server infrastructure for enterprise AI-assisted workflows",
+        "Enabled natural language Jira project creation and user lookup",
+        "Built self-service automation serving thousands of Netflix engineers",
+        "Integrated with Netflix Productivity Assistant ecosystem",
+        "Implemented comprehensive error handling and metatron authentication"
+      ],
+      "impact": "Reduced manual Jira operations by 80% and enabled AI-assisted project management for 5000+ users",
+      "links": {
+        "internal": true
+      },
+      "tags": ["AI", "MCP", "Automation", "Developer Productivity", "Enterprise"]
+    },
+    {
+      "id": "productivity-assistant",
+      "name": "Netflix Productivity Assistant",
+      "company": "Netflix",
+      "category": "AI/GenAI",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2023-11-01",
+      "endDate": null,
+      "description": "Lead contributor to Netflix's enterprise AI productivity ecosystem. Integrated GitHub Copilot into Slack channels and built AI-assisted development workflows.",
+      "technologies": [
+        "GitHub Copilot",
+        "Slack API",
+        "Claude API",
+        "Python",
+        "TypeScript",
+        "AI Workflow Orchestration",
+        "VS Code Extensions"
+      ],
+      "highlights": [
+        "Pioneered collaborative AI-assisted coding sessions in Slack",
+        "Built bitbot for intelligent code analysis and pattern recognition",
+        "Integrated AI workflows across multiple development environments",
+        "Created comprehensive knowledge bases with Jira integration",
+        "Reduced developer onboarding time by 40%"
+      ],
+      "impact": "Enhanced developer productivity across Netflix engineering teams, reducing debugging cycles by 60%",
+      "links": {
+        "internal": true
+      },
+      "tags": ["AI", "Developer Productivity", "Collaboration", "Code Analysis"]
+    },
+    {
+      "id": "ad-ops-pipeline",
+      "name": "Ad Operations Pipeline",
+      "company": "Netflix",
+      "category": "Enterprise Automation",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2024-01-01",
+      "endDate": null,
+      "description": "Comprehensive custom Jira project and automation system for Netflix Ad Operations team, transforming campaign management workflows and reporting.",
+      "technologies": [
+        "Jira Automation",
+        "Atlassian Analytics",
+        "SQL",
+        "Custom Fields",
+        "Workflow Design",
+        "Dashboard Development"
+      ],
+      "highlights": [
+        "Transformed ad campaign management workflows",
+        "Built real-time dashboards for $30M+ revenue tracking",
+        "Reduced manual effort by 70%",
+        "Improved campaign tracking accuracy significantly",
+        "Enhanced visibility across advertising operations"
+      ],
+      "impact": "Streamlined management of $30M+ in advertising revenue with 70% reduction in manual processes",
+      "links": {
+        "internal": true
+      },
+      "tags": ["Automation", "Revenue Management", "Analytics", "Jira"]
+    },
+    {
+      "id": "atlassian-cloud-migration",
+      "name": "Project Godzilla - Atlassian Migration",
+      "company": "Netflix",
+      "category": "Infrastructure",
+      "type": "enterprise",
+      "status": "completed",
+      "startDate": "2024-01-01",
+      "endDate": "2024-09-01",
+      "description": "Led massive Atlassian Data Center to Cloud migration for over 5000 external partners while ensuring zero downtime and operational continuity.",
+      "technologies": [
+        "Atlassian Cloud",
+        "Python",
+        "Migration Scripts",
+        "Identity Management",
+        "OAuth",
+        "REST APIs"
+      ],
+      "highlights": [
+        "Migrated 5000+ external partner accounts",
+        "Ensured zero downtime during transition",
+        "Developed scalable Python migration scripts",
+        "Coordinated cross-team migration efforts",
+        "Maintained operational continuity throughout"
+      ],
+      "impact": "Successfully migrated enterprise Atlassian infrastructure serving 5000+ external partners with zero service interruption",
+      "links": {
+        "internal": true
+      },
+      "tags": ["Migration", "Infrastructure", "Python", "Enterprise"]
+    },
+    {
+      "id": "nitsuah-portfolio",
+      "name": "Nitsuah Labs Portfolio",
+      "company": "Personal",
+      "category": "Web Development",
+      "type": "personal",
+      "status": "production",
+      "startDate": "2021-01-01",
+      "endDate": null,
+      "description": "Full-stack React portfolio website showcasing Web3 projects, blockchain development, and 3D interactive experiences. Built with modern technologies and deployed on Netlify.",
+      "technologies": [
+        "React",
+        "JavaScript",
+        "Web3.js",
+        "Ethers.js",
+        "Solidity",
+        "Polygon",
+        "Spline 3D",
+        "Material-UI",
+        "Netlify",
+        "Vite"
+      ],
+      "highlights": [
+        "Built multi-page React application with Web3 integration",
+        "Implemented NFT minting and domain name service",
+        "Created interactive 3D experiences with Spline",
+        "Integrated with Polygon Mumbai testnet",
+        "Automated deployment pipeline"
+      ],
+      "impact": "Showcases technical versatility across modern web technologies and blockchain development",
+      "links": {
+        "website": "https://nitsuah.io",
+        "github": "https://github.com/nitsuah/nitsuah"
+      },
+      "tags": ["React", "Web3", "Blockchain", "Portfolio", "3D"]
+    },
+    {
+      "id": "remora-pam",
+      "name": "Remora - Privileged Access Management",
+      "company": "Personal/Professional",
+      "category": "Security",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2018-01-01",
+      "endDate": null,
+      "description": "Advanced Privileged Access Management (PAM) tool built with Microsoft Access, Excel, and VBA. Manages user access, artifacts, and role-based access controls across multiple systems.",
+      "technologies": [
+        "Microsoft Access",
+        "VBA",
+        "SQL",
+        "Excel",
+        "File System Management",
+        "Audit Logging",
+        "RBAC"
+      ],
+      "highlights": [
+        "Built comprehensive user access management system",
+        "Implemented automated audit logging",
+        "Created file health checking and cleanup automation",
+        "Developed batch loading systems for signatory documents",
+        "Built reporting dashboards for compliance audits"
+      ],
+      "impact": "Streamlined privileged access management for enterprise security operations teams",
+      "links": {
+        "github": "https://github.com/nitsuah/stash/tree/main/projects/remora"
+      },
+      "tags": ["Security", "PAM", "VBA", "Automation", "Compliance"]
+    },
+    {
+      "id": "sampler-pdf",
+      "name": "Sampler - Advanced PDF Processing",
+      "company": "Personal/Professional",
+      "category": "Automation",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2019-01-01",
+      "endDate": null,
+      "description": "Advanced PDF random sampling tool that automates mouse movements and PDF interactions for document processing and analysis. Built for compliance and audit sampling needs.",
+      "technologies": [
+        "VBA",
+        "Adobe Acrobat API",
+        "Microsoft Access",
+        "PDF Processing",
+        "Automation"
+      ],
+      "highlights": [
+        "Automated PDF splitting and sampling based on text patterns",
+        "Built intelligent mouse movement automation",
+        "Created calibration system for screen interactions",
+        "Implemented random page generation for compliance sampling",
+        "Developed batch processing capabilities"
+      ],
+      "impact": "Automated manual PDF processing tasks, reducing processing time by 90%",
+      "links": {
+        "github": "https://github.com/nitsuah/stash/tree/main/projects/sampler"
+      },
+      "tags": ["PDF Processing", "Automation", "VBA", "Compliance"]
+    },
+    {
+      "id": "vmt-asset-management",
+      "name": "VMT - Vulnerability & Asset Management",
+      "company": "Personal/Professional",
+      "category": "Security",
+      "type": "enterprise",
+      "status": "production",
+      "startDate": "2017-01-01",
+      "endDate": null,
+      "description": "Basic Assets & Vulnerability Management system that stores IT equipment lists and tracks vulnerabilities across multiple systems with reporting capabilities.",
+      "technologies": [
+        "Microsoft Access",
+        "VBA",
+        "SQL",
+        "Vulnerability Management",
+        "Asset Tracking"
+      ],
+      "highlights": [
+        "Built comprehensive IT asset tracking system",
+        "Implemented vulnerability status tracking",
+        "Created remediation progress monitoring",
+        "Developed automated reporting capabilities",
+        "Built user role-based access control"
+      ],
+      "impact": "Centralized IT asset and vulnerability management for improved security posture",
+      "links": {
+        "github": "https://github.com/nitsuah/stash/tree/main/projects/vmt"
+      },
+      "tags": ["Security", "Asset Management", "Vulnerability", "VBA"]
+    },
+    {
+      "id": "web3-nft-projects",
+      "name": "Web3 & NFT Development Projects",
+      "company": "Personal",
+      "category": "Blockchain",
+      "type": "personal",
+      "status": "production",
+      "startDate": "2021-01-01",
+      "endDate": null,
+      "description": "Collection of Web3 and NFT projects including smart contracts, minting platforms, and blockchain interactions built during Buildspace cohorts.",
+      "technologies": [
+        "Solidity",
+        "Ethereum",
+        "Polygon",
+        "Web3.js",
+        "Ethers.js",
+        "Smart Contracts",
+        "NFT Standards",
+        "Hardhat",
+        "OpenSea API"
+      ],
+      "highlights": [
+        "Developed multiple smart contracts for NFT minting",
+        "Built ENS-style domain name service",
+        "Created NFT marketplace integrations",
+        "Implemented Web3 wallet connections",
+        "Built multi-chain compatibility"
+      ],
+      "impact": "Demonstrated proficiency in blockchain development and Web3 ecosystem",
+      "links": {
+        "portfolio": "https://nitsuah.io/crypto",
+        "opensea": "https://opensea.io/nitsuah",
+        "buildspace": "https://buildspace.so/@nitsuah"
+      },
+      "tags": ["Blockchain", "NFT", "Smart Contracts", "Web3", "Solidity"]
+    },
+    {
+      "id": "coinbase-automation",
+      "name": "Coinbase IT Automation Suite",
+      "company": "Coinbase",
+      "category": "Enterprise Automation",
+      "type": "enterprise",
+      "status": "completed",
+      "startDate": "2022-04-01",
+      "endDate": "2023-11-01",
+      "description": "Comprehensive automation suite including product launch calendar, MNPI compliance, and audit automation supporting $400M+ in tax refunds.",
+      "technologies": [
+        "Jira Automation",
+        "Python",
+        "JavaScript",
+        "Atlassian Suite",
+        "Compliance Automation",
+        "Financial Systems"
+      ],
+      "highlights": [
+        "Built product launch approval workflow automation",
+        "Implemented MNPI issue-level security controls",
+        "Created SOC & R+D expense artifact automation",
+        "Developed dynamic dataset insights self-service",
+        "Supported $400M+ in tax refund processing"
+      ],
+      "impact": "Automated critical business processes supporting millions of global customers and $400M+ in financial operations",
+      "links": {
+        "internal": true
+      },
+      "tags": ["Automation", "Compliance", "Financial", "Enterprise"]
+    },
+    {
+      "id": "powershell-utilities",
+      "name": "PowerShell Automation Utilities",
+      "company": "Various",
+      "category": "System Administration",
+      "type": "utility",
+      "status": "production",
+      "startDate": "2015-01-01",
+      "endDate": null,
+      "description": "Collection of PowerShell scripts for system administration, log management, server detection, and file processing automation.",
+      "technologies": [
+        "PowerShell",
+        "Windows Administration",
+        "Log Management",
+        "File System Automation",
+        "Server Management"
+      ],
+      "highlights": [
+        "Built intelligent server type detection scripts",
+        "Created automated log compression utilities",
+        "Developed CSV to Excel conversion tools",
+        "Implemented LDAP search and cleanup automation",
+        "Built comprehensive logging systems"
+      ],
+      "impact": "Streamlined system administration tasks across Windows environments",
+      "links": {
+        "github": "https://github.com/nitsuah/stash/tree/main/windows/pwsh"
+      },
+      "tags": ["PowerShell", "Automation", "System Administration", "Windows"]
+    }
+  ],
+  "categories": [
+    {
+      "name": "AI/GenAI",
+      "description": "Artificial Intelligence and Generative AI projects including MCP servers, AI-assisted development tools, and enterprise AI integration",
+      "count": 2
+    },
+    {
+      "name": "Enterprise Automation",
+      "description": "Large-scale enterprise automation systems and workflows for business process optimization",
+      "count": 3
+    },
+    {
+      "name": "Security",
+      "description": "Security-focused tools including privileged access management, vulnerability tracking, and compliance automation",
+      "count": 2
+    },
+    {
+      "name": "Web Development",
+      "description": "Modern web applications built with React, JavaScript, and full-stack technologies",
+      "count": 1
+    },
+    {
+      "name": "Blockchain",
+      "description": "Web3, smart contracts, NFT development, and blockchain integration projects",
+      "count": 1
+    },
+    {
+      "name": "System Administration",
+      "description": "System administration tools, PowerShell utilities, and infrastructure automation",
+      "count": 1
+    },
+    {
+      "name": "Automation",
+      "description": "General automation tools for document processing, file management, and workflow optimization",
+      "count": 1
+    },
+    {
+      "name": "Infrastructure",
+      "description": "Infrastructure projects including migrations, deployments, and system architecture",
+      "count": 1
+    }
+  ],
+  "technologies": {
+    "languages": ["Java", "Python", "JavaScript", "TypeScript", "PowerShell", "VBA", "Solidity", "SQL"],
+    "frameworks": ["Spring Boot", "Spring AI", "React", "Node.js", "Web3.js", "Ethers.js"],
+    "platforms": ["Netflix", "Coinbase", "Atlassian Suite", "AWS", "Blockchain", "Microsoft Office"],
+    "specialties": ["AI/ML", "MCP Architecture", "Enterprise Automation", "Developer Productivity", "Security", "Web3"]
+  },
+  "stats": {
+    "totalProjects": 11,
+    "activeProjects": 8,
+    "completedProjects": 3,
+    "yearsOfExperience": 15,
+    "companiesWorked": 5
+  }
+}
