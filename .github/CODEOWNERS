@@ -1,0 +1,60 @@
+# CODEOWNERS
+
+> This file defines who owns and should review changes to specific files or directories.
+> Learn more: [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+
+# Global owners - these users will be requested for review on all PRs
+* @nitsuah
+
+# Documentation
+# Owners for documentation files
+*.md @nitsuah
+/docs/ @nitsuah
+
+# Configuration files
+# Owners for configuration files
+*.json @nitsuah
+*.yaml @nitsuah
+*.yml @nitsuah
+*.toml @nitsuah
+
+# CI/CD workflows
+# Owners for GitHub Actions workflows
+/.github/workflows/ @nitsuah
+
+# Source code
+# Owners for source code directories
+/src/ @nitsuah
+/lib/ @nitsuah
+/app/ @nitsuah
+/components/ @nitsuah
+
+# Visual Basic .NET specific ownership
+# Owners for Visual Basic .NET related files and directories
+*.vb @nitsuah
+*.vbproj @nitsuah
+/My Project/ @nitsuah
+
+# Database
+# Owners for database related files
+/database/ @nitsuah
+*.sql @nitsuah
+
+# Tests
+# Owners for test files and directories
+/tests/ @nitsuah
+/test/ @nitsuah
+*.test.* @nitsuah
+*.spec.* @nitsuah
+
+# Infrastructure & deployment
+# Owners for infrastructure and deployment related files
+/infrastructure/ @nitsuah
+/terraform/ @nitsuah
+Dockerfile @nitsuah
+docker-compose*.yml @nitsuah
+
+# Security-sensitive files
+# Owners for security related files
+/SECURITY.md @nitsuah
+/.github/workflows/ @nitsuah
