@@ -1,4 +1,4 @@
-## FEATURES.md
+# Features
 
 ## Core Functionality
 
