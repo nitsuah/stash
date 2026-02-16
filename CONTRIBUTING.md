@@ -102,6 +102,20 @@ This project adheres to a Code of Conduct. By participating, you are expected to
 
 7. **Respond to feedback** from maintainers and update as needed.
 
+### PR Security Checklist
+
+**CRITICAL - Review before submitting:**
+
+- [ ] No secrets committed (tokens, passwords, API keys, `.pem`, `.p12`, credentials)
+- [ ] No internal hostnames or IPs (replace with `example.com` placeholders)
+- [ ] No PII or sensitive customer data in examples
+- [ ] Script documentation includes required permissions/access levels
+- [ ] `.gitignore` updated for any new credential/config files
+- [ ] Top-level README updated (if new subproject added)
+- [ ] Subproject README includes: WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
+- [ ] PowerShell scripts use proper `Param()` blocks with help comments
+- [ ] Sample data/CSVs included for testing (if applicable)
+
 ## 📝 Coding Standards
 
 ### General Guidelines

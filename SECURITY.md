@@ -44,10 +44,24 @@ When contributing to this project:
 - Keep dependencies up to date
 - Follow secure coding practices
 - Use environment variables for sensitive data
-- Never commit API keys, passwords, or tokens
+- **Never commit API keys, passwords, or tokens**
+- **Never commit internal hostnames, IPs, or network credentials**
+- **Never commit `.pem`, `.p12`, `.key`, or credential files**
 - Review code changes for security implications
+- Replace real credentials with placeholders (commit message must include `REDACTED`)
+- Document required permissions/access for each script
+- Audit sample data for PII before committing
 
-Given that this project is primarily Visual Basic .NET, consider the following:
+### IT Scripts & Automation Security
+
+This repository contains operational tooling. Extra precautions:
+
+- **Atlassian scripts**: Never commit tokens, webhook URLs, or internal instance URLs
+- **PowerShell scripts**: Never hardcode credentials; use Windows Credential Manager or secure vaults
+- **VBA/Access tools**: Sanitize connection strings; use sample databases
+- **Windows userdata**: Strip sensitive bootstrap configs before committing
+
+Given that this project includes Visual Basic .NET and PowerShell, consider the following:
 
 - Be mindful of potential buffer overflows when handling strings.
 - Properly sanitize user inputs to prevent injection vulnerabilities.
