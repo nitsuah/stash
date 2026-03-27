@@ -177,3 +177,21 @@ Operational prompt modules:
 5. PMO folds accepted learnings back into TASKS, ROADMAP, and repos notes.
 
 This model allows parallel work across repositories and controlled handoffs within the same repository.
+
+## Agent Run Order Checklist
+
+Use this when kicking off agents against a repository:
+
+1. Confirm the target repository, default branch, and current priority.
+2. Start PMO to audit and shape planning changes.
+3. If needed, start Intake to turn PMO findings into a clean implementation brief.
+4. Create or update prompts/HANDOFF.md with repo context, evidence, scope, and acceptance criteria.
+5. Start Delivery/DevOps on a dedicated branch using that handoff.
+6. Start QA after a Delivery branch or PR exists; allow read-only exploratory QA earlier if useful.
+7. Feed accepted QA findings back to PMO for TASKS, ROADMAP, and repo note updates.
+
+Recommended launch patterns:
+
+- Single repository, full flow: PMO -> Intake -> Delivery -> QA.
+- Multiple repositories: run PMO or Intake in parallel across repos, then stagger Delivery and QA per repo.
+- Emergency defect: PMO can create a minimal handoff, Delivery executes immediately, QA validates, then PMO backfills planning updates.

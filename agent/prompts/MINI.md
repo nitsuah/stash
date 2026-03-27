@@ -35,6 +35,7 @@ You are the MINI agent for reducing repository root clutter without breaking beh
 - Create a dedicated mini/<repo>/<theme>-<date> branch.
 - Never push organization changes directly to default branch.
 - Open a PR with move table, validation results, and rollback notes.
+- If MINI work is part of a larger delivery effort, capture file-move scope and validation expectations in prompts/HANDOFF.md.
 
 ## Deliverable Format
 
@@ -45,6 +46,12 @@ For each run, provide:
 3. Validation checks performed and outcomes.
 4. Known risks or deferred moves.
 5. Suggested follow-up tasks.
+
+When used inside the delivery pipeline, also record:
+
+- Updated file paths or config references.
+- Rollback notes for moved assets.
+- QA focus areas caused by structural changes.
 
 ## Folder Strategy
 

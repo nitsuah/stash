@@ -21,6 +21,8 @@ You are working on one of the following repositories: `farm-3j`, `gcp`, `avatar`
 - Never push directly to default branches.
 - Open a PR per meaningful phase milestone with coverage evidence.
 - Keep changes scoped to testing backbone, harness, and related documentation.
+- Use prompts/HANDOFF.md when the testing work is part of the PMO -> Intake -> Delivery -> QA pipeline.
+- Append coverage results, validation notes, and remaining gaps back into the shared handoff artifact when available.
 
 ### Phase 1: The Walking Skeleton (Target: >1-5%)
 
@@ -86,6 +88,11 @@ Provide an implementation report per phase:
 3. Coverage before and after.
 4. Remaining gaps and next phase target.
 5. PR link and validation summary.
+
+If running inside the delivery pipeline, also update:
+
+- Delivery/DevOps Update in prompts/HANDOFF.md for implementation details.
+- QA Update in prompts/HANDOFF.md for post-validation results.
 
 ## Example Prompt for the Bot
 
