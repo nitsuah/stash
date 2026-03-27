@@ -1,89 +1,106 @@
 # Tasks
 
-## Todo
-
-### High Priority - Repository Organization & Documentation
-
-#### A. Top-level README
-- [ ] Add one-paragraph description of repository purpose
-- [ ] Include license note
-- [ ] Create directory listing with one-line descriptions:
-  - `atlassian/` - Atlassian automation scripts
-  - `git/` - Git utilities and helpers
-  - `ias/` - Infrastructure automation scripts
-  - `projects/` - Project-specific tooling
-  - `saas/` - SaaS integration tools
-  - `windows/` - Windows PowerShell/VBA utilities
-
-#### B. Per-subproject READMEs
-- [ ] `atlassian/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-- [ ] `git/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-- [ ] `ias/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-- [ ] `projects/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-- [ ] `saas/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-- [ ] `windows/README.md` with WHAT, WHY, HOW, SAFETY, EXAMPLE_OUTPUT
-
-#### C. Security & Sanitization
-- [ ] Search for sensitive data patterns:
-  - `token`, `password`, `secret`, `.pem`, `.p12`, `credentials`
-- [ ] Replace any real credentials with placeholders
-- [ ] Add commit message with `REDACTED` tag
-- [ ] Update `.gitignore` for local artifacts:
-  - `*.pem`, `*.p12`, `*.key`, `*credentials*.json`
-  - Local config files
-  - Test outputs
-- [ ] Audit all scripts for hardcoded hostnames/IPs
-- [ ] Replace internal hostnames with `example.com` placeholders
-
-#### D. Usability Improvements (Pick 2)
-- [ ] Convert most-used PowerShell script to use `Param()` blocks
-- [ ] Add comprehensive help comments to PowerShell scripts
-- [ ] Create sample CSV for VBA/Access tools
-- [ ] Add example output files for each major script
-- [ ] Document required permissions for each script
-
-#### E. Contributing & Issue Templates
-- [ ] Update `CONTRIBUTING.md` with:
-  - How to propose changes
-  - Security reminder: "Don't commit secrets"
-  - Testing guidelines for scripts
-  - Documentation requirements
-- [ ] Add issue template for script requests
-- [ ] Add PR template with security checklist
-
-### Medium Priority - Code Quality
-
-- [ ] Implement settings persistence to XML using .NET serialization (P1, M)
-- [ ] Add robust error handling for all file I/O operations (P1, S)
-- [ ] Implement a simple TreeView-based UI for snippet management (P2, L)
-- [ ] Add unit tests for the Snippet and Folder classes (P2, M)
-- [ ] Implement basic substring search in snippet titles and content (P2, M)
-- [ ] Refactor the main form's event handlers to separate methods (P3, L)
-- [ ] Add support for exporting snippets as individual text files (P3, S)
-- [ ] Create a basic MSI installer using Visual Studio Installer Projects (P3, S)
-
-### Files to Create
-- [ ] Top-level `README.md` (enhanced)
-- [ ] Subproject `README.md` files (6 total)
-- [ ] `SECURITY.md` with sensitive data removal procedures
-- [ ] `.gitignore` updates for credentials
-
-### Commands to Run
-- [ ] `git ls-files | Select-Object -First 50 | ForEach-Object { Get-Content $_ -TotalCount 2 }`
-- [ ] `rg "token|password|secret|KEY|CRED" -n` (search for secrets)
-- [ ] Test sample scripts to verify they work with placeholders
-
-## In Progress
-
-- [ ] Implementing syntax highlighting in the snippet editor using ScintillaNET (P1, L)
-- [ ] Adding support for multiple snippet folders, allowing nested organization (P2, M)
+Last Updated: 2026-03-27
 
 ## Done
 
-- [x] Set up CI/CD pipeline
-- [x] Created initial project structure
+- [x] PMO audit evidence captured for repository structure and governance files.
+  - Priority: P1
+  - Type: Docs
+  - Confidence: High
+  - Evidence: top-level directories confirmed as `.github/`, `agent/`, `atlassian/`, `git/`, `ias/`, `projects/`, `windows/`; governance files confirmed in `.github/`.
+  - Acceptance Criteria Met: repository structure and template presence verified from local filesystem.
 
-## References
-- See `AGENT_INSTRUCTIONS.md` for detailed implementation guide
-- See `CONTRIBUTING.md` → PR Security Checklist for submission requirements
-- See `SECURITY.md` → IT Scripts & Automation Security for specific warnings
+- [x] Runtime validation performed on a non-destructive workflow.
+  - Priority: P1
+  - Type: Tech Debt
+  - Confidence: High
+  - Evidence: `powershell -NoProfile -ExecutionPolicy Bypass -File ./git/cleanup-branches.ps1 -Path . -DryRun` executed successfully.
+  - Acceptance Criteria Met: script started, completed, and exited without runtime exception.
+
+## In Progress
+
+- [ ] Re-align planning docs to repository reality and parser-safe format.
+  - Priority: P0
+  - Type: Docs
+  - Confidence: High
+  - Milestone: 2026 Q2
+  - Problem Statement: existing planning docs referenced VB.NET product work that does not match this repository's current script/tooling scope.
+  - Why It Matters: stale planning creates execution drift, incorrect prioritization, and onboarding confusion.
+  - Acceptance Criteria:
+    - `TASKS.md` uses exact sections `Done`, `In Progress`, `Todo`.
+    - `ROADMAP.md` uses quarter headings with status in heading text.
+    - Tasks and milestones align with validated repository structure.
+  - Dependencies: none.
+
+## Todo
+
+- [ ] Add architecture baseline documentation.
+  - Priority: P1
+  - Type: Docs
+  - Confidence: High
+  - Milestone: 2026 Q2
+  - Problem Statement: `ARCHITECTURE.md` is missing and current boundaries between `atlassian/`, `git/`, `ias/`, `projects/`, and `windows/` are undocumented.
+  - Why It Matters: contributors cannot quickly understand ownership, script boundaries, or safe change surfaces.
+  - Acceptance Criteria:
+    - `ARCHITECTURE.md` created with module boundaries, execution context, and dependency map.
+    - Includes risk notes for destructive operations (branch cleanup, log compression, access scripts).
+    - Cross-linked from `README.md`.
+  - Dependencies: none.
+
+- [ ] Add script runbook and safety matrix for operational scripts.
+  - Priority: P1
+  - Type: Docs
+  - Confidence: High
+  - Milestone: 2026 Q2
+  - Problem Statement: script discovery exists, but no unified runbook defines prerequisites, expected inputs, and dry-run behavior per script.
+  - Why It Matters: operational scripts can be destructive when used without clear guardrails.
+  - Acceptance Criteria:
+    - Add a top-level runbook section in `README.md` linking to each script family.
+    - For each PowerShell script, document parameters, safe invocation, and expected output.
+    - Include examples for `-DryRun` where supported.
+  - Dependencies: architecture baseline task.
+
+- [ ] Complete sensitive-data and hardcoded-hostname scan using PowerShell-native search.
+  - Priority: P0
+  - Type: Security
+  - Confidence: Medium
+  - Milestone: 2026 Q2
+  - Problem Statement: no verified repository-wide sanitization pass exists, and `rg` is unavailable in this environment.
+  - Why It Matters: leaked credentials or internal hostnames can cause security incidents and compliance failures.
+  - Acceptance Criteria:
+    - Run search for `token|password|secret|credential|apikey|private key` across tracked files.
+    - Log any findings with remediation plan or confirm zero findings.
+    - Update `.gitignore` for local credential artifacts if needed.
+  - Dependencies: none.
+
+- [ ] Standardize file naming and typo cleanup in infrastructure assets.
+  - Priority: P2
+  - Type: Tech Debt
+  - Confidence: High
+  - Milestone: 2026 Q3
+  - Problem Statement: `ias/Windows-userdata..yml` contains a double-dot naming anomaly.
+  - Why It Matters: inconsistent naming harms discoverability and increases automation script fragility.
+  - Acceptance Criteria:
+    - Rename file to a normalized name.
+    - Update references in docs/scripts.
+    - Verify no broken links remain.
+  - Dependencies: none.
+
+- [ ] Add repository-level API contract decision record.
+  - Priority: P3
+  - Type: Docs
+  - Confidence: Medium
+  - Milestone: 2026 Q3
+  - Problem Statement: `API.md` is missing and repository currently appears script-centric rather than service/API-centric.
+  - Why It Matters: teams need explicit confirmation whether external contracts exist.
+  - Acceptance Criteria:
+    - Create `API.md` as either concrete interface spec or explicit "No external API" decision record.
+    - Link the decision from `README.md` and `ARCHITECTURE.md`.
+  - Dependencies: architecture baseline task.
+
+## Audit Notes
+
+- Docker-first execution path is not currently available (`Dockerfile` and `docker-compose.yml` not found).
+- `.github/ISSUE_TEMPLATE` and `.github/pull_request_template.md` are present.
+- PMO updates should continue via branch + PR workflow (`docs(pmo):` commit prefix).
