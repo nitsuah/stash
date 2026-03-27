@@ -9,9 +9,9 @@ Each has its own system prompt and purpose-built skills.
 
 | Agent | File | Purpose | Cadence |
 |-------|------|---------|---------|
-| 💼 CFO | `agents/cfo/Finance.md` | Track finances, runway, CDs | Weekly or on-demand |
-| 🧑‍💻 Career | `agents/career/Career.md` | Evaluate jobs, draft outreach | When job-hunting |
-| 🔧 Builder | `agents/builder/Builder.md` | Find leads, close web design clients | When building |
+| 💼 CFO | Finance.md | Track finances, runway, CDs | Weekly or on-demand |
+| 🧑‍💻 Career | projects/Career.md | Evaluate jobs, draft outreach | When job-hunting |
+| 🔧 Builder | projects/Builder.md | Find leads, close web design clients | When building |
 
 ---
 
@@ -78,18 +78,21 @@ docker push yourusername/personal-agents:latest
 
 ```
 .
-├── agents/
-│   ├── cfo/Finance.md          # CFO system prompt
-│   ├── career/Career.md        # Career system prompt
-│   └── builder/Builder.md      # Builder system prompt
-├── skills/
-│   ├── financial-summary/SKILL.md
-│   ├── job-evaluator/SKILL.md
-│   ├── lead-finder/SKILL.md
-│   └── outreach-writer/SKILL.md
-├── run_agent.py                # CLI runner
-├── Dockerfile
-├── docker-compose.yml
+├── Finance.md
+├── PMO.md
+├── Intake.md
+├── DevOps.md
+├── QA.md
+├── projects/
+│   ├── Career.md
+│   └── Builder.md
+├── prompts/
+│   ├── PM.md
+│   ├── TEST.md
+│   ├── LOC.md
+│   └── MINI.md
+├── repos/
+│   └── *.md
 └── README.md
 ```
 
@@ -132,3 +135,10 @@ Recommended flow:
 2. Intake shapes those into clear, prioritized implementation briefs.
 3. Delivery/DevOps executes on branches and opens evidence-backed PRs.
 4. QA validates behavior and routes defects/improvements back to TASKS/ROADMAP.
+
+Operational prompt modules:
+
+- prompts/PM.md: Overseer compliance formatting and documentation standards.
+- prompts/TEST.md: Incremental testing and coverage strategy.
+- prompts/LOC.md: LOC hotspot analysis and refactor planning.
+- prompts/MINI.md: Safe repository organization and root hygiene.

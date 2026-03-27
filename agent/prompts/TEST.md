@@ -15,6 +15,13 @@ You are working on one of the following repositories: `farm-3j`, `gcp`, `avatar`
 
 2. **Verify Harness**: Run the existing test command (`npm test`, `pytest`). Ensure it executes cleanly, even if no tests exist. If it fails, **fix the harness first**.
 
+### Governance and Safety
+
+- Use a dedicated testing branch per repository and phase.
+- Never push directly to default branches.
+- Open a PR per meaningful phase milestone with coverage evidence.
+- Keep changes scoped to testing backbone, harness, and related documentation.
+
 ### Phase 1: The Walking Skeleton (Target: >1-5%)
 
 _Goal: Ensure the project is testable and strictly enforces CI/CD basics._
@@ -48,6 +55,13 @@ _Goal: Ensure components work together and handle errors gracefully._
 - Add tests for failure modes (API errors, invalid inputs, timeouts).
 - If possible, add a limited Integration Test that spins up a lightweight environment (e.g., in-memory DB, or use docker if available).
 
+### Documentation and Metrics Alignment
+
+- Update METRICS.md with measured values after each major phase.
+- Never invent coverage numbers; use command output.
+- If a metric cannot be measured in the run, mark it TBD with reason.
+- Keep TASKS and ROADMAP in sync with testing milestones and risks.
+
 ---
 
 ## Execution Rules
@@ -55,6 +69,23 @@ _Goal: Ensure components work together and handle errors gracefully._
 - **One Step at a Time**: Do not try to jump to Phase 4. Complete Phase 1 fully before moving to Phase 2.
 - **Update Metrics**: After every major PR/Commit, update `METRICS.md` with the new coverage %.
 - **Don't Break the Build**: Ensure `npm run build` or linting still passes.
+
+Additional rules:
+
+- Prefer Docker-first validation when repository supports it.
+- Preserve existing repository-specific docs and conventions.
+- Do not over-mock in early phases when pure-function coverage is available.
+- Stop and report blockers with exact remediation steps.
+
+## Deliverable Format
+
+Provide an implementation report per phase:
+
+1. Phase completed.
+2. Tests added and files touched.
+3. Coverage before and after.
+4. Remaining gaps and next phase target.
+5. PR link and validation summary.
 
 ## Example Prompt for the Bot
 
