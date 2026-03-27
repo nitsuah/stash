@@ -199,7 +199,19 @@ All PMO-driven changes to TASKS and ROADMAP must follow branch and PR workflow.
 - Open a pull request for every PMO update batch.
 - Link evidence and rationale in the PR body.
 
+PR creation and description are part of PMO done criteria, not optional handoff work.
+
+- PMO must attempt to create the PR directly after push (same audit cycle).
+- PMO must provide a complete PR title and PR description body, even when creation is blocked.
+- Do not stop at "branch pushed" when PR tooling is available.
+
 Before opening or updating PRs through GitHub CLI, verify auth state with gh auth status.
+
+Preferred PR creation order:
+
+1. Use GitHub CLI (`gh pr create`) when available.
+2. If GitHub CLI is unavailable, use available GitHub API/MCP tooling to create the PR.
+3. If both are unavailable, provide the exact compare URL and a ready-to-paste PR title/body.
 
 PR minimum content:
 
@@ -208,6 +220,16 @@ PR minimum content:
 - Risk/impact summary.
 - Validation performed (runtime checks, UI checks, docs checks).
 - Follow-up items intentionally deferred.
+
+PR body format (required):
+
+- Summary
+- What changed (TASKS/ROADMAP deltas)
+- Why now (evidence)
+- Risk and impact
+- Validation performed
+- Deferred follow-ups
+- Checklist
 
 If gh auth is unavailable or fails, document the blocker and provide exact commands needed for a maintainer to complete PR creation.
 
@@ -236,8 +258,17 @@ Required PMO handoff package:
 3. Apply TASKS and ROADMAP edits.
 4. Validate links, formatting, and consistency.
 5. Commit with clear message prefix: docs(pmo):
-6. Push branch and open PR.
-7. Add PR link to PMO report.
+6. Push branch.
+7. Open PR immediately (same cycle) with complete title/body.
+8. Add PR link and PR body summary to PMO report.
+
+If PR cannot be opened automatically, include all of the following in the PMO report:
+
+- Blocker cause (for example: gh not installed, auth failure, missing repo permission).
+- Exact command sequence attempted.
+- Compare URL for manual PR creation.
+- Final PR title.
+- Final PR description body (ready to paste).
 
 Unless explicitly requested otherwise, stage documentation updates and present a concise diff summary for review before final merge actions.
 
@@ -261,6 +292,7 @@ An audit cycle is complete when:
 - UI/API critical flows are validated.
 - TASKS and ROADMAP are updated with evidence-backed priorities.
 - stash/agent/repos/<repo>.md is updated with durable operational knowledge.
+- Pull request is opened with complete description, or a fully prepared manual PR package is included when tooling is blocked.
 
 ## Continuous Improvement
 

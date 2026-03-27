@@ -1,114 +1,55 @@
-# CodeStash
+# Stash Repository Runbook (PMO)
 
-> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and developer productivity innovation.
+Last Validated: 2026-03-27
 
-## Overview
+## Repository Type
 
-This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven developer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
+Automation and tooling monorepo focused on scripts, infrastructure samples, and project-specific utilities.
 
-**Technical Philosophy**: Build tools that eliminate manual toil, scale human capabilities, and empower teams to focus on high-value work through intelligent automation.
+## Verified Structure
 
-## Atlassian
+Top-level directories observed locally:
 
-- Jira
-- Confluence
-- Bitbucket
-- Bamboo
-- Crowd
-- StatusPage
+- `.github/`
+- `agent/`
+- `atlassian/`
+- `git/`
+- `ias/`
+- `projects/`
+- `windows/`
 
-### Jira
+Notable governance files confirmed:
 
-- Jira Cloud
-- Jira Data Center
-- Jira Core
-- Jira Software
-- Jira Service Desk
-- Jira Automation
-- Jira Advanced Roadmaps
-- Jira Align
-- Jira Assets
-- Jira Forms
+- `.github/ISSUE_TEMPLATE/`
+- `.github/pull_request_template.md`
+- `LICENSE`
+- `SECURITY.md`
 
-### Confluence
+## Runtime Validation Evidence
 
-## IAS
+- Command executed successfully:
+	- `powershell -NoProfile -ExecutionPolicy Bypass -File ./git/cleanup-branches.ps1 -Path . -DryRun`
+- Observed behavior:
+	- Script starts cleanly.
+	- Reports dry-run mode.
+	- Exits without unhandled exceptions.
 
-- Ubuntu USERDATA example
-- Windows USERDATA example
+## Operational Notes
 
-## Projects
+- No Docker runtime path is currently available in this repository (`Dockerfile` and `docker-compose.yml` not present).
+- `rg` was not available in the environment during audit; use PowerShell-native file discovery/search commands when needed.
+- `ias/Windows-userdata..yml` appears to have a naming anomaly and should be normalized in a dedicated change.
 
-### Power Failure Alarm (PFA)
+## PMO Findings Snapshot
 
-Basic Power Failure Alarm circuit design diagram
+- Planning docs had stale references to unrelated VB.NET roadmap/task items.
+- Parser-safe formatting was missing from `TASKS.md` and `ROADMAP.md` before the 2026-03-27 update.
+- Architecture/API documentation gaps remain (`ARCHITECTURE.md`, `API.md` absent).
 
-### Remora
+## Recommended PMO Workflow For This Repo
 
-Advanced Privileged Access Management (PAM) Tool that
-stores user access lists and reports on access across multiple systems.
-Links to authorized signatory documents in shared folders for access audits.
-Built using Microsoft Access, Excel, and VBA.
-
-### Sampler
-
-Advanced PDF Random Sampling Tool that randomly samples based upon a given text string found in a PDF file containing multiple different pages.
-
-Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in.
-
-### VMT
-
-Basic Assets & Vulnerability Management (CMBD) Tool
-that stores asset lists and joins reports on vulnerabilities across multiple systems.
-
-Built using Microsoft Access, Excel, and VBA.
-
-## SAAS
-
-- PagerDuty
-- Slack
-
-## Windows
-
-### LDAP
-- User search and cleanup utilities
-- Active Directory automation scripts
-
-### PowerShell (pwsh)
-- **detect-server-v03d.ps1** - Intelligent JVM server type detection for log cleanup
-- **compress-logs-v02a.ps1** - Automated log file compression and management
-- **ConvertCSV-ToExcel.ps1** - Batch CSV to Excel conversion utility
-
-### VBA
-- **ldap-search-cleanup.vb** - LDAP search result processing and formatting
-- Office automation macros and utilities
-
-## 🚀 Featured AI & Automation Work
-
-### Netflix (2023-Present)
-- **MCP Server Architecture** - Model Context Protocol implementations for Jirawala
-- **AI-Assisted Development** - GitHub Copilot Slack integration serving 5000+ engineers
-- **Enterprise Automation** - $30M+ Ad Operations pipeline optimization
-
-### Technologies & Impact
-- **Languages:** Java, Python, JavaScript, PowerShell, VBA, SQL
-- **Platforms:** Spring AI, Atlassian Suite, AWS, Microsoft Office
-- **Specialties:** Developer Productivity, Enterprise Security, AI Integration
-- **Impact:** 15+ years serving thousands of engineers with 70%+ efficiency improvements
-
-## 📊 Repository Statistics
-- **Projects:** 10+ major enterprise tools and utilities
-- **Companies:** Netflix, Coinbase, Blackboard, MAXIMUS, OmniSystems
-- **Technologies:** 20+ programming languages and platforms
-- **Users Served:** 5000+ engineers and operational staff
-
-## 🔗 Links
-- **Portfolio:** [nitsuah.io](https://nitsuah.io)
-- **LinkedIn:** [austinjhardy](https://www.linkedin.com/in/austinjhardy/)
-- **GitHub:** [nitsuah](https://github.com/nitsuah)
-
----
-
-**"Ut prosim"** - *That I may serve*
-
-*Building AI-enhanced tools that empower thousands of engineers.*
+1. Re-validate at least one non-destructive script path before each planning cycle.
+2. Keep `TASKS.md` labels explicit: Priority, Type, Confidence, Milestone.
+3. Keep `ROADMAP.md` quarter headings with status text in heading.
+4. Perform PMO updates on a branch named `pmo/stash/<theme>-<date>`.
+5. Use commit prefix `docs(pmo):` and open a PR with evidence.
