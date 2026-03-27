@@ -1,120 +1,56 @@
-# OSRS Bot
+# osrs - Automation bot for game interaction
 
-[![CI](https://github.com/nitsuah/osrs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
-
-A Python-based bot designed to automate tasks and interact intelligently with the Old School RuneScape (OSRS) game. This project leverages computer vision and natural language processing to handle in-game actions and queries to avoid bot detection.
+**Last Validated:** 2026-03-27 | PMO audit - Docker-first validation
+**Repo:** https://github.com/nitsuah/osrs
+**Branch convention:** pmo/osrs/planning-alignment-YYYY-MM-DD
 
 ---
 
-## Dependencies
+## Runtime Status
 
-- Python 3.13
-- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
-- Additional Python packages (see `requirements.txt`):
-  - `pyautogui`
-  - `opencv-python`
-  - `opencv-python-headless`
-  - `pillow`
-  - `numpy`
-  - `pytesseract`
-  - `keyboard`
-  - `textblob`
+| Check | Status | Notes |
+|---|---|---|
+| Docker build | PASS | Multi-stage image builds successfully |
+| Container runtime | FAIL | Startup command is `python main.py` but `main.py` is missing at repo root |
+| Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS and governance docs present |
 
-## Setup
+---
 
-1. Clone the repository: `git clone https://github.com/nitsuah/osrs.git`
+## Stack
 
-2. Create and activate a virtual environment:
+- Python automation toolkit (vision + OCR + action modules)
+- Tesseract OCR integration for chat parsing
+- Test suite for camera/compass/utils/smoke paths
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   .\venv\Scripts\activate    # Windows
-   ```
+---
 
-3. Install required Python packages:
+## PMO Findings
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+- P0 runtime blocker: container entrypoint mismatch prevents operational Docker use.
+- Runtime version policy drift: README cites Python 3.13 while Docker stages use 3.10 and 3.11.
+- TASKS and ROADMAP were updated to prioritize runtime and reliability before feature expansion.
 
-4. Verify Tesseract installation:
-   - Ensure Tesseract is installed and added to your system's PATH.
-   - Check its version by running: `tesseract --version`
+---
 
-## Features
+## Priority Focus
 
-### Core Functions
+1. Fix Docker entrypoint to a valid executable module/script.
+2. Standardize version policy across README, Dockerfile, and CI.
+3. Improve OCR robustness and health/recovery signals before adding new skill modules.
 
-#### Utilities
+---
 
-- **Configuration**:
-  - `load_config`: Loads the configuration from an INI file, checking for required sections and validating values. This is essential for setting up coordinates and other constants for the bot's operation. The function also logs available keys in the 'constants' and 'coordinates' sections for debugging.
+## Key Commands
 
-- **Game State**:
-  - `compass.py` - `find_and_click_compass`: Aligns the in-game compass to the default position of North.
-  - `camera.py` - `check_and_zoom_in` / `hold_up_arrow`: Checks the camera angle and zooms in and tilts up as necessary.
-  - `thieving.py` - `check_tesseract_version`: Checks the version of the installed Tesseract OCR.
-
-#### Skill Automation
-
-Modules for automating in-game tasks like fishing and thieving.
-
-- **Fishing (`fishing.py`)**:
-  - `fish_from_spot`: Automates fishing by interacting with a fishing spot and responding to inventory full prompts (from `actions.py`).
-  
-- **Thieving  (`thieving.py`)**:
-  - `thieve_from_stall`: Automates thieving from stalls, including handling inventory prompts and stopping if certain items (like Onyx) are detected (from `actions.py`).
-
-#### Vision and Input (`screen_processing.py`)
-
-- **Screen Capture and Image Processing**:
-  - `capture_screen`: Captures the full screen using `ImageGrab` and processes it into a NumPy array.
-  - `capture_and_process_chat`: Captures and processes the chat region from the screen using OCR to extract text.
-  - `save_screenshot`: Saves a screenshot of the chat region for later analysis.
-
-- **Image Processing with OpenCV**:
-  - Uses OpenCV (`cv2`) to handle image manipulation and perform region-based screen captures to focus on specific parts of the game, such as the chat window.
-
-#### Chat Recognition
-
-- Detects specific chat queries related to teleportation and responds accordingly using predefined responses.
-- This utilizes the following custom functions in a specific order:
-  - `capture_and_process_chat`: Captures and processes the chat region from the screen using OCR.
-  - `lookup_response`: Looks up appropriate responses for skill-related questions and prompts in the game using predefined answers.
-  - `respond_to_question`: Responds to game prompts such as trivia about or actions in the game.
-
-#### Clicking Actions (`actions.py`)
-
-- **Clicking Utilities**:
-  - `click_with_variance`: Simulates clicks with slight random variance to mimic human interaction with the game.
-  
-- **Skill Interaction**:
-  - `thieve_from_stall`: Handles thieving interactions, including responding to inventory prompts or stopping the bot if certain items (like Onyx) are found.
-  - `fish_from_spot`: Handles fishing spot interaction, including inventory management when the player's pouch is full.
-
-#### Natural Language Processing
-
-- **Question Handling** (`question_handler.py`):
-  - `load_question_responses`: Loads predefined question and answer pairs from a JSON file (`questions.json`).
-  - `clean_question`: Cleans up the question text by removing irrelevant parts like `"Click here to continue."`
-  - `correct_text`: Uses the `TextBlob` library to correct misspelled or ungrammatical text extracted from the game.
-
-## Usage
-
-To run the bot's core functionality:
-`python bot/core.py`
-
-To automate a specific skill:
-`python bot/skills/fishing.py`
-
-Project Layout
-
-```plaintext
-├── bot/
-│   ├── core.py          # Main entry point
-│   ├── skills/
-│   │   ├── fishing.py  # Handles fishing automation
-│   ├── screen_processing.py  # Captures and processes screen
-│   ├── question_handler.py   # Handles NLP
+```bash
+docker build -t pmo-osrs-audit .
+docker run --rm pmo-osrs-audit
+# currently errors: python: can't open file '/app/main.py'
 ```
+
+---
+
+## Active PMO
+
+See TASKS.md and ROADMAP.md for current priorities.
+

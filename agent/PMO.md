@@ -64,6 +64,24 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 - [agent/repos/agent-board.md](agent/repos/agent-board.md) — Foundation tasks, feature audit needed, test baseline required
 - [agent/repos/bb-mcp.md](agent/repos/bb-mcp.md) — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 
+### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
+
+Additional low-priority repos were validated with Docker-first checks and planning docs were normalized to parser-safe format.
+
+| Repo | Runtime Validation | Key Finding |
+|------|--------------------|-------------|
+| gcp | ❌ Docker build failed | `COPY copy_folder.py` path mismatch in Dockerfile (P0) |
+| osrs | ⚠️ Docker build passed; runtime failed | Entrypoint references missing `main.py` (P0) |
+| kryptos | ⚠️ Docker build passed; runtime failed | Artifact path permission error at startup (P0) |
+| skyview | ✅ Docker build and runtime passed | Launch-ready; metrics consistency drift (P1 docs) |
+
+### Additional Runbooks Added/Updated
+
+- [agent/repos/gcp.md](agent/repos/gcp.md) — Docker build blocker, backlog reset to real gaps
+- [agent/repos/osrs.md](agent/repos/osrs.md) — Runtime entrypoint blocker + version policy drift
+- [agent/repos/kryptos.md](agent/repos/kryptos.md) — Container permission blocker + phase priorities
+- [agent/repos/skyview.md](agent/repos/skyview.md) — Launch-ready status + metrics reconciliation focus
+
 ## Repositories of Note
 
 ### Active Development (prioritized)
