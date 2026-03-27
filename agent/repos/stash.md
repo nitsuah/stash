@@ -49,7 +49,8 @@ Notable governance files confirmed:
 ## Recommended PMO Workflow For This Repo
 
 1. Re-validate at least one non-destructive script path before each planning cycle.
-2. Keep `TASKS.md` labels explicit: Priority, Type, Confidence, Milestone.
-3. Keep `ROADMAP.md` quarter headings with status text in heading.
-4. Perform PMO updates on a branch named `pmo/stash/<theme>-<date>`.
-5. Use commit prefix `docs(pmo):` and open a PR with evidence.
+2. Keep `TASKS.md` items as single-line checklist entries: `- [ ] Task description (P0)`.
+3. Keep `ROADMAP.md` quarter headings in `## Q[N] [Year]: [Phase] ([Status]) [Emoji]` format.
+4. Do NOT add nested metadata blocks under checklist items — inline priority only.
+5. Perform PMO updates on a branch named `pmo/stash/<theme>-<date>`.
+6. Use commit prefix `docs(pmo):` and open a PR with evidence.

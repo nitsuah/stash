@@ -1,106 +1,19 @@
 # Tasks
 
-Last Updated: 2026-03-27
-
 ## Done
 
-- [x] PMO audit evidence captured for repository structure and governance files.
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Evidence: top-level directories confirmed as `.github/`, `agent/`, `atlassian/`, `git/`, `ias/`, `projects/`, `windows/`; governance files confirmed in `.github/`.
-  - Acceptance Criteria Met: repository structure and template presence verified from local filesystem.
-
-- [x] Runtime validation performed on a non-destructive workflow.
-  - Priority: P1
-  - Type: Tech Debt
-  - Confidence: High
-  - Evidence: `powershell -NoProfile -ExecutionPolicy Bypass -File ./git/cleanup-branches.ps1 -Path . -DryRun` executed successfully.
-  - Acceptance Criteria Met: script started, completed, and exited without runtime exception.
+- [x] PMO audit: captured evidence for repository structure and governance files (P1)
+- [x] Runtime validation: confirmed non-destructive workflow on cleanup-branches.ps1 (P1)
+- [x] Restore checklist format across TASKS.md and ROADMAP.md for Overseer compliance (P0)
 
 ## In Progress
 
-- [ ] Re-align planning docs to repository reality and parser-safe format.
-  - Priority: P0
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: existing planning docs referenced VB.NET product work that does not match this repository's current script/tooling scope.
-  - Why It Matters: stale planning creates execution drift, incorrect prioritization, and onboarding confusion.
-  - Acceptance Criteria:
-    - `TASKS.md` uses exact sections `Done`, `In Progress`, `Todo`.
-    - `ROADMAP.md` uses quarter headings with status in heading text.
-    - Tasks and milestones align with validated repository structure.
-  - Dependencies: none.
+- [ ] Re-align planning docs to repository reality and parser-safe format (P0)
 
 ## Todo
 
-- [ ] Add architecture baseline documentation.
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: `ARCHITECTURE.md` is missing and current boundaries between `atlassian/`, `git/`, `ias/`, `projects/`, and `windows/` are undocumented.
-  - Why It Matters: contributors cannot quickly understand ownership, script boundaries, or safe change surfaces.
-  - Acceptance Criteria:
-    - `ARCHITECTURE.md` created with module boundaries, execution context, and dependency map.
-    - Includes risk notes for destructive operations (branch cleanup, log compression, access scripts).
-    - Cross-linked from `README.md`.
-  - Dependencies: none.
-
-- [ ] Add script runbook and safety matrix for operational scripts.
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: script discovery exists, but no unified runbook defines prerequisites, expected inputs, and dry-run behavior per script.
-  - Why It Matters: operational scripts can be destructive when used without clear guardrails.
-  - Acceptance Criteria:
-    - Add a top-level runbook section in `README.md` linking to each script family.
-    - For each PowerShell script, document parameters, safe invocation, and expected output.
-    - Include examples for `-DryRun` where supported.
-  - Dependencies: architecture baseline task.
-
-- [ ] Complete sensitive-data and hardcoded-hostname scan using PowerShell-native search.
-  - Priority: P0
-  - Type: Security
-  - Confidence: Medium
-  - Milestone: 2026 Q2
-  - Problem Statement: no verified repository-wide sanitization pass exists, and `rg` is unavailable in this environment.
-  - Why It Matters: leaked credentials or internal hostnames can cause security incidents and compliance failures.
-  - Acceptance Criteria:
-    - Run search for `token|password|secret|credential|apikey|private key` across tracked files.
-    - Log any findings with remediation plan or confirm zero findings.
-    - Update `.gitignore` for local credential artifacts if needed.
-  - Dependencies: none.
-
-- [ ] Standardize file naming and typo cleanup in infrastructure assets.
-  - Priority: P2
-  - Type: Tech Debt
-  - Confidence: High
-  - Milestone: 2026 Q3
-  - Problem Statement: `ias/Windows-userdata..yml` contains a double-dot naming anomaly.
-  - Why It Matters: inconsistent naming harms discoverability and increases automation script fragility.
-  - Acceptance Criteria:
-    - Rename file to a normalized name.
-    - Update references in docs/scripts.
-    - Verify no broken links remain.
-  - Dependencies: none.
-
-- [ ] Add repository-level API contract decision record.
-  - Priority: P3
-  - Type: Docs
-  - Confidence: Medium
-  - Milestone: 2026 Q3
-  - Problem Statement: `API.md` is missing and repository currently appears script-centric rather than service/API-centric.
-  - Why It Matters: teams need explicit confirmation whether external contracts exist.
-  - Acceptance Criteria:
-    - Create `API.md` as either concrete interface spec or explicit "No external API" decision record.
-    - Link the decision from `README.md` and `ARCHITECTURE.md`.
-  - Dependencies: architecture baseline task.
-
-## Audit Notes
-
-- Docker-first execution path is not currently available (`Dockerfile` and `docker-compose.yml` not found).
-- `.github/ISSUE_TEMPLATE` and `.github/pull_request_template.md` are present.
-- PMO updates should continue via branch + PR workflow (`docs(pmo):` commit prefix).
+- [ ] Complete sensitive-data and hardcoded-hostname scan using PowerShell-native search (P0)
+- [ ] Add architecture baseline documentation for module boundaries in ARCHITECTURE.md (P1)
+- [ ] Add script runbook and safety matrix for operational scripts in README.md (P1)
+- [ ] Standardize file naming: rename ias/Windows-userdata..yml to remove double-dot (P2)
+- [ ] Add repository-level API contract decision record in API.md (P3)

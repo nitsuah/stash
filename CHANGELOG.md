@@ -10,11 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added initial Visual Basic .NET project structure.
 - Included basic file organization for code snippets and design resources.
+- Added governance files: `.github/` templates, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`.
+- Added agent runbooks under `agent/repos/` for all tracked repositories.
 
 ### Changed
 - Updated project description to reflect the purpose of a personal code and design stash.
+- Added governance files: `.github/` templates, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`.
+- Added agent runbooks under `agent/repos/` for all tracked repositories.
 
 ### Fixed
+- Restored `TASKS.md` and `ROADMAP.md` to Overseer-compliant single-line checklist format.
+- `TASKS.md`: removed nested metadata blocks that broke Overseer open/done task tracking.
+- `ROADMAP.md`: removed nested sub-bullets and corrected quarter heading format (`## Q[N] [Year]:`).
 
 ### Security
 
