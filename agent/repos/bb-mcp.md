@@ -8,7 +8,7 @@ MCP server for Blackboard Learn API integration.
 - stdio transport: Refactoring in progress
 - API wrapper: Development active
 - OAuth2 flow: In progress
-- RBAC: Not started (blocks all P1 tools)
+- RBAC: Not started (required before P2 middleware and write operations)
 
 **Key Metrics**:
 - Test coverage: 0% (no automated tests configured)
@@ -30,7 +30,7 @@ MCP server for Blackboard Learn API integration.
 - JSON schema validation
 
 **P2** (Middleware):
-- RBAC middleware (requires P1 auth)
+- RBAC middleware (gates write/privileged tools; requires P1 auth completion)
 - get_announcements tool
 - Assignment submission support
 - HTTP error mapping
@@ -44,18 +44,18 @@ MCP server for Blackboard Learn API integration.
 
 | Blocker | Impact | Mitigation | ETA |
 |---------|--------|-----------|-----|
-| API wrapper incomplete | Cannot ship any tools | Complete by April 1 | Q1 2026 |
+| API wrapper incomplete | Cannot ship any tools | Complete by March 31 | Q1 2026 |
 | OAuth2 token handling | Auth not available | Scheduled for P1 | Q1 2026 |
 | Transport refactor | CI/CD integration delayed | In progress | March 2026 |
 | RBAC design missing | Cannot gate tool access | Design phase starts after OAuth2 | Q2 2026 |
 
 ## Roadmap Reset (2026-03-27)
 
-- **2025 Q1** ?? Partial: Setup + API wrapper 50% complete
-- **2025 Q2** ?? Not started (blocked on P1 auth)
-- **2026 Q1** ?? Critical path: API wrapper ? OAuth2 ? MCP compliance ? first 4 tools
-- **2026 Q2** ?? RBAC infrastructure
-- **2026 Q3+** ?? Advanced workflows
+- **2025 Q1** Historical (partially complete): Environment setup and API wrapper 50% complete
+- **2025 Q2** Historical (not started): Work blocked on P1 authentication
+- **2026 Q1** In Progress: Complete API wrapper, implement OAuth2, achieve MCP compliance, and ship first 4 tools
+- **2026 Q2** Planned: RBAC infrastructure
+- **2026 Q3+** Planned: Advanced workflows
 
 ## Recommendations
 
