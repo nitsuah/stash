@@ -1,23 +1,48 @@
 # Roadmap
 
-## Near Term (0-3 Months)
+Last Updated: 2026-03-27
 
-- [ ] **Codebase Review & Refactor:** Review existing code for clarity, consistency, and adherence to .NET best practices. Rationale: Improve maintainability and reduce technical debt. Scope: Focus on core modules. Success: Codebase follows consistent style and has improved documentation. Risks: Time constraints may limit scope.
-- [ ] **Project Documentation:** Create a basic README file and initial project documentation. Rationale: Onboarding and future development. Scope: Project overview, setup instructions, and contribution guidelines. Success: Comprehensive README and initial documentation. Risks: Documentation may become outdated quickly.
-- [ ] **Dependency Management:** Review and update NuGet package dependencies. Rationale: Security and stability. Scope: Identify outdated packages and update to latest stable versions. Success: All dependencies are up-to-date and compatible. Risks: Potential breaking changes in updated packages.
+## 2026 Q2 (Status: In Progress)
 
-## Mid Term (3-6 Months)
+- [ ] Planning Integrity Reset (Committed)
+	- Objective: bring `TASKS.md` and `ROADMAP.md` into parser-safe, evidence-backed alignment with current repository behavior.
+	- Why Now: current planning artifacts were stale and referenced work outside observed repository scope.
+	- Exit Criteria: PMO-compliant structure in place, priorities mapped to verified gaps, and clear sequencing established.
 
-- [ ] **GUI Enhancement:** Improve the user interface of existing Visual Basic .NET applications within the stash. Rationale: Enhance usability and visual appeal. Scope: Focus on frequently used applications. Success: Improved user experience and visual design. Risks: Subjective user preferences may be difficult to satisfy.
-- [ ] **Basic Testing Framework:** Implement a basic unit testing framework for core components. Rationale: Improve code quality and prevent regressions. Scope: Focus on key algorithms and data structures. Success: Unit tests cover critical functionality. Risks: Difficulty in writing effective unit tests for legacy code.
-- [ ] **Configuration Management:** Implement a configuration management system (e.g., using app.config or settings files). Rationale: Improve flexibility and maintainability. Scope: Allow users to customize application behavior without modifying code. Success: Configuration settings are easily managed and updated. Risks: Complexity in managing configuration settings across multiple applications.
+- [ ] Documentation Baseline for Script Operations (Committed)
+	- Objective: document safe execution guidance for script families in `atlassian/`, `git/`, `ias/`, `projects/`, and `windows/`.
+	- Why Now: scripts can affect infrastructure, branches, and local files; safe usage must be explicit.
+	- Exit Criteria: architecture map and runbook include prerequisites, parameters, dry-run paths, and risk notes.
 
-## Long Term (6-12 Months)
+- [ ] Repository Security Hygiene Pass (Committed)
+	- Objective: run and record a sensitive-data and hardcoded-hostname scan with remediation tasks.
+	- Why Now: repository contains operational automation and should prove absence of exposed secrets.
+	- Exit Criteria: scan results captured, findings remediated or tracked, and `.gitignore` hardened if gaps are found.
 
-- [ ] **Modularization:** Break down large applications into smaller, more manageable modules. Rationale: Improve code organization and reusability. Scope: Focus on applications with complex functionality. Success: Code is organized into well-defined modules with clear interfaces. Risks: Requires significant refactoring effort.
-- [ ] **Data Persistence:** Implement data persistence mechanisms (e.g., using SQL Server or XML files). Rationale: Allow applications to store and retrieve data. Scope: Focus on applications that require data storage. Success: Data is stored and retrieved reliably. Risks: Data corruption or loss.
-- [ ] **Error Handling & Logging:** Implement robust error handling and logging mechanisms. Rationale: Improve debugging and troubleshooting capabilities. Scope: Capture and log errors, warnings, and informational messages. Success: Errors are logged and can be easily analyzed. Risks: Overly verbose logging can impact performance.
+## 2026 Q3 (Status: Planned)
+
+- [ ] Naming and Consistency Cleanup (Committed)
+	- Objective: normalize anomalous filenames and tighten cross-reference accuracy across docs/scripts.
+	- Sequencing Rationale: depends on Q2 architecture/runbook clarity to avoid accidental rename regressions.
+	- Exit Criteria: naming standard applied, references updated, and validation checks pass.
+
+- [ ] Lightweight Validation Harness for Critical Scripts (Exploratory)
+	- Objective: define repeatable smoke checks for high-impact scripts (dry-run where possible).
+	- Sequencing Rationale: exploratory until script inventory and risk tiers are finalized in Q2.
+	- Exit Criteria: decision record on feasibility and an initial validation workflow draft.
+
+## 2026 Q4 (Status: Planned)
+
+- [ ] Cross-Repo Automation Catalog (Exploratory)
+	- Objective: publish a discoverable catalog of script capabilities and ownership metadata.
+	- Strategic Fit: improves reuse and reduces duplicate tooling across related repositories.
+	- Exit Criteria: pilot catalog for one script family, with maintenance owner and update workflow.
+
+- [ ] Operational Metrics Maturity (Exploratory)
+	- Objective: define measurable quality metrics grounded in executable checks (not placeholders).
+	- Strategic Fit: supports planning confidence and auditability for future PMO cycles.
+	- Exit Criteria: proposed metrics list, collection method, and feasibility assessment.
 
 ## Completed Milestones
 
-- [x] Project setup and architecture
+- [x] Initial repository bootstrap and governance baseline (`LICENSE`, `SECURITY.md`, `.github` templates present).
