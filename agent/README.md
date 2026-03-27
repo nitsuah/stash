@@ -1,7 +1,7 @@
 # Personal Agent System
 
-Three focused Claude agents for your three operational domains.
-Each has its own system prompt and purpose-built skills.
+Agent prompts for personal operations and a product delivery pipeline.
+Each prompt defines a specific role, operating rules, and expected outputs.
 
 ---
 
@@ -9,7 +9,7 @@ Each has its own system prompt and purpose-built skills.
 
 | Agent | File | Purpose | Cadence |
 |-------|------|---------|---------|
-| 💼 CFO | Finance.md | Track finances, runway, CDs | Weekly or on-demand |
+| 💼 CFO | projects/Finance.md | Track finances, runway, CDs | Weekly or on-demand |
 | 🧑‍💻 Career | projects/Career.md | Evaluate jobs, draft outreach | When job-hunting |
 | 🔧 Builder | projects/Builder.md | Find leads, close web design clients | When building |
 
@@ -78,15 +78,16 @@ docker push yourusername/personal-agents:latest
 
 ```
 .
-├── Finance.md
 ├── PMO.md
-├── Intake.md
 ├── DevOps.md
 ├── QA.md
 ├── projects/
+│   ├── Finance.md
+│   ├── Intake.md
 │   ├── Career.md
 │   └── Builder.md
 ├── prompts/
+│   ├── HANDOFF.md
 │   ├── PM.md
 │   ├── TEST.md
 │   ├── LOC.md
@@ -125,7 +126,7 @@ The repository now also includes a Product Delivery Pipeline agent set for produ
 | Agent | File | Purpose |
 |-------|------|---------|
 | PMO | PMO.md | Audit products, maintain ROADMAP/TASKS from evidence, enforce branch + PR governance |
-| Intake | Intake.md | Convert findings/requests into prioritized, acceptance-ready tasks |
+| Intake | projects/Intake.md | Convert findings/requests into prioritized, acceptance-ready tasks |
 | Delivery/DevOps | DevOps.md | Implement approved tasks, validate changes, ship via branch + PR |
 | QA | QA.md | Verify quality, prevent regressions, and feed improvements back into planning |
 
@@ -136,9 +137,43 @@ Recommended flow:
 3. Delivery/DevOps executes on branches and opens evidence-backed PRs.
 4. QA validates behavior and routes defects/improvements back to TASKS/ROADMAP.
 
+Parallel execution model:
+
+1. PMO and Intake can prepare work in parallel across different repositories.
+2. For the same repository, PMO owns planning changes and Delivery owns implementation changes on separate branches.
+3. QA can run exploratory read-only checks in parallel, but final QA should happen against the Delivery branch or PR.
+4. If multiple agents touch the same repo, use explicit handoff notes and avoid editing the same files concurrently.
+
+Branch and PR conventions:
+
+| Agent | Branch Prefix | Commit Prefix | PR Title Prefix |
+|-------|---------------|---------------|-----------------|
+| PMO | pmo/<repo>/... | docs(pmo): | PMO: |
+| Intake | intake/<repo>/... | docs(intake): | Intake: |
+| Delivery/DevOps | delivery/<repo>/... | feat:, fix:, chore:, docs: | Delivery: |
+| QA | qa/<repo>/... | test(qa): | QA: |
+
+Handoff contract:
+
+- Use prompts/HANDOFF.md as the shared handoff artifact between PMO, Intake, Delivery, and QA.
+- PMO or Intake should create the initial brief.
+- Delivery should append implementation and validation details for QA.
+- QA should append final findings, release recommendation, and follow-up tasks.
+
 Operational prompt modules:
 
+- prompts/HANDOFF.md: Shared handoff template for pipeline agents.
 - prompts/PM.md: Overseer compliance formatting and documentation standards.
 - prompts/TEST.md: Incremental testing and coverage strategy.
 - prompts/LOC.md: LOC hotspot analysis and refactor planning.
 - prompts/MINI.md: Safe repository organization and root hygiene.
+
+## Delivery Pipeline Quick Start
+
+1. PMO audits a repository and records findings.
+2. PMO or Intake fills out prompts/HANDOFF.md.
+3. Delivery executes from that handoff on a dedicated branch and opens a PR.
+4. QA validates the PR using the same handoff artifact and appends findings.
+5. PMO folds accepted learnings back into TASKS, ROADMAP, and repos notes.
+
+This model allows parallel work across repositories and controlled handoffs within the same repository.

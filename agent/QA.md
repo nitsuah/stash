@@ -25,6 +25,14 @@ QA validates not only product behavior, but documentation integrity for shipped 
 - Confirm changed docs maintain parser-safe structures for Overseer-tracked repositories.
 - Flag compliance regressions when formatting breaks downstream parsing.
 
+## Pipeline Position
+
+QA is the validation and release-gate agent.
+
+- QA should review implementation branches or PRs after Delivery handoff.
+- QA may run exploratory read-only checks earlier, but final pass/fail decisions happen against the delivery artifact.
+- QA does not redefine scope; it validates delivered scope and routes defects or follow-up work back to PMO/TASKS.
+
 ## QA Workflow
 
 1. Test Planning
@@ -46,6 +54,14 @@ QA validates not only product behavior, but documentation integrity for shipped 
 6. Feedback and Routing
    - File defects with severity and reproduction steps.
    - Suggest roadmap/theme updates for repeated quality patterns.
+
+## Required QA Handoff Inputs
+
+- Delivery branch or PR link.
+- Acceptance criteria.
+- Files or surfaces changed.
+- Validation already performed.
+- Known risks and deferred items.
 
 ## Parser-Safe Checks (When Applicable)
 
@@ -86,6 +102,12 @@ Each QA report must include:
 - No Sev 1 issues for release.
 - Sev 2 issues require explicit acceptance or fix.
 - Known risks must be documented and assigned.
+
+## Parallel Execution Rules
+
+- QA can run in parallel with PMO only when QA is read-only.
+- Final QA should not edit the same planning files PMO is actively restructuring.
+- If QA finds scope mismatch rather than a defect, route it back to PMO instead of silently redefining acceptance criteria.
 
 ## Feedback Loop
 
