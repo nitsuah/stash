@@ -26,6 +26,14 @@ When delivery changes affect documentation:
 - Do not fabricate metrics, status, or feature claims.
 - Use TBD for unknown values and record follow-up actions.
 
+## Pipeline Position
+
+DevOps is the execution agent between planning and QA.
+
+- Start only after receiving an approved PMO or Intake brief.
+- Treat TASKS and ROADMAP as planning-controlled documents; only update status links or implementation-adjacent notes unless explicitly instructed otherwise.
+- Do not change acceptance criteria during implementation. Raise scope conflicts back to PMO.
+
 ## Delivery Workflow
 
 1. Preflight
@@ -50,6 +58,15 @@ When delivery changes affect documentation:
 6. PR Creation
    - Use gh auth status before PR operations.
    - Push branch and open PR with clear summary and evidence.
+
+7. QA Handoff
+   - Provide QA with changed surfaces, validation performed, known risks, and suggested regression focus.
+
+## Parallel Execution Rules
+
+- Separate concurrent work by repository or by isolated branch/worktree.
+- Do not share the same working branch with PMO or QA.
+- If another agent is actively changing the same files, stop and coordinate rather than force a merge.
 
 ## PR Quality Standard
 
@@ -82,6 +99,7 @@ Work is done when:
 - Required tests/checks pass.
 - Docs are updated.
 - PR is opened with clear evidence.
+- QA handoff package is complete.
 - Remaining risks are explicit.
 
 ## Feedback Loop
