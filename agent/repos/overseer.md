@@ -1,181 +1,83 @@
-# Overseer
+# overseer — Meta-Repository Intelligence Layer
 
-[![CI](https://github.com/nitsuah/overseer/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/overseer/actions)
+**Last Validated:** 2026-03-27 | PMO audit — live site + coverage validation  
+**Repo:** [nitsuah/overseer](https://github.com/nitsuah/overseer)  
+**Live:** https://ghoverseer.netlify.app  
+**Branch convention:** `pmo/overseer/planning-alignment-YYYY-MM-DD`
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ebf5c761-34fb-495b-bd86-ea57932296b3/deploy-status)](https://app.netlify.com/projects/ghoverseer/deploys)
+---
 
+## Runtime Status
 
-> **Meta-Repository Intelligence Layer**
-> A dashboard that gives you and your AI agents a unified view across all your GitHub repositories.
+| Check | Status | Notes |
+|---|---|---|
+| Live site | ✅ Working | Frontend loads, repo sync in progress |
+| GitHub OAuth | ✅ Working | NextAuth v5 configured |
+| Netlify deployment | ✅ Working | Auto-deploys from main |
+| Test coverage | ✅ 71.51% | Above 70% target (162 tests, 16 suites, 5 E2E) |
 
-## Mission Statement
+---
 
-Overseer bridges human intent and AI execution through enforced documentation standards (ROADMAP, TASKS, METRICS, FEATURES).
-
-**Key Outcomes:**
-
-- **Standardized Context**: Every repo provides necessary context for immediate contribution
-- **Visible Momentum**: Track velocity from strategy to shipped code
-- **Automated Governance**: AI maintains documentation health without blocking workflow
-
-## Features
-
-- 📊 **Repository Intelligence** - Health scoring, doc tracking, activity monitoring
-- 🤖 **AI Automation** - Gemini 2.0 summaries, context-aware doc generation with multi-stage RAG
-- 🔧 **One-Click Fixes** - PR creation for docs, 9 best practices, 10 community standards
-- 🎯 **Interactive Onboarding** - 16-step guided tour with spotlight highlighting
-- 🔗 **GitHub Integration** - OAuth auth, full metadata sync, rate limit monitoring, custom repo paths
-- 📈 **Composite Metrics** - Testing (60%+ coverage), vulnerabilities, contributor analytics
-
-## Tech Stack
+## Stack
 
 - **Frontend:** Next.js 16 + React 19 + TypeScript + Tailwind CSS 4
-- **Backend:** Netlify Functions (serverless)
-- **Database:** Neon Postgres (serverless)
-- **Auth:** NextAuth v5 with GitHub OAuth
-- **APIs:** GitHub REST API via Octokit, Google Gemini AI
-- **Testing:** Vitest (92 tests, 60% coverage) + Playwright E2E
+- **Backend:** Netlify Functions + Neon Postgres
+- **Auth:** NextAuth v5 + GitHub OAuth + rate limit handling
+- **AI:** Gemini 2.0 + multi-provider failover (GPT-4, Claude) + auto-discovery & model switching
+- **GitHub:** Octokit REST API with retry/throttling, ETag support, rate limit monitoring
+- **Testing:** Vitest (71.51% coverage, 162 tests, 16 suites), Playwright E2E (5 tests)
+- **CI:** GitHub Actions
+- **Deployment:** Netlify with `@netlify/plugin-nextjs`
 
-## Getting Started
+---
 
-### Prerequisites
+## Key Features
 
-- Node.js 18+
-- GitHub OAuth App (for authentication)
-- Neon Postgres database (free tier)
-- Google Gemini API key (optional, for AI summaries)
+- **Repository Intelligence:** Health scoring (0-100), 4-state doc tracking, LOC parsing, test counting, CI/CD status, vulnerability alerts
+- **AI Integration:** Gemini 2.0 + multi-provider failover; auto-discovers when model fails; self-healing
+- **Documentation Management:** PR preview modal (diff view), AI template enrichment, one-click auto-fix (8 doc types + 4 best practices + 10 standards)
+- **Security Tracking:** SECURITY.md presence, Dependabot, code scanning, secret scanning config
+- **User Experience:** Guided tour (16 steps, spotlight, auto-advance), interactive onboarding
+- **Rate Limiting:** Smart caching (content-hash + ETag), batch delays, exponential backoff, UI warnings
 
-### Installation
+---
 
-```bash
-# Clone the repo
-git clone https://github.com/nitsuah/overseer.git
-cd overseer
+## Gaps (P1–P3)
 
-# Install dependencies
-npm install
+| Item | Priority | Status |
+|---|---|---|
+| 2026Q1 Agent Task Queue API | P1 | Planned — foundation for autonomous orchestration |
+| docs/AUDIT.md refresh | P1 | Stale — last validated Dec 11, 2025 (3.5mo) |
+| Conversational UI foundation | P2 | Planned — natural language + handler routing |
+| Workflow visualization | P2 | Planned — execution paths for multi-step actions |
+| AI doc improvement buttons | P2 | Planned — "Improve" for ROADMAP/TASKS/FEATURES |
+| Token density, zombie branches, dark mode | P3 | Open/Exploratory |
 
-# Set up environment variables (see CONTRIBUTING.md for details)
-cp .env.template .env.local
-# Edit .env.local with your credentials
+---
 
-# Setup database
-npm run setup-db
-
-# Run development server
-npm run dev
-```
-
-**For detailed setup instructions, see [CONTRIBUTING.md](./CONTRIBUTING.md)**
-
-### Environment Variables
-
-```env
-# GitHub OAuth
-GITHUB_ID=your_github_oauth_client_id
-GITHUB_SECRET=your_github_oauth_client_secret
-
-# NextAuth
-NEXTAUTH_SECRET=your_random_secret
-NEXTAUTH_URL=http://localhost:3000
-
-# Neon Database (get from Neon console or Netlify)
-DATABASE_URL=postgresql://user:pass@host/db
-
-# Google Gemini (optional - for AI summaries)
-GEMINI_API_KEY=your_gemini_api_key
-
-# Optional Netlify
-NETLIFY_SITE_ID=
-NETLIFY_AUTH_TOKEN=
-```
-
-## Project Structure
+## Key Commands
 
 ```bash
-overseer/
-├── app/                    # Next.js app directory
-│   ├── page.tsx           # Main dashboard
-│   ├── api/               # API routes
-│   │   ├── repos/         # Repo management endpoints
-│   │   └── sync-repos/    # Sync trigger endpoint
-│   └── login/             # Auth pages
-├── components/            # React components
-├── lib/                   # Shared utilities
-│   ├── parsers/          # MD file parsers (roadmap, tasks, metrics)
-│   ├── github.ts         # GitHub API client
-│   ├── db.ts             # Neon database client
-│   ├── ai.ts             # Google Gemini integration
-│   └── sync.ts           # Repository sync logic
-├── netlify/functions/    # Serverless API endpoints
-│   └── sync-repos.ts     # Background sync job
-├── templates/            # MD file templates
-└── database/            # Database schema & migrations
+npm run dev                    # Development server
+npm run build                  # Production build
+npm test                       # Unit tests (71.51% coverage)
+npm run test-gemini           # Test Gemini model (auto-discovery)
+npm run list-gemini-models    # List available models
+npm run setup-db              # Initialize Postgres schema
 ```
 
-## Standardized MD Files
+---
 
-Overseer expects repos to have these files for full functionality:
+## Notable Details
 
-- **README.md** - Project overview and setup instructions
-- **ROADMAP.md** - High-level objectives and quarterly plans
-- **TASKS.md** - Granular task tracking with status
-- **METRICS.md** - Test coverage and performance metrics
+- **Model Auto-Discovery:** When Gemini unavailable, auto-tests and switches to GPT-4/Claude mid-session (15min cache)
+- **Rate Limit Safeguards:** Exponential backoff, content-hash caching (5min TTL), ETag support, batch delays (configurable)
+- **Health Score:** 0-100 with breakdown (docs 40%, testing 20%, best practices 20%, standards 10%, activity 10%)
+- **Doc Health Tracking:** 4-state model (Missing/Dormant/Malformed/Healthy) via content-hash
+- **Security Tracking:** 6 GitHub settings monitored (SECURITY.md, advisories, Dependabot, scanning, etc.)
 
-See `/templates` for examples with AI agent instructions.
+---
 
-## API Endpoints
+## Active PMO
 
-### Repository Management
-
-```bash
-# Get all repositories
-GET /api/repos
-
-# Get repository details
-GET /api/repo-details/[name]
-
-# Add a custom repository
-POST /api/repos/add
-{
-  "url": "owner/repo" or "https://github.com/owner/repo"
-}
-
-# Hide a repository
-POST /api/repos/[name]/hide
-
-# Fix missing documentation (single file)
-POST /api/repos/[name]/fix-doc
-{
-  "docType": "readme" | "roadmap" | "tasks" | "metrics"
-}
-
-# Fix all missing documentation
-POST /api/repos/[name]/fix-all-docs
-
-# Generate AI summary
-POST /api/repos/[name]/generate-summary
-
-# Sync all repositories
-POST /api/sync-repos
-```
-
-## Deployment
-
-Deploy to Netlify:
-
-```bash
-# Install Netlify CLI
-npm install -g netlify-cli
-
-# Deploy
-netlify deploy --prod
-```
-
-## License
-
-See `LICENSE.md` file
-
-## Author
-
-Austin J. Hardy ([@nitsuah](https://github.com/nitsuah))
+See TASKS.md and ROADMAP.md for current priorities. Latest PR: `pmo/overseer/planning-alignment-2026-03-27` — [PR #82](https://github.com/nitsuah/overseer/pull/82)
