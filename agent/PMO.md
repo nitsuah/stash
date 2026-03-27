@@ -37,16 +37,61 @@ Also verify ecosystem standards that affect repository health scoring:
 
 If a file does not exist, log it as a documentation gap and create a task if it blocks delivery, onboarding, or support.
 
+## Most Recent Planning-Alignment Audit (2026-03-27)
+
+### Results Summary
+
+**Completed**: All 4 active repos audited, planned, and PRs opened.
+
+| Repo | PR | Status | Key Finding |
+|------|---|--------|-------------|
+| nitsuah-io | [#234](https://github.com/Nitsuah-Labs/nitsuah-io/pull/234) | 🚀 Live | P0: Playwright Dockerfile version drift (pinned v1.56.1 vs installed v1.57.0) |
+| overseer | [#82](https://github.com/nitsuah/overseer/pull/82) | 🚀 Live | Coverage 71.51% (ABOVE 70% target by 1.51pp); 162 tests passing |
+| agent-board | [#7](https://github.com/nitsuah/agent-board/pull/7) | 🏗️ Local | P0: Test coverage 0% (baseline needed); Q2 2025 items not started (9mo overdue) |
+| bb-mcp | [#11](https://github.com/nitsuah/bb-mcp/pull/11) | 🏗️ Early | Foundation 50% complete; Q2 2025 blocked on API wrapper + OAuth2 completion |
+
+### Common Patterns Found
+
+1. All 2025 Q1 roadmaps now 12+ months old; need reset to 2026 Q1.
+2. Q2 2025 items: mixed — overseer shipped, agent-board/bb-mcp not started.
+3. Stale docs: audit info 3-6 months behind actual product state.
+4. Live validation: nitsuah-io and overseer both confirmed working; Docker builds successful for both.
+
+### Stash Runbooks Updated
+
+- [agent/repos/nitsuah-io.md](agent/repos/nitsuah-io.md) — Version drift, visual assets, dark mode UI
+- [agent/repos/overseer.md](agent/repos/overseer.md) — Coverage confirmed above target, P1 focuses on Agent Task Queue API
+- [agent/repos/agent-board.md](agent/repos/agent-board.md) — Foundation tasks, feature audit needed, test baseline required
+- [agent/repos/bb-mcp.md](agent/repos/bb-mcp.md) — Foundation-first approach, API wrapper critical path, Q1 2026 reset
+
+### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
+
+Additional low-priority repos were validated with Docker-first checks and planning docs were normalized to parser-safe format.
+
+| Repo | Runtime Validation | Key Finding |
+|------|--------------------|-------------|
+| gcp | ❌ Docker build failed | `COPY copy_folder.py` path mismatch in Dockerfile (P0) |
+| osrs | ⚠️ Docker build passed; runtime failed | Entrypoint references missing `main.py` (P0) |
+| kryptos | ⚠️ Docker build passed; runtime failed | Artifact path permission error at startup (P0) |
+| skyview | ✅ Docker build and runtime passed | Launch-ready; metrics consistency drift (P1 docs) |
+
+### Additional Runbooks Added/Updated
+
+- [agent/repos/gcp.md](agent/repos/gcp.md) — Docker build blocker, backlog reset to real gaps
+- [agent/repos/osrs.md](agent/repos/osrs.md) — Runtime entrypoint blocker + version policy drift
+- [agent/repos/kryptos.md](agent/repos/kryptos.md) — Container permission blocker + phase priorities
+- [agent/repos/skyview.md](agent/repos/skyview.md) — Launch-ready status + metrics reconciliation focus
+
 ## Repositories of Note
 
 ### Active Development (prioritized)
 
-- agent-board
-- bb-mcp
-- overseer
-- nitsuah-io
-- darkmoon
-- games
+- agent-board (review: PR #7 open)
+- bb-mcp (review: PR #11 open)
+- overseer (review: PR #82 open)
+- nitsuah-io (review: PR #234 open at Nitsuah-Labs)
+- darkmoon (review: PR #151 open)
+- games (review: PR #126 open)
 
 ### Low Priority
 
