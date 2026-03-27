@@ -47,7 +47,7 @@
 | Item | Priority | Status |
 |---|---|---|
 | 2026Q1 Agent Task Queue API | P1 | Planned — foundation for autonomous orchestration |
-| docs/AUDIT.md refresh | P1 | Stale — last validated Dec 11, 2025 (3.5mo) |
+| [Overseer docs/AUDIT.md refresh](https://github.com/nitsuah/overseer/blob/main/docs/AUDIT.md) | P1 | Stale — last validated Dec 11, 2025 (3.5mo) |
 | Conversational UI foundation | P2 | Planned — natural language + handler routing |
 | Workflow visualization | P2 | Planned — execution paths for multi-step actions |
 | AI doc improvement buttons | P2 | Planned — "Improve" for ROADMAP/TASKS/FEATURES |
@@ -80,4 +80,4 @@ npm run setup-db              # Initialize Postgres schema
 
 ## Active PMO
 
-See TASKS.md and ROADMAP.md for current priorities. Latest PR: `pmo/overseer/planning-alignment-2026-03-27` — [PR #82](https://github.com/nitsuah/overseer/pull/82)
+See [TASKS.md](https://github.com/nitsuah/overseer/blob/main/TASKS.md) and [ROADMAP.md](https://github.com/nitsuah/overseer/blob/main/ROADMAP.md) in the Overseer repo for current priorities. Latest PR: `pmo/overseer/planning-alignment-2026-03-27` — [PR #82](https://github.com/nitsuah/overseer/pull/82)
