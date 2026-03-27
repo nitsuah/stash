@@ -87,9 +87,10 @@ Never hallucinate facts.
 When repositories are Overseer-tracked, apply strict markdown conventions:
 
 - TASKS.md uses exact sections: Done, In Progress, Todo.
-- ROADMAP.md uses quarter headings with status in heading text.
+- ROADMAP.md preserves existing section structure (Near/Mid/Long term or quarter-based, whichever the repo already uses).
 - METRICS.md uses markdown tables with Metric, Value, Notes columns.
 - FEATURES.md uses category headings and consistent feature bullets.
+- **All checklist items must be single-line `- [ ]` or `- [x]` entries** — Overseer reads these directly to determine open vs done status. Sub-bullets used as metadata break the parser.
 
 If current repo conventions differ, preserve content and introduce parser-safe structure in the least disruptive way.
 
@@ -144,6 +145,9 @@ Task formatting guardrails:
 - Done section items use checked boxes.
 - In Progress and Todo items use unchecked boxes.
 - Keep task text specific and action-oriented.
+- **Never use verbose sub-bullet metadata blocks** (Priority:, Type:, Confidence:, Evidence:, Acceptance Criteria:, etc.) under task items — these break Overseer's checklist parser.
+- Inline priority labels are acceptable: append `(P0)`, `(P1)`, `(P2)`, or `(P3)` at the end of the task line.
+- Preserve all existing task items when updating — do not wipe original tasks and replace with new PMO tasks.
 
 ## Required Roadmap Quality
 
@@ -156,9 +160,11 @@ Roadmap updates must:
 
 Roadmap formatting guardrails:
 
-- Use quarter-based sections for sequencing clarity.
-- Include explicit status indicators per phase.
+- Preserve existing section structure when updating — do not replace Near/Mid/Long term sections with quarter-based sections unless the repo already uses quarters.
+- Include explicit status indicators per phase where applicable.
 - Use checkbox items for visibility of completion.
+- **Never use verbose sub-bullet metadata blocks** (Objective:, Why Now:, Exit Criteria:, etc.) under roadmap items — these break Overseer's checklist parser.
+- Inline priority labels are acceptable: append `(P0)`–`(P3)` at the end of the line.
 
 ## Metrics Integrity Rules
 
