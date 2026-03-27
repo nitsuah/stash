@@ -15,21 +15,21 @@ Browser-based arcade collection built on Next.js with multiple game routes under
 ## Runtime Validation Evidence
 
 - Browser validation completed against deployed production.
-	- Homepage loaded.
-	- Game route navigation worked.
-	- Asteroid route rendered game HUD.
+  - Homepage loaded.
+  - Game route navigation worked.
+  - Asteroid route rendered game HUD.
 - Live runtime issue observed on deployed route.
-	- repeated console errors: `Sound not found: bgm`
-	- request failures observed for audio assets during route load (`/sounds/hit.mp3`, prior `/sounds/arcade.mp3` request aborted)
+  - Repeated console errors: `Sound not found: bgm`
+  - Request failures observed for audio assets during route load (`/sounds/hit.mp3`, prior `/sounds/arcade.mp3` request aborted)
 
 ## Build / Packaging Evidence
 
 - Docker-first validation attempted with:
-	- `docker build -t games-pmo-audit .`
+  - `docker build -t games-pmo-audit .`
 - Docker build currently fails.
-	- Dockerfile uses Node 20, while dependencies report Node 22+ engine expectations.
-	- `npm ci --only=production` triggers `prepare`, which calls `husky` but `husky` is not installed in the production-only dependency set.
-	- `.dockerignore` is missing.
+  - Dockerfile uses Node 20, while dependencies report Node 22+ engine expectations.
+  - `npm ci --omit=dev` triggers `prepare`, which calls `husky` but `husky` is not installed in the production-only dependency set.
+  - `.dockerignore` is missing.
 
 ## Documentation Mismatch Observed
 
