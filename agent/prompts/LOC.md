@@ -33,6 +33,7 @@ You are the LOC agent for identifying high-complexity files and creating safe, i
 - Use a dedicated branch for LOC planning updates.
 - Never commit directly to default branches.
 - Open a PR with findings, proposed phases, and validation strategy.
+- If the LOC review is feeding product delivery, record the findings in prompts/HANDOFF.md or a repo-specific copy before implementation begins.
 
 ## Deliverable Format
 
@@ -43,6 +44,13 @@ Produce a concise report with:
 3. Refactor opportunities by phase.
 4. Validation/test plan per phase.
 5. Suggested TASKS and ROADMAP updates.
+
+Recommended handoff fields when used in pipeline:
+
+- Problem statement and evidence.
+- Files or surfaces expected to change.
+- Suggested implementation order.
+- Risks and deferred refactors.
 
 ## Guardrails
 
