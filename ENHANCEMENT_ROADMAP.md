@@ -6,6 +6,12 @@ Transform this repository from a personal code archive into a comprehensive tech
 
 ## 📋 Priority Enhancement Areas
 
+### P0
+
+Sanitize - remove any company proprietary code, secrets, or sensitive information from the repository so that it can be safely shared publicly.
+
+Check for anything that might contain sensitive information such as API keys, credentials, internal endpoints, proprietary algorithms, or any other company confidential material and remove or sanitize it so that the repository can be safely shared publicly.
+
 ### 1. **Missing Technical Artifacts** (High Impact)
 
 #### Python Examples Needed
