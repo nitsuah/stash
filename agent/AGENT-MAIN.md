@@ -54,3 +54,14 @@ This will:
 - Start with PMO audit and planning
 - Proceed through DevOps, Software Engineer, QA, and Oncall as needed
 - Loop until the work is complete and validated
+
+---
+
+## TASK/ROADMAP-Driven Agent Flow
+
+**All agents must follow the [prompts/FLOW-TASKS.md](prompts/FLOW-TASKS.md) workflow:**
+- Always begin by parsing TASKS.md and ROADMAP.md
+- Select the next actionable item(s) based on priority and status
+- Create/update handoff artifacts and branches accordingly
+- Run the full agent delivery loop for each item
+- Repeat until backlog is clear or paused
