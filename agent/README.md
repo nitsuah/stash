@@ -127,15 +127,85 @@ The repository now also includes a Product Delivery Pipeline agent set for produ
 |-------|------|---------|
 | PMO | PMO.md | Audit products, maintain ROADMAP/TASKS from evidence, enforce branch + PR governance |
 | Intake | projects/Intake.md | Convert findings/requests into prioritized, acceptance-ready tasks |
-| Delivery/DevOps | DevOps.md | Implement approved tasks, validate changes, ship via branch + PR |
+| Delivery/DevOps | DevOps.md | Implement approved tasks, validate infra, CI/CD, and ship via branch + PR |
+| Software Engineer | SoftwareEng.md | Implement features, refactor, fix bugs, and maintain code quality |
 | QA | QA.md | Verify quality, prevent regressions, and feed improvements back into planning |
+| Oncall | Oncall.md | Incident response, user feedback, and support triage |
+| Automation | Automation.md | Internal tooling and workflow automation |
+| Growth | Growth.md | Monetization, adoption, and growth experiments |
+
 
 Recommended flow:
 
 1. PMO audit identifies reality gaps and planning updates.
 2. Intake shapes those into clear, prioritized implementation briefs.
-3. Delivery/DevOps executes on branches and opens evidence-backed PRs.
-4. QA validates behavior and routes defects/improvements back to TASKS/ROADMAP.
+3. Software Engineer implements features and code changes from briefs.
+4. Delivery/DevOps validates infra, CI/CD, and ships via branch + PR.
+5. QA validates behavior and routes defects/improvements back to TASKS/ROADMAP.
+6. Oncall handles incidents and user feedback, routing actionable items to the team.
+7. Automation and Growth agents support efficiency and adoption.
+## Workflow Gaps & Improvement Plan
+
+### Current Agents
+- PMO: Planning, product management, documentation, and audit
+- Software Engineer: Feature implementation, refactoring, bugfixes
+- DevOps: Delivery, CI/CD, and infrastructure
+- QA: Validation, regression, and compliance
+- Oncall: Incident response and user feedback
+- Automation: Internal tooling and workflow automation
+- Growth: Monetization and adoption
+
+### Workflow Gaps & Opportunities
+
+1. **User Research & Feedback Loop**
+	- Gap: No dedicated agent for structured user research, interviews, or feedback synthesis.
+	- Opportunity: Add a "User Research Agent" to run surveys, analyze feedback, and update product docs.
+
+2. **Security & Compliance**
+	- Gap: Security reviews and compliance checks are not explicitly owned.
+	- Opportunity: Add a "Security Agent" to run threat modeling, dependency audits, and compliance checks.
+
+3. **Data & Analytics**
+	- Gap: No agent for tracking, analyzing, and reporting product usage or business metrics.
+	- Opportunity: Add a "Data Analytics Agent" to own METRICS.md, dashboards, and experiment analysis.
+
+4. **Community & Ecosystem**
+	- Gap: No agent for managing open source community, docs, or ecosystem partnerships.
+	- Opportunity: Add a "Community Agent" to handle docs, forums, and ecosystem outreach.
+
+5. **Internal Knowledge Management**
+	- Gap: No agent for maintaining internal wikis, onboarding, or process docs.
+	- Opportunity: Add a "Knowledge Agent" to own onboarding, runbooks, and process improvement.
+
+### Skills/Capabilities to Add
+- Automated changelog and release note generation
+- Dependency and license scanning
+- Automated onboarding and environment setup
+- Incident postmortem automation
+- Growth experiment tracking
+- User feedback analysis
+
+### Repo Improvement & Monetization Assessment Plan
+
+1. **Repo Audit:**
+	- Review README, ROADMAP, TASKS, FEATURES, METRICS, and CONTRIBUTING for each repo.
+	- Identify missing, outdated, or unclear documentation.
+	- Assess test coverage, CI/CD health, and Docker support.
+
+2. **Monetization/Portfolio Fit:**
+	- For each repo, assess:
+	  - Product-market fit and unique value
+	  - Monetization potential (SaaS, open source, consulting, etc.)
+	  - Portfolio/demo value if not monetizable
+
+3. **Action Plan:**
+	- Prioritize improvements by impact and effort.
+	- Assign to relevant agent (Growth, PMO, Automation, etc.)
+	- Track as tasks in TASKS.md and update ROADMAP.md
+
+4. **Continuous Review:**
+	- After each cycle, update agent descriptions and checklists with lessons learned.
+	- Propose new agents or skills as new gaps emerge.
 
 Parallel execution model:
 
