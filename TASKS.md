@@ -1,6 +1,6 @@
 # Tasks
 
-Last Updated: 2026-03-27
+Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 ## Done
 
@@ -72,6 +72,19 @@ Last Updated: 2026-03-27
     - Run search for `token|password|secret|credential|apikey|private key` across tracked files.
     - Log any findings with remediation plan or confirm zero findings.
     - Update `.gitignore` for local credential artifacts if needed.
+  - Dependencies: none.
+
+- [ ] Perform open-source safety sanitization for docs/examples.
+  - Priority: P1
+  - Type: Security
+  - Confidence: Medium
+  - Milestone: 2026 Q2
+  - Problem Statement: documentation may include over-specific company/process details that are unnecessary for public release.
+  - Why It Matters: reducing proprietary exposure lowers sharing and compliance risk.
+  - Acceptance Criteria:
+    - Review markdown/docs examples for sensitive business details.
+    - Replace with generalized wording while preserving technical intent.
+    - Record sanitization results and any deferred items.
   - Dependencies: none.
 
 - [ ] Standardize file naming and typo cleanup in infrastructure assets.
