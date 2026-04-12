@@ -6,6 +6,8 @@ As an L8 developer implement changes to the following repos using the existing T
 
 Source any additional information on how to proceed from .MD files in the root of each repo and using the following persona files found in `\code\stash\agent\prompts\` and overview files `\code\stash\agent\repos\` depending on the task you are performing.
 
+Use the current `feedback-dev` branch if there is one and if not create a new branch named `feedback-dev-YYYYMMDD` from the latest main. Make all changes in that branch and open a PR to main when ready with a clear description of the changes made and the rationale for them. Link any relevant TASKS or ROADMAP items in the PR description as needed when bundling multiple changes.
+
 ## agent-board
 
 
