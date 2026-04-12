@@ -34,3 +34,5 @@
 - Always update handoff artifacts and status in docs.
 - Only one agent owns a branch/PR at a time.
 - Document blockers and improvement ideas as you go.
+- At the end of a cucle, PMO must update TASKS.md/ROADMAP.md to reflect progress and next steps.
+- Once a cycle has been completed move on to the next repo in the list or start a new branch to execute work against if it would not conflict with existing work or drift from necessary improvements (ie: those other changes should be merged first).
