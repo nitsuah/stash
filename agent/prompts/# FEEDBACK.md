@@ -10,20 +10,21 @@ Use the current `feedback-dev` branch if there is one and if not create a new br
 
 ## agent-board
 
+- Testing Framework
+- Env Template
+- Pre Commit Hooks
+- CI/CD
+- Dependabot
+
 
 ## auto-apply-plugin
 
+- Testing Framework
+- Docker
+- Env Template
+
 
 ## bb-mcp
-
-
-## darkmoon
-
-
-## farm
-
-
-## games
 
 
 ## gcp
