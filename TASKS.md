@@ -33,9 +33,16 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
     - Tasks and milestones align with validated repository structure.
   - Dependencies: none.
 
+
 ## Todo
 
-- [ ] Add architecture baseline documentation.
+- [ ] Add architecture baseline documentation (ARCHITECTURE.md stub created; fill out in Q2).
+  - Priority: P1
+  - Type: Docs
+- [ ] Add script operations runbook (RUNBOOK.md stub created; fill out in Q2).
+  - Priority: P1
+  - Type: Docs
+- [ ] Add security & sanitization checklist (SECURITY_CHECKLIST.md stub created; fill out in Q2).
   - Priority: P1
   - Type: Docs
   - Confidence: High

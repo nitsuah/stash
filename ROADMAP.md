@@ -2,6 +2,7 @@
 
 Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
+
 ## 2026 Q2 (Status: In Progress)
 
 - [ ] Planning Integrity Reset (Committed)
@@ -12,17 +13,17 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 - [ ] Documentation Baseline for Script Operations (Committed)
 	- Objective: document safe execution guidance for script families in `atlassian/`, `git/`, `ias/`, `projects/`, and `windows/`.
 	- Why Now: scripts can affect infrastructure, branches, and local files; safe usage must be explicit.
-	- Exit Criteria: architecture map and runbook include prerequisites, parameters, dry-run paths, and risk notes.
+	- Exit Criteria: architecture map (ARCHITECTURE.md) and runbook (RUNBOOK.md) include prerequisites, parameters, dry-run paths, and risk notes.
 
 - [ ] Repository Security Hygiene Pass (Committed)
 	- Objective: run and record a sensitive-data and hardcoded-hostname scan with remediation tasks.
 	- Why Now: repository contains operational automation and should prove absence of exposed secrets.
-	- Exit Criteria: scan results captured, findings remediated or tracked, and `.gitignore` hardened if gaps are found.
+	- Exit Criteria: scan results captured, findings remediated or tracked, and `.gitignore` hardened if gaps are found (see SECURITY_CHECKLIST.md).
 
 - [ ] Open-Source Safety Sanitization Pass (Committed)
 	- Objective: scrub documents and examples for overly specific/proprietary organizational details so the repo is safe for broader sharing.
 	- Why Now: planning includes possible public/open-source exposure; docs should avoid confidential context.
-	- Exit Criteria: sensitive references are removed or generalized and a sanitization checklist result is recorded.
+	- Exit Criteria: sensitive references are removed or generalized and a sanitization checklist result is recorded (see SECURITY_CHECKLIST.md).
 
 ## 2026 Q3 (Status: Planned)
 
