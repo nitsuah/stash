@@ -4,19 +4,6 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
 
 ## Done
 
-- [x] PMO audit evidence captured for repository structure and governance files.
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Evidence: top-level directories confirmed as `.github/`, `agent/`, `atlassian/`, `git/`, `ias/`, `projects/`, `windows/`; governance files confirmed in `.github/`.
-  - Acceptance Criteria Met: repository structure and template presence verified from local filesystem.
-
-- [x] Runtime validation performed on a non-destructive workflow.
-  - Priority: P1
-  - Type: Tech Debt
-  - Confidence: High
-  - Evidence: `powershell -NoProfile -ExecutionPolicy Bypass -File ./git/cleanup-branches.ps1 -Path . -DryRun` executed successfully.
-  - Acceptance Criteria Met: script started, completed, and exited without runtime exception.
 
 ## In Progress
 
