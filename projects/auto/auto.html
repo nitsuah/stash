@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Car Project Board</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #fff; color: #111; padding: 2rem; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; color: #111; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .car-card { background: #fff; border: 0.5px solid #ddd; border-radius: 12px; padding: 1rem 1.25rem; }
+  .car-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .car-name { font-size: 15px; font-weight: 500; color: #111; }
+  .car-sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
+  .badge-now { background: #E1F5EE; color: #085041; }
+  .badge-soon { background: #FAEEDA; color: #633806; }
+  .badge-sell { background: #FCEBEB; color: #791F1F; }
+  .task-list { list-style: none; }
+  .task-list li { font-size: 13px; color: #555; padding: 5px 0; border-bottom: 0.5px solid #eee; display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
+  .task-list li:last-child { border-bottom: none; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .dot-diy { background: #1D9E75; }
+  .dot-pro { background: #378ADD; }
+  .dot-sell { background: #E24B4A; }
+  .divider { border: none; border-top: 0.5px solid #eee; margin: 1.5rem 0; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #888; }
+  .ldot { width: 8px; height: 8px; border-radius: 50%; }
+  .flow { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .flow-step { background: #f5f5f3; border-radius: 8px; padding: 6px 12px; font-size: 12px; color: #555; }
+  .flow-arrow { font-size: 12px; color: #aaa; }
+  .money { font-size: 13px; color: #1D9E75; font-weight: 500; }
+  .budget { font-size: 13px; color: #9e1d1d; font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Car project board</h1>
+
+  <div class="flow">
+    <div class="flow-step">① Vette → shop (brakes/AC)</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">② Garage free → truck in</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">③ Malibu prepped → sell</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">④ Down to 2 cars</div>
+  </div>
+
+  <div class="grid">
+    <div class="car-card">
+      <div class="car-header">
+        <div><div class="car-name">78 Vette L82</div><div class="car-sub">Black / red · garage car</div></div>
+        <span class="badge badge-soon">shop first</span>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-red">P1</span><span class="p-label">Inspection &amp; fluids</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-pro"></div>Full inspection + compression test</li>
+          <li><div class="dot dot-diy"></div>Oil change + filter</li>
+          <li><div class="dot dot-diy"></div>Transmission fluid check/change</li>
+          <li><div class="dot dot-diy"></div>Diff fluid check/change</li>
+          <li><div class="dot dot-diy"></div>Brake fluid check (hold flush → P2)</li>
+          <li><div class="dot dot-diy"></div>Coolant flush (hold → post P3)</li>
+        </ul>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-red">P2</span><span class="p-label">Brakes · pro shop</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-pro"></div>Rotors, calipers, pads</li>
+          <li><div class="dot dot-pro"></div>Brake fluid flush</li>
+          <li><div class="dot dot-pro"></div>Lines visual inspection</li>
+        </ul>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-red">P3</span><span class="p-label">Coolant leak · pro shop</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-pro"></div>Diagnose source</li>
+          <li><div class="dot dot-pro"></div>Replace heat exchanger if confirmed</li>
+          <li><div class="dot dot-pro"></div>Coolant flush + refill after repair</li>
+        </ul>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-red">P4</span><span class="p-label">A/C · pro shop</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-pro"></div>Full diagnosis</li>
+          <li><div class="dot dot-pro"></div>Recharge or component replacement</li>
+        </ul>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-amber">P5</span><span class="p-label">Weatherstripping · DIY</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-diy"></div>T-tops full strip replacement</li>
+          <li><div class="dot dot-diy"></div>All window seals</li>
+          <li><div class="dot dot-diy"></div>Window alignment/adjustment after</li>
+        </ul>
+      </div>
+      <div class="priority-block">
+        <div class="priority-header"><span class="p-badge p-badge-green">P6</span><span class="p-label">Interior &amp; cosmetic · after P1–P5</span></div>
+        <ul class="task-list">
+          <li><div class="dot dot-diy"></div>Minor interior items</li>
+          <li><div class="dot dot-diy"></div>Deep interior clean</li>
+          <li><div class="dot dot-diy"></div>Engine bay cleanup</li>
+        </ul>
+      </div>
+      <div style="margin-top:10px; font-size:12px; color:#888;">Asset · hold · appreciating</div>
+      <div style="margin-top:10px;">Budget: <span class="budget"> - $10,000</span><span style="font-size:12px; color:#888;"></span></div>
+    </div>
+ 
+    <div class="car-card" style="border-color: #bbb;">
+      <div class="car-header">
+        <div><div class="car-name">81 C10 LS swap</div><div class="car-sub">White · daily + project</div></div>
+        <span class="badge badge-now">active project</span>
+      </div>
+      <ul class="task-list">
+        <li><div class="dot dot-diy"></div>Adjust fuel regulator (80+psi → 58psi) <span style="color:#378ADD; font-size:11px;">in progress</span></li>
+        <li><div class="dot dot-diy"></div>Re-attach brake booster <span style="color:#378ADD; font-size:11px;">in progress</span></li>
+        <li><div class="dot dot-diy"></div>Coolant flush (then oil, diff, etc)</li>
+        <li><div class="dot dot-diy"></div>Windshield repair (drivable, but ticket risk)</li>
+        <li><div class="dot dot-diy"></div>UNDERSIDE work (inspect/repair)</li>
+        <li><div class="dot dot-diy"></div>Declutter cab + bed</li>
+        <li><div class="dot dot-diy"></div>INTERIOR/FLOOR (gut, repair)</li>
+        <li><div class="dot dot-diy"></div>Other minor misc repairs</li>
+        <li><div class="dot dot-diy"></div>Bondo removal + body assess</li>
+        <li><div class="dot dot-diy"></div>Hammer therapy as needed</li>
+        <li><div class="dot dot-diy"></div>Sell high-value parts if redundant</li>
+        <li><div class="dot dot-diy"></div>Body work (long game)</li>
+      </ul>
+      <div style="margin-top:10px; font-size:12px; color:#888;">LS trucks moving fast · flip or keep</div>
+      <div style="margin-top:10px;">Value: <span class="money">$15,000</span><span style="font-size:12px; color:#888;"></span></div>
+      <div style="margin-top:10px;">Budget: <span class="budget">-$5,000</span><span style="font-size:12px; color:#888;"></span></div>
+      <div style="margin-top:10px;">Cost: <span class="budget">-$6,500</span><span style="font-size:12px; color:#888;"></span></div>
+      <div style="margin-top:10px;">Profit: <span class="money">+$4,500</span><span style="font-size:12px; color:#888;"></span></div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-header">
+        <div><div class="car-name">2014 Malibu</div><div class="car-sub">Daily · last legs</div></div>
+        <span class="badge badge-sell">sell soon</span>
+      </div>
+      <ul class="task-list">
+        <li><div class="dot dot-diy"></div>Clean interior thoroughly</li>
+        <li><div class="dot dot-diy"></div>Fix driver seat</li>
+        <li><div class="dot dot-diy"></div>Headlamps sorted</li>
+        <li><div class="dot dot-sell"></div>Carvana ~$2,800 baseline</li>
+        <li><div class="dot dot-sell"></div>Private sale may beat Carvana</li>
+      </ul>
+      <div style="margin-top:10px;"><span class="money">+$2,800–3,500</span><span style="font-size:12px; color:#888;"> expected in</span></div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+  <div class="legend">
+    <div class="legend-item"><div class="ldot" style="background:#1D9E75;"></div>DIY</div>
+    <div class="legend-item"><div class="ldot" style="background:#378ADD;"></div>Pro shop</div>
+    <div class="legend-item"><div class="ldot" style="background:#E24B4A;"></div>Sell / monetize</div>
+  </div>
+</div>
+</body>
+</html>
