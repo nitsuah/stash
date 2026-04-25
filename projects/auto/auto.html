@@ -6,34 +6,70 @@
 <title>Car Project Board</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, sans-serif; background: #fff; color: #111; padding: 2rem; }
-  .wrap { max-width: 900px; margin: 0 auto; }
-  h1 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; color: #111; }
+  body { font-family: system-ui, sans-serif; background: #111; color: #e0e0e0; padding: 2rem; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; color: #f0f0f0; }
+
   .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .car-card { background: #fff; border: 0.5px solid #ddd; border-radius: 12px; padding: 1rem 1.25rem; }
+  .car-card { background: #1a1a1a; border: 0.5px solid #2a2a2a; border-radius: 12px; padding: 1rem 1.25rem; }
   .car-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-  .car-name { font-size: 15px; font-weight: 500; color: #111; }
-  .car-sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .car-name { font-size: 15px; font-weight: 500; color: #f0f0f0; }
+  .car-sub { font-size: 12px; color: #555; margin-top: 2px; }
+
   .badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
-  .badge-now { background: #E1F5EE; color: #085041; }
-  .badge-soon { background: #FAEEDA; color: #633806; }
-  .badge-sell { background: #FCEBEB; color: #791F1F; }
+  .badge-now { background: #0d2e24; color: #3ecfa0; }
+  .badge-soon { background: #2a1f0a; color: #d4924a; }
+  .badge-sell { background: #2a0f0f; color: #e06060; }
+
+  /* Car task lists — now checkboxes */
   .task-list { list-style: none; }
-  .task-list li { font-size: 13px; color: #555; padding: 5px 0; border-bottom: 0.5px solid #eee; display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
+  .task-list li { font-size: 13px; color: #777; padding: 5px 0; border-bottom: 0.5px solid #222; display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; cursor: pointer; user-select: none; }
   .task-list li:last-child { border-bottom: none; }
+  .task-list li:hover { color: #bbb; }
+  .task-list li input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; cursor: pointer; accent-color: #1D9E75; }
+  .task-list li.checked { color: #3a3a3a; text-decoration: line-through; }
+  .task-list li.hidden { display: none; }
+
   .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
   .dot-diy { background: #1D9E75; }
   .dot-pro { background: #378ADD; }
   .dot-sell { background: #E24B4A; }
-  .divider { border: none; border-top: 0.5px solid #eee; margin: 1.5rem 0; }
+  .dot-ebay { background: #9B59B6; }
+
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; gap: 6px; }
+  .card-meta { font-size: 12px; color: #555; }
+  .card-show-btn { font-size: 11px; color: #444; background: none; border: none; cursor: pointer; padding: 0; line-height: 1; }
+  .card-show-btn:hover { color: #888; }
+
+  .divider { border: none; border-top: 0.5px solid #222; margin: 1.5rem 0; }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #888; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #555; }
   .ldot { width: 8px; height: 8px; border-radius: 50%; }
+
   .flow { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .flow-step { background: #f5f5f3; border-radius: 8px; padding: 6px 12px; font-size: 12px; color: #555; }
-  .flow-arrow { font-size: 12px; color: #aaa; }
+  .flow-step { background: #1a1a1a; border: 0.5px solid #2a2a2a; border-radius: 8px; padding: 6px 12px; font-size: 12px; color: #666; }
+  .flow-arrow { font-size: 12px; color: #444; }
+
   .money { font-size: 13px; color: #1D9E75; font-weight: 500; }
-  .budget { font-size: 13px; color: #9e1d1d; font-weight: 500; }
+
+  /* May Checklist */
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .checklist-card { background: #1a1a1a; border: 0.5px solid #2a2a2a; border-radius: 12px; padding: 1rem 1.25rem; }
+  .checklist-card h3 { font-size: 13px; font-weight: 500; color: #999; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid #222; }
+
+  .check-list { list-style: none; }
+  .check-list li { font-size: 12.5px; color: #777; padding: 4px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; cursor: pointer; user-select: none; }
+  .check-list li:hover { color: #ccc; }
+  .check-list li input[type="checkbox"] { margin-top: 2px; accent-color: #1D9E75; flex-shrink: 0; cursor: pointer; }
+  .check-list li.checked { color: #3a3a3a; text-decoration: line-through; }
+  .check-list li.hidden { display: none; }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
+  .section-header-left { display: flex; align-items: baseline; gap: 12px; }
+  .progress-text { font-size: 11px; color: #555; }
+  .show-btn { font-size: 11px; color: #555; background: #1a1a1a; border: 0.5px solid #333; border-radius: 6px; padding: 3px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+  .show-btn:hover { color: #aaa; border-color: #555; }
 </style>
 </head>
 <body>
@@ -43,112 +79,127 @@
   <div class="flow">
     <div class="flow-step">① Vette → shop (brakes/AC)</div>
     <div class="flow-arrow">→</div>
-    <div class="flow-step">② Garage free → truck in</div>
+    <div class="flow-step">② Garage free → Malibu in</div>
     <div class="flow-arrow">→</div>
     <div class="flow-step">③ Malibu prepped → sell</div>
     <div class="flow-arrow">→</div>
-    <div class="flow-step">④ Down to 2 cars</div>
+    <div class="flow-step">④ Truck & Corvette fixed, down to 2 cars</div>
   </div>
 
-  <div class="grid">
+  <!-- Cards header row -->
+  <div class="section-header" style="margin-bottom: 10px;">
+    <div class="section-header-left">
+      <div class="section-label">Cars</div>
+      <div class="progress-text" id="cars-progress"></div>
+    </div>
+    <button class="show-btn" id="cars-toggle-btn" onclick="toggleCarsHidden()">Show completed</button>
+  </div>
+
+  <div class="grid" style="margin-bottom: 1.5rem;">
+
+    <!-- Vette -->
     <div class="car-card">
       <div class="car-header">
         <div><div class="car-name">78 Vette L82</div><div class="car-sub">Black / red · garage car</div></div>
         <span class="badge badge-soon">shop first</span>
       </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-red">P1</span><span class="p-label">Inspection &amp; fluids</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-pro"></div>Full inspection + compression test</li>
-          <li><div class="dot dot-diy"></div>Oil change + filter</li>
-          <li><div class="dot dot-diy"></div>Transmission fluid check/change</li>
-          <li><div class="dot dot-diy"></div>Diff fluid check/change</li>
-          <li><div class="dot dot-diy"></div>Brake fluid check (hold flush → P2)</li>
-          <li><div class="dot dot-diy"></div>Coolant flush (hold → post P3)</li>
-        </ul>
+      <ul class="task-list" data-card="vette">
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-pro"></div>Brakes — rotors, pads + calipers (pro)</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-pro"></div>AC work (pro)</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-pro"></div>Heater core (pro)</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>General cleanup while out</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Back in garage after truck done</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-meta">Asset · hold · appreciating</span>
       </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-red">P2</span><span class="p-label">Brakes · pro shop</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-pro"></div>Rotors, calipers, pads</li>
-          <li><div class="dot dot-pro"></div>Brake fluid flush</li>
-          <li><div class="dot dot-pro"></div>Lines visual inspection</li>
-        </ul>
-      </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-red">P3</span><span class="p-label">Coolant leak · pro shop</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-pro"></div>Diagnose source</li>
-          <li><div class="dot dot-pro"></div>Replace heat exchanger if confirmed</li>
-          <li><div class="dot dot-pro"></div>Coolant flush + refill after repair</li>
-        </ul>
-      </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-red">P4</span><span class="p-label">A/C · pro shop</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-pro"></div>Full diagnosis</li>
-          <li><div class="dot dot-pro"></div>Recharge or component replacement</li>
-        </ul>
-      </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-amber">P5</span><span class="p-label">Weatherstripping · DIY</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-diy"></div>T-tops full strip replacement</li>
-          <li><div class="dot dot-diy"></div>All window seals</li>
-          <li><div class="dot dot-diy"></div>Window alignment/adjustment after</li>
-        </ul>
-      </div>
-      <div class="priority-block">
-        <div class="priority-header"><span class="p-badge p-badge-green">P6</span><span class="p-label">Interior &amp; cosmetic · after P1–P5</span></div>
-        <ul class="task-list">
-          <li><div class="dot dot-diy"></div>Minor interior items</li>
-          <li><div class="dot dot-diy"></div>Deep interior clean</li>
-          <li><div class="dot dot-diy"></div>Engine bay cleanup</li>
-        </ul>
-      </div>
-      <div style="margin-top:10px; font-size:12px; color:#888;">Asset · hold · appreciating</div>
-      <div style="margin-top:10px;">Budget: <span class="budget"> - $10,000</span><span style="font-size:12px; color:#888;"></span></div>
     </div>
- 
-    <div class="car-card" style="border-color: #bbb;">
+
+    <!-- C10 -->
+    <div class="car-card" style="border-color: #333;">
       <div class="car-header">
         <div><div class="car-name">81 C10 LS swap</div><div class="car-sub">White · daily + project</div></div>
         <span class="badge badge-now">active project</span>
       </div>
-      <ul class="task-list">
-        <li><div class="dot dot-diy"></div>Adjust fuel regulator (80+psi → 58psi) <span style="color:#378ADD; font-size:11px;">in progress</span></li>
-        <li><div class="dot dot-diy"></div>Re-attach brake booster <span style="color:#378ADD; font-size:11px;">in progress</span></li>
-        <li><div class="dot dot-diy"></div>Coolant flush (then oil, diff, etc)</li>
-        <li><div class="dot dot-diy"></div>Windshield repair (drivable, but ticket risk)</li>
-        <li><div class="dot dot-diy"></div>UNDERSIDE work (inspect/repair)</li>
-        <li><div class="dot dot-diy"></div>Declutter cab + bed</li>
-        <li><div class="dot dot-diy"></div>INTERIOR/FLOOR (gut, repair)</li>
-        <li><div class="dot dot-diy"></div>Other minor misc repairs</li>
-        <li><div class="dot dot-diy"></div>Bondo removal + body assess</li>
-        <li><div class="dot dot-diy"></div>Hammer therapy as needed</li>
-        <li><div class="dot dot-diy"></div>Sell high-value parts if redundant</li>
-        <li><div class="dot dot-diy"></div>Body work (long game)</li>
+      <ul class="task-list" data-card="c10">
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Fuel regulator</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Brake booster</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Declutter cab + bed</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Bondo removal + body assess</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Hammer therapy as needed</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Sell high-value parts if redundant</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Body work (long game)</li>
       </ul>
-      <div style="margin-top:10px; font-size:12px; color:#888;">LS trucks moving fast · flip or keep</div>
-      <div style="margin-top:10px;">Value: <span class="money">$15,000</span><span style="font-size:12px; color:#888;"></span></div>
-      <div style="margin-top:10px;">Budget: <span class="budget">-$5,000</span><span style="font-size:12px; color:#888;"></span></div>
-      <div style="margin-top:10px;">Cost: <span class="budget">-$6,500</span><span style="font-size:12px; color:#888;"></span></div>
-      <div style="margin-top:10px;">Profit: <span class="money">+$4,500</span><span style="font-size:12px; color:#888;"></span></div>
+      <div class="card-footer">
+        <span class="card-meta">LS trucks moving fast · flip or keep</span>
+      </div>
     </div>
 
+    <!-- Malibu -->
     <div class="car-card">
       <div class="car-header">
         <div><div class="car-name">2014 Malibu</div><div class="car-sub">Daily · last legs</div></div>
         <span class="badge badge-sell">sell soon</span>
       </div>
-      <ul class="task-list">
-        <li><div class="dot dot-diy"></div>Clean interior thoroughly</li>
-        <li><div class="dot dot-diy"></div>Fix driver seat</li>
-        <li><div class="dot dot-diy"></div>Headlamps sorted</li>
-        <li><div class="dot dot-sell"></div>Carvana ~$2,800 baseline</li>
-        <li><div class="dot dot-sell"></div>Private sale may beat Carvana</li>
+      <ul class="task-list" data-card="malibu">
+        <li class="checked hidden"><input type="checkbox" checked onchange="updateCard(this)"><div class="dot dot-diy"></div>Headlamps — sanded + clear coat</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Touch up paint scratch (minor · near headlamp)</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Clean interior thoroughly</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-diy"></div>Fix driver seat</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-sell"></div>Carvana ~$2,800 baseline</li>
+        <li><input type="checkbox" onchange="updateCard(this)"><div class="dot dot-sell"></div>Private sale may beat Carvana</li>
       </ul>
-      <div style="margin-top:10px;"><span class="money">+$2,800–3,500</span><span style="font-size:12px; color:#888;"> expected in</span></div>
+      <div class="card-footer">
+        <span><span class="money">~$2,800–3,500</span><span style="font-size:12px; color:#555;"> expected out</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="divider" />
+
+  <!-- May Checklist -->
+  <div class="section-header">
+    <div class="section-header-left">
+      <div class="section-label">May checklist</div>
+      <div class="progress-text" id="may-progress"></div>
+    </div>
+    <button class="show-btn" id="may-toggle-btn" onclick="toggleMayHidden()">Show completed</button>
+  </div>
+
+  <div class="checklist-grid">
+    <div class="checklist-card">
+      <h3>🔴 Malibu prep</h3>
+      <ul class="check-list">
+        <li class="checked hidden"><input type="checkbox" checked onchange="updateMay(this)"> Headlights — sanded + clear coat</li>
+        <li><input type="checkbox" onchange="updateMay(this)"> Interior clean</li>
+        <li><input type="checkbox" onchange="updateMay(this)"> Oil change + tranny fluid</li>
+      </ul>
+    </div>
+
+    <div class="checklist-card">
+      <h3>🟡 Vette</h3>
+      <ul class="check-list">
+        <li><input type="checkbox" onchange="updateMay(this)"> Call shops · get on calendar</li>
+      </ul>
+    </div>
+
+    <div class="checklist-card">
+      <h3>🟢 Truck</h3>
+      <ul class="check-list">
+        <li><input type="checkbox" onchange="updateMay(this)"> Fuel regulator</li>
+        <li><input type="checkbox" onchange="updateMay(this)"> Brake booster</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="checklist-grid" style="grid-template-columns: 1fr 2fr;">
+    <div class="checklist-card">
+      <h3>🟣 eBay</h3>
+      <ul class="check-list">
+        <li><input type="checkbox" onchange="updateMay(this)"> Package + ship items as they sell</li>
+        <li><input type="checkbox" onchange="updateMay(this)"> List remaining parts</li>
+      </ul>
     </div>
   </div>
 
@@ -157,7 +208,68 @@
     <div class="legend-item"><div class="ldot" style="background:#1D9E75;"></div>DIY</div>
     <div class="legend-item"><div class="ldot" style="background:#378ADD;"></div>Pro shop</div>
     <div class="legend-item"><div class="ldot" style="background:#E24B4A;"></div>Sell / monetize</div>
+    <div class="legend-item"><div class="ldot" style="background:#9B59B6;"></div>eBay</div>
   </div>
 </div>
+
+<script>
+  let showingCars = false;
+  let showingMay = false;
+
+  function updateCard(cb) {
+    const li = cb.closest('li');
+    if (cb.checked) {
+      li.classList.add('checked');
+      if (!showingCars) li.classList.add('hidden');
+    } else {
+      li.classList.remove('checked');
+      li.classList.remove('hidden');
+    }
+    refreshCarsCount();
+  }
+
+  function updateMay(cb) {
+    const li = cb.closest('li');
+    if (cb.checked) {
+      li.classList.add('checked');
+      if (!showingMay) li.classList.add('hidden');
+    } else {
+      li.classList.remove('checked');
+      li.classList.remove('hidden');
+    }
+    refreshMayCount();
+  }
+
+  function refreshCarsCount() {
+    const total = document.querySelectorAll('.task-list input[type="checkbox"]').length;
+    const done = document.querySelectorAll('.task-list input:checked').length;
+    document.getElementById('cars-progress').textContent = `${done} of ${total} done`;
+  }
+
+  function refreshMayCount() {
+    const total = document.querySelectorAll('.check-list input[type="checkbox"]').length;
+    const done = document.querySelectorAll('.check-list input:checked').length;
+    document.getElementById('may-progress').textContent = `${done} of ${total} done`;
+  }
+
+  function toggleCarsHidden() {
+    showingCars = !showingCars;
+    document.getElementById('cars-toggle-btn').textContent = showingCars ? 'Hide completed' : 'Show completed';
+    document.querySelectorAll('.task-list li.checked').forEach(li => {
+      li.classList.toggle('hidden', !showingCars);
+    });
+  }
+
+  function toggleMayHidden() {
+    showingMay = !showingMay;
+    document.getElementById('may-toggle-btn').textContent = showingMay ? 'Hide completed' : 'Show completed';
+    document.querySelectorAll('.check-list li.checked').forEach(li => {
+      li.classList.toggle('hidden', !showingMay);
+    });
+  }
+
+  refreshCarsCount();
+  refreshMayCount();
+</script>
 </body>
 </html>
