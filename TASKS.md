@@ -106,6 +106,46 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
     - Link the decision from `README.md` and `ARCHITECTURE.md`.
   - Dependencies: architecture baseline task.
 
+- [ ] Add example documentation references for the following:
+  - Priority: P2
+  - Type: Docs
+  - Confidence: Medium
+  - Milestone: 2026 Q3
+  - SSO/Identity Management
+    - Example enterprise ADFS integration
+    - Example shadow IT onramp to SAML/SSO/Enterprise
+    - Example SaaS + Okta + AWS SSO + group management
+    - Example Atlassian + Okta + SSO configuration
+    - Example internal and external user directory management
+    - Example Guard/Access SSO via Okta
+    - Example OAuth/ACT_AS integration with X-Forward/mTLS
+  - Cloud Cost Management
+    - Cloudability
+    - CloudHealth
+    - CloudZero
+    - Kubecost
+  - Frontend examples from nitsuah.io
+    - React/Next.js component examples
+    - Svelte/SvelteKit component examples
+    - Vue/Nuxt.js component examples
+  - Backend examples
+    - Node.js/Express API examples
+    - Python/Flask API examples
+    - Go/Gin API examples
+    - Java/Spring Boot API examples
+  - Database schema examples
+    - PostgreSQL
+    - MySQL
+    - MongoDB
+
+## SaaS Inventory/Audit
+
+- Fortify-on-Demand
+- ZenGRC
+- Zylo
+
+
+
 ## Audit Notes
 
 - Docker-first execution path is not currently available (`Dockerfile` and `docker-compose.yml` not found).
