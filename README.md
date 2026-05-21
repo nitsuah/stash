@@ -117,4 +117,11 @@ Built using Microsoft Access, Excel, and VBA.
 
 **"Ut prosim"** - *That I may serve*
 
+- Mind
+- Body
+- Spirit
+- Heart
+
+Equation: Mind + Body + Spirit / Heart = Service to others
+
 *Building AI-enhanced tools that empower thousands of engineers.*

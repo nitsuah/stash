@@ -106,6 +106,42 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
     - Link the decision from `README.md` and `ARCHITECTURE.md`.
   - Dependencies: architecture baseline task.
 
+- [ ] Add examples of the following:
+  - SSO/Identity Management
+    - Slack - ADFS
+    - Shadow IT - at Blackboard - onramp to SAML/SSO/Enterprise
+    - Pulumi - SaaS & Okta & AWS SSO & group management
+    - Coinbase - Atlassian Okta & SSO configuration
+    - Netflix - Internal & External user directory mgmt
+    - Jira - Guard/Access SSO via Okta
+    - MCP - merge.dev & OAuth/ACT_AS integration for Jirawala X-Forward/mTLS
+  - Cloud Cost Management
+    - Cloudability
+    - CloudHealth
+    - CloudZero
+    - Kubecost
+  - FrontEnd examples from nitsuah.io
+    - React/Next.js component examples
+    - Svelte/SvelteKit component examples
+    - Vue/Nuxt.js component examples
+  - Backend Examples
+    - Node.js/Express API examples
+    - Python/Flask API examples
+    - Go/Gin API examples
+    - Java/Spring Boot API examples
+  - Database schema examples
+    - PostgreSQL
+    - MySQL
+    - MongoDB
+
+## SaaS Inventory/Audit
+
+- Fortify-on-Demand
+- ZenGRC
+- Zylo
+
+
+
 ## Audit Notes
 
 - Docker-first execution path is not currently available (`Dockerfile` and `docker-compose.yml` not found).
