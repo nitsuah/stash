@@ -106,25 +106,29 @@ Last Updated: 2026-04-03 (pmo/q2-2026-planning)
     - Link the decision from `README.md` and `ARCHITECTURE.md`.
   - Dependencies: architecture baseline task.
 
-- [ ] Add examples of the following:
+- [ ] Add example documentation references for the following:
+  - Priority: P2
+  - Type: Docs
+  - Confidence: Medium
+  - Milestone: 2026 Q3
   - SSO/Identity Management
-    - Slack - ADFS
-    - Shadow IT - at Blackboard - onramp to SAML/SSO/Enterprise
-    - Pulumi - SaaS & Okta & AWS SSO & group management
-    - Coinbase - Atlassian Okta & SSO configuration
-    - Netflix - Internal & External user directory mgmt
-    - Jira - Guard/Access SSO via Okta
-    - MCP - merge.dev & OAuth/ACT_AS integration for Jirawala X-Forward/mTLS
+    - Example enterprise ADFS integration
+    - Example shadow IT onramp to SAML/SSO/Enterprise
+    - Example SaaS + Okta + AWS SSO + group management
+    - Example Atlassian + Okta + SSO configuration
+    - Example internal and external user directory management
+    - Example Guard/Access SSO via Okta
+    - Example OAuth/ACT_AS integration with X-Forward/mTLS
   - Cloud Cost Management
     - Cloudability
     - CloudHealth
     - CloudZero
     - Kubecost
-  - FrontEnd examples from nitsuah.io
+  - Frontend examples from nitsuah.io
     - React/Next.js component examples
     - Svelte/SvelteKit component examples
     - Vue/Nuxt.js component examples
-  - Backend Examples
+  - Backend examples
     - Node.js/Express API examples
     - Python/Flask API examples
     - Go/Gin API examples
