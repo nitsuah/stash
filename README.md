@@ -122,6 +122,6 @@ Built using Microsoft Access, Excel, and VBA.
 - Spirit
 - Heart
 
-Equation: Mind + Body + Spirit / Heart = Service to others
+Equation: (Mind + Body + Spirit) / Heart = Service to others
 
 *Building AI-enhanced tools that empower thousands of engineers.*
