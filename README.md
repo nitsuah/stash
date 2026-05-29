@@ -16,15 +16,6 @@ Python API examples for the Atlassian Cloud suite — Jira, Confluence, Bitbucke
 
 ---
 
-## [IAS](IAS/)
-
-EC2 UserData bootstrap scripts for common instance configurations.
-
-- [`ubuntu-userdata.sh`](IAS/ubuntu-userdata.sh) — Ubuntu 22.04: Docker, CloudWatch agent, sysctl hardening
-- [`windows-userdata.ps1`](IAS/windows-userdata.ps1) — Windows Server 2022: Chocolatey, IIS, CloudWatch agent, TLS/SMB hardening
-
----
-
 ## Projects
 
 ### [Power Failure Alarm (PFA)](projects/pfa/README.md)
@@ -53,7 +44,13 @@ Asset and vulnerability management (CMDB) tool — joins asset inventory against
 
 ## [SAAS](SAAS/README.md)
 
-Python API examples for SaaS operations platforms — PagerDuty (incidents, on-call, Events API v2) and Slack (messages, channels, users, webhooks).
+Python API examples for SaaS operations platforms — PagerDuty, Slack, GitHub, and Datadog. See [`SAAS/README.md`](SAAS/README.md) for full docs.
+
+---
+
+## [Cloud](cloud/README.md)
+
+AWS boto3 examples (EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53) and EC2 UserData bootstrap scripts for Ubuntu and Windows. See [`cloud/README.md`](cloud/README.md) for full docs.
 
 ---
 

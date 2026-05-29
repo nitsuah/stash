@@ -1,6 +1,6 @@
 # Remora
 
-![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/remora/assets/remora-home.png)
+![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/remora/assets/remora-home.png)
 
 Remora is an enterprise-grade Privileged Access Management (PAM) solution built using Microsoft Access, Excel, and VBA. Developed for SecOps teams, it provides comprehensive user access governance, audit artifact management, and automated compliance reporting across distributed systems.
 
