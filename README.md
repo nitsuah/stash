@@ -1,10 +1,10 @@
 # CodeStash
 
-> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and developer productivity innovation.
+> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and mainer productivity innovation.
 
 ## Overview
 
-This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven developer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
+This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven mainer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
 
 **Technical Philosophy**: Build tools that eliminate manual toil, scale human capabilities, and empower teams to focus on high-value work through intelligent automation.
 
@@ -41,13 +41,13 @@ This repository chronicles my technical journey from complex VBA automation syst
 
 ### Power Failure Alarm (PFA)
 
-![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/pfa/pfa_pcb.png)
+![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/pfa/pfa_pcb.png)
 
 Basic Power Failure Alarm circuit design diagram
 
 ### Remora
 
-![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/remora/assets/remora-home.png)
+![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/remora/assets/remora-home.png)
 
 Advanced Privileged Access Management (PAM) Tool that
 stores user access lists and reports on access across multiple systems.
@@ -56,7 +56,7 @@ Built using Microsoft Access, Excel, and VBA.
 
 ### Sampler
 
-![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-home.png)
+![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/sampler/assets/sampler-home.png)
 
 Advanced PDF Random Sampling Tool that randomly samples based upon a given text string found in a PDF file containing multiple different pages.
 
