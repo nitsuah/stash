@@ -564,7 +564,7 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
             s.add(Result("Payment Denied Date check", Status.SKIP, "field not found"))
 
         # Reporter-comment → Reopened automation
-        check_reporter_reopen(client, key, s, label="AP")
+        check_reporter_reopen(client, key, s, label="AP", pause=10)
 
     finally:
         comment_failures(client, key, s, label="AP lifecycle")
