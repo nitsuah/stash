@@ -684,31 +684,56 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
         s.add(Result(f"Setup: {parent_type} + open Sub-task", Status.PASS,
                      f"{parent_key} / {child_key}"))
 
-        # For Story we need to walk through its workflow to reach Done
-        if parent_type == "Story":
-            transition_issue(client, parent_key, "In Progress")
-            transition_issue(client, parent_key, "In Testing")
-
-        ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
-        if ok:
-            issue = get_issue(client, parent_key)
-            status = issue["fields"]["status"]["name"]
-            if status.lower() == "done":
-                s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
-                             Status.FAIL,
-                             "transition succeeded — gate automation not configured",
-                             details="Expected rejection or post-transition revert"))
+        try:
+            # Walk parent to the point where Done is available
+            if parent_type == "Story":
+                transition_issue(client, parent_key, "In Progress")
+                transition_issue(client, parent_key, "In Testing")
             else:
-                s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
-                             Status.WARN,
-                             f"API accepted but status is '{status}' — possible automation revert"))
-        else:
-            s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
-                         Status.PASS, "transition rejected as expected"))
+                transition_issue(client, parent_key, "In Progress")
 
-        delete_issue(client, child_key)
-        delete_issue(client, parent_key)
-        s.add(Result(f"Cleanup {parent_type} gate ({parent_key})", Status.PASS, "deleted"))
+            # ── Step 1: try to resolve parent while child is still open ──────
+            ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
+            if ok:
+                issue = get_issue(client, parent_key)
+                status = issue["fields"]["status"]["name"]
+                if status.lower() == "done":
+                    s.add(Result(f"{parent_type}: blocked with open sub-task (step 1)",
+                                 Status.FAIL,
+                                 "transition succeeded — gate automation not configured",
+                                 details="Expected rejection or post-transition revert"))
+                else:
+                    s.add(Result(f"{parent_type}: blocked with open sub-task (step 1)",
+                                 Status.WARN,
+                                 f"API accepted but status is '{status}' — possible automation revert"))
+            else:
+                s.add(Result(f"{parent_type}: blocked with open sub-task (step 1)",
+                             Status.PASS, "transition rejected as expected"))
+
+            # ── Step 2: close the child sub-task ─────────────────────────────
+            ok, msg = transition_issue(client, child_key, "Done", resolution_name="Done")
+            s.add(Result(f"{parent_type}: close child sub-task (step 2)",
+                         Status.PASS if ok else Status.FAIL, msg))
+
+            # ── Step 3: retry resolving parent — should now succeed ───────────
+            ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
+            if ok:
+                issue = get_issue(client, parent_key)
+                status = issue["fields"]["status"]["name"]
+                if status.lower() == "done":
+                    s.add(Result(f"{parent_type}: resolves after child closed (step 3)",
+                                 Status.PASS, f"status is '{status}'"))
+                else:
+                    s.add(Result(f"{parent_type}: resolves after child closed (step 3)",
+                                 Status.WARN, f"API accepted but status is '{status}'"))
+            else:
+                s.add(Result(f"{parent_type}: resolves after child closed (step 3)",
+                             Status.FAIL, f"transition still rejected — {msg}"))
+
+        finally:
+            delete_issue(client, child_key)
+            delete_issue(client, parent_key)
+            s.add(Result(f"Cleanup {parent_type} gate ({parent_key})", Status.PASS, "deleted"))
 
     return s
 
