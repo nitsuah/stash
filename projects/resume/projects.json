@@ -1,15 +1,15 @@
 {
   "projects": [
     {
-      "id": "jirawala-mcp",
-      "name": "Jirawala MCP Server",
+      "id": "jira-slack-mcp",
+      "name": "Jira Slack App / MCP Server",
       "company": "Netflix",
       "category": "AI/GenAI",
       "type": "enterprise",
       "status": "production",
       "startDate": "2024-01-01",
       "endDate": null,
-      "description": "Transformed Jirawala Slack bot into a sophisticated Model Context Protocol (MCP) server enabling natural language Jira operations. Implemented Spring AI @Tool annotations framework for conversational AI interfaces.",
+      "description": "Transformed an internal Jira Slack app into a sophisticated Model Context Protocol (MCP) server enabling natural language Jira operations. Implemented Spring AI @Tool annotations framework for conversational AI interfaces.",
       "technologies": [
         "Spring AI",
         "Model Context Protocol (MCP)",
@@ -24,8 +24,8 @@
         "Architected MCP server infrastructure for enterprise AI-assisted workflows",
         "Enabled natural language Jira project creation and user lookup",
         "Built self-service automation serving thousands of Netflix engineers",
-        "Integrated with Netflix Productivity Assistant ecosystem",
-        "Implemented comprehensive error handling and metatron authentication"
+        "Integrated with enterprise AI chatbot and RAG search ecosystem",
+        "Implemented comprehensive error handling with mTLS identity-based authentication"
       ],
       "impact": "Reduced manual Jira operations by 80% and enabled AI-assisted project management for 5000+ users",
       "links": {
@@ -35,14 +35,14 @@
     },
     {
       "id": "productivity-assistant",
-      "name": "Netflix Productivity Assistant",
+      "name": "Enterprise AI Chatbot & RAG Search",
       "company": "Netflix",
       "category": "AI/GenAI",
       "type": "enterprise",
       "status": "production",
       "startDate": "2023-11-01",
       "endDate": null,
-      "description": "Lead contributor to Netflix's enterprise AI productivity ecosystem. Integrated GitHub Copilot into Slack channels and built AI-assisted development workflows.",
+      "description": "Lead contributor to an enterprise AI productivity chatbot and RAG search ecosystem spanning Jira, Confluence, Slack, and internal tooling. Integrated GitHub Copilot into Slack channels and built AI-assisted development workflows compatible with Codex, Cursor, and internal harnesses.",
       "technologies": [
         "GitHub Copilot",
         "Slack API",
@@ -85,12 +85,12 @@
       ],
       "highlights": [
         "Transformed ad campaign management workflows",
-        "Built real-time dashboards for $30M+ revenue tracking",
+        "Built real-time dashboards for revenue tracking",
         "Reduced manual effort by 70%",
         "Improved campaign tracking accuracy significantly",
         "Enhanced visibility across advertising operations"
       ],
-      "impact": "Streamlined management of $30M+ in advertising revenue with 70% reduction in manual processes",
+      "impact": "Streamlined advertising revenue management with 70% reduction in manual processes",
       "links": {
         "internal": true
       },
@@ -300,7 +300,7 @@
       "status": "completed",
       "startDate": "2022-04-01",
       "endDate": "2023-11-01",
-      "description": "Comprehensive automation suite including product launch calendar, MNPI compliance, and audit automation supporting $400M+ in tax refunds.",
+      "description": "Comprehensive automation suite including product launch calendar, MNPI compliance, and audit automation supporting large-scale tax refund operations.",
       "technologies": [
         "Jira Automation",
         "Python",
@@ -311,12 +311,12 @@
       ],
       "highlights": [
         "Built product launch approval workflow automation",
-        "Implemented MNPI issue-level security controls",
+        "Implemented issue-level security via RBAC in Jira for compliance requirements",
         "Created SOC & R+D expense artifact automation",
         "Developed dynamic dataset insights self-service",
-        "Supported $400M+ in tax refund processing"
+        "Supported large-scale tax refund processing"
       ],
-      "impact": "Automated critical business processes supporting millions of global customers and $400M+ in financial operations",
+      "impact": "Automated critical business processes supporting millions of global customers and large-scale financial operations",
       "links": {
         "internal": true
       },

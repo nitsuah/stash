@@ -1,90 +1,65 @@
 # GitHub Copilot Instructions
 
-This file provides custom instructions to GitHub Copilot when working in this repository.
+Custom instructions for GitHub Copilot when working in this repository.
 
 ## Project Context
 
 **Project Name:** Stash
-**Description:** A personal folder of miscellaneous code and designs over the years. Predominantly Visual Basic .NET projects, solutions, and snippets.
-**Tech Stack:** Visual Basic .NET
-
-## Code Style & Conventions
-
-### General Guidelines
-
-- Follow existing code patterns and file structure.
-- Maintain consistent naming conventions across the codebase.
-- Write self-documenting code with clear variable and function names.
-- Add comments only when the code's intent is not immediately clear.
-- Prefer explicit variable declarations.
-
-### Language-Specific Guidelines
-
-- **Visual Basic .NET**:
-    - Use `Option Strict On` and `Option Explicit On` for all projects.
-    - Follow Microsoft's .NET coding conventions.
-    - Use `Try...Catch` blocks for error handling.
-    - Prefer `String.Format` or string interpolation for string formatting.
-    - Use meaningful variable names (e.g., `customerName` instead of `cn`).
-    - Use properties for accessing and modifying class members.
-
-### File Organization
-
-- Organize projects into meaningful solutions.
-- Group related classes into namespaces.
-- Use separate files for each class or module.
-- Place resource files (e.g., images, icons) in a `Resources` folder.
-
-## Architecture Patterns
-
-- N/A (Due to the miscellaneous nature of the repository, specific architectural patterns may not be consistently applied.)
-
-## Testing Strategy
-
-- Unit tests are encouraged where applicable.
-- Use a testing framework like NUnit or MSTest.
-- Write tests to cover edge cases and error conditions.
-- Aim for high test coverage for critical components.
-
-## Security Considerations
-
-- Never commit secrets, API keys, or credentials.
-- Validate all user inputs to prevent injection attacks.
-- Use parameterized queries when interacting with databases.
-- Implement proper error handling to prevent information leakage.
-
-## Performance Guidelines
-
-- Optimize database queries (use indexes, avoid full table scans).
-- Avoid unnecessary object creation.
-- Use efficient data structures and algorithms.
-- Profile code to identify performance bottlenecks.
-
-## Documentation Requirements
-
-- Update README.md when adding new projects or making significant changes.
-- Document complex algorithms or business logic.
-- Add comments to code to explain its purpose and functionality.
-
-## Common Pitfalls to Avoid
-
-- Don't ignore exceptions.
-- Don't hardcode configuration values.
-- Don't use magic numbers.
-- Don't write overly complex or convoluted code.
-- Don't commit commented-out code.
-
-## Preferred Libraries & Tools
-
-- Visual Studio: The primary IDE for development.
-- .NET Framework/.NET: The target framework for applications.
-- NUnit/MSTest: Testing frameworks.
-
-## Additional Context
-
-- This repository contains a variety of projects and snippets, so consistency may vary.
-- Focus on improving code quality and maintainability where possible.
+**Description:** Personal technical reference repository — API examples, automation scripts, infrastructure templates, AI agent prompts, and VBA/Access tools accumulated over 15+ years of enterprise engineering work.
+**Primary Languages:** Python, PowerShell, Bash, VBA, Groovy, HTML/JS
 
 ---
 
-**Note:** These instructions help GitHub Copilot provide more relevant and consistent suggestions. Update this file as project conventions evolve.
+## Code Style & Conventions
+
+- Follow existing patterns and file structure in each subdirectory.
+- Write self-documenting code with clear variable and function names.
+- Add comments only when intent is non-obvious — never restate what the code does.
+- No magic numbers; no hardcoded credentials or secrets.
+
+### Python
+- Target Python 3.10+ (`type | None`, `match`, etc.)
+- Use `requests` for HTTP; `python-dotenv` for env loading.
+- Scripts should be runnable standalone with a `main()` and `if __name__ == "__main__"` guard.
+- Prefer explicit `r.raise_for_status()` over manual status checks.
+
+### PowerShell
+- Use `$ErrorActionPreference = "Stop"` in bootstrap/infra scripts.
+- Quote all paths; use `Write-Log` or `Write-Host` with `-ForegroundColor` for visibility.
+- Prefer `param()` blocks over positional args for reusable scripts.
+
+### Bash
+- Start with `set -euo pipefail`.
+- Use `echo ">>> ..."` for stage headers in bootstrap scripts.
+
+### VBA
+- Use `Option Explicit` on all modules.
+- Wrap COM object use in `Try...Catch` equivalents (`On Error GoTo`).
+
+---
+
+## Security
+
+- Never commit secrets, API keys, or credentials — use `.env` files (gitignored).
+- Validate inputs at system boundaries; trust internal calls.
+- Use parameterized queries when interacting with databases.
+
+---
+
+## File Organization
+
+- `atlassian/` — Atlassian Cloud API examples (Python)
+- `SAAS/` — SaaS platform API examples (Python)
+- `IAS/` — EC2 UserData bootstrap scripts (Bash / PowerShell)
+- `agent/` — AI agent role prompts (Markdown)
+- `git/` — Git maintenance utilities (PowerShell)
+- `windows/` — Windows automation (Batch, PowerShell, VBA)
+- `projects/` — Standalone tools (Access/VBA, HTML, circuit design)
+
+---
+
+## Documentation
+
+- Update the relevant `README.md` when adding new scripts or changing behavior.
+- Root `README.md` links out to folder-level READMEs — keep it concise.
+- Do not create documentation for obvious one-liners.

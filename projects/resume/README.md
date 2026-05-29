@@ -14,15 +14,15 @@ Standard resume format containing:
 ### `resume-ai.json`
 AI-focused version of resume emphasizing:
 - GenAI tool integration and MCP server architecture
-- AI-assisted development workflows
+- AI-assisted mainment workflows
 - Developer productivity engineering
 - Enterprise AI adoption initiatives
 
 ### `projects.json`
 Comprehensive project portfolio including:
-- **Netflix Projects:** Jirawala MCP server, Productivity Assistant, Ad Ops pipeline
+- **Netflix Projects:** Jira Slack App / MCP Server, Enterprise AI Chatbot & RAG Search, Ad Ops pipeline
 - **Coinbase Projects:** Automation suite, compliance tools, audit systems
-- **Personal Projects:** Nitsuah Labs portfolio, Web3/NFT development
+- **Personal Projects:** Nitsuah Labs portfolio, Web3/NFT mainment
 - **Enterprise Tools:** Remora PAM, Sampler PDF processor, VMT asset management
 - **Utilities:** PowerShell automation, VBA macros, system administration tools
 
