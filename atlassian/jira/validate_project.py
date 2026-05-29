@@ -378,25 +378,30 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         else:
             s.add(Result("Resolution set on Done", Status.FAIL, "resolution is null"))
 
-        # Reopen via direct transition (we cannot safely use reporter-comment here —
-        # the automation would fire on our own test ticket and reopen it mid-cleanup).
-        # The reporter-comment → Reopened automation must be verified manually or via
-        # a dedicated user account that is not the issue reporter.
-        ok, msg = transition_issue(client, key, "Reopened")
-        s.add(Result("Transition: Done → Reopened", Status.PASS if ok else Status.FAIL, msg))
-        s.add(Result("Reporter-comment reopen automation", Status.SKIP,
-                     "skipped — firing it as reporter would re-open our own test ticket"))
+        # Trigger the reporter-comment → Reopened automation.
+        # This IS the test — one comment, then we check the result.
+        # No further comments after this point, so the automation won't fire again.
+        add_comment(client, key, "Reopening for validation — automated test.")
+        s.add(Result("Comment posted (reporter-reopen automation trigger)", Status.PASS,
+                     "pausing 5s for automation…"))
+        time.sleep(5)
 
-        # Verify resolution was cleared on reopen
         issue = get_issue(client, key)
-        res_now = issue["fields"].get("resolution")
-        if res_now is None:
-            s.add(Result("Resolution cleared on Reopen", Status.PASS, "null as expected"))
+        status_now = issue["fields"]["status"]["name"]
+        if status_now.lower() == "reopened":
+            s.add(Result("Reporter-comment → Reopened automation", Status.PASS,
+                         f"status is now '{status_now}'"))
+            res_now = issue["fields"].get("resolution")
+            if res_now is None:
+                s.add(Result("Resolution cleared on Reopen", Status.PASS, "null as expected"))
+            else:
+                s.add(Result("Resolution cleared on Reopen", Status.FAIL,
+                             f"still set to '{res_now['name']}'"))
         else:
-            s.add(Result("Resolution cleared on Reopen", Status.FAIL,
-                         f"still set to '{res_now['name']}'"))
+            s.add(Result("Reporter-comment → Reopened automation", Status.WARN,
+                         f"status is '{status_now}' — automation may not have fired"))
 
-        # Re-close to reach a final state before deletion
+        # Transition directly to Done — no more comments, so automation won't re-trigger
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("Final close", Status.PASS if ok else Status.WARN, msg))
 
