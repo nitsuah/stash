@@ -20,7 +20,7 @@ AI-focused version of resume emphasizing:
 
 ### `projects.json`
 Comprehensive project portfolio including:
-- **Netflix Projects:** Jirawala MCP server, Productivity Assistant, Ad Ops pipeline
+- **Netflix Projects:** Jira Slack App / MCP Server, Enterprise AI Chatbot & RAG Search, Ad Ops pipeline
 - **Coinbase Projects:** Automation suite, compliance tools, audit systems
 - **Personal Projects:** Nitsuah Labs portfolio, Web3/NFT development
 - **Enterprise Tools:** Remora PAM, Sampler PDF processor, VMT asset management

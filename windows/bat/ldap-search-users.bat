@@ -1,1 +1,1 @@
-ldapadd -x -h PROD -D "ou=users,ou=ou,dc=dc,dc=dc" -w secret -b -H ldap:// -f C:\newusers.ldif
+ldapadd -x -h LDAP_HOST -D "ou=users,ou=ORGUNIT,dc=DOMAIN,dc=com" -w PASSWORD -b -H ldap:// -f C:\newusers.ldif
