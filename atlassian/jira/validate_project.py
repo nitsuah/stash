@@ -8,6 +8,7 @@ Credentials are read from environment variables (never pass secrets as CLI args)
     JIRA_TOKEN    your Atlassian API token
 
 Usage:
+    # Option 1: env vars
     export JIRA_HOST=https://yourorg.atlassian.net
     export JIRA_EMAIL=you@example.com
     export JIRA_TOKEN=YOUR_API_TOKEN
@@ -22,6 +23,10 @@ Usage:
     # Point at a .env elsewhere:
     python validate_project.py --project AUSTIN --env-file /path/to/.env
 
+Output:
+    Results are printed to stdout and written to validator_<PROJECT>_<timestamp>.log
+    (*.log is git-ignored).
+
 Requirements:
     pip install requests
     pip install python-dotenv  # optional, for .env file support
@@ -33,14 +38,16 @@ import os
 import sys
 import time
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from io import StringIO
+from typing import Any, TextIO
 
 import requests
 
 
 # ---------------------------------------------------------------------------
-# Config & helpers
+# Result / Suite
 # ---------------------------------------------------------------------------
 
 class Status(Enum):
@@ -48,6 +55,9 @@ class Status(Enum):
     FAIL = "FAIL"
     SKIP = "SKIP"
     WARN = "WARN"
+
+
+SYMBOL = {Status.PASS: "✓", Status.FAIL: "✗", Status.SKIP: "-", Status.WARN: "!"}
 
 
 @dataclass
@@ -62,13 +72,17 @@ class Result:
 class Suite:
     name: str
     results: list[Result] = field(default_factory=list)
+    _log: TextIO = field(default_factory=StringIO, repr=False)
 
     def add(self, result: Result) -> Result:
         self.results.append(result)
-        symbol = {"PASS": "✓", "FAIL": "✗", "SKIP": "-", "WARN": "!"}.get(result.status.value, "?")
-        print(f"  [{symbol}] {result.name}: {result.message}")
-        if result.details and result.status == Status.FAIL:
-            print(f"      → {result.details}")
+        line = f"  [{SYMBOL[result.status]}] {result.name}: {result.message}"
+        print(line)
+        self._log.write(line + "\n")
+        if result.details and result.status in (Status.FAIL, Status.WARN):
+            detail_line = f"      → {result.details}"
+            print(detail_line)
+            self._log.write(detail_line + "\n")
         return result
 
     @property
@@ -79,6 +93,18 @@ class Suite:
     def failed(self) -> int:
         return sum(1 for r in self.results if r.status == Status.FAIL)
 
+    @property
+    def warned(self) -> int:
+        return sum(1 for r in self.results if r.status == Status.WARN)
+
+    @property
+    def skipped(self) -> int:
+        return sum(1 for r in self.results if r.status == Status.SKIP)
+
+
+# ---------------------------------------------------------------------------
+# Jira client
+# ---------------------------------------------------------------------------
 
 class JiraClient:
     def __init__(self, host: str, email: str, token: str):
@@ -104,7 +130,7 @@ class JiraClient:
 
 
 # ---------------------------------------------------------------------------
-# Reusable fetchers (cached per run)
+# Cached fetchers
 # ---------------------------------------------------------------------------
 
 _cache: dict[str, Any] = {}
@@ -141,6 +167,10 @@ def get_resolutions(client: JiraClient) -> list[dict]:
         _cache["resolutions"] = r.json()
     return _cache["resolutions"]
 
+
+# ---------------------------------------------------------------------------
+# Issue helpers
+# ---------------------------------------------------------------------------
 
 def get_transitions(client: JiraClient, issue_key: str) -> list[dict]:
     r = client.get(f"/rest/api/3/issue/{issue_key}/transitions")
@@ -183,13 +213,17 @@ def add_comment(client: JiraClient, issue_key: str, body_text: str) -> dict:
     return r.json()
 
 
-def comment_failures(client: JiraClient, issue_key: str, suite: "Suite",
-                     label: str = "") -> None:
-    """Post a single comment listing all FAILs — only if there are any.
+def delete_issue(client: JiraClient, issue_key: str) -> bool:
+    r = client.delete(f"/rest/api/3/issue/{issue_key}")
+    return r.status_code == 204
 
-    Deliberately skipped when there are no failures so that a passing run
-    never comments on an issue (which would trigger the reporter-reopen
-    automation on our own test tickets).
+
+def comment_failures(client: JiraClient, issue_key: str, suite: Suite,
+                     label: str = "") -> None:
+    """Post one comment listing all FAILs — only when failures exist.
+
+    Skipped on a clean run so a passing execution never comments on test
+    tickets and inadvertently triggers the reporter-reopen automation.
     """
     failures = [r for r in suite.results if r.status == Status.FAIL]
     if not failures:
@@ -203,9 +237,34 @@ def comment_failures(client: JiraClient, issue_key: str, suite: "Suite",
     add_comment(client, issue_key, "\n".join(lines))
 
 
-def delete_issue(client: JiraClient, issue_key: str) -> bool:
-    r = client.delete(f"/rest/api/3/issue/{issue_key}")
-    return r.status_code == 204
+def assert_resolution_cleared(client: JiraClient, issue_key: str,
+                               context: str, suite: Suite) -> None:
+    """Fetch the issue and fail if resolution is not null."""
+    issue = get_issue(client, issue_key)
+    res = issue["fields"].get("resolution")
+    if res is None:
+        suite.add(Result(f"Resolution cleared ({context})", Status.PASS, "null as expected"))
+    else:
+        suite.add(Result(f"Resolution cleared ({context})", Status.FAIL,
+                         f"still '{res['name']}'"))
+
+
+def check_reporter_reopen(client: JiraClient, issue_key: str, suite: Suite,
+                          label: str, pause: int = 5) -> None:
+    """Comment as reporter, wait, verify status moved to Reopened."""
+    add_comment(client, issue_key, f"[{label}] Reopening for validation — automated test.")
+    suite.add(Result(f"{label}: Reporter-comment posted", Status.PASS,
+                     f"pausing {pause}s for automation…"))
+    time.sleep(pause)
+    issue = get_issue(client, issue_key)
+    status_now = issue["fields"]["status"]["name"]
+    if status_now.lower() == "reopened":
+        suite.add(Result(f"{label}: Reporter-comment → Reopened", Status.PASS,
+                         f"status is '{status_now}'"))
+        assert_resolution_cleared(client, issue_key, f"{label} reopen", suite)
+    else:
+        suite.add(Result(f"{label}: Reporter-comment → Reopened", Status.WARN,
+                         f"status is '{status_now}' — automation may not have fired"))
 
 
 # ---------------------------------------------------------------------------
@@ -251,7 +310,6 @@ def suite_workflows(client: JiraClient, project_key: str) -> Suite:
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
     all_statuses = get_statuses_for_project(client, project_key)
-    # Build map: issue-type name → set of status names
     status_map: dict[str, set[str]] = {}
     for entry in all_statuses:
         it_name = entry.get("name", "")
@@ -317,7 +375,6 @@ def suite_custom_fields(client: JiraClient) -> Suite:
         else:
             s.add(Result(f"Field '{name}'", Status.FAIL, "NOT FOUND"))
 
-    # Validate Payment Amount is numeric
     pa = field_map.get("payment amount")
     if pa:
         t = pa.get("schema", {}).get("type", "")
@@ -329,28 +386,28 @@ def suite_custom_fields(client: JiraClient) -> Suite:
 
 
 # ---------------------------------------------------------------------------
-# Suite 5 — Lifecycle: Story
+# Suite 5 — Story lifecycle
+#   Chain: New→InProgress→InTesting→Done(+res) → neg-test(Done w/o res from
+#          InTesting step skipped since we can't easily re-enter InTesting;
+#          negative is done before first Done) → reporter-comment reopen →
+#          direct Done → delete
 # ---------------------------------------------------------------------------
 
 def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
     s = Suite("Story Lifecycle")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
-    # Create
-    body = {
-        "fields": {
-            "project": {"key": project_key},
-            "summary": "[VALIDATOR] Story lifecycle test",
-            "issuetype": {"name": "Story"},
-            "description": {
-                "type": "doc", "version": 1,
-                "content": [{"type": "paragraph", "content": [
-                    {"type": "text", "text": "Automated config validation — safe to delete."}
-                ]}],
-            },
-        }
-    }
-    r = client.post("/rest/api/3/issue", body)
+    r = client.post("/rest/api/3/issue", {"fields": {
+        "project": {"key": project_key},
+        "summary": "[VALIDATOR] Story lifecycle test",
+        "issuetype": {"name": "Story"},
+        "description": {
+            "type": "doc", "version": 1,
+            "content": [{"type": "paragraph", "content": [
+                {"type": "text", "text": "Automated config validation — safe to delete."}
+            ]}],
+        },
+    }})
     if r.status_code != 201:
         s.add(Result("Create Story", Status.FAIL, f"HTTP {r.status_code}", r.text[:300]))
         return s
@@ -358,19 +415,34 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
     s.add(Result("Create Story", Status.PASS, key))
 
     try:
-        # New → In Progress
         ok, msg = transition_issue(client, key, "In Progress")
-        s.add(Result("Transition: New → In Progress", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("New → In Progress", Status.PASS if ok else Status.FAIL, msg))
 
-        # In Progress → In Testing
         ok, msg = transition_issue(client, key, "In Testing")
-        s.add(Result("Transition: In Progress → In Testing", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("In Progress → In Testing", Status.PASS if ok else Status.FAIL, msg))
 
-        # In Testing → Done (requires resolution)
+        # Negative: attempt Done WITHOUT a resolution — should be rejected
+        ok, msg = transition_issue(client, key, "Done")  # no resolution_name
+        if not ok:
+            s.add(Result("Done rejected without resolution (negative test)", Status.PASS,
+                         "transition blocked as expected"))
+        else:
+            # Jira may accept the transition and leave resolution null — check
+            issue = get_issue(client, key)
+            if issue["fields"].get("resolution") is None and \
+                    issue["fields"]["status"]["name"].lower() == "done":
+                s.add(Result("Done rejected without resolution (negative test)", Status.FAIL,
+                             "transition succeeded with no resolution set"))
+                # Reopen so the chain can continue
+                transition_issue(client, key, "In Testing")
+            else:
+                s.add(Result("Done rejected without resolution (negative test)", Status.PASS,
+                             "transition accepted but resolution enforced by workflow"))
+
+        # Happy path: Done WITH resolution
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
-        s.add(Result("Transition: In Testing → Done (w/ resolution)", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("In Testing → Done (with resolution)", Status.PASS if ok else Status.FAIL, msg))
 
-        # Verify resolution is set
         issue = get_issue(client, key)
         res = issue["fields"].get("resolution")
         if res:
@@ -378,36 +450,17 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         else:
             s.add(Result("Resolution set on Done", Status.FAIL, "resolution is null"))
 
-        # Trigger the reporter-comment → Reopened automation.
-        # This IS the test — one comment, then we check the result.
-        # No further comments after this point, so the automation won't fire again.
-        add_comment(client, key, "Reopening for validation — automated test.")
-        s.add(Result("Comment posted (reporter-reopen automation trigger)", Status.PASS,
-                     "pausing 5s for automation…"))
-        time.sleep(5)
+        # Reporter-comment → Reopened automation (one comment, then check)
+        check_reporter_reopen(client, key, s, label="Story")
 
+        # If reopen fired we're in Reopened; if not we may still be in Done.
+        # Either way, close via direct transition (no comment) before delete.
         issue = get_issue(client, key)
-        status_now = issue["fields"]["status"]["name"]
-        if status_now.lower() == "reopened":
-            s.add(Result("Reporter-comment → Reopened automation", Status.PASS,
-                         f"status is now '{status_now}'"))
-            res_now = issue["fields"].get("resolution")
-            if res_now is None:
-                s.add(Result("Resolution cleared on Reopen", Status.PASS, "null as expected"))
-            else:
-                s.add(Result("Resolution cleared on Reopen", Status.FAIL,
-                             f"still set to '{res_now['name']}'"))
-        else:
-            s.add(Result("Reporter-comment → Reopened automation", Status.WARN,
-                         f"status is '{status_now}' — automation may not have fired"))
-
-        # Transition directly to Done — no more comments, so automation won't re-trigger
-        ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
-        s.add(Result("Final close", Status.PASS if ok else Status.WARN, msg))
+        if issue["fields"]["status"]["name"].lower() != "done":
+            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            s.add(Result("Final close", Status.PASS if ok else Status.WARN, msg))
 
     finally:
-        # Comment only if there were failures — a passing run never comments,
-        # so we never accidentally trigger the reporter-reopen automation.
         comment_failures(client, key, s, label="Story lifecycle")
         deleted = delete_issue(client, key)
         s.add(Result(f"Cleanup ({key})", Status.PASS if deleted else Status.WARN,
@@ -417,7 +470,9 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
 
 # ---------------------------------------------------------------------------
-# Suite 6 — Lifecycle: Accounts Payable
+# Suite 6 — Accounts Payable lifecycle
+#   Chain: New→Approved(+res, +approval date) → Reopened(res cleared) →
+#          Denied(+res, +denied date) → reporter-comment reopen → delete
 # ---------------------------------------------------------------------------
 
 def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
@@ -449,9 +504,9 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
     s.add(Result("Create Accounts Payable", Status.PASS, key))
 
     try:
-        # --- Test Approved path ---
+        # Approved path
         ok, msg = transition_issue(client, key, "Approved", resolution_name="Approved")
-        s.add(Result("Transition: New → Approved", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("New → Approved", Status.PASS if ok else Status.FAIL, msg))
 
         time.sleep(5)  # automation: set Payment Approval Date
         issue = get_issue(client, key)
@@ -460,34 +515,24 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
         if res and res["name"].lower() == "approved":
             s.add(Result("Resolution 'Approved' set", Status.PASS, res["name"]))
         else:
-            s.add(Result("Resolution 'Approved' set", Status.FAIL,
-                         f"got: {res}"))
+            s.add(Result("Resolution 'Approved' set", Status.FAIL, f"got: {res}"))
 
         if pad_field:
             val = issue["fields"].get(pad_field)
-            if val:
-                s.add(Result("Payment Approval Date set by automation", Status.PASS, str(val)))
-            else:
-                s.add(Result("Payment Approval Date set by automation", Status.WARN,
-                             "field is null — check automation rule"))
+            s.add(Result("Payment Approval Date set by automation",
+                         Status.PASS if val else Status.WARN,
+                         str(val) if val else "field is null — check automation rule"))
         else:
             s.add(Result("Payment Approval Date check", Status.SKIP, "field not found"))
 
-        # Reopen → Denied path
+        # Reopen
         ok, msg = transition_issue(client, key, "Reopened")
-        s.add(Result("Transition: Approved → Reopened", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("Approved → Reopened", Status.PASS if ok else Status.FAIL, msg))
+        assert_resolution_cleared(client, key, "AP reopen", s)
 
-        # Verify resolution cleared
-        issue = get_issue(client, key)
-        res_now = issue["fields"].get("resolution")
-        if res_now is None:
-            s.add(Result("Resolution cleared on Reopen", Status.PASS, "null"))
-        else:
-            s.add(Result("Resolution cleared on Reopen", Status.FAIL,
-                         f"still '{res_now['name']}'"))
-
+        # Denied path
         ok, msg = transition_issue(client, key, "Denied", resolution_name="Denied")
-        s.add(Result("Transition: Reopened → Denied", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("Reopened → Denied", Status.PASS if ok else Status.FAIL, msg))
 
         time.sleep(5)  # automation: set Payment Denied Date
         issue = get_issue(client, key)
@@ -500,13 +545,14 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
         if pdd_field:
             val = issue["fields"].get(pdd_field)
-            if val:
-                s.add(Result("Payment Denied Date set by automation", Status.PASS, str(val)))
-            else:
-                s.add(Result("Payment Denied Date set by automation", Status.WARN,
-                             "field is null — check automation rule"))
+            s.add(Result("Payment Denied Date set by automation",
+                         Status.PASS if val else Status.WARN,
+                         str(val) if val else "field is null — check automation rule"))
         else:
             s.add(Result("Payment Denied Date check", Status.SKIP, "field not found"))
+
+        # Reporter-comment → Reopened automation
+        check_reporter_reopen(client, key, s, label="AP")
 
     finally:
         comment_failures(client, key, s, label="AP lifecycle")
@@ -518,25 +564,26 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
 
 # ---------------------------------------------------------------------------
-# Suite 7 — Task / Sub-task: Blocked & Reopened statuses
+# Suite 7 — Task & Sub-task lifecycle
+#   Chain per type: New→InProgress→Blocked(res cleared)→InProgress→
+#                   Done(+res)→Reopened(res cleared)→reporter-comment
 # ---------------------------------------------------------------------------
 
 def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
-    s = Suite("Task & Sub-task: Blocked / Reopened Statuses")
+    s = Suite("Task & Sub-task Lifecycle")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
     for it in ("Task", "Sub-task"):
         parent_key = None
 
-        # Sub-tasks need a parent; create a Task to parent against
         if it == "Sub-task":
             pr = client.post("/rest/api/3/issue", {"fields": {
                 "project": {"key": project_key},
-                "summary": "[VALIDATOR] Parent task for sub-task test",
+                "summary": "[VALIDATOR] Parent task for sub-task lifecycle test",
                 "issuetype": {"name": "Task"},
             }})
             if pr.status_code != 201:
-                s.add(Result(f"Create parent Task for Sub-task", Status.FAIL,
+                s.add(Result(f"Create parent Task for {it}", Status.FAIL,
                              f"HTTP {pr.status_code}"))
                 continue
             parent_key = pr.json()["key"]
@@ -544,7 +591,7 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
         create_body: dict[str, Any] = {
             "fields": {
                 "project": {"key": project_key},
-                "summary": f"[VALIDATOR] {it} blocked/reopen test",
+                "summary": f"[VALIDATOR] {it} lifecycle test",
                 "issuetype": {"name": it},
             }
         }
@@ -568,24 +615,30 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
             ok, msg = transition_issue(client, key, "Blocked")
             s.add(Result(f"{it}: In Progress → Blocked", Status.PASS if ok else Status.FAIL, msg))
 
+            # Blocked is non-final — resolution must be null (nothing to clear yet,
+            # but confirm the status is reachable and resolution stays null)
+            assert_resolution_cleared(client, key, f"{it} Blocked", s)
+
             ok, msg = transition_issue(client, key, "In Progress")
             s.add(Result(f"{it}: Blocked → In Progress", Status.PASS if ok else Status.FAIL, msg))
+
+            assert_resolution_cleared(client, key, f"{it} In Progress", s)
 
             ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
             s.add(Result(f"{it}: In Progress → Done", Status.PASS if ok else Status.FAIL, msg))
 
-            # Reopen
             ok, msg = transition_issue(client, key, "Reopened")
             s.add(Result(f"{it}: Done → Reopened", Status.PASS if ok else Status.FAIL, msg))
 
-            # Resolution should be cleared
-            issue = get_issue(client, key)
-            res = issue["fields"].get("resolution")
-            if res is None:
-                s.add(Result(f"{it}: Resolution cleared on Reopen", Status.PASS, "null"))
-            else:
-                s.add(Result(f"{it}: Resolution cleared on Reopen", Status.FAIL,
-                             f"still '{res['name']}'"))
+            assert_resolution_cleared(client, key, f"{it} Reopened", s)
+
+            # Reporter-comment → Reopened: issue is already Reopened, so first
+            # close it so the automation has a resolved state to reopen from.
+            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            s.add(Result(f"{it}: Reclose before comment-reopen test",
+                         Status.PASS if ok else Status.WARN, msg))
+
+            check_reporter_reopen(client, key, s, label=it)
 
         finally:
             comment_failures(client, key, s, label=f"{it} lifecycle")
@@ -598,64 +651,70 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
 
 # ---------------------------------------------------------------------------
-# Suite 8 — Sub-task gate: parent cannot resolve if child is open
+# Suite 8 — Sub-task resolution gate (Task parent AND Story parent)
 # ---------------------------------------------------------------------------
 
 def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite:
     s = Suite("Sub-task Resolution Gate")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
-    # Create a Task
-    pr = client.post("/rest/api/3/issue", {"fields": {
-        "project": {"key": project_key},
-        "summary": "[VALIDATOR] Parent — resolution gate test",
-        "issuetype": {"name": "Task"},
-    }})
-    if pr.status_code != 201:
-        s.add(Result("Create parent Task", Status.FAIL, f"HTTP {pr.status_code}"))
-        return s
-    parent_key = pr.json()["key"]
+    for parent_type in ("Task", "Story"):
+        pr = client.post("/rest/api/3/issue", {"fields": {
+            "project": {"key": project_key},
+            "summary": f"[VALIDATOR] {parent_type} parent — resolution gate test",
+            "issuetype": {"name": parent_type},
+        }})
+        if pr.status_code != 201:
+            s.add(Result(f"Create {parent_type} parent", Status.FAIL, f"HTTP {pr.status_code}"))
+            continue
+        parent_key = pr.json()["key"]
 
-    # Create an open Sub-task under it
-    cr = client.post("/rest/api/3/issue", {"fields": {
-        "project": {"key": project_key},
-        "summary": "[VALIDATOR] Open sub-task for gate test",
-        "issuetype": {"name": "Sub-task"},
-        "parent": {"key": parent_key},
-    }})
-    if cr.status_code != 201:
-        s.add(Result("Create open Sub-task", Status.FAIL, f"HTTP {cr.status_code}"))
-        delete_issue(client, parent_key)
-        return s
-    child_key = cr.json()["key"]
-    s.add(Result("Setup: parent + open sub-task", Status.PASS, f"{parent_key} / {child_key}"))
+        cr = client.post("/rest/api/3/issue", {"fields": {
+            "project": {"key": project_key},
+            "summary": f"[VALIDATOR] Open sub-task for {parent_type} gate test",
+            "issuetype": {"name": "Sub-task"},
+            "parent": {"key": parent_key},
+        }})
+        if cr.status_code != 201:
+            s.add(Result(f"Create open Sub-task under {parent_type}", Status.FAIL,
+                         f"HTTP {cr.status_code}"))
+            delete_issue(client, parent_key)
+            continue
+        child_key = cr.json()["key"]
+        s.add(Result(f"Setup: {parent_type} + open Sub-task", Status.PASS,
+                     f"{parent_key} / {child_key}"))
 
-    # Attempt to resolve parent — should be blocked
-    ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
-    if ok:
-        # Try to verify if the transition really went through
-        issue = get_issue(client, parent_key)
-        status = issue["fields"]["status"]["name"]
-        if status.lower() == "done":
-            s.add(Result("Parent blocked from resolving (open sub-task)", Status.FAIL,
-                         "transition succeeded — gate automation may not be configured",
-                         details="Expected the transition to be rejected or reverted"))
+        # For Story we need to walk through its workflow to reach Done
+        if parent_type == "Story":
+            transition_issue(client, parent_key, "In Progress")
+            transition_issue(client, parent_key, "In Testing")
+
+        ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
+        if ok:
+            issue = get_issue(client, parent_key)
+            status = issue["fields"]["status"]["name"]
+            if status.lower() == "done":
+                s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
+                             Status.FAIL,
+                             "transition succeeded — gate automation not configured",
+                             details="Expected rejection or post-transition revert"))
+            else:
+                s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
+                             Status.WARN,
+                             f"API accepted but status is '{status}' — possible automation revert"))
         else:
-            s.add(Result("Parent blocked from resolving (open sub-task)", Status.WARN,
-                         f"transition claimed success but status is '{status}' — possible automation revert"))
-    else:
-        s.add(Result("Parent blocked from resolving (open sub-task)", Status.PASS,
-                     "transition rejected as expected"))
+            s.add(Result(f"{parent_type} blocked from resolving (open sub-task)",
+                         Status.PASS, "transition rejected as expected"))
 
-    # Cleanup
-    delete_issue(client, child_key)
-    delete_issue(client, parent_key)
-    s.add(Result("Cleanup gate test", Status.PASS, "deleted"))
+        delete_issue(client, child_key)
+        delete_issue(client, parent_key)
+        s.add(Result(f"Cleanup {parent_type} gate ({parent_key})", Status.PASS, "deleted"))
+
     return s
 
 
 # ---------------------------------------------------------------------------
-# Suite 9 — Parent link update on resolution (ROI-4)
+# Suite 9 — Parent link updated to ROI-4 on resolution
 # ---------------------------------------------------------------------------
 
 def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
@@ -663,7 +722,6 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
     s = Suite(f"Parent Link Update on Resolution (→ {roi_parent})")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
-    # Verify ROI-4 is accessible
     r = client.get(f"/rest/api/3/issue/{roi_parent}")
     if r.status_code != 200:
         s.add(Result(f"ROI parent '{roi_parent}' accessible", Status.WARN,
@@ -672,7 +730,6 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
     s.add(Result(f"ROI parent '{roi_parent}' accessible", Status.PASS,
                  r.json()["fields"]["summary"][:60]))
 
-    # Create a Story in the project
     cr = client.post("/rest/api/3/issue", {"fields": {
         "project": {"key": project_key},
         "summary": "[VALIDATOR] Parent-link update test",
@@ -685,22 +742,21 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
     s.add(Result("Create test Story", Status.PASS, key))
 
     try:
-        # Transition to Done to trigger automation
-        ok, msg = transition_issue(client, key, "In Progress")
+        transition_issue(client, key, "In Progress")
         transition_issue(client, key, "In Testing")
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("Transition Story to Done", Status.PASS if ok else Status.FAIL, msg))
 
-        time.sleep(8)  # allow automation to update parent link
+        time.sleep(8)
 
         issue = get_issue(client, key)
-        # Check epic link, parent, or custom parent field
         parent_field = (
             issue["fields"].get("parent") or
-            issue["fields"].get("customfield_10014")  # Epic Link (classic)
+            issue["fields"].get("customfield_10014")  # Epic Link (classic projects)
         )
         if parent_field:
-            parent_val = parent_field if isinstance(parent_field, str) else parent_field.get("key", "")
+            parent_val = parent_field if isinstance(parent_field, str) \
+                else parent_field.get("key", "")
             if parent_val == roi_parent:
                 s.add(Result(f"Parent updated to {roi_parent}", Status.PASS, parent_val))
             else:
@@ -708,7 +764,7 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
                              f"parent is '{parent_val}', expected '{roi_parent}'"))
         else:
             s.add(Result(f"Parent updated to {roi_parent}", Status.WARN,
-                         "no parent/epic link field found — automation may use a different link type"))
+                         "no parent/epic link field found — check automation link type"))
 
     finally:
         comment_failures(client, key, s, label="Parent-link")
@@ -719,25 +775,94 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
 
 
 # ---------------------------------------------------------------------------
-# Report
+# Report writer
+# ---------------------------------------------------------------------------
+
+def write_report(suites: list[Suite], project: str, host: str, out_dir: str) -> str:
+    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    filename = os.path.join(out_dir, f"validator_{project}_{ts}.log")
+
+    total_pass = sum(s.passed for s in suites)
+    total_fail = sum(s.failed for s in suites)
+    total_warn = sum(s.warned for s in suites)
+    total_skip = sum(s.skipped for s in suites)
+    overall = "PASS" if total_fail == 0 else "FAIL"
+
+    with open(filename, "w", encoding="utf-8") as fh:
+        def w(line: str = "") -> None:
+            fh.write(line + "\n")
+
+        w("=" * 70)
+        w("JIRA PROJECT CONFIGURATION VALIDATOR")
+        w("=" * 70)
+        w(f"Host:    {host}")
+        w(f"Project: {project}")
+        w(f"Run at:  {ts}")
+        w(f"Result:  {overall}  ({total_pass}P / {total_fail}F / {total_warn}W / {total_skip}S)")
+        w()
+
+        for suite in suites:
+            suite_status = "PASS" if suite.failed == 0 else "FAIL"
+            w(f"┌─ [{suite_status}] {suite.name}")
+        w()
+        w("─" * 70)
+        w("DETAIL")
+        w("─" * 70)
+
+        for suite in suites:
+            suite_status = "PASS" if suite.failed == 0 else "FAIL"
+            w()
+            w(f"[{suite_status}] {suite.name}  "
+              f"({suite.passed}P / {suite.failed}F / {suite.warned}W / {suite.skipped}S)")
+            w("-" * 50)
+            for r in suite.results:
+                w(f"  [{r.status.value:4s}] {r.name}: {r.message}")
+                if r.details:
+                    w(f"         → {r.details}")
+
+        if total_fail:
+            w()
+            w("=" * 70)
+            w("FAILURES")
+            w("=" * 70)
+            for suite in suites:
+                for r in suite.results:
+                    if r.status == Status.FAIL:
+                        w(f"  ✗ [{suite.name}] {r.name}: {r.message}")
+                        if r.details:
+                            w(f"      → {r.details}")
+
+        w()
+        w("=" * 70)
+        w(f"END  {overall}")
+        w("=" * 70)
+
+    return filename
+
+
+# ---------------------------------------------------------------------------
+# Console summary
 # ---------------------------------------------------------------------------
 
 def print_summary(suites: list[Suite]) -> int:
     total_pass = sum(s.passed for s in suites)
     total_fail = sum(s.failed for s in suites)
+    total_warn = sum(s.warned for s in suites)
+    total_skip = sum(s.skipped for s in suites)
 
     print(f"\n{'='*60}")
     print("SUMMARY")
     print(f"{'='*60}")
     for suite in suites:
         icon = "✓" if suite.failed == 0 else "✗"
-        print(f"  [{icon}] {suite.name:45s}  {suite.passed}P / {suite.failed}F")
+        print(f"  [{icon}] {suite.name:50s}  {suite.passed}P / {suite.failed}F"
+              f" / {suite.warned}W / {suite.skipped}S")
     print(f"{'='*60}")
-    print(f"  Total: {total_pass} passed, {total_fail} failed")
+    print(f"  Total: {total_pass}P  {total_fail}F  {total_warn}W  {total_skip}S")
     print(f"{'='*60}")
 
     if total_fail:
-        print("\nFailed checks:")
+        print("\nFailures:")
         for suite in suites:
             for r in suite.results:
                 if r.status == Status.FAIL:
@@ -749,18 +874,16 @@ def print_summary(suites: list[Suite]) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Entry point
+# Credentials / .env
 # ---------------------------------------------------------------------------
 
 def _load_env_file(path: str) -> None:
-    """Load key=value pairs from a .env file into os.environ (no dependency required)."""
     try:
         from dotenv import load_dotenv  # type: ignore
         load_dotenv(path, override=False)
         return
     except ImportError:
         pass
-    # Minimal fallback parser (no dotenv installed)
     with open(path) as fh:
         for line in fh:
             line = line.strip()
@@ -781,6 +904,10 @@ def _require_env(name: str) -> str:
     return val
 
 
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate Jira project configuration",
@@ -793,9 +920,10 @@ def main() -> int:
                         help="Skip tests that create/delete real issues (structural checks only)")
     parser.add_argument("--env-file", metavar="FILE", default=None,
                         help="Path to a .env file (default: .env next to this script)")
+    parser.add_argument("--report-dir", metavar="DIR", default=None,
+                        help="Directory for the log report (default: same dir as this script)")
     args = parser.parse_args()
 
-    # Auto-load .env from the script's own directory; --env-file overrides the path
     default_env = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
     env_file = args.env_file or (default_env if os.path.exists(default_env) else None)
     if env_file:
@@ -807,11 +935,11 @@ def main() -> int:
 
     client = JiraClient(host, email, token)
     project = args.project.upper()
+    report_dir = args.report_dir or os.path.dirname(os.path.abspath(__file__))
 
     print(f"\nJira Config Validator")
     print(f"Host:    {host}")
     print(f"Project: {project}")
-    print(f"Date:    2026-05-28")
 
     suites: list[Suite] = [
         suite_issue_types(client, project),
@@ -831,7 +959,12 @@ def main() -> int:
     else:
         print("\n[--skip-lifecycle] Skipping issue-creation tests.")
 
-    return print_summary(suites)
+    rc = print_summary(suites)
+
+    report_path = write_report(suites, project, host, report_dir)
+    print(f"\nReport written → {report_path}")
+
+    return rc
 
 
 if __name__ == "__main__":
