@@ -183,6 +183,26 @@ def add_comment(client: JiraClient, issue_key: str, body_text: str) -> dict:
     return r.json()
 
 
+def comment_failures(client: JiraClient, issue_key: str, suite: "Suite",
+                     label: str = "") -> None:
+    """Post a single comment listing all FAILs — only if there are any.
+
+    Deliberately skipped when there are no failures so that a passing run
+    never comments on an issue (which would trigger the reporter-reopen
+    automation on our own test tickets).
+    """
+    failures = [r for r in suite.results if r.status == Status.FAIL]
+    if not failures:
+        return
+    prefix = f"[{label}] " if label else ""
+    lines = [f"{prefix}VALIDATOR FAILURES on {issue_key}:"]
+    for r in failures:
+        lines.append(f"  ✗ {r.name}: {r.message}")
+        if r.details:
+            lines.append(f"      → {r.details}")
+    add_comment(client, issue_key, "\n".join(lines))
+
+
 def delete_issue(client: JiraClient, issue_key: str) -> bool:
     r = client.delete(f"/rest/api/3/issue/{issue_key}")
     return r.status_code == 204
@@ -358,35 +378,32 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         else:
             s.add(Result("Resolution set on Done", Status.FAIL, "resolution is null"))
 
-        # Reopen via reporter comment (automation: comment by reporter → Reopened)
-        # We add the comment and then pause to allow automation to fire
-        add_comment(client, key, "Reopening for validation — automated test.")
-        s.add(Result("Comment added (triggers reopen automation)", Status.PASS,
-                     "pausing 5s for automation…"))
-        time.sleep(5)
+        # Reopen via direct transition (we cannot safely use reporter-comment here —
+        # the automation would fire on our own test ticket and reopen it mid-cleanup).
+        # The reporter-comment → Reopened automation must be verified manually or via
+        # a dedicated user account that is not the issue reporter.
+        ok, msg = transition_issue(client, key, "Reopened")
+        s.add(Result("Transition: Done → Reopened", Status.PASS if ok else Status.FAIL, msg))
+        s.add(Result("Reporter-comment reopen automation", Status.SKIP,
+                     "skipped — firing it as reporter would re-open our own test ticket"))
 
+        # Verify resolution was cleared on reopen
         issue = get_issue(client, key)
-        status_now = issue["fields"]["status"]["name"]
-        if status_now.lower() == "reopened":
-            s.add(Result("Auto-reopen via reporter comment", Status.PASS,
-                         f"status is now '{status_now}'"))
-            # Verify resolution was cleared
-            res_now = issue["fields"].get("resolution")
-            if res_now is None:
-                s.add(Result("Resolution cleared on Reopen", Status.PASS, "null as expected"))
-            else:
-                s.add(Result("Resolution cleared on Reopen", Status.FAIL,
-                             f"still set to '{res_now['name']}'"))
+        res_now = issue["fields"].get("resolution")
+        if res_now is None:
+            s.add(Result("Resolution cleared on Reopen", Status.PASS, "null as expected"))
         else:
-            s.add(Result("Auto-reopen via reporter comment", Status.WARN,
-                         f"status is '{status_now}' — automation may not have fired or rule targets reporter only"))
+            s.add(Result("Resolution cleared on Reopen", Status.FAIL,
+                         f"still set to '{res_now['name']}'"))
 
-        # Close with validation comment
-        add_comment(client, key, "VALIDATOR RESULT: Story lifecycle validated. Closing test issue.")
+        # Re-close to reach a final state before deletion
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("Final close", Status.PASS if ok else Status.WARN, msg))
 
     finally:
+        # Comment only if there were failures — a passing run never comments,
+        # so we never accidentally trigger the reporter-reopen automation.
+        comment_failures(client, key, s, label="Story lifecycle")
         deleted = delete_issue(client, key)
         s.add(Result(f"Cleanup ({key})", Status.PASS if deleted else Status.WARN,
                      "deleted" if deleted else "could not delete — remove manually"))
@@ -486,9 +503,8 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
         else:
             s.add(Result("Payment Denied Date check", Status.SKIP, "field not found"))
 
-        add_comment(client, key, "VALIDATOR RESULT: AP lifecycle validated. Closing test issue.")
-
     finally:
+        comment_failures(client, key, s, label="AP lifecycle")
         deleted = delete_issue(client, key)
         s.add(Result(f"Cleanup ({key})", Status.PASS if deleted else Status.WARN,
                      "deleted" if deleted else "could not delete — remove manually"))
@@ -566,8 +582,8 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
                 s.add(Result(f"{it}: Resolution cleared on Reopen", Status.FAIL,
                              f"still '{res['name']}'"))
 
-            add_comment(client, key, "VALIDATOR RESULT: Task lifecycle validated.")
         finally:
+            comment_failures(client, key, s, label=f"{it} lifecycle")
             delete_issue(client, key)
             if parent_key:
                 delete_issue(client, parent_key)
@@ -689,8 +705,8 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
             s.add(Result(f"Parent updated to {roi_parent}", Status.WARN,
                          "no parent/epic link field found — automation may use a different link type"))
 
-        add_comment(client, key, "VALIDATOR RESULT: Parent-link automation checked.")
     finally:
+        comment_failures(client, key, s, label="Parent-link")
         delete_issue(client, key)
         s.add(Result(f"Cleanup ({key})", Status.PASS, "deleted"))
 
