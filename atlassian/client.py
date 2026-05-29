@@ -17,15 +17,19 @@ import requests
 # Env loader
 # ---------------------------------------------------------------------------
 
-def load_env(path: str | None = None) -> None:
-    """Load a .env file into os.environ (no-op if file not found)."""
+def load_env(path: str | None = None, start_dir: str | None = None) -> None:
+    """Load a .env file into os.environ (no-op if file not found).
+
+    Search order when path is not explicit:
+      1. start_dir/.env   (caller's directory, e.g. atlassian/jira/)
+      2. atlassian/.env   (this file's directory — the canonical shared location)
+    """
     if path is None:
-        # Look next to this file first, then the caller's directory
-        here = os.path.dirname(os.path.abspath(__file__))
-        candidates = [
-            os.path.join(here, ".env"),
-            os.path.join(os.getcwd(), ".env"),
-        ]
+        here = os.path.dirname(os.path.abspath(__file__))  # atlassian/
+        candidates: list[str] = []
+        if start_dir and start_dir != here:
+            candidates.append(os.path.join(start_dir, ".env"))
+        candidates.append(os.path.join(here, ".env"))
         path = next((p for p in candidates if os.path.exists(p)), None)
     if not path or not os.path.exists(path):
         return
@@ -82,8 +86,9 @@ class AtlassianClient:
         return requests.delete(f"{self.base}{path}", headers=self.headers)
 
     @classmethod
-    def from_env(cls, env_file: str | None = None) -> "AtlassianClient":
-        load_env(env_file)
+    def from_env(cls, env_file: str | None = None,
+                 start_dir: str | None = None) -> "AtlassianClient":
+        load_env(env_file, start_dir=start_dir)
         return cls(
             host=require("JIRA_HOST"),
             email=require("JIRA_EMAIL"),
@@ -122,8 +127,9 @@ class BitbucketClient:
         return requests.delete(f"{self.BASE}{path}", headers=self.headers)
 
     @classmethod
-    def from_env(cls, env_file: str | None = None) -> "BitbucketClient":
-        load_env(env_file)
+    def from_env(cls, env_file: str | None = None,
+                 start_dir: str | None = None) -> "BitbucketClient":
+        load_env(env_file, start_dir=start_dir)
         return cls(
             workspace=require("BITBUCKET_WORKSPACE"),
             username=require("BITBUCKET_USERNAME"),
@@ -161,8 +167,9 @@ class StatuspageClient:
         return requests.delete(f"{self.BASE}{path}", headers=self.headers)
 
     @classmethod
-    def from_env(cls, env_file: str | None = None) -> "StatuspageClient":
-        load_env(env_file)
+    def from_env(cls, env_file: str | None = None,
+                 start_dir: str | None = None) -> "StatuspageClient":
+        load_env(env_file, start_dir=start_dir)
         return cls(
             api_key=require("STATUSPAGE_API_KEY"),
             page_id=require("STATUSPAGE_PAGE_ID"),

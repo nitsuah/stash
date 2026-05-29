@@ -1,6 +1,6 @@
 # CodeStash
 
-> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and developer productivity innovation.
+> Austin J. Hardy's technical evolution from VBA wizard to AI architect — 15+ years of enterprise automation and developer productivity innovation.
 
 ## Overview
 
@@ -8,118 +8,91 @@ This repository chronicles my technical journey from complex VBA automation syst
 
 **Technical Philosophy**: Build tools that eliminate manual toil, scale human capabilities, and empower teams to focus on high-value work through intelligent automation.
 
-## Atlassian
+---
 
-Python API examples and automation tools for the Atlassian Cloud suite.
-See [`atlassian/README.md`](atlassian/README.md) for full documentation and setup.
+## [Atlassian](atlassian/README.md)
 
-| Script | Covers |
-|--------|--------|
-| [`atlassian/jira/examples.py`](atlassian/jira/examples.py) | Jira Software, JSM, Assets, Automation |
-| [`atlassian/confluence/examples.py`](atlassian/confluence/examples.py) | Confluence Cloud |
-| [`atlassian/bitbucket/examples.py`](atlassian/bitbucket/examples.py) | Bitbucket Cloud |
-| [`atlassian/statuspage/examples.py`](atlassian/statuspage/examples.py) | Statuspage |
-| [`atlassian/jira/validate_project.py`](atlassian/jira/validate_project.py) | Jira project config validator |
+Python API examples for the Atlassian Cloud suite — Jira, Confluence, Bitbucket, and Statuspage. Includes a Jira project configuration validator with full lifecycle test suites.
 
-**Quick start:**
-```bash
-cp atlassian/.env.example atlassian/.env  # add your credentials
-pip install requests python-dotenv
-python atlassian/jira/examples.py --project MYPROJECT
-```
+---
 
-### Confluence
+## [IAS](IAS/)
 
-## IAS
+EC2 UserData bootstrap scripts for common instance configurations.
 
-- Ubuntu USERDATA example
-- Windows USERDATA example
+- [`ubuntu-userdata.sh`](IAS/ubuntu-userdata.sh) — Ubuntu 22.04: Docker, CloudWatch agent, sysctl hardening
+- [`windows-userdata.ps1`](IAS/windows-userdata.ps1) — Windows Server 2022: Chocolatey, IIS, CloudWatch agent, TLS/SMB hardening
+
+---
 
 ## Projects
 
-### Power Failure Alarm (PFA)
+### [Power Failure Alarm (PFA)](projects/pfa/README.md)
 
 ![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/pfa/pfa_pcb.png)
 
-Basic Power Failure Alarm circuit design diagram
+USB-powered circuit that sounds a buzzer on power loss. When power is present, D1 (1N4001) charges C2 (200 µF) through R1 (5 kΩ) while R2 (10 kΩ) holds Q1 (2N2905 PNP) off. When power is removed, Q1 switches on and C2 discharges through BUZZ1 (8 Ω), producing an audible alarm until depleted.
 
-### Remora
+### [Remora](projects/remora/)
 
 ![remora-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/remora/assets/remora-home.png)
 
-Advanced Privileged Access Management (PAM) Tool that
-stores user access lists and reports on access across multiple systems.
-Links to authorized signatory documents in shared folders for access audits.
-Built using Microsoft Access, Excel, and VBA.
+Privileged Access Management (PAM) tool — stores user access lists, links to authorized signatory documents, and generates audit reports. Built in Microsoft Access, Excel, and VBA.
 
-### Sampler
+### [Sampler](projects/sampler/)
 
 ![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/sampler/assets/sampler-home.png)
 
-Advanced PDF Random Sampling Tool that randomly samples based upon a given text string found in a PDF file containing multiple different pages.
+PDF random-sampling tool — selects a statistically valid sample of pages matching a target string across a multi-page PDF. Built in Microsoft Access with Adobe Acrobat.
 
-Built using Microsoft Access, Adobe Acrobat, and the SearchAndReplace plug-in.
+### [VMT](projects/vmt/)
 
-### VMT
+Asset and vulnerability management (CMDB) tool — joins asset inventory against CVE scan exports to produce prioritized remediation reports. Built in Microsoft Access, Excel, and VBA.
 
-Basic Assets & Vulnerability Management (CMBD) Tool
-that stores asset lists and joins reports on vulnerabilities across multiple systems.
+---
 
-Built using Microsoft Access, Excel, and VBA.
+## [SAAS](SAAS/README.md)
 
-## SAAS
+Python API examples for SaaS operations platforms — PagerDuty (incidents, on-call, Events API v2) and Slack (messages, channels, users, webhooks).
 
-- PagerDuty
-- Slack
+---
+
+## [Agent System](agent/README.md)
+
+Role-based AI agent prompts for personal operations and a product delivery pipeline. Covers personal agents (CFO, Career, Builder) and a full delivery pipeline (PMO → Intake → DevOps → QA → Oncall → Growth). Each agent is a standalone `.md` file used as a system prompt in Claude or run locally via the Anthropic SDK.
+
+---
+
+## [Git Utilities](git/README.md)
+
+PowerShell scripts for git repository maintenance. [`cleanup-branches.ps1`](git/cleanup-branches.ps1) scans all repos under a root path and removes merged local and remote branches — supports `-DryRun` and `-Force` flags.
+
+---
 
 ## Windows
 
-### LDAP
-- User search and cleanup utilities
-- Active Directory automation scripts
+Utilities for Windows automation, Active Directory, and log management. See [`windows/`](windows/) for scripts covering LDAP user search, PowerShell log management, and VBA Office automation.
 
-### PowerShell (pwsh)
-- **detect-server-v03d.ps1** - Intelligent JVM server type detection for log cleanup
-- **compress-logs-v02a.ps1** - Automated log file compression and management
-- **ConvertCSV-ToExcel.ps1** - Batch CSV to Excel conversion utility
+- [`bat/ldap-search-users.bat`](windows/bat/ldap-search-users.bat) — LDAP user search, group membership, disabled account detection
+- [`bat/run-logger.bat`](windows/bat/run-logger.bat) — Wraps any batch script with timestamped log output
+- [`pwsh/`](windows/pwsh/) — Log compression, CSV-to-Excel conversion, JVM server detection (see [`pwsh/README.md`](windows/pwsh/README.md))
+- [`vba/ldap-search-cleanup.vb`](windows/vba/ldap-search-cleanup.vb) — LDAP result formatting for Office
 
-### VBA
-- **ldap-search-cleanup.vb** - LDAP search result processing and formatting
-- Office automation macros and utilities
+---
 
-## 🚀 Featured AI & Automation Work
+## Other Projects
 
-### Netflix (2023-Present)
-- **MCP Server Architecture** - Model Context Protocol implementations for internal developer tooling
-- **AI-Assisted Development** - GitHub Copilot Slack integration serving 5000+ engineers
-- **Enterprise Automation** - Ad Operations pipeline optimization
+- [`projects/auto/`](projects/auto/) — Single-page car project board (HTML + localStorage, no backend)
+- [`projects/fps-tech/`](projects/fps-tech/) — FPS Tech branding assets
 
-### Technologies & Impact
-- **Languages:** Java, Python, JavaScript, PowerShell, VBA, SQL
-- **Platforms:** Spring AI, Atlassian Suite, AWS, Microsoft Office
-- **Specialties:** Developer Productivity, Enterprise Security, AI Integration
-- **Impact:** 15+ years serving thousands of engineers with 70%+ efficiency improvements
-
-## 📊 Repository Statistics
-- **Projects:** 10+ major enterprise tools and utilities
-- **Companies:** Netflix, Coinbase, Blackboard, MAXIMUS, OmniSystems
-- **Technologies:** 20+ programming languages and platforms
-- **Users Served:** 5000+ engineers and operational staff
+---
 
 ## 🔗 Links
+
 - **Portfolio:** [nitsuah.io](https://nitsuah.io)
 - **LinkedIn:** [austinjhardy](https://www.linkedin.com/in/austinjhardy/)
 - **GitHub:** [nitsuah](https://github.com/nitsuah)
 
 ---
 
-**"Ut prosim"** - *That I may serve*
-
-- Mind
-- Body
-- Spirit
-- Heart
-
-Equation: Service to others = Mind + Body + Spirit + Heart
-
-*Building AI-enhanced tools that empower thousands of engineers.*
+*"Ut prosim" — That I may serve*

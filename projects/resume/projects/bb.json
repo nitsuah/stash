@@ -3,7 +3,7 @@
         {
             "index": 1,
             "date": { "quarter": 4, "year": 2018 },
-            "description": "Led datacenter cleanup and management, reducing virtual machines from 2,200 to 400, improving efficiency and cost-effectiveness at Blackboard.",
+            "description": "Led datacenter cleanup and management, reducing virtual machines by ~80%, significantly improving efficiency and cost-effectiveness company-wide.",
             "id": "BB-15",
             "images": [{ "url": "" }],
             "link": "",
@@ -120,7 +120,7 @@
         {
             "index": 10,
             "date": { "quarter": 2, "year": 2020 },
-            "description": "Configured SAFe Portfolio & Jira Align for 150 teams, improving project management and coordination at Blackboard.",
+            "description": "Configured SAFe Portfolio & Jira Align across company-wide program teams, improving project management and coordination at scale.",
             "id": "BB-7",
             "images": [{ "url": "" }],
             "link": "",

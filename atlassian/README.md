@@ -10,6 +10,7 @@ Python examples for the Atlassian Cloud product suite. Each script is self-conta
 | [`confluence/examples.py`](confluence/examples.py) | Confluence Cloud | `JIRA_*` (same account) |
 | [`bitbucket/examples.py`](bitbucket/examples.py) | Bitbucket Cloud | `BITBUCKET_*` |
 | [`statuspage/examples.py`](statuspage/examples.py) | Atlassian Statuspage | `STATUSPAGE_*` |
+| [`jira/groovy/users.groovy`](jira/groovy/users.groovy) | Jira Server — ScriptRunner user listing | Jira Server admin |
 
 > **Not covered:** Bamboo (deprecated cloud), Crowd (replaced by Atlassian Access), Jira Data Center  
 > **Requires Jira Premium:** Jira Advanced Roadmaps (Plans), Assets — graceful fallback if unavailable
