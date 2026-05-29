@@ -1,34 +1,32 @@
 # CodeStash
 
-> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and mainer productivity innovation.
+> Austin J. Hardy's technical evolution from VBA wizard to AI architect - 15+ years of enterprise automation and developer productivity innovation.
 
 ## Overview
 
-This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven mainer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
+This repository chronicles my technical journey from complex VBA automation systems to modern AI-driven developer productivity tools. Each project represents real-world solutions that have served thousands of engineers and operational staff across Netflix, Coinbase, Blackboard, and other enterprise environments.
 
 **Technical Philosophy**: Build tools that eliminate manual toil, scale human capabilities, and empower teams to focus on high-value work through intelligent automation.
 
 ## Atlassian
 
-- Jira
-- Confluence
-- Bitbucket
-- Bamboo
-- Crowd
-- StatusPage
+Python API examples and automation tools for the Atlassian Cloud suite.
+See [`atlassian/README.md`](atlassian/README.md) for full documentation and setup.
 
-### Jira
+| Script | Covers |
+|--------|--------|
+| [`atlassian/jira/examples.py`](atlassian/jira/examples.py) | Jira Software, JSM, Assets, Automation |
+| [`atlassian/confluence/examples.py`](atlassian/confluence/examples.py) | Confluence Cloud |
+| [`atlassian/bitbucket/examples.py`](atlassian/bitbucket/examples.py) | Bitbucket Cloud |
+| [`atlassian/statuspage/examples.py`](atlassian/statuspage/examples.py) | Statuspage |
+| [`atlassian/jira/validate_project.py`](atlassian/jira/validate_project.py) | Jira project config validator |
 
-- Jira Cloud
-- Jira Data Center
-- Jira Core
-- Jira Software
-- Jira Service Desk
-- Jira Automation
-- Jira Advanced Roadmaps
-- Jira Align
-- Jira Assets
-- Jira Forms
+**Quick start:**
+```bash
+cp atlassian/.env.example atlassian/.env  # add your credentials
+pip install requests python-dotenv
+python atlassian/jira/examples.py --project MYPROJECT
+```
 
 ### Confluence
 
@@ -92,9 +90,9 @@ Built using Microsoft Access, Excel, and VBA.
 ## 🚀 Featured AI & Automation Work
 
 ### Netflix (2023-Present)
-- **MCP Server Architecture** - Model Context Protocol implementations for Jirawala
+- **MCP Server Architecture** - Model Context Protocol implementations for internal developer tooling
 - **AI-Assisted Development** - GitHub Copilot Slack integration serving 5000+ engineers
-- **Enterprise Automation** - $30M+ Ad Operations pipeline optimization
+- **Enterprise Automation** - Ad Operations pipeline optimization
 
 ### Technologies & Impact
 - **Languages:** Java, Python, JavaScript, PowerShell, VBA, SQL

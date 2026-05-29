@@ -12,16 +12,16 @@ Usage:
     export JIRA_HOST=https://yourorg.atlassian.net
     export JIRA_EMAIL=you@example.com
     export JIRA_TOKEN=YOUR_API_TOKEN
-    python validate_project.py --project AUSTIN
+    python validate_project.py --project MYPROJECT
 
     # Option 2 (recommended): copy .env.example → .env, fill in values.
     # A .env in the same directory as this script is loaded automatically.
     cp atlassian/jira/.env.example atlassian/jira/.env
     # edit .env, then:
-    python validate_project.py --project AUSTIN
+    python validate_project.py --project MYPROJECT
 
     # Point at a .env elsewhere:
-    python validate_project.py --project AUSTIN --env-file /path/to/.env
+    python validate_project.py --project MYPROJECT --env-file /path/to/.env
 
 Output:
     Results are printed to stdout and written to validator_<PROJECT>_<timestamp>.log
@@ -455,7 +455,7 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("In Testing → Done (with resolution)", Status.PASS if ok else Status.FAIL, msg))
 
-        # Brief pause so background automations (e.g. Set Parent to ROI-4) can
+        # Brief pause so background automations (e.g. Set Parent to PARENT-1) can
         # complete before we start touching the issue again with a comment.
         time.sleep(8)
 
@@ -758,7 +758,7 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
 
 
 # ---------------------------------------------------------------------------
-# Suite 9 — Parent link updated to ROI-4 on resolution
+# Suite 9 — Parent link updated to PARENT-1 on resolution
 # ---------------------------------------------------------------------------
 
 def _check_parent_link(client: JiraClient, issue_key: str, roi_parent: str,
@@ -787,7 +787,7 @@ def _check_parent_link(client: JiraClient, issue_key: str, roi_parent: str,
 
 
 def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
-                                  roi_parent: str = "ROI-4") -> Suite:
+                                  roi_parent: str = "PARENT-1") -> Suite:
     s = Suite(f"Parent Link Update on Resolution (→ {roi_parent})")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
@@ -984,9 +984,9 @@ def main() -> int:
         description="Validate Jira project configuration",
         epilog="Credentials come from env vars JIRA_HOST / JIRA_EMAIL / JIRA_TOKEN.",
     )
-    parser.add_argument("--project", required=True,  help="Project key, e.g. AUSTIN")
-    parser.add_argument("--roi-parent", default="ROI-4",
-                        help="Parent issue key for resolution link check (default: ROI-4)")
+    parser.add_argument("--project", required=True,  help="Project key, e.g. MYPROJECT")
+    parser.add_argument("--roi-parent", default="PARENT-1",
+                        help="Parent issue key for resolution link check (default: PARENT-1)")
     parser.add_argument("--skip-lifecycle", action="store_true",
                         help="Skip tests that create/delete real issues (structural checks only)")
     parser.add_argument("--env-file", metavar="FILE", default=None,

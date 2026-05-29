@@ -27,11 +27,11 @@
     {
       "name": "Netflix, Inc.",
       "highlights": [
-        "GenAI Tool Integration Pioneer - Lead contributor to Netflix Productivity Assistant ecosystem. Architected and implemented Spring AI @Tool annotations framework in Jirawala, transforming it into a sophisticated MCP server. Enabled natural language Jira operations, self-service project creation, user lookup, and issue management through conversational AI interfaces. Built foundational architecture for enterprise AI-assisted engineering workflows serving thousands of developers.",
+        "GenAI Tool Integration Pioneer - Lead contributor to an enterprise AI productivity chatbot and RAG search ecosystem spanning Jira, Confluence, and internal tooling. Architected and implemented Spring AI @Tool annotations framework in an internal Slack app, transforming it into a sophisticated MCP server. Enabled natural language Jira operations, self-service project creation, user lookup, and issue management through conversational AI interfaces. Built foundational architecture for enterprise AI-assisted engineering workflows serving thousands of developers.",
         "Developer Productivity Leadership - Operated and maintained 6+ production services self-service and supporting engineering integrations. Achieved 76% test coverage in legacy repositories through systematic testing enhancement and build system optimization.",
         "Cross-Repository Technical Excellence - Established L6-level agent profile for systematic repository maintenance, standardizing build systems, pre-commit hooks, and CI/CD pipelines across Python/Java codebases. Reduced technical debt through automated dependency management and infrastructure hardening.",
-        "Enterprise Automation at Scale - Fixed Jirawala Slack bot enabling self-service Jira project management for Netflix engineering teams. Designed extensible command architecture supporting 15+ different operations with metatron authentication and comprehensive error handling.",
-        "Ad Ops Pipeline Optimization - Developed custom Jira project and automation rules for Ad Operations team, enabling streamlined campaign management and work tracking from Airtable. Enhanced visibility and reporting for $30M+ in revenue through custom fields, workflows, and dashboards.",
+        "Enterprise Automation at Scale - Extended an internal Slack app enabling self-service Jira project management for engineering teams. Designed extensible command architecture supporting 15+ different operations with mTLS identity-based authentication and comprehensive error handling.",
+        "Ad Ops Pipeline Optimization - Developed custom Jira project and automation rules for Ad Operations team, enabling streamlined campaign management and work tracking from Airtable. Enhanced visibility and reporting for advertising revenue operations through custom fields, workflows, and dashboards.",
         "Data-Driven Engineering Insights - Built Global Agile Dashboards using Atlassian Analytics and SQL, enabling actionable insights for thousands of Workforce Engineering users. Created bi-weekly sprint assessment automation for team performance analysis.",
         "Cloud Infrastructure & SRE - Managed incidents and operational alerts with comprehensive runbook automation. Disabled hundreds of unused webhooks, cleaned up resource-heavy automation rules, and led Atlassian Data Center to Cloud migration for 5000+ external partners.",
         "AI-Assisted Development Advocate - Pioneered Claude/MCP workflows for enterprise development, including bitbot for intelligent code analysis, automated testing frameworks, and cross-repository pattern recognition for unit test generation. Integrated GitHub Copilot into Slack channels enabling collaborative AI-assisted coding sessions. Built comprehensive knowledge bases and documentation systems with direct Jira integration, reducing developer onboarding time by 40% and debugging cycles by 60%.",
@@ -47,9 +47,9 @@
       "highlights": [
         "Product Launch Calendar - Transformed cross-functional approval & rollout process for tracking features, releases, and programs, benefiting millions of global customers.",
         "Rolling Intake - Streamlined IT Program Management with automated Insights self-service, enhancing efficiency for dynamic datasets.",
-        "MNPI Issue Level Security - Automated Restricted issue access for MNPI compliance across the organization.",
+        "Issue Level Security - Automated restricted issue access via RBAC in Jira for compliance across the organization.",
         "WEB3 Demo to IT - Immersed in web3, completed Crypto-U courses, and served as COINbassador.",
-        "AUDIT-omation - Automated SOC & R+D Expense artifact gathering in Jira, supported $400M+ in refunds and time savings for tax and audit needs."
+        "AUDIT-omation - Automated SOC & R+D Expense artifact gathering in Jira, supported large-scale tax refund operations and time savings for audit needs."
       ],
       "position": "Systems Engineer",
       "startDate": "2022-04-09",
