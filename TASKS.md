@@ -31,6 +31,15 @@ Last Updated: 2026-05-29
   - Flask (Python) + Express (Node.js) — JWT auth, ORM (SQLAlchemy / Sequelize), validation, pagination.
   - `backend/flask/app.py` and `backend/express/app.js` with shared endpoint surface.
 
+- [x] Database schema examples.
+  - PostgreSQL: `database/postgres/schema.sql` (enums, domains, RLS, partitioning, triggers, views) + `queries.sql` (CTEs, window functions, JSONB, full-text, keyset pagination).
+  - MongoDB: `database/mongodb/examples.py` (schema validation, indexes, aggregation pipeline, multi-doc transactions, text search).
+
+- [x] SSO/Identity Management examples.
+  - `sso/oauth2.py`: OAuth 2.0 auth code + PKCE, refresh, introspection, client credentials, UserInfo (any OIDC provider).
+  - `sso/saml.py`: SAML 2.0 IdP metadata parsing, AuthnRequest, SAMLResponse attribute extraction, SP metadata.
+  - `sso/aws_sso.py`: IAM Identity Center device auth, account/role listing, temp credential vending, Okta SCIM pattern.
+
 - [x] Consolidate IAS into cloud/.
   - Scripts moved to `cloud/iac/`. IAS section removed from root README.
 
@@ -46,20 +55,10 @@ Last Updated: 2026-05-29
 
 ## Todo
 
-- [ ] SSO/Identity Management examples.
-  - Priority: P2
-  - Type: Examples
-  - Candidates: ADFS integration, SAML/SSO onramp, Okta + AWS SSO group management, Atlassian + Okta, OAuth/mTLS.
-
 - [ ] Frontend examples (from nitsuah.io stack).
   - Priority: P2
   - Type: Examples
   - Candidates: React/Next.js, Svelte/SvelteKit, Vue/Nuxt.js components.
-
-- [ ] Database schema examples.
-  - Priority: P3
-  - Type: Examples
-  - Candidates: PostgreSQL, MySQL, MongoDB.
 
 - [ ] Cloud cost management examples.
   - Priority: P3

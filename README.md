@@ -54,6 +54,18 @@ REST API reference implementations — Flask (Python) and Express (Node.js) — 
 
 ---
 
+## [Database](database/README.md)
+
+PostgreSQL schema DDL (enums, indexes, RLS, partitioning, JSONB) and MongoDB PyMongo examples (aggregation, transactions, text search, schema validation). See [`database/README.md`](database/README.md) for full docs.
+
+---
+
+## [SSO / Identity](sso/README.md)
+
+OAuth 2.0 / OIDC auth code + PKCE flow, SAML 2.0 SP-initiated SSO, and AWS IAM Identity Center device auth + credential vending. See [`sso/README.md`](sso/README.md) for full docs.
+
+---
+
 ## [Cloud](cloud/README.md)
 
 AWS boto3 examples (EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53) and EC2 UserData bootstrap scripts for Ubuntu and Windows. See [`cloud/README.md`](cloud/README.md) for full docs.
