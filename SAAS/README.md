@@ -18,10 +18,107 @@ Each script auto-loads credentials from (in order):
 
 | Script | Covers | Auth |
 |--------|--------|------|
+| [`okta/examples.py`](okta/examples.py) | Users, groups, apps, MFA factors, system logs | `OKTA_API_TOKEN` |
+| [`servicenow/examples.py`](servicenow/examples.py) | Incidents, change requests, CMDB, users, catalog, KB | `SERVICENOW_USER` + `SERVICENOW_PASSWORD` |
 | [`pagerduty/examples.py`](pagerduty/examples.py) | Incidents, services, on-call, schedules, events | `PAGERDUTY_API_KEY` + `PAGERDUTY_ROUTING_KEY` |
 | [`slack/examples.py`](slack/examples.py) | Messages, channels, users, files, reactions, webhooks | `SLACK_BOT_TOKEN` |
 | [`github/examples.py`](github/examples.py) | Repos, issues, PRs, Actions, releases, orgs, webhooks | `GITHUB_TOKEN` |
 | [`datadog/examples.py`](datadog/examples.py) | Metrics, monitors, dashboards, incidents, logs, downtimes | `DATADOG_API_KEY` + `DATADOG_APP_KEY` |
+
+---
+
+## Okta
+
+**Docs:** https://developer.okta.com/docs/reference/
+
+### Quick start
+
+```bash
+# Read-only (lists users, groups, apps, recent logs):
+python SAAS/okta/examples.py
+
+# Write demo (creates staged user, updates, deactivates, deletes):
+python SAAS/okta/examples.py --demo-write
+```
+
+### Environment variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OKTA_DOMAIN` | Yes | Your Okta domain — e.g. `your-org.okta.com` |
+| `OKTA_API_TOKEN` | Yes | API token — Okta Admin → Security → API → Tokens |
+
+### Function reference
+
+| Function | Method | Description |
+|----------|--------|-------------|
+| `list_users` | `GET /users` | Users with optional status filter |
+| `get_user` | `GET /users/{id}` | User detail by ID or login |
+| `search_users` | `GET /users?search=` | Search by profile fields |
+| `create_user` | `POST /users` | Create user (staged or activated) |
+| `update_user` | `PUT /users/{id}` | Update profile fields |
+| `deactivate_user` | `POST /users/{id}/lifecycle/deactivate` | Deactivate user |
+| `activate_user` | `POST /users/{id}/lifecycle/activate` | Activate a staged user |
+| `suspend_user` | `POST /users/{id}/lifecycle/suspend` | Suspend user |
+| `reset_password` | `POST /users/{id}/lifecycle/reset_password` | Send password reset email |
+| `delete_user` | `DELETE /users/{id}` | Delete deactivated user |
+| `list_user_groups` | `GET /users/{id}/groups` | Groups for a user |
+| `list_user_apps` | `GET /users/{id}/appLinks` | App links for a user |
+| `list_groups` | `GET /groups` | All groups with optional query |
+| `get_group` | `GET /groups/{id}` | Group detail |
+| `list_group_members` | `GET /groups/{id}/users` | Members of a group |
+| `create_group` | `POST /groups` | Create a new group |
+| `add_user_to_group` | `PUT /groups/{id}/users/{uid}` | Add user to group |
+| `remove_user_from_group` | `DELETE /groups/{id}/users/{uid}` | Remove user from group |
+| `list_apps` | `GET /apps` | All applications |
+| `get_app` | `GET /apps/{id}` | App detail |
+| `list_app_users` | `GET /apps/{id}/users` | Users assigned to an app |
+| `list_app_groups` | `GET /apps/{id}/groups` | Groups assigned to an app |
+| `list_user_factors` | `GET /users/{id}/factors` | Enrolled MFA factors |
+| `reset_user_factors` | `DELETE /users/{id}/factors` | Reset all MFA factors |
+| `list_logs` | `GET /logs` | System log with optional event type filter |
+
+---
+
+## ServiceNow
+
+**Docs:** https://developer.servicenow.com/dev.do#!/reference/api/latest/rest/
+
+### Quick start
+
+```bash
+# Read-only (lists incidents, changes, CMDB, users, catalog, KB):
+python SAAS/servicenow/examples.py
+
+# Write demo (creates, updates, then resolves a test incident):
+python SAAS/servicenow/examples.py --demo-write
+```
+
+### Environment variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SERVICENOW_INSTANCE` | Yes | Instance hostname — e.g. `dev12345.service-now.com` |
+| `SERVICENOW_USER` | Yes | Username |
+| `SERVICENOW_PASSWORD` | Yes | Password or OAuth token |
+
+### Function reference
+
+| Function | Method | Description |
+|----------|--------|-------------|
+| `list_incidents` | `GET /table/incident` | Incidents with optional state filter |
+| `get_incident` | `GET /table/incident/{sys_id}` | Incident detail |
+| `create_incident` | `POST /table/incident` | Create incident with priority/category |
+| `update_incident` | `PATCH /table/incident/{sys_id}` | Update any fields |
+| `resolve_incident` | `PATCH /table/incident/{sys_id}` | Set state=Resolved with close notes |
+| `list_changes` | `GET /table/change_request` | Change requests with optional type filter |
+| `create_change` | `POST /table/change_request` | Create change request |
+| `list_cis` | `GET /table/{ci_class}` | CMDB CIs by class (server, db, app, etc.) |
+| `get_ci` | `GET /table/{ci_class}/{sys_id}` | CI detail |
+| `list_users` | `GET /table/sys_user` | Users with optional active-only filter |
+| `get_user` | `GET /table/sys_user` | Look up user by username |
+| `list_catalog_items` | `GET /table/sc_cat_item` | Active service catalog items |
+| `list_kb_articles` | `GET /table/kb_knowledge` | KB articles with optional text search |
 
 ---
 
