@@ -433,7 +433,10 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
                     issue["fields"]["status"]["name"].lower() == "done":
                 s.add(Result("Done rejected without resolution (negative test)", Status.FAIL,
                              "transition succeeded with no resolution set"))
-                # Reopen so the chain can continue
+                # Walk back to In Testing so the happy-path chain can continue.
+                # Done → In Testing is not a direct Story transition; must go through Reopened.
+                transition_issue(client, key, "Reopened")
+                transition_issue(client, key, "In Progress")
                 transition_issue(client, key, "In Testing")
             else:
                 s.add(Result("Done rejected without resolution (negative test)", Status.PASS,
@@ -742,6 +745,31 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
 # Suite 9 — Parent link updated to ROI-4 on resolution
 # ---------------------------------------------------------------------------
 
+def _check_parent_link(client: JiraClient, issue_key: str, roi_parent: str,
+                        label: str, suite: Suite, pause: int = 8) -> None:
+    """Resolve an issue and verify its parent link was updated to roi_parent."""
+    time.sleep(pause)
+    issue = get_issue(client, issue_key)
+    parent_field = (
+        issue["fields"].get("parent") or
+        issue["fields"].get("customfield_10014")  # Epic Link (classic projects)
+    )
+    if parent_field:
+        parent_val = parent_field if isinstance(parent_field, str) \
+            else parent_field.get("key", "")
+        if parent_val == roi_parent:
+            suite.add(Result(f"{label}: parent updated to {roi_parent}",
+                             Status.PASS, parent_val))
+        else:
+            suite.add(Result(f"{label}: parent updated to {roi_parent}",
+                             Status.FAIL,
+                             f"parent is '{parent_val}', expected '{roi_parent}'"))
+    else:
+        suite.add(Result(f"{label}: parent updated to {roi_parent}",
+                         Status.WARN,
+                         "no parent/epic link field found — check automation link type"))
+
+
 def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
                                   roi_parent: str = "ROI-4") -> Suite:
     s = Suite(f"Parent Link Update on Resolution (→ {roi_parent})")
@@ -755,46 +783,48 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
     s.add(Result(f"ROI parent '{roi_parent}' accessible", Status.PASS,
                  r.json()["fields"]["summary"][:60]))
 
+    # Test with Story
     cr = client.post("/rest/api/3/issue", {"fields": {
         "project": {"key": project_key},
-        "summary": "[VALIDATOR] Parent-link update test",
+        "summary": "[VALIDATOR] Parent-link update test (Story)",
         "issuetype": {"name": "Story"},
     }})
     if cr.status_code != 201:
         s.add(Result("Create test Story", Status.FAIL, f"HTTP {cr.status_code}"))
-        return s
-    key = cr.json()["key"]
-    s.add(Result("Create test Story", Status.PASS, key))
+    else:
+        key = cr.json()["key"]
+        s.add(Result("Create test Story", Status.PASS, key))
+        try:
+            transition_issue(client, key, "In Progress")
+            transition_issue(client, key, "In Testing")
+            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            s.add(Result("Story → Done", Status.PASS if ok else Status.FAIL, msg))
+            _check_parent_link(client, key, roi_parent, "Story", s)
+        finally:
+            comment_failures(client, key, s, label="Parent-link Story")
+            delete_issue(client, key)
+            s.add(Result(f"Cleanup Story ({key})", Status.PASS, "deleted"))
 
-    try:
-        transition_issue(client, key, "In Progress")
-        transition_issue(client, key, "In Testing")
-        ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
-        s.add(Result("Transition Story to Done", Status.PASS if ok else Status.FAIL, msg))
-
-        time.sleep(8)
-
-        issue = get_issue(client, key)
-        parent_field = (
-            issue["fields"].get("parent") or
-            issue["fields"].get("customfield_10014")  # Epic Link (classic projects)
-        )
-        if parent_field:
-            parent_val = parent_field if isinstance(parent_field, str) \
-                else parent_field.get("key", "")
-            if parent_val == roi_parent:
-                s.add(Result(f"Parent updated to {roi_parent}", Status.PASS, parent_val))
-            else:
-                s.add(Result(f"Parent updated to {roi_parent}", Status.FAIL,
-                             f"parent is '{parent_val}', expected '{roi_parent}'"))
-        else:
-            s.add(Result(f"Parent updated to {roi_parent}", Status.WARN,
-                         "no parent/epic link field found — check automation link type"))
-
-    finally:
-        comment_failures(client, key, s, label="Parent-link")
-        delete_issue(client, key)
-        s.add(Result(f"Cleanup ({key})", Status.PASS, "deleted"))
+    # Test with Task — requirement says "any work item"
+    cr = client.post("/rest/api/3/issue", {"fields": {
+        "project": {"key": project_key},
+        "summary": "[VALIDATOR] Parent-link update test (Task)",
+        "issuetype": {"name": "Task"},
+    }})
+    if cr.status_code != 201:
+        s.add(Result("Create test Task", Status.FAIL, f"HTTP {cr.status_code}"))
+    else:
+        key = cr.json()["key"]
+        s.add(Result("Create test Task", Status.PASS, key))
+        try:
+            transition_issue(client, key, "In Progress")
+            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            s.add(Result("Task → Done", Status.PASS if ok else Status.FAIL, msg))
+            _check_parent_link(client, key, roi_parent, "Task", s)
+        finally:
+            comment_failures(client, key, s, label="Parent-link Task")
+            delete_issue(client, key)
+            s.add(Result(f"Cleanup Task ({key})", Status.PASS, "deleted"))
 
     return s
 
