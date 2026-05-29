@@ -455,6 +455,10 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("In Testing → Done (with resolution)", Status.PASS if ok else Status.FAIL, msg))
 
+        # Brief pause so background automations (e.g. Set Parent to ROI-4) can
+        # complete before we start touching the issue again with a comment.
+        time.sleep(8)
+
         issue = get_issue(client, key)
         res = issue["fields"].get("resolution")
         if res:
@@ -811,7 +815,7 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
             transition_issue(client, key, "In Testing")
             ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
             s.add(Result("Story → Done", Status.PASS if ok else Status.FAIL, msg))
-            _check_parent_link(client, key, roi_parent, "Story", s)
+            _check_parent_link(client, key, roi_parent, "Story", s, pause=30)
         finally:
             comment_failures(client, key, s, label="Parent-link Story")
             delete_issue(client, key)
@@ -832,7 +836,7 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
             transition_issue(client, key, "In Progress")
             ok, msg = transition_issue(client, key, "Done")
             s.add(Result("Task → Done", Status.PASS if ok else Status.FAIL, msg))
-            _check_parent_link(client, key, roi_parent, "Task", s)
+            _check_parent_link(client, key, roi_parent, "Task", s, pause=30)
         finally:
             comment_failures(client, key, s, label="Parent-link Task")
             delete_issue(client, key)
