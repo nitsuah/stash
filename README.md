@@ -66,14 +66,9 @@ PowerShell scripts for git repository maintenance. [`cleanup-branches.ps1`](git/
 
 ---
 
-## Windows
+## [Windows](windows/README.md)
 
-Utilities for Windows automation, Active Directory, and log management. See [`windows/`](windows/) for scripts covering LDAP user search, PowerShell log management, and VBA Office automation.
-
-- [`bat/ldap-search-users.bat`](windows/bat/ldap-search-users.bat) — LDAP user search, group membership, disabled account detection
-- [`bat/run-logger.bat`](windows/bat/run-logger.bat) — Wraps any batch script with timestamped log output
-- [`pwsh/`](windows/pwsh/) — Log compression, CSV-to-Excel conversion, JVM server detection (see [`pwsh/README.md`](windows/pwsh/README.md))
-- [`vba/ldap-search-cleanup.vb`](windows/vba/ldap-search-cleanup.vb) — LDAP result formatting for Office
+Scripts for Windows automation, Active Directory, and log management — LDAP search/cleanup, PowerShell log management, CSV→Excel conversion, and VBA Office automation. See [`windows/README.md`](windows/README.md).
 
 ---
 
@@ -81,6 +76,15 @@ Utilities for Windows automation, Active Directory, and log management. See [`wi
 
 - [`projects/auto/`](projects/auto/) — Single-page car project board (HTML + localStorage, no backend)
 - [`projects/fps-tech/`](projects/fps-tech/) — FPS Tech branding assets
+
+---
+
+## Docs
+
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — Directory map, execution contexts, dependencies, risk notes
+- [`API.md`](API.md) — No external API decision record
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — Setup, PR checklist, coding standards
+- [`SECURITY.md`](SECURITY.md) — Vulnerability reporting and credential hygiene
 
 ---
 

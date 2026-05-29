@@ -1,153 +1,90 @@
 # Tasks
 
-Last Updated: 2026-04-03 (pmo/q2-2026-planning)
+Last Updated: 2026-05-29
 
 ## Done
+
+- [x] Re-align planning docs to repository reality.
+  - README, CHANGELOG, CONTRIBUTING, SECURITY, FEATURES, ARCHITECTURE all rewritten to match actual repo.
+
+- [x] Sensitive-data and hardcoded-hostname scan.
+  - NDA/IP/MNPI pass completed: financials stripped, employee names generalized, internal URLs/keys removed, `friends/` deleted.
+
+- [x] Open-source safety sanitization for docs/examples.
+  - coinbase.json, projects.json, resume.json, resume-ai.json, bb.json, ldap-search-users.bat all sanitized.
+
+- [x] Standardize file naming in infrastructure assets.
+  - `ias/Windows-userdata..yml` (double-dot, malformed) removed along with entire `ias/` scratchpad folder.
+  - Replaced by proper `cloud/iac/ubuntu-userdata.sh` and `cloud/iac/windows-userdata.ps1`.
+
+- [x] Security checklist documented.
+  - Moved to `agent/docs/SECURITY_CHECKLIST.md`. SECURITY.md updated with real contact and guidance.
+
+- [x] Add script operations runbook.
+  - Closed: runbook-style docs belong inline — argparse `--help`, docstrings, and per-folder READMEs.
+  - Each script family has a README. Python scripts have `--help` via argparse. PowerShell scripts have `param()` with descriptions.
+
+- [x] Add API examples across Atlassian, SaaS, and Cloud.
+  - Atlassian (Jira, Confluence, Bitbucket, Statuspage), PagerDuty, Slack, GitHub, Datadog, AWS boto3.
+
+- [x] Consolidate IAS into cloud/.
+  - Scripts moved to `cloud/iac/`. IAS section removed from root README.
+
+- [x] Fix stale `develop` branch image URLs across project READMEs.
+  - pfa, remora, sampler all updated to `main`.
+
+- [x] Update .github/copilot-instructions.md.
+  - Rewritten for current stack (Python, PowerShell, Bash, VBA, Groovy).
 
 
 ## In Progress
 
-- [ ] Re-align planning docs to repository reality and parser-safe format.
-  - Priority: P0
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: existing planning docs referenced VB.NET product work that does not match this repository's current script/tooling scope.
-  - Why It Matters: stale planning creates execution drift, incorrect prioritization, and onboarding confusion.
-  - Acceptance Criteria:
-    - `TASKS.md` uses exact sections `Done`, `In Progress`, `Todo`.
-    - `ROADMAP.md` uses quarter headings with status in heading text.
-    - Tasks and milestones align with validated repository structure.
-  - Dependencies: none.
-
 
 ## Todo
 
-- [ ] Add architecture baseline documentation (ARCHITECTURE.md stub created; fill out in Q2).
+- [ ] Fill out ARCHITECTURE.md module map.
   - Priority: P1
   - Type: Docs
-- [ ] Add script operations runbook (RUNBOOK.md stub created; fill out in Q2).
-  - Priority: P1
-  - Type: Docs
-- [ ] Add security & sanitization checklist (SECURITY_CHECKLIST.md stub created; fill out in Q2).
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: `ARCHITECTURE.md` is missing and current boundaries between `atlassian/`, `git/`, `ias/`, `projects/`, and `windows/` are undocumented.
-  - Why It Matters: contributors cannot quickly understand ownership, script boundaries, or safe change surfaces.
-  - Acceptance Criteria:
-    - `ARCHITECTURE.md` created with module boundaries, execution context, and dependency map.
-    - Includes risk notes for destructive operations (branch cleanup, log compression, access scripts).
-    - Cross-linked from `README.md`.
-  - Dependencies: none.
+  - Acceptance Criteria: module boundaries, execution context, dependency notes, risk callouts for destructive scripts.
 
-- [ ] Add script runbook and safety matrix for operational scripts.
-  - Priority: P1
-  - Type: Docs
-  - Confidence: High
-  - Milestone: 2026 Q2
-  - Problem Statement: script discovery exists, but no unified runbook defines prerequisites, expected inputs, and dry-run behavior per script.
-  - Why It Matters: operational scripts can be destructive when used without clear guardrails.
-  - Acceptance Criteria:
-    - Add a top-level runbook section in `README.md` linking to each script family.
-    - For each PowerShell script, document parameters, safe invocation, and expected output.
-    - Include examples for `-DryRun` where supported.
-  - Dependencies: architecture baseline task.
-
-- [ ] Complete sensitive-data and hardcoded-hostname scan using PowerShell-native search.
-  - Priority: P0
-  - Type: Security
-  - Confidence: Medium
-  - Milestone: 2026 Q2
-  - Problem Statement: no verified repository-wide sanitization pass exists, and `rg` is unavailable in this environment.
-  - Why It Matters: leaked credentials or internal hostnames can cause security incidents and compliance failures.
-  - Acceptance Criteria:
-    - Run search for `token|password|secret|credential|apikey|private key` across tracked files.
-    - Log any findings with remediation plan or confirm zero findings.
-    - Update `.gitignore` for local credential artifacts if needed.
-  - Dependencies: none.
-
-- [ ] Perform open-source safety sanitization for docs/examples.
-  - Priority: P1
-  - Type: Security
-  - Confidence: Medium
-  - Milestone: 2026 Q2
-  - Problem Statement: documentation may include over-specific company/process details that are unnecessary for public release.
-  - Why It Matters: reducing proprietary exposure lowers sharing and compliance risk.
-  - Acceptance Criteria:
-    - Review markdown/docs examples for sensitive business details.
-    - Replace with generalized wording while preserving technical intent.
-    - Record sanitization results and any deferred items.
-  - Dependencies: none.
-
-- [ ] Standardize file naming and typo cleanup in infrastructure assets.
+- [ ] SSO/Identity Management examples.
   - Priority: P2
-  - Type: Tech Debt
-  - Confidence: High
-  - Milestone: 2026 Q3
-  - Problem Statement: `ias/Windows-userdata..yml` contains a double-dot naming anomaly.
-  - Why It Matters: inconsistent naming harms discoverability and increases automation script fragility.
-  - Acceptance Criteria:
-    - Rename file to a normalized name.
-    - Update references in docs/scripts.
-    - Verify no broken links remain.
-  - Dependencies: none.
+  - Type: Examples
+  - Candidates: ADFS integration, SAML/SSO onramp, Okta + AWS SSO group management, Atlassian + Okta, OAuth/mTLS.
 
-- [ ] Add repository-level API contract decision record.
+- [ ] Frontend examples (from nitsuah.io stack).
+  - Priority: P2
+  - Type: Examples
+  - Candidates: React/Next.js, Svelte/SvelteKit, Vue/Nuxt.js components.
+
+- [ ] Backend API examples.
+  - Priority: P2
+  - Type: Examples
+  - Candidates: Node.js/Express, Python/Flask, Go/Gin, Java/Spring Boot.
+
+- [ ] Database schema examples.
+  - Priority: P3
+  - Type: Examples
+  - Candidates: PostgreSQL, MySQL, MongoDB.
+
+- [ ] Cloud cost management examples.
+  - Priority: P3
+  - Type: Examples
+  - Candidates: Cloudability, CloudHealth, CloudZero, Kubecost APIs.
+
+- [ ] SaaS inventory audit examples.
+  - Priority: P3
+  - Type: Examples
+  - Candidates: Fortify-on-Demand, ZenGRC, Zylo.
+
+- [ ] API.md decision record.
   - Priority: P3
   - Type: Docs
-  - Confidence: Medium
-  - Milestone: 2026 Q3
-  - Problem Statement: `API.md` is missing and repository currently appears script-centric rather than service/API-centric.
-  - Why It Matters: teams need explicit confirmation whether external contracts exist.
-  - Acceptance Criteria:
-    - Create `API.md` as either concrete interface spec or explicit "No external API" decision record.
-    - Link the decision from `README.md` and `ARCHITECTURE.md`.
-  - Dependencies: architecture baseline task.
-
-- [ ] Add example documentation references for the following:
-  - Priority: P2
-  - Type: Docs
-  - Confidence: Medium
-  - Milestone: 2026 Q3
-  - SSO/Identity Management
-    - Example enterprise ADFS integration
-    - Example shadow IT onramp to SAML/SSO/Enterprise
-    - Example SaaS + Okta + AWS SSO + group management
-    - Example Atlassian + Okta + SSO configuration
-    - Example internal and external user directory management
-    - Example Guard/Access SSO via Okta
-    - Example OAuth/ACT_AS integration with X-Forward/mTLS
-  - Cloud Cost Management
-    - Cloudability
-    - CloudHealth
-    - CloudZero
-    - Kubecost
-  - Frontend examples from nitsuah.io
-    - React/Next.js component examples
-    - Svelte/SvelteKit component examples
-    - Vue/Nuxt.js component examples
-  - Backend examples
-    - Node.js/Express API examples
-    - Python/Flask API examples
-    - Go/Gin API examples
-    - Java/Spring Boot API examples
-  - Database schema examples
-    - PostgreSQL
-    - MySQL
-    - MongoDB
-
-## SaaS Inventory/Audit
-
-- Fortify-on-Demand
-- ZenGRC
-- Zylo
-
+  - Note: This repo contains scripts and examples, not a hosted API. Decision record confirms no external contracts exist.
 
 
 ## Audit Notes
 
-- Docker-first execution path is not currently available (`Dockerfile` and `docker-compose.yml` not found).
-- `.github/ISSUE_TEMPLATE` and `.github/pull_request_template.md` are present.
-- PMO updates should continue via branch + PR workflow (`docs(pmo):` commit prefix).
+- Docker-first execution path not available (`Dockerfile` / `docker-compose.yml` absent).
+- `.github/ISSUE_TEMPLATE` and `.github/pull_request_template.md` present and usable.
+- Agent pipeline branch/PR conventions: `pmo/`, `delivery/`, `qa/` prefixes per `agent/README.md`.
