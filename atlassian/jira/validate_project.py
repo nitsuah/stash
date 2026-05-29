@@ -13,11 +13,14 @@ Usage:
     export JIRA_TOKEN=YOUR_API_TOKEN
     python validate_project.py --project AUSTIN
 
-    # Or inline for one-off runs (still not visible in process list args):
-    JIRA_HOST=... JIRA_EMAIL=... JIRA_TOKEN=... python validate_project.py --project AUSTIN
+    # Option 2 (recommended): copy .env.example → .env, fill in values.
+    # A .env in the same directory as this script is loaded automatically.
+    cp atlassian/jira/.env.example atlassian/jira/.env
+    # edit .env, then:
+    python validate_project.py --project AUSTIN
 
-    # With a .env file (requires python-dotenv):
-    python validate_project.py --project AUSTIN --env-file .env
+    # Point at a .env elsewhere:
+    python validate_project.py --project AUSTIN --env-file /path/to/.env
 
 Requirements:
     pip install requests
@@ -768,11 +771,14 @@ def main() -> int:
     parser.add_argument("--skip-lifecycle", action="store_true",
                         help="Skip tests that create/delete real issues (structural checks only)")
     parser.add_argument("--env-file", metavar="FILE", default=None,
-                        help="Path to a .env file to load credentials from")
+                        help="Path to a .env file (default: .env next to this script)")
     args = parser.parse_args()
 
-    if args.env_file:
-        _load_env_file(args.env_file)
+    # Auto-load .env from the script's own directory; --env-file overrides the path
+    default_env = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    env_file = args.env_file or (default_env if os.path.exists(default_env) else None)
+    if env_file:
+        _load_env_file(env_file)
 
     host  = _require_env("JIRA_HOST")
     email = _require_env("JIRA_EMAIL")
