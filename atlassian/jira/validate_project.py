@@ -434,9 +434,7 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
                 s.add(Result("Done rejected without resolution (negative test)", Status.FAIL,
                              "transition succeeded with no resolution set"))
                 # Walk back to In Testing so the happy-path chain can continue.
-                # Done → In Testing is not a direct Story transition; must go through Reopened.
-                transition_issue(client, key, "Reopened")
-                transition_issue(client, key, "In Progress")
+                # Valid because the workflow allows Any → In Testing.
                 transition_issue(client, key, "In Testing")
             else:
                 s.add(Result("Done rejected without resolution (negative test)", Status.PASS,
