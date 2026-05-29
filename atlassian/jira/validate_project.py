@@ -2,16 +2,31 @@
 Jira Project Configuration Validator
 Validates that an Atlassian Jira project has been configured per specification.
 
+Credentials are read from environment variables (never pass secrets as CLI args):
+    JIRA_HOST     https://yourorg.atlassian.net
+    JIRA_EMAIL    you@example.com
+    JIRA_TOKEN    your Atlassian API token
+
 Usage:
-    python validate_project.py --host https://yourorg.atlassian.net --email you@example.com --token YOUR_API_TOKEN --project AUSTIN
+    export JIRA_HOST=https://yourorg.atlassian.net
+    export JIRA_EMAIL=you@example.com
+    export JIRA_TOKEN=YOUR_API_TOKEN
+    python validate_project.py --project AUSTIN
+
+    # Or inline for one-off runs (still not visible in process list args):
+    JIRA_HOST=... JIRA_EMAIL=... JIRA_TOKEN=... python validate_project.py --project AUSTIN
+
+    # With a .env file (requires python-dotenv):
+    python validate_project.py --project AUSTIN --env-file .env
 
 Requirements:
     pip install requests
+    pip install python-dotenv  # optional, for .env file support
 """
 
 import argparse
 import base64
-import json
+import os
 import sys
 import time
 from dataclasses import dataclass, field
@@ -713,23 +728,61 @@ def print_summary(suites: list[Suite]) -> int:
 # Entry point
 # ---------------------------------------------------------------------------
 
+def _load_env_file(path: str) -> None:
+    """Load key=value pairs from a .env file into os.environ (no dependency required)."""
+    try:
+        from dotenv import load_dotenv  # type: ignore
+        load_dotenv(path, override=False)
+        return
+    except ImportError:
+        pass
+    # Minimal fallback parser (no dotenv installed)
+    with open(path) as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, val = line.partition("=")
+            key = key.strip()
+            val = val.strip().strip('"').strip("'")
+            os.environ.setdefault(key, val)
+
+
+def _require_env(name: str) -> str:
+    val = os.environ.get(name, "").strip()
+    if not val:
+        print(f"ERROR: environment variable '{name}' is not set.", file=sys.stderr)
+        print("Set JIRA_HOST, JIRA_EMAIL, and JIRA_TOKEN before running.", file=sys.stderr)
+        sys.exit(1)
+    return val
+
+
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate Jira project configuration")
-    parser.add_argument("--host",    required=True,  help="e.g. https://yourorg.atlassian.net")
-    parser.add_argument("--email",   required=True,  help="Atlassian account email")
-    parser.add_argument("--token",   required=True,  help="Atlassian API token")
+    parser = argparse.ArgumentParser(
+        description="Validate Jira project configuration",
+        epilog="Credentials come from env vars JIRA_HOST / JIRA_EMAIL / JIRA_TOKEN.",
+    )
     parser.add_argument("--project", required=True,  help="Project key, e.g. AUSTIN")
     parser.add_argument("--roi-parent", default="ROI-4",
                         help="Parent issue key for resolution link check (default: ROI-4)")
     parser.add_argument("--skip-lifecycle", action="store_true",
                         help="Skip tests that create/delete real issues (structural checks only)")
+    parser.add_argument("--env-file", metavar="FILE", default=None,
+                        help="Path to a .env file to load credentials from")
     args = parser.parse_args()
 
-    client = JiraClient(args.host, args.email, args.token)
+    if args.env_file:
+        _load_env_file(args.env_file)
+
+    host  = _require_env("JIRA_HOST")
+    email = _require_env("JIRA_EMAIL")
+    token = _require_env("JIRA_TOKEN")
+
+    client = JiraClient(host, email, token)
     project = args.project.upper()
 
     print(f"\nJira Config Validator")
-    print(f"Host:    {args.host}")
+    print(f"Host:    {host}")
     print(f"Project: {project}")
     print(f"Date:    2026-05-28")
 
