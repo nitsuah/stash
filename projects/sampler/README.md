@@ -1,6 +1,6 @@
 # Sampler - Enterprise PDF Processing Automation
 
-![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-home.png)
+![sampler-home.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/sampler/assets/sampler-home.png)
 
 ## Overview
 Production-grade VBA application for automated compliance document sampling and processing. Built for high-volume PDF manipulation with Adobe Acrobat integration and Win32 API precision control.
@@ -68,7 +68,7 @@ Functions for interacting with PDF files are available:
 
 ### Calibration and Initialization - form-calibration.vb
 
-![sampler-calibration.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/sampler/assets/sampler-calibration.png)
+![sampler-calibration.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/sampler/assets/sampler-calibration.png)
 
 Functions for calibration and initialization:
 
