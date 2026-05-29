@@ -16,7 +16,7 @@ Check for anything that might contain sensitive information such as API keys, cr
 
 #### Python Examples Needed
 - **VBA Migration Scripts**: Code showing transformation of legacy VBA systems to modern Python
-- **Data Processing Pipelines**: Netflix-style data automation and analytics workflows  
+- **Data Processing Pipelines**: enterprise-scale data automation and analytics workflows  
 - **API Integration Utilities**: Demonstrate modern API consumption and integration patterns
 - **Machine Learning Helpers**: Scripts showing AI/ML data preparation and model integration
 
@@ -26,7 +26,7 @@ Check for anything that might contain sensitive information such as API keys, cr
 - **Spring AI Integration**: Sanitized examples of `@Tool` annotations and AI service integration
 - **MCP Server Patterns**: Generic Model Context Protocol implementation examples
 - **Enterprise Service Architecture**: RESTful services and microservice patterns
-- **Netflix-Style Automation**: Backend tooling and developer productivity services
+- **Enterprise Automation**: Backend tooling and developer productivity services
 
 **Value Statement**: Validates resume claims about Spring AI expertise and Netflix backend development work.
 

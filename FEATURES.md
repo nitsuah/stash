@@ -1,34 +1,39 @@
 # Features
 
-## Core Functionality
+A living inventory of what's in this repository.
 
-- **File Archiving** - Ability to compress and store older code snippets for long-term preservation.
-- **Code Snippet Search** - Search functionality to locate specific code blocks within the stash.
-- **Project Organization** - Folder-based system for grouping related code and design files.
-- **Basic Text Editor** - Integrated text editor for quick viewing and modification of code files.
-- **File Preview** - Render common file types (text, images) directly in the application.
-- **Version History Tracking** - Basic versioning for individual files to revert to previous states.
-- **Dependency Management Tracking** - Ability to record and track external library dependencies used in projects.
+## API Examples
 
-## UI/UX
+| Area | Platforms |
+|------|-----------|
+| Atlassian Cloud | Jira, Confluence, Bitbucket, Statuspage |
+| SaaS Operations | PagerDuty, Slack, GitHub, Datadog |
+| Cloud (AWS) | EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53 |
 
-- **Dark Mode Support** - Toggleable dark mode for comfortable extended use.
-- **Customizable Code Highlighting** - Ability to configure syntax highlighting for VB.NET and other common languages.
-- **Intuitive File Browser** - Easy-to-navigate file system interface.
-- **Responsive Design** - Adapts to different screen sizes for optimal viewing on various devices.
+All examples follow a consistent pattern: read-only by default, `--demo-write` flag for write operations, env vars via `.env` file.
 
-## Developer Experience
+## Infrastructure
 
-- **Code Snippet Templates** - Pre-defined code templates for common VB.NET tasks.
-- **Command-Line Interface (CLI)** - Basic CLI for automating certain stash operations (e.g., backup, import).
-- **Syntax Validation** - Real-time syntax checking for VB.NET code.
+- EC2 UserData bootstrap scripts for Ubuntu 22.04 and Windows Server 2022
+- Covers: package install, Docker, IIS, CloudWatch agent, sysctl/TLS hardening, SSM secret retrieval
 
-## DevOps/Infrastructure
+## Automation & Tooling
 
-- **Automated Backups** - Scheduled backups of the entire stash to prevent data loss.
-- **Configuration File Support** - Uses a configuration file for settings and customizations.
+- Atlassian Jira project configuration validator with full lifecycle test suites
+- Multi-repo merged branch cleanup (PowerShell)
+- LDAP user search, group membership, disabled account detection (Batch)
+- Log compression, CSV-to-Excel, JVM server detection (PowerShell)
 
-## Security
+## AI Agent System
 
-- **Password Protection** - Password protection to restrict access to the stash.
-- **Data Encryption (Optional)** - Option to encrypt stored code and design files.
+- Personal agents: CFO, Career, Builder
+- Product delivery pipeline: PMO → Intake → SoftwareEng → DevOps → QA → Oncall → Growth
+- Reusable prompt modules: handoff template, task flow, test strategy, LOC analysis
+
+## Projects
+
+- **Remora** — Privileged Access Management (PAM) tool (Access/VBA)
+- **Sampler** — PDF random-sampling tool (Access/VBA + Adobe Acrobat)
+- **VMT** — Vulnerability and asset management CMDB (Access/VBA)
+- **PFA** — USB-powered power failure alarm circuit
+- **Auto** — Single-page car project board (HTML + localStorage)

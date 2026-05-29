@@ -2,84 +2,59 @@
 
 ## Supported Versions
 
-We release patches for security vulnerabilities in the following versions:
+Only the latest state of `main` is actively maintained.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| Latest  | :white_check_mark: |
-| < Latest| :x:                |
+| Version | Supported |
+|---------|-----------|
+| `main` (latest) | ✅ |
+| Older commits | ❌ |
+
+---
 
 ## Reporting a Vulnerability
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+**Do not report security vulnerabilities through public GitHub issues.**
 
-If you discover a security vulnerability, please report it by emailing the maintainers at [TODO: INSERT_SECURITY_EMAIL_ADDRESS]. You can expect:
+Email: **nitsuahlabs@gmail.com**
 
-1. **Acknowledgment**: We'll acknowledge receipt of your vulnerability report within 48 hours.
-2. **Updates**: We'll send you regular updates about our progress.
-3. **Disclosure**: We'll notify you when the vulnerability is fixed.
-4. **Credit**: We'll credit you in the release notes (unless you prefer to remain anonymous).
+You can expect:
+- **Acknowledgment** within 48 hours
+- **Status update** within 7 days
+- **Credit** in the changelog unless you prefer to remain anonymous
 
-### What to Include
+### What to include
 
-When reporting a vulnerability, please include:
+- Type of issue (credential exposure, injection, path traversal, etc.)
+- File path(s) and line numbers
+- Steps to reproduce or proof-of-concept
+- Impact assessment
 
-- Type of issue (e.g., buffer overflow, SQL injection, cross-site scripting, etc.)
-- Full paths of source file(s) related to the issue
-- Location of the affected source code (tag/branch/commit or direct URL)
-- Step-by-step instructions to reproduce the issue
-- Proof-of-concept or exploit code (if possible)
-- Impact of the issue, including how an attacker might exploit it
+---
 
-### Response Timeline
+## Security Practices for Contributors
 
-- **Initial Response**: Within 48 hours
-- **Status Update**: Within 7 days
-- **Fix Timeline**: Depends on severity (critical issues prioritized)
+### Credentials & secrets
+- Never commit API keys, tokens, passwords, or session cookies
+- Never commit `.pem`, `.p12`, `.key`, `.pfx`, or any credential file
+- Use `.env` files (gitignored) — see `.env.example` in each subdirectory
+- Use placeholder values in examples: `YOUR_API_KEY`, `LDAP_HOST`, `example.com`
 
-## Security Best Practices
+### Scripts & automation
+- **Python** — use `os.environ` or `python-dotenv`; never hardcode credentials
+- **PowerShell** — use environment variables or Windows Credential Manager; never `-w PASSWORD` literals
+- **Bash/UserData** — use SSM Parameter Store for secrets at runtime; see commented examples in `IAS/`
+- **VBA/Access** — sanitize connection strings; use sample databases, never production DSNs
 
-When contributing to this project:
+### Data in examples
+- No PII, internal hostnames, or org-specific URLs in committed files
+- Replace real resource IDs with generic placeholders (`PARENT-1`, `MYPROJECT`, `owner/repo`)
+- Audit any CSVs or JSON sample data for sensitive fields before committing
 
-- Keep dependencies up to date
-- Follow secure coding practices
-- Use environment variables for sensitive data
-- **Never commit API keys, passwords, or tokens**
-- **Never commit internal hostnames, IPs, or network credentials**
-- **Never commit `.pem`, `.p12`, `.key`, or credential files**
-- Review code changes for security implications
-- Replace real credentials with placeholders (commit message must include `REDACTED`)
-- Document required permissions/access for each script
-- Audit sample data for PII before committing
-
-### IT Scripts & Automation Security
-
-This repository contains operational tooling. Extra precautions:
-
-- **Atlassian scripts**: Never commit tokens, webhook URLs, or internal instance URLs
-- **PowerShell scripts**: Never hardcode credentials; use Windows Credential Manager or secure vaults
-- **VBA/Access tools**: Sanitize connection strings; use sample databases
-- **Windows userdata**: Strip sensitive bootstrap configs before committing
-
-Given that this project includes Visual Basic .NET and PowerShell, consider the following:
-
-- Be mindful of potential buffer overflows when handling strings.
-- Properly sanitize user inputs to prevent injection vulnerabilities.
-- Utilize parameterized queries to avoid SQL injection.
-- Review the use of `unsafe` code blocks carefully.
+---
 
 ## Disclosure Policy
 
-When we receive a security bug report, we will:
-
-1. Confirm the problem and determine affected versions.
-2. Audit code to find any similar problems.
-3. Prepare fixes for all supported versions.
-4. Release new versions as soon as possible.
-
-<!--
-AGENT INSTRUCTIONS:
-This is a standard SECURITY.md template.
-Update contact information, supported versions, and response timelines to match your project's needs.
-Consider adding specific security requirements or guidelines relevant to your technology stack.
--->
+1. Confirm the issue and determine affected files
+2. Audit for similar patterns elsewhere in the repo
+3. Push a fix to `main` with a clear commit message
+4. Note it in `CHANGELOG.md` under Security

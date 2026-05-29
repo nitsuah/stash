@@ -1,6 +1,6 @@
 # Power Failure Alarm Circuit
 
-![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/develop/projects/pfa/pfa_pcb.png)
+![pfa_pcb.png](https://raw.githubusercontent.com/nitsuah/stash/main/projects/pfa/pfa_pcb.png)
 
 A nifty electronic circuit designed for a power failure alarm, fueled by a USB power source. Components include:
 

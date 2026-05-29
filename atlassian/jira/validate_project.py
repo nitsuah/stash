@@ -12,16 +12,16 @@ Usage:
     export JIRA_HOST=https://yourorg.atlassian.net
     export JIRA_EMAIL=you@example.com
     export JIRA_TOKEN=YOUR_API_TOKEN
-    python validate_project.py --project AUSTIN
+    python validate_project.py --project MYPROJECT
 
     # Option 2 (recommended): copy .env.example → .env, fill in values.
     # A .env in the same directory as this script is loaded automatically.
     cp atlassian/jira/.env.example atlassian/jira/.env
     # edit .env, then:
-    python validate_project.py --project AUSTIN
+    python validate_project.py --project MYPROJECT
 
     # Point at a .env elsewhere:
-    python validate_project.py --project AUSTIN --env-file /path/to/.env
+    python validate_project.py --project MYPROJECT --env-file /path/to/.env
 
 Output:
     Results are printed to stdout and written to validator_<PROJECT>_<timestamp>.log
@@ -455,7 +455,7 @@ def suite_story_lifecycle(client: JiraClient, project_key: str) -> Suite:
         ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
         s.add(Result("In Testing → Done (with resolution)", Status.PASS if ok else Status.FAIL, msg))
 
-        # Brief pause so background automations (e.g. Set Parent to ROI-4) can
+        # Brief pause so background automations (e.g. Set Parent to PARENT-1) can
         # complete before we start touching the issue again with a comment.
         time.sleep(8)
 
@@ -758,7 +758,7 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
 
 
 # ---------------------------------------------------------------------------
-# Suite 9 — Parent link updated to ROI-4 on resolution
+# Suite 9 — Parent link updated to PARENT-1 on resolution
 # ---------------------------------------------------------------------------
 
 def _check_parent_link(client: JiraClient, issue_key: str, roi_parent: str,
@@ -787,7 +787,7 @@ def _check_parent_link(client: JiraClient, issue_key: str, roi_parent: str,
 
 
 def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
-                                  roi_parent: str = "ROI-4") -> Suite:
+                                  roi_parent: str = "PARENT-1") -> Suite:
     s = Suite(f"Parent Link Update on Resolution (→ {roi_parent})")
     print(f"\n{'='*60}\n{s.name}\n{'='*60}")
 
@@ -984,19 +984,26 @@ def main() -> int:
         description="Validate Jira project configuration",
         epilog="Credentials come from env vars JIRA_HOST / JIRA_EMAIL / JIRA_TOKEN.",
     )
-    parser.add_argument("--project", required=True,  help="Project key, e.g. AUSTIN")
-    parser.add_argument("--roi-parent", default="ROI-4",
-                        help="Parent issue key for resolution link check (default: ROI-4)")
+    parser.add_argument("--project", required=True,  help="Project key, e.g. MYPROJECT")
+    parser.add_argument("--roi-parent", default="PARENT-1",
+                        help="Parent issue key for resolution link check (default: PARENT-1)")
     parser.add_argument("--skip-lifecycle", action="store_true",
                         help="Skip tests that create/delete real issues (structural checks only)")
     parser.add_argument("--env-file", metavar="FILE", default=None,
-                        help="Path to a .env file (default: .env next to this script)")
+                        help="Path to a .env file (default: jira/.env then atlassian/.env)")
     parser.add_argument("--report-dir", metavar="DIR", default=None,
-                        help="Directory for the log report (default: same dir as this script)")
+                        help="Directory for log reports (default: atlassian/logs/)")
     args = parser.parse_args()
 
-    default_env = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-    env_file = args.env_file or (default_env if os.path.exists(default_env) else None)
+    _script_dir = os.path.dirname(os.path.abspath(__file__))
+    _atlassian_dir = os.path.dirname(_script_dir)
+    env_file = args.env_file or next(
+        (p for p in [
+            os.path.join(_script_dir, ".env"),
+            os.path.join(_atlassian_dir, ".env"),
+        ] if os.path.exists(p)),
+        None,
+    )
     if env_file:
         _load_env_file(env_file)
 
@@ -1006,7 +1013,9 @@ def main() -> int:
 
     client = JiraClient(host, email, token)
     project = args.project.upper()
-    report_dir = args.report_dir or os.path.dirname(os.path.abspath(__file__))
+    default_logs = os.path.join(_atlassian_dir, "logs")
+    os.makedirs(default_logs, exist_ok=True)
+    report_dir = args.report_dir or default_logs
 
     print(f"\nJira Config Validator")
     print(f"Host:    {host}")

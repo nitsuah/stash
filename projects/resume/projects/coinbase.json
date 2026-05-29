@@ -55,7 +55,7 @@
                 "month": 9,
                 "year": 2022
             },
-            "description": "Ekant gave praise - #yay - ",
+            "description": "Received peer recognition - #yay",
             "id": "CB-3",
             "images": [
                 {
@@ -63,7 +63,7 @@
                 }
             ],
             "link": "https://app.url/",
-            "name": "Ekant gave praise",
+            "name": "Received peer recognition",
             "organization": "Coinbase",
             "pillar": "",
             "team": "",
@@ -1087,7 +1087,7 @@
                 "month": 7,
                 "year": 2023
             },
-            "description": "NHO: Onboarded new contractor Tarun - NHO - Cost savings per engineer per week = 1 hour * $80.77 = $80.77\nTotal potential cost savings per week = $80.77 * 3 (engineers) = $242.31",
+            "description": "NHO: Onboarded new contractor - NHO - demonstrated time savings per engineer per week through automation.",
             "id": "CB-46",
             "images": [
                 {
@@ -1183,7 +1183,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Jira Automation & Webhooks Paved Roads - Automation - https://confluence.coinbase-corp.com/display/IOI/PagerDuty+Jira+Automation+Integration",
+            "description": "Jira Automation & Webhooks Paved Roads - Automation - Documented and standardized PagerDuty <> Jira automation integration patterns.",
             "id": "CB-50",
             "images": [
                 {
@@ -1207,7 +1207,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Helped Bret Hash et. al with Roadmaps - Lunch&Learn - https://jira.coinbase-corp.com/browse/MY-252",
+            "description": "Helped requester with Roadmaps - Lunch&Learn",
             "id": "CB-51",
             "images": [
                 {
@@ -1215,7 +1215,7 @@
                 }
             ],
             "link": "https://app.url/",
-            "name": "Helped Bret Hash et. al with Roadmaps",
+            "name": "Helped requester with Roadmaps",
             "organization": "Coinbase",
             "pillar": "Customer Focus",
             "team": "< 1hr/Eng",
@@ -1255,7 +1255,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "MY PROJECT - https://confluence.coinbase-corp.com/display/MY/Project+Overview - Demo - Trello for free! - https://confluence.coinbase-corp.com/display/MY/Project+Overview",
+            "description": "Internal project management tool demo - Demo - Showcased free Trello-style self-service project tracking to stakeholders.",
             "id": "CB-53",
             "images": [
                 {
@@ -1263,7 +1263,7 @@
                 }
             ],
             "link": "https://app.url/",
-            "name": "MY PROJECT - https://confluence.coinbase-corp.com/display/MY/Project+Overview",
+            "name": "Internal Project Management Tool Demo",
             "organization": "Coinbase",
             "pillar": "Customer Focus",
             "team": "",
@@ -1279,7 +1279,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Assets for Incident Management (Ownership Registry) - Assets - https://jira.coinbase-corp.com/browse/GSD-335261",
+            "description": "Assets for Incident Management (Ownership Registry) - Assets - Built asset tracking for incident ownership registry.",
             "id": "CB-54",
             "images": [
                 {
@@ -1303,7 +1303,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Assets for R&D (Project Inventory) - Assets - https://jira-staging.coinbase-corp.com/secure/ObjectSchema.jspa?id=15&typeId=24&view=list&objectId=441003",
+            "description": "Assets for R&D (Project Inventory) - Assets - Built asset schema for R&D project inventory tracking.",
             "id": "CB-55",
             "images": [
                 {
@@ -1327,7 +1327,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Atlassian Intake - discussions (Ivan/Halle/others) - DM - https://jira.coinbase-corp.com/browse/MY-253",
+            "description": "Atlassian Intake - stakeholder discussions - DM",
             "id": "CB-56",
             "images": [
                 {
@@ -1335,7 +1335,7 @@
                 }
             ],
             "link": "https://app.url/",
-            "name": "Atlassian Intake - discussions (Ivan/Halle/others)",
+            "name": "Atlassian Intake - stakeholder discussions",
             "organization": "Coinbase",
             "pillar": "Customer Focus",
             "team": "",
@@ -1351,7 +1351,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Provided input on Docebo <> Slack integration - DM - https://jira.coinbase-corp.com/browse/INFOSECSD-16354\nDocebo for Slack",
+            "description": "Provided input on Docebo <> Slack integration - DM",
             "id": "CB-57",
             "images": [
                 {
@@ -1399,7 +1399,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Updated automation in ESTO Project to prevent duplicates  - Automation - https://jira.coinbase-corp.com/browse/GSD-337029",
+            "description": "Updated automation in ESTO Project to prevent duplicates - Automation",
             "id": "CB-59",
             "images": [
                 {
@@ -1423,7 +1423,7 @@
                 "month": 8,
                 "year": 2023
             },
-            "description": "Added ESTO Slack notification - Slack - natausha.horton was added to product-esto-coplan-notifs by Austin Hardy\nnatausha.horton - 15:12\n@Austin Hardy / @tim.howard - I LOVE THIS - THANK YOU",
+            "description": "Added ESTO Slack notification - Slack - Configured Slack channel notifications for ESTO project updates; received positive feedback from requester.",
             "id": "CB-60",
             "images": [
                 {
@@ -1447,7 +1447,7 @@
                 "month": 9,
                 "year": 2023
             },
-            "description": "Add Jira Project attribute to Teams in Ownership Registry - Assets - https://jira.coinbase-corp.com/browse/COLLAB-2692",
+            "description": "Add Jira Project attribute to Teams in Ownership Registry - Assets",
             "id": "CB-61",
             "images": [
                 {
@@ -1495,7 +1495,7 @@
                 "month": 9,
                 "year": 2023
             },
-            "description": "Add automation that tags T3 in admin comment pre SLA breach - Automation - https://jira.coinbase-corp.com/browse/COLLAB-2644 ",
+            "description": "Add automation that tags T3 in admin comment pre SLA breach - Automation",
             "id": "CB-63",
             "images": [
                 {
@@ -1519,7 +1519,7 @@
                 "month": 9,
                 "year": 2023
             },
-            "description": "Fixed PagerDuty Splunk alerts and monitors - Automation - https://jira.coinbase-corp.com/browse/COLLAB-2518",
+            "description": "Fixed PagerDuty Splunk alerts and monitors - Automation",
             "id": "CB-64",
             "images": [
                 {
@@ -1567,7 +1567,7 @@
                 "month": 9,
                 "year": 2023
             },
-            "description": "Setup Contractor Atlassian Support LDAP group - Team - Add Tarun/Naveen to group for access to GH/Splunk/etc",
+            "description": "Setup Contractor Atlassian Support LDAP group - Team - Onboarded contractors to support group for tool access.",
             "id": "CB-66",
             "images": [
                 {
@@ -1591,7 +1591,7 @@
                 "month": 10,
                 "year": 2023
             },
-            "description": "Austin Hardy received public praise from Johan McGwire! - #yay - Every time an opportunity comes up to work with Austin, it puts a smile on my face.\nI look forward to his one Coinbase mentality and ensuring that we take both the most achievable and secure pathways to accomplishing a goal.\nThank you so much for being apart of this team. You truly embody all the values we cherish the most here.\n",
+            "description": "Received public recognition from a colleague - #yay - Recognized for collaborative approach, security mindset, and embodying team values.",
             "id": "CB-67",
             "images": [
                 {
@@ -1599,7 +1599,7 @@
                 }
             ],
             "link": "https://app.url/",
-            "name": "Austin Hardy received public praise from Johan McGwire!",
+            "name": "Received public recognition from a colleague",
             "organization": "Coinbase",
             "pillar": "Championship Team, Positive Energy",
             "team": "",
@@ -1615,7 +1615,7 @@
                 "month": 10,
                 "year": 2023
             },
-            "description": "Productize Forms for Jira - Product - https://jira.coinbase-corp.com/browse/COLLAB-2331",
+            "description": "Productize Forms for Jira - Product",
             "id": "CB-68",
             "images": [
                 {
