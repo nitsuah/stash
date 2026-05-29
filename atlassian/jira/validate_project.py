@@ -43,6 +43,11 @@ from enum import Enum
 from io import StringIO
 from typing import Any, TextIO
 
+# Force UTF-8 output on Windows so symbols render correctly
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")  # type: ignore
+
 import requests
 
 
@@ -57,7 +62,13 @@ class Status(Enum):
     WARN = "WARN"
 
 
-SYMBOL = {Status.PASS: "✓", Status.FAIL: "✗", Status.SKIP: "-", Status.WARN: "!"}
+_USE_UTF8 = sys.stdout.encoding and sys.stdout.encoding.lower().startswith("utf")
+SYMBOL = {
+    Status.PASS: "✓" if _USE_UTF8 else "P",
+    Status.FAIL: "✗" if _USE_UTF8 else "F",
+    Status.SKIP: "-",
+    Status.WARN: "!" ,
+}
 
 
 @dataclass
@@ -231,7 +242,7 @@ def comment_failures(client: JiraClient, issue_key: str, suite: Suite,
     prefix = f"[{label}] " if label else ""
     lines = [f"{prefix}VALIDATOR FAILURES on {issue_key}:"]
     for r in failures:
-        lines.append(f"  ✗ {r.name}: {r.message}")
+        lines.append(f"  {SYMBOL[Status.FAIL]}{r.name}: {r.message}")
         if r.details:
             lines.append(f"      → {r.details}")
     add_comment(client, issue_key, "\n".join(lines))
@@ -298,8 +309,8 @@ def suite_issue_types(client: JiraClient, project_key: str) -> Suite:
 # ---------------------------------------------------------------------------
 
 EXPECTED_STATUSES: dict[str, list[str]] = {
-    "Task":             ["New", "In Progress", "Blocked", "Reopened", "Done"],
-    "Sub-task":         ["New", "In Progress", "Blocked", "Reopened", "Done"],
+    "Task":             ["To Do", "In Progress", "Blocked", "Reopened", "Done"],
+    "Sub-task":         ["To Do", "In Progress", "Blocked", "Reopened", "Done"],
     "Story":            ["New", "In Progress", "In Testing", "Done", "Reopened"],
     "Accounts Payable": ["New", "Approved", "Denied", "Reopened"],
 }
@@ -505,8 +516,8 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
     s.add(Result("Create Accounts Payable", Status.PASS, key))
 
     try:
-        # Approved path
-        ok, msg = transition_issue(client, key, "Approved", resolution_name="Approved")
+        # Approved path — resolution is set by Jira workflow post-function, not on the screen
+        ok, msg = transition_issue(client, key, "Approved")
         s.add(Result("New → Approved", Status.PASS if ok else Status.FAIL, msg))
 
         time.sleep(5)  # automation: set Payment Approval Date
@@ -531,8 +542,8 @@ def suite_ap_lifecycle(client: JiraClient, project_key: str) -> Suite:
         s.add(Result("Approved → Reopened", Status.PASS if ok else Status.FAIL, msg))
         assert_resolution_cleared(client, key, "AP reopen", s)
 
-        # Denied path
-        ok, msg = transition_issue(client, key, "Denied", resolution_name="Denied")
+        # Denied path — resolution is set by Jira workflow post-function, not on the screen
+        ok, msg = transition_issue(client, key, "Denied")
         s.add(Result("Reopened → Denied", Status.PASS if ok else Status.FAIL, msg))
 
         time.sleep(5)  # automation: set Payment Denied Date
@@ -625,7 +636,8 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
             assert_resolution_cleared(client, key, f"{it} In Progress", s)
 
-            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            # Resolution set by workflow post-function, not on the transition screen
+            ok, msg = transition_issue(client, key, "Done")
             s.add(Result(f"{it}: In Progress → Done", Status.PASS if ok else Status.FAIL, msg))
 
             ok, msg = transition_issue(client, key, "Reopened")
@@ -635,7 +647,7 @@ def suite_task_lifecycle(client: JiraClient, project_key: str) -> Suite:
 
             # Reporter-comment → Reopened: issue is already Reopened, so first
             # close it so the automation has a resolved state to reopen from.
-            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            ok, msg = transition_issue(client, key, "Done")
             s.add(Result(f"{it}: Reclose before comment-reopen test",
                          Status.PASS if ok else Status.WARN, msg))
 
@@ -694,7 +706,7 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
                 transition_issue(client, parent_key, "In Progress")
 
             # ── Step 1: try to resolve parent while child is still open ──────
-            ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
+            ok, msg = transition_issue(client, parent_key, "Done")
             if ok:
                 issue = get_issue(client, parent_key)
                 status = issue["fields"]["status"]["name"]
@@ -712,12 +724,14 @@ def suite_subtask_resolution_gate(client: JiraClient, project_key: str) -> Suite
                              Status.PASS, "transition rejected as expected"))
 
             # ── Step 2: close the child sub-task ─────────────────────────────
-            ok, msg = transition_issue(client, child_key, "Done", resolution_name="Done")
+            ok, msg = transition_issue(client, child_key, "Done")
             s.add(Result(f"{parent_type}: close child sub-task (step 2)",
                          Status.PASS if ok else Status.FAIL, msg))
 
             # ── Step 3: retry resolving parent — should now succeed ───────────
-            ok, msg = transition_issue(client, parent_key, "Done", resolution_name="Done")
+            # Story requires resolution on its Done screen; Task uses workflow post-function
+            res = "Done" if parent_type == "Story" else None
+            ok, msg = transition_issue(client, parent_key, "Done", resolution_name=res)
             if ok:
                 issue = get_issue(client, parent_key)
                 status = issue["fields"]["status"]["name"]
@@ -816,7 +830,7 @@ def suite_parent_link_on_resolve(client: JiraClient, project_key: str,
         s.add(Result("Create test Task", Status.PASS, key))
         try:
             transition_issue(client, key, "In Progress")
-            ok, msg = transition_issue(client, key, "Done", resolution_name="Done")
+            ok, msg = transition_issue(client, key, "Done")
             s.add(Result("Task → Done", Status.PASS if ok else Status.FAIL, msg))
             _check_parent_link(client, key, roi_parent, "Task", s)
         finally:
@@ -881,7 +895,7 @@ def write_report(suites: list[Suite], project: str, host: str, out_dir: str) -> 
             for suite in suites:
                 for r in suite.results:
                     if r.status == Status.FAIL:
-                        w(f"  ✗ [{suite.name}] {r.name}: {r.message}")
+                        w(f"  {SYMBOL[Status.FAIL]}[{suite.name}] {r.name}: {r.message}")
                         if r.details:
                             w(f"      → {r.details}")
 
@@ -907,7 +921,7 @@ def print_summary(suites: list[Suite]) -> int:
     print("SUMMARY")
     print(f"{'='*60}")
     for suite in suites:
-        icon = "✓" if suite.failed == 0 else "✗"
+        icon = (SYMBOL[Status.PASS] if suite.failed == 0 else SYMBOL[Status.FAIL])
         print(f"  [{icon}] {suite.name:50s}  {suite.passed}P / {suite.failed}F"
               f" / {suite.warned}W / {suite.skipped}S")
     print(f"{'='*60}")
@@ -919,7 +933,7 @@ def print_summary(suites: list[Suite]) -> int:
         for suite in suites:
             for r in suite.results:
                 if r.status == Status.FAIL:
-                    print(f"  ✗ [{suite.name}] {r.name}: {r.message}")
+                    print(f"  {SYMBOL[Status.FAIL]}[{suite.name}] {r.name}: {r.message}")
                     if r.details:
                         print(f"      → {r.details}")
 
