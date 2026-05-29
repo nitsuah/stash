@@ -990,13 +990,20 @@ def main() -> int:
     parser.add_argument("--skip-lifecycle", action="store_true",
                         help="Skip tests that create/delete real issues (structural checks only)")
     parser.add_argument("--env-file", metavar="FILE", default=None,
-                        help="Path to a .env file (default: .env next to this script)")
+                        help="Path to a .env file (default: jira/.env then atlassian/.env)")
     parser.add_argument("--report-dir", metavar="DIR", default=None,
-                        help="Directory for the log report (default: same dir as this script)")
+                        help="Directory for log reports (default: atlassian/logs/)")
     args = parser.parse_args()
 
-    default_env = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-    env_file = args.env_file or (default_env if os.path.exists(default_env) else None)
+    _script_dir = os.path.dirname(os.path.abspath(__file__))
+    _atlassian_dir = os.path.dirname(_script_dir)
+    env_file = args.env_file or next(
+        (p for p in [
+            os.path.join(_script_dir, ".env"),
+            os.path.join(_atlassian_dir, ".env"),
+        ] if os.path.exists(p)),
+        None,
+    )
     if env_file:
         _load_env_file(env_file)
 
@@ -1006,7 +1013,9 @@ def main() -> int:
 
     client = JiraClient(host, email, token)
     project = args.project.upper()
-    report_dir = args.report_dir or os.path.dirname(os.path.abspath(__file__))
+    default_logs = os.path.join(_atlassian_dir, "logs")
+    os.makedirs(default_logs, exist_ok=True)
+    report_dir = args.report_dir or default_logs
 
     print(f"\nJira Config Validator")
     print(f"Host:    {host}")

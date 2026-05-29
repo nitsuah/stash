@@ -19,7 +19,8 @@ import argparse
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(_SCRIPT_DIR))
 from client import AtlassianClient, load_env
 
 
@@ -333,8 +334,7 @@ def main() -> None:
                         help="Run write operations (creates then deletes a test issue)")
     args = parser.parse_args()
 
-    load_env(args.env_file)
-    client = AtlassianClient.from_env()
+    client = AtlassianClient.from_env(args.env_file, start_dir=_SCRIPT_DIR)
     project = args.project.upper()
 
     print(f"\n{'='*60}")
