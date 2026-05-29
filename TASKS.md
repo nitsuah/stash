@@ -25,7 +25,11 @@ Last Updated: 2026-05-29
   - Each script family has a README. Python scripts have `--help` via argparse. PowerShell scripts have `param()` with descriptions.
 
 - [x] Add API examples across Atlassian, SaaS, and Cloud.
-  - Atlassian (Jira, Confluence, Bitbucket, Statuspage), PagerDuty, Slack, GitHub, Datadog, AWS boto3.
+  - Atlassian (Jira, Confluence, Bitbucket, Statuspage), PagerDuty, Slack, GitHub, Datadog, Okta, ServiceNow, AWS boto3.
+
+- [x] Backend API examples.
+  - Flask (Python) + Express (Node.js) — JWT auth, ORM (SQLAlchemy / Sequelize), validation, pagination.
+  - `backend/flask/app.py` and `backend/express/app.js` with shared endpoint surface.
 
 - [x] Consolidate IAS into cloud/.
   - Scripts moved to `cloud/iac/`. IAS section removed from root README.
@@ -42,11 +46,6 @@ Last Updated: 2026-05-29
 
 ## Todo
 
-- [ ] Fill out ARCHITECTURE.md module map.
-  - Priority: P1
-  - Type: Docs
-  - Acceptance Criteria: module boundaries, execution context, dependency notes, risk callouts for destructive scripts.
-
 - [ ] SSO/Identity Management examples.
   - Priority: P2
   - Type: Examples
@@ -56,11 +55,6 @@ Last Updated: 2026-05-29
   - Priority: P2
   - Type: Examples
   - Candidates: React/Next.js, Svelte/SvelteKit, Vue/Nuxt.js components.
-
-- [ ] Backend API examples.
-  - Priority: P2
-  - Type: Examples
-  - Candidates: Node.js/Express, Python/Flask, Go/Gin, Java/Spring Boot.
 
 - [ ] Database schema examples.
   - Priority: P3

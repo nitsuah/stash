@@ -44,7 +44,13 @@ Asset and vulnerability management (CMDB) tool — joins asset inventory against
 
 ## [SAAS](SAAS/README.md)
 
-Python API examples for SaaS operations platforms — PagerDuty, Slack, GitHub, and Datadog. See [`SAAS/README.md`](SAAS/README.md) for full docs.
+Python API examples for SaaS operations platforms — Okta, ServiceNow, PagerDuty, Slack, GitHub, and Datadog. See [`SAAS/README.md`](SAAS/README.md) for full docs.
+
+---
+
+## [Backend](backend/README.md)
+
+REST API reference implementations — Flask (Python) and Express (Node.js) — covering JWT auth, ORM, validation, and pagination. See [`backend/README.md`](backend/README.md) for full docs.
 
 ---
 
