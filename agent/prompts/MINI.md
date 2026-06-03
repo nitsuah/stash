@@ -61,3 +61,7 @@ When used inside the delivery pipeline, also record:
 - Use docs for documentation assets.
 
 If destination is unclear, keep file in place and mark as deferred for review.
+
+## Overseer note
+
+- Do not modify README, LICENSE, ROADMAP, TASKS or other similar files without explicit validation of root sensitivity (check overseer configuration for supported .github fallback files or supported locations `/docs` is not supported for all but may be in the future).
