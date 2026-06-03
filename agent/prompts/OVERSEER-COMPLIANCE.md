@@ -12,7 +12,7 @@ I need you to update this repository's documentation to meet Overseer compliance
 
 **Instructions:**
 
-1. Read the PM.md guidelines below carefully
+1. Read the OVERSEER-COMPLIANCE.md guidelines below carefully
 2. Read this entire repository to understand what it does
 3. Update ROADMAP.md, TASKS.md, FEATURES.md, METRICS.md, CHANGELOG.md, and other required docs
 4. Preserve all existing content - only fix formatting and add missing sections
