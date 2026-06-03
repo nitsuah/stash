@@ -21,14 +21,14 @@ Each prompt defines a specific role, operating rules, and expected outputs.
 |-------|--------|---------|
 | PMO | [prompts/PMO.md](prompts/PMO.md) | Audit products, maintain ROADMAP/TASKS, enforce governance |
 | Intake | [projects/Intake.md](projects/Intake.md) | Convert findings into prioritized, acceptance-ready tasks |
-| Software Engineer | [prompts/SoftwareEng.md](prompts/SoftwareEng.md) | Implement features, refactor, fix bugs |
-| DevOps | [prompts/DevOps.md](prompts/DevOps.md) | Validate infra, CI/CD, ship via branch + PR |
+| Software Engineer | [prompts/ENG.md](prompts/ENG.md) | Implement features, refactor, fix bugs |
+| DevOps | [prompts/OPS.md](prompts/OPS.md) | Validate infra, CI/CD, ship via branch + PR |
 | QA | [prompts/QA.md](prompts/QA.md) | Verify quality, prevent regressions |
 | Oncall | [prompts/Oncall.md](prompts/Oncall.md) | Incident response, user feedback triage |
 | Automation | [prompts/AUTO.md](prompts/AUTO.md) | Internal tooling and workflow automation |
 | Growth | [prompts/Growth.md](prompts/Growth.md) | Monetization, adoption, growth experiments |
 
-**Recommended flow:** PMO → Intake → SoftwareEng → DevOps → QA → Oncall → loop
+**Recommended flow:** PMO → Intake → ENG → OPS → QA → Oncall → loop
 
 See [AGENT-MAIN.md](AGENT-MAIN.md) for the full autonomous delivery flow and run-order checklist.
 
@@ -41,11 +41,11 @@ Reusable context modules passed alongside agent prompts:
 | Module | File | Use |
 |--------|------|-----|
 | Handoff template | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Shared artifact between pipeline agents |
-| PM standards | [prompts/PM.md](prompts/PM.md) | Overseer compliance formatting |
+| PM standards | [prompts/OVERSEER-COMPLIANCE.md](prompts/OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
 | LOC analysis | [prompts/LOC.md](prompts/LOC.md) | Hotspot analysis and refactor planning |
 | Repo hygiene | [prompts/MINI.md](prompts/MINI.md) | Safe repo organization |
-| Task flow | [prompts/FLOW-TASKS.md](prompts/FLOW-TASKS.md) | Task management conventions |
+| Task flow | [prompts/1FLOW.md](prompts/1FLOW.md) | Task management conventions |
 
 ---
 
