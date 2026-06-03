@@ -63,7 +63,7 @@ This will:
 
 ## TASK/ROADMAP-Driven Agent Flow
 
-**All agents must follow the [prompts/FLOW-TASKS.md](prompts/FLOW-TASKS.md) workflow:**
+**All agents must follow the [prompts/1FLOW.md](prompts/1FLOW.md) workflow:**
 - Always begin by parsing TASKS.md and ROADMAP.md
 - Select the next actionable item(s) based on priority and status
 - **Create and switch to a new branch before any codebase edits.**
