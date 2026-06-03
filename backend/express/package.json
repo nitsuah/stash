@@ -8,9 +8,9 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "joi": "^17.9.0",
+    "joi": "^18.2.1",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
