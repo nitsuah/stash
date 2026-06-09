@@ -163,14 +163,22 @@ cython_debug/
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache/
+agent/.obsidian/workspace.json
+agent/.obsidian/workspace-mobile.json
+agent/.obsidian/cache/
 # Plugin binaries — re-downloaded by setup-new-machine.ps1 (too large for git)
 .obsidian/plugins/*/main.js
 .obsidian/plugins/*/styles.css
 .obsidian/plugins/mcp-tools/mcp-server-windows.exe
+agent/.obsidian/plugins/*/main.js
+agent/.obsidian/plugins/*/styles.css
+agent/.obsidian/plugins/mcp-tools/mcp-server-windows.exe
 # Plugin runtime data — contains API keys and local state
-.obsidian/plugins/*/data.json
+agent/.obsidian/plugins/*/data.json
 agent/.obsidian/workspace.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
 agent/repos/*/
 agent/.smart-env/*
+agent/.obsidian/plugins/obsidian-local-rest-api/data.json
+agent/.obsidian/plugins/nexus/sqlite3.wasm
