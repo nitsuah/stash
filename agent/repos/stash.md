@@ -60,6 +60,10 @@ Notable governance files confirmed:
 
 *This is the stash repo itself — the vault root IS the stash repo. Key vault docs:*
 
-**Agent System:** [[AGENT-MAIN]] · [[README]] · [[prompts/1FLOW|1FLOW]] · [[prompts/PMO|PMO]] · [[prompts/ENG|ENG]] · [[prompts/OPS|OPS]] · [[prompts/QA|QA]]
+**Agent System:** [[AGENT-MAIN]] · [[REPO-README]] · [[prompts/1FLOW|1FLOW]] · [[prompts/PMO|PMO]] · [[prompts/ENG|ENG]] · [[prompts/OPS|OPS]] · [[prompts/QA|QA]]
 
-**Planning:** [[docs/2026Q2]] · [[docs/LOC-REPORT]] · [[docs/GAPS_AND_IMPROVEMENT_PLAN]] · [[docs/ENHANCEMENT_ROADMAP]] · [[docs/SECURITY_CHECKLIST]] · [[docs/money]]
+**Planning:** [[docs/2026Q2]] · [[docs/LOC-REPORT]] · [[docs/GAPS_AND_IMPROVEMENT_PLAN]] · [[docs/ENHANCEMENT_ROADMAP]] · [[docs/SECURITY_CHECKLIST]] · [[docs/MONEY-MAKERS]]
+
+**Personal Agents:** [[projects/Builder|Builder]] · [[projects/Career|Career]] · [[projects/Finance|Finance]]
+
+**Audits:** [[docs/AUDIT_GRAPH_2026_06_09|Graph Audit 2026-06-09]]
