@@ -12,6 +12,23 @@ A living inventory of what's in this repository.
 
 All examples follow a consistent pattern: read-only by default, `--demo-write` flag for write operations, env vars via `.env` file.
 
+## Backend API Examples
+
+- **Flask (Python)** — `backend/flask/app.py`: JWT auth, SQLAlchemy ORM, input validation, pagination
+- **Express (Node.js)** — `backend/express/app.js`: JWT auth, Sequelize ORM, validation, pagination
+- Both expose the same endpoint surface for cross-language comparison
+
+## Database Schema Examples
+
+- **PostgreSQL** — `database/postgres/schema.sql`: enums, domains, RLS, partitioning, triggers, views; `queries.sql`: CTEs, window functions, JSONB, full-text search, keyset pagination
+- **MongoDB** — `database/mongodb/examples.py`: schema validation, indexes, aggregation pipeline, multi-doc transactions, text search
+
+## SSO / Identity Management Examples
+
+- **OAuth 2.0 / OIDC** — `sso/oauth2.py`: auth code + PKCE flow, refresh, introspection, client credentials, UserInfo (any OIDC provider)
+- **SAML 2.0** — `sso/saml.py`: IdP metadata parsing, AuthnRequest, SAMLResponse attribute extraction, SP metadata generation
+- **AWS SSO / IAM Identity Center** — `sso/aws_sso.py`: device auth, account/role listing, temp credential vending, Okta SCIM pattern
+
 ## Infrastructure
 
 - EC2 UserData bootstrap scripts for Ubuntu 22.04 and Windows Server 2022
