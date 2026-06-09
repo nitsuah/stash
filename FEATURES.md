@@ -5,7 +5,7 @@ A living inventory of what's in this repository.
 ## API Examples
 
 | Area | Platforms |
-|------|-----------|
+| ------ | ----------- |
 | Atlassian Cloud | Jira, Confluence, Bitbucket, Statuspage |
 | SaaS Operations | PagerDuty, Slack, GitHub, Datadog |
 | Cloud (AWS) | EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53 |
