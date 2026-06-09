@@ -66,4 +66,4 @@ Notable governance files confirmed:
 
 **Personal Agents:** [[projects/Builder|Builder]] · [[projects/Career|Career]] · [[projects/Finance|Finance]]
 
-**Audits:** [[docs/AUDIT_GRAPH_2026_06_09|Graph Audit 2026-06-09]]
+**Audits:** [[docs/AUDIT_GRAPH_2026_06_09|Graph Audit 2026-06-09]] · [[docs/AUDIT_GRAPH_2026_06_09b|Graph Audit 2026-06-09 (pass 2)]]
