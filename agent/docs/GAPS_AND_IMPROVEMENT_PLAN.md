@@ -1,12 +1,12 @@
 # Agent System: Workflow Gaps & New Agent/Skill Opportunities
 
 ## Current Agents
-- PMO: Planning, product management, documentation, and audit
-- DevOps: Delivery, CI/CD, and implementation
-- QA: Validation, regression, and compliance
-- Support: Incident response and user feedback
-- Automation: Internal tooling and workflow automation
-- Growth: Monetization and adoption
+- [[prompts/PMO|PMO]]: Planning, product management, documentation, and audit
+- [[prompts/OPS|DevOps]]: Delivery, CI/CD, and implementation
+- [[prompts/QA|QA]]: Validation, regression, and compliance
+- [[prompts/Oncall|Support]]: Incident response and user feedback
+- [[prompts/AUTO|Automation]]: Internal tooling and workflow automation
+- [[prompts/Growth|Growth]]: Monetization and adoption
 
 ## Workflow Gaps & Opportunities
 
@@ -17,6 +17,7 @@
 ### 2. Security & Compliance
 - **Gap:** Security reviews and compliance checks are not explicitly owned.
 - **Opportunity:** Add a "Security Agent" to run threat modeling, dependency audits, and compliance checks.
+- **See:** [[docs/SECURITY_CHECKLIST]] for the active security/sanitization pass.
 
 ### 3. Data & Analytics
 - **Gap:** No agent for tracking, analyzing, and reporting product usage or business metrics.
@@ -55,7 +56,7 @@
 
 3. **Action Plan:**
    - Prioritize improvements by impact and effort.
-   - Assign to relevant agent (Growth, PMO, Automation, etc.)
+   - Assign to relevant agent ([[prompts/Growth|Growth]], [[prompts/PMO|PMO]], [[prompts/AUTO|Automation]], etc.)
    - Track as tasks in TASKS.md and update ROADMAP.md
 
 4. **Continuous Review:**

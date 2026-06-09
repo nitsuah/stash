@@ -2,7 +2,7 @@
 
 ## 🎯 Strategic Vision
 
-Transform this repository from a personal code archive into a comprehensive technical portfolio that demonstrates Austin's evolution from VBA automation expert to AI-driven developer productivity architect.
+Transform [[repos/stash|this repository]] from a personal code archive into a comprehensive technical portfolio that demonstrates Austin's evolution from VBA automation expert to AI-driven developer productivity architect.
 
 ## 📋 Priority Enhancement Areas
 
@@ -11,6 +11,8 @@ Transform this repository from a personal code archive into a comprehensive tech
 Sanitize - remove any company proprietary code, secrets, or sensitive information from the repository so that it can be safely shared publicly.
 
 Check for anything that might contain sensitive information such as API keys, credentials, internal endpoints, proprietary algorithms, or any other company confidential material and remove or sanitize it so that the repository can be safely shared publicly.
+
+> Track findings in [[docs/SECURITY_CHECKLIST|Security Checklist]]. Assign execution to [[prompts/PMO|PMO]].
 
 ### 1. **Missing Technical Artifacts** (High Impact)
 
@@ -152,7 +154,7 @@ stash/
 3. **Developer Productivity Tools**: Template versions of internal tooling
 
 ### Phase 4: Portfolio Integration (Week 7-8)
-1. **Website Updates**: Integrate new projects.json data into nitsuah.io
+1. **Website Updates**: Integrate new projects.json data into [[repos/nitsuah-io|nitsuah.io]]
 2. **Resume Alignment**: Ensure all resume claims have supporting code examples
 3. **Professional Presentation**: Polish documentation and create demo videos
 

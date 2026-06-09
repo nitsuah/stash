@@ -4,25 +4,25 @@ This document defines the happy path for running agents autonomously against a r
 
 ## Agent Run Order (Happy Path)
 
-1. **PMO**
+1. **[[prompts/PMO|PMO]]**
    - Audit the repository, update ROADMAP/TASKS, and define/approve the implementation brief.
    - Output: Updated planning docs and a clear implementation brief (handoff artifact).
 
-2. **DevOps**
+2. **[[prompts/OPS|DevOps]]**
    - Prepare infrastructure, CI/CD, and delivery environment.
    - **MANDATORY:** Create and switch to a new delivery branch before making any codebase edits.
    - Output: Ready-to-implement branch, validated environment, and updated status.
 
-3. **Software Engineer**
+3. **[[prompts/ENG|Software Engineer]]**
    - Implement features, bugfixes, or refactors as defined in the brief.
    - **MANDATORY:** All codebase changes must be committed to the delivery branch. Do not add new MDs unless required by acceptance criteria—update only existing relevant MDs (e.g., README, ROADMAP, TASKS).
    - Output: Code changes, tests, and documentation updates on the delivery branch.
 
-4. **QA**
+4. **[[prompts/QA|QA]]**
    - Validate delivered work against acceptance criteria, tests, and documentation.
    - Output: QA report with pass/fail, defects, and improvement suggestions (in existing relevant MDs if required).
 
-5. **Oncall** (as needed)
+5. **[[prompts/Oncall|Oncall]]** (as needed)
    - Handle incidents, user feedback, and urgent triage during or after QA.
    - Output: Incident reports, user feedback summaries, and routed action items.
 
@@ -33,11 +33,14 @@ This document defines the happy path for running agents autonomously against a r
 ---
 
 ## Handoff Artifacts
-- Implementation brief (from PMO)
-- Delivery branch and environment (from DevOps)
-- Code, tests, and docs (from Software Engineer)
-- QA report (from QA)
-- Incident/feedback report (from Oncall)
+- Implementation brief (from [[prompts/PMO|PMO]])
+- Delivery branch and environment (from [[prompts/OPS|DevOps]])
+- Code, tests, and docs (from [[prompts/ENG|Software Engineer]])
+- QA report (from [[prompts/QA|QA]])
+- Incident/feedback report (from [[prompts/Oncall|Oncall]])
+
+## Supporting Agents
+[[prompts/AUTO|Automation]] and [[prompts/Growth|Growth]] agents run in parallel at any stage. [[prompts/LOC|LOC]], [[prompts/MINI|MINI]], and [[prompts/CLEANUP|Cleanup]] agents apply within individual repos as needed.
 
 ---
 

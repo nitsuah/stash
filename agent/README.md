@@ -44,6 +44,7 @@ Reusable context modules passed alongside agent prompts:
 | PM standards | [prompts/OVERSEER-COMPLIANCE.md](OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
 | LOC analysis | [prompts/LOC.md](prompts/LOC.md) | Hotspot analysis and refactor planning |
+| Repo cleanup | [prompts/CLEANUP.md](prompts/CLEANUP.md) | Structured repo cleanup (root, tests, data, docs) |
 | Repo hygiene | [prompts/MINI.md](prompts/MINI.md) | Safe repo organization |
 | Task flow | [prompts/1FLOW.md](prompts/1FLOW.md) | Task management conventions |
 
@@ -57,12 +58,16 @@ Per-repo context loaded when running agents against a specific repository:
 | ---- | ---- |
 | stash | [repos/stash.md](repos/stash.md) |
 | nitsuah.io | [repos/nitsuah-io.md](repos/nitsuah-io.md) |
+| nitsuah (v1) | [repos/nitsuah.md](repos/nitsuah.md) |
 | darkmoon | [repos/darkmoon.md](repos/darkmoon.md) |
 | bb-mcp | [repos/bb-mcp.md](repos/bb-mcp.md) |
 | overseer | [repos/overseer.md](repos/overseer.md) |
 | skyview | [repos/skyview.md](repos/skyview.md) |
 | agent-board | [repos/agent-board.md](repos/agent-board.md) |
-| kryptos / gcp / osrs / games | [repos/](repos/) |
+| kryptos | [repos/kryptos.md](repos/kryptos.md) |
+| gcp | [repos/gcp.md](repos/gcp.md) |
+| osrs | [repos/osrs.md](repos/osrs.md) |
+| games | [repos/games.md](repos/games.md) |
 
 ---
 
