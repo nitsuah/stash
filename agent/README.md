@@ -8,7 +8,7 @@ Each prompt defines a specific role, operating rules, and expected outputs.
 ## Personal Agents
 
 | Agent | File | Purpose | Cadence |
-|-------|------|---------|---------|
+| ----- | ---- | ----- | ------- |
 | 💼 CFO | [projects/Finance.md](projects/Finance.md) | Track finances, runway, CDs | Weekly or on-demand |
 | 🧑‍💻 Career | [projects/Career.md](projects/Career.md) | Evaluate jobs, draft outreach | When job-hunting |
 | 🔧 Builder | [projects/Builder.md](projects/Builder.md) | Find leads, close web design clients | When building |
@@ -18,7 +18,7 @@ Each prompt defines a specific role, operating rules, and expected outputs.
 ## Delivery Pipeline Agents
 
 | Agent | Prompt | Purpose |
-|-------|--------|---------|
+| ----- | ------ | ------- |
 | PMO | [prompts/PMO.md](prompts/PMO.md) | Audit products, maintain ROADMAP/TASKS, enforce governance |
 | Intake | [projects/Intake.md](projects/Intake.md) | Convert findings into prioritized, acceptance-ready tasks |
 | Software Engineer | [prompts/ENG.md](prompts/ENG.md) | Implement features, refactor, fix bugs |
@@ -39,7 +39,7 @@ See [AGENT-MAIN.md](AGENT-MAIN.md) for the full autonomous delivery flow and run
 Reusable context modules passed alongside agent prompts:
 
 | Module | File | Use |
-|--------|------|-----|
+| ------ | ---- | ---- |
 | Handoff template | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Shared artifact between pipeline agents |
 | PM standards | [prompts/OVERSEER-COMPLIANCE.md](OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
@@ -54,7 +54,7 @@ Reusable context modules passed alongside agent prompts:
 Per-repo context loaded when running agents against a specific repository:
 
 | Repo | File |
-|------|------|
+| ---- | ---- |
 | stash | [repos/stash.md](repos/stash.md) |
 | nitsuah.io | [repos/nitsuah-io.md](repos/nitsuah-io.md) |
 | darkmoon | [repos/darkmoon.md](repos/darkmoon.md) |
@@ -69,7 +69,7 @@ Per-repo context loaded when running agents against a specific repository:
 ## Docs
 
 | Doc | File |
-|-----|------|
+| --- | ---- |
 | Enhancement roadmap | [docs/ENHANCEMENT_ROADMAP.md](docs/ENHANCEMENT_ROADMAP.md) |
 | Gaps & improvement plan | [docs/GAPS_AND_IMPROVEMENT_PLAN.md](docs/GAPS_AND_IMPROVEMENT_PLAN.md) |
 | Security checklist | [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) |
@@ -81,11 +81,13 @@ Per-repo context loaded when running agents against a specific repository:
 ## Usage
 
 ### Option A: Claude.ai (simplest)
+
 1. Open a new Claude chat
 2. Paste the contents of the relevant `.md` file as the system prompt
 3. Chat normally — optionally attach the repo context file from `repos/`
 
 ### Option B: Run locally with Python
+
 ```bash
 pip install anthropic python-dotenv
 export ANTHROPIC_API_KEY=sk-...
@@ -93,6 +95,7 @@ AGENT=pmo python run_agent.py
 ```
 
 ### Option C: Docker
+
 ```bash
 docker build -t personal-agents .
 docker run -it -e ANTHROPIC_API_KEY=sk-... -e AGENT=pmo personal-agents
@@ -102,7 +105,7 @@ docker run -it -e ANTHROPIC_API_KEY=sk-... -e AGENT=pmo personal-agents
 
 ## File Structure
 
-```
+```text
 agent/
 ├── AGENT-MAIN.md          # Autonomous delivery flow + run-order checklist
 ├── README.md

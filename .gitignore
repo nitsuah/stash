@@ -159,27 +159,26 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Obsidian — machine-local workspace state
+# Obsidian
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache/
 agent/.obsidian/workspace.json
 agent/.obsidian/workspace-mobile.json
 agent/.obsidian/cache/
-
-# Obsidian — plugin binaries (large; re-installed via Obsidian UI or setup-new-machine.ps1)
+# Plugin binaries — re-downloaded by setup-new-machine.ps1 (too large for git)
 .obsidian/plugins/*/main.js
 .obsidian/plugins/*/styles.css
-.obsidian/plugins/*/*.exe
-.obsidian/plugins/*/*.wasm
+.obsidian/plugins/mcp-tools/mcp-server-windows.exe
 agent/.obsidian/plugins/*/main.js
 agent/.obsidian/plugins/*/styles.css
-agent/.obsidian/plugins/*/*.exe
-agent/.obsidian/plugins/*/*.wasm
-
-# Obsidian — plugin runtime data (API keys, TLS private keys, certs, local state)
-.obsidian/plugins/*/data.json
+agent/.obsidian/plugins/mcp-tools/mcp-server-windows.exe
+# Plugin runtime data — contains API keys and local state
 agent/.obsidian/plugins/*/data.json
+agent/.obsidian/workspace.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
 agent/repos/*/
+agent/.smart-env/*
+agent/.obsidian/plugins/obsidian-local-rest-api/data.json
+agent/.obsidian/plugins/nexus/sqlite3.wasm
