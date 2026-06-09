@@ -41,7 +41,7 @@ Reusable context modules passed alongside agent prompts:
 | Module | File | Use |
 |--------|------|-----|
 | Handoff template | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Shared artifact between pipeline agents |
-| PM standards | [prompts/OVERSEER-COMPLIANCE.md](prompts/OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
+| PM standards | [prompts/OVERSEER-COMPLIANCE.md](OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
 | LOC analysis | [prompts/LOC.md](prompts/LOC.md) | Hotspot analysis and refactor planning |
 | Repo hygiene | [prompts/MINI.md](prompts/MINI.md) | Safe repo organization |
