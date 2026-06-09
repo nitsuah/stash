@@ -81,3 +81,13 @@ npm run setup-db              # Initialize Postgres schema
 ## Active PMO
 
 See TASKS.md and ROADMAP.md for current priorities. Latest PR: `pmo/overseer/planning-alignment-2026-03-27` — [PR #82](https://github.com/nitsuah/overseer/pull/82)
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/overseer/ROADMAP|ROADMAP]] · [[repos/overseer/TASKS|TASKS]] · [[repos/overseer/FEATURES|FEATURES]] · [[repos/overseer/METRICS|METRICS]] · [[repos/overseer/CHANGELOG|CHANGELOG]] · [[repos/overseer/README|README]]
+
+**docs/:** [[repos/overseer/docs/AGENT_TASK_QUEUE_API|Agent Task Queue API]] · [[repos/overseer/docs/AUDIT|Audit]] · [[repos/overseer/docs/TESTING_STRATEGY_PROMPT|Testing Strategy]] · [[repos/overseer/docs/HANDOFF-agent-task-queue-execution-20260403|HANDOFF: agent-task-queue (2026-04-03)]] · [[repos/overseer/docs/HANDOFF-byok-quota-provider-fallback-20260411|HANDOFF: byok-quota-provider (2026-04-11)]]

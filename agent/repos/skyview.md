@@ -53,3 +53,13 @@ docker run -d -p 18080:80 pmo-skyview-audit
 ## Active PMO
 
 See TASKS.md and ROADMAP.md for current priorities.
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/skyview/ROADMAP|ROADMAP]] · [[repos/skyview/TASKS|TASKS]] · [[repos/skyview/FEATURES|FEATURES]] · [[repos/skyview/METRICS|METRICS]] · [[repos/skyview/CHANGELOG|CHANGELOG]] · [[repos/skyview/README|README]]
+
+**docs/:** [[repos/skyview/docs/DEPLOYMENT_GUIDE|Deployment Guide]] · [[repos/skyview/docs/GETTING_STARTED|Getting Started]] · [[repos/skyview/docs/QUICK_REFERENCE|Quick Reference]] · [[repos/skyview/docs/OWNER_GUIDE|Owner Guide]] · [[repos/skyview/docs/SEO_GUIDE|SEO Guide]] · [[repos/skyview/docs/ANALYTICS_SETUP|Analytics Setup]] · [[repos/skyview/docs/CLIENT_PORTAL|Client Portal]] · [[repos/skyview/docs/PERFORMANCE_CHECKLIST|Performance Checklist]] · [[repos/skyview/docs/ASSET_MANAGEMENT|Asset Management]]

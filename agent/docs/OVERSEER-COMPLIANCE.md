@@ -2,7 +2,7 @@
 
 **Purpose**: This document provides comprehensive instructions for AI agents tasked with updating repository documentation to meet Overseer's parsing and display requirements.
 
-**Context**: Overseer is a meta-repository intelligence dashboard that parses standardized markdown files (ROADMAP.md, TASKS.md, METRICS.md, FEATURES.md, etc.) to provide health scoring, project tracking, and documentation compliance monitoring across multiple repositories.
+**Context**: [[repos/overseer|Overseer]] is a meta-repository intelligence dashboard that parses standardized markdown files (ROADMAP.md, TASKS.md, METRICS.md, FEATURES.md, etc.) to provide health scoring, project tracking, and documentation compliance monitoring across multiple repositories. Used by [[prompts/PMO|PMO]] as the formatting authority for all Overseer-tracked repos.
 
 ---
 

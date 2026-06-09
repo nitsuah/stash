@@ -104,3 +104,7 @@ Next action: [1 thing, 10 min or less]
 ## Feedback loop
 
 - Also improve this `.md` file as needed to self-improve yourself.
+
+## Related
+- [[projects/Finance|Finance Agent]] — track income and runway alongside job search
+- [[projects/Builder|Builder Agent]] — side hustle / freelance income track

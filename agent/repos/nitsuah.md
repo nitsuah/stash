@@ -15,3 +15,9 @@
 - Update CONTRACT_ADDRESS in "src/pages/labs/domainsite.jsx"
 - Commit & Push, or Merge to dev & main branches to publish <https://nitsuah.io> automatically like <https://dev.nitsuah.io>
 - Run `npm run dev` locally to get started
+
+---
+
+## Vault Index
+
+*Legacy v1 portfolio (React + Vite). Superseded by [[repos/nitsuah-io|nitsuah-io]]. No synced docs subfolder.*
