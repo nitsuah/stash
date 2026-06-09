@@ -172,4 +172,4 @@ cython_debug/
 agent/.obsidian/workspace.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
-/live/
+agent/repos/*/
