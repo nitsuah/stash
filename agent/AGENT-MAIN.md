@@ -33,6 +33,7 @@ This document defines the happy path for running agents autonomously against a r
 ---
 
 ## Handoff Artifacts
+
 - Implementation brief (from [[prompts/PMO|PMO]])
 - Delivery branch and environment (from [[prompts/OPS|DevOps]])
 - Code, tests, and docs (from [[prompts/ENG|Software Engineer]])
@@ -40,11 +41,13 @@ This document defines the happy path for running agents autonomously against a r
 - Incident/feedback report (from [[prompts/Oncall|Oncall]])
 
 ## Supporting Agents
+
 [[prompts/AUTO|Automation]] and [[prompts/Growth|Growth]] agents run in parallel at any stage. [[prompts/LOC|LOC]], [[prompts/MINI|MINI]], and [[prompts/CLEANUP|Cleanup]] agents apply within individual repos as needed.
 
 ---
 
 ## Autonomous Agent Guidance
+
 - Each agent must respect and update handoff artifacts.
 - **Agents must create a new branch before any codebase edits and must open a pull request when work is complete.**
 - Agents should not proceed to the next step until the previous agent’s outputs are complete and validated.
@@ -58,6 +61,7 @@ This document defines the happy path for running agents autonomously against a r
 > "Run the autonomous agent flow for [repo] using AGENT-MAIN.md as the process guide."
 
 This will:
+
 - Start with PMO audit and planning
 - Proceed through DevOps, Software Engineer, QA, and Oncall as needed
 - Loop until the work is complete and validated
@@ -67,6 +71,7 @@ This will:
 ## TASK/ROADMAP-Driven Agent Flow
 
 **All agents must follow the [prompts/1FLOW.md](prompts/1FLOW.md) workflow:**
+
 - Always begin by parsing TASKS.md and ROADMAP.md
 - Select the next actionable item(s) based on priority and status
 - **Create and switch to a new branch before any codebase edits.**
