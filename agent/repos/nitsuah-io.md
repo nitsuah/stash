@@ -94,3 +94,11 @@ npm run build:skip-wagmi    # Build without wagmi regen (faster)
 See TASKS.md and ROADMAP.md for current priorities. Last PR: `pmo/nitsuah-io/planning-alignment-2026-03-27`
 
 ---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/nitsuah-io/ROADMAP|ROADMAP]] · [[repos/nitsuah-io/TASKS|TASKS]] · [[repos/nitsuah-io/FEATURES|FEATURES]] · [[repos/nitsuah-io/METRICS|METRICS]] · [[repos/nitsuah-io/CHANGELOG|CHANGELOG]] · [[repos/nitsuah-io/README|README]]
+
+**docs/:** [[repos/nitsuah-io/docs/ARCH|Architecture]] · [[repos/nitsuah-io/docs/TESTING|Testing]] · [[repos/nitsuah-io/docs/PLAYWRIGHT_FIXES|Playwright Fixes]] · [[repos/nitsuah-io/docs/SCREENSHOTS|Screenshots]] · [[repos/nitsuah-io/docs/DEMO_REF|Demo Ref]] · [[repos/nitsuah-io/docs/INTEGRATIONS|Integrations]] · [[repos/nitsuah-io/docs/HANDOFF-home-landing-redesign-20260411|HANDOFF: home-landing-redesign (2026-04-11)]] · [[repos/nitsuah-io/docs/HANDOFF-spline-move-3d-20260403|HANDOFF: spline-move-3d (2026-04-03)]]

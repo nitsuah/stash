@@ -53,3 +53,13 @@ Notable governance files confirmed:
 3. Keep `ROADMAP.md` quarter headings with status text in heading.
 4. Perform PMO updates on a branch named `pmo/stash/<theme>-<date>`.
 5. Use commit prefix `docs(pmo):` and open a PR with evidence.
+
+---
+
+## Vault Index
+
+*This is the stash repo itself — the vault root IS the stash repo. Key vault docs:*
+
+**Agent System:** [[AGENT-MAIN]] · [[README]] · [[prompts/1FLOW|1FLOW]] · [[prompts/PMO|PMO]] · [[prompts/ENG|ENG]] · [[prompts/OPS|OPS]] · [[prompts/QA|QA]]
+
+**Planning:** [[docs/2026Q2]] · [[docs/LOC-REPORT]] · [[docs/GAPS_AND_IMPROVEMENT_PLAN]] · [[docs/ENHANCEMENT_ROADMAP]] · [[docs/SECURITY_CHECKLIST]] · [[docs/money]]

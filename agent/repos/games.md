@@ -185,3 +185,13 @@ All security overrides in `app/package.json` are pinned to **exact versions** ra
 ---
 
 Built with ❤️ using Next.js, Three.js, React Three Fiber
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/games/ROADMAP|ROADMAP]] · [[repos/games/TASKS|TASKS]] · [[repos/games/FEATURES|FEATURES]] · [[repos/games/METRICS|METRICS]] · [[repos/games/CHANGELOG|CHANGELOG]] · [[repos/games/README|README]]
+
+**docs/:** [[repos/games/docs/ARCHITECTURE|Architecture]] · [[repos/games/docs/API|API]] · [[repos/games/docs/INSTRUCTIONS|Instructions]] · [[repos/games/docs/README-docker|Docker Setup]]
