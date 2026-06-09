@@ -68,6 +68,6 @@ No active PMO. Archived repo — reference only. See [[repos/opencut-controller]
 
 *Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
 
-**Core:** [[repos/opencut/README|README]]
+**Core:** [[repos/opencut/README|README]] · [[repos/opencut/OpenCut-AGENTS|OpenCut-AGENTS]]
 
 **docs/:** [[repos/opencut/docs/actions|Actions]] · [[repos/opencut/docs/effects-renderer|Effects Renderer]] · [[repos/opencut/docs/keyframes|Keyframes]] · [[repos/opencut/docs/countries-search|Countries Search]]

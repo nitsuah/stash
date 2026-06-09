@@ -60,3 +60,5 @@ MIT © 2025 Nitsuah Labs
 **Core:** [[repos/darkmoon/ROADMAP|ROADMAP]] · [[repos/darkmoon/TASKS|TASKS]] · [[repos/darkmoon/FEATURES|FEATURES]] · [[repos/darkmoon/METRICS|METRICS]] · [[repos/darkmoon/CHANGELOG|CHANGELOG]] · [[repos/darkmoon/README|README]]
 
 **docs/:** [[repos/darkmoon/docs/ARCHITECTURE|Architecture]] · [[repos/darkmoon/docs/API|API]] · [[repos/darkmoon/docs/INSTRUCTIONS|Instructions]] · [[repos/darkmoon/docs/ROADMAP_DETAILED|Roadmap (detailed)]] · [[repos/darkmoon/docs/TECH_DEBT|Tech Debt]] · [[repos/darkmoon/docs/CONKER_BFD_BUILD_GUIDE|Conker BFD Build Guide]]
+
+**archive/:** [[repos/darkmoon/docs/archive/ARCHITECTURE_IMPROVEMENTS|Arch Improvements]] · [[repos/darkmoon/docs/archive/L7_ENGINEERING_REVIEW|L7 Engineering Review]] · [[repos/darkmoon/docs/archive/HANDOFF-player-tag-fix-20260403|HANDOFF: player-tag-fix (2026-04-03)]]
