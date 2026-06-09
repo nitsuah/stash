@@ -102,3 +102,6 @@ See TASKS.md and ROADMAP.md for current priorities. Last PR: `pmo/nitsuah-io/pla
 **Core:** [[repos/nitsuah-io/ROADMAP|ROADMAP]] · [[repos/nitsuah-io/TASKS|TASKS]] · [[repos/nitsuah-io/FEATURES|FEATURES]] · [[repos/nitsuah-io/METRICS|METRICS]] · [[repos/nitsuah-io/CHANGELOG|CHANGELOG]] · [[repos/nitsuah-io/README|README]]
 
 **docs/:** [[repos/nitsuah-io/docs/ARCH|Architecture]] · [[repos/nitsuah-io/docs/TESTING|Testing]] · [[repos/nitsuah-io/docs/PLAYWRIGHT_FIXES|Playwright Fixes]] · [[repos/nitsuah-io/docs/SCREENSHOTS|Screenshots]] · [[repos/nitsuah-io/docs/DEMO_REF|Demo Ref]] · [[repos/nitsuah-io/docs/INTEGRATIONS|Integrations]] · [[repos/nitsuah-io/docs/HANDOFF-home-landing-redesign-20260411|HANDOFF: home-landing-redesign (2026-04-11)]] · [[repos/nitsuah-io/docs/HANDOFF-spline-move-3d-20260403|HANDOFF: spline-move-3d (2026-04-03)]]
+
+## Related
+- [[repos/nitsuah|nitsuah (v1)]] — legacy predecessor portfolio (React + Vite, archived)

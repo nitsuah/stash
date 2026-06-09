@@ -85,3 +85,6 @@ See ROADMAP.md in linked opencut-controller skill for current priorities. Also s
 *Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
 
 **Core:** [[repos/opencut-controller/README|README]] · [[repos/opencut-controller/PROMPTS|PROMPTS]] · [[repos/opencut-controller/README.es|README (Español)]]
+
+## Related
+- [[repos/opencut|opencut]] — the editor this controller wraps via Playwright
