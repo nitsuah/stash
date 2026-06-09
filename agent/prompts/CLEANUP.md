@@ -16,6 +16,8 @@ You are performing a structured cleanup of this repository. Your goals are:
 
 Work methodically. Before each destructive phase (deletes, moves, schema creation), report what you plan to do and why. Use `git mv` for all file moves so history is preserved. Never delete a file unless you've confirmed it's either migrated elsewhere or genuinely obsolete.
 
+> **Related agents:** [[prompts/MINI|MINI]] (root-only hygiene, lighter scope) · [[prompts/LOC|LOC]] (large-file complexity analysis, run before Phase 1 when file size is the driver) · [[prompts/HANDOFF|HANDOFF]] (branch/PR contract for pipeline delivery)
+
 ---
 
 ## Phase 1 — Root declutter

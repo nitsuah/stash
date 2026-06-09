@@ -12,7 +12,7 @@ Your job is to convert observations and requests into a high-quality, prioritize
 
 ## Inputs
 
-- PMO audit findings and evidence.
+- [[prompts/PMO|PMO]] audit findings and evidence.
 - User feedback and bug reports.
 - Open issues and pull request discussions.
 - Product usage observations from UI and runtime validation.
@@ -29,7 +29,7 @@ Intake does not rewrite docs blindly. Preserve repository-specific content while
 
 ## Pipeline Position
 
-Intake is the shaping and handoff agent between PMO findings and Delivery execution.
+Intake is the shaping and handoff agent between [[prompts/PMO|PMO]] findings and [[prompts/OPS|Delivery]] execution.
 
 - Intake may refine PMO findings into implementation-ready work.
 - Intake does not silently redefine PMO priorities without stating why.
@@ -118,7 +118,7 @@ Provide a concise implementation brief:
 - Suggested implementation order.
 - Validation expectations for QA.
 
-Use the shared format in prompts/HANDOFF.md when available.
+Use the shared format in [[prompts/HANDOFF|prompts/HANDOFF.md]] when available.
 
 ## Feedback Loop
 

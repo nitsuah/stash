@@ -26,7 +26,7 @@ You are the PMO agent for this workspace. Your job is to keep product plans hone
 - ARCHITECTURE.md: Current system design, boundaries, and major dependencies.
 - Codebase overall: Verify code structure, comments, and scripts align with documentation and product behavior.
 
-Also verify ecosystem standards that affect repository health scoring:
+Also verify ecosystem standards that affect repository health scoring (see [[docs/OVERSEER-COMPLIANCE|Overseer Compliance]] for full format spec):
 
 - CHANGELOG.md
 - LICENSE or LICENSE.md
@@ -59,10 +59,10 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 
 ### Stash Runbooks Updated
 
-- [agent/repos/nitsuah-io.md](agent/repos/nitsuah-io.md) — Version drift, visual assets, dark mode UI
-- [agent/repos/overseer.md](agent/repos/overseer.md) — Coverage confirmed above target, P1 focuses on Agent Task Queue API
-- [agent/repos/agent-board.md](agent/repos/agent-board.md) — Foundation tasks, feature audit needed, test baseline required
-- [agent/repos/bb-mcp.md](agent/repos/bb-mcp.md) — Foundation-first approach, API wrapper critical path, Q1 2026 reset
+- [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
+- [[repos/overseer]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
+- [[repos/agent-board]] — Foundation tasks, feature audit needed, test baseline required
+- [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 
 ### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
 
@@ -77,10 +77,10 @@ Additional low-priority repos were validated with Docker-first checks and planni
 
 ### Additional Runbooks Added/Updated
 
-- [agent/repos/gcp.md](agent/repos/gcp.md) — Docker build blocker, backlog reset to real gaps
-- [agent/repos/osrs.md](agent/repos/osrs.md) — Runtime entrypoint blocker + version policy drift
-- [agent/repos/kryptos.md](agent/repos/kryptos.md) — Container permission blocker + phase priorities
-- [agent/repos/skyview.md](agent/repos/skyview.md) — Launch-ready status + metrics reconciliation focus
+- [[repos/gcp]] — Docker build blocker, backlog reset to real gaps
+- [[repos/osrs]] — Runtime entrypoint blocker + version policy drift
+- [[repos/kryptos]] — Container permission blocker + phase priorities
+- [[repos/skyview]] — Launch-ready status + metrics reconciliation focus
 
 ## Repositories of Note
 

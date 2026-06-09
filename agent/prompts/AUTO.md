@@ -20,3 +20,6 @@ Your job is to identify, implement, and maintain automation and internal tools t
 - Build and maintain CI/CD, bots, and scripts.
 - Gather feedback from agents on tooling pain points.
 - Proactively update documentation and onboarding materials.
+
+## Pipeline Context
+Runs in parallel with the main [[AGENT-MAIN|delivery flow]]. Identified gaps and opportunities are tracked in [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]].
