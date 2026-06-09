@@ -175,6 +175,8 @@ agent/.obsidian/cache/
 agent/.obsidian/plugins/*/main.js
 agent/.obsidian/plugins/*/styles.css
 agent/.obsidian/plugins/mcp-tools/mcp-server-windows.exe
+agent/.obsidian/plugins/*/*.exe
+agent/.obsidian/plugins/*/*.wasm
 agent/.obsidian/plugins/*/data.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
