@@ -41,7 +41,7 @@ Reusable context modules passed alongside agent prompts:
 | Module | File | Use |
 | ------ | ---- | ---- |
 | Handoff template | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Shared artifact between pipeline agents |
-| PM standards | [prompts/OVERSEER-COMPLIANCE.md](OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
+| PM standards | [docs/OVERSEER-COMPLIANCE.md](docs/OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
 | LOC analysis | [prompts/LOC.md](prompts/LOC.md) | Hotspot analysis and refactor planning |
 | Repo cleanup | [prompts/CLEANUP.md](prompts/CLEANUP.md) | Structured repo cleanup (root, tests, data, docs) |
@@ -135,3 +135,10 @@ agent/
 ├── scripts/               # Maintenance scripts (sync-repos, etc.)
 └── repos/                 # Per-repo context files (summary + synced subdirs)
 ```
+
+## Related
+- [[AGENT-MAIN]] — autonomous delivery flow and run-order checklist
+- [[prompts/PMO|PMO]] — planning authority and audit workflow
+- [[docs/2026Q2]] — current quarter planning
+- [[docs/OVERSEER-COMPLIANCE|Overseer Compliance]] — documentation standards
+- [[repos/stash|stash runbook]] — vault root runbook and index
