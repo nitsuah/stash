@@ -170,6 +170,12 @@ cython_debug/
 # Plugin runtime data — contains API keys and local state
 .obsidian/plugins/*/data.json
 agent/.obsidian/workspace.json
+agent/.obsidian/workspace-mobile.json
+agent/.obsidian/cache/
+agent/.obsidian/plugins/*/main.js
+agent/.obsidian/plugins/*/styles.css
+agent/.obsidian/plugins/mcp-tools/mcp-server-windows.exe
+agent/.obsidian/plugins/*/data.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
 agent/repos/*/
