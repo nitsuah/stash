@@ -49,7 +49,7 @@ Exclusions: `node_modules`, `.next`, `dist`, `build`, `venv`, `.venv`, `vendor`,
 
 ---
 
-### agent-board
+### [[repos/agent-board|agent-board]]
 
 #### Top Files
 
@@ -133,7 +133,7 @@ Exclusions: `node_modules`, `.next`, `dist`, `build`, `venv`, `.venv`, `vendor`,
 
 ---
 
-### kryptos
+### [[repos/kryptos|kryptos]]
 
 #### Top Files
 
@@ -179,7 +179,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### darkmoon
+### [[repos/darkmoon|darkmoon]]
 
 #### Top Files
 
@@ -216,7 +216,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### games
+### [[repos/games|games]]
 
 #### Top Files
 
@@ -256,7 +256,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### overseer
+### [[repos/overseer|overseer]]
 
 #### Top Files
 
@@ -307,7 +307,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### bb-mcp
+### [[repos/bb-mcp|bb-mcp]]
 
 #### Top Files
 
@@ -340,7 +340,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### gcp
+### [[repos/gcp|gcp]]
 
 #### Top Files
 
@@ -364,7 +364,7 @@ Note: kryptos is a research/cryptanalysis codebase. Some complexity is inherent 
 
 ---
 
-### nitsuah-io
+### [[repos/nitsuah-io|nitsuah-io]]
 
 #### Top Files (excluding generated.ts)
 
@@ -385,7 +385,7 @@ No immediate refactor action needed. Monitor for growth past 600.
 
 ---
 
-### stash
+### [[repos/stash|stash]]
 
 #### Note
 

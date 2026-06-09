@@ -33,7 +33,13 @@ You are the LOC agent for identifying high-complexity files and creating safe, i
 - Use a dedicated branch for LOC planning updates.
 - Never commit directly to default branches.
 - Open a PR with findings, proposed phases, and validation strategy.
-- If the LOC review is feeding product delivery, record the findings in prompts/HANDOFF.md or a repo-specific copy before implementation begins.
+- If the LOC review is feeding product delivery, record the findings in [[prompts/HANDOFF|prompts/HANDOFF.md]] or a repo-specific copy before implementation begins.
+
+## Related Agents
+
+- [[prompts/CLEANUP|CLEANUP]] — structured cleanup (root declutter, test tiers, docs audit) that often follows LOC analysis.
+- [[prompts/MINI|MINI]] — targeted root-only hygiene for lighter reorganization passes.
+- [[docs/LOC-REPORT|LOC Report]] — example output from a full vault-wide LOC scan.
 
 ## Deliverable Format
 

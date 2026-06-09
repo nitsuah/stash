@@ -11,7 +11,7 @@
    - If none are actionable, update TASKS.md/ROADMAP.md with blockers or next steps.
 
 3. **Create/Update Handoff Artifact**  
-   - Fill out or update the HANDOFF.md template for the selected task/feature.
+   - Fill out or update the [[prompts/HANDOFF|HANDOFF.md]] template for the selected task/feature.
    - Ensure all context, scope, and acceptance criteria are clear.
 
 4. **Branch/PR Creation**  
@@ -19,11 +19,11 @@
    - All work for this item must be coordinated on this branch/PR.
 
 5. **Run the Agent Delivery Loop**  
-   - PMO: Confirm task/roadmap context, update docs, and approve brief.
-   - DevOps: Prepare environment, branch, and CI.
-   - Software Engineer: Implement code, tests, and docs.
-   - QA: Validate against acceptance criteria.
-   - Oncall: Triage feedback/incidents if needed.
+   - [[prompts/PMO|PMO]]: Confirm task/roadmap context, update docs, and approve brief.
+   - [[prompts/OPS|DevOps]]: Prepare environment, branch, and CI.
+   - [[prompts/ENG|Software Engineer]]: Implement code, tests, and docs.
+   - [[prompts/QA|QA]]: Validate against acceptance criteria.
+   - [[prompts/Oncall|Oncall]]: Triage feedback/incidents if needed.
    - Loop: PMO reviews, updates plans, and closes or cycles to next item.
 
 6. **Repeat**  

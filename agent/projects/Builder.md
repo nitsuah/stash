@@ -114,3 +114,8 @@ Defer this until after first 2–3 paying clients.
 ## Feedback loop
 
 - Also improve this `.md` file as needed to self-improve yourself.
+
+## Related
+- [[projects/Career|Career Agent]] — parallel personal income track
+- [[projects/Finance|Finance Agent]] — track revenue and runway
+- [[docs/MONEY-MAKERS|Money Maker Skills]] — monetization ideas and service catalog

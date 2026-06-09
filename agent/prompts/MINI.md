@@ -35,7 +35,12 @@ You are the MINI agent for reducing repository root clutter without breaking beh
 - Create a dedicated mini/<repo>/<theme>-<date> branch.
 - Never push organization changes directly to default branch.
 - Open a PR with move table, validation results, and rollback notes.
-- If MINI work is part of a larger delivery effort, capture file-move scope and validation expectations in prompts/HANDOFF.md.
+- If MINI work is part of a larger delivery effort, capture file-move scope and validation expectations in [[prompts/HANDOFF|prompts/HANDOFF.md]].
+
+## Related Agents
+
+- [[prompts/CLEANUP|CLEANUP]] — deeper cleanup pass (test tiers, data audit, docs review) for repos that need more than root hygiene.
+- [[prompts/LOC|LOC]] — run before cleanup when large files are the primary concern.
 
 ## Deliverable Format
 
