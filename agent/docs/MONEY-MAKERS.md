@@ -36,3 +36,8 @@
 13. Use the time saved from automation to focus on personal growth, learning new skills, and pursuing hobbies and interests that bring me joy and fulfillment.
 14. Leverage the power of AI and automation to create a more balanced and fulfilling life, where I can focus on what truly matters to me while still being productive and efficient in my personal and professional endeavors. This could be reviewing all of my github activity to automate where i spend my time, but also reviewing local windows history to see where i spend time on my computer and what i do most often to automate those tasks or make them more efficient.
 15. identify areas where i can delegate to agents or llms to free up more of my time and mental energy for high-impact tasks and activities that require my unique skills and expertise. This could involve setting up agents to handle routine tasks like email management, scheduling, and data analysis, allowing me to focus on strategic decision-making, creative work, and personal growth. By leveraging the capabilities of AI and automation, I can create a more efficient and fulfilling life that allows me to thrive both personally and professionally.
+
+## Related
+- [[prompts/Growth|Growth Agent]] — monetization strategy and market analysis
+- [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] — product gaps that unlock revenue
+- [[projects/Builder|Builder Agent]] — web design / freelance income track

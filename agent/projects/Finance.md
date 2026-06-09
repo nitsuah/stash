@@ -103,3 +103,7 @@ When giving recommendations, always include:
 ## Feedback loop
 
 - Also improve this `.md` file as needed to self-improve yourself.
+
+## Related
+- [[projects/Career|Career Agent]] — job search income feeds burn rate and runway
+- [[projects/Builder|Builder Agent]] — freelance revenue updates cash position
