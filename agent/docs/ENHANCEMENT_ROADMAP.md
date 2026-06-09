@@ -2,7 +2,7 @@
 
 ## 🎯 Strategic Vision
 
-Transform [[repos/stash|this repository]] from a personal code archive into a comprehensive technical portfolio that demonstrates Austin's evolution from VBA automation expert to AI-driven developer productivity architect.
+Transform [[repos/stash|this repository]] from a personal code archive into a comprehensive technical portfolio that demonstrates my evolution from VBA automation expert to AI-driven developer productivity architect.
 
 ## 📋 Priority Enhancement Areas
 
@@ -17,6 +17,7 @@ Check for anything that might contain sensitive information such as API keys, cr
 ### 1. **Missing Technical Artifacts** (High Impact)
 
 #### Python Examples Needed
+
 - **VBA Migration Scripts**: Code showing transformation of legacy VBA systems to modern Python
 - **Data Processing Pipelines**: enterprise-scale data automation and analytics workflows  
 - **API Integration Utilities**: Demonstrate modern API consumption and integration patterns
@@ -25,6 +26,7 @@ Check for anything that might contain sensitive information such as API keys, cr
 **Value Statement**: Bridges the gap between VBA expertise and modern Python development, showing technical evolution and adaptability.
 
 #### Java/Spring Boot Gap
+
 - **Spring AI Integration**: Sanitized examples of `@Tool` annotations and AI service integration
 - **MCP Server Patterns**: Generic Model Context Protocol implementation examples
 - **Enterprise Service Architecture**: RESTful services and microservice patterns
@@ -32,7 +34,8 @@ Check for anything that might contain sensitive information such as API keys, cr
 
 **Value Statement**: Validates resume claims about Spring AI expertise and Netflix backend development work.
 
-#### JavaScript/TypeScript Projects  
+#### JavaScript/TypeScript Projects
+
 - **React Portfolio Components**: Frontend code powering nitsuah.io website
 - **Web3 Integration**: Cryptocurrency and blockchain interaction examples
 - **Developer Tooling**: Build scripts, automation utilities, and workflow helpers
@@ -41,6 +44,7 @@ Check for anything that might contain sensitive information such as API keys, cr
 **Value Statement**: Demonstrates full-stack capabilities and modern frontend development skills.
 
 #### Infrastructure as Code
+
 - **Terraform Modules**: Cloud infrastructure provisioning and management
 - **CI/CD Pipelines**: GitHub Actions, Jenkins, or similar automation workflows
 - **Container Orchestration**: Docker, Kubernetes configuration examples
@@ -51,34 +55,40 @@ Check for anything that might contain sensitive information such as API keys, cr
 ### 2. **Company IP Sanitization Opportunities** (Strategic Value)
 
 #### Netflix MCP Architecture
+
 - **Generic MCP Server**: Template showing Model Context Protocol implementation patterns
 - **AI Tool Integration**: Sanitized examples of `@Tool` annotations and service integration
 - **Developer Productivity Patterns**: Generic versions of internal tooling architectures
 - **Spring AI Templates**: Reusable patterns for AI service integration
 
-**Questions for Austin**:
+**Questions for Future Steps**:
+
 - Can you create generic versions of MCP server architecture patterns?
 - Any internal tooling logic that's not proprietary algorithms?
 - Training or demo code you've created that could be shared?
 
 #### Ad Operations Pipeline
+
 - **Data Processing Templates**: Generic ETL pipeline patterns (without Netflix data)
 - **Automation Frameworks**: Workflow orchestration and monitoring patterns
 - **Performance Optimization**: Generic optimization techniques and patterns
 - **Error Handling Systems**: Robust error recovery and notification patterns
 
-**Questions for Austin**:
+**Questions for Future Steps**:
+
 - Any pipeline architecture diagrams or flow charts you could sanitize?
 - Generic error handling or monitoring patterns?
 - Performance optimization techniques that aren't Netflix-specific?
 
 #### Developer Productivity Tools
+
 - **GitHub Copilot Integration**: Generic Slack bot architecture patterns
 - **Developer Workflow Automation**: Tool integration and productivity enhancement patterns
 - **Code Quality Systems**: Automated review and testing integration examples
 - **Team Productivity Metrics**: Generic measurement and reporting frameworks
 
-**Questions for Austin**:
+**Questions for Future Steps**:
+
 - Can you create template versions of productivity tools?
 - Any generic workflow automation patterns?
 - Architecture diagrams for developer tooling?
@@ -86,18 +96,21 @@ Check for anything that might contain sensitive information such as API keys, cr
 ### 3. **Documentation Enhancement** (Foundation)
 
 #### Project Context & Impact
+
 - **Business Value Statements**: Why each project mattered to the organization
 - **Technical Challenges**: Specific problems solved and complexity involved  
 - **Scale & Performance**: User counts, performance metrics, efficiency gains
 - **Architecture Decisions**: Technology choices and trade-offs made
 
 #### Code Quality Improvements
+
 - **Inline Documentation**: Enhanced comments explaining complex business logic
 - **Architecture Diagrams**: Visual representations of system designs
 - **Usage Examples**: Sample implementations and integration patterns
 - **Performance Benchmarks**: Where possible, execution time and resource usage data
 
 #### Portfolio Integration
+
 - **Project Categorization**: Group by technology, business domain, or complexity
 - **Skill Progression Timeline**: Show technical evolution over career arc
 - **Impact Quantification**: Demonstrate business value and scale achieved
@@ -106,7 +119,8 @@ Check for anything that might contain sensitive information such as API keys, cr
 ### 4. **Repository Organization** (Structure)
 
 #### Enhanced Folder Structure
-```
+
+```bash
 stash/
 ├── 🏢 enterprise-automation/     # VBA and legacy system automation
 │   ├── sampler/                  # PDF processing automation
@@ -131,6 +145,7 @@ stash/
 ```
 
 #### Documentation Standards
+
 - **Consistent README Templates**: Standardized format across all projects
 - **Code Quality Badges**: Complexity metrics, test coverage, documentation completeness
 - **Technology Tags**: Clear identification of languages, frameworks, platforms used
@@ -139,21 +154,25 @@ stash/
 ## 📈 Implementation Strategy
 
 ### Phase 1: Foundation (Week 1-2)
+
 1. **Reorganize Existing Code**: Implement new folder structure and enhanced documentation
 2. **Create Missing READMEs**: Comprehensive documentation for all existing projects
 3. **Add Business Context**: Value statements and impact metrics for current work
 
-### Phase 2: Fill Critical Gaps (Week 3-4)  
+### Phase 2: Fill Critical Gaps (Week 3-4)
+
 1. **Python Examples**: Create demonstration scripts showing VBA-to-Python evolution
 2. **JavaScript Portfolio**: Add frontend code examples and React components
 3. **Infrastructure Code**: Basic Terraform modules and CI/CD pipeline examples
 
 ### Phase 3: Company IP Integration (Week 5-6)
+
 1. **Sanitized Netflix Examples**: Generic MCP server and Spring AI templates
 2. **Architecture Patterns**: Workflow diagrams and system design examples  
 3. **Developer Productivity Tools**: Template versions of internal tooling
 
 ### Phase 4: Portfolio Integration (Week 7-8)
+
 1. **Website Updates**: Integrate new projects.json data into [[repos/nitsuah-io|nitsuah.io]]
 2. **Resume Alignment**: Ensure all resume claims have supporting code examples
 3. **Professional Presentation**: Polish documentation and create demo videos
@@ -161,18 +180,22 @@ stash/
 ## 🎭 Personas & Use Cases
 
 ### Technical Hiring Managers
+
 **Need**: Evidence of hands-on coding ability and system design skills
 **Delivery**: Well-documented code examples with clear business impact and technical complexity
 
-### AI/ML Team Leaders  
+### AI/ML Team Leaders
+
 **Need**: Proof of AI integration experience and modern development practices
 **Delivery**: MCP implementations, Spring AI examples, and productivity tool architectures
 
 ### Developer Productivity Directors
+
 **Need**: Examples of tools that scaled engineering effectiveness
 **Delivery**: Automation frameworks, workflow optimizations, and measurable impact data
 
 ### Enterprise Architecture Teams
+
 **Need**: Understanding of legacy system modernization and integration patterns
 **Delivery**: VBA-to-modern migration examples, system integration patterns, infrastructure code
 
@@ -184,7 +207,7 @@ stash/
 - **Professional Polish**: Consistent documentation and presentation standards
 - **Career Narrative**: Clear progression from VBA wizard to AI architect
 
-## ❓ Questions for Austin
+## ❓ Questions for Future Steps:
 
 1. **Priority Focus**: Which technical gap should we tackle first for maximum career impact?
 
@@ -197,5 +220,3 @@ stash/
 5. **Portfolio Strategy**: Should we create standalone demo projects or focus on explaining/documenting existing sophisticated work?
 
 ---
-
-**Next Steps**: Austin to review priorities and identify which areas to tackle first, plus any company IP that can be safely sanitized and added to strengthen the technical narrative.
