@@ -54,3 +54,12 @@ docker run --rm pmo-osrs-audit
 
 See TASKS.md and ROADMAP.md for current priorities.
 
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/osrs/ROADMAP|ROADMAP]] · [[repos/osrs/TASKS|TASKS]] · [[repos/osrs/FEATURES|FEATURES]] · [[repos/osrs/METRICS|METRICS]] · [[repos/osrs/CHANGELOG|CHANGELOG]] · [[repos/osrs/README|README]]
+
+**docs/:** [[repos/osrs/docs/HANDOFF-docker-entrypoint-20260403|HANDOFF: docker entrypoint (2026-04-03)]]

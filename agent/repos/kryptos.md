@@ -54,3 +54,12 @@ docker run --rm pmo-kryptos-audit
 
 See TASKS.md and ROADMAP.md for current priorities.
 
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/kryptos/ROADMAP|ROADMAP]] · [[repos/kryptos/TASKS|TASKS]] · [[repos/kryptos/FEATURES|FEATURES]] · [[repos/kryptos/METRICS|METRICS]] · [[repos/kryptos/CHANGELOG|CHANGELOG]] · [[repos/kryptos/README|README]]
+
+**docs/:** [[repos/kryptos/docs/INDEX|INDEX]] · [[repos/kryptos/docs/governance|governance]]

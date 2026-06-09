@@ -65,3 +65,13 @@ MCP server for Blackboard Learn API integration.
 4. **Finally**: Build advanced read/write workflows
 
 See bb-mcp TASKS.md and ROADMAP.md for full details.
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/bb-mcp/ROADMAP|ROADMAP]] · [[repos/bb-mcp/TASKS|TASKS]] · [[repos/bb-mcp/FEATURES|FEATURES]] · [[repos/bb-mcp/METRICS|METRICS]] · [[repos/bb-mcp/CHANGELOG|CHANGELOG]] · [[repos/bb-mcp/README|README]]
+
+**docs/:** [[repos/bb-mcp/docs/blackboard-learn-mcp-plan|blackboard-learn-mcp-plan]] · [[repos/bb-mcp/docs/blackboard-mcp-full-plan|blackboard-mcp-full-plan]] · [[repos/bb-mcp/docs/HANDOFF-mcp-provider-contract-20260403|HANDOFF: mcp-provider-contract (2026-04-03)]]

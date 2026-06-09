@@ -50,3 +50,13 @@ MIT © 2025 Nitsuah Labs
 ---
 
 **Original boilerplate:** [R3F.Multiplayer](https://github.com/juniorxsound/R3F.Multiplayer) by [@juniorxsound](https://github.com/juniorxsound)
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/darkmoon/ROADMAP|ROADMAP]] · [[repos/darkmoon/TASKS|TASKS]] · [[repos/darkmoon/FEATURES|FEATURES]] · [[repos/darkmoon/METRICS|METRICS]] · [[repos/darkmoon/CHANGELOG|CHANGELOG]] · [[repos/darkmoon/README|README]]
+
+**docs/:** [[repos/darkmoon/docs/ARCHITECTURE|Architecture]] · [[repos/darkmoon/docs/API|API]] · [[repos/darkmoon/docs/INSTRUCTIONS|Instructions]] · [[repos/darkmoon/docs/ROADMAP_DETAILED|Roadmap (detailed)]] · [[repos/darkmoon/docs/TECH_DEBT|Tech Debt]] · [[repos/darkmoon/docs/CONKER_BFD_BUILD_GUIDE|Conker BFD Build Guide]]

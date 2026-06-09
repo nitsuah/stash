@@ -53,3 +53,13 @@ docker build -t pmo-gcp-audit .
 ## Active PMO
 
 See TASKS.md and ROADMAP.md for current priorities.
+
+---
+
+## Vault Index
+
+*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
+
+**Core:** [[repos/gcp/ROADMAP|ROADMAP]] · [[repos/gcp/TASKS|TASKS]] · [[repos/gcp/FEATURES|FEATURES]] · [[repos/gcp/METRICS|METRICS]] · [[repos/gcp/CHANGELOG|CHANGELOG]] · [[repos/gcp/README|README]]
+
+**docs/:** [[repos/gcp/docs/HANDOFF-progress-telemetry-20260403|HANDOFF: progress telemetry (2026-04-03)]]

@@ -68,6 +68,21 @@ Per-repo context loaded when running agents against a specific repository:
 | gcp | [repos/gcp.md](repos/gcp.md) |
 | osrs | [repos/osrs.md](repos/osrs.md) |
 | games | [repos/games.md](repos/games.md) |
+| auto-apply-plugin | [repos/auto-apply-plugin.md](repos/auto-apply-plugin.md) |
+| avatar | [repos/avatar.md](repos/avatar.md) |
+| farm-3j | [repos/farm-3j.md](repos/farm-3j.md) |
+| fire | [repos/fire.md](repos/fire.md) |
+| opencut | [repos/opencut.md](repos/opencut.md) |
+| opencut-controller | [repos/opencut-controller.md](repos/opencut-controller.md) |
+| vhs | [repos/vhs.md](repos/vhs.md) |
+
+---
+
+## Scripts
+
+| Script | File | Purpose |
+| ------ | ---- | ------- |
+| sync-repos | [scripts/sync-repos.ps1](scripts/sync-repos.ps1) | Sync repo docs from live repos, update Last Validated, report new HANDOFFs |
 
 ---
 
@@ -117,5 +132,6 @@ agent/
 ├── docs/                  # Planning docs, roadmaps, feedback archives
 ├── projects/              # Personal agent definitions (Finance, Career, Builder, Intake)
 ├── prompts/               # Delivery pipeline agent prompts + reusable modules
-└── repos/                 # Per-repo context files
+├── scripts/               # Maintenance scripts (sync-repos, etc.)
+└── repos/                 # Per-repo context files (summary + synced subdirs)
 ```
