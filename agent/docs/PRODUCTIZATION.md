@@ -33,7 +33,7 @@
 
 | Repo | Why Tier 1 | Channel | Blocker | Next Action |
 | --- | --- | --- | --- | --- |
-| **nitsuah-io** | Live portfolio hub — the "storefront" for everything else. Q2 ask: redesign home as a project-card landing page surfacing Tier 1/2 work. | Personal site (live) | P0: `Dockerfile.test` Playwright image pin `v1.56.1-noble` → `v1.57.0-noble` | Fix the Playwright pin (1 line), then resume the home-landing-redesign HANDOFF (card grid for agent-board/overseer/darkmoon/etc.) |
+| **nitsuah-io** | Live portfolio hub — the "storefront" for everything else. Home-landing redesign (project-card grid for agent-board/overseer/bb-mcp/darkmoon) shipped via PR #266 + #348. | Personal site (live) | None open — prior Playwright Docker pin drift resolved 2026-06-03 | Run a Lighthouse audit on the new home page; confirm LCP improved ≥15 points vs. the old scroll-based hero (per HANDOFF-home-landing-redesign-20260411 next action) |
 | **overseer** | Live free tool, 71.5% test coverage, real "paydirt" potential per Q2 notes. Closest thing to an actual product with a growth loop. | Live site (ghoverseer.netlify.app) | P1: `docs/AUDIT.md` stale (3.5mo) | Refresh AUDIT.md, continue the BYOK quota-fallback HANDOFF, scope the "simple mode" UX |
 | **agent-board** | Local AI agent dashboard — directly demonstrates the "Claude Skills" story the user wants to promote. Demo video scripts + SRT captions already drafted. | Demo video / portfolio, npm/Docker | Stability/memory issues under Docker (Q2 feedback) | Stabilize default config (lighter footprint, FS read/write, MCP container manager) before pushing promo content |
 | **darkmoon** | Live multiplayer 3D game, CI green, demoable — strong visual content. | Live (darkmoon.dev) | UI/UX polish (21st dev components), player-tag bugs | Use the `opencut` skill to capture a gameplay clip; fix player-tag bugs; scope laser-tag mode |
@@ -86,7 +86,7 @@
 
 ## This Week (2026-06-10)
 
-1. **nitsuah-io** — fix the one-line Playwright Docker pin (P0), then resume the home-landing-redesign HANDOFF to surface Tier 1/2 project cards. Highest leverage: every other promotion effort benefits from a working storefront.
+1. ~~**nitsuah-io** — Playwright Docker pin + home-landing redesign~~ — **already done** (resolved 2026-06-03 / PR #266 + #348). Remaining: Lighthouse/LCP audit on the new home page.
 2. **overseer** — refresh the stale `docs/AUDIT.md` (P1, 3.5mo old) and continue the in-progress BYOK quota-fallback HANDOFF.
 3. **agent-board** — use the existing demo video scripts/SRT captions with the `opencut` skill to produce a first promo clip; in parallel, scope the Docker stability fixes (lighter default config, FS access, MCP container manager) flagged in Q2 feedback.
 4. **fire** — quick cleanup: fix absolute path links in ROADMAP.md, finish the CSV PII audit. Low effort, unblocks Tier 2 promotion.
