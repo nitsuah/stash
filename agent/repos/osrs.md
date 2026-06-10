@@ -1,6 +1,6 @@
 # osrs - Automation bot for game interaction
 
-**Last Validated:** 2026-03-27 | PMO audit - Docker-first validation
+**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/osrs
 **Branch convention:** pmo/osrs/planning-alignment-YYYY-MM-DD
 

@@ -62,7 +62,7 @@ Notable governance files confirmed:
 
 **Agent System:** [[AGENT-MAIN]] · [[REPO-README]] · [[prompts/1FLOW|1FLOW]] · [[prompts/PMO|PMO]] · [[prompts/ENG|ENG]] · [[prompts/OPS|OPS]] · [[prompts/QA|QA]]
 
-**Planning:** [[docs/2026Q2]] · [[docs/LOC-REPORT]] · [[docs/GAPS_AND_IMPROVEMENT_PLAN]] · [[docs/ENHANCEMENT_ROADMAP]] · [[docs/SECURITY_CHECKLIST]] · [[docs/MONEY-MAKERS]]
+**Planning:** [[docs/2026Q2]] · [[docs/PRODUCTIZATION]] · [[docs/LOC-REPORT]] · [[docs/GAPS_AND_IMPROVEMENT_PLAN]] · [[docs/ENHANCEMENT_ROADMAP]] · [[docs/SECURITY_CHECKLIST]] · [[docs/MONEY-MAKERS]]
 
 **Personal Agents:** [[projects/Builder|Builder]] · [[projects/Career|Career]] · [[projects/Finance|Finance]]
 

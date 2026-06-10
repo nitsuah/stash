@@ -1,6 +1,6 @@
 # skyview - Static marketing site and client portal
 
-**Last Validated:** 2026-03-27 | PMO audit - Docker-first validation
+**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/skyview
 **Branch convention:** pmo/skyview/planning-alignment-YYYY-MM-DD
 
