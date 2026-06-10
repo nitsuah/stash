@@ -1,6 +1,6 @@
 # nitsuah-io — Portfolio Site
 
-**Last Validated:** 2026-03-27 | PMO audit — Docker build + live site + docs/ review  
+**Last Validated:** 2026-06-10 | PMO audit — Docker build + live site + docs/ review  
 **Repo:** [Nitsuah-Labs/nitsuah-io](https://github.com/Nitsuah-Labs/nitsuah-io)  
 **Live:** https://nitsuah.io  
 **Branch convention:** `pmo/nitsuah-io/planning-alignment-YYYY-MM-DD`

@@ -1,6 +1,6 @@
 # opencut — Legacy OpenCut Video Editor (Archived)
 
-**Last Validated:** 2026-06-09 | Initial vault entry
+**Last Validated:** 2026-06-10 | Initial vault entry
 **Upstream:** https://github.com/opencut-app/opencut (active rewrite)
 **Branch convention:** N/A (archived; active work in upstream)
 
