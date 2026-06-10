@@ -1,6 +1,6 @@
 # fire — FIRE Calculator & Tracker
 
-**Last Validated:** 2026-06-09 | Initial vault entry
+**Last Validated:** 2026-06-10 | Initial vault entry
 **Repo:** https://github.com/nitsuah/fire
 **Branch convention:** `pmo/fire/planning-alignment-YYYY-MM-DD`
 
