@@ -1,6 +1,6 @@
 # kryptos - K4 cryptanalysis research platform
 
-**Last Validated:** 2026-03-27 | PMO audit - Docker-first validation
+**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/kryptos
 **Branch convention:** pmo/kryptos/planning-alignment-YYYY-MM-DD
 

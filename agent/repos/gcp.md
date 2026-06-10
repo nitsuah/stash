@@ -1,6 +1,6 @@
 # gcp - Google Drive automation toolkit
 
-**Last Validated:** 2026-03-27 | PMO audit - Docker-first validation
+**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/gcp
 **Branch convention:** pmo/gcp/planning-alignment-YYYY-MM-DD
 

@@ -95,6 +95,7 @@ Per-repo context loaded when running agents against a specific repository:
 | Security checklist | [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) |
 | Mass feedback | [docs/MASS-FEEDBACK.md](docs/MASS-FEEDBACK.md) |
 | Q2 2026 planning | [docs/2026Q2.md](docs/2026Q2.md) |
+| Productization & Tiering | [docs/PRODUCTIZATION.md](docs/PRODUCTIZATION.md) |
 
 ---
 

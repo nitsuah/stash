@@ -1,6 +1,6 @@
 # opencut-controller — MCP Server for OpenCut Video Editor
 
-**Last Validated:** 2026-06-09 | Initial vault entry
+**Last Validated:** 2026-06-10 | Initial vault entry
 **Repo:** https://github.com/nitsuah/opencut-controller (forked from JXUE0/opencut-controller)
 **npm:** https://www.npmjs.com/package/opencut-controller
 **Branch convention:** `pmo/opencut-controller/planning-alignment-YYYY-MM-DD`

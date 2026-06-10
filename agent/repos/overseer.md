@@ -1,6 +1,6 @@
 # overseer — Meta-Repository Intelligence Layer
 
-**Last Validated:** 2026-03-27 | PMO audit — live site + coverage validation  
+**Last Validated:** 2026-06-10 | PMO audit — live site + coverage validation  
 **Repo:** [nitsuah/overseer](https://github.com/nitsuah/overseer)  
 **Live:** https://ghoverseer.netlify.app  
 **Branch convention:** `pmo/overseer/planning-alignment-YYYY-MM-DD`
