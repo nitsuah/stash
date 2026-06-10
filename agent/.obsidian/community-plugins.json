@@ -1,6 +1,8 @@
 [
-  "smart-connections",
   "obsidian-local-rest-api",
   "mcp-tools",
-  "nexus"
+  "nexus",
+  "smart-connections",
+  "templater-obsidian",
+  "smart-lookup"
 ]
