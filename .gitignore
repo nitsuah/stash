@@ -182,3 +182,5 @@ agent/repos/*/
 agent/.smart-env/*
 agent/.obsidian/plugins/obsidian-local-rest-api/data.json
 agent/.obsidian/plugins/nexus/sqlite3.wasm
+agent/Nexus/data/workspaces/ws_default/shard-000001.jsonl
+agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
