@@ -1,0 +1,24 @@
+{
+  "completed": true,
+  "startedAt": 1781056930288,
+  "completedAt": 1781056930525,
+  "version": "1.3.0",
+  "stats": {
+    "workspacesMigrated": 1,
+    "sessionsMigrated": 0,
+    "statesMigrated": 0,
+    "tracesMigrated": 0,
+    "conversationsMigrated": 0,
+    "messagesMigrated": 0,
+    "errors": []
+  },
+  "deviceId": "494292df-0b5b-4791-af8d-7086a35554d2",
+  "errors": [],
+  "legacyArchived": true,
+  "migratedFiles": {
+    "workspaces": [
+      ".workspaces/default.json"
+    ],
+    "conversations": []
+  }
+}
