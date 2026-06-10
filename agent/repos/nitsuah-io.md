@@ -11,10 +11,10 @@
 
 | Check | Status | Notes |
 |---|---|---|
-| Live site | ✅ Working | Homepage loads, hero + Spline 3D scene render |
+| Live site | ✅ Working | Homepage loads, LandingHero + FeaturedProjects (agent-board, overseer, bb-mcp, darkmoon) |
 | `/projects` route | ✅ Working | Navigable from homepage, filtering UI renders |
-| Docker image build | ✅ Passing | `docker build -f Dockerfile.test -t nitsuah-io-pmo-audit .` ~3min |
-| Docker smoke tests | ❌ Failing | Playwright image version drift — see Blockers below |
+| Docker image build | ✅ Passing | `config/Dockerfile.test` pins `playwright:v1.60.0-noble`, matches `@playwright/test@^1.60.0` |
+| Docker smoke tests | ✅ Re-aligned | Version drift from prior audit resolved during 2026-06-03 `config/` reorg (verify with `npm run precheck:docker`) |
 | Netlify deployment | ✅ Working | Node 22, `@netlify/plugin-nextjs` SSR mode |
 
 ---
@@ -34,14 +34,7 @@
 
 ## Blockers
 
-### P0 — Playwright Docker Image Version Drift
-
-`Dockerfile.test` pins `mcr.microsoft.com/playwright:v1.56.1-noble` but `package.json` has `@playwright/test@1.57.0`.  
-`docker run --rm nitsuah-io-pmo-audit npx playwright test tests/smoke.spec.ts --project=chromium-desktop` fails with:  
-`Executable doesn't exist at /ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-linux64/chrome-headless-shell`  
-The WebServer starts fine (`✓ Ready in 150ms`) — only the browser binary is missing.  
-**Fix:** `Dockerfile.test` line 1 → `mcr.microsoft.com/playwright:v1.57.0-noble`  
-**Impact:** Blocks `npm run precheck:docker` — the prescribed pre-push validation workflow.
+_None open._ Prior P0 (Playwright Docker image version drift) was resolved during the 2026-06-03 `config/` reorg — `config/Dockerfile.test` and `package.json` are both pinned to `1.60.0`.
 
 ---
 
@@ -92,6 +85,8 @@ npm run build:skip-wagmi    # Build without wagmi regen (faster)
 ## Active PMO PR
 
 See TASKS.md and ROADMAP.md for current priorities. Last PR: `pmo/nitsuah-io/planning-alignment-2026-03-27`
+
+Home-landing-redesign HANDOFF (2026-04-11) is complete and merged (PR #266, follow-up cleanup PR #348) — `LandingHero` + `FeaturedProjects` are live on `main`. Next roadmap item per that HANDOFF: Lighthouse audit on the new home page, confirm LCP improvement ≥15 points vs. the old scroll-based hero.
 
 ---
 
