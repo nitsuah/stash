@@ -1,41 +1,34 @@
 {
   "collapse-filter": false,
   "search": "",
-  "showTags": true,
+  "showTags": false,
   "showAttachments": true,
   "hideUnresolved": true,
   "showOrphans": true,
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "file:README",
+      "query": "file: README",
       "color": {
         "a": 1,
         "rgb": 14701138
       }
     },
     {
-      "query": "file:FEAT",
+      "query": "file: FEAT",
       "color": {
         "a": 1,
-        "rgb": 14725458
+        "rgb": 2031360
       }
     },
     {
-      "query": "file:METRICS",
+      "query": "file: METRICS",
       "color": {
         "a": 1,
-        "rgb": 128001
+        "rgb": 11657298
       }
     },
-    {
-      "query": "file:CHANGE",
-      "color": {
-        "a": 1,
-        "rgb": 128001
-      }
-    },
-    {
+        {
       "query": "file:ROADMAP",
       "color": {
         "a": 1,
@@ -66,14 +59,14 @@
   ],
   "collapse-display": false,
   "showArrow": true,
-  "textFadeMultiplier": -1.3,
-  "nodeSizeMultiplier": 1.12083333333333,
-  "lineSizeMultiplier": 1.0953125,
+  "textFadeMultiplier": -1.6,
+  "nodeSizeMultiplier": 1.28671875,
+  "lineSizeMultiplier": 1,
   "collapse-forces": false,
-  "centerStrength": 0.515625,
-  "repelStrength": 9.6875,
-  "linkStrength": 0.734375,
-  "linkDistance": 35,
-  "scale": 0.31167963182428376,
-  "close": false
+  "centerStrength": 0.544270833333333,
+  "repelStrength": 11.8229166666667,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.45180944170948295,
+  "close": true
 }
