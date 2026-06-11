@@ -28,7 +28,7 @@
         "rgb": 11657298
       }
     },
-        {
+    {
       "query": "file:ROADMAP",
       "color": {
         "a": 1,
@@ -67,6 +67,6 @@
   "repelStrength": 11.8229166666667,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.45180944170948295,
+  "scale": 0.35,
   "close": true
 }
