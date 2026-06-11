@@ -97,7 +97,7 @@
 
 | Cycle | Picks | Outcome |
 | --- | --- | --- |
-| 2026-06-10 | nitsuah-io (P0 fix + redesign), overseer (AUDIT refresh + BYOK), agent-board (demo + stability), fire (cleanup) | _pending_ |
+| 2026-06-10 | nitsuah-io (P0 fix + redesign), overseer (AUDIT refresh + BYOK), agent-board (demo + stability), fire (cleanup) | nitsuah-io: P0/redesign already shipped, new `.dockerignore` build-context fix → [PR #354](https://github.com/Nitsuah-Labs/nitsuah-io/pull/354). overseer: AUDIT.md refreshed + Windows pre-commit hook fixed → [PR #119](https://github.com/nitsuah/overseer/pull/119); BYOK quota-fallback already shipped. fire: README absolute-link fix, CSV PII audit moot → [PR #32](https://github.com/nitsuah/fire/pull/32). agent-board: not started this cycle. |
 
 ---
 
