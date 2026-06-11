@@ -34,8 +34,8 @@
 | Repo | Why Tier 1 | Channel | Blocker | Next Action |
 | --- | --- | --- | --- | --- |
 | **nitsuah-io** | Live portfolio hub — the "storefront" for everything else. Home-landing redesign (project-card grid for agent-board/overseer/bb-mcp/darkmoon) shipped via PR #266 + #348. | Personal site (live) | None open — prior Playwright Docker pin drift resolved 2026-06-03 | Run a Lighthouse audit on the new home page; confirm LCP improved ≥15 points vs. the old scroll-based hero (per HANDOFF-home-landing-redesign-20260411 next action) |
-| **overseer** | Live free tool, 71.5% test coverage, real "paydirt" potential per Q2 notes. Closest thing to an actual product with a growth loop. | Live site (ghoverseer.netlify.app) | P1: `docs/AUDIT.md` stale (3.5mo) | Refresh AUDIT.md, continue the BYOK quota-fallback HANDOFF, scope the "simple mode" UX |
-| **agent-board** | Local AI agent dashboard — directly demonstrates the "Claude Skills" story the user wants to promote. Demo video scripts + SRT captions already drafted. | Demo video / portfolio, npm/Docker | Stability/memory issues under Docker (Q2 feedback) | Stabilize default config (lighter footprint, FS read/write, MCP container manager) before pushing promo content |
+| **overseer** | Live free tool, 93.28% test coverage, real "paydirt" potential per Q2 notes. Closest thing to an actual product with a growth loop. | Live site (ghoverseer.netlify.app) | None open — `docs/AUDIT.md` refreshed and Windows pre-commit hook fixed via PR #119; BYOK quota-fallback already shipped | Scope the "simple mode" UX; close out the 3 in-progress Q2 P1 items (Gemini reliability polish, agent prompt template auto-fix, `.github` fallback resolution) |
+| **agent-board** | Local AI agent dashboard — directly demonstrates the "Claude Skills" story the user wants to promote. Demo video scripts + SRT captions already drafted. Currently undergoing a separate redesign effort. | Demo video / portfolio, npm/Docker | Stability/memory issues under Docker (Q2 feedback) — being addressed in the in-progress redesign | Once the redesign lands: stabilize default config (lighter footprint, FS read/write, MCP container manager), then produce the `opencut` demo clip and do a full tire-kick of the redesigned app |
 | **darkmoon** | Live multiplayer 3D game, CI green, demoable — strong visual content. | Live (darkmoon.dev) | UI/UX polish (21st dev components), player-tag bugs | Use the `opencut` skill to capture a gameplay clip; fix player-tag bugs; scope laser-tag mode |
 
 ### Tier 2 — Build Toward Promotion
@@ -44,7 +44,7 @@
 | --- | --- | --- | --- | --- |
 | **opencut-controller** | Already shipped as an npm package — 161-tool MCP server. A concrete "I built this" artifact, and the `opencut` Claude Skill maps directly to it. | npm package | None major | Use `content-gen` for a short "what is this and why" write-up; cross-link from nitsuah-io |
 | **skyview** | Static site + client portal, Docker-validated, launch-ready. Real revenue potential via Builder-agent client work. | Client product (Netlify) | Launch checklist incomplete (domain/metadata/search console); METRICS has conflicting values | Close the launch checklist; reconcile METRICS into one dated source of truth |
-| **fire** | Complete client-side FIRE calculator — easy personal-finance promo angle once cleaned up. | Standalone tool / niche content | Absolute path links in ROADMAP.md; CSV PII audit unresolved | Fix links, finish PII audit, then promote as a free tool |
+| **fire** | Complete client-side FIRE calculator — easy personal-finance promo angle once cleaned up. | Standalone tool / niche content | None open — README absolute-link fix via PR #32; CSV PII audit was moot (no CSV files in repo) | Promote as a free tool |
 | **auto-apply-plugin** | Chrome extension, 63 tests passing — real automation tied to the "Setup Odysseus" career theme. Could go public via Chrome Web Store. | Chrome Web Store (potential) | No store listing yet | Scope a Chrome Web Store submission as a follow-on milestone |
 
 ### Tier 3 — Maintain / Portfolio
@@ -87,9 +87,9 @@
 ## This Week (2026-06-10)
 
 1. ~~**nitsuah-io** — Playwright Docker pin + home-landing redesign~~ — **already done** (resolved 2026-06-03 / PR #266 + #348). Remaining: Lighthouse/LCP audit on the new home page.
-2. **overseer** — refresh the stale `docs/AUDIT.md` (P1, 3.5mo old) and continue the in-progress BYOK quota-fallback HANDOFF.
-3. **agent-board** — use the existing demo video scripts/SRT captions with the `opencut` skill to produce a first promo clip; in parallel, scope the Docker stability fixes (lighter default config, FS access, MCP container manager) flagged in Q2 feedback.
-4. **fire** — quick cleanup: fix absolute path links in ROADMAP.md, finish the CSV PII audit. Low effort, unblocks Tier 2 promotion.
+2. ~~**overseer** — refresh `docs/AUDIT.md` + BYOK quota-fallback~~ — **done** (AUDIT.md refresh + Windows pre-commit hook fix via PR #119; BYOK already shipped).
+3. **agent-board** — demo clip + Docker stability scoping — **deferred**, being handled in a separate redesign effort. Circle back here once the redesign lands: produce the `opencut` demo clip and tire-kick the whole app.
+4. ~~**fire** — fix absolute path links, CSV PII audit~~ — **done** (PR #32; CSV audit was moot, no CSV files in repo).
 
 ---
 
