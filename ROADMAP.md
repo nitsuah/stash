@@ -29,3 +29,11 @@ Last Updated: 2026-06-08
 	- Objective: define measurable quality metrics grounded in executable checks (not placeholders).
 	- Strategic Fit: supports planning confidence and auditability for future PMO cycles.
 	- Exit Criteria: proposed metrics list, collection method, and feasibility assessment.
+
+- [ ] **Script dependency graph** (Exploratory)
+	- Objective: auto-generate a Mermaid diagram from `imports`, `source`, and `require` calls across scripts; gives operators a visual map of inter-script dependencies before making changes.
+	- Exit Criteria: CI emits an updated diagram artifact on each push; at least one script family is fully mapped.
+
+- [ ] **Dry-run audit log** (Exploratory)
+	- Objective: when any script runs with `--dry-run`, emit a structured JSON summary of planned changes (files touched, commands skipped, env vars read) as an artifact for review.
+	- Exit Criteria: at least two high-impact scripts produce structured dry-run output; format documented in `docs/DRY_RUN.md`.
