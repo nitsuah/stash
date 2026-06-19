@@ -103,8 +103,8 @@
 
 ## Related
 
-- [[docs/2026Q2|2026Q2]] — source of per-repo CEO feedback driving these tiers
-- [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] — repo audit / monetization assessment process this doc formalizes
-- [[docs/MONEY-MAKERS|Money Makers]] — monetization themes (social pipeline, Setup Odysseus)
-- [[docs/ENHANCEMENT_ROADMAP|Enhancement Roadmap]] — stash's own roadmap (this repo isn't tiered above; it's the tooling that runs the process)
+- [[2026Q2|2026Q2]] — source of per-repo CEO feedback driving these tiers
+- [[GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] — repo audit / monetization assessment process this doc formalizes
+- [[MONEY-MAKERS|Money Makers]] — monetization themes (social pipeline, Setup Odysseus)
+- [[ENHANCEMENT_ROADMAP|Enhancement Roadmap]] — stash's own roadmap (this repo isn't tiered above; it's the tooling that runs the process)
 - [[projects/Career|Career]] — check before re-tiering bb-mcp

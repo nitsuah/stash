@@ -41,7 +41,7 @@ Reusable context modules passed alongside agent prompts:
 | Module | File | Use |
 | ------ | ---- | ---- |
 | Handoff template | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Shared artifact between pipeline agents |
-| PM standards | [docs/OVERSEER-COMPLIANCE.md](docs/OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
+| PM standards | [docs/OVERSEER-COMPLIANCE.md](OVERSEER-COMPLIANCE.md) | Overseer compliance formatting |
 | Test strategy | [prompts/TEST.md](prompts/TEST.md) | Incremental testing and coverage |
 | LOC analysis | [prompts/LOC.md](prompts/LOC.md) | Hotspot analysis and refactor planning |
 | Repo cleanup | [prompts/CLEANUP.md](prompts/CLEANUP.md) | Structured repo cleanup (root, tests, data, docs) |
@@ -54,27 +54,28 @@ Reusable context modules passed alongside agent prompts:
 
 Per-repo context loaded when running agents against a specific repository:
 
-| Repo | File |
-| ---- | ---- |
-| stash | [repos/stash.md](repos/stash.md) |
-| nitsuah.io | [repos/nitsuah-io.md](repos/nitsuah-io.md) |
-| nitsuah (v1) | [repos/nitsuah.md](repos/nitsuah.md) |
-| darkmoon | [repos/darkmoon.md](repos/darkmoon.md) |
-| bb-mcp | [repos/bb-mcp.md](repos/bb-mcp.md) |
-| overseer | [repos/overseer.md](repos/overseer.md) |
-| skyview | [repos/skyview.md](repos/skyview.md) |
-| agent-board | [repos/agent-board.md](repos/agent-board.md) |
-| kryptos | [repos/kryptos.md](repos/kryptos.md) |
-| gcp | [repos/gcp.md](repos/gcp.md) |
-| osrs | [repos/osrs.md](repos/osrs.md) |
-| games | [repos/games.md](repos/games.md) |
-| auto-apply-plugin | [repos/auto-apply-plugin.md](repos/auto-apply-plugin.md) |
-| avatar | [repos/avatar.md](repos/avatar.md) |
-| farm-3j | [repos/farm-3j.md](repos/farm-3j.md) |
-| fire | [repos/fire.md](repos/fire.md) |
-| opencut | [repos/opencut.md](repos/opencut.md) |
+| Repo               | File                                                       |
+| ------------------ | ---------------------------------------------------------- |
+| odysseus           | [[Odysseus]]                                               |
+| stash              | [repos/stash.md](repos/stash.md)                           |
+| nitsuah.io         | [repos/nitsuah-io.md](repos/nitsuah-io.md)                 |
+| nitsuah (v1)       | [repos/nitsuah.md](repos/nitsuah.md)                       |
+| darkmoon           | [repos/darkmoon.md](repos/darkmoon.md)                     |
+| bb-mcp             | [repos/bb-mcp.md](repos/bb-mcp.md)                         |
+| overseer           | [repos/overseer.md](repos/overseer.md)                     |
+| skyview            | [repos/skyview.md](repos/skyview.md)                       |
+| agent-board        | [repos/agent-board.md](repos/agent-board.md)               |
+| kryptos            | [repos/kryptos.md](repos/kryptos.md)                       |
+| gcp                | [repos/gcp.md](repos/gcp.md)                               |
+| osrs               | [repos/osrs.md](repos/osrs.md)                             |
+| games              | [repos/games.md](repos/games.md)                           |
+| auto-apply-plugin  | [repos/auto-apply-plugin.md](repos/auto-apply-plugin.md)   |
+| avatar             | [repos/avatar.md](repos/avatar.md)                         |
+| farm-3j            | [repos/farm-3j.md](repos/farm-3j.md)                       |
+| fire               | [repos/fire.md](repos/fire.md)                             |
+| opencut            | [repos/opencut.md](repos/opencut.md)                       |
 | opencut-controller | [repos/opencut-controller.md](repos/opencut-controller.md) |
-| vhs | [repos/vhs.md](repos/vhs.md) |
+| vhs                | [repos/vhs.md](repos/vhs.md)                               |
 
 ---
 
@@ -90,12 +91,12 @@ Per-repo context loaded when running agents against a specific repository:
 
 | Doc | File |
 | --- | ---- |
-| Enhancement roadmap | [docs/ENHANCEMENT_ROADMAP.md](docs/ENHANCEMENT_ROADMAP.md) |
-| Gaps & improvement plan | [docs/GAPS_AND_IMPROVEMENT_PLAN.md](docs/GAPS_AND_IMPROVEMENT_PLAN.md) |
-| Security checklist | [docs/SECURITY_CHECKLIST.md](docs/SECURITY_CHECKLIST.md) |
-| Mass feedback | [docs/MASS-FEEDBACK.md](docs/MASS-FEEDBACK.md) |
-| Q2 2026 planning | [docs/2026Q2.md](docs/2026Q2.md) |
-| Productization & Tiering | [docs/PRODUCTIZATION.md](docs/PRODUCTIZATION.md) |
+| Enhancement roadmap | [docs/ENHANCEMENT_ROADMAP.md](ENHANCEMENT_ROADMAP.md) |
+| Gaps & improvement plan | [docs/GAPS_AND_IMPROVEMENT_PLAN.md](GAPS_AND_IMPROVEMENT_PLAN.md) |
+| Security checklist | [docs/SECURITY_CHECKLIST.md](SECURITY_CHECKLIST.md) |
+| Mass feedback | [docs/MASS-FEEDBACK.md](MASS-FEEDBACK.md) |
+| Q2 2026 planning | [docs/2026Q2.md](2026Q2.md) |
+| Productization & Tiering | [docs/PRODUCTIZATION.md](PRODUCTIZATION.md) |
 
 ---
 
@@ -140,6 +141,6 @@ agent/
 ## Related
 - [[AGENT-MAIN]] — autonomous delivery flow and run-order checklist
 - [[prompts/PMO|PMO]] — planning authority and audit workflow
-- [[docs/2026Q2]] — current quarter planning
-- [[docs/OVERSEER-COMPLIANCE|Overseer Compliance]] — documentation standards
+- [[2026Q2]] — current quarter planning
+- [[OVERSEER-COMPLIANCE|Overseer Compliance]] — documentation standards
 - [[repos/stash|stash runbook]] — vault root runbook and index

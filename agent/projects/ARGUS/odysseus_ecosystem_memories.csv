@@ -1,0 +1,51 @@
+category,key,value
+identity,Odysseus role,"Odysseus is the central brain/orchestrator of the workspace; reads repos, schedules tasks, kicks off agents, monitors containers, and routes work rather than coding everything itself"
+identity,Odysseus access model,"Odysseus connects via a shared drive mount (every repo is a file path away) and the Docker socket (restart containers, trigger builds, kick off agent loops)"
+identity,Odysseus API base,"Odysseus runs locally at http://localhost:7000 with a REST API; Bearer token auth via tokens generated in Settings → API Tokens, stored as ODYSSEUS_URL and ODYSSEUS_TOKEN env vars"
+
+facts,Core repo - odysseus,"Self-referential core workspace; writes its own skills/docs/config and can restart itself via Docker socket; connects via /api/codex/* + Docker socket + shared drive; status running, ongoing priority"
+facts,Core repo - agent-board,"Multi-service AI ops platform; sister platform to Odysseus sharing Ollama at :8081; containers include agent-board app, dashboard :3000, agent-db Postgres :5432, nemoclaw :9000, tool-content-gen :3200, and tool-website :3201; high priority"
+facts,Core repo - stash,"Personal knowledge vault and Obsidian vault; Odysseus's primary external brain; holds Obsidian notes, 15 years of enterprise automation scripts, and MD runbooks/decisions; git-tracked and Obsidian-readable; high priority"
+facts,Core repo - overseer,"Meta-repo intelligence layer that aggregates what needs to happen next across all repos (stalled PRs, vuln fixes, missing docs, ROADMAP/TASKS/FEATURES health); reads workspace MD files directly and can take or delegate action; high priority"
+facts,Repo - fire,"FIRE tracker and API server; Odysseus polls periodically and surfaces numbers in a morning briefing; financial context, low/eventual priority"
+facts,Repo - vhs,"VHS collection index, active dev for girlfriend; Odysseus can curate entries, research valuations, and write back to JSON via shell; one of only 3 repos with a NeonDB; low-medium priority, revisit when active"
+facts,Repo - kryptos,K4 cipher toolkit side project; has a NeonDB for cipher analysis state; cool autonomous sub-agent pattern but low priority
+facts,Repo - bb-mcp,"Blackboard MCP server, part of agent-board; deprioritized for now; will eventually demonstrate a semi-complex MCP layered on a local/remote LLM inside agent-board"
+facts,Repo - avatar,"Generative AI model trainer; deprioritized; potential future agent-board experience (user uploads images, agent-board runs fine-tune pipeline)"
+facts,Repo - auto-apply-plugin,Chrome job application autofill tool; explicitly dropped/lowered priority
+facts,Repo - gcp,"Google Drive audit/copy CLI utility; role TBD, basic Gemini sufficient for now"
+facts,Repo - opencut-classic,Forked video editor being explored; potential future agent-board experience as its own SLM/container for editing AI-generated content
+facts,Low-priority watch-only repos,darkmoon (multiplayer 3D game) and games (browser arcade) are live proofs of concept tracked only for CI failure/downtime alerts; farm-3j is a client PoC tracked on downtime
+facts,Ignored repos,skyview (client drone site) and osrs (OSRS bot) are intentionally ignored with no Odysseus integration
+facts,NeonDB instances,"Only overseer, vhs, and kryptos have NeonDB instances; overseer's holds repo health scores, vhs holds collection data, kryptos holds cipher analysis state"
+facts,Agent-board container - nemoclaw,"Unknown role container in agent-board (nemoclaw:latest, port 9000→8080); needs investigation before being wired into automated flows"
+facts,Known soft spots in the system,Four flagged gaps: nemoclaw's role is unclear and needs investigation; Docker socket reliability is unproven and needs hardened testing before self-restart is trusted; stash lacks clear write/naming/commit conventions; the overseer loop (audit to todos to action to rescore) is not yet closed end to end
+facts,Odysseus API auth and scopes,"Bearer tokens carry scopes per domain: todos:read/write, calendar:read/write, documents:read/write, memory:read/write, email:read + email:draft/send, cookbook:read/launch, and chat; GET /api/codex/capabilities shows what a given token can actually do"
+facts,Odysseus API endpoint map,"Agent-safe endpoints live under /api/codex/* (todos, calendar/events, documents, memory) plus /api/chat and /api/chat_stream for sessions, /api/tasks for the scheduler, and /api/webhooks/{event} for event triggers; admin-only routes like /api/mcp/servers require a cookie session, not a Bearer token"
+facts,Odysseus task scheduler,"POST /api/tasks supports schedule types once, daily, weekly, monthly, cron (full cron expression), and event (fires on internal events like session_created); used today for things like a daily morning-briefing LLM prompt"
+
+goals,Priority connection order,"Planned rollout order: 1) stash session-dump task (zero setup), 2) GitHub MCP server for PRs/CI/issues, 3) overseer workspace read + weekly ops cron, 4) Docker socket health monitor, 5) agent-board tool webhooks, 6) fire API polling, 7) VHS + NeonDB, 8) opencut-classic evaluation"
+goals,Stash as second brain,"Goal is for stash to become a permanent git-tracked Obsidian-readable record of everything the workspace does, auto-fed via session dumps, research outputs, decisions, and generated skills"
+goals,Weekly ops loop,"Goal is a Sunday 9am cron where Odysseus reads ROADMAP/TASKS/FEATURES across all repos, checks GitHub via MCP, scores repo health, creates todos, and writes a synthesized weekly priorities doc to stash/ops"
+goals,Autonomous agent loops,Longer-term goal is for Odysseus to kick off Claude Code or codex agent containers as sub-tasks once Docker socket reliability is proven out
+goals,ARGUS improvement checklist - overview,"ARGUS.md is the living, aspirational improvement checklist for Odysseus across 11 areas (MCPs, Obsidian, chat, research, email/calendar, memory, comparison tools, cookbook, gallery, notes/tasks, UI); intended as a monthly-revisit source of truth, almost entirely unchecked/not yet built"
+goals,Goal - MCP registry health,"Audit all current MCPs in the registry, verify each is running, document failed states with repair steps, and set up alerts for future MCP failures"
+goals,Goal - Obsidian two-way sync,"Confirm the Obsidian vault path is configured (config/obsidian.yml), enable automatic two-way sync between Obsidian and Odysseus, scaffold a sample vault folder structure, and write a macro to import a daily note into the Odysseus brain"
+goals,Goal - chat persona system,"Add persona prompt templates (dev_bot, researcher, assistant) as a reusable chat widget, store best-practice prompts in _knowledgebase/chat-personas.md, and add a Smart Reply UI toggle"
+goals,Goal - deep research pipeline,"Build a template for comprehensive research reports, hook research outputs into the comparison tool, automate periodic research on a chosen topic, and export reports to PDF stored in Obsidian"
+goals,Goal - email and calendar automation,"Create a mailbox parser for auto-classification, schedule a daily email digest via manage_tasks, link calendar reminders to manage_notes checklist items, and add a meeting follow-up note template"
+goals,Goal - brain and memory system,"Log key decisions in a memos/ folder, build a Lessons Learned knowledge base, and set up a neural-network-driven suggestion engine for next steps"
+goals,Goal - comparison tooling,"Integrate a compare view into the dashboard, write unit tests for the comparison algorithm, and add a visual diff inside Obsidian"
+goals,Goal - cookbook model presets,"Add a qwen3-8b 4-bit preset, write a walkthrough for running it, and publish the preset to the shared Cookbook repo"
+goals,Goal - gallery and library,"Import recent screenshots into the gallery, tag items (design, documentation), and link library artifacts to related Odysseus tasks"
+goals,Goal - notes and tasks discipline,"Use ARGUS.md as a baseline checklist alongside Tasks/Notes, automate task creation from email requests, and sync unfinished tasks to Obsidian daily"
+goals,Goal - UI and theming,"Build or adapt a dark-mode theme matching brand guidelines, and add an accessibility layer (high-contrast mode, font size options)"
+
+preferences,Agent orchestration philosophy,"Prefers Odysseus to act as a thin orchestrator/router rather than doing heavy coding itself, delegating execution to agent-board and other repos"
+preferences,Documentation-as-interface,Prefers using plain MD files (ROADMAP/TASKS/FEATURES) as the interface between repos and the orchestrator rather than building bespoke APIs first
+preferences,Risk posture on automation,"Prefers flagging unknowns (e.g. nemoclaw, Docker socket reliability) explicitly as soft spots to investigate before wiring them into automated/autonomous flows"
+preferences,Aspirational vs current state,"Wants the agent to clearly distinguish what is actually built/working (e.g. the live /api/codex/* endpoints) from what is aspirational/planned (e.g. most of the ARGUS.md checklist and ecosystem map integrations); most of the ecosystem map and ARGUS checklist describe goals to work towards, not current state"
+
+projects,Odysseus ecosystem,"Personal multi-repo AI ops ecosystem centered on Odysseus as orchestrator, with agent-board, stash, and overseer as the three high-priority pillars and a long tail of lower-priority/experimental repos"
+projects,Agent-board container stack,"Multi-container stack (dashboard, content-gen tool, website tool, nemoclaw, shared Ollama, Postgres) that Odysseus monitors and can delegate heavy agent tasks to"
+projects,ARGUS improvement checklist,"Active project tracked in ARGUS.md: an 11-area, mostly-unbuilt improvement checklist for Odysseus (MCPs, Obsidian sync, chat personas, deep research, email/calendar automation, memory system, comparison tools, cookbook presets, gallery, notes/tasks, UI theming), meant to be revisited monthly"

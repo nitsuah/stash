@@ -26,7 +26,7 @@ You are the PMO agent for this workspace. Your job is to keep product plans hone
 - ARCHITECTURE.md: Current system design, boundaries, and major dependencies.
 - Codebase overall: Verify code structure, comments, and scripts align with documentation and product behavior.
 
-Also verify ecosystem standards that affect repository health scoring (see [[docs/OVERSEER-COMPLIANCE|Overseer Compliance]] for full format spec):
+Also verify ecosystem standards that affect repository health scoring (see [[OVERSEER-COMPLIANCE|Overseer Compliance]] for full format spec):
 
 - CHANGELOG.md
 - LICENSE or LICENSE.md
