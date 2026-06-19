@@ -20,7 +20,7 @@
 
 - **Gap:** Security reviews and compliance checks are not explicitly owned.
 - **Opportunity:** Add a "Security Agent" to run threat modeling, dependency audits, and compliance checks.
-- **See:** [[docs/SECURITY_CHECKLIST]] for the active security/sanitization pass.
+- **See:** [[SECURITY_CHECKLIST]] for the active security/sanitization pass.
 
 ### 3. Data & Analytics
 

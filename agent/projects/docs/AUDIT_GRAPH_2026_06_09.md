@@ -55,4 +55,4 @@ None — no `.png`, `.html`, or other non-markdown assets present in the vault r
 
 ## Related
 - [[repos/stash]] — vault root runbook; Vault Index updated in this pass
-- [[docs/GAPS_AND_IMPROVEMENT_PLAN]] — related planning document
+- [[GAPS_AND_IMPROVEMENT_PLAN]] — related planning document

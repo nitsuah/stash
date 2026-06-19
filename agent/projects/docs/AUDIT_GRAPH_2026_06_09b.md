@@ -2,7 +2,7 @@
 
 ## Run Stats
 - Documents scanned: 148 (.md) + non-markdown assets in scope
-- Prior audit: [[docs/AUDIT_GRAPH_2026_06_09]]
+- Prior audit: [[AUDIT_GRAPH_2026_06_09]]
 - Broken links repaired: 0 (none found this pass)
 - Graph noise noted: 2 false-positive nodes (`path/DocName`, `docs/money`) from prior audit report's backtick-quoted text — Obsidian does NOT parse wikilinks in inline code spans; these are grep artifacts only
 - Near-orphans improved: 3 (REPO-README, repos/opencut, repos/nitsuah)
@@ -72,5 +72,5 @@ These were detected by the grep-based audit tool but are NOT real graph edges in
 - `repos/kryptos/docs/analysis/K4-CLOCKS.html` — HTML asset, no markdown parent references it by wikilink; flagged for human review if graph visibility needed
 
 ## Related
-- [[docs/AUDIT_GRAPH_2026_06_09]] — prior pass (2026-06-09 pass 1)
+- [[AUDIT_GRAPH_2026_06_09]] — prior pass (2026-06-09 pass 1)
 - [[repos/stash]] — vault root runbook

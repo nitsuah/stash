@@ -10,6 +10,6 @@ This checklist will be used to track:
 
 ## Context
 
-- Initiated by the P0 item in [[docs/ENHANCEMENT_ROADMAP|Enhancement Roadmap]] — sanitize [[repos/stash|stash]] for public release.
-- [[docs/2026Q2]] overseer section calls for a security audit of the overseer product and db.
+- Initiated by the P0 item in [[ENHANCEMENT_ROADMAP|Enhancement Roadmap]] — sanitize [[repos/stash|stash]] for public release.
+- [[2026Q2]] overseer section calls for a security audit of the overseer product and db.
 - [[prompts/PMO|PMO]] Prioritization Framework item 2 covers security/compliance risk as a top-tier triage criterion.

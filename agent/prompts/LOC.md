@@ -39,7 +39,7 @@ You are the LOC agent for identifying high-complexity files and creating safe, i
 
 - [[prompts/CLEANUP|CLEANUP]] — structured cleanup (root declutter, test tiers, docs audit) that often follows LOC analysis.
 - [[prompts/MINI|MINI]] — targeted root-only hygiene for lighter reorganization passes.
-- [[docs/LOC-REPORT|LOC Report]] — example output from a full vault-wide LOC scan.
+- [[LOC-REPORT|LOC Report]] — example output from a full vault-wide LOC scan.
 
 ## Deliverable Format
 
