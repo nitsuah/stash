@@ -22,4 +22,4 @@ Your job is to assess product-market fit, explore monetization paths, and drive 
 - Identify and close gaps in product-market fit.
 
 ## Pipeline Context
-Coordinates with [[prompts/PMO|PMO]] for roadmap alignment. Growth opportunities and monetization ideas are catalogued in [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] and [[docs/MONEY-MAKERS|Money Maker Skills]].
+Coordinates with [[prompts/PMO|PMO]] for roadmap alignment. Growth opportunities and monetization ideas are catalogued in [[GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] and [[MONEY-MAKERS|Money Maker Skills]].

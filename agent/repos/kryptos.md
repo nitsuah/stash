@@ -67,3 +67,6 @@ See TASKS.md and ROADMAP.md for current priorities.
 **analysis/:** [[repos/kryptos/docs/analysis/K4_ACTIVE_RESEARCH|K4 Active Research]] · [[repos/kryptos/docs/analysis/K4-FRONTEND|K4 Frontend]] · [[repos/kryptos/docs/analysis/K4_KEYSTREAM_ANALYSIS|K4 Keystream Analysis]] · [[repos/kryptos/docs/analysis/K4-T1|K4-T1]] · [[repos/kryptos/docs/analysis/30_YEAR_GAP_COVERAGE|30-Year Gap Coverage]]
 
 **archive/:** [[repos/kryptos/docs/archive/AUDIT_2025-10-26|AUDIT_2025-10-26]] · [[repos/kryptos/docs/archive/AUDIT_2026-05-24|AUDIT_2026-05-24]] · [[repos/kryptos/docs/archive/AUDIT_2026-06-01|AUDIT_2026-06-01]]
+
+works cited:
+[[A-Cryptanalytic-Deep-Dive-into-Kryptos-K4-Evaluating-the-nit.html]]
