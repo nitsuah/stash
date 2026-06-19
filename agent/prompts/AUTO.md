@@ -22,4 +22,4 @@ Your job is to identify, implement, and maintain automation and internal tools t
 - Proactively update documentation and onboarding materials.
 
 ## Pipeline Context
-Runs in parallel with the main [[AGENT-MAIN|delivery flow]]. Identified gaps and opportunities are tracked in [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]].
+Runs in parallel with the main [[AGENT-MAIN|delivery flow]]. Identified gaps and opportunities are tracked in [[GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]].

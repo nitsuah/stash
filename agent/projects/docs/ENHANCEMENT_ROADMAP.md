@@ -12,7 +12,7 @@ Sanitize - remove any company proprietary code, secrets, or sensitive informatio
 
 Check for anything that might contain sensitive information such as API keys, credentials, internal endpoints, proprietary algorithms, or any other company confidential material and remove or sanitize it so that the repository can be safely shared publicly.
 
-> Track findings in [[docs/SECURITY_CHECKLIST|Security Checklist]]. Assign execution to [[prompts/PMO|PMO]].
+> Track findings in [[SECURITY_CHECKLIST|Security Checklist]]. Assign execution to [[prompts/PMO|PMO]].
 
 ### 1. **Missing Technical Artifacts** (High Impact)
 

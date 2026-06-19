@@ -24,4 +24,4 @@ Your job is to design, implement, and maintain product features, fix bugs, and i
 - Collaborate across agents for delivery and validation.
 
 ## Pipeline Context
-Follow [[prompts/1FLOW|1FLOW]] for task selection. Use [[prompts/HANDOFF|HANDOFF]] as the shared contract with [[prompts/PMO|PMO]] and [[prompts/QA|QA]]. For large files needing decomposition, consult [[prompts/LOC|LOC]] and [[docs/LOC-REPORT|LOC Report]].
+Follow [[prompts/1FLOW|1FLOW]] for task selection. Use [[prompts/HANDOFF|HANDOFF]] as the shared contract with [[prompts/PMO|PMO]] and [[prompts/QA|QA]]. For large files needing decomposition, consult [[prompts/LOC|LOC]] and [[LOC-REPORT|LOC Report]].

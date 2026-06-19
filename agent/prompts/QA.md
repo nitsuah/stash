@@ -22,7 +22,7 @@ Your job is to verify quality, prevent regressions, and feed product improvement
 QA validates not only product behavior, but documentation integrity for shipped changes.
 
 - Preserve repository-specific documentation context.
-- Confirm changed docs maintain parser-safe structures for [[docs/OVERSEER-COMPLIANCE|Overseer]]-tracked repositories.
+- Confirm changed docs maintain parser-safe structures for [[OVERSEER-COMPLIANCE|Overseer]]-tracked repositories.
 - Flag compliance regressions when formatting breaks downstream parsing.
 
 ## Pipeline Position

@@ -39,5 +39,5 @@
 
 ## Related
 - [[prompts/Growth|Growth Agent]] — monetization strategy and market analysis
-- [[docs/GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] — product gaps that unlock revenue
+- [[GAPS_AND_IMPROVEMENT_PLAN|Gaps & Improvement Plan]] — product gaps that unlock revenue
 - [[projects/Builder|Builder Agent]] — web design / freelance income track
