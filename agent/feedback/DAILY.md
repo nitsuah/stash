@@ -4,10 +4,15 @@
 
 - `C:\Users\ajhar\code\stash\agent\projects\scope.md`
 
+## setup 9router
+
+- keeps the below and odysseus moving non-stop hopefully?
+- turn anything i do daily into `skills/` - ie: C:\Users\ajhar\code\stash\agent\feedback\odysseus.md
+
 ## LOC priority list
 
 - auto-apply-plugin - service-worker.js - job-search.js - typical monolith creep
-- darkmoon - GameUI.tsx (1,679) - Well-typed but unmaintainably wide
+- darkmoon - GameUI.tsx (1,679) - Well-typed but un-maintainably wide
 - kryptos - transposition_analysis.py (903); Good module siblings exist; finish the pattern
 - farm-3j - RTSMap.tsx (961) Test coverage is strong; refactor - HeaderCropRow.tsx (937)
 - games - Game.jsx (828) +  SoundManager.js (808) - LOW-MED priority - Game loop vs. render separation is the clean cut
@@ -24,3 +29,4 @@
 ## metrics
 
 - C:\Users\ajhar\code\stash\agent\prompts\TEST.md - specifically to verify the current METRICS.md code coverage percentage in each repo, update and commit on a new branch and PR merge once done
+- make into a repeatable skill with a prompt for agents to execute across all repos.
