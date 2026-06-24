@@ -1,10 +1,8 @@
-
+# ARGUS PLAN
 
 ![[odysseus-repo-table]]
 ![[odysseus_ecosystem_diagram]]
-
-
-
+[[odysseus.md]]
 
 Works Cited:
 

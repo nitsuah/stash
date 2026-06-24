@@ -97,6 +97,10 @@ If running inside the delivery pipeline, also update:
 ## Repo Runbooks
 For per-repo context when running this agent: [[repos/gcp|gcp]], [[repos/osrs|osrs]].
 
+## METRICS.md Update
+
+When completed update the `METRICS.md` (may be in root or `docs/METRICS.md`) file with the new coverage percentage and any relevant notes. Use the existing MD files format and expected pair values, just update any entries you are certain have changed. If you are unsure, leave the entry as-is and mark it TBD with a note or ! emoji.
+
 ## Example Prompt for the Bot
 
 _"I am working on [REPO_NAME]. Please implement Phase [X] of the Testing Strategy. Current coverage is [CURRENT_%]. Focus on [SPECIFIC_FILES_OR_MODULES]."_
