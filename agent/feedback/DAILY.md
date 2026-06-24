@@ -4,10 +4,7 @@
 
 - `C:\Users\ajhar\code\stash\agent\projects\scope.md`
 
-## setup 9router
-
-- keeps the below and odysseus moving non-stop hopefully?
-- turn anything i do daily into `skills/` - ie: C:\Users\ajhar\code\stash\agent\feedback\odysseus.md
+- setup 9router
 
 ## LOC priority list
 
