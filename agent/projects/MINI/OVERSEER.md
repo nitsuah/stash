@@ -9,6 +9,7 @@ Update overseer's file detection logic so repos are not penalized for organizing
 ## Context
 
 A MINI cleanup pass moved several files out of repo roots:
+
 - Documentation files (ROADMAP.md, TASKS.md, FEATURES.md, METRICS.md, CHANGELOG.md, CONTRIBUTING.md) → `docs/`
 - Config files (.pre-commit-config.yaml, .pylintrc) → `config/`
 
@@ -19,6 +20,7 @@ Overseer currently scores these as missing after the move. The goal is: **presen
 Detection runs in `lib/sync.ts`. It calls `github.getRepoFileList()` which recursively walks the entire repo and returns **full paths** (e.g. `docs/ROADMAP.md`, `config/.pre-commit-config.yaml`, `.github/workflows/ci.yml`). The file list is already complete — no path is hidden.
 
 Checks receive this list and match against it. Most checks lowercase the list first:
+
 ```typescript
 const lowerFiles = fileList.map(f => f.toLowerCase());
 ```
@@ -34,6 +36,7 @@ const lowerFiles = fileList.map(f => f.toLowerCase());
 ### 1. `lib/doc-health.ts` — documentation file detection
 
 Audit every file existence check. For each doc file that can live in `docs/`, change:
+
 ```typescript
 // Before
 lowerFiles.includes('roadmap.md')
@@ -43,6 +46,7 @@ lowerFiles.includes('roadmap.md') || lowerFiles.includes('docs/roadmap.md')
 ```
 
 Apply this pattern to all of:
+
 - `roadmap.md`
 - `tasks.md`
 - `features.md`
@@ -68,6 +72,7 @@ const hasPreCommitConfig = lowerFiles.includes('.pre-commit-config.yaml') ||
 ```
 
 Also check the `linting` detection for `.pylintrc`:
+
 ```typescript
 // Before
 lowerFiles.includes('.pylintrc')

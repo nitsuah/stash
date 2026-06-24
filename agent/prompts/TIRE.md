@@ -8,7 +8,7 @@ Run a full health check across all in-scope repos. Verify each is up to date, te
 
 In-scope repos are defined in `C:\Users\ajhar\code\stash\agent\projects\scope.md`:
 
-```
+```bash
 - agent-board
 - auto-apply-plugin
 - darkmoon
@@ -29,6 +29,7 @@ In-scope repos are defined in `C:\Users\ajhar\code\stash\agent\projects\scope.md
 ### 1. Git Triage (per repo)
 
 For each repo:
+
 - Check current branch: `git branch --show-current`
 - Check for active worktrees: `git worktree list`
 - If not on `main`/`master`, or if an active user worktree exists (outside `.claude/worktrees/`): **SKIP** — note the branch name in the report
@@ -37,6 +38,7 @@ For each repo:
 ### 2. Reconnaissance (parallel)
 
 For each active repo, in parallel:
+
 - Read `README.md`
 - Read `docs/` folder (if present)
 - Identify test/lint commands from: `Makefile`, `package.json`, `pyproject.toml`, `Cargo.toml`, `docker-compose.yml`, `Dockerfile`
@@ -52,9 +54,11 @@ For each active repo, in parallel:
 Run checks in this order using Docker (not host toolchain). Prefer `docker compose run --rm` if a compose file exists; otherwise `docker build + docker run`.
 
 Always use `--build` flag when building to avoid stale cached images. Watch for:
+
 - **Image naming collisions**: If a repo uses `config/docker-compose.yml`, default image names like `config-test` collide across repos. Fix by adding explicit `image:` fields.
 
 For each repo, run what applies:
+
 1. **Lint** — ESLint, ruff, flake8, cargo clippy, etc.
 2. **Type-check** — tsc, mypy (if in CI), etc.
 3. **Unit tests** — vitest, jest, pytest, cargo test, etc.
@@ -66,6 +70,7 @@ Special case — **stash**: no docker/deploy; just review directory structure an
 ### 5. On Failure: Branch → Fix → PR → Monitor
 
 If any check fails:
+
 1. `git checkout -b fix/<descriptive-name>` in the affected repo
 2. Fix the root cause (not a workaround — find the real issue)
 3. Verify the fix locally via Docker before pushing
@@ -76,6 +81,7 @@ If any check fails:
 8. Once fully green: `gh pr merge <PR#> --repo <org>/<repo> --squash --auto` (or merge via web if branch protections require review)
 
 Common issues to watch for:
+
 - ESLint linting `.claude/worktrees/` directory → add `.claude/` to ignores
 - `next lint` removed in Next.js 16 → replace with `eslint . --ext .js,.jsx,.ts,.tsx`
 - Docker image name collisions (same `config/` dir layout across repos)
@@ -85,11 +91,13 @@ Common issues to watch for:
 ### 6. Report
 
 After all repos are checked and all PRs merged (or noted as pending), write a report to:
+
 ```
 C:\Users\ajhar\code\stash\agent\projects\TIRE\YYYY-MM-DD-tire-kick.md
 ```
 
 Report structure:
+
 ```markdown
 # Tire Kick Report — YYYY-MM-DD
 
