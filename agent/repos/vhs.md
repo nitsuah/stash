@@ -1,80 +1,66 @@
-# vhs — VHS Collection Indexer
+# vhs
 
-**Last Validated:** 2026-06-10 | Initial vault entry
-**Repo:** https://github.com/nitsuah/vhs
-**Branch convention:** `pmo/vhs/planning-alignment-YYYY-MM-DD`
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+Personal VHS collection indexer — lightweight tool to catalog a VHS tape collection with AI-assisted metadata (Claude Vision), eBay valuation lookups, barcode scanning, and a web UI. Runs locally via Docker (Node.js/Express + Neon PostgreSQL backend). Flat JSON as source of truth; git-versioned.
 
-| Check | Status | Notes |
-|---|---|---|
-| Docker build | Unknown | Not yet validated in this vault entry |
-| Test suite | Unknown | METRICS and TASKS present, coverage unknown |
-| Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS present |
+## Current Goals / Roadmap Focus
 
----
+**Phase 1 — Capture:** Get every tape into `tapes.json` with ID + title via AI photo scanning
+**Phase 2 — Valuation:** Attach realistic price ranges from eBay sold listings  
+**Phase 3 — Use the data:** Exports (CSV, HTML, printable), sell workflow, future web UI
 
-## Stack
+**Current active work (feat/vhs-scanner-v2):**
+Multi-photo batch scanning, GPU performance improvement, multi-tape detection and crop from batch photos, barcode scanning mode (webcam + barcode library, no AI).
 
-- **Storage:** Flat JSON (`data/tapes.json`) — immutable ID registry, append-only
-- **Scripts:** Python (Claude Vision scan, eBay valuation, CSV/HTML export)
-- **CI:** GitHub Actions
-- **No server, no login, no cloud dependency**
+## Open P0/P1 Tasks
 
----
+From TASKS.md (no priority levels assigned — informal list):
 
-## Key Features
+- [ ] Handle multiple photo uploads — batch process, show tapes individually (collapse form; expand on card click), each photo associated with specific tape record
+- [ ] Improve performance utilizing GPU
+- [ ] Detect and crop individual tapes from batch photos (OpenCV or similar computer vision)
+- [ ] Add barcode scanning mode (webcam + barcode library, scan-code option alongside AI mode)
 
-- Tape catalog with ID, title, year, label, format, condition, valuation, status
-- AI-assisted scanning: `scripts/scan.py` sends batch photos to Claude Vision
-- eBay sold-listing valuation: `scripts/valuate.py`
-- Export to CSV, HTML, or printable list: `scripts/export.py`
-- Status states: `in_collection`, `for_sale`, `sold`, `donated`, `missing`
+No formal P0/P1 priority labels. All items are active focus for v2.
 
----
+## Blockers
 
-## PMO Findings
+None documented. Active development on `feat/vhs-scanner-v2` branch.
 
-- Flat JSON is intentional design choice — collection is expected to be <500 tapes, public-safe.
-- Status field handles all tape lifecycle transitions in one file (no separate sold/archive file).
-- Wishlist feature explicitly deferred ("downsize mode, not acquisition mode").
+## Recent Changes (feat/vhs-scanner-v2 — Unreleased)
 
----
+Storage & Backend:
+- Neon PostgreSQL backend replacing nginx; Node.js/Express REST CRUD at `/api/tapes`; Ollama proxy at `/api/ollama`; auto-creates schema on startup
+- DB health dot (live green/red indicator; red retries on click)
+- Photo compression: `compressImage()` resizes to max 1200px JPEG 0.75 before storing in Neon JSONB
 
-## Priority Focus
+Capture & Scanning:
+- Capture queue: Space stages webcam frames as thumbnails; Enter sends all to AI at once
+- Barcode scanner: multi-pass canvas preprocessing, ZXing `TRY_HARDER`, HD 1920×1080 stream, UPCitemdb.com auto-fills title
+- Torch toggle, snap button (single-frame decode)
 
-1. Validate Docker build and run `scripts/scan.py` against a sample batch.
-2. Establish test coverage baseline (check METRICS.md).
-3. Document eBay API key requirement in TASKS/README if `valuate.py` uses external API.
+Collection Management:
+- Full CRUD with confirm dialog; multi-photo per tape
+- Batch AI metadata fill (⚡ Fill Data via Claude or Ollama)
+- Bulk selection: checkbox multi-select, bulk status change, bulk delete
+- Wanted status, sold price tracking, tags/genres (preset + custom)
 
----
+Discovery & Filtering:
+- Full-text search (title, label, barcode, notes, tags)
+- Clickable stats bar, filter bar (status, condition, label, tag, year range), sort with persistence
+- Wall view (masonry grid); thumbnails in list view
 
-## Key Commands
+Exports & Imports:
+- CSV export (full + for-sale with eBay condition labels)
+- JSON export/import (full round-trip including photos)
+- CSV import; print price tags; printable HTML list
 
-```bash
-# Scan a photo batch with Claude Vision
-python scripts/scan.py photos/batch-01.jpg
-
-# Look up eBay sold valuations
-python scripts/valuate.py
-
-# Export catalog
-python scripts/export.py --format csv     # → exports/collection.csv
-python scripts/export.py --format html
-```
-
----
-
-## Active PMO
-
-See TASKS.md and ROADMAP.md for current priorities.
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/vhs/ROADMAP|ROADMAP]] · [[repos/vhs/TASKS|TASKS]] · [[repos/vhs/FEATURES|FEATURES]] · [[repos/vhs/METRICS|METRICS]] · [[repos/vhs/CHANGELOG|CHANGELOG]] · [[repos/vhs/README|README]]
+Mobile & UX:
+- Responsive layout; rear camera preference; touch events on crop box
+- eBay sold-listings search; 🔍 Lookup button; duplicate detection
+- IndexedDB migration from old browser-local version
+- Keyboard shortcuts: Space/Enter/N/?/Esc
+- CI: Hadolint, Shellcheck, HTMLHint, `npm ci --omit=dev` check, Docker build smoke test

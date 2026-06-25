@@ -1,78 +1,52 @@
-# fire — FIRE Calculator & Tracker
+# fire
 
-**Last Validated:** 2026-06-10 | Initial vault entry
-**Repo:** https://github.com/nitsuah/fire
-**Branch convention:** `pmo/fire/planning-alignment-YYYY-MM-DD`
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+100% client-side FIRE (Financial Independence, Retire Early) calculator and tracker. Runs locally via Docker (nginx/Alpine), stores all data in `localStorage`, no external server dependencies. Features net worth projections, CSV imports (Fidelity, Chase, Capital One), CD ladder visualizer, side gig hub, and eBay profit calculator.
 
-| Check | Status | Notes |
-|---|---|---|
-| Docker build | PASS | Nginx Alpine static container |
-| App runtime | PASS | `http://localhost:8080` via `docker run -p 8080:80` |
-| Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS present |
+## Current Goals / Roadmap Focus
 
----
+**Q2 2026:** ✅ Completed — full tracker foundation shipped
 
-## Stack
+**Q3 2026 (mostly complete):**
+- [x] Side gig tracker (Etsy, FB Marketplace, Craigslist)
+- [x] eBay Fee & Shipping Margin Calculator
+- [x] Chase + Capital One CSV statement upload
+- [x] CD Ladder visualizer with maturity alerts
 
-- **Type:** 100% client-side static web app (HTML5 + Vanilla JS + CSS3)
-- **Charts:** Chart.js (CDN)
-- **Container:** Docker + Nginx Alpine
-- **Storage:** Browser `localStorage` — no external server, no accounts
+**Q4 2026:**
+- [ ] Tax drag estimation engine (custom federal/state brackets, capital gains)
+- [x] Multi-scenario FIRE date comparison
+- [ ] Webhook-based or automated local sync templates
+- [x] Mobile-responsive adjustments
+- [ ] Lightweight PWA packaging
 
----
+**Ongoing direction:**
+- Keep building FIRE dashboard, add features for financial independence tracking
+- Ensure usable API for MCP/LLM consumption
+- Keep UI minimalist
 
-## Key Features
+## Open P0/P1 Tasks
 
-- Net worth projections with togglable SWR (3%, 3.5%, 4%) and inflation adjustment
-- Safe read-only CSV import: Fidelity portfolio, Chase/CapOne statements
-- CD & Fixed Income tracker with ladder visualizer
-- Side gig / eBay profit calculator
-- One-click JSON backup + restore
+- [ ] Tax drag estimation engine with custom bracket support (Q4 backlog)
+- [ ] PWA packaging for offline access (Q4 backlog)
+- [ ] Webhook/automated local sync templates (Q4 backlog)
 
----
+No P0/P1 blockers. Most Q3 work is complete. Remaining items are Q4 exploratory.
 
-## PMO Findings
+## Blockers
 
-- Fully client-side — no backend risk surface; privacy-preserving by design.
-- ROADMAP references `file:///c:/Users/ajhar/code/fire/` absolute paths — needs cleanup to relative links.
-- Sample Fidelity CSV (`Portfolio_Positions_Jun-02-2026.csv`) is committed — verify it contains no real financial data.
+None documented.
 
----
+## Recent Changes (Unreleased / CHANGELOG)
 
-## Priority Focus
+- API endpoints for user profiles and authentication (placeholder in CHANGELOG)
+- CRUD for income, expense, investment transactions
+- Data models for financial records
+- Initial net worth + FIRE progress calculations
+- Basic data persistence layer placeholder
+- Middleware for request validation and error handling
 
-1. Fix absolute `file:///` links in ROADMAP.md to relative links.
-2. Audit committed CSV for PII before making repo public.
-3. Add E2E test coverage for CSV import paths.
-
----
-
-## Key Commands
-
-```bash
-docker build -t fire-calculator .
-docker run -d -p 8080:80 -v ${PWD}:/usr/share/nginx/html --name fire-app fire-calculator
-# → http://localhost:8080
-
-docker stop fire-app && docker rm fire-app
-```
-
----
-
-## Active PMO
-
-See TASKS.md and ROADMAP.md for current priorities.
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/fire/ROADMAP|ROADMAP]] · [[repos/fire/TASKS|TASKS]] · [[repos/fire/FEATURES|FEATURES]] · [[repos/fire/METRICS|METRICS]] · [[repos/fire/CHANGELOG|CHANGELOG]] · [[repos/fire/README|README]]
-
-**docs/:** [[repos/fire/docs/fire-plan|fire-plan]] · [[repos/fire/docs/fire-feedback|fire-feedback]]
+Note: CHANGELOG `[Unreleased]` appears generic/boilerplate. Actual shipped features documented in FEATURES.md (see Q3 items above marked [x]).
