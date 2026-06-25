@@ -11,5 +11,5 @@
 - [kryptos](https://github.com/nitsuah/kryptos)
 - [nitsuah-io](https://github.com/nitsuah/nitsuah-io)
 - [overseer](https://github.com/nitsuah/overseer)
-- [stash](https://github.com/nitsuah/stash) - code stash no docker/deploy
+- [stash](https://github.com/nitsuah/stash)
 - [vhs](https://github.com/nitsuah/vhs)
