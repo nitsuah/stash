@@ -125,6 +125,59 @@ docker run -it -e ANTHROPIC_API_KEY=sk-... -e AGENT=pmo personal-agents
 
 ---
 
+## Tool & Model Setup (per device)
+
+> These settings are **not git-tracked** — configure once per machine after cloning.
+> `.obsidian/` and `.nexus/` are intentionally excluded from version control (contain certs, device IDs, and secrets).
+
+### 1. Start 9router
+
+9router is a local Docker container that proxies all AI requests — enables provider fallback, token savings (RTK), and multi-account pooling.
+
+```bash
+cd ~/code/9router
+docker compose up -d   # auto-restarts with Docker Desktop
+```
+
+Dashboard: http://localhost:20128 — add at least one provider, copy your API key.
+
+### 2. Claude Code
+
+In `~/.claude/settings.json` env block:
+```json
+"ANTHROPIC_BASE_URL": "http://localhost:20128/v1",
+"ANTHROPIC_API_KEY": "<your-9router-api-key>"
+```
+
+Recommended model: `cc/claude-sonnet-4-6` (routes through Claude Code subscription via 9router).
+
+### 3. Obsidian / Nexus plugin
+
+This folder is the Obsidian vault. Nexus must be configured per device:
+
+1. Open Obsidian with this vault
+2. Settings → Community Plugins → Nexus → enable **openai** provider:
+   - Base URL: `http://localhost:20128/v1`
+   - API Key: `<your-9router-api-key>`
+   - Default model: `cc/claude-sonnet-4-6`
+3. Confirm Local REST API plugin is active with insecure port **27123** enabled
+
+### 4. Claude Code → Obsidian MCP
+
+`~/.claude/mcp.json` obsidian entry must use **HTTP** port 27123 (not HTTPS 27124):
+```json
+"obsidian": {
+  "type": "http",
+  "url": "http://127.0.0.1:27123/mcp/",
+  "headers": { "Authorization": "Bearer <OBSIDIAN_API_KEY>" }
+}
+```
+
+`OBSIDIAN_API_KEY` is found in Obsidian → Settings → Local REST API.
+**Obsidian must be open** for the MCP to be reachable — it is not a background service.
+
+---
+
 ## File Structure
 
 ```text
