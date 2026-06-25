@@ -46,6 +46,9 @@ All examples follow a consistent pattern: read-only by default, `--demo-write` f
 - Personal agents: CFO, Career, Builder
 - Product delivery pipeline: PMO → Intake → SoftwareEng → DevOps → QA → Oncall → Growth
 - Reusable prompt modules: handoff template, task flow, test strategy, LOC analysis
+- **9router** — local/remote AI gateway config; OpenAI-compatible REST for chat, image, TTS, embeddings, web search, and web fetch; device-specific tool and model setup documented
+- **eng-loc skill** — LOC analysis automation integrated into agent delivery pipeline
+- **eng-mini skill** — lightweight engineering task runner for low-cost model delegation
 
 ## Projects
 
