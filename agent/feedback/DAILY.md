@@ -4,8 +4,6 @@
 
 - `C:\Users\ajhar\code\stash\agent\projects\scope.md`
 
-- setup 9router
-
 ## LOC priority list
 
 - auto-apply-plugin - service-worker.js - job-search.js - typical monolith creep
