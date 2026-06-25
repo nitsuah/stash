@@ -59,7 +59,6 @@ Per-repo context loaded when running agents against a specific repository:
 | odysseus           | [[Odysseus]]                                               |
 | stash              | [repos/stash.md](repos/stash.md)                           |
 | nitsuah.io         | [repos/nitsuah-io.md](repos/nitsuah-io.md)                 |
-| nitsuah (v1)       | [repos/nitsuah.md](repos/nitsuah.md)                       |
 | darkmoon           | [repos/darkmoon.md](repos/darkmoon.md)                     |
 | bb-mcp             | [repos/bb-mcp.md](repos/bb-mcp.md)                         |
 | overseer           | [repos/overseer.md](repos/overseer.md)                     |

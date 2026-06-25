@@ -1,71 +1,50 @@
-# farm-3j — Interactive Farm Website + Farm Tycoon Game
+# farm-3j
 
-**Last Validated:** 2026-06-10 | Initial vault entry
-**Repo:** https://github.com/nitsuah/farm-3j (auto-synced from v0.dev)
-**Live:** https://vercel.com/austin-hardys-projects/v0-farm-contact-website
-**Branch convention:** `pmo/farm-3j/planning-alignment-YYYY-MM-DD`
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+Interactive farm website (v0.dev / Vercel) built with Next.js 15, TypeScript, and Tailwind CSS v4. Features an animated homepage with weather effects/day-night cycle and a Farm Tycoon isometric simulation game. Currently pivoting focus to a Farm RTS MVP.
 
-| Check | Status | Notes |
-|---|---|---|
-| Vercel deployment | PASS | Auto-deploys from v0.dev sync |
-| Contact form | PASS | `POST /api/contact` with server-side validation |
-| Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS + game manual |
+## Current Goals / Roadmap Focus
 
----
+**Q2–Q3 2026 (active):** Farm RTS MVP
+- Complete all MVP milestones from `docs/Farm_RTS_Game_Manual.md` and `docs/FARM-RTS-TODO.md`
+- Core systems: map, camera, resource, worker, building, win/lose
+- Stretch: combat, AI, upgrades, polish
+- Progress: Milestone 1 (map/camera) complete; Milestone 3 (resource node depletion/feedback) complete
 
-## Stack
+**Q4 2026 (planned):** Product and Content Surface
+- Product gallery and catalog improvements
+- Blog/news publishing path
+- Ecommerce phase 1
+- Accessibility and SEO hardening
+- Fog of war (tile visibility by unit/building vision radius)
+- Unit formation commands (line, wedge, box)
 
-- **Framework:** Next.js 15 (App Router)
-- **Language:** TypeScript (strict mode)
-- **Styling:** Tailwind CSS v4
-- **State:** React Context + useReducer
-- **Animation:** CSS + requestAnimationFrame
-- **Sync:** v0.dev auto-push → Vercel deploy
+**Legacy Tycoon Tasks (on hold):**
+- Animal needs loop, feeding mechanics, fence placement, save/load
 
----
+## Open P0/P1 Tasks
 
-## PMO Findings
+- [ ] **P0** Complete Farm RTS MVP — all core gameplay systems playable and validated in Docker
+  - Remaining unfinished todos:
+    - [ ] Add stone resource nodes
+    - [ ] Add animal units (chickens, cows, pigs) with grazing AI
+    - [ ] Implement grazing logic and food meter
+    - [ ] Enable building placement on valid tiles
+    - [ ] Ensure farmers render in front of barn and are always selectable
+    - [ ] Add box selection for multiple units
+    - [ ] Lay groundwork for control groups
+    - [ ] Add buttons to train animal units
 
-- Repo is auto-synced from v0.dev — direct commits may be overwritten by v0.dev deploys.
-- Game docs are comprehensive: manual, north star, and TODO all present in docs/.
-- Contact webhook (`FARM_CONTACT_WEBHOOK_URL`) is optional; fallback logs locally.
+## Blockers
 
----
+None documented. Farm RTS is the single active focus; Tycoon work deferred.
 
-## Priority Focus
+## Recent Changes (Unreleased)
 
-1. Clarify branch/commit ownership vs v0.dev auto-sync before adding manual features.
-2. Complete Farm Tycoon Phase 2+ items documented in `docs/FARM-RTS-TODO.md`.
-3. Wire contact webhook for production form delivery.
-
----
-
-## Key Commands
-
-```bash
-# Dev (standard Next.js via npm or Docker)
-npm run dev    # http://localhost:3000
-
-# Build
-npm run build
-```
-
----
-
-## Active PMO
-
-See TASKS.md and ROADMAP.md for current priorities.
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/farm-3j/ROADMAP|ROADMAP]] · [[repos/farm-3j/TASKS|TASKS]] · [[repos/farm-3j/FEATURES|FEATURES]] · [[repos/farm-3j/METRICS|METRICS]] · [[repos/farm-3j/CHANGELOG|CHANGELOG]] · [[repos/farm-3j/README|README]]
-
-**docs/:** [[repos/farm-3j/docs/Farm_RTS_Game_Manual|Farm RTS Game Manual]] · [[repos/farm-3j/docs/FARM-RTS-NORTH-STAR|North Star]] · [[repos/farm-3j/docs/FARM-RTS-TODO|TODO]] · [[repos/farm-3j/docs/INSTRUCTIONS|Instructions]]
+- Farm Tycoon Phase 1 MVP: 60 FPS game loop, 4 animal types, resource production, economic system, day/night cycle, tutorial overlay, keyboard shortcuts
+- Farm Tycoon Phase 2a–f: isometric grid foundation, grid-based terrain (4 tile types), visible fence entities, editor sidebar with Build/Animals/Select modes, click-to-place, hover indicator
+- Tailwind CSS v4 migration with new `@import` syntax
+- Contact form: `POST /api/contact`, optional `FARM_CONTACT_WEBHOOK_URL`

@@ -1,72 +1,53 @@
-# auto-apply-plugin — AI Job Application Chrome Extension
+# auto-apply-plugin
 
-**Last Validated:** 2026-06-10 | Initial vault entry
-**Repo:** https://github.com/nitsuah/auto-apply-plugin
-**Branch convention:** `pmo/auto-apply-plugin/planning-alignment-YYYY-MM-DD`
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+"Apply Workspace" — Chrome MV3 extension for local-first AI-assisted job applications. Stores profile locally, detects ATS forms, reads JDs from the page, generates tailored answers via user's own Gemini API key, and requires review before form fill. Zero server, zero subscription.
 
-| Check | Status | Notes |
-|---|---|---|
-| Docker build | N/A | Chrome extension — no Docker runtime path |
-| Test suite | PASS | 63 unit tests pass (Vitest via Docker Compose) |
-| E2E | Available | Playwright via Docker Compose |
-| Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS, PRIVACY present |
+## Current Goals / Roadmap Focus
 
----
+**Q2 2026 (in progress):**
+- Polish popup into a true job-workspace view (tracker lanes, bubble cards, DnD, pay controls, verdict dropdown)
+- `apply-bot` → "Apply Workspace" rebrand pass (copy, icons, docs)
+- Picker-style job detail capture from current page or pasted JD
 
-## Stack
+**Q3 2026 (in progress):**
+- Expand job search to additional sources, on-ATS-page parsing depth, OAuth job source
 
-- **Type:** Chrome MV3 extension (zero build step, load unpacked)
-- **AI:** Gemini 2.5 (REST API, auto-model selection via `models.list`)
-- **Storage:** `chrome.storage.local` — local-first, no external servers
-- **Testing:** Vitest (63 tests) + Playwright E2E (Docker Compose)
-- **CI:** GitHub Actions (lint, type check, test)
-- **ATS support:** Greenhouse, Ashby, Lever, LinkedIn Easy Apply (Phase 1); Workday, Jobvite, iCIMS (Phase 2)
+**Q4 2026 (exploratory):**
+- LinkedIn + Indeed multi-site scraping and alerting
+- Identity-provider imports (Google, ID.me) for profile bootstrapping
+- Interview prep mode (local, Gemini-backed behavioral/technical Q&A)
+- Application analytics panel (response rate by source, salary effectiveness)
 
----
+## Open P0/P1 Tasks
 
-## PMO Findings
+- [/] P1 — Polish popup workspace view (in progress; remaining: refresh screenshots gallery, monitor FE feedback)
+- [/] P1 — Keep local-first autofill and privacy controls trustworthy (ongoing monitoring)
+- [/] P2 — `apply-bot` rebrand pass (partial; copy done, icons/docs pending)
+- [/] P1 — Multi-source job search aggregation (shipped 9 keyless + 4 keyed sources; remaining: on-ATS parsing depth, tracker indexing, OAuth job source)
 
-- Privacy-first design: no external calls except Gemini API (user's own key) and opt-in job search sources.
-- Job search panel aggregates 14 sources (9 keyless, 1 session-based, 4 keyed).
-- CSV import for tracker history is fully specified; test coverage should be validated against import edge cases.
+**Deferred/blocked (FE-pass follow-ups):**
+- [ ] UX Audit batch 2 (medium priority): expanded card modal, popup/standalone sync, narrative card overflow, memory delete confirm
+- [ ] Wire `axe-core` into Playwright e2e — **BLOCKED**: needs `npm install` to update lock file; npm not available in dev environment
+- [ ] a11y burndown: keyboard DnD alternative, color-contrast verification, focus-ring audit
 
----
+## Blockers
 
-## Priority Focus
+- `axe-core` Playwright integration blocked by no npm in dev environment (requires Docker workaround)
+- OAuth job sources (LinkedIn partner API is partner-gated; scraping is the current path)
 
-1. Validate Phase 2 ATS platforms (Workday, Jobvite, iCIMS, Circle/Phenom).
-2. Maintain screenshot gallery currency (last refreshed 2026-05-21).
-3. Extend E2E coverage for job search panel filter combinations.
+## Recent Changes (Unreleased)
 
----
-
-## Key Commands
-
-```bash
-# Unit tests (63, Docker-based)
-docker compose -f config/docker-compose.yml run --rm test
-
-# Lint
-docker compose -f config/docker-compose.yml run --rm lint
-
-# E2E
-docker compose -f config/docker-compose.yml run --rm e2e
-```
-
----
-
-## Active PMO
-
-See TASKS.md and ROADMAP.md for current priorities.
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/auto-apply-plugin/ROADMAP|ROADMAP]] · [[repos/auto-apply-plugin/TASKS|TASKS]] · [[repos/auto-apply-plugin/FEATURES|FEATURES]] · [[repos/auto-apply-plugin/METRICS|METRICS]] · [[repos/auto-apply-plugin/CHANGELOG|CHANGELOG]] · [[repos/auto-apply-plugin/README|README]] · [[repos/auto-apply-plugin/PRIVACY|PRIVACY]]
+- Tracker module split into focused files under `popup/tracker/`
+- CSV import support for tracker history
+- ATS receiver auto-recovery path (retries content-script injection)
+- Memory controls: edit, ignore, restore, remove
+- Popup workspace UX polished: wider layout, tighter controls, grouped editor sections
+- Job search shipped: 9 keyless sources (Remotive, Arbeitnow, The Muse, Remote OK, Jobicy, Working Nomads, HN Who's Hiring, We Work Remotely, remote.co) + 4 keyed (Adzuna, USAJOBS, Reed, Jooble) + LinkedIn session source
+- LinkedIn OIDC profile import (BYO OAuth — user supplies client ID/secret)
+- AI Summarize/Clean Up buttons on JD field, tracker cards, job search results, preview answers
+- Pay filter with annual/hourly toggle, dual slider; "hide unknown-salary" toggle
+- Per-source filter chips; source selection + pay filter persist to `chrome.storage.local`

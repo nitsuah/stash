@@ -1,69 +1,49 @@
-# Stash Repository Runbook (PMO)
+# stash
 
-Last Validated: 2026-03-27
+> Reviewed: 2026-06-25
 
-## Repository Type
+## Overview
 
-Automation and tooling monorepo focused on scripts, infrastructure samples, and project-specific utilities.
+Austin J. Hardy's technical evolution archive — 15+ years of enterprise automation tools and developer productivity scripts. Covers VBA/Access projects (Remora PAM, Sampler, VMT), Python API examples (Atlassian, SaaS platforms, AWS boto3, SSO/OIDC), PowerShell Windows automation, backend REST reference implementations (Flask, Express), database DDL (PostgreSQL, MongoDB), role-based AI agent system prompts, and git utilities.
 
-## Verified Structure
+## Current Goals / Roadmap Focus
 
-Top-level directories observed locally:
+**Q2 2026:** ✅ Completed — planning integrity reset, documentation baseline, security hygiene pass, open-source sanitization, backend/database/SSO examples, IaC consolidation
 
-- `.github/`
-- `agent/`
-- `atlassian/`
-- `git/`
-- `ias/`
-- `projects/`
-- `windows/`
+**Q3 2026 (planned):**
+- Naming and consistency cleanup (normalize anomalous filenames, tighten cross-references)
+- Lightweight validation harness for critical scripts (exploratory; dry-run smoke checks)
 
-Notable governance files confirmed:
+**Q4 2026 (exploratory):**
+- Cross-repo automation catalog (discoverable script capabilities + ownership metadata)
+- Operational metrics maturity (measurable quality metrics, not placeholders)
+- Script dependency graph (Mermaid diagram from imports/source/require calls; CI artifact)
+- Dry-run audit log (structured JSON summary of planned changes for high-impact scripts)
 
-- `.github/ISSUE_TEMPLATE/`
-- `.github/pull_request_template.md`
-- `LICENSE`
-- `SECURITY.md`
+**Note from overseer:** Stash is being deprioritized — overseer TASKS P1 item to mark repo private, block PRs, add sanitization checklist.
 
-## Runtime Validation Evidence
+## Open P0/P1 Tasks
 
-- Command executed successfully:
-	- `powershell -NoProfile -ExecutionPolicy Bypass -File ./git/cleanup-branches.ps1 -Path . -DryRun`
-- Observed behavior:
-	- Script starts cleanly.
-	- Reports dry-run mode.
-	- Exits without unhandled exceptions.
+- [ ] **P2** Frontend examples (React/Next.js, Svelte/SvelteKit, Vue/Nuxt.js)
+- [ ] **P3** Cloud cost management examples (Cloudability, CloudHealth, CloudZero, Kubecost)
+- [ ] **P3** SaaS inventory audit examples (Fortify-on-Demand, ZenGRC, Zylo)
+- [ ] **P3** `API.md` decision record (no external contracts — confirm no hosted API)
 
-## Operational Notes
+No active P0/P1 tasks in this repo. Work is in low-contribution mode.
 
-- No Docker runtime path is currently available in this repository (`Dockerfile` and `docker-compose.yml` not present).
-- `rg` was not available in the environment during audit; use PowerShell-native file discovery/search commands when needed.
-- `ias/Windows-userdata..yml` appears to have a naming anomaly and should be normalized in a dedicated change.
+## Blockers
 
-## PMO Findings Snapshot
+- No Docker execution path (no Dockerfile/docker-compose.yml)
+- Overseer P1 task: mark private + block PRs + sanitization (external governance item)
 
-- Planning docs had stale references to unrelated VB.NET roadmap/task items.
-- Parser-safe formatting was missing from `TASKS.md` and `ROADMAP.md` before the 2026-03-27 update.
-- Architecture/API documentation gaps remain (`ARCHITECTURE.md`, `API.md` absent).
+## Recent Changes
 
-## Recommended PMO Workflow For This Repo
-
-1. Re-validate at least one non-destructive script path before each planning cycle.
-2. Keep `TASKS.md` labels explicit: Priority, Type, Confidence, Milestone.
-3. Keep `ROADMAP.md` quarter headings with status text in heading.
-4. Perform PMO updates on a branch named `pmo/stash/<theme>-<date>`.
-5. Use commit prefix `docs(pmo):` and open a PR with evidence.
-
----
-
-## Vault Index
-
-*This is the stash repo itself — the vault root IS the stash repo. Key vault docs:*
-
-**Agent System:** [[AGENT-MAIN]] · [[REPO-README]] · [[prompts/1FLOW|1FLOW]] · [[prompts/PMO|PMO]] · [[prompts/ENG|ENG]] · [[prompts/OPS|OPS]] · [[prompts/QA|QA]]
-
-**Planning:** [[2026Q2]] · [[PRODUCTIZATION]] · [[LOC-REPORT]] · [[GAPS_AND_IMPROVEMENT_PLAN]] · [[ENHANCEMENT_ROADMAP]] · [[SECURITY_CHECKLIST]] · [[MONEY-MAKERS]]
-
-**Personal Agents:** [[projects/Builder|Builder]] · [[projects/Career|Career]] · [[projects/Finance|Finance]]
-
-**Audits:** [[AUDIT_GRAPH_2026_06_09|Graph Audit 2026-06-09]] · [[AUDIT_GRAPH_2026_06_09b|Graph Audit 2026-06-09 (pass 2)]]
+- `CLOUD/aws/examples.py` — boto3 examples (EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53)
+- `SAAS/github/examples.py`, `SAAS/datadog/examples.py`, `SAAS/slack/examples.py`, `SAAS/pagerduty/examples.py`
+- `atlassian/` — Jira, Confluence, Bitbucket, Statuspage API examples with shared client + validator
+- `IAS/` — Ubuntu + Windows EC2 UserData bootstrap scripts
+- `git/cleanup-branches.ps1` — multi-repo merged branch cleanup
+- `agent/` — personal agent system (CFO, Career, Builder) + product delivery pipeline (PMO → DevOps → QA)
+- `projects/auto/` — single-page car project board
+- `projects/resume/` — sanitized (MNPI, internal tool names, employee PII removed)
+- `README.md` full rewrite; `.github/copilot-instructions.md` updated for actual stack
