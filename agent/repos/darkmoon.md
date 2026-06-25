@@ -1,64 +1,57 @@
-# DARKMOON.DEV
+# darkmoon
 
-[![CI](https://github.com/nitsuah/darkmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/darkmoon/actions)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2ae05c81-761a-4d3a-91ac-dcd5980d48d3/deploy-status)](https://app.netlify.com/projects/darkmoon-dev/deploys)
+> Reviewed: 2026-06-25
 
-> Real-time multiplayer 3D tag game built with React 19, Three Fiber, Socket.io, and Vite
+## Overview
 
-**Live Demo:** [darkmoon.dev](https://darkmoon.dev)
+Solo-live 3D browser tag game at darkmoon.dev built with React 19, Three Fiber, Socket.io, and Vite. Solo mode with AI bots is the live experience; multiplayer foundations exist but are not yet deployed. Recently expanded into a full shooter with Deathmatch and Capture the Flag modes.
 
-## ✨ Features
+## Current Goals / Roadmap Focus
 
-- 🎮 **Multiplayer 3D Gameplay** — Real-time player synchronization with React Three Fiber
-- 🤖 **Solo Mode with AI Bots** — Practice against intelligent bot opponents
-- 🔌 **WebSocket Communication** — Low-latency networking via Socket.io
-- ⚡ **Modern Tooling** — Vite for lightning-fast builds and HMR
-- 📱 **Mobile Support** — Touch controls and responsive design
-- 🧪 **Full Test Suite** — Vitest + Testing Library with coverage reporting
-- 🚀 **CI/CD Pipeline** — GitHub Actions with automated quality checks
-- 🎨 **Code Quality** — ESLint, Prettier, TypeScript strict mode, pre-commit hooks
+**Q2 2026 (active):**
+- 21st.dev component integration (lobby, scoreboard, game-over screens) — P1
+- UI/UX interactivity improvements (micro-interactions, card layouts) — P1
+- Open-source safety scrub (remove sensitive/employer-identifying content) — P1
+- Fix Docker production build path — P0
+- Align product messaging (docs still overstate live multiplayer) — P0
+- Mobile controls + responsive layout validation on real devices — P0
 
-## 🚀 Quick Start
+**Q3 2026 (planned):**
+- Ship first validated multiplayer-capable experience after readiness gate
 
-```bash
-# Clone the repository
-git clone git@github.com:nitsuah/darkmoon.git
-cd darkmoon
+**Q4 2026 (exploratory):**
+- Identity, progression, social systems
+- Native mobile packaging
 
-# Install dependencies
-npm install
+## Open P0/P1 Tasks
 
-# Start development server
-npm run dev
-```
+- [ ] **P0** Fix Docker production build path (currently broken)
+- [ ] **P0** Align product messaging — README/FEATURES still overstate live multiplayer
+- [ ] **P0** Stabilize mobile input and mobile layout on physical devices (iOS Safari + Android Chrome)
+- [ ] **P1** 21st.dev component integration — lobby, scoreboard, game-over, nav
+- [ ] **P1** UI/UX interactivity improvements (hover states, transitions, Lighthouse no-regress)
+- [ ] **P1** Open-source safety scrub — remove/anonymize sensitive examples
+- [ ] **P1** Architecture and deployment contract docs (`ARCHITECTURE.md`, `API.md`)
+- [ ] **P1** Refresh `METRICS.md` with measured values
+- [ ] **P1** Server production-hardening (structured logging, graceful shutdown, operational visibility)
+- [ ] **P1** Fix server-side multiplayer tag parity before Multiplayer Tag ships (no cooldown/freeze enforcement, trusts client IDs)
+- [ ] **P2** Grenade hold-to-throw + trajectory arc [Phase BM]
+- [ ] **P2** Multiplayer shooter polish [Phase E] — aim camera + combat music
 
-Visit `http://localhost:4444` to play!
+Completed: pluggable game modes, combat primitives (Phases B–BL), Deathmatch mode, CTF mode, tag logic edge case tests, bot tag parity fix.
 
-## 🤝 Contributing
+## Blockers
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Docker production build path broken — blocks Docker-first validation
+- Server-side multiplayer tag parity must be fixed before Multiplayer Tag exits `[planned]`
 
-- Development workflow and available scripts
-- Code quality standards and testing guidelines
-- Deployment and troubleshooting tips
-- Pull request process
+## Recent Changes (Unreleased)
 
-## 📝 License
+- Documentation compliance updates for Overseer integration
+- FEATURES.md, TASKS.md, METRICS.md structured
+- Vitest bumped 4.0.4 → 4.0.15; react-dom synced to 19.2.3
+- Roadmap refactored to quarterly format
 
-MIT © 2025 Nitsuah Labs
-
----
-
-**Original boilerplate:** [R3F.Multiplayer](https://github.com/juniorxsound/R3F.Multiplayer) by [@juniorxsound](https://github.com/juniorxsound)
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/darkmoon/ROADMAP|ROADMAP]] · [[repos/darkmoon/TASKS|TASKS]] · [[repos/darkmoon/FEATURES|FEATURES]] · [[repos/darkmoon/METRICS|METRICS]] · [[repos/darkmoon/CHANGELOG|CHANGELOG]] · [[repos/darkmoon/README|README]]
-
-**docs/:** [[repos/darkmoon/docs/ARCHITECTURE|Architecture]] · [[repos/darkmoon/docs/API|API]] · [[repos/darkmoon/docs/INSTRUCTIONS|Instructions]] · [[repos/darkmoon/docs/ROADMAP_DETAILED|Roadmap (detailed)]] · [[repos/darkmoon/docs/TECH_DEBT|Tech Debt]] · [[repos/darkmoon/docs/CONKER_BFD_BUILD_GUIDE|Conker BFD Build Guide]]
-
-**archive/:** [[repos/darkmoon/docs/archive/ARCHITECTURE_IMPROVEMENTS|Arch Improvements]] · [[repos/darkmoon/docs/archive/L7_ENGINEERING_REVIEW|L7 Engineering Review]] · [[repos/darkmoon/docs/archive/HANDOFF-player-tag-fix-20260403|HANDOFF: player-tag-fix (2026-04-03)]]
+Latest gameplay work (from TASKS Done):
+- Tag cooldown/freeze edge cases: 8 new tests in `gameManager.edgeCases.test.ts`; `lastTaggedById`-based tag-back cooldown; 200ms `TAG_RETRY_INTERVAL_MS` bot retry
+- Full test suite: 378 passed / 5 skipped, lint clean, `tsc --noEmit` clean

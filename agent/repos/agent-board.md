@@ -1,141 +1,61 @@
-# Agent Board - Local AI Agent Ecosystem
+# agent-board
 
-Local AI agent dashboard with multi-model support, session management, and NemoClaw safety sandbox.
+> Reviewed: 2026-06-25
 
-## Features
+## Overview
 
-- **Multi-Model Support** - Llama2, Qwen3-Coder (Ollama), Docker Model Runner, GLM-Flash
-- **Agent Sessions** - Persistent session management with full message history
-- **Safety Sandbox** - NemoClaw integration for policy-enforced safe mode
-- **Web Dashboard** - React UI with live Docker status monitoring
-- **Local-First** - Everything runs on your machine, no external APIs required
-- **Instant Model Switching** - Switch endpoints mid-conversation per session
+Local-first AI ops cockpit — chat surface, safety rails, and live observability for multi-model workflows running in Docker. React + Express dashboard with Ollama backend, WebSocket streaming, OpenTelemetry/Jaeger tracing, and opt-in MCP tool servers.
 
-## Directory Structure
+## Current Goals / Roadmap Focus
 
-```
-dashboard/                    # Web UI & API server (React + Express)
-  src/                        # React frontend
-  tests/                      # Integration tests
-  Dockerfile
-config/                       # Configuration (future)
-llm/                          # Model configs / Modelfiles (future)
-services/                     # Additional microservices (future)
-scripts/                      # Setup & management scripts
-docker-compose.yml            # Stack definition
-```
+**Q2 2026 (active):**
+- Persistence for agent history, logs, state snapshots
+- Agent command interface (start/stop/restart)
+- Heartbeat + resource monitoring
+- Conversation replay mode (step-through debugging)
+- Validated production deployment path (P2)
 
-## Quick Start
+**Q3 2026 (planned):**
+- Multi-tenancy / RBAC planning
+- Named pub/sub event channels for reactive multi-agent pipelines
+- Plugin architecture for task extensions
+- BYOK external LLM integration (Claude, Gemini, etc.)
+- MCP container manager (spin tool containers on demand)
+- tmux multi-agent worktrees
+- 3D Memory Palace context (Neo4j + Graphiti + WebGL)
 
-```powershell
-cd C:\Users\$env:USERNAME\code\agent-board
-docker compose up -d
-```
+**Q1 2027 critical path:** Docker optimization + GPU → service lifecycle → plugin arch + BYOK → MCP container manager
 
-**Endpoints:**
-- Dashboard: http://localhost:3000
-- Ollama API: http://localhost:8081
-- NemoClaw: http://localhost:9000
+**2027 Q2:** Blackboard / bb-mcp frontend layer (streaming UI, persona selector, demo mode)
 
-## Models
+## Open P0/P1 Tasks
 
-Models are pulled into the `llm_qwen_coder` Ollama container. Currently available:
+- [ ] **P2** GPU-oriented model portfolio after CUDA enabled
+- [ ] **P2** Document model lifecycle and resource management APIs
+- [ ] **P2** Document production deployment path
+- [ ] **P2** MCP container manager (Playwright, Jira/Confluence, bb-mcp on demand)
+- [ ] **P2** bb-mcp streaming UI (SSE, typing indicator)
+- [ ] **P2** Multi-persona Blackboard agent selector
+- [ ] **P2** Blackboard agent demo mode
+- [ ] **P2** Replace Docker socket mount in content-gen with MPT sidecar (security issue)
+- [ ] **P2** Expand test coverage to ≥20 tests for core agent flows
+- [ ] **P1 PERFORMANCE** Setup turbovec to decrease LLM memory usage (follow-up)
 
-| Model | Size | Use |
-|---|---|---|
-| `llama2:latest` | 3.8 GB | Default — general chat, fits in RAM |
-| `qwen3-coder:latest` | 18 GB | Code generation (requires ~18 GB free RAM) |
-| `qwen3:latest` | 5.2 GB | General (MoE, loads as 17.7 GB at runtime) |
+Completed P1: Docker optimization pass (minimal stack = agent-db + ollama + dashboard; nemoclaw/jaeger gated); API docs rewrite.
 
-Pull additional models:
-```powershell
-docker exec llm_qwen_coder ollama pull llama3.2:latest   # 2 GB, good general model
-docker exec llm_qwen_coder ollama pull qwen3:1.7b        # 1.4 GB, small but capable
-```
+## Blockers
 
-### Docker Model Runner (optional)
+- NemoClaw sandbox container crash-loops on Windows (CRLF in entrypoint; P3/deferred)
+- OpenLLM CPU-incompatible with local workflow (P3/deferred; `OPENLLM_ENABLED=false`)
+- Content-gen mounts Docker socket (security risk; P2 — MPT sidecar replacement pending)
+- Event bus cross-agent behavior unproven (P3)
 
-Docker Desktop's built-in model runner is also wired up as an endpoint (`docker_runner`). To enable it:
-1. Docker Desktop → Settings → Features in development → **Enable Docker Model Runner** + **Host-side TCP support**
-2. Select "Docker Runner" in the dashboard sidebar
+## Recent Changes (Unreleased)
 
-## API
-
-### Sessions
-- `POST /api/sessions` — Create session (`{ endpoint, model, name }`)
-- `GET /api/sessions` — List all sessions
-- `GET /api/sessions/:id` — Get session with messages
-- `DELETE /api/sessions/:id` — Delete session
-- `PUT /api/sessions/:id/model` — Switch model/endpoint (`{ endpoint, model }`)
-
-### Messages
-- `POST /api/sessions/:id/message` — Send message (`{ message, useSafeMode }`)
-
-### System
-- `GET /api/health` — Health check (LLM endpoints + Docker status)
-- `GET /api/models` — Available models from all endpoints
-- `GET /api/docker/status` — Container status
-
-## Architecture
-
-```
-dashboard/
-├── server.js         # Express API — session mgmt, LLM proxy, Docker status
-├── src/
-│   ├── App.jsx       # React frontend
-│   ├── App.css       # Styles
-│   └── main.jsx      # Entry point
-├── tests/
-│   ├── test-chat.js  # Integration test (session → message → delete)
-│   └── e2e-chat.js
-└── Dockerfile
-```
-
-## Management Scripts
-
-```powershell
-.\scripts\stack-manager.ps1 -Action start    # Start all containers
-.\scripts\stack-manager.ps1 -Action stop     # Stop all
-.\scripts\stack-manager.ps1 -Action restart  # Restart all
-.\scripts\stack-manager.ps1 -Action status   # Show status
-.\scripts\stack-manager.ps1 -Action logs     # Tail logs
-```
-
-## Troubleshooting
-
-**Chat returns error / LLM not responding**
-- Check Ollama has models: `docker exec llm_qwen_coder ollama list`
-- Check memory — large models (qwen3-coder 18 GB) need enough free RAM
-- Default model is `llama2:latest` which is safe for ~8 GB+ systems
-
-**Container unhealthy**
-- `docker logs agent-dashboard` — server errors
-- `docker logs llm_qwen_coder` — Ollama errors (OOM will show here)
-
-**Port conflicts**
-- Ollama: `8081` (host) → `8080` (container)
-- NemoClaw: `9000` → `8080`
-- Dashboard: `3000` → `3000`
-
-## Safety & Security
-
-- All traffic is local — no external API calls
-- NemoClaw sandboxes agent execution with `--cap-drop=all`
-- Capability allowlist: `NET_BIND_SERVICE` only
-- `no-new-privileges` enforced on sandbox container
-
-## License
-
-MIT
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/agent-board/ROADMAP|ROADMAP]] · [[repos/agent-board/TASKS|TASKS]] · [[repos/agent-board/FEATURES|FEATURES]] · [[repos/agent-board/METRICS|METRICS]] · [[repos/agent-board/CHANGELOG|CHANGELOG]] · [[repos/agent-board/README|README]]
-
-**docs/:** [[repos/agent-board/docs/ARCHITECTURE|Architecture]] · [[repos/agent-board/docs/API|API]] · [[repos/agent-board/docs/MCP_SETUP|MCP Setup]] · [[repos/agent-board/docs/SETUP_INSTRUCTIONS|Setup Instructions]] · [[repos/agent-board/docs/QUICK_REFERENCE|Quick Reference]] · [[repos/agent-board/docs/agent-board-roadmap|Roadmap (extended)]] · [[repos/agent-board/docs/MIGRATION|Migration]] · [[repos/agent-board/docs/README-orchestration|Orchestration]] · [[repos/agent-board/docs/REORGANIZATION_SUMMARY|Reorganization]] · [[repos/agent-board/docs/neo4js|neo4j]] · [[repos/agent-board/docs/HANDOFF-bb-mcp-opt-in-20260403|HANDOFF: bb-mcp opt-in (2026-04-03)]] · [[repos/agent-board/docs/HANDOFF-service-discovery-system-panel-20260403|HANDOFF: service discovery (2026-04-03)]]
-
-**demo/:** [[repos/agent-board/docs/DEMO_VIDEO_SCRIPT|DEMO_VIDEO_SCRIPT]] · [[repos/agent-board/docs/DEMO_VIDEO_SCRIPT_SHORT|DEMO_VIDEO_SCRIPT_SHORT]]
+- Device profile system (minimal/laptop/desktop) auto-selects Ollama model by RAM/VRAM
+- Custom LLM endpoint registry (`CUSTOM_LLM_ENDPOINTS`) — add OpenRouter, vLLM, LM Studio etc. via `.env`
+- NVIDIA GPU compose overlay (`config/docker-compose.gpu.yml`)
+- Hardware detection script (`scripts/detect-profile.ps1`)
+- Workspace file I/O: `/api/workspace/*` routes with git commit/push, path-traversal sandbox, file browser in System panel
+- Ollama warmup service (opt-in `warmup` profile)
+- OpenLLM endpoint (gated, deferred)

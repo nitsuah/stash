@@ -1,5 +1,7 @@
 # ARGUS PLAN
 
+repo: [[repos/odysseus|odysseus]]
+
 ![[odysseus-repo-table]]
 ![[odysseus_ecosystem_diagram]]
 [[odysseus.md]]

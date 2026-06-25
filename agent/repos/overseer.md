@@ -1,93 +1,55 @@
-# overseer — Meta-Repository Intelligence Layer
+# overseer
 
-**Last Validated:** 2026-06-10 | PMO audit — live site + coverage validation  
-**Repo:** [nitsuah/overseer](https://github.com/nitsuah/overseer)  
-**Live:** https://ghoverseer.netlify.app  
-**Branch convention:** `pmo/overseer/planning-alignment-YYYY-MM-DD`
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.nitsuah.io. Enforces documentation standards (ROADMAP, TASKS, METRICS, FEATURES), provides AI-powered repo summaries (Gemini/OpenAI/Anthropic failover), one-click PR creation for missing docs, health scoring, and agent task queue API. Next.js 16 + Neon Postgres + Netlify Functions + NextAuth GitHub OAuth.
 
-| Check | Status | Notes |
-|---|---|---|
-| Live site | ✅ Working | Frontend loads, repo sync in progress |
-| GitHub OAuth | ✅ Working | NextAuth v5 configured |
-| Netlify deployment | ✅ Working | Auto-deploys from main |
-| Test coverage | ✅ 71.51% | Above 70% target (162 tests, 16 suites, 5 E2E) |
+## Current Goals / Roadmap Focus
 
----
+**Q2 2026:** ✅ Completed — AI feature suggestions, inline doc improvement, workflow visualization, real-time webhook sync, PMO mode, DEV-flow handoff, Gemini model evolution resilience, repo-detail query batching
 
-## Stack
+**Q3 2026 (PMO Mode — partially done):**
+- [x] PMO mode: portfolio-wide roadmap progress, plan execution status, handoff management
+- [x] DEV-flow handoff UI: promote roadmap items into agent task queue
+- [ ] AI-assisted roadmap management (auto-suggest from health signals, auto-update from PR/issue state)
+- [ ] Chat-driven TASKS/ROADMAP/FEATURES management interface
 
-- **Frontend:** Next.js 16 + React 19 + TypeScript + Tailwind CSS 4
-- **Backend:** Netlify Functions + Neon Postgres
-- **Auth:** NextAuth v5 + GitHub OAuth + rate limit handling
-- **AI:** Gemini 2.0 + multi-provider failover (GPT-4, Claude) + auto-discovery & model switching
-- **GitHub:** Octokit REST API with retry/throttling, ETag support, rate limit monitoring
-- **Testing:** Vitest (71.51% coverage, 162 tests, 16 suites), Playwright E2E (5 tests)
-- **CI:** GitHub Actions
-- **Deployment:** Netlify with `@netlify/plugin-nextjs`
+**Q3 2026 (Analytics & MCP):**
+- [ ] Conversational interface foundation (one or two repo-hygiene workflows end-to-end)
+- [ ] Advanced analytics: velocity scoring, technical-debt trending, zombie-branch detection
+- [ ] Expose overseer repo intelligence as MCP server (`get_repo_health`, `list_tasks`)
+- [ ] Cross-repo dependency mapping (interactive 3D graph)
 
----
+**Q4 2026 (exploratory):**
+- Autonomous plan execution (agents read ROADMAP/TASKS, open PRs, close items)
+- Portfolio intelligence dashboard (cross-repo health roll-up, trend lines)
+- Repo "mood" signal (sentiment from PR descriptions, commit messages, TASKS tone)
+- AI PR pairing suggestions (surface co-landing items across repos before merge)
+- Mobile-responsive + lightweight PWA
 
-## Key Features
+## Open P0/P1 Tasks
 
-- **Repository Intelligence:** Health scoring (0-100), 4-state doc tracking, LOC parsing, test counting, CI/CD status, vulnerability alerts
-- **AI Integration:** Gemini 2.0 + multi-provider failover; auto-discovers when model fails; self-healing
-- **Documentation Management:** PR preview modal (diff view), AI template enrichment, one-click auto-fix (8 doc types + 4 best practices + 10 standards)
-- **Security Tracking:** SECURITY.md presence, Dependabot, code scanning, secret scanning config
-- **User Experience:** Guided tour (16 steps, spotlight, auto-advance), interactive onboarding
-- **Rate Limiting:** Smart caching (content-hash + ETag), batch delays, exponential backoff, UI warnings
+- [ ] **P1** Deprioritize stash repo: mark private, block PRs, add sanitization checklist
+- [ ] **P2** Connect overseer Agent Task Queue → agent-board local model runtime (dispatch bridge v0)
+- [ ] **P2** Conversational interface foundation (messenger-style chat, 1-2 hygiene workflows)
+- [ ] **P2** Cross-repo dependency mapping (3D interactive graph)
+- [ ] **P2** Expose overseer as MCP server
+- [ ] **P2** DB scalability assessment (indexing, query patterns at 100+ repos, connection pooling)
+- [ ] **P3** Zombie-branch detection + bulk-action delete dialog
+- [ ] **P3** Maintenance-mode detection (inactive repo auto-classification)
+- [ ] **P3** Token-density and comment-to-code ratio metrics
+- [ ] **P3** Dark/light mode toggle
+- [ ] **P3** Velocity scoring and technical-debt trending
 
----
+## Blockers
 
-## Gaps (P1–P3)
+None hard-blocking. stash repo decommission is a P1 housekeeping item with no dependencies.
 
-| Item | Priority | Status |
-|---|---|---|
-| 2026Q1 Agent Task Queue API | P1 | Planned — foundation for autonomous orchestration |
-| docs/AUDIT.md refresh | P1 | Stale — last validated Dec 11, 2025 (3.5mo) |
-| Conversational UI foundation | P2 | Planned — natural language + handler routing |
-| Workflow visualization | P2 | Planned — execution paths for multi-step actions |
-| AI doc improvement buttons | P2 | Planned — "Improve" for ROADMAP/TASKS/FEATURES |
-| Token density, zombie branches, dark mode | P3 | Open/Exploratory |
+## Recent Changes (Unreleased)
 
----
-
-## Key Commands
-
-```bash
-npm run dev                    # Development server
-npm run build                  # Production build
-npm test                       # Unit tests (71.51% coverage)
-npm run test-gemini           # Test Gemini model (auto-discovery)
-npm run list-gemini-models    # List available models
-npm run setup-db              # Initialize Postgres schema
-```
-
----
-
-## Notable Details
-
-- **Model Auto-Discovery:** When Gemini unavailable, auto-tests and switches to GPT-4/Claude mid-session (15min cache)
-- **Rate Limit Safeguards:** Exponential backoff, content-hash caching (5min TTL), ETag support, batch delays (configurable)
-- **Health Score:** 0-100 with breakdown (docs 40%, testing 20%, best practices 20%, standards 10%, activity 10%)
-- **Doc Health Tracking:** 4-state model (Missing/Dormant/Malformed/Healthy) via content-hash
-- **Security Tracking:** 6 GitHub settings monitored (SECURITY.md, advisories, Dependabot, scanning, etc.)
-
----
-
-## Active PMO
-
-See TASKS.md and ROADMAP.md for current priorities. Latest PR: `pmo/overseer/planning-alignment-2026-03-27` — [PR #82](https://github.com/nitsuah/overseer/pull/82)
-
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/overseer/ROADMAP|ROADMAP]] · [[repos/overseer/TASKS|TASKS]] · [[repos/overseer/FEATURES|FEATURES]] · [[repos/overseer/METRICS|METRICS]] · [[repos/overseer/CHANGELOG|CHANGELOG]] · [[repos/overseer/README|README]]
-
-**docs/:** [[repos/overseer/docs/AGENT_TASK_QUEUE_API|Agent Task Queue API]] · [[repos/overseer/docs/AUDIT|Audit]] · [[repos/overseer/docs/TESTING_STRATEGY_PROMPT|Testing Strategy]] · [[repos/overseer/docs/HANDOFF-agent-task-queue-execution-20260403|HANDOFF: agent-task-queue (2026-04-03)]] · [[repos/overseer/docs/HANDOFF-byok-quota-provider-fallback-20260411|HANDOFF: byok-quota-provider (2026-04-11)]]
+- **Roadmap-to-DEV-flow handoff linkage:** `PATCH /api/repos/[name]/roadmap-items/[id]` links roadmap items to PR/agent task; `lib/sync.ts` merges (not delete+insert) `roadmap_items` so DB-only links survive re-syncs
+- **Centralized Gemini Model Discovery:** `gemini-model-discovery.ts` — single source of truth, auto-fallback across model versions, 1-hour cache, unified `GEMINI_MODEL_NAME` env var
+- **Repo-detail query batching:** 7 sequential round trips → single `db.transaction()` call (~7× latency reduction)
+- Default model updated: `models/gemini-2.0-flash-exp` → `models/gemini-2.5-flash`

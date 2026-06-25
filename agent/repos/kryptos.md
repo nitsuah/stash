@@ -1,72 +1,63 @@
-# kryptos - K4 cryptanalysis research platform
+# kryptos
 
-**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
-**Repo:** https://github.com/nitsuah/kryptos
-**Branch convention:** pmo/kryptos/planning-alignment-YYYY-MM-DD
+> Reviewed: 2026-06-25
 
----
+## Overview
 
-## Runtime Status
+Python cryptanalysis research toolkit for solving the Kryptos CIA sculpture puzzle. K1, K2, K3 are solved; K4 remains unsolved. Implements Vigenère, Hill cipher, transposition, masking, Berlin Clock, Quagmire I–IV, Beaufort, and composite pipeline attacks with autonomous Q/OPS/SPY agent system, FastAPI dashboard, React SPA, Neon PostgreSQL persistence, and turbovec RAG semantic search.
 
-| Check | Status | Notes |
-|---|---|---|
-| Docker build | PASS | Image builds successfully |
-| Container runtime | FAIL | Startup hits permission error creating artifacts under site-packages |
-| Docs baseline | PASS | Rich docs set and governance files present |
+## Current Goals / Roadmap Focus
 
----
+**Q1 2027 (active — post-untested-vector phase):**
 
-## Stack
+Phase 1 — K4 Attack completion: ✅ All five untested attack vectors completed (Clock→Hill, Clock→Vigenère, Berlin Clock sub-rows, Clock transposition, Beaufort sweep) — all null results, documented in `docs/analysis/K4_ACTIVE_RESEARCH.md`
 
-- Python package for multi-stage cryptanalysis workflows
-- K4-focused pipeline modules (Hill, transposition, masking, scoring)
-- Large pytest suite with fast/slow partitioning and CI segmentation
+Phase 2 — Dashboard & UI: ✅ FastAPI + React SPA shipped (Ops Center, K1–K3 animated decoder, Database admin, Vault, SSE live-log tail)
+- [ ] K4 Attack Dashboard — dedicated attack-vector fingerprint view (remaining; Ops Center covers most)
 
----
+Phase 3 — API: ✅ REST dashboard API, strategy_kb write path, candidate + run storage in Neon
 
-## PMO Findings
+Phase 4 — Validation: ✅ K3 double-transposition Monte Carlo, K1/K2 Vigenère stress tests, SA transposition seeding + crib locking
 
-- P0 runtime blocker: default container command cannot persist artifacts due to write path permissions.
-- Planning docs were updated to prioritize container reliability and phase-6.2 completion.
-- Root roadmap and phase docs should remain linked to avoid planning drift.
+Phase 5 — Post-solution:
+- [ ] Solution documentation (after K4 is solved)
+- [ ] README and docs update reflecting solution
 
----
+**Misc/Supporting:**
+- [ ] Update `docs/analysis/K4-FRONTEND.md` for frontend/dashboard integration
+- [ ] Ensure all new features have test coverage and artifact logging
 
-## Priority Focus
+## Open P0/P1 Tasks
 
-1. Route artifacts/logs to writable app-owned path in container runtime.
-2. Complete composite-chain validation thresholds and reporting.
-3. Raise coverage gate after targeted test additions in critical modules.
+All major Q1 2027 Phase 1–4 items are done. Remaining open items:
 
----
+- [ ] **K4 Attack Dashboard** — standalone attack-vector fingerprint/progress view (low priority; Ops Center + RAG covers it)
+- [ ] **Post-solution documentation** — blocked until K4 is solved
+- [ ] **`docs/analysis/K4-FRONTEND.md` update**
 
-## Key Commands
+No P0 blockers. K4 itself is unsolved (research problem, not a project blocker).
 
-```bash
-docker build -t pmo-kryptos-audit .
-docker run --rm pmo-kryptos-audit
-# currently fails with PermissionError on artifacts path
-```
+## Blockers
 
----
+- K4 is unsolved — all systematic attack vectors tried have returned null results
+- 5 untested vectors from prior roadmap all confirmed null (PR #83)
+- Physical grid keystream attack: null result (108 geometric routes, 216 candidates)
+- Quagmire I–IV sweep: null result (6,240 combinations)
+- Remaining search space: substitution+transposition composite model remains most plausible
 
-## Active PMO
+## Recent Changes (Unreleased)
 
-See TASKS.md and ROADMAP.md for current priorities.
+- `kryptos serve` command — FastAPI app with `/health`, `/api/rag/*` endpoints
+- turbovec-backed `ArtifactIndex` — sentence-transformers embeddings, 4-bit quantized index over `artifacts/`
 
----
-
-## Vault Index
-
-*Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
-
-**Core:** [[repos/kryptos/ROADMAP|ROADMAP]] · [[repos/kryptos/TASKS|TASKS]] · [[repos/kryptos/FEATURES|FEATURES]] · [[repos/kryptos/METRICS|METRICS]] · [[repos/kryptos/CHANGELOG|CHANGELOG]] · [[repos/kryptos/README|README]]
-
-**docs/:** [[repos/kryptos/docs/INDEX|INDEX]] · [[repos/kryptos/docs/governance|governance]]
-
-**analysis/:** [[repos/kryptos/docs/analysis/K4_ACTIVE_RESEARCH|K4 Active Research]] · [[repos/kryptos/docs/analysis/K4-FRONTEND|K4 Frontend]] · [[repos/kryptos/docs/analysis/K4_KEYSTREAM_ANALYSIS|K4 Keystream Analysis]] · [[repos/kryptos/docs/analysis/K4-T1|K4-T1]] · [[repos/kryptos/docs/analysis/30_YEAR_GAP_COVERAGE|30-Year Gap Coverage]]
-
-**archive/:** [[repos/kryptos/docs/archive/AUDIT_2025-10-26|AUDIT_2025-10-26]] · [[repos/kryptos/docs/archive/AUDIT_2026-05-24|AUDIT_2026-05-24]] · [[repos/kryptos/docs/archive/AUDIT_2026-06-01|AUDIT_2026-06-01]]
-
-works cited:
-[[A-Cryptanalytic-Deep-Dive-into-Kryptos-K4-Evaluating-the-nit.html]]
+Recent completed work (TASKS Done, 2026):
+- 5 untested K4 attack vectors (all null): Clock→Hill 2×2, Clock→Vigenère 4-char, Berlin Clock sub-rows, Clock transposition column widths, Beaufort sweep
+- K3 double-transposition Monte Carlo (75% best-of-top-10 success; brute-force ranks true plaintext #1)
+- K1/K2 Vigenère stress tests (noise injection, wrong key length, partial ciphertext)
+- SA columnar solver seedable; early-crib locking verified (>90% pruning at depth 1)
+- `kryptos.benchmarks` CLI + CI job
+- Physical grid attack (`run_physical_grid_attack`): null
+- Quagmire I–IV solver + K4 sweep: null
+- Agent module review: 5 bugs fixed in `AutonomousCoordinator` (crash-on-startup, crash-on-cycle-1, API drift, infinite loop on `max_hours=0.0`)
+- `LinguistAgent` wired into `PlaintextValidator` as opt-in stage 3 (`enable_linguist=False` default)
+- `strategy_kb` write path: OpsStrategicDirector persists BOOST/PIVOT/STOP/START_NEW to Neon with JSONL fallback

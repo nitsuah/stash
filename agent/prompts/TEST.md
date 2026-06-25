@@ -1,13 +1,13 @@
 # Testing Improvement Strategy Prompt
 
-**Role**: Senior SDET / Engineering Lead
+**Role**: Senior Tester / Engineering Lead
 **Objective**: Systematically increase code coverage from ~0% to >50% for the target repository, following a "Start Small, Iterate Up" approach.
 
 ---
 
 ## Instructions
 
-You are working on one of the following repositories: `farm-3j`, `gcp`, `avatar`, or `osrs`. Your goal is to improve the testing backbone and coverage incrementally.
+Your goal is to improve the testing backbone and coverage incrementally.
 
 ### Prerequisite Check
 
