@@ -1,72 +1,22 @@
 {
-  "collapse-filter": true,
+  "collapse-filter": false,
   "search": "",
-  "showTags": false,
+  "showTags": true,
   "showAttachments": true,
-  "hideUnresolved": true,
+  "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": false,
-  "colorGroups": [
-    {
-      "query": "file: README",
-      "color": {
-        "a": 1,
-        "rgb": 14701138
-      }
-    },
-    {
-      "query": "file: FEAT",
-      "color": {
-        "a": 1,
-        "rgb": 2031360
-      }
-    },
-    {
-      "query": "file: METRICS",
-      "color": {
-        "a": 1,
-        "rgb": 11657298
-      }
-    },
-    {
-      "query": "file:ROADMAP",
-      "color": {
-        "a": 1,
-        "rgb": 5431473
-      }
-    },
-    {
-      "query": "file:TASKS",
-      "color": {
-        "a": 1,
-        "rgb": 5419488
-      }
-    },
-    {
-      "query": "file:API",
-      "color": {
-        "a": 1,
-        "rgb": 5395168
-      }
-    },
-    {
-      "query": "file:ARCH",
-      "color": {
-        "a": 1,
-        "rgb": 11621088
-      }
-    }
-  ],
+  "colorGroups": [],
   "collapse-display": false,
-  "showArrow": true,
-  "textFadeMultiplier": -1.6,
-  "nodeSizeMultiplier": 1.28671875,
-  "lineSizeMultiplier": 0.776302083333333,
-  "collapse-forces": false,
-  "centerStrength": 0.700520833333333,
-  "repelStrength": 20,
+  "showArrow": false,
+  "textFadeMultiplier": -1.3,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
   "linkStrength": 1,
-  "linkDistance": 30,
-  "scale": 0.14999999999999714,
+  "linkDistance": 250,
+  "scale": 0.29483340684848985,
   "close": false
 }
