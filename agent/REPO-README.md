@@ -4,7 +4,7 @@ Agent prompts for personal operations and a product delivery pipeline.
 Each prompt defines a specific role, operating rules, and expected outputs.
 
 ---
-
+Scope: [[scope.md]]
 ## Personal Agents
 
 | Agent | File | Purpose | Cadence |

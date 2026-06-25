@@ -101,6 +101,9 @@ For per-repo context when running this agent: [[repos/gcp|gcp]], [[repos/osrs|os
 
 When completed update the `METRICS.md` (may be in root or `docs/METRICS.md`) file with the new coverage percentage and any relevant notes. Use the existing MD files format and expected pair values, just update any entries you are certain have changed. If you are unsure, leave the entry as-is and mark it TBD with a note or ! emoji.
 
+## TIRE.md
+
+[[TIRE]] use this as a methodology for a last pass where we run all tests and then start the container so its running locally for the user when our PR is ready to merge to show them whats in it.
 ## Example Prompt for the Bot
 
 _"I am working on [REPO_NAME]. Please implement Phase [X] of the Testing Strategy. Current coverage is [CURRENT_%]. Focus on [SPECIFIC_FILES_OR_MODULES]."_
