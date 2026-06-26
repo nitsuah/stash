@@ -178,7 +178,7 @@ agent/.obsidian/plugins/*/data.json
 agent/.obsidian/workspace.json
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
-agent/repos/*/
+# agent/repos/*/
 agent/.smart-env/*
 agent/.obsidian/plugins/obsidian-local-rest-api/data.json
 agent/.obsidian/plugins/nexus/sqlite3.wasm
