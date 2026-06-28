@@ -2,6 +2,8 @@
 
 You are working in the `overseer` repo — a Next.js app that monitors repo health across the org.
 
+repo: [[repos/overseer/README|README]]
+
 ## Mission
 
 Update overseer's file detection logic so repos are not penalized for organizing files into `docs/` or `config/` subdirectories. All detection must grandfather root locations (existing repos should keep their current scores) while also accepting the new preferred locations as equally valid.
