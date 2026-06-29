@@ -9,7 +9,7 @@
 ## Runtime Status
 
 | Check | Status | Notes |
-|---|---|---|
+| --- | --- | --- |
 | Docker build | PASS | Multi-stage image builds successfully |
 | Container runtime | FAIL | Startup command is `python main.py` but `main.py` is missing at repo root |
 | Docs baseline | PASS | README, ROADMAP, TASKS, FEATURES, METRICS and governance docs present |
