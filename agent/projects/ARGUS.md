@@ -1,3 +1,4 @@
+repo [[repos/odysseus|odysseus]]
 # Project ARGUS: Obsidian External Data Integration Plan
 
 This document outlines the plan to connect external data sources (Google Drive, Microsoft Todo) to your Obsidian vault for a more centralized and effective life prioritization system.
