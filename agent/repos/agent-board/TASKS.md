@@ -35,10 +35,10 @@ Last Updated: 2026-06-17
   - Context: always-running MCP containers waste resources; a lifecycle manager lets agents request tools only when needed.
   - Acceptance Criteria: at least one MCP container (e.g., Playwright) can be started, used, and stopped via the manager API; compose integration documented.
 
-- [ ] **[Q3-CEO] bb-mcp streaming UI** — render streaming SSE responses from bb-mcp tools in the agent-board chat/task panel with a typing indicator and incremental token display.
+- [ ] **[Q3-CEO] bb-mcp streaming UI** — render streaming SSE responses from bb-mcp tools in the motor-pool chat/task panel with a typing indicator and incremental token display.
   - Priority: P2
   - Context: bb-mcp's server-side SSE transport is a Q2 item; this is the dashboard-side consumer. Together they complete the streaming story.
-  - Acceptance Criteria: agent-board task panel streams bb-mcp responses character-by-character; typing indicator shows while stream is open; no content shift on completion.
+  - Acceptance Criteria: motor-pool task panel streams bb-mcp responses character-by-character; typing indicator shows while stream is open; no content shift on completion.
 
 - [ ] **[Q3-CEO] Multi-persona Blackboard agent selector** — expose student, instructor, admin, and parent bb-mcp tool sets as selectable agent personas in the dashboard.
   - Priority: P2

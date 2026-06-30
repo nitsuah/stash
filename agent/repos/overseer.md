@@ -32,7 +32,7 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 ## Open P0/P1 Tasks
 
 - [ ] **P1** Deprioritize stash repo: mark private, block PRs, add sanitization checklist
-- [ ] **P2** Connect overseer Agent Task Queue → agent-board local model runtime (dispatch bridge v0)
+- [ ] **P2** Connect overseer Agent Task Queue → motor-pool local model runtime (dispatch bridge v0)
 - [ ] **P2** Conversational interface foundation (messenger-style chat, 1-2 hygiene workflows)
 - [ ] **P2** Cross-repo dependency mapping (3D interactive graph)
 - [ ] **P2** Expose overseer as MCP server

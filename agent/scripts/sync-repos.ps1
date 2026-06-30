@@ -26,7 +26,7 @@ $CodeRoot  = "C:\Users\$env:USERNAME\code"
 $Today     = Get-Date -Format 'yyyy-MM-dd'
 
 $AllRepos = @(
-    'agent-board', 'auto-apply-plugin', 'avatar', 'bb-mcp', 'darkmoon',
+    'motor-pool', 'auto-apply-plugin', 'avatar', 'bb-mcp', 'darkmoon',
     'farm-3j', 'fire', 'games', 'gcp', 'kryptos', 'nitsuah-io',
     'opencut', 'opencut-controller', 'osrs', 'overseer', 'skyview', 'vhs'
 )

@@ -33,9 +33,9 @@
 
 | Repo | Why Tier 1 | Channel | Blocker | Next Action |
 | --- | --- | --- | --- | --- |
-| **nitsuah-io** | Live portfolio hub — the "storefront" for everything else. Home-landing redesign (project-card grid for agent-board/overseer/bb-mcp/darkmoon) shipped via PR #266 + #348. | Personal site (live) | None open — prior Playwright Docker pin drift resolved 2026-06-03 | Run a Lighthouse audit on the new home page; confirm LCP improved ≥15 points vs. the old scroll-based hero (per HANDOFF-home-landing-redesign-20260411 next action) |
+| **nitsuah-io** | Live portfolio hub — the "storefront" for everything else. Home-landing redesign (project-card grid for motor-pool/overseer/bb-mcp/darkmoon) shipped via PR #266 + #348. | Personal site (live) | None open — prior Playwright Docker pin drift resolved 2026-06-03 | Run a Lighthouse audit on the new home page; confirm LCP improved ≥15 points vs. the old scroll-based hero (per HANDOFF-home-landing-redesign-20260411 next action) |
 | **overseer** | Live free tool, 93.28% test coverage, real "paydirt" potential per Q2 notes. Closest thing to an actual product with a growth loop. | Live site (ghoverseer.netlify.app) | None open — `docs/AUDIT.md` refreshed and Windows pre-commit hook fixed via PR #119; BYOK quota-fallback already shipped | Scope the "simple mode" UX; close out the 3 in-progress Q2 P1 items (Gemini reliability polish, agent prompt template auto-fix, `.github` fallback resolution) |
-| **agent-board** | Local AI agent dashboard — directly demonstrates the "Claude Skills" story the user wants to promote. Demo video scripts + SRT captions already drafted. Currently undergoing a separate redesign effort. | Demo video / portfolio, npm/Docker | Stability/memory issues under Docker (Q2 feedback) — being addressed in the in-progress redesign | Once the redesign lands: stabilize default config (lighter footprint, FS read/write, MCP container manager), then produce the `opencut` demo clip and do a full tire-kick of the redesigned app |
+| **motor-pool** | Local AI agent dashboard — directly demonstrates the "Claude Skills" story the user wants to promote. Demo video scripts + SRT captions already drafted. Currently undergoing a separate redesign effort. | Demo video / portfolio, npm/Docker | Stability/memory issues under Docker (Q2 feedback) — being addressed in the in-progress redesign | Once the redesign lands: stabilize default config (lighter footprint, FS read/write, MCP container manager), then produce the `opencut` demo clip and do a full tire-kick of the redesigned app |
 | **darkmoon** | Live multiplayer 3D game, CI green, demoable — strong visual content. | Live (darkmoon.dev) | UI/UX polish (21st dev components), player-tag bugs | Use the `opencut` skill to capture a gameplay clip; fix player-tag bugs; scope laser-tag mode |
 
 ### Tier 2 — Build Toward Promotion
@@ -73,8 +73,8 @@
 
 | Skill | Best fit | Use for |
 | --- | --- | --- |
-| `opencut` (→ opencut-controller MCP) | darkmoon, agent-board, games | Capture/edit gameplay & demo clips |
-| `content-gen` | overseer, opencut-controller, agent-board | Write-ups on shipped features |
+| `opencut` (→ opencut-controller MCP) | darkmoon, motor-pool, games | Capture/edit gameplay & demo clips |
+| `content-gen` | overseer, opencut-controller, motor-pool | Write-ups on shipped features |
 | `site-gen` | nitsuah-io | Landing page / card-grid scaffolding for the redesign |
 | `marketing:content-creation`, `marketing:campaign-plan` | overseer, fire | Launch announcements, ongoing content cadence |
 | `marketing:seo-audit`, `marketing:performance-report` | skyview, nitsuah-io | Pre-launch SEO/perf pass |
@@ -88,7 +88,7 @@
 
 1. ~~**nitsuah-io** — Playwright Docker pin + home-landing redesign~~ — **already done** (resolved 2026-06-03 / PR #266 + #348). Remaining: Lighthouse/LCP audit on the new home page.
 2. ~~**overseer** — refresh `docs/AUDIT.md` + BYOK quota-fallback~~ — **done** (AUDIT.md refresh + Windows pre-commit hook fix via PR #119; BYOK already shipped).
-3. **agent-board** — demo clip + Docker stability scoping — **deferred**, being handled in a separate redesign effort. Circle back here once the redesign lands: produce the `opencut` demo clip and tire-kick the whole app.
+3. **motor-pool** — demo clip + Docker stability scoping — **deferred**, being handled in a separate redesign effort. Circle back here once the redesign lands: produce the `opencut` demo clip and tire-kick the whole app.
 4. ~~**fire** — fix absolute path links, CSV PII audit~~ — **done** (PR #32; CSV audit was moot, no CSV files in repo).
 
 ---
@@ -97,7 +97,7 @@
 
 | Cycle | Picks | Outcome |
 | --- | --- | --- |
-| 2026-06-10 | nitsuah-io (P0 fix + redesign), overseer (AUDIT refresh + BYOK), agent-board (demo + stability), fire (cleanup) | nitsuah-io: P0/redesign already shipped, new `.dockerignore` build-context fix → [PR #354](https://github.com/Nitsuah-Labs/nitsuah-io/pull/354). overseer: AUDIT.md refreshed + Windows pre-commit hook fixed → [PR #119](https://github.com/nitsuah/overseer/pull/119); BYOK quota-fallback already shipped. fire: README absolute-link fix, CSV PII audit moot → [PR #32](https://github.com/nitsuah/fire/pull/32). agent-board: not started this cycle. |
+| 2026-06-10 | nitsuah-io (P0 fix + redesign), overseer (AUDIT refresh + BYOK), motor-pool (demo + stability), fire (cleanup) | nitsuah-io: P0/redesign already shipped, new `.dockerignore` build-context fix → [PR #354](https://github.com/Nitsuah-Labs/nitsuah-io/pull/354). overseer: AUDIT.md refreshed + Windows pre-commit hook fixed → [PR #119](https://github.com/nitsuah/overseer/pull/119); BYOK quota-fallback already shipped. fire: README absolute-link fix, CSV PII audit moot → [PR #32](https://github.com/nitsuah/fire/pull/32). motor-pool: not started this cycle. |
 
 ---
 

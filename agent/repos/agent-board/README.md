@@ -1,8 +1,8 @@
-# Agent Board - Local AI Ops Cockpit
+# motor-pool - Local AI Ops Cockpit
 
-Agent Board is a local-first control room for multi-model AI workflows. It gives you a chat surface, safety rails, and live observability in one place, so you can run and evaluate model behavior without sending data to external APIs.
+motor-pool is a local-first control room for multi-model AI workflows. It gives you a chat surface, safety rails, and live observability in one place, so you can run and evaluate model behavior without sending data to external APIs.
 
-## Why Agent Board
+## Why motor-pool
 
 - **Ship safer prompts faster**: built-in input classification, prompt-injection checks, blocked-input handling, and output sanitization.
 - **Run multiple experiences**: switch between Developer Assistant, Research Mode, and Safe Chat with server-enforced routing and safety policies.
@@ -23,22 +23,22 @@ Captured from the local Docker stack at `http://localhost:3000`.
 
 ### Dashboard Overview
 
-![Agent Board dashboard overview](docs/screenshots/dashboard-overview.png)
+![motor-pool dashboard overview](docs/screenshots/dashboard-overview.png)
 
 ### Metrics View
 
-![Agent Board metrics panel](docs/screenshots/metrics-panel.png)
+![motor-pool metrics panel](docs/screenshots/metrics-panel.png)
 
 ### System Management
 
-![Agent Board system management panel](docs/screenshots/system-panel.png)
+![motor-pool system management panel](docs/screenshots/system-panel.png)
 
 ## Quick Start
 
 Minimal stack (dashboard + Ollama + DB — fits a 16 GB host):
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\agent-board
+cd C:\Users\$env:USERNAME\code\motor-pool
 docker compose -f config/docker-compose.yml --project-directory . up -d
 ```
 
@@ -417,26 +417,26 @@ Shared community policies are centralized in [https://github.com/nitsuah/.github
 ## Repository Index
 
 ### Root Files
-- [[repos/agent-board/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/agent-board/FEATURES.md|FEATURES.md]]
-- [[repos/agent-board/METRICS.md|METRICS.md]]
-- [[repos/agent-board/ROADMAP.md|ROADMAP.md]]
-- [[repos/agent-board/TASKS.md|TASKS.md]]
+- [[repos/motor-pool/CHANGELOG.md|CHANGELOG.md]]
+- [[repos/motor-pool/FEATURES.md|FEATURES.md]]
+- [[repos/motor-pool/METRICS.md|METRICS.md]]
+- [[repos/motor-pool/ROADMAP.md|ROADMAP.md]]
+- [[repos/motor-pool/TASKS.md|TASKS.md]]
 
 ### Documentation
-- [[repos/agent-board/docs/AGENT-BOARD-DEMO_VIDEO_SCRIPT.md|AGENT-BOARD-DEMO_VIDEO_SCRIPT.md]]
-- [[repos/agent-board/docs/AI_STACK_STRATEGY.md|AI_STACK_STRATEGY.md]]
-- [[repos/agent-board/docs/API.md|API.md]]
-- [[repos/agent-board/docs/ARCHITECTURE.md|ARCHITECTURE.md]]
-- [[repos/agent-board/docs/DEMO_VIDEO_SCRIPT_SHORT.md|DEMO_VIDEO_SCRIPT_SHORT.md]]
-- [[repos/agent-board/docs/HANDOFF-bb-mcp-opt-in-20260403.md|HANDOFF-bb-mcp-opt-in-20260403.md]]
-- [[repos/agent-board/docs/HANDOFF-service-discovery-system-panel-20260403.md|HANDOFF-service-discovery-system-panel-20260403.md]]
-- [[repos/agent-board/docs/MCP_SETUP.md|MCP_SETUP.md]]
-- [[repos/agent-board/docs/MIGRATION.md|MIGRATION.md]]
-- [[repos/agent-board/docs/MODEL_LOADING_AUDIT.md|MODEL_LOADING_AUDIT.md]]
-- [[repos/agent-board/docs/QUICK_REFERENCE.md|QUICK_REFERENCE.md]]
-- [[repos/agent-board/docs/README-orchestration.md|README-orchestration.md]]
-- [[repos/agent-board/docs/REORGANIZATION_SUMMARY.md|REORGANIZATION_SUMMARY.md]]
-- [[repos/agent-board/docs/SETUP_INSTRUCTIONS.md|SETUP_INSTRUCTIONS.md]]
-- [[repos/agent-board/docs/agent-board-roadmap.md|agent-board-roadmap.md]]
-- [[repos/agent-board/docs/neo4js.md|neo4js.md]]
+- [[repos/motor-pool/docs/motor-pool-DEMO_VIDEO_SCRIPT.md|motor-pool-DEMO_VIDEO_SCRIPT.md]]
+- [[repos/motor-pool/docs/AI_STACK_STRATEGY.md|AI_STACK_STRATEGY.md]]
+- [[repos/motor-pool/docs/API.md|API.md]]
+- [[repos/motor-pool/docs/ARCHITECTURE.md|ARCHITECTURE.md]]
+- [[repos/motor-pool/docs/DEMO_VIDEO_SCRIPT_SHORT.md|DEMO_VIDEO_SCRIPT_SHORT.md]]
+- [[repos/motor-pool/docs/HANDOFF-bb-mcp-opt-in-20260403.md|HANDOFF-bb-mcp-opt-in-20260403.md]]
+- [[repos/motor-pool/docs/HANDOFF-service-discovery-system-panel-20260403.md|HANDOFF-service-discovery-system-panel-20260403.md]]
+- [[repos/motor-pool/docs/MCP_SETUP.md|MCP_SETUP.md]]
+- [[repos/motor-pool/docs/MIGRATION.md|MIGRATION.md]]
+- [[repos/motor-pool/docs/MODEL_LOADING_AUDIT.md|MODEL_LOADING_AUDIT.md]]
+- [[repos/motor-pool/docs/QUICK_REFERENCE.md|QUICK_REFERENCE.md]]
+- [[repos/motor-pool/docs/README-orchestration.md|README-orchestration.md]]
+- [[repos/motor-pool/docs/REORGANIZATION_SUMMARY.md|REORGANIZATION_SUMMARY.md]]
+- [[repos/motor-pool/docs/SETUP_INSTRUCTIONS.md|SETUP_INSTRUCTIONS.md]]
+- [[repos/motor-pool/docs/motor-pool-roadmap.md|motor-pool-roadmap.md]]
+- [[repos/motor-pool/docs/neo4js.md|neo4js.md]]

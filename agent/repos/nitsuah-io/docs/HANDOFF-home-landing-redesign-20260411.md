@@ -8,7 +8,7 @@ Redesign home page as a landing page with featured project cards — **COMPLETED
 
 ### Completed This Session
 - Created branch feat/home-landing-page-redesign for home page redesign.
-- Added 4 flagship projects to projects.ts: agent-board, overseer, bb-mcp, darkmoon (all marked featured: true).
+- Added 4 flagship projects to projects.ts: motor-pool, overseer, bb-mcp, darkmoon (all marked featured: true).
 - Built LandingHero component: clean, simple intro without scroll effects or typing animations; focuses visitor attention on projects.
 - Built FeaturedProjects component: renders top 4 featured projects in responsive 2x2 grid with card styling matching existing Projects page.
 - Created FeaturedProjects.css: gradient-based card design, hover effects with top colored gradient bar, responsive layout for mobile/tablet.
@@ -33,12 +33,12 @@ Redesign home page as a landing page with featured project cards — **COMPLETED
 - src/app/_components/_site/FeaturedProjects.tsx: new featured projects grid component.
 - src/app/_components/_styles/FeaturedProjects.css: new card styling for featured projects.
 - src/app/_components/HeroSection.module.css: added landing hero styles.
-- src/lib/data/projects.ts: added agent-board, overseer, bb-mcp, darkmoon with featured: true.
+- src/lib/data/projects.ts: added motor-pool, overseer, bb-mcp, darkmoon with featured: true.
 - TASKS.md: recorded completion of home page redesign P0 task.
 - ROADMAP.md: checked off home page redesign Q2 CEO priority.
 
 ### Next Action
-1. Commit changes with message: "feat: redesign home page as landing page with featured projects (agent-board, overseer, bb-mcp, darkmoon)"
+1. Commit changes with message: "feat: redesign home page as landing page with featured projects (motor-pool, overseer, bb-mcp, darkmoon)"
 2. Open PR for review and merge to main.
 3. Refresh README and docs with updated home page screenshots once deployed.
 4. Continue with next roadmap item: "Load speed improvements" - run Lighthouse audit on new home page, confirm LCP improvement ≥ 15 points compared to old scroll-based hero.

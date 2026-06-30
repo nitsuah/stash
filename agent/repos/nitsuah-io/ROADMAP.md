@@ -40,7 +40,7 @@ Next Review: 2026-07-01
 ## 2026 Q3 (Planned)
 
 ### Portfolio Intelligence
-- [ ] Agent-board showcase section: visualize autonomous agents building / maintaining the site.
+- [ ] motor-pool showcase section: visualize autonomous agents building / maintaining the site.
 - [ ] On-chain resume page: verifiable credentials tied to wallet address (EAS attestations).
 - [ ] AI-generated project summaries with human-editable overrides.
 
@@ -59,7 +59,7 @@ Next Review: 2026-07-01
 
 ### Scale & Performance
 - [ ] **Commit activity heatmap** — embed a GitHub-style contribution heatmap on the portfolio landing page, pulling live data from the public GitHub API; shows recent coding velocity across all repos without requiring a GitHub redirect.
-- [ ] **Repo dependency graph** — D3 or Cytoscape visualization auto-generated from `docs/INTEGRATIONS.md` showing how sister repos (bb-mcp, kryptos, skyview, agent-board, farm, darkmoon) interconnect at the API/data level; gives portfolio visitors a map of the full ecosystem in one glance.
+- [ ] **Repo dependency graph** — D3 or Cytoscape visualization auto-generated from `docs/INTEGRATIONS.md` showing how sister repos (bb-mcp, kryptos, skyview, motor-pool, farm, darkmoon) interconnect at the API/data level; gives portfolio visitors a map of the full ecosystem in one glance.
 - [ ] Full Core Web Vitals audit targeting LCP < 1.5s, CLS = 0, INP < 100ms.
 - [ ] Migrate to Turbopack for dev and production (drop webpack config).
 - [ ] Bundle splitting review: reduce initial JS payload below 150 KB (gzip).
@@ -78,5 +78,5 @@ Next Review: 2026-07-01
 
 - The product is intentionally Netlify SSR, not a static export.
 - `docs/ARCH.md`, `docs/TESTING.md`, `docs/PLAYWRIGHT_FIXES.md`, and `docs/SCREENSHOTS.md` remain the supporting reference docs.
-- Sister-repo integration priority: bb-mcp (AI chat) → kryptos (data) → skyview (analytics) → agent-board (showcase) → farm (staking) → darkmoon (theming).
+- Sister-repo integration priority: bb-mcp (AI chat) → kryptos (data) → skyview (analytics) → motor-pool (showcase) → farm (staking) → darkmoon (theming).
 - Deprioritized repos (no active integration planned this year): gcp, stash — set to low-friction contribution mode.

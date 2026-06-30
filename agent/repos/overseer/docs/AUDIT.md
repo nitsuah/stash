@@ -159,7 +159,7 @@ From ROADMAP Q2 2026, not yet implemented:
 
 ### 7. Cross-Repo Orchestration (Planned)
 
-Per FEATURES.md "Planned" section: per-repo roadmap progress view, cross-repo dependency mapping, agent dispatch bridge to agent-board, MCP server endpoint (`get_repo_health`, `list_tasks`), webhook-driven sync.
+Per FEATURES.md "Planned" section: per-repo roadmap progress view, cross-repo dependency mapping, agent dispatch bridge to motor-pool, MCP server endpoint (`get_repo_health`, `list_tasks`), webhook-driven sync.
 
 **Priority**: Planned - Q3 2026 PMO Mode candidate
 

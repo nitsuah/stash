@@ -51,17 +51,17 @@ Overseer agents use this file to know which repos to pull context from when exec
 | Update Cadence   | Per page view / CTA click                                   |
 | Task Ref         | TASKS.md P2 "Wire skyview analytics"                        |
 
-### agent-board — Agent Activity Showcase
+### motor-pool — Agent Activity Showcase
 
 | Field            | Value                                                       |
 | ---------------- | ----------------------------------------------------------- |
 | Status           | Planned (Q3 2026)                                           |
-| Direction        | agent-board → nitsuah-io                                    |
+| Direction        | motor-pool → nitsuah-io                                    |
 | Entry Point      | `/lab/agents` page (read-only activity feed)                |
 | Auth Model       | Public read endpoint or signed read token                   |
 | Data Contract    | SSE or polling: `{ agentId, action, status, ts }[]`         |
 | Update Cadence   | Near-real-time (SSE preferred)                              |
-| Task Ref         | TASKS.md P3 "Agent-board showcase section"                  |
+| Task Ref         | TASKS.md P3 "motor-pool showcase section"                  |
 
 ### farm — Staking Demo
 

@@ -11,7 +11,7 @@
 | **darkmoon** | 2026-06-25 | false | Project | **THROTTLE** |
 | **vhs** | 2026-06-25 | false | Project | **KILL** |
 | **stash** | 2026-06-26 | false | Legacy | **KILL** |
-| **agent-board** | 2026-06-25 | false | Tool | **KEEP** |
+| **motor-pool** | 2026-06-25 | false | Tool | **KEEP** |
 | **auto-apply-plugin** | 2026-06-25 | false | Tool | **THROTTLE** |
 | **odysseus** | 2026-06-25 | true | Project | **KILL** |
 | **skyview** | 2026-06-22 | false | Marketing | **KILL** |
@@ -28,7 +28,7 @@
 ### Logic
 - **KILL (14 Repos)**: Forks, old legacy, marketing, or research that doesn't need active AI coding assistance. Disabling completely will save the bulk of your tokens.
 - **THROTTLE (4 Repos)**: Active, but can be manually triggered. Use only when human interaction is required. Disable auto-PR bot reviewers.
-- **KEEP (2 Repos)**: Your "high-bus-factor" tools (`overseer`, `agent-board`) that require full AI support.
+- **KEEP (2 Repos)**: Your "high-bus-factor" tools (`overseer`, `motor-pool`) that require full AI support.
 
 ### Action Steps (Run these commands)
 1. **To Disable for a repo:**

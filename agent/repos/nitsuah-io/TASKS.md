@@ -49,7 +49,7 @@
   - Acceptance Criteria: `docs/API.md` documents the hook surface, chain config, and any `/api/*` server routes.
 
 - [ ] Add `docs/INTEGRATIONS.md`.
-  - Context: multiple sister repos (bb-mcp, kryptos, skyview, agent-board, farm, darkmoon) now integrate with this portfolio; a single map of connection points reduces agent context-switching.
+  - Context: multiple sister repos (bb-mcp, kryptos, skyview, motor-pool, farm, darkmoon) now integrate with this portfolio; a single map of connection points reduces agent context-switching.
   - Acceptance Criteria: document each integration point: data contract, auth model, update cadence, and link to source repo.
 
 - [ ] Refresh `METRICS.md` and add a validation marker.
@@ -74,9 +74,9 @@
   - Context: EAS (Ethereum Attestation Service) on Base allows on-chain skill and experience attestations tied to a wallet address.
   - Acceptance Criteria: a `/resume/onchain` route renders attestations from a configured wallet; falls back gracefully when no attestations found.
 
-- [ ] Agent-board showcase section.
-  - Context: agent-board orchestrates autonomous coding agents; showing its activity log on the portfolio is a meta-demonstration of the stack.
-  - Acceptance Criteria: a `/lab/agents` page embeds a read-only agent activity feed from agent-board; updates are near-real-time via polling or SSE.
+- [ ] motor-pool showcase section.
+  - Context: motor-pool orchestrates autonomous coding agents; showing its activity log on the portfolio is a meta-demonstration of the stack.
+  - Acceptance Criteria: a `/lab/agents` page embeds a read-only agent activity feed from motor-pool; updates are near-real-time via polling or SSE.
 
 - [ ] PWA manifest and offline support.
   - Context: portfolio is frequently shared on mobile; PWA install prompt improves retention.

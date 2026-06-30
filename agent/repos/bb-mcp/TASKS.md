@@ -78,7 +78,7 @@ Last Updated: 2026-06-08
 - [ ] Harden audit logging and expose it via the admin tool surface.
 - [ ] Evaluate event-driven pipeline scaling: handle high-volume submission bursts and grade-sync events.
 - [ ] Evaluate vector store integration for semantic course content search and AI recommendation signals.
-- [ ] Publish a stable MCP client SDK / integration contract so agent-board and other consumers can bind without coupling to internals.
+- [ ] Publish a stable MCP client SDK / integration contract so motor-pool and other consumers can bind without coupling to internals.
 
 <!--
 AGENT INSTRUCTIONS:

@@ -23,7 +23,7 @@ Austin J. Hardy's personal portfolio site at nitsuah.io. Next.js 16 + TypeScript
 - Refresh `METRICS.md` with `last validated` marker — P2
 
 **Q3 2026 (planned):**
-- Agent-board showcase section (`/lab/agents` read-only activity feed)
+- motor-pool showcase section (`/lab/agents` read-only activity feed)
 - On-chain resume page (EAS attestations tied to wallet)
 - AI-generated project summaries with human-editable overrides
 - Playwright Nightly wallet-flow coverage expansion
@@ -38,7 +38,7 @@ Austin J. Hardy's personal portfolio site at nitsuah.io. Next.js 16 + TypeScript
 - Evaluate/reduce Spline 3D scene weight (hero-only, lazy or CSS replace others)
 - Evaluate Material-UI → Tailwind migration
 
-Sister-repo integration priority: bb-mcp → kryptos → skyview → agent-board → farm → darkmoon
+Sister-repo integration priority: bb-mcp → kryptos → skyview → motor-pool → farm → darkmoon
 
 ## Open P0/P1 Tasks
 

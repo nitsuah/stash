@@ -1,21 +1,21 @@
 # AI Stack Strategy
-> Local orchestration architecture for agent-board, Kryptos, and personal automation
+> Local orchestration architecture for motor-pool, Kryptos, and personal automation
 
 **Last updated:** June 2026  
 **Author:** nitsuah  
-**Status:** Working doc — evolving with agent-board Q2/Q3 roadmap
+**Status:** Working doc — evolving with motor-pool Q2/Q3 roadmap
 [[ARGUS-PLAN]]
 ---
 repo: [[Odysseus]]  
 ## TL;DR
 
-**agent-board is the local orchestrator.** Everything else is either a service it wraps, a tool it registers, or a parallel consumer of the same local LLM endpoints. Claude Code, Kryptos, and personal tools can all reach local models directly — agent-board just happens to be the UI and lifecycle manager for them.
+**motor-pool is the local orchestrator.** Everything else is either a service it wraps, a tool it registers, or a parallel consumer of the same local LLM endpoints. Claude Code, Kryptos, and personal tools can all reach local models directly — motor-pool just happens to be the UI and lifecycle manager for them.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                       YOU (human)                           │
 ├──────────────┬──────────────────┬───────────────────────────┤
-│  agent-board │     Odysseus     │     Claude Code           │
+│  motor-pool │     Odysseus     │     Claude Code           │
 │  (local ops) │  (personal use)  │  (coding agent)           │
 ├──────────────┴──────────────────┴───────────────────────────┤
 │              shared local LLM layer                         │
@@ -33,7 +33,7 @@ repo: [[Odysseus]]
 
 ## The Tools — Honest Breakdown
 
-### agent-board (yours)
+### motor-pool (yours)
 **Role:** Local orchestrator, ops cockpit, MCP container manager  
 **Layer:** Control plane
 
@@ -51,7 +51,7 @@ repo: [[Odysseus]]
 - Multi-tenancy + RBAC
 - bb-mcp / Blackboard frontend layer
 
-**The key architectural insight:** agent-board's MCP container manager (Q2) and its model lifecycle logic are the same primitive applied to two different container types. Design them together — one registry + lifecycle API — so you're not maintaining two separate on-demand spin-up systems.
+**The key architectural insight:** motor-pool's MCP container manager (Q2) and its model lifecycle logic are the same primitive applied to two different container types. Design them together — one registry + lifecycle API — so you're not maintaining two separate on-demand spin-up systems.
 
 **Pros:**
 - Already your codebase — you control the roadmap
@@ -80,10 +80,10 @@ repo: [[Odysseus]]
 - Run multiple model endpoints simultaneously on different ports
 - Native CUDA/GPU container support — relevant for your Q2 GPU work
 
-**How it fits agent-board:**
+**How it fits motor-pool:**
 - Register as a second endpoint type alongside `llm_qwen_coder` in compose
 - Best home for models you build yourself that don't fit Ollama's Modelfile pattern
-- Claude Code and Kryptos can hit it directly without going through agent-board UI
+- Claude Code and Kryptos can hit it directly without going through motor-pool UI
 - The right inference layer for your 1-off custom models
 
 **Pros:**
@@ -97,7 +97,7 @@ repo: [[Odysseus]]
 - Full model weight in VRAM — don't run simultaneously with AirLLM
 - Adds another service to the compose stack
 
-**Integration path:** Add as `llm_openllm` service in `docker-compose.yml` alongside `llm_qwen_coder`. Expose on `8082` (host) → `3000` (container). Register in agent-board's endpoint config as `openllm`.
+**Integration path:** Add as `llm_openllm` service in `docker-compose.yml` alongside `llm_qwen_coder`. Expose on `8082` (host) → `3000` (container). Register in motor-pool's endpoint config as `openllm`.
 
 ---
 
@@ -110,11 +110,11 @@ repo: [[Odysseus]]
 - No server, no daemon — pure Python `import airlite` usage
 - Trades throughput for memory headroom
 
-**How it fits agent-board:**
+**How it fits motor-pool:**
 - Wrap it in a thin FastAPI container — same pattern as Docker Model Runner integration already exists
 - Register as an optional endpoint: `airlite` in the model registry
 - Only activate when a task explicitly requests a large model AND you don't have the VRAM to run it via OpenLLM
-- Can drop it in as a tool/endpoint in agent-board's model registry once the MCP container manager lands
+- Can drop it in as a tool/endpoint in motor-pool's model registry once the MCP container manager lands
 
 **Pros:**
 - Only path to running 70B+ locally on consumer hardware
@@ -125,7 +125,7 @@ repo: [[Odysseus]]
 - Slow — layer streaming has real latency cost
 - Single model at a time
 - Cannot run simultaneously with OpenLLM without VRAM fights
-- Needs a wrapper to become an endpoint agent-board can call
+- Needs a wrapper to become an endpoint motor-pool can call
 
 **Verdict:** Not a Q2 priority. Add it after GPU enablement is stable, as an opt-in large-model endpoint. The FastAPI wrapper is ~50 lines.
 
@@ -142,13 +142,13 @@ repo: [[Odysseus]]
 - Hybrid RAG: pgvector (semantic) + BM25 (keyword)
 - Obsidian vault integration — writes to `_thoth/` in your existing vault
 
-**How it fits agent-board:**
+**How it fits motor-pool:**
 - Register as an MCP container in the Q2 MCP container manager
-- agent-board spins it up when a research task arrives, tears it down when idle
-- Thoth's MCP tools surface through agent-board's tool registry
-- Runs in its own Docker network with its own PostgreSQL — isolated from agent-board's SQLite
+- motor-pool spins it up when a research task arrives, tears it down when idle
+- Thoth's MCP tools surface through motor-pool's tool registry
+- Runs in its own Docker network with its own PostgreSQL — isolated from motor-pool's SQLite
 
-**Critical note:** Thoth's PostgreSQL + pgvector is heavy infrastructure. Keep it isolated. Don't let it bleed into agent-board's data layer.
+**Critical note:** Thoth's PostgreSQL + pgvector is heavy infrastructure. Keep it isolated. Don't let it bleed into motor-pool's data layer.
 
 **Pros:**
 - Obsidian integration is free since you already have a vault
@@ -161,7 +161,7 @@ repo: [[Odysseus]]
 - Slow startup — not suitable for always-on
 - Specialist tool — overkill for anything that isn't research
 
-**Verdict:** High value for Kryptos research specifically. Register it as an on-demand MCP container once agent-board's container manager ships. Don't run it always-on.
+**Verdict:** High value for Kryptos research specifically. Register it as an on-demand MCP container once motor-pool's container manager ships. Don't run it always-on.
 
 ---
 
@@ -176,12 +176,12 @@ repo: [[Odysseus]]
 - No cloud, no monthly fee
 
 **How it fits the stack:**
-- Parallel to agent-board, not under it
+- Parallel to motor-pool, not under it
 - Personal daily driver: chat, email drafting, general research, quick Q&A
-- Points at the same Ollama/OpenLLM endpoints as agent-board — they share the inference layer, they don't share a control plane
-- Useful while agent-board is mid-development (Q2 items not yet shipped)
+- Points at the same Ollama/OpenLLM endpoints as motor-pool — they share the inference layer, they don't share a control plane
+- Useful while motor-pool is mid-development (Q2 items not yet shipped)
 
-**The key distinction:** agent-board is your *ops cockpit* — task routing, agent lifecycle, model orchestration, bb-mcp integration. Odysseus is your *personal assistant* — the thing you open to have a conversation, draft something, or do a quick research task. They serve different moments.
+**The key distinction:** motor-pool is your *ops cockpit* — task routing, agent lifecycle, model orchestration, bb-mcp integration. Odysseus is your *personal assistant* — the thing you open to have a conversation, draft something, or do a quick research task. They serve different moments.
 
 **Pros:**
 - Full-featured today, no build required
@@ -192,9 +192,9 @@ repo: [[Odysseus]]
 - Very new (launched weeks ago) — unstable, hardware-sensitive
 - ChromaDB + SearXNG adds weight
 - Wants to be an orchestrator — don't let it become one in your stack
-- Will overlap with agent-board's eventual scope
+- Will overlap with motor-pool's eventual scope
 
-**Verdict:** Use it now as a personal-layer tool while agent-board matures. Reassess when agent-board's MCP server and UI features ship Q2/Q3. Don't build anything critical on it.
+**Verdict:** Use it now as a personal-layer tool while motor-pool matures. Reassess when motor-pool's MCP server and UI features ship Q2/Q3. Don't build anything critical on it.
 
 ---
 
@@ -213,8 +213,8 @@ repo: [[Odysseus]]
 | Use case | How |
 |---|---|
 | Kryptos cipher/hypothesis RAG | Embedded in FastAPI container — index over `artifacts/`, no new infra |
-| agent-board MCP tool registry | In-process tool discovery / capability matching |
-| agent-board file workspace search | Semantic search over agent-accessible files once file I/O lands |
+| motor-pool MCP tool registry | In-process tool discovery / capability matching |
+| motor-pool file workspace search | Semantic search over agent-accessible files once file I/O lands |
 | Thoth alternative | Could replace pgvector RAG layer — reduces Thoth's infra footprint |
 
 **Pros:**
@@ -228,16 +228,16 @@ repo: [[Odysseus]]
 - Doesn't replace pgvector for complex filtered queries
 - Under-1M vector scale is where it shines; larger corpora need benchmarking
 
-**Verdict:** The easiest high-value addition in the entire stack. Add it to Kryptos FastAPI and agent-board's tool registry work simultaneously. No architectural risk.
+**Verdict:** The easiest high-value addition in the entire stack. Add it to Kryptos FastAPI and motor-pool's tool registry work simultaneously. No architectural risk.
 
 ---
 
 ## The Direction
 
 ### Core principle
-> **agent-board is the local orchestrator. Everything else is either a registered service, a direct endpoint consumer, or out of scope.**
+> **motor-pool is the local orchestrator. Everything else is either a registered service, a direct endpoint consumer, or out of scope.**
 
-The MCP server agent-board is planning in Q2 is the architectural keystone. Once agent-board exposes its own MCP surface, it becomes a first-class provider that Claude Code, Kryptos, and any other tool can consume — not just a UI on top of Docker.
+The MCP server motor-pool is planning in Q2 is the architectural keystone. Once motor-pool exposes its own MCP surface, it becomes a first-class provider that Claude Code, Kryptos, and any other tool can consume — not just a UI on top of Docker.
 
 ### Stack topology
 
@@ -250,20 +250,20 @@ The MCP server agent-board is planning in Q2 is the architectural keystone. Once
                                                               │
 ┌─────────────────────────────────────────────────────────────▼──┐
 │  ORCHESTRATION LAYER                                            │
-│  agent-board                                                    │
+│  motor-pool                                                    │
 │  ├── model registry (Ollama, OpenLLM, AirLLM wrapper)          │
 │  ├── MCP container manager (Thoth, Playwright, bb-mcp, etc.)   │
 │  ├── task queue + webhook ingestion                             │
 │  ├── NemoClaw sandbox                                           │
 │  ├── turbovec (tool registry + file search)                     │
-│  └── MCP server (exposes agent-board to external consumers)     │
+│  └── MCP server (exposes motor-pool to external consumers)     │
 └────────────────────────────────────┬───────────────────────────┘
                                      │ MCP / REST / OpenAI-compat
 ┌────────────────────────────────────▼───────────────────────────┐
-│  DIRECT CONSUMERS (bypass agent-board UI, use endpoints raw)    │
+│  DIRECT CONSUMERS (bypass motor-pool UI, use endpoints raw)    │
 │  Claude Code ──── hits Ollama/OpenLLM directly                  │
 │  Kryptos ─────── hits Ollama/OpenLLM + turbovec embedded        │
-│  Scripts/CLI ─── hit agent-board REST API or model endpoints    │
+│  Scripts/CLI ─── hit motor-pool REST API or model endpoints    │
 └─────────────────────────────────────────────────────────────────┘
                                      │
 ┌────────────────────────────────────▼───────────────────────────┐
@@ -282,9 +282,9 @@ The MCP server agent-board is planning in Q2 is the architectural keystone. Once
 
 ### Claude Code + local models
 
-Claude Code should be able to hit your local Ollama/OpenLLM endpoints regardless of whether agent-board is running. The way to wire this is through Claude Code's model configuration — point it at `http://localhost:8081` (Ollama) or `http://localhost:8082` (OpenLLM) as an OpenAI-compat provider. agent-board doesn't sit in this path. It's a parallel consumer of the same endpoints, not a proxy.
+Claude Code should be able to hit your local Ollama/OpenLLM endpoints regardless of whether motor-pool is running. The way to wire this is through Claude Code's model configuration — point it at `http://localhost:8081` (Ollama) or `http://localhost:8082` (OpenLLM) as an OpenAI-compat provider. motor-pool doesn't sit in this path. It's a parallel consumer of the same endpoints, not a proxy.
 
-Once agent-board exposes its own MCP server, Claude Code can *also* consume agent-board tools (task creation, model routing, sandbox execution) as MCP tools — giving you the best of both: direct model access AND orchestrated tooling when you need it.
+Once motor-pool exposes its own MCP server, Claude Code can *also* consume motor-pool tools (task creation, model routing, sandbox execution) as MCP tools — giving you the best of both: direct model access AND orchestrated tooling when you need it.
 
 ---
 
@@ -298,13 +298,13 @@ Once agent-board exposes its own MCP server, Claude Code can *also* consume agen
 ### Q2 (aligned with roadmap)
 4. GPU/CUDA enablement → OpenLLM gets CUDA flags, Ollama gets `device: gpu` in compose
 5. MCP container manager → register Thoth as first on-demand container
-6. turbovec in agent-board's tool registry / capability matching
+6. turbovec in motor-pool's tool registry / capability matching
 7. AirLLM FastAPI wrapper → register as opt-in large-model endpoint
-8. agent-board MCP server → expose to Claude Code and Kryptos
+8. motor-pool MCP server → expose to Claude Code and Kryptos
 
 ### Q3+
 9. File I/O workspace access → turbovec index over agent-accessible files
-10. bb-mcp + Blackboard frontend via agent-board UI
+10. bb-mcp + Blackboard frontend via motor-pool UI
 11. Thoth turbovec swap (replace pgvector RAG layer to reduce infra weight)
 
 ---
@@ -313,10 +313,10 @@ Once agent-board exposes its own MCP server, Claude Code can *also* consume agen
 
 | Temptation | Why not |
 |---|---|
-| Making Odysseus the orchestrator | It overlaps with agent-board's scope. Use it as a consumer, not a hub. |
+| Making Odysseus the orchestrator | It overlaps with motor-pool's scope. Use it as a consumer, not a hub. |
 | Running AirLLM + OpenLLM simultaneously | They fight for VRAM. Pick one per task profile. |
 | Letting Thoth run always-on | Heavy stack — PostgreSQL + pgvector + Letta. On-demand only via MCP container manager. |
-| Proxying Claude Code through agent-board | Direct endpoint access is simpler and faster. agent-board adds value as an MCP tool provider, not a proxy. |
+| Proxying Claude Code through motor-pool | Direct endpoint access is simpler and faster. motor-pool adds value as an MCP tool provider, not a proxy. |
 | Adding turbovec as a separate service | It's a library. Keep it embedded. Never containerize it standalone. |
 | Two separate lifecycle APIs (one for models, one for MCP tools) | Same primitive. Design one registry + lifecycle API and apply it to both. |
 
@@ -324,7 +324,7 @@ Once agent-board exposes its own MCP server, Claude Code can *also* consume agen
 
 ## Open Questions
 
-- **agent-board MCP server spec** — what tools does it expose? Suggest: task CRUD, model endpoint registry, container status, sandbox execution. Needs a SPEC.md.
+- **motor-pool MCP server spec** — what tools does it expose? Suggest: task CRUD, model endpoint registry, container status, sandbox execution. Needs a SPEC.md.
 - **Model eviction policy** — currently models stay loaded until manually pulled. Once GPU work lands, need a keep-warm/evict heuristic (LRU? explicit TTL per model?).
 - **turbovec serialization** — where does the index live on disk? Suggest: `data/turbovec/` volume mount in compose, one index file per namespace (tools, kryptos-artifacts, workspace-files).
-- **Thoth ↔ agent-board auth** — once Thoth is an on-demand MCP container, how does agent-board authenticate to it? Design this before the container manager ships.
+- **Thoth ↔ motor-pool auth** — once Thoth is an on-demand MCP container, how does motor-pool authenticate to it? Design this before the container manager ships.

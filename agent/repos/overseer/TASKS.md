@@ -15,10 +15,10 @@
 
 ### P2 - Medium
 
-- [ ] Connect overseer's agent task queue to agent-board's local model runtime (dispatch bridge v0).
+- [ ] Connect overseer's agent task queue to motor-pool's local model runtime (dispatch bridge v0).
   - Priority: P2
-  - Context: overseer exposes an Agent Task Queue API and agent-board runs a local model runtime, but no bridge routes tasks between them.
-  - Acceptance Criteria: a v0 bridge dispatches at least one queued overseer task to agent-board's runtime and reports completion status back to the queue.
+  - Context: overseer exposes an Agent Task Queue API and motor-pool runs a local model runtime, but no bridge routes tasks between them.
+  - Acceptance Criteria: a v0 bridge dispatches at least one queued overseer task to motor-pool's runtime and reports completion status back to the queue.
 
 - [ ] Add a conversational interface foundation.
   - Priority: P2
@@ -27,7 +27,7 @@
 
 - [ ] Add cross-repo dependency mapping.
   - Priority: P2
-  - Context: agent-board, bb-mcp, nitsuah-io, and overseer share overlapping stacks and could benefit from surfaced cross-repo links.
+  - Context: motor-pool, bb-mcp, nitsuah-io, and overseer share overlapping stacks and could benefit from surfaced cross-repo links.
   - Acceptance Criteria: the dashboard shows inferred or declared connections between related repos and surfaces shared-stack signals; visualized as an interactive 3D graph with filter and click-to-detail interactions.
 
 - [ ] Expose overseer repo intelligence as an MCP server.
