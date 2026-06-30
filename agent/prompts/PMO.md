@@ -48,7 +48,7 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 ### Common Patterns Found
 
 1. All 2025 Q1 roadmaps now 12+ months old; need reset to 2026 Q1.
-2. Q2 2025 items: mixed — overseer shipped, agent-board/bb-mcp not started.
+2. Q2 2025 items: mixed — overseer shipped, motor-pool/bb-mcp not started.
 3. Stale docs: audit info 3-6 months behind actual product state.
 4. Live validation: nitsuah-io and overseer both confirmed working; Docker builds successful for both.
 
@@ -56,7 +56,7 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 
 - [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
 - [[repos/overseer]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
-- [[repos/agent-board]] — Foundation tasks, feature audit needed, test baseline required
+- [[repos/motor-pool]] — Foundation tasks, feature audit needed, test baseline required
 - [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 
 ### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
@@ -81,7 +81,7 @@ Additional low-priority repos were validated with Docker-first checks and planni
 
 ### Active Development (prioritized)
 
-- agent-board (review: PR #7 open)
+- motor-pool (review: PR #7 open)
 - bb-mcp (review: PR #11 open)
 - overseer (review: PR #82 open)
 - nitsuah-io (review: PR #234 open at Nitsuah-Labs)

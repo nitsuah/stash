@@ -11,7 +11,7 @@
 
 ## Phase 0: Convention Summary
 
-Sampled `AGENT-MAIN.md`, `prompts/PMO.md`, `repos/agent-board.md`, `repos/stash.md`.
+Sampled `AGENT-MAIN.md`, `prompts/PMO.md`, `repos/motor-pool.md`, `repos/stash.md`.
 
 - **Link style**: `[[path/DocName|Alias]]` inline prose; `[[path/DocName]]` for bare refs. Paths relative to vault root, no `.md` extension.
 - **Naming**: UPPER_SNAKE_CASE for docs/prompts; Title Case for projects; kebab-case for repo subdoc files.

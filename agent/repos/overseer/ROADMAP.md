@@ -36,7 +36,7 @@ Next Review: 2026-07-01
 - [ ] Add the conversational interface foundation: one or two chat-driven repo-hygiene workflows end to end
 - [ ] Add advanced analytics: velocity scoring, technical-debt trending, and zombie-branch detection
 - [ ] Expand MCP tooling surface: expose overseer repo intelligence as an MCP server for agent clients
-- [ ] Add cross-repo dependency mapping to surface shared-stack connections (e.g., agent-board ↔ bb-mcp ↔ overseer)
+- [ ] Add cross-repo dependency mapping to surface shared-stack connections (e.g., motor-pool ↔ bb-mcp ↔ overseer)
 
 ## Q4 2026: Portfolio Intelligence (Exploratory) 🧪
 

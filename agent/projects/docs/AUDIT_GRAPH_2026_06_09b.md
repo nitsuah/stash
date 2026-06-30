@@ -6,7 +6,7 @@
 - Broken links repaired: 0 (none found this pass)
 - Graph noise noted: 2 false-positive nodes (`path/DocName`, `docs/money`) from prior audit report's backtick-quoted text — Obsidian does NOT parse wikilinks in inline code spans; these are grep artifacts only
 - Near-orphans improved: 3 (REPO-README, repos/opencut, repos/nitsuah)
-- Orphan clusters resolved: 1 (DEMO_VIDEO cluster bridged to main graph via repos/agent-board.md)
+- Orphan clusters resolved: 1 (DEMO_VIDEO cluster bridged to main graph via repos/motor-pool.md)
 - New file branches connected: kryptos analysis+archive, darkmoon archive, opencut AGENTS
 - Links added: ~40 (across 22 documents)
 
@@ -26,9 +26,9 @@ The orphan-patch task specified linking `AUDIT_2026-06-01` to `[[AUDIT_GRAPH_202
 ### Orphan patch — Media assets indexed
 | Asset | Indexed in | Reason |
 |---|---|---|
-| `DEMO_VIDEO_120S.srt` | `repos/agent-board/docs/DEMO_VIDEO_SCRIPT` | Caption file for main demo |
-| `DEMO_VIDEO_60S.srt` | `repos/agent-board/docs/DEMO_VIDEO_SCRIPT` | Caption file for short demo |
-| `DEMO_VIDEO_60S_MOBILE.srt` | `repos/agent-board/docs/DEMO_VIDEO_SCRIPT` | Caption file for mobile cut |
+| `DEMO_VIDEO_120S.srt` | `repos/motor-pool/docs/DEMO_VIDEO_SCRIPT` | Caption file for main demo |
+| `DEMO_VIDEO_60S.srt` | `repos/motor-pool/docs/DEMO_VIDEO_SCRIPT` | Caption file for short demo |
+| `DEMO_VIDEO_60S_MOBILE.srt` | `repos/motor-pool/docs/DEMO_VIDEO_SCRIPT` | Caption file for mobile cut |
 | `lighthouse-desktop.report.html` | `repos/skyview/docs/PERFORMANCE_CHECKLIST` | Desktop Lighthouse audit belongs with perf checklist |
 | `lighthouse-desktop.report.json` | `repos/skyview/docs/PERFORMANCE_CHECKLIST` | Same parent as .html |
 | `farm.png` | `repos/farm-3j/docs/Farm_RTS_Game_Manual` | RTS map asset belongs with game manual |
@@ -36,9 +36,9 @@ The orphan-patch task specified linking `AUDIT_2026-06-01` to `[[AUDIT_GRAPH_202
 ### Orphan patch — Loose docs connected
 | Document | Links Added | Reason |
 |---|---|---|
-| `repos/agent-board/docs/DEMO_VIDEO_SCRIPT` | `[[DEMO_VIDEO_SCRIPT_SHORT]]`, SRT refs | Script siblings + caption assets |
-| `repos/agent-board/docs/DEMO_VIDEO_SCRIPT_SHORT` | `[[DEMO_VIDEO_SCRIPT]]` | Bidirectional sibling |
-| `repos/agent-board.md` | Added `demo/` section with `[[DEMO_VIDEO_SCRIPT]]`, `[[DEMO_VIDEO_SCRIPT_SHORT]]` | **Bridge link** — connects entire DEMO_VIDEO cluster to main graph |
+| `repos/motor-pool/docs/DEMO_VIDEO_SCRIPT` | `[[DEMO_VIDEO_SCRIPT_SHORT]]`, SRT refs | Script siblings + caption assets |
+| `repos/motor-pool/docs/DEMO_VIDEO_SCRIPT_SHORT` | `[[DEMO_VIDEO_SCRIPT]]` | Bidirectional sibling |
+| `repos/motor-pool.md` | Added `demo/` section with `[[DEMO_VIDEO_SCRIPT]]`, `[[DEMO_VIDEO_SCRIPT_SHORT]]` | **Bridge link** — connects entire DEMO_VIDEO cluster to main graph |
 | `repos/farm-3j/docs/FARM-RTS-NORTH-STAR` | `[[Farm_RTS_Game_Manual]]` | Bidirectional sibling |
 | `repos/kryptos/docs/analysis/K4_ACTIVE_RESEARCH` | `[[K4-FRONTEND]]`, `[[AUDIT_2026-06-01]]`, `[[repos/kryptos]]` | Vault links to analysis cluster |
 | `repos/kryptos/docs/analysis/K4-FRONTEND` | `[[K4_ACTIVE_RESEARCH]]`, `[[repos/kryptos]]` | Link to parent research doc |

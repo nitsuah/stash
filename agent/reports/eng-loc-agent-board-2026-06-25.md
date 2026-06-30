@@ -1,4 +1,4 @@
-# eng-loc: agent-board — 2026-06-25
+# eng-loc: motor-pool — 2026-06-25
 
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 

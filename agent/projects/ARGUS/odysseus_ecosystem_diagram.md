@@ -27,7 +27,7 @@ flowchart LR
 
     subgraph SIBLINGS["sibling stacks"]
         direction TB
-        AGENTBOARD["agent-board stack<br>(multi-model harness,<br>nemoclaw, ollama-agent :8081)"]
+        AGENTBOARD["motor-pool stack<br>(multi-model harness,<br>nemoclaw, ollama-agent :8081)"]
         VHS["vhs stack<br>(ollama-vhs :11434)<br>+ NeonDB"]
     end
 

@@ -9,7 +9,7 @@ Run a full health check across all in-scope repos. Verify each is up to date, te
 In-scope repos are defined in `C:\Users\ajhar\code\stash\agent\projects\scope.md`:
 
 ```bash
-- agent-board
+- motor-pool
 - auto-apply-plugin
 - darkmoon
 - farm-3j

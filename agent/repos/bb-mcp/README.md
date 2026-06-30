@@ -7,13 +7,13 @@
 [![High/Critical Vulns](https://img.shields.io/badge/high%2Fcritical%20vulns-0-brightgreen)](METRICS.md)
 [![Lint](https://img.shields.io/badge/lint-0%20errors%20%7C%200%20warnings-brightgreen)](METRICS.md)
 
-A standalone [Model Context Protocol](https://modelcontextprotocol.io) server wrapping the Blackboard Learn REST API. Point any MCP-compatible client at it — Claude Desktop, Cursor, agent-board, or anything else — and get structured access to courses, grades, assignments, announcements, and more.
+A standalone [Model Context Protocol](https://modelcontextprotocol.io) server wrapping the Blackboard Learn REST API. Point any MCP-compatible client at it — Claude Desktop, Cursor, motor-pool, or anything else — and get structured access to courses, grades, assignments, announcements, and more.
 
 ---
 
 ## Why standalone?
 
-The integration logic lives here, not in the client. Tools like agent-board, Claude Desktop, and Cursor all connect the same way. Build it once, use it everywhere. Blackboard's own team could point internal tooling at this server without touching any frontend code.
+The integration logic lives here, not in the client. Tools like motor-pool, Claude Desktop, and Cursor all connect the same way. Build it once, use it everywhere. Blackboard's own team could point internal tooling at this server without touching any frontend code.
 
 ---
 
@@ -22,7 +22,7 @@ The integration logic lives here, not in the client. Tools like agent-board, Cla
 ```
 ┌─────────────────────────────────────────────────┐
 │   Any MCP Client                                 │
-│   (Claude Desktop · Cursor · agent-board · ...)  │
+│   (Claude Desktop · Cursor · motor-pool · ...)  │
 └──────────────────────┬──────────────────────────┘
                        │ MCP Protocol (HTTP or stdio)
                        ▼
@@ -104,7 +104,7 @@ make docker-tools     # Print the published tool catalog from the built image
 make docker-down      # Stop the standalone stack
 ```
 
-The standalone compose stack keeps the same Dockerfile path used by agent-board, but now adds a more confined runtime posture: read-only filesystem, dropped Linux capabilities, `no-new-privileges`, and a small `/tmp` tmpfs for Node runtime needs.
+The standalone compose stack keeps the same Dockerfile path used by motor-pool, but now adds a more confined runtime posture: read-only filesystem, dropped Linux capabilities, `no-new-privileges`, and a small `/tmp` tmpfs for Node runtime needs.
 
 Server is live at `http://localhost:3100`.
 
@@ -207,7 +207,7 @@ Every tool requires a `caller_identity` argument:
   "caller_identity": {
     "userId": "bbuser123",
     "role": "student",
-    "clientApp": "agent-board"
+    "clientApp": "motor-pool"
   }
 }
 ```
@@ -270,7 +270,7 @@ Every access attempt (granted or denied) is written to stdout as structured JSON
   "userId": "bbuser123",
   "role": "student",
   "courseId": null,
-  "clientApp": "agent-board",
+  "clientApp": "motor-pool",
   "reason": null
 }
 ```
@@ -293,9 +293,9 @@ Set `METRICS_PUSH_URL` to push to a Prometheus push gateway every 60 seconds.
 
 ---
 
-## agent-board integration
+## motor-pool integration
 
-The server runs as a service in agent-board's Docker stack. The connector config lives at `agent-board/config/connectors.json`:
+The server runs as a service in motor-pool's Docker stack. The connector config lives at `motor-pool/config/connectors.json`:
 
 ```json
 {
@@ -311,7 +311,7 @@ The server runs as a service in agent-board's Docker stack. The connector config
 }
 ```
 
-agent-board proxies MCP calls through `POST /api/mcp/blackboard-learn/proxy`, keeping credentials server-side.
+motor-pool proxies MCP calls through `POST /api/mcp/blackboard-learn/proxy`, keeping credentials server-side.
 
 ---
 

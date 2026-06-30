@@ -2,7 +2,7 @@
 
 > Below is the common scope of repos we should take automated actions against for agents on:
 
-- [agent-board](https://github.com/nitsuah/agent-board)
+- [motor-pool](https://github.com/nitsuah/motor-pool)
 - [auto-apply-plugin](https://github.com/nitsuah/auto-apply-plugin)
 - [darkmoon](https://github.com/nitsuah/darkmoon)
 - [farm-3j](https://github.com/nitsuah/farm-3j)

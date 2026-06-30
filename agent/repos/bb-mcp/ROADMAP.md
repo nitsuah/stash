@@ -16,7 +16,7 @@ Last Updated: 2026-06-08
 - [ ] **Analytics/Product Owner tools**: event telemetry tap, engagement metrics aggregation, AI recommendation signal export.
 
 ### AI Orchestration Surface
-- [ ] **MCP provider contract**: publish a stable tool manifest and capability schema so agent-board can bind to bb-mcp as a first-class MCP provider without internal coupling.
+- [ ] **MCP provider contract**: publish a stable tool manifest and capability schema so motor-pool can bind to bb-mcp as a first-class MCP provider without internal coupling.
 
 #### Event-Driven Pipeline
 - [ ] **Blackboard activity ingestion**: define an event schema for grade posts, submission events, login activity, and course changes.
@@ -38,7 +38,7 @@ Last Updated: 2026-06-08
 - [ ] Harden audit logging and expose it via the admin tool surface.
 - [ ] Evaluate event-driven pipeline scaling: handle high-volume submission bursts and grade-sync events.
 - [ ] Evaluate vector store integration for semantic course content search and AI recommendation signals.
-- [ ] Publish a stable MCP client SDK / integration contract so agent-board and other consumers can bind without coupling to internals.
+- [ ] Publish a stable MCP client SDK / integration contract so motor-pool and other consumers can bind without coupling to internals.
 
 ## Notes
 
@@ -46,7 +46,7 @@ Last Updated: 2026-06-08
 - This server is the primary demonstration of full-stack AI product engineering capability for the Anthology AI Product Engineer role.
 - User safety and institutional data compliance are non-negotiable and must gate every write-back feature.
 - Analytics and product-owner tooling should be built to show event-driven pipeline design (RAG-ready signal format preferred).
-- Portfolio showcase UI (streaming chat, multi-persona demo) belongs in agent-board Q3, not here; bb-mcp only needs a stable MCP contract and a documented integration guide.
+- Portfolio showcase UI (streaming chat, multi-persona demo) belongs in motor-pool Q3, not here; bb-mcp only needs a stable MCP contract and a documented integration guide.
 
 <!--
 AGENT INSTRUCTIONS:
