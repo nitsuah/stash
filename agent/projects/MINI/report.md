@@ -10,7 +10,7 @@ The table below lists each repository and the count of files found in its root d
 | :--------- | :-------------------------------- |
 | `stash` | 5 |
 | `9router` | 8 |
-| `agent-board` | 5 |
+| `motor-pool` | 5 |
 | `auto-apply-plugin` | 6 |
 | `darkmoon` | 8 |
 | `farm-3j` | 11 |
@@ -53,7 +53,7 @@ The table below lists each repository and the count of files found in its root d
 **Key Considerations:**
 - Moving config files (ESLint, Next.js, PostCSS, JSConfig) to `config/` will require explicit path updates in scripts/CI, as highlighted in `MINI.md`.
 
-### `agent-board`
+### `motor-pool`
 
 **Files Proposed for Moving:**
 - `CHANGELOG.md` → `docs/CHANGELOG.md`

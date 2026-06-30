@@ -1,6 +1,6 @@
 # MINI Run Report — Root Cleanup 2026-06-20
 
-**Repos in scope:** agent-board, auto-apply-plugin, darkmoon, farm-3j, fire, games, kryptos, nitsuah-io, overseer, stash  
+**Repos in scope:** motor-pool, auto-apply-plugin, darkmoon, farm-3j, fire, games, kryptos, nitsuah-io, overseer, stash  
 **Excluded:** vhs (deferred by user)  
 **Branch pattern:** `mini/<repo>/root-cleanup-2026-06-20`  
 **Stash exception:** committed to existing `feedbk` branch (active non-default branch)
@@ -9,12 +9,12 @@
 
 ## File Moves by Repo
 
-### agent-board
+### motor-pool
 | Old path | New path | Files updated |
 |---|---|---|
 | `.pre-commit-config.yaml` | `config/.pre-commit-config.yaml` | `.github/workflows/ci.yml` |
 
-CI note: agent-board's workflow triggers on `main` and `feedback-dev-*` but repo default branch is `master`. PR to master doesn't trigger CI. Pre-existing mismatch.
+CI note: motor-pool's workflow triggers on `main` and `feedback-dev-*` but repo default branch is `master`. PR to master doesn't trigger CI. Pre-existing mismatch.
 
 ### auto-apply-plugin
 | Old path | New path |
@@ -101,7 +101,7 @@ Also ran `npm ci --ignore-scripts` locally (node_modules was empty).
 
 | Repo | PR | CI outcome |
 |---|---|---|
-| agent-board | #49 | No CI (branch filter mismatch) → merged |
+| motor-pool | #49 | No CI (branch filter mismatch) → merged |
 | auto-apply-plugin | #26 | All checks pass ✅ → merged |
 | kryptos | #125 | All checks pass ✅ → merged |
 | games | #231 | All checks pass ✅ → merged |
@@ -129,7 +129,7 @@ Also ran `npm ci --ignore-scripts` locally (node_modules was empty).
 
 2. **nitsuah-io: Docker Desktop pre-push hook instability** — Pre-push hook runs `docker run` for type check + unit tests; Docker Desktop Linux engine threw EOF/500 errors. Pushed with `--no-verify`. CI is the validation fallback.
 
-3. **agent-board: CI branch filter mismatch** — Workflow triggers on `main` and `pull_request: branches: [main]` but repo default is `master`. MINI PRs to `master` don't get CI. Should update workflow to target `master`.
+3. **motor-pool: CI branch filter mismatch** — Workflow triggers on `main` and `pull_request: branches: [main]` but repo default is `master`. MINI PRs to `master` don't get CI. Should update workflow to target `master`.
 
 4. **kryptos: `.coveragerc` not moved** — Has conflicting settings with `pyproject.toml`. Needs review before moving.
 
@@ -137,7 +137,7 @@ Also ran `npm ci --ignore-scripts` locally (node_modules was empty).
 
 ## PR Links
 
-- agent-board: https://github.com/nitsuah/agent-board/pull/49 (merged)
+- motor-pool: https://github.com/nitsuah/motor-pool/pull/49 (merged)
 - auto-apply-plugin: https://github.com/nitsuah/auto-apply-plugin/pull/26 (merged)
 - kryptos: https://github.com/nitsuah/kryptos/pull/125 (merged)
 - games: https://github.com/nitsuah/games/pull/231 (merged)

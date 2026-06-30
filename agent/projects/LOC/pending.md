@@ -11,7 +11,7 @@
 | !-2 | auto-apply-plugin | lib/job-search.js | 999 | Job search lib, may benefit from source modules |
 | !-3 | farm-3j | components/rts/RTSMap.tsx | 948 | RTS map component |
 | !-3 | farm-3j | components/animations/HeaderCropRow.tsx | 888 | Large animation component |
-| !-3 | agent-board | dashboard/src/App.jsx | 756 | App.jsx was split but still large |
+| !-3 | motor-pool | dashboard/src/App.jsx | 756 | App.jsx was split but still large |
 | !-3 | kryptos | src/kryptos/k4/hypotheses.py | 730 | K4 hypotheses module |
 | !-3 | overseer | components/GuidedTour.tsx | 727 | Tour component |
 | !-3 | overseer | lib/github.ts | 726 | GitHub lib |

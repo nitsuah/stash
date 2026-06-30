@@ -1,19 +1,19 @@
 ---
-name: agent-board-overview
-description: Central synthesis document for the Agent Board application.
+name: motor-pool-overview
+description: Central synthesis document for the motor-pool application.
 metadata:
   type: project
 ---
 
-# Agent Board Overview
+# motor-pool Overview
 
-Agent Board is a local-first control room designed for managing multi-model AI workflows securely on your own machine. It functions as a cockpit for developers to build, run, and evaluate AI agents.
+motor-pool is a local-first control room designed for managing multi-model AI workflows securely on your own machine. It functions as a cockpit for developers to build, run, and evaluate AI agents.
 
 ## Core Pillars
 
 - **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via [[repos/darkmoon/docs/API.md|NemoClaw]] integration.
 - **Experience-Aware Sessions**: Persistent sessions with context, role metadata, and message history, tailored to different experience modes (e.g., Research, Developer).
-- **Live Observability**: Real-time observability using [[repos/agent-board/METRICS.md|Metrics]] dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
+- **Live Observability**: Real-time observability using [[repos/motor-pool/METRICS.md|Metrics]] dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
 
 ## Key Capabilities
 
@@ -23,7 +23,7 @@ Agent Board is a local-first control room designed for managing multi-model AI w
 
 ## Related Resources
 
-- **Source Code**: [[repos/agent-board/README.md|Agent Board README]]
-- **Architecture**: [[repos/agent-board/docs/ARCHITECTURE.md|System Architecture]]
-- **Roadmap**: [[repos/agent-board/ROADMAP.md|Roadmap and Future Goals]]
-- **Safety Strategy**: [[repos/agent-board/docs/AI_STACK_STRATEGY.md|AI Stack Strategy]]
+- **Source Code**: [[repos/motor-pool/README.md|motor-pool README]]
+- **Architecture**: [[repos/motor-pool/docs/ARCHITECTURE.md|System Architecture]]
+- **Roadmap**: [[repos/motor-pool/ROADMAP.md|Roadmap and Future Goals]]
+- **Safety Strategy**: [[repos/motor-pool/docs/AI_STACK_STRATEGY.md|AI Stack Strategy]]

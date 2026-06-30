@@ -67,7 +67,7 @@ WCAG 2.1 AA compliance with comprehensive keyboard navigation and screen reader 
 
 ### 🏠 Landing Page
 
-- **Featured Projects Landing Page**: `LandingHero` + `FeaturedProjects` components replace the Spline hero; top 4 featured projects (agent-board, overseer, bb-mcp, darkmoon) appear in a 2×2 card grid above the fold.
+- **Featured Projects Landing Page**: `LandingHero` + `FeaturedProjects` components replace the Spline hero; top 4 featured projects (motor-pool, overseer, bb-mcp, darkmoon) appear in a 2×2 card grid above the fold.
 - **Spline 3D Scene on `/3d` Route**: Spline scene moved from home page to a dedicated opt-in `/3d` page, removing bundle weight from the critical landing path and improving home page LCP.
 
 ### 🎨 Dark Mode & Theming
@@ -117,7 +117,7 @@ Modern development workflow with type safety, code quality tools, and comprehens
 - **AI Chat Widget**: bb-mcp-powered portfolio Q&A with streaming and persistent toggle
 - **On-chain Resume**: EAS verifiable credentials page for wallet-based skill attestations
 - **Bento Grid Layout**: 2026 design trend for Projects and Skills
-- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and agent-board
+- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and motor-pool
 - **PWA & Offline Support**: Installable, offline-ready portfolio with push notifications
 - **Showcase Page**: User-submitted demos and real-world use cases
 
@@ -204,7 +204,7 @@ Connections to sister repos that enrich portfolio content and demonstrations.
 
 - **kryptos Feed**: Live cipher challenge stats surfaced in Labs sidebar (kryptos repo)
 - **farm Staking Demo**: Live staking flow in Labs pulling from farm contracts on Amoy
-- **agent-board Showcase**: `/lab/agents` page showing autonomous agent activity log (read-only)
+- **motor-pool Showcase**: `/lab/agents` page showing autonomous agent activity log (read-only)
 - **darkmoon Tokens**: Shared design token pipeline for consistent cross-repo branding (Q4)
 
 ### 🏅 On-Chain Resume

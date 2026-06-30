@@ -10,8 +10,8 @@ Exclusions: `node_modules`, `.next`, `dist`, `build`, `venv`, `.venv`, `vendor`,
 
 | Repo | Worst File | LOC | Risk |
 |---|---|---|---|
-| agent-board | server.js | 2726 | CRITICAL |
-| agent-board | App.jsx | 1337 | HIGH |
+| motor-pool | server.js | 2726 | CRITICAL |
+| motor-pool | App.jsx | 1337 | HIGH |
 | auto-apply-plugin | service-worker.js | 1263 | HIGH |
 | auto-apply-plugin | content.js | 1202 | HIGH |
 | auto-apply-plugin | tracker-handlers.js | 957 | HIGH |
@@ -49,7 +49,7 @@ Exclusions: `node_modules`, `.next`, `dist`, `build`, `venv`, `.venv`, `vendor`,
 
 ---
 
-### [[repos/agent-board|agent-board]]
+### [[repos/motor-pool|motor-pool]]
 
 #### Top Files
 
@@ -418,8 +418,8 @@ Files in `stash/` are reference snippets and usage examples, not production code
 
 | # | File | Repo | LOC | Key Risk |
 |---|---|---|---|---|
-| 1 | dashboard/server.js | agent-board | 2726 | Monolith, all concerns co-located |
-| 2 | dashboard/src/App.jsx | agent-board | 1337 | Monolith React component |
+| 1 | dashboard/server.js | motor-pool | 2726 | Monolith, all concerns co-located |
+| 2 | dashboard/src/App.jsx | motor-pool | 1337 | Monolith React component |
 | 3 | background/service-worker.js | auto-apply-plugin | 1263 | God worker, hard to test |
 | 4 | content/content.js | auto-apply-plugin | 1202 | Mixed DOM concerns |
 
@@ -468,8 +468,8 @@ Files in `stash/` are reference snippets and usage examples, not production code
 For each Tier 1 file, add a task:
 
 ```
-[ ] [refactor] agent-board: decompose server.js into route modules and service layer
-[ ] [refactor] agent-board: decompose App.jsx into feature components and hooks
+[ ] [refactor] motor-pool: decompose server.js into route modules and service layer
+[ ] [refactor] motor-pool: decompose App.jsx into feature components and hooks
 [ ] [refactor] auto-apply-plugin: split service-worker.js into router + handlers + storage
 [ ] [refactor] auto-apply-plugin: split content.js into form-detector, overlay, message-bridge
 [ ] [refactor] overseer: split github.ts into domain-grouped client modules

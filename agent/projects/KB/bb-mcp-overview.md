@@ -11,7 +11,7 @@ Bb-MCP is a standalone [Model Context Protocol](https://modelcontextprotocol.io)
 
 ## Core Pillars
 
-- **Client-Agnostic Integration**: Moves integration logic out of clients (`agent-board`, Claude Desktop, Cursor) and into a centralized, reusable server.
+- **Client-Agnostic Integration**: Moves integration logic out of clients (`motor-pool`, Claude Desktop, Cursor) and into a centralized, reusable server.
 - **Security & Compliance**:
     - **OAuth2**: Supports Authorization Code and Client Credentials flows.
     - **Role-Based Access Control**: Strict role gating (Student vs. Instructor).
@@ -26,8 +26,8 @@ Bb-MCP is a standalone [Model Context Protocol](https://modelcontextprotocol.io)
 
 ## Integration
 
-- Used within the [[KB/agent-board-overview|Agent Board]] stack via the connector configuration in `config/connectors.json`.
-- Can be run standalone or within the `agent-board` Docker stack.
+- Used within the [[KB/motor-pool-overview|motor-pool]] stack via the connector configuration in `config/connectors.json`.
+- Can be run standalone or within the `motor-pool` Docker stack.
 
 ## Related Resources
 
