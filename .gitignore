@@ -177,6 +177,9 @@ agent/.obsidian/plugins/mcp-tools/mcp-server-windows.exe
 agent/.obsidian/plugins/*/data.json
 agent/.obsidian/workspace.json
 
+# Localized report outputs
+agent/reports/
+
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
 # agent/repos/*/
 agent/.smart-env/*
