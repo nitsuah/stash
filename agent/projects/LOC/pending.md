@@ -32,3 +32,4 @@
   - enrich-template/route.ts (754) - API handler doing too much
   - GuidedTour.tsx (750) - Step definitions inlined JSX
   - Highest ROI: Split github.ts into domain modules, extract tour steps
+  
