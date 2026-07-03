@@ -28,7 +28,7 @@ DEFAULT_EXTENSIONS = [
 EXCLUDE_DIRS = {
     "node_modules", ".git", "dist", "build", ".next", ".turbo",
     "coverage", ".pnpm-store", "vendor", "target", "bin", "obj",
-    ".gradle", "out", ".claude"
+    ".gradle", "out", ".claude", ".venv", "venv", ".obsidian", "env", ".env"
 }
 
 
