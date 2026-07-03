@@ -16,6 +16,13 @@ param(
     [string]$LogsDir = "stash/agent/logs"
 )
 
+# Exclude directories (aligned with Python EXCLUDE_DIRS)
+$EXCLUDE_DIRS = @(
+    "node_modules", ".git", "dist", "build", ".next", ".turbo",
+    "coverage", ".pnpm-store", "vendor", "target", "bin", "obj",
+    ".gradle", "out", ".claude", ".venv", "venv", ".obsidian", "env", ".env"
+)
+
 # Load config
 function Read-TOMLConfig {
     param([string]$Path)
@@ -29,26 +36,117 @@ function Read-TOMLConfig {
     }
 
     $currentSection = ""
-    foreach ($line in $content -split "`n") {
-        $line = $line.Trim()
+    $lines = $content -split "`n"
+    $i = 0
+    while ($i -lt $lines.Count) {
+        $line = $lines[$i].Trim()
+
+        # Skip empty lines and comments
+        if (-not $line -or $line.StartsWith('#')) {
+            $i++
+            continue
+        }
+
+        # Section headers [repo.name]
         if ($line -match '^\[repo\.(.+)\]$') {
             $currentSection = $matches[1]
             $config.repo_overrides[$currentSection] = @{}
+            $i++
+            continue
         }
-        elseif ($line -match '^(\w+)\s*=\s*(.+)$' -and $currentSection) {
+
+        # Key-value pairs
+        if ($line -match '^(\w+)\s*=\s*(.*)$') {
             $key = $matches[1]
-            $val = $matches[2].Trim('"'' ')
-            if ($val -match '^\d+$') { $val = [int]$val }
-            elseif ($val -match '^\[.+\]$') { $val = $val.Trim('[]') -split ',' | ForEach-Object { $_.Trim('"'' ') } }
-            $config.repo_overrides[$currentSection][$key] = $val
+            $rawVal = $matches[2]
+
+            # Strip inline comments (not inside quotes)
+            $valClean = $rawVal
+            if ($rawVal -match '^([^#]*?)\s*#') {
+                # Check if # is outside quotes
+                $beforeHash = $matches[1]
+                $quoteCount = ($beforeHash.ToCharArray() | Where-Object { $_ -eq '"' -or $_ -eq "'" }).Count
+                if ($quoteCount % 2 -eq 0) {
+                    $valClean = $beforeHash
+                }
+            }
+            $valClean = $valClean.Trim()
+
+            # Parse value by type
+            $val = $null
+
+            # Boolean
+            if ($valClean -eq 'true') {
+                $val = $true
+            }
+            elseif ($valClean -eq 'false') {
+                $val = $false
+            }
+            # Integer
+            elseif ($valClean -match '^\d+$') {
+                $val = [int]$valClean
+            }
+            # Float
+            elseif ($valClean -match '^\d+\.\d+$') {
+                $val = [double]$valClean
+            }
+            # Array (single or multi-line)
+            elseif ($valClean.StartsWith('[')) {
+                $arrayContent = $valClean
+                # Handle multi-line arrays
+                while (-not $arrayContent.TrimEnd().EndsWith(']') -and ($i + 1) -lt $lines.Count) {
+                    $i++
+                    $arrayContent += " " + $lines[$i].Trim()
+                }
+                # Strip [ ]
+                $arrayContent = $arrayContent.Trim()
+                if ($arrayContent.StartsWith('[') -and $arrayContent.EndsWith(']')) {
+                    $arrayContent = $arrayContent.Substring(1, $arrayContent.Length - 2)
+                }
+                # Parse array elements
+                $elements = @()
+                $currentElement = ""
+                $inQuote = $false
+                $quoteChar = $null
+                for ($c = 0; $c -lt $arrayContent.Length; $c++) {
+                    $char = $arrayContent[$c]
+                    if ($char -eq '"' -or $char -eq "'") {
+                        if (-not $inQuote) {
+                            $inQuote = $true
+                            $quoteChar = $char
+                        } elseif ($char -eq $quoteChar) {
+                            $inQuote = $false
+                            $quoteChar = $null
+                        }
+                    } elseif ($char -eq ',' -and -not $inQuote) {
+                        $elem = $currentElement.Trim().Trim('"', "'").Trim()
+                        if ($elem) { $elements += $elem }
+                        $currentElement = ""
+                        continue
+                    }
+                    $currentElement += $char
+                }
+                $elem = $currentElement.Trim().Trim('"', "'").Trim()
+                if ($elem) { $elements += $elem }
+                $val = $elements
+            }
+            # Quoted string
+            elseif (($valClean.StartsWith('"') -and $valClean.EndsWith('"')) -or ($valClean.StartsWith("'") -and $valClean.EndsWith("'"))) {
+                $val = $valClean.Substring(1, $valClean.Length - 2)
+            }
+            # Unquoted string
+            else {
+                $val = $valClean
+            }
+
+            # Store in config
+            if ($currentSection) {
+                $config.repo_overrides[$currentSection][$key] = $val
+            } else {
+                $config[$key] = $val
+            }
         }
-        elseif ($line -match '^(\w+)\s*=\s*(.+)$' -and !$currentSection) {
-            $key = $matches[1]
-            $val = $matches[2].Trim('"'' ')
-            if ($val -match '^\d+$') { $val = [int]$val }
-            elseif ($val -match '^\[.+\]$') { $val = $val.Trim('[]') -split ',' | ForEach-Object { $_.Trim('"'' ') } }
-            $config[$key] = $val
-        }
+        $i++
     }
     return $config
 }
@@ -67,7 +165,7 @@ function Get-RepoList {
 }
 
 # Secondary scan for large files
-function Scan-LargeFile {
+function Get-LargeFileFinding {
     param([string]$FilePath, [string]$Extension)
     $findings = @()
 
@@ -79,15 +177,18 @@ function Scan-LargeFile {
     # Check for unused imports (simple heuristic for JS/TS)
     if ($Extension -in @(".ts", ".tsx", ".js", ".jsx")) {
         $imports = $lines | Where-Object {
-            $_ -match '^import\s+.*\s+from\s+["'\'']' -or $_ -match '^import\s+["'\'']'
+            $_ -match '^import\s+.*\s+from\s+["'']' -or $_ -match '^import\s+["'']'
         }
         foreach ($imp in $imports) {
             if ($imp -match 'import\s+\{([^}]+)\}') {
                 $names = $matches[1] -split ',' | ForEach-Object { $_.Trim() }
                 foreach ($name in $names) {
                     $name = $name.Trim()
-                    if ($name -and $content -notmatch "(?<![a-zA-Z0-9_])$name(?![a-zA-Z0-9_])") {
-                        $findings += "Unused import (heuristic): $name"
+                    if ($name) {
+                        $escapedName = [regex]::Escape($name)
+                        if ($content -notmatch "(?<![a-zA-Z0-9_])$escapedName(?![a-zA-Z0-9_])") {
+                            $findings += "Unused import (heuristic): $name"
+                        }
                     }
                 }
             }
@@ -112,8 +213,9 @@ function Scan-LargeFile {
         }
 
         foreach ($fn in $funcs) {
-            if ($fn -and $fn -notmatch '^(main|init|test|Test|main)$') {
-                $refCount = ($content -split "(?<![a-zA-Z0-9_])$fn(?![a-zA-Z0-9_])").Count - 1
+            if ($fn -and $fn -notmatch '^(main|init|test|Test)$') {
+                $escapedFn = [regex]::Escape($fn)
+                $refCount = ($content -split "(?<![a-zA-Z0-9_])$escapedFn(?![a-zA-Z0-9_])").Count - 1
                 if ($refCount -le 1) {
                     $findings += "Unused function (heuristic): $fn"
                 }
@@ -123,14 +225,23 @@ function Scan-LargeFile {
 
     # Check for copy-paste blocks (>10 lines repeated)
     if ($lines.Count -gt 20) {
+        $blockCounts = @{}
+        $firstOccurrence = @{}
         for ($i = 0; $i -le $lines.Count - 10; $i++) {
             $block = $lines[$i..($i+9)] -join "`n"
             if ($block.Trim().Length -gt 50) {
-                $count = ($content -split [regex]::Escape($block)).Count - 1
-                if ($count -gt 1) {
-                    $findings += "Repeated block ($count occurrences, 10+ lines): $($block.Substring(0, [Math]::Min(80, $block.Length)))..."
-                    break
+                if ($blockCounts.ContainsKey($block)) {
+                    $blockCounts[$block]++
+                } else {
+                    $blockCounts[$block] = 1
+                    $firstOccurrence[$block] = $block
                 }
+            }
+        }
+        foreach ($block in $blockCounts.Keys) {
+            if ($blockCounts[$block] -gt 1) {
+                $findings += "Repeated block ($($blockCounts[$block]) occurrences, 10+ lines): $($block.Substring(0, [Math]::Min(80, $block.Length)))..."
+                break
             }
         }
     }
@@ -169,15 +280,13 @@ foreach ($repo in $repos) {
     $minLines = $config.min_lines
     $extensions = $config.extensions
 
-    $excludeDirs = @("node_modules", ".git", "dist", "build", ".next", ".turbo", "coverage", ".pnpm-store", "vendor", "target", "bin", "obj", ".gradle", "out")
-
     $files = Get-ChildItem -Path $repoPath -Recurse -File -ErrorAction SilentlyContinue | Where-Object {
         $ext = $_.Extension
         $inExt = $extensions -contains $ext
         $inExclude = $false
         $parent = $_.Directory
         while ($parent) {
-            if ($excludeDirs -contains $parent.Name) { $inExclude = $true; break }
+            if ($EXCLUDE_DIRS -contains $parent.Name) { $inExclude = $true; break }
             $parent = $parent.Parent
         }
         $inExt -and !$inExclude
@@ -196,7 +305,7 @@ foreach ($repo in $repos) {
         $relPath = $file.FullName.Substring($repoPath.Length + 1).Replace('\', '/')
 
         if ($lineCount -ge $maxLines) {
-            $findings = Scan-LargeFile $file.FullName $file.Extension
+            $findings = Get-LargeFileFinding $file.FullName $file.Extension
             $largeFiles += @{ lines = $lineCount; path = $relPath; findings = $findings }
             $allLargeFiles += @{ repo = $repo.name; slug = $repo.slug; lines = $lineCount; path = $relPath; findings = $findings }
         } elseif ($lineCount -le $minLines -and $lineCount -gt 0) {
@@ -238,7 +347,7 @@ foreach ($repo in $repos) {
         $report += "|-------|------|------------------------|"
         foreach ($sf in $smallFiles) {
             $dir = Split-Path $sf.path
-            $siblings = $smallFiles | Where-Object { Split-Path $_.path -eq $dir -and $_.path -ne $sf.path }
+            $siblings = $smallFiles | Where-Object { (Split-Path $_.path) -eq $dir -and $_.path -ne $sf.path }
             $target = if ($siblings.Count -gt 0) { $siblings[0].path } else { "—" }
             $report += "| $($sf.lines) | `$($sf.path)` | $target |"
         }
@@ -263,13 +372,13 @@ $log | Set-Content $logPath -Encoding UTF8
 $odysseusNotes = @()
 foreach ($f in $allLargeFiles | Sort-Object { $_.repo }, { -$_.lines }) {
     $note = @{
-        title = "[eng-loc] Refactor: $($f.Repo)/$($f.Path) ($($f.Lines) lines)"
+        title = "[eng-loc] Refactor: $($f.repo)/$($f.path) ($($f.lines) lines)"
         tags = @("eng-loc", "refactor")
-        body = "File: $($f.Repo)/$($f.Path)`nLines: $($f.Lines)`n`n"
+        body = "File: $($f.repo)/$($f.path)`nLines: $($f.lines)`n`n"
     }
-    if ($f.Findings.Count -gt 0) {
+    if ($f.findings.Count -gt 0) {
         $note.body += "Secondary scan findings:`n"
-        foreach ($finding in $f.Findings) {
+        foreach ($finding in $f.findings) {
             $note.body += "- $finding`n"
         }
         $note.body += "`n*Findings are heuristics, not ground truth.*"

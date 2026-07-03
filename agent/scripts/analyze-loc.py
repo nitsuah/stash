@@ -12,6 +12,15 @@ from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
 
+# Import TOML parser (tomllib for Python 3.11+, fallback to tomli if available)
+try:
+    import tomllib
+except ModuleNotFoundError:
+    try:
+        import tomli as tomllib
+    except ModuleNotFoundError:
+        tomllib = None
+
 CONFIG_PATH = "config/eng-loc.toml"
 SCOPE_PATH = "stash/agent/projects/scope.md"
 REPORTS_DIR = "stash/agent/reports"
@@ -33,30 +42,87 @@ EXCLUDE_DIRS = {
 
 
 def parse_toml_config(path):
-    """Simple TOML parser for our config"""
-    config = {
+    """Parse TOML config using real parser if available, fallback to manual parsing"""
+    # Default config
+    defaults = {
         "max_lines": DEFAULT_MAX_LINES,
         "min_lines": DEFAULT_MIN_LINES,
         "extensions": DEFAULT_EXTENSIONS,
         "repo_overrides": {}
     }
+
+    # Use real TOML parser if available
+    if tomllib is not None:
+        try:
+            with open(path, 'rb') as f:
+                toml_data = tomllib.load(f)
+
+            # Merge with defaults
+            config = {
+                "max_lines": toml_data.get("max_lines", defaults["max_lines"]),
+                "min_lines": toml_data.get("min_lines", defaults["min_lines"]),
+                "extensions": toml_data.get("extensions", defaults["extensions"]),
+                "repo_overrides": {}
+            }
+
+            # Handle repo overrides
+            if "repo" in toml_data:
+                for repo_name, repo_config in toml_data["repo"].items():
+                    config["repo_overrides"][repo_name] = repo_config
+
+            return config
+        except Exception:
+            # Fall back to manual parsing on error
+            pass
+
+    # Fallback: manual parsing (with improved robustness)
+    config = defaults.copy()
+    config["repo_overrides"] = {}
     current_section = None
+
     with open(path) as f:
         for line in f:
             line = line.strip()
+            # Skip empty lines and comments
             if not line or line.startswith("#"):
                 continue
+            # Strip inline comments (not inside quotes)
+            if "#" in line:
+                in_quote = False
+                quote_char = None
+                for i, char in enumerate(line):
+                    if char in ('"', "'") and (i == 0 or line[i-1] != '\\'):
+                        if not in_quote:
+                            in_quote = True
+                            quote_char = char
+                        elif char == quote_char:
+                            in_quote = False
+                    elif char == "#" and not in_quote:
+                        line = line[:i].strip()
+                        break
+            # Section headers
             if line.startswith("[repo.") and line.endswith("]"):
                 current_section = line[6:-1]
                 config["repo_overrides"][current_section] = {}
             elif "=" in line:
                 key, val = line.split("=", 1)
                 key = key.strip()
-                val = val.strip().strip('"\' ')
-                if val.isdigit():
+                val = val.strip()
+                # Remove quotes
+                if (val.startswith('"') and val.endswith('"')) or (val.startswith("'") and val.endswith("'")):
+                    val = val[1:-1]
+                # Parse value type
+                elif val == "true":
+                    val = True
+                elif val == "false":
+                    val = False
+                elif val.isdigit():
                     val = int(val)
+                elif val.replace('.', '', 1).isdigit() and val.count('.') == 1:
+                    val = float(val)
                 elif val.startswith("[") and val.endswith("]"):
-                    val = [v.strip().strip('"\' ') for v in val[1:-1].split(",")]
+                    val = [v.strip().strip('"\' ') for v in val[1:-1].split(",") if v.strip()]
+                # Store value
                 if current_section:
                     config["repo_overrides"][current_section][key] = val
                 else:
@@ -135,13 +201,15 @@ def scan_large_file(filepath, ext):
 
     # Check for copy-paste blocks (>10 lines repeated)
     if len(lines) > 20:
+        block_counts = {}
         for i in range(len(lines) - 9):
             block = '\n'.join(lines[i:i+10])
             if len(block.strip()) > 50:
-                count = content.count(block)
-                if count > 1:
-                    findings.append(f"Repeated block ({count} occurrences, 10+ lines): {block[:80]}...")
-                    break
+                block_counts[block] = block_counts.get(block, 0) + 1
+        for block, count in block_counts.items():
+            if count > 1:
+                findings.append(f"Repeated block ({count} occurrences, 10+ lines): {block[:80]}...")
+                break
 
     return findings
 
@@ -230,7 +298,7 @@ def main():
             f"**Repo:** {repo['name']} ({repo_path})",
             f"**Thresholds:** max_lines={max_lines}, min_lines={min_lines}",
             "",
-            "## Large Files (> {max_lines} lines) — Refactor Candidates",
+            f"## Large Files (> {max_lines} lines) — Refactor Candidates",
             ""
         ]
 
