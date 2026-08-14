@@ -1,0 +1,7 @@
+firmware:
+  version: "0.99.1"
+apps:
+  - name: "subghz_brute"
+  - name: "nfc_magic"
+settings:
+  display_brightness: 50
