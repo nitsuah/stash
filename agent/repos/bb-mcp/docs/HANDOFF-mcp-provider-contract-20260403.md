@@ -5,7 +5,7 @@
 - Repository: nitsuah/bb-mcp
 - Default branch: main
 - Working branch: feat/bb-mcp/manifest-contract-20260403
-- PR link: (pending)
+- PR link: not captured in this handoff snapshot (delivery state recorded as handoff-only in `nitsuah/stash` PR #69)
 - Related issue/task: TASKS.md — [Q2-CEO] MCP provider contract
 
 ## Work Summary
@@ -48,6 +48,41 @@
 - [x] Manifest includes dynamic tool list with schemas.
 - [x] Tests verify manifest contract shape and tool coverage.
 
+> Status note: this handoff records completion in the source `nitsuah/bb-mcp` delivery timeline; PR metadata in this document is normalized to reflect that this repository only stores the handoff artifact.
+
+### Manifest Contract (schema_version = `1.0`)
+
+```json
+{
+  "schema_version": "1.0",
+  "provider": {
+    "name": "bb-mcp",
+    "version": "x.y.z",
+    "capabilities": {
+      "transport": ["stdio", "http"],
+      "resources": true,
+      "tools": true
+    }
+  },
+  "manifest_endpoint": "/manifest",
+  "tools": [
+    {
+      "name": "get_my_courses",
+      "description": "Returns enrolled courses",
+      "input_schema": { "type": "object" },
+      "output_schema": { "type": "object" },
+      "roles_allowed": ["student"]
+    }
+  ]
+}
+```
+
+- Compatibility: additive fields only within `1.x`; breaking changes require `schema_version` major bump.
+- Deprecation: mark tools with `deprecated: true` and `removal_after` before removal.
+- Authentication semantics: unauthenticated requests return 401 with no tool metadata leakage.
+- Error semantics: invalid requests return 400 with machine-readable `code` and `message`.
+- Required tests (`tests/manifest.test.ts` in `nitsuah/bb-mcp`): assert `schema_version`, required top-level keys, dynamic tool schema presence, compatibility/deprecation fields, and auth/error responses.
+
 ## Delivery/DevOps Update
 
 - Changes made:
@@ -56,21 +91,21 @@
   - Added `tests/manifest.test.ts`.
   - Updated endpoint documentation in README and task status in TASKS.
 - Validation performed:
-  - `npm test` (vitest) should include new manifest tests.
+  - Planned validation in `nitsuah/bb-mcp`: `npm test` (vitest), including manifest contract assertions listed above.
 - Remaining risks:
   - Role metadata in manifest is static policy metadata and must stay in sync with authorization middleware if role matrix evolves.
-- PR opened: (opening now)
+- PR opened: not opened from this repository; tracked as a planning/handoff artifact.
 
 ## QA Update
 
 - Scope tested: manifest builder and contract shape tests.
-- Pass/fail summary: pass
+- Pass/fail summary: pending validation evidence in source repo
 - Defects found: none
-- Release recommendation: Go
+- Release recommendation: Hold until source-repo contract tests and release metadata are linked
 
 ## PMO Follow-Up
 
 - TASKS updates needed: complete done for provider contract; continue with SSE transport task next.
 - ROADMAP updates needed: none.
 - Repo notes update needed: include `/manifest` in integration notes.
-- Final disposition: ready for merge.
+- Final disposition: handoff documented; source-repo implementation evidence still required.

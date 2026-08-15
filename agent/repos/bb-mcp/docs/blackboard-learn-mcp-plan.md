@@ -132,9 +132,10 @@ grade://[courseId]            // Grade summary for a course
 ```
 
 ### Auth & Security
+
 - OAuth 2.0 flow against Blackboard Learn
 - Token stored locally, never transmitted to model
-- **FERPA boundary enforcement** — every tool validates that the requesting user owns the data being returned. No cross-user data leakage.
+- **FERPA boundary enforcement** — every tool calls a server-derived policy decision (`evaluateAccess`) using requester identity, Blackboard-resolved resource ownership, course scope, persona, and consent state. Caller-supplied `dataOwnerId` is never trusted.
 - All data access logged as audit events (see metrics below)
 - No PII in tool names or descriptions — only in returned data, handled by response filter layer
 
@@ -221,39 +222,67 @@ These metrics tell a product story: what do students actually ask, where does th
 This is the detail that shows you understand edtech specifically.
 
 ```typescript
+type FerpaAuditEvent = {
+  event_id: string;
+  event_type: 'ferpa_check_passed' | 'ferpa_check_blocked';
+  institution_id: string;
+  session_id: string;
+  correlation_id: string;
+  experience: 'blackboard-learn';
+  user_id: string;
+  target_user_id: string | null;
+  persona: Persona;
+  course_id: string | null;
+  tool_name: string;
+  data_type: string;
+  outcome_reason: string | null;
+  timestamp: string;
+};
+
 // Every tool call passes through this before returning data
-async function ferpaCheck(
-  requestingUserId: string,
-  dataOwnerId: string,
-  dataType: string,
-  toolName: string
-): Promise<void> {
-
-  // Students can only see their own data
-  if (requestingUserId !== dataOwnerId) {
-    await auditLog({
-      event: 'ferpa_check_blocked',
-      requestingUser: requestingUserId,
-      attemptedDataOwner: dataOwnerId,
-      dataType,
-      toolName,
-      timestamp: new Date().toISOString()
-    });
-    throw new FerpaViolationError(
-      `Access denied: you can only access your own ${dataType}`
-    );
-  }
-
-  // Log successful access too — full audit trail
-  await auditLog({
-    event: 'ferpa_check_passed',
-    userId: requestingUserId,
-    dataType,
-    toolName,
-    timestamp: new Date().toISOString()
+async function ferpaCheck(ctx: AccessContext): Promise<void> {
+  const ownership = await resolveResourceOwnership(ctx.resourceRef); // from Blackboard API
+  const targetUserId = ownership.userId ?? null;
+  const decision = await evaluateAccess({
+    requesterUserId: ctx.requestingUserId,
+    requesterPersona: ctx.persona,
+    targetUserId,
+    courseId: ownership.courseId,
+    consent: targetUserId ? await getConsentState(ctx.requestingUserId, targetUserId) : null,
+    institutionId: ctx.institutionId,
+    toolName: ctx.toolName
   });
+
+  const auditEvent: FerpaAuditEvent = {
+    event_id: crypto.randomUUID(),
+    event_type: decision.allowed ? 'ferpa_check_passed' : 'ferpa_check_blocked',
+    institution_id: ctx.institutionId,
+    session_id: ctx.sessionId,
+    correlation_id: ctx.correlationId,
+    experience: 'blackboard-learn',
+    user_id: ctx.requestingUserId,
+    target_user_id: targetUserId,
+    persona: ctx.persona,
+    course_id: ownership.courseId ?? null,
+    tool_name: ctx.toolName,
+    data_type: ctx.dataType,
+    outcome_reason: decision.reason ?? null,
+    timestamp: new Date().toISOString()
+  };
+
+  await auditLog(auditEvent);
+
+  if (!decision.allowed) {
+    throw new FerpaViolationError(`Access denied for ${ctx.dataType}`);
+  }
 }
 ```
+
+- Data-minimization and privacy controls:
+  - Retention: raw identifier audit fields retained 30 days; aggregated compliance metrics retained 365 days.
+  - Encryption: audit table encrypted at rest and in transit; user identifiers encrypted with institution-scoped keys.
+  - Institution scoping: every audit query and export requires `institutionId` filter.
+  - Access auditing: every read/export of FERPA audit logs writes an `audit_log_accessed` event with actor, purpose, and timestamp.
 
 In the interview: "FERPA means every data access needs an audit trail and strict user boundary enforcement. I built that into the MCP server as a middleware layer — every tool call validates ownership before returning data and logs the access regardless of outcome. That's not a feature, it's a compliance requirement."
 

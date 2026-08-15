@@ -40,7 +40,8 @@ different safety requirements, different useful queries, and different trust lev
 - Trust level: lowest — adversarial by assumption on academic integrity
 
 ### 👩‍🏫 Instructor
-- Sees their own course data + enrolled student aggregate data (no individual PII in responses)
+
+- Sees their own course data + enrolled student data scoped to their assigned courses; student-level outputs are permitted only for course operations, audited, and retention-limited.
 - Primary use: submission status, grade distributions, at-risk students, announcements
 - Safety concern: accidental cross-section data access, student privacy
 - Trust level: elevated — but scoped to their courses only
@@ -148,13 +149,13 @@ ask_tutor(question: string, courseId?: string)
 #### Instructor Tools
 ```typescript
 get_submission_status(assignmentId: string)
-// Submitted / not submitted / late breakdown
+// Submitted / not submitted / late breakdown for that course section
 
 get_grade_distribution(assignmentId: string)
 // Average, median, spread, outliers
 
 get_at_risk_students(courseId: string)
-// Low grades + missing submissions + low engagement composite
+// Low grades + missing submissions + low engagement composite (course-scoped, auditable roster access)
 
 get_discussion_summary(threadId: string)
 // Participation count, key themes, sentiment
@@ -188,30 +189,46 @@ get_upcoming_deadlines(studentId: string)
 ### Safety Layer
 
 #### Academic Integrity Enforcement
+
 ```typescript
-// Fires on ask_tutor and any content-generating tool
-const academicIntegrityCheck = async (prompt: string, context: AssignmentContext) => {
-  const flags = [
-    /write.*essay/i,
-    /complete.*assignment/i,
-    /give me the answer/i,
-    /do.*homework/i,
-    /submit.*for me/i
-  ];
+// Enforced server-side for ask_tutor and all content-generating tools
+const enforceAcademicIntegrity = async (req: TutorRequest, ctx: RequestContext) => {
+  const permission = await checkToolPermission({
+    persona: ctx.persona,
+    toolName: req.toolName,
+    courseId: ctx.courseId,
+    userId: ctx.userId
+  });
+  if (!permission.allowed) throw new PolicyError(permission.reason);
 
-  const isFlagged = flags.some(f => f.test(prompt));
+  const policy = await enforceTutorOutputPolicy({
+    request: req,
+    mode: 'explain_not_author',
+    allowedActions: ['explain', 'summarize', 'quiz', 'hint'],
+    blockedActions: ['write_submittable_work', 'complete_assessment']
+  });
 
-  if (isFlagged) {
-    await emitEvent('academic_integrity_flag', { prompt, context });
+  if (!policy.allowed) {
+    await emitEvent('academic_integrity_flag', {
+      prompt_hash: sha256(req.prompt),
+      assignment_ref: req.assignmentId ?? null,
+      policy_reason: policy.reason,
+      institution_id: ctx.institutionId
+    });
     return {
       blocked: true,
       response: "I can help you understand this topic but I can't produce work for submission. Want me to explain the underlying concept instead?"
     };
   }
+
+  return policy.sanitizedResponse;
 };
 ```
 
+- Required tests: adversarial bypass prompts (paraphrase/obfuscation) must be blocked, benign study prompts must pass, and policy decisions must be logged.
+
 #### Self-Harm Detection
+
 ```typescript
 // Every message passes through this before tool invocation
 const wellnessCheck = async (message: string, userId: string) => {
@@ -220,17 +237,28 @@ const wellnessCheck = async (message: string, userId: string) => {
 
   if (risk === 'high') {
     await emitEvent('wellness_flag_high', { userId, risk });
+    const resolvedResource = await resolveCounselingResource({
+      institutionId: getInstitutionId(userId),
+      locale: getUserLocale(userId)
+    }).catch(() => null);
+    const counselingResource =
+      resolvedResource
+      ?? process.env.WELLNESS_FALLBACK_RESOURCE
+      ?? "Call or text 988 (US) or contact your local emergency support line.";
     return {
       intercept: true,
       response: "It sounds like you might be going through something difficult. " +
-                "Your school's counseling services are available at [resource]. " +
+                `Your school's counseling services are available at ${counselingResource}. ` +
                 "Would you like me to help you find support?"
     };
   }
 };
 ```
 
+- Required test: if `resolveCounselingResource()` fails or returns null, fallback resource is returned and event logging still succeeds.
+
 #### Prompt Injection Detection
+
 ```typescript
 const injectionPatterns = [
   /ignore (previous|all|prior) instructions/i,
@@ -244,28 +272,41 @@ const injectionPatterns = [
 ```
 
 #### FERPA Middleware
+
 ```typescript
 // Every tool call — no exceptions
 const ferpaCheck = async (
-  requestingUserId: string,
-  targetUserId: string,
-  dataType: string,
-  toolName: string,
-  persona: Persona
+  ctx: AccessContext
 ) => {
-  const allowed = evaluateAccess(persona, targetUserId, requestingUserId);
+  const ownership = await resolveResourceOwnership(ctx.resourceRef); // Blackboard-derived
+  const targetUserId = ownership.userId ?? null;
+  const decision = await evaluateAccess({
+    requesterUserId: ctx.requestingUserId,
+    requesterPersona: ctx.persona,
+    targetUserId,
+    courseId: ownership.courseId,
+    consent: targetUserId ? await getConsentState(ctx.requestingUserId, targetUserId) : null,
+    institutionId: ctx.institutionId,
+    toolName: ctx.toolName
+  });
 
   await auditLog({
-    event: allowed ? 'ferpa_check_passed' : 'ferpa_check_blocked',
-    requestingUserId,
-    targetUserId,
-    dataType,
-    toolName,
-    persona,
+    event_id: crypto.randomUUID(),
+    event_type: decision.allowed ? 'ferpa_check_passed' : 'ferpa_check_blocked',
+    institution_id: ctx.institutionId,
+    session_id: ctx.sessionId,
+    correlation_id: ctx.correlationId,
+    experience: 'blackboard-learn',
+    user_id: ctx.requestingUserId,
+    target_user_id: targetUserId,
+    data_type: ctx.dataType,
+    tool_name: ctx.toolName,
+    persona: ctx.persona,
+    outcome_reason: decision.reason ?? null,
     timestamp: new Date().toISOString()
   });
 
-  if (!allowed) throw new FerpaViolationError();
+  if (!decision.allowed) throw new FerpaViolationError();
 };
 ```
 
@@ -282,19 +323,33 @@ Every tool call produces a structured audit event:
 ```typescript
 interface AuditEvent {
   event_id: string;        // uuid
+  event_type: EventType;
+  institution_id: string;
+  session_id: string;
+  correlation_id: string;
+  experience: string;
   timestamp: string;       // ISO8601
-  user_id: string;         // or 'anonymous'
+  user_id: string;         // requester
+  target_user_id?: string; // resolved owner when applicable
   persona: Persona;        // student | instructor | admin | parent
   tool_name: string;
   course_id?: string;
-  ferpa_outcome: 'passed' | 'blocked';
+  data_type?: string;
+  ferpa_outcome?: 'passed' | 'blocked';
   safety_flags: string[];  // academic_integrity | wellness | injection | none
   duration_ms: number;
+  outcome_reason?: string;
   error?: string;
 }
 ```
 
 Stored in Postgres. Queryable by admin. Exportable for compliance.
+
+Privacy controls for audit/safety telemetry:
+- redact raw prompts and free-text context before storage (store hashes/classifications/references only)
+- institution-scoped encryption for user identifiers
+- 30-day retention for raw identifiers, 365-day retention for aggregated metrics
+- explicit `audit_log_accessed` events for every audit-log read/export action
 
 ---
 
@@ -429,22 +484,28 @@ CREATE TABLE sessions (
 
 -- Events (append-only audit log)
 CREATE TABLE events (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id UUID REFERENCES sessions(id),
-  user_id UUID NOT NULL,
+  event_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),                -- AuditEvent.event_id
+  session_id UUID REFERENCES sessions(id),                            -- AuditEvent.session_id
+  correlation_id UUID NOT NULL,                                       -- AuditEvent.correlation_id
+  institution_id UUID NOT NULL,                                       -- AuditEvent.institution_id
+  user_id UUID NOT NULL,                                              -- AuditEvent.user_id (requester)
+  target_user_id UUID,                                                -- AuditEvent.target_user_id
   persona VARCHAR(20) NOT NULL,
-  event_type VARCHAR(50) NOT NULL,
-  tool_name VARCHAR(100),
-  course_id VARCHAR(100),
-  ferpa_outcome VARCHAR(10),
+  experience VARCHAR(50) NOT NULL,                                    -- AuditEvent.experience
+  event_type VARCHAR(50) NOT NULL,                                    -- AuditEvent.event_type
+  tool_name VARCHAR(100),                                             -- AuditEvent.tool_name
+  course_id VARCHAR(100),                                             -- AuditEvent.course_id
+  data_type VARCHAR(100),                                             -- AuditEvent.data_type
+  ferpa_outcome VARCHAR(10),                                          -- AuditEvent.ferpa_outcome
+  outcome_reason TEXT,                                                -- AuditEvent.outcome_reason
   safety_flags TEXT[],
   duration_ms INTEGER,
-  metadata JSONB,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  metadata JSONB,                                                     -- no raw prompt/context; references only
+  timestamp TIMESTAMPTZ DEFAULT NOW()                                 -- AuditEvent.timestamp
 );
 CREATE INDEX idx_events_user ON events(user_id);
 CREATE INDEX idx_events_type ON events(event_type);
-CREATE INDEX idx_events_created ON events(created_at);
+CREATE INDEX idx_events_timestamp ON events(timestamp);
 
 -- Feedback
 CREATE TABLE feedback (
@@ -558,44 +619,44 @@ CREATE TABLE feedback (
 
 ---
 
-## JD Checklist — How We're Hitting Every Requirement
+## JD Checklist — Planned Coverage
 
-| JD Requirement | How We Hit It |
+| JD Requirement | How We Plan to Hit It |
 |---|---|
-| Student-facing interfaces | agent-board Blackboard Learn tab, guided prompts, wellness UI |
-| Real-time AI features | Streaming MCP responses, live metrics dashboard |
-| Responsive performant UI | Existing agent-board React stack |
-| API routes + backend services | blackboard-learn-mcp Express + MCP server |
-| AI orchestration, streaming, agent outputs | MCP tool pipeline, NemoClaw sandbox |
-| Event-driven ingestion pipelines | EventBus → Postgres, structured audit events |
-| Data access controls + audit logging | FERPA middleware, per-persona scoping, full audit table |
-| Storage architecture | Postgres schema designed to evolve — sessions, events, feedback |
-| CI/CD, no dedicated DevOps | GitHub Actions, Netlify, Docker Hub, existing patterns |
-| MCP experience | The whole thing IS an MCP |
-| RAG pipeline design | Course content + assignment context injected as structured prompt context |
-| Observability tooling | Metrics dashboard, structured logging, health endpoints, per-tool latency |
-| Consumer product instincts | Four personas, guided prompts, onboarding, bail rate tracking |
-| Move fast under ambiguity | Phased build — working demo by week 2, polish by week 5 |
+| Student-facing interfaces | Build the Blackboard Learn tab, guided prompts, and wellness UI in Phase 4/6 |
+| Real-time AI features | Add streaming MCP responses and metrics dashboard in Phase 4/5 |
+| Responsive performant UI | Reuse existing agent-board React stack and optimize during polish |
+| API routes + backend services | Implement blackboard-learn-mcp Express + MCP routes in Phases 1-3 |
+| AI orchestration, streaming, agent outputs | Wire MCP tool pipeline and NemoClaw sandbox by Phase 3 |
+| Event-driven ingestion pipelines | Implement EventBus → Postgres structured events in Phase 5 |
+| Data access controls + audit logging | Implement FERPA policy middleware and full audit tables in Phases 2-5 |
+| Storage architecture | Evolve Postgres sessions/events/feedback schema with migration controls |
+| CI/CD, no dedicated DevOps | Configure GitHub Actions, Netlify, Docker Hub during build phases |
+| MCP experience | Deliver end-to-end MCP client/server integration by Phase 4 |
+| RAG pipeline design | Add course-content context injection once core tools are stable |
+| Observability tooling | Build metrics dashboard and per-tool latency/health reporting in Phase 5 |
+| Consumer product instincts | Validate personas, guided prompts, onboarding, and bail-rate tracking |
+| Move fast under ambiguity | Execute phased plan targeting a working demo by week 2 and polish by week 5 |
 
 ---
 
 ## The Interview Pitch (60 seconds)
 
-> "I built two things. First, an open source MCP server wrapping the Blackboard Learn
+> "I'm building two things. First, an open source MCP server wrapping the Blackboard Learn
 > REST API — any MCP-compatible client can point at it and get natural language access
-> to course data. Second, I surfaced it as a consumer-facing experience in agent-board
+> to course data. Second, I plan to surface it as a consumer-facing experience in agent-board
 > with four personas — student, instructor, admin, parent — each with different data
 > access, different safety configs, and different useful queries.
 >
-> The interesting problems weren't the API calls. They were academic integrity
+> The interesting problems aren't the API calls. They are academic integrity
 > enforcement, wellness detection at 2am when a student is struggling, FERPA boundary
 > middleware that logs every access regardless of outcome, and prompt injection from
-> students who are motivated to find the cracks. I used NemoClaw to sandbox model
-> execution and built a metrics layer so I could watch what users actually did versus
+> students who are motivated to find the cracks. I'm using NemoClaw to sandbox model
+> execution and building a metrics layer so I can watch what users actually do versus
 > what I assumed they'd do.
 >
-> I built this because I wanted to close the consumer product gap on my resume. But I
-> also genuinely think this is the right architecture for what you're building."
+> I'm building this to close the consumer product gap on my resume, and because I think
+> this is the right architecture for what you're building."
 
 ---
 
