@@ -1,6 +1,6 @@
 # Roadmap
 
-Last Updated: 2026-06-25
+Last Updated: 2026-08-22
 
 ## 2026 Q1–Q2 ✅
 
@@ -17,6 +17,14 @@ Last Updated: 2026-06-25
 	- Objective: define repeatable smoke checks for high-impact scripts (dry-run where possible).
 	- Sequencing Rationale: exploratory until script inventory and risk tiers are finalized in Q2.
 	- Exit Criteria: decision record on feasibility and an initial validation workflow draft.
+
+- [ ] Complete the Jira Runbook (Committed)
+	- Objective: fill in `atlassian/jira/RUNBOOK.md` with safe execution guidance for all Atlassian scripts.
+	- Exit Criteria: runbook covers prerequisites, parameter references, dry-run steps, and known risks.
+
+- [ ] Per-Directory READMEs Audit (Committed)
+	- Objective: ensure every major subdirectory has a README.md explaining what is in it and how to use it.
+	- Exit Criteria: all major directories have a README.md; content is accurate and links are valid.
 
 ## 2026 Q4 (Status: Planned)
 
@@ -37,3 +45,38 @@ Last Updated: 2026-06-25
 - [ ] **Dry-run audit log** (Exploratory)
 	- Objective: when any script runs with `--dry-run`, emit a structured JSON summary of planned changes (files touched, commands skipped, env vars read) as an artifact for review.
 	- Exit Criteria: at least two high-impact scripts produce structured dry-run output; format documented in `docs/DRY_RUN.md`.
+
+- [ ] **Python linting CI** (Planned)
+	- Objective: add `ruff` (or `flake8`) to a GitHub Actions workflow to lint all Python examples on push.
+	- Strategic Fit: catches style inconsistencies and import errors in examples before they reach readers.
+	- Exit Criteria: `.github/workflows/lint.yml` runs `ruff check .` on push to `main`; zero violations.
+
+- [ ] **PowerShell linting CI** (Planned)
+	- Objective: add PSScriptAnalyzer to CI to validate all `.ps1` scripts on push.
+	- Strategic Fit: ensures PowerShell scripts follow best practices; catches common mistakes before distribution.
+	- Exit Criteria: CI runs `Invoke-ScriptAnalyzer` on all `.ps1` files with zero warnings at `Error` severity.
+
+## 2027 Q1+ (Backlog)
+
+- [ ] **Modernize VBA/Access tools** (Aspirational)
+	- Objective: document migration paths for Remora, Sampler, and VMT from VBA/Access to web-based equivalents (e.g., Python + PostgreSQL + simple web UI).
+	- Strategic Fit: VBA tools are not portable across environments and require specific Microsoft Office licenses; a migration path increases longevity.
+	- Exit Criteria: migration feasibility document for at least one tool; prototype scaffolding if warranted.
+
+- [ ] **Add test coverage to Python examples** (Aspirational)
+	- Objective: introduce `pytest` unit tests for at least the Atlassian and SAAS example scripts, using `unittest.mock` or `responses` to mock HTTP calls.
+	- Strategic Fit: 0% test coverage limits confidence in examples; tests prove they work against expected API shapes.
+	- Exit Criteria: `pytest` runs in CI; coverage reaches at least 30% on Python example files.
+
+- [ ] **Frontend examples** (Planned)
+	- Priority: P2
+	- Candidates: React/Next.js, Svelte/SvelteKit, Vue/Nuxt.js components from the nitsuah.io stack.
+	- Exit Criteria: at least one framework with a CRUD page wired to the Flask/Express backend reference.
+
+- [ ] **Cloud cost management examples** (Planned)
+	- Priority: P3
+	- Candidates: Cloudability, CloudHealth, CloudZero, Kubecost APIs.
+
+- [ ] **SaaS inventory audit examples** (Planned)
+	- Priority: P3
+	- Candidates: Fortify-on-Demand, ZenGRC, Zylo.
