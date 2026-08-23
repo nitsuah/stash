@@ -156,6 +156,7 @@ python <service>/examples.py --demo-write
 ```
 
 PowerShell scripts:
+
 ```powershell
 # Always check -DryRun first for scripts that modify state
 .\git\cleanup-branches.ps1 -DryRun
@@ -163,6 +164,7 @@ PowerShell scripts:
 ```
 
 VBA/Access tools:
+
 ```
 Open .accdb file in Microsoft Access to launch the tool GUI.
 ```

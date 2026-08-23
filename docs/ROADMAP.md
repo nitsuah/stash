@@ -18,7 +18,7 @@ Last Updated: 2026-08-22
 	- Sequencing Rationale: exploratory until script inventory and risk tiers are finalized in Q2.
 	- Exit Criteria: decision record on feasibility and an initial validation workflow draft.
 
-- [ ] Complete the Jira Runbook (Committed)
+- [x] Complete the Jira Runbook (Committed)
 	- Objective: fill in `atlassian/jira/RUNBOOK.md` with safe execution guidance for all Atlassian scripts.
 	- Exit Criteria: runbook covers prerequisites, parameter references, dry-run steps, and known risks.
 

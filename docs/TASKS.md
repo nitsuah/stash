@@ -66,7 +66,7 @@ Last Updated: 2026-08-22
 - [ ] API.md decision record review.
   - Priority: P3
   - Type: Docs
-  - Note: This repo contains scripts and examples, not a hosted API. Decision record confirms no external contracts exist. Verify still accurate.
+  - Note: This repo contains scripts and examples, not a hosted API. Decision record confirms no hosted API contracts exist (the repo does integrate with Jira and other SaaS APIs). Verify still accurate.
 
 ### Modernization
 

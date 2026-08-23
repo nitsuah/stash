@@ -20,7 +20,7 @@ Safe execution guidance for all Atlassian scripts in this directory.
 
 | Variable | Where to get it |
 |----------|----------------|
-| `JIRA_URL` | Your Jira Cloud base URL — `https://yourorg.atlassian.net` |
+| `JIRA_HOST` | Your Jira Cloud base URL — `https://yourorg.atlassian.net` |
 | `JIRA_EMAIL` | Atlassian account email |
 | `JIRA_TOKEN` | [id.atlassian.com → Security → API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) |
 | `BITBUCKET_WORKSPACE` | Bitbucket workspace slug |
@@ -177,7 +177,7 @@ Jira project → Project settings → Automation → Import rule → upload the 
 `client.py` is used by all Atlassian example scripts. It handles:
 - Loading credentials from `.env`
 - Basic auth construction
-- Shared `get`, `post`, `put`, `delete` methods with error handling
+- Shared `get`, `post`, `put`, `delete` methods that return raw responses; error handling is performed by the calling layer (e.g., `validate_*` functions)
 
 Do not modify `client.py` for one-off credential overrides — use environment variables instead.
 
