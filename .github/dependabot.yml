@@ -1,12 +1,52 @@
+# Dependabot configuration for automatic dependency updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  # Enable version updates for npm (JavaScript/TypeScript projects)
+  # Includes both regular updates and security updates
+  - package-ecosystem: 'npm'
+    directory: '/backend/express'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 'nitsuah'
+    assignees:
+      - 'nitsuah'
     labels:
-      - "dependencies"
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
     commit-message:
-      prefix: "chore(ci)"
+      prefix: 'chore(deps)'
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'nitsuah'
+    assignees:
+      - 'nitsuah'
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+    groups:
+      actions:
+        patterns: ['*']
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(ci)'
