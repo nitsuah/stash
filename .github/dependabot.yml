@@ -37,11 +37,16 @@ updates:
     open-pull-requests-limit: 5
     reviewers:
       - 'nitsuah'
+    assignees:
+      - 'nitsuah'
     labels:
       - 'dependencies'
       - 'github-actions'
     groups:
       actions:
         patterns: ['*']
+        update-types:
+          - 'minor'
+          - 'patch'
     commit-message:
       prefix: 'chore(ci)'
