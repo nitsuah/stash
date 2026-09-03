@@ -8,13 +8,13 @@ Docs:  https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
 
 Usage:
     # Read-only demo (lists resources across services):
-    python CLOUD/aws/examples.py
+    python cloud/aws/examples.py
 
     # Target a specific region:
-    python CLOUD/aws/examples.py --region us-west-2
+    python cloud/aws/examples.py --region us-west-2
 
     # Include write operations:
-    python CLOUD/aws/examples.py --demo-write --bucket my-unique-bucket-name
+    python cloud/aws/examples.py --demo-write --bucket my-unique-bucket-name
 """
 
 import argparse
@@ -551,7 +551,7 @@ def main() -> None:
             print("\n[Write] Set AWS_S3_BUCKET or pass --bucket to test S3 writes")
         else:
             key = "examples-test/test-object.txt"
-            upload_object(bucket, key, content="Hello from CLOUD/aws/examples.py")
+            upload_object(bucket, key, content="Hello from cloud/aws/examples.py")
             generate_presigned_url(bucket, key)
             get_bucket_policy(bucket)
             time.sleep(1)
