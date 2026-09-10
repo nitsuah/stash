@@ -56,7 +56,28 @@ Log to `C:\Users\<user>\code\stash\agent\logs\obn-review.log`, appending (never 
 
 ### 3. Daily note (obn)
 
-Generate today's daily note per the existing `agent/prompts/AUTO.md`/vault convention and open it as a draft PR in `stash`, same as the existing `obn: daily note <date>` PRs. Keep this lightweight — it's low priority relative to the sync and worktree steps above.
+**Do not delegate content to `agent/prompts/AUTO.md`** — it is a generic automation-agent role description with no daily-note content spec at all, which is why every `obn: daily note <date>` PR to date (#75, #78, #82, #83, #86) shipped as an empty `## Tasks` / `## Notes` / `## Reflections` skeleton and none were ever merged. Use the concrete spec below instead; it draws entirely from data steps 1–2 above already produced plus one live query, so no open-ended research is needed.
+
+Write to `Daily Notes/<YYYY-MM-DD>.md` (vault root, matching the existing `obn: daily note <date>` PRs) with exactly these four sections. If a section genuinely has nothing to report, write one factual line saying so (e.g. "No PR/commit activity across tracked repos today.") — never leave a heading with no content under it.
+
+**## Repo Activity**
+One line per repo *that had activity today*, checked across the same repo list as the "Repo sync" section above. For each repo:
+- `gh pr list --repo nitsuah/<repo> --search "updated:>=<YYYY-MM-DD>"` — PRs opened/updated/merged today.
+- `gh issue list --repo nitsuah/<repo> --search "updated:>=<YYYY-MM-DD>"` — issues opened/closed/commented today.
+- `git -C C:\Users\<user>\code\<repo> log --since="<YYYY-MM-DD> 00:00" --oneline` — local commits today (catches WIP not yet pushed, which `daily-git-sync.log` shows is most repos most days).
+
+Format: `- **<repo>**: <PR #N title (state)>; <N commits>; <notable issue activity>` — include only the pieces that actually happened. Skip repos with zero activity entirely; don't list all 17 repos as "no activity", that's noise.
+
+**## Tasks**
+Open P0/P1 items pulled straight from each active-today repo's synthesis file (`agent/repos/<repo>.md`, "Open P0/P1 Tasks" section, just refreshed by obn-review above), plus anything today's dated section of `agent/logs/daily-git-sync.log` explicitly flags as needing a human (a branch parked N+ days, a diverged pull, a recurring `SKIPPED_DIRTY`/`SKIPPED_BRANCH`). One line per item, naming the source repo.
+
+**## Notes**
+A factual roll-up of what today's automation runs actually did, read from today's dated entries in `agent/logs/daily-git-sync.log`, `agent/logs/stale-worktrees.log`, `agent/logs/obn-repo.log`, and `agent/logs/obn-review.log`: counts of PULLED/SKIPPED_* results, worktrees pruned or flagged, `.md` files staged per repo, repos reviewed. Summary of the logs, not commentary — save interpretation for Reflections.
+
+**## Reflections**
+1-3 sentences of actual synthesis across the sections above — a pattern worth a human's attention (e.g. several repos stuck on the same shared branch for a week, a repo with no activity in a long stretch, a blocker recurring across runs). This is the one section allowed to be interpretive, but every sentence must point back to something concrete already named above — never a generic platitude, and never left empty.
+
+Open the note as a draft PR in `stash` — title `obn: daily note <date>`, branch `obn/daily-note-<date>` — same as the existing PRs.
 
 ## Non-goals
 
