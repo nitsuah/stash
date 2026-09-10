@@ -50,7 +50,7 @@ Custom instructions for GitHub Copilot when working in this repository.
 
 - `atlassian/` — Atlassian Cloud API examples (Python)
 - `SAAS/` — SaaS platform API examples (Python)
-- `IAS/` — EC2 UserData bootstrap scripts (Bash / PowerShell)
+- `cloud/iac/` — EC2 UserData bootstrap scripts (Bash / PowerShell)
 - `agent/` — AI agent role prompts (Markdown)
 - `git/` — Git maintenance utilities (PowerShell)
 - `windows/` — Windows automation (Batch, PowerShell, VBA)

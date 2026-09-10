@@ -189,6 +189,6 @@ Do not modify `client.py` for one-off credential overrides — use environment v
 |---------|-------------|-----|
 | `401 Unauthorized` | Wrong token or email | Verify `JIRA_EMAIL` and `JIRA_TOKEN` in `.env` |
 | `403 Forbidden` | Missing project permission | Check token account's permissions in Jira project settings |
-| `404 Not Found` | Wrong project key or URL | Verify `JIRA_URL` (no trailing slash) and project key case |
+| `404 Not Found` | Wrong project key or URL | Verify `JIRA_HOST` (no trailing slash) and project key case |
 | `429 Too Many Requests` | Rate limited | Wait and retry; Atlassian Cloud rate limits vary by tier |
 | Issues not cleaned up | Script killed before `finally` | Search Jira for `[EXAMPLE]` or `[VALIDATION]` in summary; delete manually |

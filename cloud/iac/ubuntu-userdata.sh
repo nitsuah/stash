@@ -5,7 +5,7 @@
 # Usage:
 #   Paste into AWS EC2 "User data" field (Launch Instance → Advanced Details)
 #   or supply via AWS CLI:
-#     aws ec2 run-instances --user-data file://IAS/ubuntu-userdata.sh ...
+#     aws ec2 run-instances --user-data file://cloud/iac/ubuntu-userdata.sh ...
 #
 # Runs once as root on first boot. Logs to /var/log/cloud-init-output.log
 # Tested on Ubuntu 22.04 LTS — adapt package names for 20.04/24.04

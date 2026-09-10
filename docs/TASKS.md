@@ -1,17 +1,12 @@
 # Tasks
 
-Last Updated: 2026-08-22
+Last Updated: 2026-09-02
 
 ## In Progress
 
 ## Todo
 
 ### Documentation
-
-- [ ] Complete `atlassian/jira/RUNBOOK.md` with full safe-execution guidance.
-  - Priority: P1
-  - Type: Docs
-  - Note: Stub was present; content drafted in 2026-08-22 audit. Review and expand with environment-specific notes.
 
 - [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
   - Priority: P2
@@ -22,10 +17,6 @@ Last Updated: 2026-08-22
   - Priority: P2
   - Type: Docs
   - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings or a companion `USAGE.md` per tool.
-
-- [ ] Expand `projects/resume/README.md` to note last-updated date and schema version.
-  - Priority: P3
-  - Type: Docs
 
 ### CI / Quality
 
@@ -87,4 +78,7 @@ Last Updated: 2026-08-22
 - Agent pipeline branch/PR conventions: `pmo/`, `delivery/`, `qa/` prefixes per `agent/README.md`.
 - `agent/REPO-README.md` is the agent directory's main doc — `agent/README.md` now created as the standard entry point.
 - `projects/fps-tech/` contains only branding assets; `README.md` added in 2026-08-22 audit.
-- `atlassian/jira/RUNBOOK.md` was a stub as of 2026-06-25; filled in during 2026-08-22 audit.
+- `atlassian/jira/RUNBOOK.md` was a stub as of 2026-06-25; filled in during 2026-08-22 audit, verified complete (all 7 scripts covered: prerequisites, risk levels, mitigations, troubleshooting) in 2026-09-02 audit — removed from Todo, ROADMAP item confirmed `[x]`. Fixed one stale reference in the runbook itself (`JIRA_URL` → `JIRA_HOST`, matching the actual env var table).
+- `projects/resume/README.md` expanded with last-updated date and schema note in 2026-09-02 audit — removed from Todo.
+- 2026-09-02 audit: found and fixed 14 broken path references left over from repo reorganization — 6 instances of `IAS/` (docs/CHANGELOG.md x2, cloud/iac/ubuntu-userdata.sh, cloud/iac/windows-userdata.ps1, .github/copilot-instructions.md, agent/repos/stash.md) should have read `cloud/iac/`, and 8 instances of `CLOUD/` (wrong case; docs/CHANGELOG.md, agent/repos/stash.md, cloud/README.md x2, cloud/aws/examples.py x4 — including its own usage examples/docstring) should have read `cloud/aws/`. The `CLOUD/` casing bug would break on case-sensitive filesystems (Linux/Mac) even though it worked on Windows. This is partial progress on the "Naming and Consistency Cleanup" roadmap item — a full repo-wide filename normalization pass is still open and out of scope for this audit.
+- `projects/README.md` added in 2026-09-02 audit (index of the 7 project subdirectories, all of which already had their own READMEs) — closes the last gap in the per-directory README audit. `docs/` intentionally has no README.md (ROADMAP/TASKS/FEATURES/METRICS already serve as its index); `flipper/` is an empty, untracked directory with no content to document.

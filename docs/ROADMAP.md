@@ -1,6 +1,6 @@
 # Roadmap
 
-Last Updated: 2026-08-22
+Last Updated: 2026-09-02
 
 ## 2026 Q1–Q2 ✅
 
@@ -8,10 +8,11 @@ Last Updated: 2026-08-22
 
 ## 2026 Q3 (Status: Planned)
 
-- [ ] Naming and Consistency Cleanup (Committed)
+- [ ] Naming and Consistency Cleanup (In Progress)
 	- Objective: normalize anomalous filenames and tighten cross-reference accuracy across docs/scripts.
 	- Sequencing Rationale: depends on Q2 architecture/runbook clarity to avoid accidental rename regressions.
 	- Exit Criteria: naming standard applied, references updated, and validation checks pass.
+	- Progress (2026-09-02): fixed 14 broken cross-references left over from the `IAS/` → `cloud/iac/` and `CLOUD/` → `cloud/aws/` reorganization, across docs/CHANGELOG.md, .github/copilot-instructions.md, agent/repos/stash.md, cloud/README.md, cloud/aws/examples.py, and cloud/iac/*.sh|.ps1. The `CLOUD/` casing was a live bug — it works on Windows but breaks on case-sensitive filesystems. A full filename-normalization pass across the rest of the repo remains open.
 
 - [ ] Lightweight Validation Harness for Critical Scripts (Exploratory)
 	- Objective: define repeatable smoke checks for high-impact scripts (dry-run where possible).
@@ -22,9 +23,10 @@ Last Updated: 2026-08-22
 	- Objective: fill in `atlassian/jira/RUNBOOK.md` with safe execution guidance for all Atlassian scripts.
 	- Exit Criteria: runbook covers prerequisites, parameter references, dry-run steps, and known risks.
 
-- [ ] Per-Directory READMEs Audit (Committed)
+- [x] Per-Directory READMEs Audit (Committed)
 	- Objective: ensure every major subdirectory has a README.md explaining what is in it and how to use it.
 	- Exit Criteria: all major directories have a README.md; content is accurate and links are valid.
+	- Closed 2026-09-02: all top-level directories and all 7 `projects/*` subdirectories have a README.md; added the one missing index (`projects/README.md`). `docs/` and `flipper/` are intentional exceptions (see Tasks audit notes).
 
 ## 2026 Q4 (Status: Planned)
 

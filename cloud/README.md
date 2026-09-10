@@ -33,13 +33,13 @@ python cloud/aws/examples.py --region us-west-2
 
 ```bash
 # Read-only (lists resources across all covered services):
-python CLOUD/aws/examples.py
+python cloud/aws/examples.py
 
 # Target a specific region:
 python cloud/aws/examples.py --region us-west-2
 
 # Write demo (uploads then deletes a test S3 object):
-python CLOUD/aws/examples.py --demo-write --bucket my-bucket
+python cloud/aws/examples.py --demo-write --bucket my-bucket
 ```
 
 ### Environment variables
