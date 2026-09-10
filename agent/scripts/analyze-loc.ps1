@@ -366,7 +366,13 @@ $log += "Total repos processed: $($repos.Count)"
 $log += "Total large files: $($allLargeFiles.Count)"
 $log += "Total small files: $($allSmallFiles.Count)"
 
-$log | Set-Content $logPath -Encoding UTF8
+# Append (never overwrite) — Set-Content here used to truncate the whole log
+# file on every run, destroying prior dated entries. Add-Content preserves
+# history the same way daily-git-sync/stale-worktrees append in DAILY.md.
+if ((Test-Path $logPath) -and ((Get-Item $logPath).Length -gt 0)) {
+    Add-Content $logPath -Value "" -Encoding UTF8
+}
+$log | Add-Content $logPath -Encoding UTF8
 
 # Output Odysseus notes for large files as JSON
 $odysseusNotes = @()

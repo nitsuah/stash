@@ -110,6 +110,38 @@ When used as a handoff into `--refactor`:
 
 ---
 
+## Logging (every `eng-loc` run)
+
+Append a dated entry directly to `stash/agent/logs/eng-loc.log` on local disk as the **last step of every run** — `--report` dry runs included. Do this unconditionally, before or independent of opening the report PR.
+
+**Do not let this depend on the report PR being merged.** `agent/logs/*.log` is covered by the repo's blanket `*.log` rule in `.gitignore`, so the log is never carried into `main` by a merge — a PR that includes the log entry only preserves it on that branch, and if the PR sits unreviewed (as `eng-loc`/`eng-mini` PRs often do), the entry never reaches the canonical file anyone actually checks. Write straight to the local file every run, the same way `daily-git-sync` and `stale-worktrees` do in [[prompts/DAILY|DAILY]] — don't route the log write through git at all.
+
+Append (never overwrite/truncate — this has broken before via a `Set-Content`/`write_text` call that replaced the whole file instead of appending), matching the format of prior entries:
+
+```
+ENG LOC Run Log - <YYYY-MM-DD>
+==========================
+Config: max_lines=<N>, min_lines=<N>
+Extensions: <comma-separated extensions>
+Excluded: <excluded dirs>
+
+Total files scanned: <N>
+Files > <max_lines> lines: <N>
+Files < <min_lines> lines: <N>
+
+Per-repo breakdown (><max_lines> lines):
+  <repo>: <N>
+  ...
+
+Per-repo breakdown (<=<min_lines> lines):
+  <repo>: <N>
+  ...
+
+Reports written: stash/agent/reports/eng-loc-<slug>-<date>.md (<N> files)
+```
+
+---
+
 ## Guardrails
 
 - Preserve behavior before structure — if a split breaks the app, back it out and find a smaller cut.

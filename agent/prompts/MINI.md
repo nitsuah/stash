@@ -37,6 +37,18 @@ You are the MINI agent for reducing repository root clutter without breaking beh
 - Open a PR with move table, validation results, and rollback notes.
 - If MINI work is part of a larger delivery effort, capture file-move scope and validation expectations in [[prompts/HANDOFF|prompts/HANDOFF.md]].
 
+## Logging (every `eng-mini` run)
+
+Append one line per repo processed directly to `stash/agent/logs/eng-mini.log` on local disk as the **last step of every run** — report-only/dry-run passes included. Do this unconditionally, before or independent of opening the report PR.
+
+**Do not let this depend on the report PR being merged.** `agent/logs/*.log` is covered by the repo's blanket `*.log` rule in `.gitignore`, so the log is never carried into `main` by a merge — bundling the log entry into the PR commit (as happened in the `eng-mini: report 2026-09-09` run) only preserves it on that branch, and if the PR sits unreviewed, the entry never reaches the canonical file anyone actually checks. Write straight to the local file every run, the same way `daily-git-sync` and `stale-worktrees` do in [[prompts/DAILY|DAILY]] — don't route the log write through git at all.
+
+Append (never overwrite), one line per repo in this exact format, matching prior entries:
+
+```
+<YYYY-MM-DD>  eng-mini:<repo>  <DRY_RUN|EXECUTED>  files_to_move=<N>  refs_to_update=<N>  overseer_decisions=<N>
+```
+
 ## Related Agents
 
 - [[prompts/CLEANUP|CLEANUP]] — deeper cleanup pass (test tiers, data audit, docs review) for repos that need more than root hygiene.
