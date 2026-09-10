@@ -75,5 +75,9 @@ These JSON files can be used to:
 
 ---
 
-*Updated: October 2025*
+## Schema
+
+Both `resume.json` and `resume-ai.json` follow the [JSON Resume](https://jsonresume.org/) schema (v1.0.0). `projects.json` is a custom, non-standard schema local to this repo.
+
+*Updated: 2026-09-02*
 *"Ut prosim" - That I may serve*

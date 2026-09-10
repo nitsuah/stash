@@ -5,7 +5,7 @@
 # Usage:
 #   Paste into AWS EC2 "User data" field (wrapped in <powershell> tags as shown)
 #   or supply via AWS CLI:
-#     aws ec2 run-instances --user-data file://IAS/windows-userdata.ps1 ...
+#     aws ec2 run-instances --user-data file://cloud/iac/windows-userdata.ps1 ...
 #
 # Runs once as SYSTEM on first boot.
 # Tested on Windows Server 2022 Base AMI — adapt for 2019 as needed.

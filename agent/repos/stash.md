@@ -38,10 +38,10 @@ No active P0/P1 tasks in this repo. Work is in low-contribution mode.
 
 ## Recent Changes
 
-- `CLOUD/aws/examples.py` — boto3 examples (EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53)
+- `cloud/aws/examples.py` — boto3 examples (EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53)
 - `SAAS/github/examples.py`, `SAAS/datadog/examples.py`, `SAAS/slack/examples.py`, `SAAS/pagerduty/examples.py`
 - `atlassian/` — Jira, Confluence, Bitbucket, Statuspage API examples with shared client + validator
-- `IAS/` — Ubuntu + Windows EC2 UserData bootstrap scripts
+- `cloud/iac/` — Ubuntu + Windows EC2 UserData bootstrap scripts
 - `git/cleanup-branches.ps1` — multi-repo merged branch cleanup
 - `agent/` — personal agent system (CFO, Career, Builder) + product delivery pipeline (PMO → DevOps → QA)
 - `projects/auto/` — single-page car project board
