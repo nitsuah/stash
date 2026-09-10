@@ -27,7 +27,34 @@ For each repo with local git worktrees (`git worktree list`):
 
 Log to `stash/agent/logs/stale-worktrees.log` in the same format as prior runs.
 
-## obn (daily note)
+## obn (repo sync, review, daily note)
+
+Three sub-steps, run in order. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
+
+### 1. Repo doc sync (obn-repo)
+
+Run `agent/scripts/sync-repos.ps1` (or an equivalent manual copy) to pull each repo's root PMO files (`CHANGELOG.md`, `FEATURES.md`, `METRICS.md`, `README.md`, `ROADMAP.md`, `TASKS.md`, etc.) and `docs/*.md` into `stash/agent/repos/<repo>/`.
+
+Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never overwrite) a new dated section in this exact format, matching prior entries:
+
+```
+## obn-repo — <YYYY-MM-DD HH:MM>
+OK <repo> — <N> .md files staged
+OK <repo> — <N> .md files staged
+...
+```
+
+### 2. Repo review/synthesis (obn-review)
+
+Read the synced `.md` files per repo and refresh each repo's summary at `stash/agent/repos/<repo>.md`. **Note: `agent/repos/` — plural.** A past log entry pointed at `agent/repo/` (singular), a directory that doesn't exist — that stale path is why this step stopped producing anything findable.
+
+Log to `C:\Users\<user>\code\stash\agent\logs\obn-review.log`, appending (never overwrite) one line per run in this exact format:
+
+```
+<YYYY-MM-DD>: obn-review run across <N> repos (<repo>, <repo>, ...). All synthesis files written to C:\Users\<user>\code\stash\agent\repos\.
+```
+
+### 3. Daily note (obn)
 
 Generate today's daily note per the existing `agent/prompts/AUTO.md`/vault convention and open it as a draft PR in `stash`, same as the existing `obn: daily note <date>` PRs. Keep this lightweight — it's low priority relative to the sync and worktree steps above.
 

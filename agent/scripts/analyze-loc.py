@@ -344,7 +344,15 @@ def main():
         for lf in sorted(all_large, key=lambda x: -x["lines"])[:20]:
             log_lines.append(f"  {lf['lines']} lines — {lf['slug']}/{lf['path']}")
 
-    log_path.write_text("\n".join(log_lines), encoding="utf-8")
+    # Append (never overwrite) — write_text() here used to truncate the whole
+    # log file on every run, destroying prior dated entries. Open in append
+    # mode instead, the same way daily-git-sync/stale-worktrees append in
+    # DAILY.md.
+    needs_separator = log_path.exists() and log_path.stat().st_size > 0
+    with log_path.open("a", encoding="utf-8") as f:
+        if needs_separator:
+            f.write("\n")
+        f.write("\n".join(log_lines) + "\n")
 
     # Print summary
     for line in log_lines:
