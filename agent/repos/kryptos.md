@@ -1,6 +1,6 @@
 # kryptos
 
-> Reviewed: 2026-09-11
+> Reviewed: 2026-09-16 (PMO audit — see [[pmo-audit-2026-09-16]])
 
 ## Overview
 
@@ -49,3 +49,7 @@ Root `CHANGELOG.md` [Unreleased] is stale (RAG/serve additions only); `docs/ROAD
 - **Phase 8 (2026-09-01 onward)**: two of three primary-source gaps closed (World Clock segment photos via more Wikimedia Commons images; sub-minute Nov 9 1989 timestamp via `chronik-der-mauer.de`'s Hertle transcript); compass-rose bearing remains open.
 - **2026-09-02/03 external-review follow-ups**: found and fixed a real bug — `keystream_validator.K4_CRIBS` had EAST/NORTHEAST cribs one position too high since introduction (also duplicated in `key_csp.py`/`clock_hill_attack.py`); built `plaintext_evidence` (confidence-tiered crib data), `known_plaintext_inversion` (extended to rectangular grids, 3.67M permutations tested), `classical_cipher_sweep` (Playfair/Four-Square/Bifid/Autokey — never previously run against real K4), `k0_morse_keywords` (from the sculpture's Morse-code entrance slabs, never used before); consolidated 17 duplicate K4-ciphertext literals to one canonical import. All new attacks null.
 - Test suite grown to 1271 test functions / 1192 fast-collected (0 failures, 28 skipped), 89.35% coverage as of 2026-08-22 (`docs/METRICS.md`), up from 633/95% at the prior review.
+
+## 2026-09-16 PMO Audit
+
+`docs/TASKS.md`/`docs/ROADMAP.md` re-checked line-by-line — still accurate, no contradictions (this repo already self-flags its own doc staleness inline, e.g. ROADMAP's Phase 3 note). Real bug found and fixed: README's "Docker Fast Coverage" command was missing `geographiclib` from its manual pip-install list, breaking collection of 5 K4 geometry/geodesy test modules (`ModuleNotFoundError`) — that dependency has been real since the Phase 6 geodesy work but the doc snippet was never updated. Fixed, then re-ran the corrected command for real numbers: **1658 passed, 34 skipped, 26 deselected (slow)** in 261.37s, **89.27% coverage** (was 1192/28/89.35% on 2026-08-22 — test count jumped ~40% from the Phase 6-8 work, coverage % stayed essentially flat). `docs/METRICS.md` refreshed accordingly. `docs/ROADMAP.md`'s "Next Review: 2026-09-15" is now 1 day overdue — left untouched (content is accurate) but flagged for next cycle. PR: [nitsuah/kryptos#215](https://github.com/nitsuah/kryptos/pull/215).
