@@ -1,6 +1,6 @@
 # gcp - Google Drive automation toolkit
 
-**Last Validated:** 2026-06-10 | PMO audit - Docker-first validation
+**Last Validated:** 2026-09-16 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/gcp
 **Branch convention:** pmo/gcp/planning-alignment-YYYY-MM-DD
 
@@ -27,17 +27,21 @@
 
 ## PMO Findings
 
-- P0 blocker: Containerized path is broken due to Dockerfile copy path mismatch.
-- TASKS previously listed several already-shipped items as open; PMO reset to actionable backlog.
-- ROADMAP used stale sequencing and has now been reset to 2026 execution windows.
+- Docker build status above (`COPY copy_folder.py .` path mismatch) is from a prior audit pass and was not re-validated this cycle — flag for a fresh Docker smoke test rather than trusting as current.
+- `drive-copy` CLI is now explicitly in **maintenance mode** per ROADMAP.md: the Q1–Q3 2026 core feature set and both Q4 exploratory items (duplicate-detection report, permission mirroring) have all shipped.
+- Only remaining open idea is a 2027 web-UI evaluation, which was itself evaluated and deferred this cycle — scoped as a standalone FastAPI/Flask app if ever revisited, explicitly not a thin wrapper (no persistent server/session model exists to attach one to).
 
 ---
 
+## Open P0/P1 Tasks
+
+None open at P0/P1 — TASKS.md's only Todo item is the 2027 web-UI evaluation (deferred, not actionable now). Future work here is expected to be bugfixes/dependency upkeep, not new CLI surface area.
+
 ## Priority Focus
 
-1. Fix Dockerfile build/runtime path to align with package layout.
-2. Add Docker smoke validation in CI.
-3. Keep README command examples aligned to shipped entrypoints.
+1. Re-validate the Docker build path mismatch noted above — confirm whether it's still current before treating it as a live blocker.
+2. Add Docker smoke validation in CI (still relevant regardless of current build status).
+3. No feature work planned; treat as maintenance-mode.
 
 ---
 
@@ -52,7 +56,7 @@ docker build -t pmo-gcp-audit .
 
 ## Active PMO
 
-See TASKS.md and ROADMAP.md for current priorities.
+See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): duplicate-detection report (`--duplicate-report`, CSV of same-name/same-size files across source+destination, Google-native files excluded); permission mirroring (`--mirror-permissions`, ACL copy onto new destination objects, ownership never mirrored, failures logged not fatal); new tests for both in `tests/test_roadmap_2026.py`; web-UI evaluation deferred to 2027.
 
 ---
 

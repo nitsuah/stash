@@ -44,6 +44,12 @@ Typical route composition:
 - `lib/shared/`
   - Shared gameplay and UI subsystems.
 
+- `public/games/memory-match/`, `public/games/dodge-blocks/`
+  - Standalone HTML5 games (plain JS/canvas, no React) served as static assets and
+    embedded by `pages/memory-match.jsx` / `pages/dodge-blocks.jsx` via a sandboxed
+    (`allow-scripts` only, no `allow-same-origin`) iframe. These sit outside the
+    `lib/` game-module pattern described above by design.
+
 - `contexts/`
   - React context providers for shared route state (for example audio/settings toggles).
 

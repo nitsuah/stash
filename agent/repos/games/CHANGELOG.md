@@ -10,6 +10,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Documentation updates for Overseer compliance (FEATURES.md, CHANGELOG.md)
+- **Memory Match** (`/memory-match`) and **Dodge Blocks** (`/dodge-blocks`): two
+  standalone HTML5 games embedded via sandboxed iframe, bringing the collection
+  to 9 games. Documented in README.md, FEATURES.md, ARCHITECTURE.md, and API.md,
+  which had not been updated when these shipped.
+- Unit test suite grown to 482 passing tests (previously 218 at the 1.0.0 tag);
+  README.md and FEATURES.md corrected to match.
+- Press feedback (button/joystick `:active` states) and a quiet click sound on
+  the arcade cabinet's decorative console buttons and joystick, plus a subtle
+  cosmetic wear/scuff overlay on the cabinet frame.
+
+### Fixed
+
+- Arcade cabinet (`ArcadeLayout`) no longer clips its neon hood/title or its
+  joystick/buttons/coin-slot console when the cabinet is taller than the
+  viewport — routine on tablet and mobile portrait widths. Non-fullscreen
+  pages (home, snake, flappy, memory-match, dodge-blocks) now scroll instead
+  of clipping; fullscreen game pages keep their original fixed layout.
+- Cabinet frame, marquee title, and the 3x3 game grid no longer overflow the
+  viewport edges on tablet/mobile widths (several independent CSS bugs: a
+  mobile `width: 100vw` override wider than its parent, a mobile breakpoint
+  that grew the title instead of shrinking it, and a game grid with no
+  breakpoint below 768px).
+- Two-line game titles (e.g. "Tank Battle") no longer get clipped by a
+  fixed-height card and read as overlapping the row below.
+- Deduplicated a corrupted, triplicated `.github/dependabot.yml` and corrected
+  its npm `directory` to `/app` (the repo has no root `package.json`).
+
+### Changed
+
+- Documentation audit pass (2026-08-22): corrected game count (9, not 7), unit test count (482, not 218), coverage (95.41%), and dependency versions across README.md, FEATURES.md, ROADMAP.md, TASKS.md, METRICS.md, docs/API.md
+- **Memory Match**: documented existing vanilla JS card-matching game served via iframe at `/memory-match` (existing route, not a new addition)
+- **Dodge Blocks**: documented existing vanilla JS canvas dodge game served via iframe at `/dodge-blocks` (existing route, not a new addition)
 
 ## [1.0.0] - 2025-11-25
 

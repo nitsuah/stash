@@ -7,11 +7,11 @@ This document provides a comprehensive overview of the `nitsuah-io` project arch
 - **Framework:** [Next.js](https://nextjs.org/) 16 (App Router)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Web3:**
-  - [wagmi](https://wagmi.sh/) v2
+  - [wagmi](https://wagmi.sh/) v3
   - [viem](https://viem.sh/) v2
   - [@tanstack/react-query](https://tanstack.com/query/v4/docs/react/overview)
 - **UI:**
-  - [React](https://reactjs.org/) 18
+  - [React](https://reactjs.org/) 19
   - [Material-UI](https://mui.com/)
   - [Emotion](https://emotion.sh/)
 - **3D Graphics:** [@splinetool/react-spline](https://github.com/splinetool/spline-react)
@@ -29,7 +29,7 @@ This document provides a comprehensive overview of the `nitsuah-io` project arch
 The project is organized into the following key directories:
 
 - **`config/`**: Centralized configuration files for Jest, ESLint, Prettier, and wagmi.
-- **`docs/`**: Project documentation, including this file and `CONTRIBUTING.md`.
+- **`docs/`**: Project documentation, including this file (contribution guidelines live in the shared [`nitsuah/.github`](https://github.com/nitsuah/.github) repo).
 - **`public/`**: Static assets, including images, fonts, and JSON data.
 - **`src/`**: The main application source code.
   - **`app/`**: The Next.js App Router, containing all pages and components.
@@ -312,12 +312,12 @@ Reusable UI components showcasing different patterns:
 
 ## Status
 
-**Last Updated:** December 4, 2025
+**Last Updated:** 2026-09-01 (version numbers refreshed; component/testing sections not re-audited line-by-line — see `docs/METRICS.md` for current test counts)
 
 ### Production Ready ✅
 
 - Next.js 16 App Router with TypeScript
-- wagmi v2 + viem v2 Web3 integration
+- wagmi v3 + viem v2 Web3 integration
 - Wallet connection (icons, toasts, install prompts)
 - Profile page with wallet dashboard
 - Jest + Playwright + accessibility tests (98% coverage, 213 tests)

@@ -2,7 +2,7 @@
 # Nitsuah.io — Personal Portfolio
 
 ---
-**Last Updated:** 2026-04-13
+**Last Updated:** 2026-09-01
 ---
 
 A fast, modern Next.js + TypeScript personal website showcasing selected projects, Web3 experiments, and professional work.
@@ -72,7 +72,7 @@ Collection of practical IT automation and enterprise tools
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Please:
+We welcome contributions! See [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md) for guidelines. Please:
 - Fork the repo and create a feature branch
 - Add or improve tests for new features
 - Run all tests and ensure coverage does not decrease
@@ -250,22 +250,3 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
-
-## Repository Index
-
-### Root Files
-- [[repos/nitsuah-io/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/nitsuah-io/FEATURES.md|FEATURES.md]]
-- [[repos/nitsuah-io/METRICS.md|METRICS.md]]
-- [[repos/nitsuah-io/ROADMAP.md|ROADMAP.md]]
-- [[repos/nitsuah-io/TASKS.md|TASKS.md]]
-
-### Documentation
-- [[repos/nitsuah-io/docs/ARCH.md|ARCH.md]]
-- [[repos/nitsuah-io/docs/DEMO_REF.md|DEMO_REF.md]]
-- [[repos/nitsuah-io/docs/HANDOFF-home-landing-redesign-20260411.md|HANDOFF-home-landing-redesign-20260411.md]]
-- [[repos/nitsuah-io/docs/HANDOFF-spline-move-3d-20260403.md|HANDOFF-spline-move-3d-20260403.md]]
-- [[repos/nitsuah-io/docs/INTEGRATIONS.md|INTEGRATIONS.md]]
-- [[repos/nitsuah-io/docs/PLAYWRIGHT_FIXES.md|PLAYWRIGHT_FIXES.md]]
-- [[repos/nitsuah-io/docs/SCREENSHOTS.md|SCREENSHOTS.md]]
-- [[repos/nitsuah-io/docs/TESTING.md|TESTING.md]]

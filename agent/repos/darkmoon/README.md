@@ -3,22 +3,26 @@
 [![CI](https://github.com/nitsuah/darkmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/darkmoon/actions)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2ae05c81-761a-4d3a-91ac-dcd5980d48d3/deploy-status)](https://app.netlify.com/projects/darkmoon-dev/deploys)
 
-> Solo-live 3D browser tag game built with React 19, Three Fiber, Socket.io, and Vite. **Solo mode is the live experience; multiplayer is planned.**
+> 3D browser combat game built with React 19, Three Fiber, Socket.io, and Vite. **Solo mode with full combat gameplay is live; multiplayer is planned.**
 
 **Live Demo:** [darkmoon.dev](https://darkmoon.dev)
 
 ## Documentation
 
-- [ARCHITECTURE.md](ARCHITECTURE.md): App boundaries, deployment, and contracts
-- [API.md](API.md): HTTP and WebSocket interface reference
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md): App boundaries, deployment, and contracts
+- [API.md](docs/API.md): HTTP and WebSocket interface reference
 
 ## ✨ Features
 
-- `[shipped]` **Solo Mode with AI Bots** — Practice against intelligent bot opponents on the live site.
-- `[in-progress]` **Multiplayer 3D Gameplay** — Multiplayer foundations exist, but the deployed experience is still solo-first.
+- `[shipped]` **Combat Gameplay with AI Bots** — Full deathmatch and CTF modes with bot LOS checks, weapon reload system (including timing-based precision snap mechanic), angular spread, bot jumping, tracer beams, hit direction indicators, score tension alerts, and ShotgunVFX cone particle effects.
+- `[shipped]` **Shooting Gallery Mode** — Standalone target-practice mode with crosshair and bot tracer improvements.
+- `[shipped]` **Mouse-Aimed Firing & Player Reticle** — Ground-plane raycast aiming with GPU-composited CSS crosshair overlay; velocity-based smooth movement with camera-relative A/D strafing.
+- `[shipped]` **Pluggable Game Mode Architecture** — `GameModeHandler` interface decouples mode logic; `TagMode` (with health/damage support), `DeathmatchMode`, and `CTFMode` ship as reference implementations.
+- `[shipped]` **Modular UI Architecture** — `GameUI` and `Solo.tsx` fully componentized: 15 HUD sub-components, 3 new hooks (`useGameStart`, `useBotPositionHandlers`, `useDebugModes`), and a dedicated `useGameUIState.ts` for all event-driven state.
 - `[shipped]` **WebSocket Server Foundation** — Socket.io and server validation are in place for future live modes.
+- `[in-progress]` **Multiplayer 3D Gameplay** — Multiplayer foundations exist, but the deployed experience is still solo-first.
 - `[in-progress]` **Mobile Support** — Responsive layout and touch controls exist, but device validation is still open.
-- `[shipped]` **Modern Tooling** — Vite, Vitest, ESLint, Prettier, TypeScript, and CI are wired into the repo.
+- `[shipped]` **Modern Tooling** — Vite, Vitest (659 tests), ESLint, Prettier, TypeScript, and CI are wired into the repo.
 
 ## Quick Start
 
@@ -34,7 +38,7 @@ Visit `http://localhost:4444`. **Solo mode is the only live experience; multipla
 All checks run via Docker — no local Node.js required.
 
 ```bash
-# Run all tests (366 tests, Vitest)
+# Run all tests (659 tests, Vitest)
 docker compose -f config/docker-compose.yml --project-name darkmoon --profile test run --rm test
 
 # Lint
@@ -81,24 +85,3 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
-
-## Repository Index
-
-### Root Files
-- [[repos/darkmoon/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/darkmoon/FEATURES.md|FEATURES.md]]
-- [[repos/darkmoon/METRICS.md|METRICS.md]]
-- [[repos/darkmoon/ROADMAP.md|ROADMAP.md]]
-- [[repos/darkmoon/TASKS.md|TASKS.md]]
-
-### Documentation
-- [[repos/darkmoon/docs/API.md|API.md]]
-- [[repos/darkmoon/docs/ARCHITECTURE.md|ARCHITECTURE.md]]
-- [[repos/darkmoon/docs/CONKER_BFD_BUILD_GUIDE.md|CONKER_BFD_BUILD_GUIDE.md]]
-- [[repos/darkmoon/docs/INSTRUCTIONS.md|INSTRUCTIONS.md]]
-- [[repos/darkmoon/docs/MULTIPLAYER_SHOOTER_ROADMAP.md|MULTIPLAYER_SHOOTER_ROADMAP.md]]
-- [[repos/darkmoon/docs/ROADMAP_DETAILED.md|ROADMAP_DETAILED.md]]
-- [[repos/darkmoon/docs/TECH_DEBT.md|TECH_DEBT.md]]
-- [[repos/darkmoon/docs/archive/ARCHITECTURE_IMPROVEMENTS.md|ARCHITECTURE_IMPROVEMENTS.md]]
-- [[repos/darkmoon/docs/archive/HANDOFF-player-tag-fix-20260403.md|HANDOFF-player-tag-fix-20260403.md]]
-- [[repos/darkmoon/docs/archive/L7_ENGINEERING_REVIEW.md|L7_ENGINEERING_REVIEW.md]]

@@ -1,0 +1,51 @@
+# Contract Safe
+
+> Reviewed: 2026-09-11
+
+## Overview
+
+Nitsuah Labs' Solidity smart-contract collection (RegisterPortal wave portal, Domains on-chain DNS, LabNFT generative NFT collection) built on Hardhat 3 (ESM-only), OpenZeppelin 5, Ethers.js v6, and TypeScript 7. Deploys to Ethereum/Polygon mainnet and Sepolia/Mumbai testnets via `deploy/deploy.ts`, with Docker-based local dev, Solhint linting, and Slither static analysis wired into CI.
+
+## Current Goals / Roadmap Focus
+
+**Near Term (0-3mo)**
+- [x] Project setup/architecture, 0 vulnerabilities, Docker containerization, Solhint, pre-commit hooks, Dependabot
+- [x] Core contract deployment functionality — `deploy/deploy.ts` deploys RegisterPortal, Domains, LabNFT (shipped 2026-09)
+- [x] Local test-network integration — `docker-compose up hardhat-node` / `npx hardhat node`, documented in README
+- [ ] Basic CLI interface for the deployer — not started
+
+**Mid Term (3-6mo)**
+- [ ] Advanced deployment options (proxy/upgradeable contracts) — design written up, implementation deferred to 2027 (see below)
+- [ ] Configuration management system — not started
+- [ ] Gas optimization — research completed 2026-09 (findings documented in TASKS.md), no contract code changed yet
+- [x] Security audits — Slither configured, initial static analysis pass done
+- [x] Access control standardized on OpenZeppelin `Ownable` — `Domains.withdraw` migrated (shipped 2026-09); RegisterPortal/LabNFT deliberately left without an owner-gated withdraw (would introduce a new centralization/rug-pull vector)
+
+**Long Term (6-12mo)**
+- [x] Multi-network support (Ethereum, Polygon, Sepolia, Mumbai)
+- [x] Automated testing (63 passing tests)
+- [ ] UI/UX improvements (web UI) — not started
+- [ ] Community contributions support — not started
+
+**2027**
+- Contract upgradeability (UUPS pattern via OpenZeppelin) — design-only this cycle, deliberately deferred: none of the three contracts were built with upgradeability in mind (payable/arg constructors, no storage gaps), and RegisterPortal/Domains hold user funds, so retrofitting it needs a dedicated security-review pass rather than a docs cycle.
+
+## Open P0/P1 Tasks
+
+None. TASKS.md's open "Todo" items are all P2/P3 (CLI interface, upgradeability implementation, applying gas-optimization findings, getting real Slither findings in CI, and a deferred `npm audit` dependency review) — no P0/P1 work is currently open.
+
+## Blockers
+
+- Slither (`npm run security:slither`) cannot produce findings in this dev sandbox — it blocks solc's native binary download (`solc-select`/crytic-compile have no WASM fallback, unlike Hardhat's own solc fetch). The CI `slither` job runs on a normal-network GitHub Actions runner and should work there; no findings baseline has been recorded yet — check the job's first run and update METRICS.md/TASKS.md once it does.
+
+## Recent Changes (Unreleased)
+
+- Added `deploy/deploy.ts`: deploys RegisterPortal, Domains, and LabNFT with constructor-arg handling, deployer-balance validation on non-local networks, per-deployment logging, and `--network` selection — replaces four broken ethers-v5-syntax legacy scripts.
+- Added Slither static analysis (`config/slither.config.json`, `npm run security:slither`, CI job).
+- Wired up Hardhat v3's native `--coverage` flag as `npm run coverage` (solidity-coverage has no Hardhat v3 support).
+- **Breaking:** `Domains` now inherits OpenZeppelin `Ownable` instead of a bespoke owner pattern; `withdraw()` now reverts with `OwnableUnauthorizedAccount` instead of a custom `Unauthorized()` error.
+- Fixed CI: `coverage` step now runs real coverage instead of a no-op `echo` stub; removed a silently-failing `hardhat-contract-sizer` step (Hardhat-2.x-only plugin, not installed); added the `slither` job.
+- Fixed a Docker build regression (`Dockerfile` required a host `.env` that isn't guaranteed to exist).
+- Fixed a flaky RegisterPortal balance-depletion test (was a 50/50 coin-flip that often never exercised its revert path) — now deterministic via `networkHelpers.setPrevRandao`.
+- Removed dead code: four legacy `scripts/*.js` deploy scripts and an unused Hardhat v2-only `hardhat.config.cjs`.
+- Docs: corrected a stale "CI/CD Pipeline Success Rate: 0%" figure (actual ~98% green); corrected README/FEATURES Hardhat version references; removed a dead `TESTING.md` link; `.env.template` now matches the env vars actually read by the config/deploy script.

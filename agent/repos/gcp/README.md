@@ -42,6 +42,9 @@ drive-copy --help
 - `https://www.googleapis.com/auth/drive`
 - `https://www.googleapis.com/auth/drive.metadata.readonly`
 
+The full `drive` scope already covers reading and writing file permissions, so
+`--mirror-permissions` needs no additional scope or re-authorization.
+
 ## Configuration
 
 Set the following environment variables:
@@ -74,7 +77,7 @@ drive-copy --help-env
 # Preview copy scope without writing outputs or copying files
 drive-copy --dry-run
 
-# Copy only Google Docs and PDFs (aliases: docs, sheets, slides, pdf, images, text, video, audio, zip)
+# Copy only Google Docs and PDFs (aliases: docs, sheets, slides, forms, drawings, pdf, images, text, video, audio, zip)
 drive-copy --include-mime docs,pdf
 
 # Copy everything except images and videos (prefix 'image/' matches all image subtypes)
@@ -92,14 +95,20 @@ drive-copy --max-retries 5 --max-backoff 120
 # Re-run safely after a partial failure — already-copied files and folders are skipped
 drive-copy --skip-existing
 
+# Copy ACL/sharing permissions from source files/folders onto their destination counterparts
+# (ownership is never transferred; applies only to objects copied/created during this run)
+drive-copy --mirror-permissions
+
+# Scan source and destination for files with identical name+size and write
+# outputs/duplicate-report.csv, then exit without copying (run before or after a copy)
+drive-copy --duplicate-report
+
 # Copy mode logs periodic COPY PROGRESS updates and a final COPY PROGRESS SUMMARY
 drive-copy
 
 # Alternate valid path (module execution)
 python -m gcp.copy_folder
 ```
-
-`drive-report` appears in older notes, but the packaged console script in `pyproject.toml` is `drive-copy`.
 
 ### Python Module
 
@@ -116,15 +125,57 @@ copy_child_objects('source_id', 'destination_id')
 ## Output Schema
 
 ### CSV Format
+
+Assessment 1 (`outputs/assessment-1.csv`):
 ```csv
-Folder Name,File Count,Folder Count
+Folder Name,Number of Files,Number of Folders
+MyDrive,43,8
+```
+
+Assessment 2 and 3 (`outputs/assessment-2.csv`, `outputs/assessment-3.csv`):
+```csv
+Folder Name,Number of Files,Number of Child Folders
+TOTAL,43,8
 Design,15,3
 Documentation,28,5
-TOTAL,43,8
 ```
 
 ### JSON Format
 See `examples/report-sample.json` for complete structure.
+
+Duplicate report (`outputs/duplicate-report.csv`, written by `--duplicate-report`):
+```csv
+File Name,Size (bytes),Source Path,Destination Path
+report.pdf,102400,Design/report.pdf,Design/report.pdf
+```
+
+## GCP Project Setup Utility
+
+`gcp/gcp_setup.py` automates the creation and baseline configuration of a new GCP project for
+Google Workspace OAuth integrations. Run it once before using `drive-copy` to provision
+credentials without manual Console steps.
+
+```bash
+python gcp/gcp_setup.py
+```
+
+What it does:
+
+1. Verifies `gcloud` CLI is installed and prompts for login if needed
+2. Lists available billing accounts and links one to the new project
+3. Enables Gmail, Calendar, Drive, Gemini, and Billing Budgets APIs
+4. Creates a $50/month budget alert at 50 % and 90 % thresholds
+5. Attempts automated OAuth 2.0 client creation via `gcloud alpha`; falls back to
+   step-by-step manual Console instructions if the account type does not support it
+6. Writes `apps/client_secrets.json` (or a placeholder) for use by the Drive CLI
+
+> **Note:** Automated OAuth client creation is not supported on all account types. If it fails,
+> the script prints manual Console instructions and writes a placeholder `apps/client_secrets.json`
+> containing values like `YOUR_CLIENT_ID` and `YOUR_CLIENT_SECRET` that **must be replaced**
+> with real credentials from the Google Cloud Console before running `drive-copy`.
+
+**Prerequisites:** [gcloud CLI](https://cloud.google.com/sdk/docs/install) on `PATH` and
+an active GCP billing account.
 
 ## Outputs
 
@@ -138,18 +189,11 @@ See `examples/report-sample.json` for complete structure.
 - [![Bandit](https://github.com/nitsuah/gcp/actions/workflows/bandit.yml/badge.svg)](https://github.com/nitsuah/gcp/actions/workflows/bandit.yml)
 - [![CodeQL](https://github.com/nitsuah/gcp/actions/workflows/codeql.yml/badge.svg)](https://github.com/nitsuah/gcp/actions/workflows/codeql.yml)
 - [![Dependency Review](https://github.com/nitsuah/gcp/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/nitsuah/gcp/actions/workflows/dependency-review.yml)
+- [![Python CI](https://github.com/nitsuah/gcp/actions/workflows/python-ci.yml/badge.svg)](https://github.com/nitsuah/gcp/actions/workflows/python-ci.yml)
+
 ## Community Standards
 
 Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
-
-## Repository Index
-
-### Root Files
-- [[repos/gcp/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/gcp/FEATURES.md|FEATURES.md]]
-- [[repos/gcp/METRICS.md|METRICS.md]]
-- [[repos/gcp/ROADMAP.md|ROADMAP.md]]
-- [[repos/gcp/TASKS.md|TASKS.md]]

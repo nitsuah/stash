@@ -76,7 +76,7 @@ Every confirmed tape scan plays the Akira audio sting. The sound is rate-limited
 Tapes with genre tags (auto-filled from OMDb via ⚡ Fill) get visual effects on their wall/spine cards. Hover a card to trigger them.
 
 | Genre | Hover Effect | Emoji |
-|---|---|---|
+| -- | --- | --- |
 | Horror | Red vignette glow + zombie hand rises from bottom | 🧟 |
 | Thriller | Darken/contrast shift + knife drops from top corner | 🔪 |
 | Sci-Fi | Cyan border flash + glitch shake + alien slides in | 👾 |
