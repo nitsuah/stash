@@ -1,6 +1,6 @@
 # Games Collection
 
-> Browser arcade collection built with Next.js, Three.js, and React Three Fiber. The live routes are shipped; the current work is release-path reliability and runtime cleanup.
+> Browser arcade collection built with Next.js, Three.js, and React Three Fiber. Nine games are live at [nitsuah-arcade.netlify.app](https://nitsuah-arcade.netlify.app); the current work is release-path reliability and runtime cleanup.
 
 [![CI](https://github.com/nitsuah/games/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/nitsuah/games/actions)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/25a0a90d-195b-4e53-9d94-9a4107321939/deploy-status)](https://app.netlify.com/projects/nitsuah-arcade/deploys)
@@ -71,6 +71,26 @@
 - **Mechanics**: Enemy patterns, increasing difficulty, defensive shields
 - **Goal**: Destroy all enemies, survive waves, achieve high score
 
+### 🧠 Memory Match
+
+**Status**: ✅ Complete | **Playable**: `/memory-match`
+
+- **Controls**: Click/tap a card to flip it, or focus it and press Enter/Space
+- **Features**: 8 pairs of fruit symbols (16 cards), shuffle on restart, win detection, keyboard-accessible cards with ARIA labels
+- **Mechanics**: Card-flip matching with timed reveal of non-matching pairs
+- **Rendering**: Standalone sandboxed HTML5 game (not a React/Three.js game like the others), embedded via iframe
+- **Goal**: Match all 8 pairs to win
+
+### ⬛ Dodge Blocks
+
+**Status**: ✅ Complete | **Playable**: `/dodge-blocks`
+
+- **Controls**: Arrow Left / Arrow Right to move the paddle
+- **Features**: Randomly-sized falling blocks, score counter, game-over screen
+- **Mechanics**: Score increments each frame while alive; block speed varies randomly
+- **Rendering**: Standalone sandboxed vanilla JS + HTML Canvas game (not a React/Three.js game like the others), embedded via iframe
+- **Goal**: Survive as long as possible and maximize score
+
 ## 🛠️ Development
 
 ### Quick Start
@@ -132,12 +152,14 @@ This uses a Debian-based Node image to support Playwright browser dependencies. 
 app/
 ├── pages/           # Next.js pages
 │   ├── asteroid.jsx      # Asteroid space shooter
-│   ├── fps.jsx          # FPS tank game  
+│   ├── fps.jsx          # FPS tank game
 │   ├── breakout.jsx     # Breakout brick breaker
 │   ├── flappy.tsx       # Flappy bird clone
 │   ├── pong.tsx         # Pong with AI
 │   ├── snake.tsx        # Classic snake
-│   └── space-invaders.tsx # Space invaders
+│   ├── space-invaders.tsx # Space invaders
+│   ├── memory-match.jsx  # Memory card match (embeds public/games/memory-match via iframe)
+│   └── dodge-blocks.jsx  # Dodge falling blocks (embeds public/games/dodge-blocks via iframe)
 ├── lib/             # Game-specific logic
 │   ├── asteroid/    # Asteroid game code
 │   ├── fps/         # FPS game code
@@ -147,6 +169,9 @@ app/
 │   ├── snake/       # Snake game code
 │   ├── space-invaders/ # Space invaders code
 │   └── shared/      # Shared systems (physics, audio, UI)
+├── public/games/    # Standalone HTML5 games, sandboxed via iframe
+│   ├── memory-match/    # Memory Match (vanilla JS)
+│   └── dodge-blocks/    # Dodge Blocks (vanilla JS; a stray duplicate also exists at repo-root games/, unused at runtime)
 ├── _components/     # Global effects and reusable components
 ├── e2e/             # E2E tests (Playwright)
 └── scripts/         # Build/test scripts
@@ -154,7 +179,7 @@ app/
 
 ## 📊 Testing & Quality
 
-- **Unit Tests**: 218 passing (Jest)
+- **Unit Tests**: 482 passing across 35 suites (Jest)
 - **E2E Tests**: Full game flow coverage (Playwright)
 - **Test Coverage**: Core game logic covered
 - **CI/CD**: GitHub Actions (type-check, test, E2E, Lighthouse audits)
@@ -171,13 +196,14 @@ app/
 
 ### Recent Milestones
 
-- ✅ All 7 games fully playable and tested
+- ✅ All 9 games fully playable (7 React/Three.js games, plus Memory Match and Dodge Blocks as sandboxed HTML5 embeds); Memory Match and Dodge Blocks have unit/E2E tests pending (see TASKS.md)
 - ✅ Code quality improvements (TypeScript types, documentation)
 - ✅ Performance optimizations (game loops, physics)
-- ✅ Comprehensive test coverage (218 unit tests)
+- ✅ Comprehensive test coverage (482 unit tests, ~95% statement coverage)
 - ✅ E2E testing for all game flows
 - ✅ Accessibility improvements (keyboard navigation, ARIA labels)
 - ✅ Asteroid audio startup race fixed (`bgm` readiness-gated on route init)
+- ✅ Game page UI polish — neon buttons, page titles, back navigation on all game routes; CSP iframe fix
 
 ### Active Development
 
@@ -195,41 +221,29 @@ All security overrides in `app/package.json` are pinned to **exact versions** ra
 
 ### Active Overrides
 - **qs (6.15.2)**: Fixed High-severity `arrayLimit` bypass and DoS vulnerabilities.
-- **lodash (4.17.23)**: Fixed Prototype Pollution vulnerability.
-- **tmp (0.2.4)**: Tightened from `^0.2.4` to exact version for environment stability.
+- **lodash (4.18.1)**: Fixed Prototype Pollution vulnerability.
+- **tmp (0.2.7)**: Tightened to exact version for environment stability.
 
 ## 🔧 Technical Stack
 
-- **Framework**: Next.js 16.1.6
-- **3D Graphics**: Three.js 0.182.0, React Three Fiber 9.5.0
+- **Framework**: Next.js 16.3.3
+- **3D Graphics**: Three.js 0.185.1, React Three Fiber 9.7.0
 - **Physics**: @react-three/cannon 6.6.0
-- **Styling**: Styled Components 6.3.9
-- **Animation**: GSAP 3.14.2
-- **Testing**: Jest 30.2.0, Playwright 1.56.1
-- **Build Tools**: ESLint 9.38.0, Prettier 3.6.2
+- **Styling**: Styled Components 6.5.3
+- **Animation**: GSAP 3.15.0
+- **Testing**: Jest 30.5.0, Playwright 1.62.1
+- **Build Tools**: ESLint 9.39.2, Prettier 3.9.6
+
+_(Versions above are the resolved versions in `app/package-lock.json`;
+Dependabot keeps these current, so check that file if this drifts again.)_
 
 ---
 
-Built with ❤️ using Next.js, Three.js, React Three Fiber
-
-## Community Standards
-
-Shared community policies are centralized in https://github.com/nitsuah/.github:
-- Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
-- Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
+Built with ❤️ using Next.js, Three.js, React Three Fiber
+
+## Community Standards
+
+Shared community policies are centralized in https://github.com/nitsuah/.github:
+- Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
+- Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
-
-## Repository Index
-
-### Root Files
-- [[repos/games/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/games/FEATURES.md|FEATURES.md]]
-- [[repos/games/METRICS.md|METRICS.md]]
-- [[repos/games/ROADMAP.md|ROADMAP.md]]
-- [[repos/games/TASKS.md|TASKS.md]]
-
-### Documentation
-- [[repos/games/docs/API.md|API.md]]
-- [[repos/games/docs/ARCHITECTURE.md|ARCHITECTURE.md]]
-- [[repos/games/docs/INSTRUCTIONS.md|INSTRUCTIONS.md]]
-- [[repos/games/docs/README-docker.md|README-docker.md]]

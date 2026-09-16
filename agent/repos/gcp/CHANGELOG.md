@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Q4 2026)
+
+- **Duplicate-detection report** (`--duplicate-report`): recursively scans the source and
+  destination folder trees and writes `outputs/duplicate-report.csv` listing files with
+  identical name and byte size found in both — useful for spotting redundant copies before
+  or after a migration. Runs as a standalone report mode (exits without copying); Google-native
+  files (Docs, Sheets, Slides, ...) are excluded since they have no byte size to compare.
+- **Permission mirroring** (`--mirror-permissions`): copies sharing/ACL permissions from each
+  source file and folder onto its newly created destination counterpart as it is copied, so
+  migrated content keeps its original collaborators instead of defaulting to
+  destination-owner-only access. Ownership is never mirrored (Drive requires a separate
+  ownership-transfer flow); a permission that fails to apply (e.g. a domain grant that doesn't
+  exist in the destination org) is logged and skipped without aborting the copy. Applies only
+  to objects copied/created during the run, not ones reused via `--skip-existing`.
+- **`tests/test_roadmap_2026.py`**: new tests covering duplicate detection (recursive listing,
+  name+size matching, CSV output) and permission mirroring (role/type handling, error handling,
+  end-to-end wiring through `copy_child_objects` and the CLI).
+
+### Deferred
+
+- **Lightweight web UI for credential/folder configuration** — evaluated and deferred to 2027;
+  see the "2027" section of ROADMAP.md for scope and reasoning.
+
 ### Added (Q3 2026)
 
 - **Selective copy filters by file type** (`--include-mime`, `--exclude-mime`): copy only docs,

@@ -1,0 +1,35 @@
+we're using the Continue extension for VSC -
+https://marketplace.visualstudio.com/items?itemName=Continue.continue
+ we're trying to connect 9router as a model for continue (its setup) but we get that error when we try and chat
+Cannot read properties of undefined (reading 'includes')
+
+6:29 PM
+I’ll trace the local Continue-to-9router configuration path and the 9router API contract, then isolate the undefined.includes source with a minimal request/config check.
+
+Read memory
+
+6:31 PM
+1m 30s
+•
+GPT-5.6 Terra • 15.9 credits
+c:\Users\ajhar\code.claude.env auth for 9router is here if needed btw && C:\Users\ajhar\code\9router for more details there and we use docker to run shit lmk where you think the problem is?
+
+6:31 PM
+That earlier lead is not credible for a Continue chat failure: it points at an unrelated media-dashboard component, not the gateway’s chat endpoint. I’m checking the actual Continue config, Docker service state, and a redacted OpenAI-compatible request to locate the boundary that throws.
+
+The local Continue config names the model MAX. The routing code only accepts that as a registered alias/combo; when it cannot resolve it, the capacity-adapter path receives no model list and calls .includes on undefined. I’ll now verify that MAX is absent from the live gateway’s advertised/registered models and capture the server-side trace without exposing your credential.
+
+The probe used the .env credential and was rejected with 401 API key required, so it did not reach model resolution. That means there are two separate checks: whether Continue’s configured key authorizes, and whether MAX exists as a 9router alias/combo. I’m comparing the gateway’s expected auth header with Continue’s exact configured key source next.
+
+The live 9router source already guards the capacity adapter with Array.isArray(models), so that specific server-side .includes theory is falsified for this checkout. MAX is still nonstandard relative to the documented Continue models, but the next decisive check is to replay Continue’s configured credentials and model against /v1/models and /v1/chat/completions; that will tell us whether the error is gateway-side or in Continue before a request completes.
+
+Read content.txt, lines 1 to 300
+
+The decisive replay succeeded in authentication and MAX is advertised by /v1/models as a registered 13-model combo. The server accepted and routed the chat request; its current failure mode is downstream provider 403s from locked Gemini CLI accounts, which is separate from the Continue JavaScript includes error. I’m checking Continue’s installed extension logs next, since the TypeError is now most likely client-side handling of the gateway’s streamed/error response.
+
+The gateway itself is reachable and accepts the Continue-configured model/key, so I’m narrowing this to response compatibility: Continue may be iterating an unexpected /v1/models object or error payload. I’ll validate the model-list schema and inspect the installed Continue extension’s stack trace/version.
+
+
+Our latest theory/experiement was to limit our option to "or-free" instead of MAX model to see if a smaller subset would be handled correctly by the Continue extension.
+
+but we still get Cannot read properties of undefined (reading 'includes')

@@ -1,66 +1,57 @@
 # vhs
 
-> Reviewed: 2026-06-25
+> Reviewed: 2026-09-16
 
 ## Overview
 
-Personal VHS collection indexer — lightweight tool to catalog a VHS tape collection with AI-assisted metadata (Claude Vision), eBay valuation lookups, barcode scanning, and a web UI. Runs locally via Docker (Node.js/Express + Neon PostgreSQL backend). Flat JSON as source of truth; git-versioned.
+Personal VHS collection indexer — catalogs a VHS tape collection with AI-assisted metadata (Claude Vision or Ollama llava:7b fallback), eBay valuation lookups, barcode scanning, and a web UI. Node.js/Express + PostgreSQL (Neon) backend, containerized with Docker (primary) or deployable as a Netlify Function (alternative, `serverless-http`). Optional Google OAuth for multi-user/sharing; single-user mode with no login wall by default. Jest unit tests (85.4% whole-tree line coverage) + Playwright E2E tests, with CI (Hadolint, Shellcheck, HTMLHint, ESLint, dep-install check, Docker build smoke test).
 
 ## Current Goals / Roadmap Focus
 
-**Phase 1 — Capture:** Get every tape into `tapes.json` with ID + title via AI photo scanning
-**Phase 2 — Valuation:** Attach realistic price ranges from eBay sold listings  
-**Phase 3 — Use the data:** Exports (CSV, HTML, printable), sell workflow, future web UI
+**Phase 1 — Capture:** ✅ Complete — PostgreSQL-backed registry with immutable `VHS-XXXX` IDs, barcode scanning, AI photo scanning (Ollama/Claude), OMDb verification, StacksUp spine enrichment, mobile UI, unit + E2E tests.
 
-**Current active work (feat/vhs-scanner-v2):**
-Multi-photo batch scanning, GPU performance improvement, multi-tape detection and crop from batch photos, barcode scanning mode (webcam + barcode library, no AI).
+**Phase 2 — Valuation:** ⚠️ Partial — eBay Browse API valuation shipped (`src/modules/ebay.js`, `GET /api/valuate`, `POST /api/tapes/:id/valuate`), but the Browse API only returns **active-listing asking prices**, not realized sale prices (its `soldItemsOnly` filter is unsupported). Source is honestly labeled `ebay-browse` / `basis: "active-asking"`. True sold-price data needs eBay's separate Marketplace Insights API (own application/approval required) — tracked as a new task, not yet started.
+
+**Phase 3 — Use the data:** ✅ Complete — CSV/JSON export+import, print price tags, printable HTML list, public collection sharing (`/c/<uuid>`), and a "Sell Drafts" (eBay/Mercari) per-tape listing-draft export shipped 2026-09.
+
+**2027 — Computer vision & performance (triaged out, deferred):** multi-tape detection from batch photos (OpenCV), auto-crop tape thumbnails (depends on detection), GPU performance tuning for AI scanning (the `web-gpu` Docker Compose profile exists; needs real GPU hardware to benchmark/tune).
 
 ## Open P0/P1 Tasks
 
-From TASKS.md (no priority levels assigned — informal list):
+No P0 tasks. Open P1 items (TASKS.md P1 section):
 
-- [ ] Handle multiple photo uploads — batch process, show tapes individually (collapse form; expand on card click), each photo associated with specific tape record
-- [ ] Improve performance utilizing GPU
-- [ ] Detect and crop individual tapes from batch photos (OpenCV or similar computer vision)
-- [ ] Add barcode scanning mode (webcam + barcode library, scan-code option alongside AI mode)
+- [ ] **P1** GPU performance optimization for AI scanning — infra hook (`web-gpu` Compose profile) exists; remaining work needs real GPU hardware — deferred to 2027
+- [ ] **P1** Multi-tape detection (OpenCV) — real computer-vision work, not tractable in a docs/hardening pass — deferred to 2027
+- [x] Multi-photo batch support — already substantially shipped (native multi-select, staged queue, per-item progress); remaining gap is cosmetic
 
-No formal P0/P1 priority labels. All items are active focus for v2.
+Other genuinely open items (no formal priority in TASKS.md, but worth tracking):
+- [ ] True sold-price valuation via eBay Marketplace Insights API (Coverage & Testing section — feature work, needs a separate eBay API application)
+- [ ] Tech debt: delete orphaned `src/modules/routes/jobs.js` / `routes/lookup.js` (confirmed unused, zero references)
+- [ ] **P2** Auto-crop tape thumbnails — deferred to 2027 (depends on multi-tape detection)
+
+Closed since last review (both fixed 2026-09-11, per `docs/TASKS.md`): the `/api/logs/stream` vs `/api/logs` path mismatch (client now opens `/api/logs`, matching the server's SSE route) and the dead mobile export menu wiring (missing `#hbr-drawer` markup added so the already-written handlers/CSS have elements to bind to).
 
 ## Blockers
 
-None documented. Active development on `feat/vhs-scanner-v2` branch.
+None documented for shipped functionality. Sold-price valuation (Phase 2 completion) is externally blocked pending eBay Marketplace Insights API application/approval — lead time unknown.
 
-## Recent Changes (feat/vhs-scanner-v2 — Unreleased)
+## Recent Changes
 
-Storage & Backend:
-- Neon PostgreSQL backend replacing nginx; Node.js/Express REST CRUD at `/api/tapes`; Ollama proxy at `/api/ollama`; auto-creates schema on startup
-- DB health dot (live green/red indicator; red retries on click)
-- Photo compression: `compressImage()` resizes to max 1200px JPEG 0.75 before storing in Neon JSONB
+**Latest pass — "2026 roadmap completion + docs refresh" (Unreleased):**
+- Fixed `worker.js` `OLLAMA` ReferenceError that silently aborted the AI scan pipeline on every pending job (caught by outer try/catch, logged only as generic "Worker error") — found via new test coverage, not manual QA
+- Raw `err.message` no longer leaked to API clients — `tapes.js`, `jobs.js`, `server.js`, `valuate.js` now route through a shared `serverError()` helper
+- `/api/logs` gated with `requireAuth`; Dockerfile now copies `jest.config.js` so Docker-measured and config-gated coverage agree
+- Removed dead code in `routes/system.js` (unused `healthHandler`/`caCertHandler`)
+- Added **Sell Drafts (eBay/Mercari) export** — copy-ready title/description/price/tags per `for_sale` tape
+- Test coverage jumped to **85.4%** whole-tree lines (231 tests, 8 suites) — `worker.js` and `auth.js` went from 44%/34% to 100%
+- `docs/TASKS.md` Tech Debt items re-verified against source; several previously-open items were already fixed on `main` and closed without rework
+- Added a 2027 section to `docs/ROADMAP.md` for CV/GPU-heavy work triaged out of this pass
 
-Capture & Scanning:
-- Capture queue: Space stages webcam frames as thumbnails; Enter sends all to AI at once
-- Barcode scanner: multi-pass canvas preprocessing, ZXing `TRY_HARDER`, HD 1920×1080 stream, UPCitemdb.com auto-fills title
-- Torch toggle, snap button (single-frame decode)
+**Security-and-auth-hardening (PR #41):**
+- Google OAuth CSRF state validation, `JWT_SECRET` startup guard, migration 006 (drops `UNIQUE` on `users.email`), write-gate UI (Add/Import hidden when logged out), drawer closes on backdrop click/Escape, SSE connection cleanup, object URL cleanup
 
-Collection Management:
-- Full CRUD with confirm dialog; multi-photo per tape
-- Batch AI metadata fill (⚡ Fill Data via Claude or Ollama)
-- Bulk selection: checkbox multi-select, bulk status change, bulk delete
-- Wanted status, sold price tracking, tags/genres (preset + custom)
+**Tech-debt/coderabbit fixes (PR #40):**
+- XSS escaping in wall-view print exports and card rendering; Ollama proxy POST body fix; SPA catch-all rate limiting; bulk-delete count fix; long-press crop target fix; JSON export/import round-trip completeness (`value_low`/`value_high`/`imdb_id`/photo fields)
 
-Discovery & Filtering:
-- Full-text search (title, label, barcode, notes, tags)
-- Clickable stats bar, filter bar (status, condition, label, tag, year range), sort with persistence
-- Wall view (masonry grid); thumbnails in list view
-
-Exports & Imports:
-- CSV export (full + for-sale with eBay condition labels)
-- JSON export/import (full round-trip including photos)
-- CSV import; print price tags; printable HTML list
-
-Mobile & UX:
-- Responsive layout; rear camera preference; touch events on crop box
-- eBay sold-listings search; 🔍 Lookup button; duplicate detection
-- IndexedDB migration from old browser-local version
-- Keyboard shortcuts: Space/Enter/N/?/Esc
-- CI: Hadolint, Shellcheck, HTMLHint, `npm ci --omit=dev` check, Docker build smoke test
+**feat/vhs-scanner-v2 (now largely shipped):**
+- Neon PostgreSQL backend (Node.js/Express replacing nginx), capture queue, barcode scanner with multi-pass preprocessing, full CRUD, batch AI metadata fill, bulk selection, full-text search/filter/sort, wall view, CSV/JSON export/import, print tags, mobile responsive layout, IndexedDB migration, CI pipeline

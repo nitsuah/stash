@@ -5,5 +5,7 @@
   "smart-connections",
   "templater-obsidian",
   "smart-lookup",
-  "smart-context"
+  "smart-context",
+  "obsidian-excalidraw-plugin",
+  "obsidian-importer"
 ]

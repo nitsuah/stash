@@ -1,6 +1,6 @@
 # kryptos
 
-> Reviewed: 2026-06-25
+> Reviewed: 2026-09-11
 
 ## Overview
 
@@ -8,56 +8,44 @@ Python cryptanalysis research toolkit for solving the Kryptos CIA sculpture puzz
 
 ## Current Goals / Roadmap Focus
 
-**Q1 2027 (active — post-untested-vector phase):**
+Roadmap has advanced well past the Q1 2027 dashboard/API phases previously tracked here — those are now Phases 1–5 (all ✅) in `docs/ROADMAP.md`, superseded by a "Physical/Geometric Pivot" (Phases 6–8):
 
-Phase 1 — K4 Attack completion: ✅ All five untested attack vectors completed (Clock→Hill, Clock→Vigenère, Berlin Clock sub-rows, Clock transposition, Beaufort sweep) — all null results, documented in `docs/analysis/K4_ACTIVE_RESEARCH.md`
+Phases 1–5 (foundational attacks, dashboard, API, validation, K1–K3 tooling): ✅ all complete.
 
-Phase 2 — Dashboard & UI: ✅ FastAPI + React SPA shipped (Ops Center, K1–K3 animated decoder, Database admin, Vault, SSE live-log tail)
-- [ ] K4 Attack Dashboard — dedicated attack-vector fingerprint view (remaining; Ops Center covers most)
+Phase 6 — Physical/Geometric Pivot: ✅ Complete (2026-09-01). 13 of 15 code-executable research-brief items implemented and run against real K4 — 24-column geometric permutation front-end, precise WGS84 geodesy (Mengenlehreuhr→Weltzeituhr bearing), Nov 9 1989 Berlin Wall clock state, Myszkowski/Trifid ciphers, SA substitution search, P2/P5/P6 executed for real for the first time. All null (2.6M+ candidates across Phases 6–7).
 
-Phase 3 — API: ✅ REST dashboard API, strategy_kb write path, candidate + run storage in Neon
+Phase 7 — Shape-changing transposition + solar-geometry "shadow of the word" hypothesis: ✅ Complete (2026-09-01). World Clock city-list keyword source grown to 130/146 confirmed names; cross-vector consensus scoring built; scheduled overnight sweep runner built. All null.
 
-Phase 4 — Validation: ✅ K3 double-transposition Monte Carlo, K1/K2 Vigenère stress tests, SA transposition seeding + crib locking
+Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of three sourcing gaps, two are closed (World Clock segment photos, sub-minute Berlin Wall timestamp) — one remains open:
+- [ ] Source the Kryptos compass rose's actual measured bearing (needs FOIA/Elonka Dunin outreach — human action, not code)
 
-Phase 5 — Post-solution:
-- [ ] Solution documentation (after K4 is solved)
-- [ ] README and docs update reflecting solution
+Multiple follow-on external-review passes (2026-09-02/03) closed a real bug (`keystream_validator.K4_CRIBS` off-by-one on EAST/NORTHEAST positions), added `plaintext_evidence`, extended known-plaintext inversion to rectangular grids, tested the CIA-confirmed "read from the back" tableau reading, and ran newly-discovered classical ciphers (Playfair/Four-Square/Bifid/Autokey) and K0 Morse-slab keywords for the first time — all null.
 
-**Misc/Supporting:**
-- [ ] Update `docs/analysis/K4-FRONTEND.md` for frontend/dashboard integration
-- [ ] Ensure all new features have test coverage and artifact logging
+Phase 5 (Post-solution, standing, blocked on K4 being solved):
+- [ ] Solution documentation — full attack path, key insights, narrative
+- [ ] README update reflecting solution
 
 ## Open P0/P1 Tasks
 
-All major Q1 2027 Phase 1–4 items are done. Remaining open items:
+Kryptos's TASKS.md doesn't use P0/P1 labels; below are the only genuinely-open items in `docs/TASKS.md`'s Active section (both blocked on a human, not code):
 
-- [ ] **K4 Attack Dashboard** — standalone attack-vector fingerprint/progress view (low priority; Ops Center + RAG covers it)
-- [ ] **Post-solution documentation** — blocked until K4 is solved
-- [ ] **`docs/analysis/K4-FRONTEND.md` update**
+- [ ] **Source the Kryptos compass rose's actual measured bearing** — FOIA request to CIA or direct outreach to Elonka Dunin, both drafted and ready to send. Flagged "[You — the only send]" — needs the repo owner to actually send it.
+- [ ] **Ask CIA Public Affairs whether an authorized research visit exists** — outreach draft ready, also flagged "[You — the only send]".
 
-No P0 blockers. K4 itself is unsolved (research problem, not a project blocker).
+Everything else (Phases 1–8's code work) is done. No open engineering P0/P1s.
 
 ## Blockers
 
-- K4 is unsolved — all systematic attack vectors tried have returned null results
-- 5 untested vectors from prior roadmap all confirmed null (PR #83)
-- Physical grid keystream attack: null result (108 geometric routes, 216 candidates)
-- Quagmire I–IV sweep: null result (6,240 combinations)
-- Remaining search space: substitution+transposition composite model remains most plausible
+- K4 remains unsolved — every code-derivable attack vector tried across Phases 1–8 has returned null (single-layer, 2-layer, 3-layer composite, full Physical/Geometric Pivot, shape-changing transposition, classical ciphers, solar/geodesy hypotheses).
+- What's left needs new source material, not new code: the Kryptos compass rose's exact measured bearing is still unknown community-wide (per elonka.com's own wishlist) — the two open Active tasks above are blocked on outreach responses (FOIA / Elonka / CIA Public Affairs), not on engineering.
+- If outreach doesn't surface new material, Phase 8 is explicitly "paused" — the team does not expect more sweep variants over the same structural assumptions to move this forward (cross-vector consensus scan found zero agreement across 30 null-result artifacts).
 
 ## Recent Changes (Unreleased)
 
-- `kryptos serve` command — FastAPI app with `/health`, `/api/rag/*` endpoints
-- turbovec-backed `ArtifactIndex` — sentence-transformers embeddings, 4-bit quantized index over `artifacts/`
+Root `CHANGELOG.md` [Unreleased] is stale (RAG/serve additions only); `docs/ROADMAP.md`/`docs/TASKS.md` (dated 2026-09-03) show much more recent activity:
 
-Recent completed work (TASKS Done, 2026):
-- 5 untested K4 attack vectors (all null): Clock→Hill 2×2, Clock→Vigenère 4-char, Berlin Clock sub-rows, Clock transposition column widths, Beaufort sweep
-- K3 double-transposition Monte Carlo (75% best-of-top-10 success; brute-force ranks true plaintext #1)
-- K1/K2 Vigenère stress tests (noise injection, wrong key length, partial ciphertext)
-- SA columnar solver seedable; early-crib locking verified (>90% pruning at depth 1)
-- `kryptos.benchmarks` CLI + CI job
-- Physical grid attack (`run_physical_grid_attack`): null
-- Quagmire I–IV solver + K4 sweep: null
-- Agent module review: 5 bugs fixed in `AutonomousCoordinator` (crash-on-startup, crash-on-cycle-1, API drift, infinite loop on `max_hours=0.0`)
-- `LinguistAgent` wired into `PlaintextValidator` as opt-in stage 3 (`enable_linguist=False` default)
-- `strategy_kb` write path: OpsStrategicDirector persists BOOST/PIVOT/STOP/START_NEW to Neon with JSONL fallback
+- **Phase 6 (2026-08-29 to 2026-09-01)**: Physical/Geometric Pivot — 24-column geometric permutation front-end, precise WGS84 geodesy module (`kryptos.k4.geodesy`), Mengenlehreuhr→Weltzeituhr bearing, Nov 9 1989 Berlin Wall clock state, Myszkowski transposition, Trifid cipher, SA substitution search behind the geometric front-end, dashboard Pivot Status panel. All null.
+- **Phase 7 (2026-09-01)**: shape-changing transpose family wired into the geometric sweep; `kryptos.k4.solar_geometry` (World Clock topper rotation + real solar position at CIA HQ); World Clock city list grown 9→130/146 confirmed names; `kryptos.k4.cross_vector_consensus`; scheduled overnight sweep runner. All null.
+- **Phase 8 (2026-09-01 onward)**: two of three primary-source gaps closed (World Clock segment photos via more Wikimedia Commons images; sub-minute Nov 9 1989 timestamp via `chronik-der-mauer.de`'s Hertle transcript); compass-rose bearing remains open.
+- **2026-09-02/03 external-review follow-ups**: found and fixed a real bug — `keystream_validator.K4_CRIBS` had EAST/NORTHEAST cribs one position too high since introduction (also duplicated in `key_csp.py`/`clock_hill_attack.py`); built `plaintext_evidence` (confidence-tiered crib data), `known_plaintext_inversion` (extended to rectangular grids, 3.67M permutations tested), `classical_cipher_sweep` (Playfair/Four-Square/Bifid/Autokey — never previously run against real K4), `k0_morse_keywords` (from the sculpture's Morse-code entrance slabs, never used before); consolidated 17 duplicate K4-ciphertext literals to one canonical import. All new attacks null.
+- Test suite grown to 1271 test functions / 1192 fast-collected (0 failures, 28 skipped), 89.35% coverage as of 2026-08-22 (`docs/METRICS.md`), up from 633/95% at the prior review.

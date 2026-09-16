@@ -23,7 +23,7 @@ Run a standard autonomous cycle:
 python -m kryptos.cli.main autonomous --max-hours 24 --cycle-interval 5
 ```
 
-Contributor operating standards and workflow expectations are consolidated in `CONTRIBUTING.md`.
+Community standards (contributing, code of conduct, security) are centralized in [nitsuah/.github](https://github.com/nitsuah/.github).
 
 
 ## Repository Structure
@@ -79,19 +79,19 @@ Kryptos is a long-horizon cryptanalysis program, not a promise machine.
 - Every roadmap claim ties to measurable criteria, not adjectives.
 - Every phase includes at least one explicit "stop doing" decision.
 
-For governance and maintenance policy, see `CONTRIBUTING.md` (with historical references in `docs/archive/`).
+For governance and maintenance policy, see `docs/GOVERN.md` (with historical references in `docs/archive/`).
 
 ## docs
 
 All Related documents / quick links can generally be found in `docs/`:
 
 - Docs index: `docs/INDEX.md`
-- Roadmap: `ROADMAP.md`
-- Active standards and contribution workflow: `CONTRIBUTING.md`
+- Roadmap: `docs/ROADMAP.md`
+- Tasks: `docs/TASKS.md`
 - Agents Architecture: `docs/reference/AGENTS_ARCHITECTURE.md`
 - API Reference: `docs/reference/API_REFERENCE.md`
 - Autonomous System: `docs/reference/AUTONOMOUS_SYSTEM.md`
-- Changelog: `CHANGELOG.md`
+- Changelog: `docs/CHANGELOG.md`
 
 **K4 is the last unsolved piece of a CIA sculpture puzzle.** Imagine a secret message carved in copper that nobody has
 cracked in 30+ years. We're using Python to systematically try every reasonable decryption method – techniques that
@@ -112,6 +112,40 @@ then convert back.
   - We evaluate candidates using linguistic patterns – common letter pairs, trigram frequencies, real word detection – to identify promising decryptions. Think of it as trying thousands of lock combinations, but guided by cryptanalytic intuition rather than brute force. After all, humans design puzzles with intention, not randomness!
 
 ## Recent Updates
+
+### K4 Physical/Geometric Pivot + Phase 7 Complete (August–September 2026)
+
+**All 13 code-executable items of the "Physical/Geometric Pivot" research brief (of 15 — items 10-11 were historical/archival research, satisfied via sourced documentation rather than code), plus a follow-on Phase 7, implemented and executed against real K4 — every result null (2.6M+ candidates total across the two phases):**
+
+- 24-column geometric permutation front-end (20 fill-orders/routes) composed with reflections (both shape-preserving *and* shape-changing transpose families), rotations, and remainder modes, combined with the 108-route physical tableau — up to 414,720 candidates per run
+- Precise WGS84 geodesy (`geographiclib`) computing the Mengenlehreuhr → Weltzeituhr bearing at both the clock's current and 1990/Sanborn-era locations (both land within 1.5–3.3° of exact ENE)
+- November 9 1989 (Berlin Wall fall) added as a sourced priority clock state
+- Myszkowski transposition, Trifid cipher, and a simulated-annealing substitution-key search behind the geometric front-end
+- P2 shadow/null masking, P5's 2-crib relaxed gate (against both transposition families), and P6's K3-running-key attack — all wired in earlier phases but executed for real for the first time
+- A re-examined, computationally-modeled "shadow of the word" hypothesis: the World Clock topper's rotation (verified 1 rev/min, mechanically deterministic) and real solar position at CIA HQ — both tractable without physical site access, correcting an earlier "out of scope" call
+- World Clock city-list keyword research, cross-vector consensus scoring across every null-result artifact, and a scheduled overnight full-sweep runner
+- New dashboard Pivot Status panel showing the hypothesis graph and geodesy figures
+
+**What's left needs new source material, not new code** — a complete World Clock city list, a sub-minute-precision historical timestamp, or photographic documentation of the Kryptos compass rose's exact bearing. See `docs/ROADMAP.md`'s "Ideas — not yet scheduled" section.
+
+---
+
+### K4 Phase 2 Frontier Open (August 2026)
+
+**P1–P7 attacks implemented, tested, and live in Docker dashboard:**
+
+- P1: 3-layer composite (keyed-alphabet → Berlin Clock Vigenère → columnar transposition), CIA timestamps priority-tested
+- P2: 8 shadow/null masking variants (stride-2/3/4, block-8, clock-shadow×2, arc-fraction×2)
+- P3/P4: K2 coordinate digits as HH:MM clock times + ±6h timezone offsets (10 states)
+- P5: 2-crib soft filter for near-miss surfacing (BERLIN+CLOCK threshold=2)
+- P6: K3 plaintext running key (4 variants)
+- P7: Gronsfeld cipher with K2 coordinate digit keys
+
+All null results. Keystream analysis confirms Berlin Clock alone is insufficient (shifts reach 17, 20, 25 — exceeding max row output of 11). Phase 2 opens 10 new directions: alternative alphabet keywords (SANBORN, SCHEIDT, SHADOW), coordinate exploitation (magnetic declination, CIA→Berlin bearing), and candidate corpus mining.
+
+**Live dashboard**: `docker compose -f config/docker-compose.yml up -d` → http://localhost:8000 → K4 Dashboard — live Berlin Clock, K4 cipher with crib highlights, Frontier queue with Run Attack buttons.
+
+---
 
 ### Phase 6 Comprehensive Cleanup (October 2025)
 
@@ -134,12 +168,12 @@ then convert back.
 ### ✅ K1: "Between subtle shading and the absence of light lies the nuance of iqlusion"
 
 - **Status**: Solved.
-- **Details**: Decrypted via Vigenère using keyed alphabet `KRYPTOSABCDEFGHIJLMNQUVWXZ`. Intentional misspelling preserved: `IQLUSION`.
+- **Details**: Vigenère cipher with keyed alphabet `KRYPTOSABCDEFGHIJLMNQUVWXZ` (keyword: `KRYPTOS`) and Vigenère key `PALIMPSEST`. Intentional misspelling preserved: `IQLUSION`.
 
 ### ✅ K2: "It was totally invisible. How's that possible?"
 
 - **Status**: Solved.
-- **Details**: Vigenère (key: `ABSCISSA`). Includes embedded null/structural padding (`S`) for historical alignment. Contains geospatial coordinates and narrative text.
+- **Details**: Vigenère cipher with keyed alphabet `KRYPTOSABCDEFGHIJLMNQUVWXZ` (keyword: `KRYPTOS`) and Vigenère key `ABSCISSA`. Includes embedded null/structural padding (`X`, and some `Y`) for historical alignment. Contains geospatial coordinates and narrative text.
 
 ### ✅ K3: "Slowly, desperately slowly, the remains of passage debris..."
 
@@ -149,12 +183,12 @@ to `IQLUSION` in K1).
 
 ### ℹ️ K4: The unsolved mystery
 
-- **Status**: Unsolved.
-- **Implemented Toolkit**: See K4 modules below (Hill cipher exploration, scoring, constraint pipeline, multi-stage fusion).
-
-- **Latest Additions**: Multi-crib positional transposition stage, attempt logging & persistence,
-
-advanced linguistic metrics, 3x3 Hill key pruning (partial_len/partial_min tunable in hill constraint stage).
+- **Status**: Unsolved. Every attack vector attempted so far is null — single-layer, 2-layer, 3-layer composite, all 20 frontier vectors (P1–P20), the full 15-item Physical/Geometric Pivot, and Phase 7's shape-changing transpose family + shadow-angle primitives + city-list keywords. 1400+ tests passing, all attacks instrumented with permanent provenance artifacts.
+- **Architecture confirmed**: substitution → transposition → K4 ciphertext (IC evidence; transposition-first definitively ruled out)
+- **Confirmed cribs** (0-indexed): EAST@21–24, NORTHEAST@25–33, BERLIN@63–68, CLOCK@69–73
+- **What's left**: needs new source material, not new code — a complete World Clock city list, a sub-minute-precision historical timestamp, or photographic documentation of the Kryptos compass rose's exact bearing. See `docs/ROADMAP.md`'s "Ideas — not yet scheduled."
+- **Current status**: `docs/analysis/K4_ACTIVE_RESEARCH.md` — the single source of truth for confirmed facts, ruled-out hypotheses, and Phase 1-7 results (older per-vector "3D fingerprint" analysis is archived at `docs/archive/K4_ATTACK_LANDSCAPE.md`).
+- **Live dashboard**: `docker compose -f config/docker-compose.yml up -d` → http://localhost:8000 → K4 Dashboard
 
 ## Deliberate Misspellings / Anomalies
 
@@ -350,13 +384,11 @@ The index is stored under `data/turbovec/` (gitignored, derived from `artifacts/
 
 ## Recent Changes
 
+- **2026-09-01**: K4 Physical/Geometric Pivot (Phase 6) and its Phase 7 follow-on both complete — shape-changing transpose family wired, "shadow of the word" computationally modeled (World Clock topper rotation + real solar position), World Clock city-list keywords tested, cross-vector consensus scoring built, scheduled overnight sweep runner built. 2.6M+ candidates across both phases, all null. ROADMAP/TASKS refreshed.
+- **2026-08-12**: Documentation refresh — created `docs/analysis/K4_ATTACK_LANDSCAPE.md` (3D fingerprint of all completed null-result vectors and 10 frontier directions: P1–P7 active, P8–P10 deferred); updated ROADMAP, TASKS, GOVERN, METRICS, K4_ACTIVE_RESEARCH, K4_KEYSTREAM_ANALYSIS, and INDEX for accuracy
+- **2026-06-01**: src/ audit baseline — 829 tests passing (0 failures); Quagmire I–IV, physical-grid tableau walk, SA columnar seeding, early-crib locking verified; all clock-based attack variants complete
+- **2026-05-25**: All K4-ATTACK-1 through K4-ATTACK-7 complete; 3-layer composite chain (S→T→S), ADFGVX, Nihilist, Beaufort, Quagmire implementations added
 - **2025-10-24**: Fixed CI failures by correcting `.gitignore` pattern - added agents source code (SPY, OPS, Q agents)
-
-that was previously blocked
-
-- **2025-10-22**: Added offline autopilot flow (Q/OPS/SPY), conservative SPY extractor with evaluation harness, demo
-
-smoke CI and packaging improvements. See `docs/AUTOPILOT.md` for details
 
 ## Autopilot (Q / OPS / SPY) Summary
 
@@ -368,7 +400,7 @@ using the evaluation harness; it falls back to `0.25` when no labeled runs are a
 
 ## Contributing
 
-Contribution guidelines moved to `CONTRIBUTING.md` → [Contributing Guide](./CONTRIBUTING.md).
+Community contribution guidelines are maintained in [nitsuah/.github](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md).
 
 ## Docker Fast Coverage
 
@@ -376,10 +408,10 @@ Run the fast test suite with coverage in a lightweight Docker container:
 
 ```bash
 docker run --rm -v "${PWD}:/app" -w /app python:3.13-slim sh -lc \
-  "pip install --no-cache-dir pytest pytest-cov numpy matplotlib requests beautifulsoup4 spacy nltk pyyaml fastapi httpx && \
+  "pip install --no-cache-dir pytest pytest-cov numpy matplotlib requests beautifulsoup4 spacy nltk pyyaml fastapi httpx geographiclib && \
    python -m spacy download en_core_web_sm && \
    pip install --no-cache-dir -e . --no-deps && \
-   pytest tests/ -m 'not slow' --cov=src --cov-report=term"
+   pytest tests/ -m 'not slow' --cov=kryptos --cov-report=term"
 ```
 
 Note: `tests/test_k4_performance.py` contains a micro-benchmark guard that is automatically skipped in container
@@ -400,11 +432,12 @@ See `LICENSE`.
 
 ## Other Documentation
 
-- `ROADMAP.md` — Current roadmap and phase objectives
+- `docs/ROADMAP.md` — Current roadmap and phase objectives
+- `docs/TASKS.md` — Implementation backlog and K4 attack queue
+- `docs/CHANGELOG.md` — Change history and version tracking
 - `docs/reference/AGENTS_ARCHITECTURE.md` — SPY/OPS/Q agent design and implementation
 - `docs/reference/API_REFERENCE.md` — Python API and CLI command reference
 - `docs/reference/AUTONOMOUS_SYSTEM.md` — Autonomous coordination system
-- `CHANGELOG.md` — Change history and version tracking
 
 ## Code Examples
 
@@ -484,34 +517,3 @@ Shared community policies are centralized in [nitsuah/.github](https://github.co
 - [Contributing](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md)
 - [Code of Conduct](https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md)
 - [Security](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
-
-## Repository Index
-
-### Root Files
-- [[repos/kryptos/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/kryptos/FEATURES.md|FEATURES.md]]
-- [[repos/kryptos/METRICS.md|METRICS.md]]
-- [[repos/kryptos/ROADMAP.md|ROADMAP.md]]
-- [[repos/kryptos/TASKS.md|TASKS.md]]
-
-### Documentation
-- [[repos/kryptos/docs/INDEX.md|INDEX.md]]
-- [[repos/kryptos/docs/governance.md|governance.md]]
-- [[repos/kryptos/docs/analysis/30_YEAR_GAP_COVERAGE.md|30_YEAR_GAP_COVERAGE.md]]
-- [[repos/kryptos/docs/analysis/AGENT_MODULE_REVIEW.md|AGENT_MODULE_REVIEW.md]]
-- [[repos/kryptos/docs/analysis/K1_2_3_PATTERN_ANALYSIS.md|K1_2_3_PATTERN_ANALYSIS.md]]
-- [[repos/kryptos/docs/analysis/K1_K2_VALIDATION_RESULTS.md|K1_K2_VALIDATION_RESULTS.md]]
-- [[repos/kryptos/docs/analysis/K3_VALIDATION_RESULTS.md|K3_VALIDATION_RESULTS.md]]
-- [[repos/kryptos/docs/analysis/K4-FRONTEND.md|K4-FRONTEND.md]]
-- [[repos/kryptos/docs/analysis/K4-T1.md|K4-T1.md]]
-- [[repos/kryptos/docs/analysis/K4_ACTIVE_RESEARCH.md|K4_ACTIVE_RESEARCH.md]]
-- [[repos/kryptos/docs/analysis/K4_KEYSTREAM_ANALYSIS.md|K4_KEYSTREAM_ANALYSIS.md]]
-- [[repos/kryptos/docs/archive/AUDIT_2025-10-26.md|AUDIT_2025-10-26.md]]
-- [[repos/kryptos/docs/archive/AUDIT_2026-05-24.md|AUDIT_2026-05-24.md]]
-- [[repos/kryptos/docs/archive/AUDIT_2026-06-01.md|AUDIT_2026-06-01.md]]
-- [[repos/kryptos/docs/reference/AGENTS_ARCHITECTURE.md|AGENTS_ARCHITECTURE.md]]
-- [[repos/kryptos/docs/reference/API_REFERENCE.md|API_REFERENCE.md]]
-- [[repos/kryptos/docs/reference/AUTONOMOUS_SYSTEM.md|AUTONOMOUS_SYSTEM.md]]
-- [[repos/kryptos/docs/reference/PROVENANCE_SYSTEM_EXPLAINED.md|PROVENANCE_SYSTEM_EXPLAINED.md]]
-- [[repos/kryptos/docs/sources/CLOCK.md|CLOCK.md]]
-- [[repos/kryptos/docs/sources/SANBORN.md|SANBORN.md]]

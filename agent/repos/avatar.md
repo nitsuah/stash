@@ -1,6 +1,6 @@
 # avatar — AI Avatar Generation (DreamBooth + Stable Diffusion)
 
-**Last Validated:** 2026-06-10 | Initial vault entry
+**Last Validated:** 2026-09-16 | Initial vault entry
 **Repo:** https://github.com/nitsuah/avatar
 **Branch convention:** `pmo/avatar/planning-alignment-YYYY-MM-DD`
 
@@ -32,14 +32,20 @@
 - Training pipeline runs on Google Colab (external cloud dependency — not local).
 - `xformers` install step has a known workaround comment in the notebook (`FIXME`).
 - Docker container provides local inference/notebook server; Colab handles the heavy training.
+- Dataset validation cell ("Step 6.5") shipped this cycle, but `avatar/utils.py::count_images_in_directory`/`validate_image_count` still use suffix-based counting while the notebook cell now counts via Pillow-open — the two diverge and the fix is deliberately deferred (existing test fixtures use empty `.touch()` files Pillow can't open; needs real fixture images first).
+- No hashed dependency lock file for `config/requirements.txt`/Dockerfile (CWE-829) — flagged by CodeRabbit as a "heavy lift"; needs `pip-tools` + generated lock + CI install-from-lock step.
 
 ---
+
+## Open P0/P1 Tasks
+
+None open at P0/P1. TASKS.md's Todo items are unprioritized backlog: (1) reconcile `utils.py` image-counting with the notebook's Pillow-based approach (blocked on new test fixtures), (2) commit a hashed lock file (CWE-829, "heavy lift"), (3) CLIP-similarity model evaluation step, (4) headless `nbconvert` CI check, (5) exported HTML notebook preview, (6) document `build_training_command`, (7) Gradio/Streamlit inference UI, (8) `CONTRIBUTING.md` entry, (9) scope "user feedback integration" (ROADMAP Q2 — explicitly flagged as not yet actionable pending owner input), (10) `run_notebook.sh` helper.
 
 ## Priority Focus
 
 1. Resolve `xformers` install FIXME — document current working install path.
-2. Document inference workflow (Steps 9–10) with example prompts.
-3. Validate test coverage reflects current notebook state.
+2. Bring `utils.py` image-counting in line with the notebook's Pillow-based counting (needs new content-based test fixtures).
+3. Commit a hashed dependency lock file for `config/requirements.txt`.
 
 ---
 
@@ -58,7 +64,7 @@ docker compose -f config/docker-compose.yml up notebook
 
 ## Active PMO
 
-See TASKS.md and ROADMAP.md for current priorities.
+See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): dataset-validation "Step 6.5" cell aligned to Pillow's accept-any-openable-file contract (previously undercounted non-`.jpg/.jpeg/.png` concept images); `actions/setup-python` pinned to a commit SHA in CI (CWE-494); doc audit corrected README/FEATURES/ROADMAP/TASKS inaccuracies; Python version matrix aligned to 3.11 across CI/Dockerfile/pyproject; `config/requirements.txt` versions pinned against the `python:3.11-slim-bookworm` base.
 
 ---
 

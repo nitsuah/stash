@@ -50,6 +50,7 @@ Designed so the user stays in control of all data without relying on any externa
 ### 🔗 Profile Import
 
 - **LinkedIn OAuth Import**: BYO LinkedIn app Client ID/Secret; launches OIDC sign-in to pre-fill name and email into the profile (local-only, consent-based)
+- **Google OAuth Import**: BYO Google Cloud OAuth Client ID/Secret; same local-only, consent-based OIDC sign-in flow as LinkedIn, pre-fills name and email
 - **Resume Upload**: Supports PDF, DOCX, and plain-text paste; parsed locally via Gemini if a key is present
 - **CSV Tracker Import**: Import past applications from any spreadsheet export using flexible header matching
 - **LinkedIn Session Scraping**: When signed into LinkedIn in any browser tab, the extension can search LinkedIn Jobs via the Voyager API using your active session — no separate API key needed
@@ -58,22 +59,39 @@ Designed so the user stays in control of all data without relying on any externa
 
 Aggregates listings from multiple job boards in one panel so you can discover, filter, and save jobs without leaving the extension.
 
-- **13 Job Sources**: Nine keyless boards active by default (Remotive, Arbeitnow, The Muse, Remote OK, Jobicy, Working Nomads, HN Who's Hiring, We Work Remotely, remote.co); four BYOK keyed sources (Adzuna, USAJOBS, Reed, Jooble); LinkedIn session source (active when signed into LinkedIn in any tab)
+- **16 Built-in Job Sources**: Nine keyless boards active by default (Remotive, Arbeitnow, The Muse, Remote OK, Jobicy, Working Nomads, HN Who's Hiring, We Work Remotely, remote.co); four BYOK keyed sources (Adzuna, USAJOBS, Reed, Jooble); Indeed and Hackajob (always available, no key); LinkedIn session source (active when signed into LinkedIn in any tab)
+- **Custom RSS Job Sources**: Add any RSS-based board the built-in list doesn't cover — state workforce boards (e.g. JOBS4TN.gov), internal careers feeds, niche boards — from the AI settings panel. Merges into the same registry as built-in sources, so custom boards get filter chips, dedupe, and pay filtering automatically. Adding one requests one-time permission to read that origin rather than broadening the extension's default site access.
+- **Source Confidence Hints**: Each search result card shows a confidence indicator reflecting the reliability and data completeness of its source board; helps prioritize high-signal listings at a glance
 - **Per-Source Filter Chips**: Toggle individual sources on/off; locked chips route to the AI settings panel to configure keys
 - **Pay Filter with Hide-Unknown Toggle**: Annual/hourly dual-slider with an explicit checkbox to hide jobs without a published salary range
 - **Remote, Type, and Location Filters**: Narrow results by work mode, employment type, and region (USA / Europe / Remote / Other)
 - **One-Click Save to Tracker**: Captures any result directly into the application pipeline as a draft with title, company, salary, and description
-- **Plug-and-Play Source Registry**: New boards added in `lib/job-search.js` by appending a single registry entry; no other plumbing required
+- **Plug-and-Play Source Registry**: New built-in boards added in `lib/job-search.js` by appending a single registry entry; no other plumbing required
 
-### 📌 Tracking and Workflow
+### 📊 Application Analytics
 
-Helps organize and monitor applications after submission.
+Aggregate stats computed entirely from local tracker data, with no new API calls or permissions.
 
-- **Application Tracker**: Keeps a record of applications, statuses, and related job details in one place
-- **Workflow Support**: Streamlines repeated application steps to make high-volume applying easier to manage
-- **Structured Pay and Verdict Editing**: Captures pay as min/max values and keeps verdict as controlled sentiment options
-- **Advanced Card Editing**: Supports editable URL, location presets with custom fallback, and drag-lock while cards are in expanded edit mode
-- **Separate Availability Field**: Distinct availability / notice period field in Profile; autofill routes "availability" and "notice period" questions to this field, falling back to Start Date when blank
+- **Response Rate by Source**: Shows which job boards are actually yielding replies, not just applications
+- **Salary-Band Effectiveness**: Correlates target pay range with response rate
+- **Time-to-First-Response Distribution**: Tracks how long employers typically take to reply, using a sticky `first_response_at` timestamp so later status changes (interview → offer → rejected) never overwrite the original reply time. Entries logged before this field existed backfill from `updated_at` and are approximate.
+
+### ✨ Interview Prep
+
+- **AI Interview Question Generation**: Generates tailored interview questions based on the job description and your profile, with suggested answer structures.
+- **Answer Editing and Saving**: Allows you to draft and save your answers to generated questions locally.
+
+### ♿ Accessibility Enhancements
+
+- **WCAG AA Contrast Audit**: Automated checks for color contrast compliance to WCAG AA standards.
+- **Improved Keyboard Navigation**: Enhanced focus management and keyboard shortcuts for better accessibility.
+- **Accessible Form Elements**: Programmatic labels and aria attributes for form fields to improve screen reader compatibility.
+
+### 🖼️ UI/UX Enhancements
+
+- **Responsive Tracker View**: Tracker view now adapts to narrower viewports, allowing it to shrink gracefully.
+- **Chrome Mock for E2E Tests**: Consolidated and reusable Chrome mock setup for consistent e2e testing.
+- **Dynamic CSS Variable Mapping**: Custom CSS property values are now derived directly from `popup.css` for up-to-date contrast checks.
 
 <!--
 AGENT INSTRUCTIONS:
