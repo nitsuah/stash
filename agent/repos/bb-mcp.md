@@ -1,70 +1,61 @@
 # bb-mcp PMO Runbook
 
-MCP server for Blackboard Learn API integration.
+> Reviewed: 2026-09-16
 
-## Audit Findings (2026-03-27)
+## Overview
 
-**Foundation Status**: 50% complete
-- stdio transport: Refactoring in progress
-- API wrapper: Development active
-- OAuth2 flow: In progress
-- RBAC: Not started (required before P2 middleware and write operations)
+Standalone Model Context Protocol server wrapping the Blackboard Learn REST API — TypeScript, HTTP Streamable + stdio transports, 40 tools across student/instructor/admin/parent/webhook-subscription roles, plus grade write-back. OAuth2 PKCE auth, RBAC + FERPA gating, per-role rate limiting, structured audit logging, and Prometheus metrics. Consumed by agent-board and other MCP clients; runs standalone via hardened Docker Compose.
 
-**Key Metrics**:
-- Test coverage: 0% (no automated tests configured)
-- CI: GitHub Actions configured (lint, type check, build pass)
-- Foundation: API wrapper + OAuth2 required before MCP integration complete
+## Current Goals / Roadmap Focus
 
-**Shipped Features**: None (MCP integration not complete)
+**2025–2026 Q1: Complete** — foundation (TypeScript MCP server, RBAC, OAuth2, student/instructor tools, CLI, standalone Docker).
 
-## Priority Structure
+**2026 Q2 — Read and Write Workflows: Complete** (PR #109 merged 2026-08-29)
+- [x] Student, instructor, admin, and parent tool coverage shipped
+- [x] Grade write-back tools (`create_grade_column`, `update_grade`, `delete_grade`, `exempt_grade`, `get_grade_column`)
+- [x] MCP provider contract (`GET /manifest`)
+- [x] RBAC enforcement, audit logging, PII scrubbing (audit logs + tool outputs), per-role rate limiting, FERPA gate coverage extended to the admin directory surface
+- [~] Webhook subscription CRUD shipped; inbound event ingestion not started (2027)
+- [x] MCP Inspector stdio validation — passed (2026-09-11): `node dist/index.js --stdio` vs. the official MCP Inspector CLI, 0 errors across all 40 tools (`tools/list`); `tools/call` spot-checked end-to-end against `list_courses`. Repeatable via `npm run inspect` / `make docker-inspect`.
+- [ ] JSON schemas for all shipped tool inputs — not done
+- [ ] Analytics/Product Owner tools — not started, depends on event pipeline (2027)
 
-**In Progress** (Foundation):
-- Stdio transport refactor (blocks everything)
-- API wrapper development (core blocker)
+**2026 Q3 — Enterprise Follow-On: mostly complete**
+- [x] Instructor assignment creation flow (`create_assignment`, one call creates content item + linked grade column)
+- [x] Audit logging hardening + local audit trail exposed via `list_audit_logs`
+- [x] Blackboard error mapping improved — categorized `BbApiError` with actionable messages (2026-09-10)
+- [x] Per-request lifecycle tracing (`src/trace.ts`, 2026-09-10)
+- [ ] Webhook-to-SSE bridge — not started, moved to 2027 (subscription CRUD exists; nothing yet receives/fans out inbound webhooks)
+- [ ] Tool call batching, event-driven pipeline scaling, vector store integration, stable MCP client SDK — not started, moved to 2027
 
-**P1** (First tools batch):
-- list_courses tool
-- get_course_contents tool  
-- OAuth2 flow implementation
-- JSON schema validation
+**2027 (scoped, not started):** webhook-to-SSE bridge, event-driven pipeline / Blackboard activity ingestion, analytics/product-owner tools, vector store integration for semantic search, stable MCP client SDK, tool call batching.
 
-**P2** (Middleware):
-- RBAC middleware (gates write/privileged tools; requires P1 auth completion)
-- get_announcements tool
-- Assignment submission support
-- HTTP error mapping
+## Open P0/P1 Tasks
 
-**P3** (Advanced):
-- User search integration
-- Audit logging
-- Read/write workflow support
+None open. TASKS.md's P1 section is empty — all P1 work (API wrapper, OAuth2, RBAC, rate limiting, PII scrubbing, MCP provider contract) shipped.
 
-## Blocker Assessment
+Notable open P2 items (not P0/P1, listed for context):
+- [ ] Bind `caller_identity` to real end-user authentication instead of trusting the client's claim (flagged by CodeRabbit on PR #115; needs a design decision, e.g. requiring a verified SSO/Blackboard identity token)
+- [ ] Add JSON schemas for all shipped tool inputs
 
-| Blocker | Impact | Mitigation | ETA |
-|---------|--------|-----------|-----|
-| API wrapper incomplete | Cannot ship any tools | Complete by March 31 | Q1 2026 |
-| OAuth2 token handling | Auth not available | Scheduled for P1 | Q1 2026 |
-| Transport refactor | CI/CD integration delayed | In progress | March 2026 |
-| RBAC design missing | Cannot gate tool access | Design phase starts after OAuth2 | Q2 2026 |
+## Blockers
 
-## Roadmap Reset (2026-03-27)
+- `caller_identity` is trusted at face value — `MCP_API_KEY` gates the transport but doesn't verify the claimed `userId`/`role` is truthful; deferred pending a real identity-verification design (see P2 above).
+- 1 high + 1 moderate transitive npm vulnerability (`fast-uri` via `@modelcontextprotocol/sdk`→`ajv`; `qs` via `@modelcontextprotocol/sdk`→`express`) with no non-breaking fix available yet; tracked via dependabot.
+- Webhook-to-SSE bridge has no inbound receiver yet (subscription CRUD only) — real-time event consumption remains unbuilt, deferred to 2027.
 
-- **2025 Q1** Historical (partially complete): Environment setup and API wrapper 50% complete
-- **2025 Q2** Historical (not started): Work blocked on P1 authentication
-- **2026 Q1** In Progress: Complete API wrapper, implement OAuth2, achieve MCP compliance, and ship first 4 tools
-- **2026 Q2** Planned: RBAC infrastructure
-- **2026 Q3+** Planned: Advanced workflows
+## Recent Changes (Unreleased)
 
-## Recommendations
-
-1. **Immediate**: Complete API wrapper (foundation blocker)
-2. **Next**: Ship OAuth2 + list/get_course_contents to unblock other tools
-3. **Then**: Implement RBAC before enabling write operations
-4. **Finally**: Build advanced read/write workflows
-
-See bb-mcp TASKS.md and ROADMAP.md for full details.
+- Admin tools (`list_users`, `get_user`, `list_enrollments`, `create_enrollment`, `update_enrollment`, `delete_enrollment`, `list_audit_logs`)
+- Parent tools, guardian-scoped read-only (`get_my_children`, `get_children_courses`, `get_children_grades`, `get_children_upcoming_assignments`, `get_children_announcements`)
+- Grade write-back tools plus `create_assignment` (content item + linked grade column in one call)
+- Webhook subscription tools (admin-only CRUD against Blackboard's webhook API)
+- Tool-output PII scrubbing (`src/output-scrub.ts`) — strips email addresses from every MCP tool response, wired centrally via `withMetrics()`
+- Local access-audit trail (`src/auth.ts`) — bounded ring buffer surfaced through `list_audit_logs` as `localAuditTrail`
+- FERPA gate extended to `list_users`, `get_user`, `list_enrollments`, `list_audit_logs` (previously role=admin only)
+- Per-request lifecycle tracing (`src/trace.ts`) — request ID, latency, upstream call count, error flag
+- Blackboard error mapping — categorized `BbApiError` with actionable messages instead of raw Blackboard error bodies
+- `.gitattributes` pinning text files to LF (fixed ~6700 false-positive lint errors from CRLF checkouts)
 
 ---
 

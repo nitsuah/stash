@@ -1,6 +1,6 @@
 # 🐿️ Conker's Bad Fur Day — Open Source Three.js Recreation Guide
 
-> **For Agent Use**: This document is a complete implementation specification for recreating the gameplay systems, maps, modes, and mechanics of *Conker's Bad Fur Day* (Rare, 2001) using Three.js as the rendering foundation. Assume a base framework is already in place (scene graph, input handler, asset loader, basic physics stub, and render loop). Your job is to **extend** that framework with the systems described below.
+> **For Agent Use**: This document is a complete implementation specification for recreating the gameplay systems, maps, modes, and mechanics of _Conker's Bad Fur Day_ (Rare, 2001) using Three.js as the rendering foundation. Assume a base framework is already in place (scene graph, input handler, asset loader, basic physics stub, and render loop). Your job is to **extend** that framework with the systems described below.
 
 ---
 
@@ -29,26 +29,30 @@
 ## 1. Project Philosophy & Scope
 
 ### What We're Building
+
 An open-source, browser-playable homage to Conker's Bad Fur Day that:
+
 - Runs entirely in Three.js (WebGL)
 - Recreates the core gameplay loop, chapter structure, and multiplayer modes
 - Upgrades visuals to modern standards (PBR materials, dynamic lighting, shadow maps)
 - Preserves the tone: adult humor, cinematic presentation, genre-parody gameplay
 
 ### What We Are NOT Doing
+
 - Copying original game assets (models, audio, textures are contraband — everything must be original or CC-licensed)
 - Emulating the N64 binary
 - Claiming affiliation with Rare or Microsoft
 
 ### Core Gameplay Pillars (from the original)
-| Pillar | Description |
-|---|---|
-| Context-Sensitive | One button does wildly different things depending on where Conker stands |
-| Platforming | Precision 3D jumping, swimming, rolling |
-| Combat | Third-person melee + ranged combat |
-| Cinematic chapters | Each chapter feels like a movie genre parody |
-| Multiplayer | 4-player split-screen with multiple distinct modes |
-| Toilet humor & fourth-wall breaking | NPC dialogue, cutscene awareness |
+
+| Pillar                              | Description                                                              |
+| ----------------------------------- | ------------------------------------------------------------------------ |
+| Context-Sensitive                   | One button does wildly different things depending on where Conker stands |
+| Platforming                         | Precision 3D jumping, swimming, rolling                                  |
+| Combat                              | Third-person melee + ranged combat                                       |
+| Cinematic chapters                  | Each chapter feels like a movie genre parody                             |
+| Multiplayer                         | 4-player split-screen with multiple distinct modes                       |
+| Toilet humor & fourth-wall breaking | NPC dialogue, cutscene awareness                                         |
 
 ---
 
@@ -82,14 +86,14 @@ An open-source, browser-playable homage to Conker's Bad Fur Day that:
 
 ```js
 // main.js — extend your existing game loop
-import { WorldManager }       from './game/world/WorldManager.js';
-import { CharacterController } from './game/characters/CharacterController.js';
-import { CameraRig }          from './game/camera/CameraRig.js';
-import { ChapterDirector }    from './game/chapters/ChapterDirector.js';
-import { MultiplayerManager } from './game/multiplayer/MultiplayerManager.js';
-import { HUD }                from './game/ui/HUD.js';
-import { AudioManager }       from './game/audio/AudioManager.js';
-import { SaveManager }        from './game/save/SaveManager.js';
+import { WorldManager } from "./game/world/WorldManager.js";
+import { CharacterController } from "./game/characters/CharacterController.js";
+import { CameraRig } from "./game/camera/CameraRig.js";
+import { ChapterDirector } from "./game/chapters/ChapterDirector.js";
+import { MultiplayerManager } from "./game/multiplayer/MultiplayerManager.js";
+import { HUD } from "./game/ui/HUD.js";
+import { AudioManager } from "./game/audio/AudioManager.js";
+import { SaveManager } from "./game/save/SaveManager.js";
 
 // Register all systems with your existing GameLoop / ServiceLocator
 GameLoop.register([
@@ -100,7 +104,7 @@ GameLoop.register([
   MultiplayerManager,
   HUD,
   AudioManager,
-  SaveManager
+  SaveManager,
 ]);
 ```
 
@@ -120,25 +124,27 @@ export class WorldManager {
   constructor(scene, loader) {
     this.scene = scene;
     this.loader = loader;
-    this.chunks = new Map();       // chunkId → THREE.Group
-    this.portals = [];             // Portal[] — transition volumes
+    this.chunks = new Map(); // chunkId → THREE.Group
+    this.portals = []; // Portal[] — transition volumes
     this.activeChunk = null;
   }
 
   async loadChunk(chunkId) {
     if (this.chunks.has(chunkId)) return;
-    const gltf = await this.loader.loadAsync(`/assets/models/chunks/${chunkId}.glb`);
+    const gltf = await this.loader.loadAsync(
+      `/assets/models/chunks/${chunkId}.glb`,
+    );
     const group = gltf.scene;
     // Tag collision meshes
-    group.traverse(obj => {
-      if (obj.name.startsWith('COL_')) {
+    group.traverse((obj) => {
+      if (obj.name.startsWith("COL_")) {
         obj.visible = false;
         obj.userData.isCollider = true;
       }
-      if (obj.name.startsWith('PORTAL_')) {
+      if (obj.name.startsWith("PORTAL_")) {
         this.registerPortal(obj);
       }
-      if (obj.name.startsWith('TRIGGER_')) {
+      if (obj.name.startsWith("TRIGGER_")) {
         this.registerTrigger(obj);
       }
     });
@@ -151,7 +157,7 @@ export class WorldManager {
       mesh,
       targetChunk: mesh.userData.targetChunk,
       targetSpawn: mesh.userData.targetSpawn,
-      bounds: new THREE.Box3().setFromObject(mesh)
+      bounds: new THREE.Box3().setFromObject(mesh),
     });
   }
 
@@ -179,17 +185,17 @@ export class WorldManager {
 
 Each chapter is a self-contained world chunk (or series of connected chunks). Implement each as its own GLB + a `ChapterConfig` object.
 
-| Chapter | Environment Type | Key Features to Implement |
-|---|---|---|
-| **Windy** | Rolling countryside hub | Wind physics on grass, scarecrows, beehive, barn |
-| **Hungover** | Farmland / barn | Pitchfork-throwing farmer, hay bales, Mrs. Bee boss |
-| **Barn Boys** | Mechanical barn | Hay-stacking puzzle, Sergeant machinery, pitchfork combat |
-| **Bats Tower** | Gothic tower at night | Bat swarms, gargoyle boss, vertical platforming |
-| **Uga Buga** | Prehistoric cavern | Dinosaur riding, tribal enemies, fire hazards |
-| **Spooky** | Halloween forest | Zombie hordes (survival wave mode), mansion |
-| **It's War** | WWII battlefield | Trenches, cover system, machine gun nests, tanks |
-| **Heist** | Bank vault | Stealth-optional, safe cracking, vault swim |
-| **Future World** | Sci-fi facility | Zero-gravity sections, Alien parody boss |
+| Chapter          | Environment Type        | Key Features to Implement                                 |
+| ---------------- | ----------------------- | --------------------------------------------------------- |
+| **Windy**        | Rolling countryside hub | Wind physics on grass, scarecrows, beehive, barn          |
+| **Hungover**     | Farmland / barn         | Pitchfork-throwing farmer, hay bales, Mrs. Bee boss       |
+| **Barn Boys**    | Mechanical barn         | Hay-stacking puzzle, Sergeant machinery, pitchfork combat |
+| **Bats Tower**   | Gothic tower at night   | Bat swarms, gargoyle boss, vertical platforming           |
+| **Uga Buga**     | Prehistoric cavern      | Dinosaur riding, tribal enemies, fire hazards             |
+| **Spooky**       | Halloween forest        | Zombie hordes (survival wave mode), mansion               |
+| **It's War**     | WWII battlefield        | Trenches, cover system, machine gun nests, tanks          |
+| **Heist**        | Bank vault              | Stealth-optional, safe cracking, vault swim               |
+| **Future World** | Sci-fi facility         | Zero-gravity sections, Alien parody boss                  |
 
 ### 3.3 Collision System
 
@@ -197,7 +203,7 @@ Use a layered approach since Three.js has no built-in physics:
 
 ```js
 // Integrate with Rapier.js (WASM) for physics — lightweight and browser-ready
-import RAPIER from '@dimforge/rapier3d-compat';
+import RAPIER from "@dimforge/rapier3d-compat";
 
 export class PhysicsWorld {
   async init() {
@@ -263,19 +269,19 @@ export class CharacterController {
     this.animator = animator;
 
     // Tuned to feel like original
-    this.moveSpeed     = 7.5;
-    this.runSpeed      = 14.0;
-    this.jumpForce     = 10.5;
+    this.moveSpeed = 7.5;
+    this.runSpeed = 14.0;
+    this.jumpForce = 10.5;
     this.doubleJumpForce = 8.0;
-    this.rollSpeed     = 18.0;
+    this.rollSpeed = 18.0;
 
-    this.state = 'idle';   // idle | run | jump | fall | roll | attack | swim | context
+    this.state = "idle"; // idle | run | jump | fall | roll | attack | swim | context
     this.grounded = false;
     this.canDoubleJump = false;
-    this.health = 3;       // honey pots (each = 1 hit)
-    this.money = 0;        // squirrel tails / dollar bills
+    this.health = 3; // honey pots (each = 1 hit)
+    this.money = 0; // squirrel tails / dollar bills
 
-    this.contextAction = null;  // set by proximity to context zones
+    this.contextAction = null; // set by proximity to context zones
   }
 
   update(input, delta) {
@@ -289,20 +295,29 @@ export class CharacterController {
   }
 
   _handleMovement(input, delta) {
-    const dir = new THREE.Vector3(input.horizontal, 0, input.vertical).normalize();
+    const dir = new THREE.Vector3(
+      input.horizontal,
+      0,
+      input.vertical,
+    ).normalize();
     if (dir.length() > 0.1) {
       const speed = input.run ? this.runSpeed : this.moveSpeed;
       // Apply velocity through physics body
       const vel = this.body.linvel();
-      this.body.setLinvel({ x: dir.x * speed, y: vel.y, z: dir.z * speed }, true);
+      this.body.setLinvel(
+        { x: dir.x * speed, y: vel.y, z: dir.z * speed },
+        true,
+      );
       // Face direction of movement
       const angle = Math.atan2(dir.x, dir.z);
       this.model.rotation.y = THREE.MathUtils.lerp(
-        this.model.rotation.y, angle, 0.18
+        this.model.rotation.y,
+        angle,
+        0.18,
       );
-      this.state = input.run ? 'run' : 'walk';
+      this.state = input.run ? "run" : "walk";
     } else {
-      this.state = 'idle';
+      this.state = "idle";
     }
   }
 
@@ -311,30 +326,40 @@ export class CharacterController {
       if (this.grounded) {
         this.body.applyImpulse({ x: 0, y: this.jumpForce, z: 0 }, true);
         this.canDoubleJump = true;
-        this.state = 'jump';
-        this.animator.play('jump');
+        this.state = "jump";
+        this.animator.play("jump");
       } else if (this.canDoubleJump) {
-        this.body.setLinvel({ x: this.body.linvel().x, y: 0, z: this.body.linvel().z }, true);
+        this.body.setLinvel(
+          { x: this.body.linvel().x, y: 0, z: this.body.linvel().z },
+          true,
+        );
         this.body.applyImpulse({ x: 0, y: this.doubleJumpForce, z: 0 }, true);
         this.canDoubleJump = false;
-        this.animator.play('doublejump');
+        this.animator.play("doublejump");
       }
     }
   }
 
   _handleRoll(input) {
-    if (input.rollPressed && this.grounded && this.state !== 'roll') {
-      this.state = 'roll';
-      const dir = new THREE.Vector3(input.horizontal, 0, input.vertical).normalize();
-      this.body.applyImpulse({ x: dir.x * this.rollSpeed, y: 2, z: dir.z * this.rollSpeed }, true);
-      this.animator.playOnce('roll', () => this.state = 'idle');
+    if (input.rollPressed && this.grounded && this.state !== "roll") {
+      this.state = "roll";
+      const dir = new THREE.Vector3(
+        input.horizontal,
+        0,
+        input.vertical,
+      ).normalize();
+      this.body.applyImpulse(
+        { x: dir.x * this.rollSpeed, y: 2, z: dir.z * this.rollSpeed },
+        true,
+      );
+      this.animator.playOnce("roll", () => (this.state = "idle"));
     }
   }
 
   takeDamage(amount = 1) {
     this.health -= amount;
     if (this.health <= 0) this._die();
-    else this.animator.playOnce('hurt');
+    else this.animator.playOnce("hurt");
   }
 }
 ```
@@ -374,7 +399,7 @@ export class TailWhip {
   }
 
   attack(enemies, onHit) {
-    enemies.forEach(enemy => {
+    enemies.forEach((enemy) => {
       if (this.hitbox.containsPoint(enemy.position)) {
         enemy.takeDamage(this.damage);
         onHit(enemy);
@@ -389,15 +414,15 @@ export class TailWhip {
 
 Each weapon is unlocked via context zones. Implement as swappable modules:
 
-| Weapon | Chapter | Mechanic |
-|---|---|---|
-| Frying Pan | Barn Boys | Heavy swing, stun |
-| Shotgun (Sawn-off) | Various | Hitscan, 2-shot |
-| Flamethrower | Uga Buga | Cone AoE fire |
-| Bazooka | It's War | Projectile, splash |
-| Sniper Rifle | It's War | Zoom, 1-shot |
-| Katana | Future World | Fast multi-slash |
-| Machine Gun | War (mounted) | Hold trigger, spread |
+| Weapon             | Chapter       | Mechanic             |
+| ------------------ | ------------- | -------------------- |
+| Frying Pan         | Barn Boys     | Heavy swing, stun    |
+| Shotgun (Sawn-off) | Various       | Hitscan, 2-shot      |
+| Flamethrower       | Uga Buga      | Cone AoE fire        |
+| Bazooka            | It's War      | Projectile, splash   |
+| Sniper Rifle       | It's War      | Zoom, 1-shot         |
+| Katana             | Future World  | Fast multi-slash     |
+| Machine Gun        | War (mounted) | Hold trigger, spread |
 
 ```js
 // combat/WeaponManager.js
@@ -435,20 +460,23 @@ export class Shotgun {
     if (this.ammo <= 0) return;
     // Cast 5 rays with spread for pellet simulation
     for (let i = 0; i < 5; i++) {
-      const spreadDir = direction.clone().add(
-        new THREE.Vector3(
-          (Math.random() - 0.5) * this.spread,
-          (Math.random() - 0.5) * this.spread,
-          0
+      const spreadDir = direction
+        .clone()
+        .add(
+          new THREE.Vector3(
+            (Math.random() - 0.5) * this.spread,
+            (Math.random() - 0.5) * this.spread,
+            0,
+          ),
         )
-      ).normalize();
-      Raycaster.cast(origin, spreadDir, this.range, hit => {
+        .normalize();
+      Raycaster.cast(origin, spreadDir, this.range, (hit) => {
         if (hit.enemy) hit.enemy.takeDamage(this.damage);
         SpawnDecal(hit.point, hit.normal, scene);
       });
     }
     this.ammo--;
-    AudioManager.play('sfx_shotgun_fire', origin);
+    AudioManager.play("sfx_shotgun_fire", origin);
   }
 }
 ```
@@ -465,7 +493,7 @@ This is the **most iconic mechanic** in the game. A single button performs entir
 // combat/ContextSystem.js
 export class ContextSystem {
   constructor() {
-    this.zones = [];        // ContextZone[]
+    this.zones = []; // ContextZone[]
     this.activeZone = null;
   }
 
@@ -495,9 +523,9 @@ export class ContextSystem {
 export class ContextZone {
   constructor({ position, radius, label, iconKey, action }) {
     this.bounds = new THREE.Sphere(position, radius);
-    this.label  = label;    // e.g. "Drink Beer"
+    this.label = label; // e.g. "Drink Beer"
     this.iconKey = iconKey; // HUD icon reference
-    this.action = action;   // (player) => void
+    this.action = action; // (player) => void
   }
 }
 ```
@@ -511,39 +539,39 @@ export class ContextZone {
 new ContextZone({
   position: kegMesh.position,
   radius: 2.0,
-  label: 'Chug Beer',
-  iconKey: 'icon_beer',
+  label: "Chug Beer",
+  iconKey: "icon_beer",
   action: (player) => {
-    player.animator.playOnce('drink');
+    player.animator.playOnce("drink");
     player.health = Math.min(player.health + 1, 3);
-    AudioManager.play('sfx_drink');
-  }
+    AudioManager.play("sfx_drink");
+  },
 });
 
 // Barrel — Conker hides inside
 new ContextZone({
   position: barrelMesh.position,
   radius: 1.5,
-  label: 'Hide',
-  iconKey: 'icon_barrel',
+  label: "Hide",
+  iconKey: "icon_barrel",
   action: (player) => {
-    player.state = 'hiding';
+    player.state = "hiding";
     player.model.visible = false;
     barrelMesh.userData.occupied = true;
-  }
+  },
 });
 
 // Catapult launch pad
 new ContextZone({
   position: catapultMesh.position,
   radius: 2.5,
-  label: 'Launch',
-  iconKey: 'icon_launch',
+  label: "Launch",
+  iconKey: "icon_launch",
   action: (player) => {
     player.body.applyImpulse({ x: 0, y: 35, z: -20 }, true);
-    CameraRig.setMode('cinematic', 3.0); // dramatic follow
-    AudioManager.play('sfx_launch');
-  }
+    CameraRig.setMode("cinematic", 3.0); // dramatic follow
+    AudioManager.play("sfx_launch");
+  },
 });
 ```
 
@@ -564,7 +592,7 @@ export class Enemy {
     this.sightRange = config.sightRange || 15;
     this.attackRange = config.attackRange || 2;
     this.moveSpeed = config.moveSpeed || 5;
-    this.state = 'idle'; // idle | patrol | chase | attack | hurt | dead
+    this.state = "idle"; // idle | patrol | chase | attack | hurt | dead
     this.target = null;
     this.patrolPoints = config.patrolPoints || [];
     this.patrolIndex = 0;
@@ -572,27 +600,42 @@ export class Enemy {
 
   update(player, delta) {
     switch (this.state) {
-      case 'idle':    this._idle(player); break;
-      case 'patrol':  this._patrol(delta); break;
-      case 'chase':   this._chase(player, delta); break;
-      case 'attack':  this._attack(player); break;
+      case "idle":
+        this._idle(player);
+        break;
+      case "patrol":
+        this._patrol(delta);
+        break;
+      case "chase":
+        this._chase(player, delta);
+        break;
+      case "attack":
+        this._attack(player);
+        break;
     }
   }
 
   _idle(player) {
     const dist = this.model.position.distanceTo(player.model.position);
     if (dist < this.sightRange) {
-      this.state = 'chase';
+      this.state = "chase";
       this.target = player;
     } else if (this.patrolPoints.length > 0) {
-      this.state = 'patrol';
+      this.state = "patrol";
     }
   }
 
   _patrol(delta) {
     const target = this.patrolPoints[this.patrolIndex];
     const dir = target.clone().sub(this.model.position).normalize();
-    this.body.setLinvel({ x: dir.x * this.moveSpeed, y: this.body.linvel().y, z: dir.z * this.moveSpeed }, true);
+    this.body.setLinvel(
+      {
+        x: dir.x * this.moveSpeed,
+        y: this.body.linvel().y,
+        z: dir.z * this.moveSpeed,
+      },
+      true,
+    );
     if (this.model.position.distanceTo(target) < 0.5) {
       this.patrolIndex = (this.patrolIndex + 1) % this.patrolPoints.length;
     }
@@ -600,22 +643,38 @@ export class Enemy {
 
   _chase(player, delta) {
     const dist = this.model.position.distanceTo(player.model.position);
-    if (dist > this.sightRange * 1.5) { this.state = 'patrol'; return; }
-    if (dist < this.attackRange) { this.state = 'attack'; return; }
-    const dir = player.model.position.clone().sub(this.model.position).normalize();
-    this.body.setLinvel({ x: dir.x * this.moveSpeed, y: this.body.linvel().y, z: dir.z * this.moveSpeed }, true);
+    if (dist > this.sightRange * 1.5) {
+      this.state = "patrol";
+      return;
+    }
+    if (dist < this.attackRange) {
+      this.state = "attack";
+      return;
+    }
+    const dir = player.model.position
+      .clone()
+      .sub(this.model.position)
+      .normalize();
+    this.body.setLinvel(
+      {
+        x: dir.x * this.moveSpeed,
+        y: this.body.linvel().y,
+        z: dir.z * this.moveSpeed,
+      },
+      true,
+    );
   }
 
   takeDamage(amount) {
     this.health -= amount;
-    this.state = 'hurt';
+    this.state = "hurt";
     if (this.health <= 0) this._die();
-    else setTimeout(() => this.state = 'chase', 400);
+    else setTimeout(() => (this.state = "chase"), 400);
   }
 
   _die() {
-    this.state = 'dead';
-    this.animator.playOnce('death', () => {
+    this.state = "dead";
+    this.animator.playOnce("death", () => {
       this.body.remove();
       this.model.parent.remove(this.model);
     });
@@ -626,18 +685,18 @@ export class Enemy {
 
 ### 7.2 Enemy Roster by Chapter
 
-| Enemy | Chapter | Behavior Notes |
-|---|---|---|
-| Wasp Drones | Hungover | Aerial patrol, dive-bomb attack |
-| Bees (Mrs.) | Hungover | Boss — phases: chase, charge, stun |
-| Zombie Scarecrow | Windy | Shamble toward player, knockback on hit |
-| Zombie Bat | Bats Tower | Swoop attack, group flocking |
-| Rock Soldier | Uga Buga | Shield blocks front, flank required |
-| Dinosaur (riding) | Uga Buga | Player mounts — stomp mechanic |
-| Tediz Soldier | It's War | Cover-seek, suppressing fire, flank |
-| Tediz Heavy | It's War | Minigun, slow movement, high health |
-| Xenomorph | Future World | Wall-crawl, ceiling drop, acid spit |
-| The Big Big Guy | Barn Boys | Boss — weak point on back, circle-strafe |
+| Enemy             | Chapter      | Behavior Notes                           |
+| ----------------- | ------------ | ---------------------------------------- |
+| Wasp Drones       | Hungover     | Aerial patrol, dive-bomb attack          |
+| Bees (Mrs.)       | Hungover     | Boss — phases: chase, charge, stun       |
+| Zombie Scarecrow  | Windy        | Shamble toward player, knockback on hit  |
+| Zombie Bat        | Bats Tower   | Swoop attack, group flocking             |
+| Rock Soldier      | Uga Buga     | Shield blocks front, flank required      |
+| Dinosaur (riding) | Uga Buga     | Player mounts — stomp mechanic           |
+| Tediz Soldier     | It's War     | Cover-seek, suppressing fire, flank      |
+| Tediz Heavy       | It's War     | Minigun, slow movement, high health      |
+| Xenomorph         | Future World | Wall-crawl, ceiling drop, acid spit      |
+| The Big Big Guy   | Barn Boys    | Boss — weak point on back, circle-strafe |
 
 ### 7.3 Boss Framework
 
@@ -646,7 +705,7 @@ export class Enemy {
 export class BossEnemy extends Enemy {
   constructor(model, physicsBody, config) {
     super(model, physicsBody, config);
-    this.phases = config.phases;  // [{ healthThreshold, behavior }]
+    this.phases = config.phases; // [{ healthThreshold, behavior }]
     this.currentPhase = 0;
     this.isEnraged = false;
   }
@@ -667,8 +726,8 @@ export class BossEnemy extends Enemy {
   _enterPhase(phase) {
     this.isEnraged = true;
     this.moveSpeed *= 1.35;
-    this.animator.playOnce('enrage');
-    AudioManager.playOneshot('sfx_boss_enrage');
+    this.animator.playOnce("enrage");
+    AudioManager.playOneshot("sfx_boss_enrage");
     CameraRig.shake(0.5, 1.2);
     phase.behavior(this);
   }
@@ -699,7 +758,7 @@ export class ChapterDirector {
   }
 
   async startChapter(chapterId) {
-    const config = this.chapters.find(c => c.id === chapterId);
+    const config = this.chapters.find((c) => c.id === chapterId);
     if (!config) return;
     await this.world.loadChunk(config.chunkId);
     if (config.openingCutscene && !this.save.hasSeen(config.openingCutscene)) {
@@ -718,7 +777,7 @@ export class ChapterDirector {
   triggerChapterEnd() {
     this.save.markChapterComplete(this.currentChapter.id);
     this.cutscenes.play(this.currentChapter.endingCutscene).then(() => {
-      this.world.transition('windy', 'spawn_main');
+      this.world.transition("windy", "spawn_main");
     });
   }
 }
@@ -728,35 +787,35 @@ export class ChapterDirector {
 
 ```js
 ChapterDirector.registerChapter({
-  id: 'its_war',
-  chunkId: 'world_war',
+  id: "its_war",
+  chunkId: "world_war",
   title: "It's War!",
-  unlockRequires: ['barn_boys_complete', 'bats_tower_complete'],
-  openingCutscene: 'cutscene_war_intro',
-  endingCutscene: 'cutscene_war_end',
+  unlockRequires: ["barn_boys_complete", "bats_tower_complete"],
+  openingCutscene: "cutscene_war_intro",
+  endingCutscene: "cutscene_war_end",
 
   objectives: [
-    { id: 'war_reach_trenches',    label: 'Reach the trenches' },
-    { id: 'war_kill_tediz_squad',  label: 'Eliminate Tediz squad (12)' },
-    { id: 'war_blow_bridge',       label: 'Destroy the bridge' },
-    { id: 'war_rescue_squirrels',  label: 'Rescue captured squirrels (3)' },
-    { id: 'war_defeat_general',    label: 'Defeat General Tediz' }
+    { id: "war_reach_trenches", label: "Reach the trenches" },
+    { id: "war_kill_tediz_squad", label: "Eliminate Tediz squad (12)" },
+    { id: "war_blow_bridge", label: "Destroy the bridge" },
+    { id: "war_rescue_squirrels", label: "Rescue captured squirrels (3)" },
+    { id: "war_defeat_general", label: "Defeat General Tediz" },
   ],
 
   onStart: () => {
-    WeaponManager.equip('shotgun');
-    WeaponManager.equip('sniper');
-    EnemySpawner.spawnGroup('tediz_patrol', 4, warPatrolPoints);
-    AudioManager.setAmbient('music_war_ambient');
+    WeaponManager.equip("shotgun");
+    WeaponManager.equip("sniper");
+    EnemySpawner.spawnGroup("tediz_patrol", 4, warPatrolPoints);
+    AudioManager.setAmbient("music_war_ambient");
   },
 
   onObjective: (id) => {
-    if (id === 'war_blow_bridge') {
+    if (id === "war_blow_bridge") {
       ExplosionFX.play(bridgeMesh.position);
       bridgeMesh.parent.remove(bridgeMesh);
-      AudioManager.play('sfx_explosion_large', bridgeMesh.position);
+      AudioManager.play("sfx_explosion_large", bridgeMesh.position);
     }
-  }
+  },
 });
 ```
 
@@ -774,9 +833,9 @@ export class MultiplayerManager {
   constructor(renderer, scene) {
     this.renderer = renderer;
     this.scene = scene;
-    this.players = [];    // up to 4
-    this.mode = null;     // active mode instance
-    this.viewports = [];  // split-screen viewports
+    this.players = []; // up to 4
+    this.mode = null; // active mode instance
+    this.viewports = []; // split-screen viewports
   }
 
   setupSplitScreen(playerCount) {
@@ -784,13 +843,28 @@ export class MultiplayerManager {
     const w = this.renderer.domElement.clientWidth;
     const h = this.renderer.domElement.clientHeight;
     const configs = {
-      2: [ [0, h/2, w/2, h/2], [w/2, h/2, w/2, h/2] ],
-      3: [ [0, h/2, w/2, h/2], [w/2, h/2, w/2, h/2], [0, 0, w/2, h/2] ],
-      4: [ [0, h/2, w/2, h/2], [w/2, h/2, w/2, h/2], [0, 0, w/2, h/2], [w/2, 0, w/2, h/2] ]
+      2: [
+        [0, h / 2, w / 2, h / 2],
+        [w / 2, h / 2, w / 2, h / 2],
+      ],
+      3: [
+        [0, h / 2, w / 2, h / 2],
+        [w / 2, h / 2, w / 2, h / 2],
+        [0, 0, w / 2, h / 2],
+      ],
+      4: [
+        [0, h / 2, w / 2, h / 2],
+        [w / 2, h / 2, w / 2, h / 2],
+        [0, 0, w / 2, h / 2],
+        [w / 2, 0, w / 2, h / 2],
+      ],
     };
     this.viewports = configs[playerCount].map(([x, y, vw, vh], i) => ({
-      x, y, width: vw, height: vh,
-      camera: this.players[i].camera
+      x,
+      y,
+      width: vw,
+      height: vh,
+      camera: this.players[i].camera,
     }));
   }
 
@@ -823,19 +897,22 @@ export class BeachMode {
     this.scene = scene;
     this.map = map;
     this.killLimit = 10;
-    this.kills = new Map(players.map(p => [p.id, 0]));
-    this.weapons = ['shotgun', 'bazooka', 'flamethrower'];
+    this.kills = new Map(players.map((p) => [p.id, 0]));
+    this.weapons = ["shotgun", "bazooka", "flamethrower"];
   }
 
   start() {
-    this.map.load('mp_beach');
-    this.players.forEach(p => {
+    this.map.load("mp_beach");
+    this.players.forEach((p) => {
       p.spawn(this.map.randomSpawn());
-      WeaponManager.equip(p, this.weapons[Math.floor(Math.random() * this.weapons.length)]);
+      WeaponManager.equip(
+        p,
+        this.weapons[Math.floor(Math.random() * this.weapons.length)],
+      );
       p.onDeath = (killer) => this._onKill(killer, p);
     });
     this.hud = new MultiHUD(this.kills);
-    AudioManager.setAmbient('music_mp_beach');
+    AudioManager.setAmbient("music_mp_beach");
   }
 
   _onKill(killer, victim) {
@@ -848,7 +925,7 @@ export class BeachMode {
   }
 
   _endGame(winner) {
-    AudioManager.play('sfx_win');
+    AudioManager.play("sfx_win");
     VictoryScreen.show(winner);
   }
 }
@@ -863,34 +940,35 @@ Two teams: Robbers vs Guards. Robbers carry cash to an escape van; Guards elimin
 export class HeistMode {
   constructor(players, scene, map) {
     this.robbers = players.slice(0, 2);
-    this.guards  = players.slice(2, 4);
+    this.guards = players.slice(2, 4);
     this.cashCarried = 0;
     this.cashGoal = 5;
     this.map = map;
+    this.scene = scene;
   }
 
   start() {
-    this.map.load('mp_heist_bank');
-    this.robbers.forEach(p => {
-      p.spawn(this.map.getSpawn('robber'));
-      p.team = 'robbers';
-      WeaponManager.equip(p, 'shotgun');
+    this.map.load("mp_heist_bank");
+    this.robbers.forEach((p) => {
+      p.spawn(this.map.getSpawn("robber"));
+      p.team = "robbers";
+      WeaponManager.equip(p, "shotgun");
     });
-    this.guards.forEach(p => {
-      p.spawn(this.map.getSpawn('guard'));
-      p.team = 'guards';
-      WeaponManager.equip(p, 'rifle');
+    this.guards.forEach((p) => {
+      p.spawn(this.map.getSpawn("guard"));
+      p.team = "guards";
+      WeaponManager.equip(p, "rifle");
     });
     this._spawnCashBags();
   }
 
   _spawnCashBags() {
     this.cashPositions = this.map.getCashSpawns();
-    this.cashPositions.forEach(pos => {
-      const bag = new PickupItem('cash_bag', pos);
+    this.cashPositions.forEach((pos) => {
+      const bag = new PickupItem("cash_bag", pos);
       bag.onPickup = (player) => {
-        if (player.team === 'robbers') {
-          player.carrying = 'cash';
+        if (player.team === "robbers") {
+          player.carrying = "cash";
           this._checkDelivery(player);
         }
       };
@@ -902,7 +980,7 @@ export class HeistMode {
     const vanZone = this.map.getEscapeZone();
     // Check each frame if carrier enters van zone
     player.onEnterTrigger = (zone) => {
-      if (zone === vanZone && player.carrying === 'cash') {
+      if (zone === vanZone && player.carrying === "cash") {
         this.cashCarried++;
         player.carrying = null;
         if (this.cashCarried >= this.cashGoal) this._robbersWin();
@@ -923,15 +1001,17 @@ export class RaceMode {
     this.players = players;
     this.laps = 3;
     this.checkpoints = [];
-    this.progress = new Map(players.map(p => [p.id, { lap: 0, checkpoint: 0 }]));
+    this.progress = new Map(
+      players.map((p) => [p.id, { lap: 0, checkpoint: 0 }]),
+    );
   }
 
   start() {
-    this.map.load('mp_race_track');
+    this.map.load("mp_race_track");
     this.checkpoints = this.map.getCheckpoints();
     this.players.forEach((p, i) => {
       p.spawn(this.map.getRaceStart(i));
-      p.vehicle = VehicleFactory.create('cart', p);
+      p.vehicle = VehicleFactory.create("cart", p);
     });
   }
 
@@ -956,22 +1036,22 @@ export class RaceMode {
 export class WarMode {
   constructor(players, scene, map) {
     this.squirrels = players.slice(0, 2); // team A
-    this.tediz     = players.slice(2, 4); // team B
+    this.tediz = players.slice(2, 4); // team B
     this.teamKills = { squirrels: 0, tediz: 0 };
     this.killLimit = 15;
   }
 
   start() {
-    this.map.load('mp_warzone');
-    this.squirrels.forEach(p => {
-      p.team = 'squirrels';
-      p.spawn(this.map.getSpawn('squirrel'));
-      WeaponManager.equip(p, 'rifle');
+    this.map.load("mp_warzone");
+    this.squirrels.forEach((p) => {
+      p.team = "squirrels";
+      p.spawn(this.map.getSpawn("squirrel"));
+      WeaponManager.equip(p, "rifle");
     });
-    this.tediz.forEach(p => {
-      p.team = 'tediz';
-      p.spawn(this.map.getSpawn('tediz'));
-      WeaponManager.equip(p, 'rifle');
+    this.tediz.forEach((p) => {
+      p.team = "tediz";
+      p.spawn(this.map.getSpawn("tediz"));
+      WeaponManager.equip(p, "rifle");
     });
   }
 }
@@ -990,13 +1070,13 @@ export class RaptorMode {
   }
 
   start() {
-    this.map.load('mp_jungle');
-    this.players.forEach(p => p.spawn(this.map.randomSpawn()));
+    this.map.load("mp_jungle");
+    this.players.forEach((p) => p.spawn(this.map.randomSpawn()));
     this.rexAI = new DinoAI({
       position: this.map.getRexSpawn(),
       targets: this.players,
       damage: 99,
-      moveSpeed: 8
+      moveSpeed: 8,
     });
   }
 }
@@ -1014,15 +1094,15 @@ export class CameraRig {
   constructor(camera) {
     this.camera = camera;
     this.target = null;
-    this.mode = 'follow';   // follow | fixed | cinematic | aiming | boss
+    this.mode = "follow"; // follow | fixed | cinematic | aiming | boss
 
     // Follow camera config
-    this.followOffset    = new THREE.Vector3(0, 3.5, -7);
+    this.followOffset = new THREE.Vector3(0, 3.5, -7);
     this.lookAheadFactor = 0.4;
-    this.lerpSpeed       = 0.08;
+    this.lerpSpeed = 0.08;
 
     this._shakeIntensity = 0;
-    this._shakeDuration  = 0;
+    this._shakeDuration = 0;
   }
 
   setTarget(object3D) {
@@ -1031,16 +1111,24 @@ export class CameraRig {
 
   setMode(mode, duration = 0) {
     this.mode = mode;
-    if (duration > 0) setTimeout(() => this.mode = 'follow', duration * 1000);
+    if (duration > 0) setTimeout(() => (this.mode = "follow"), duration * 1000);
   }
 
   update(delta) {
     if (!this.target) return;
     switch (this.mode) {
-      case 'follow':    this._updateFollow(delta); break;
-      case 'aiming':    this._updateAiming(delta); break;
-      case 'cinematic': this._updateCinematic(delta); break;
-      case 'boss':      this._updateBoss(delta); break;
+      case "follow":
+        this._updateFollow(delta);
+        break;
+      case "aiming":
+        this._updateAiming(delta);
+        break;
+      case "cinematic":
+        this._updateCinematic(delta);
+        break;
+      case "boss":
+        this._updateBoss(delta);
+        break;
     }
     this._applyShake(delta);
   }
@@ -1049,23 +1137,27 @@ export class CameraRig {
     const targetPos = this.target.position.clone();
     const vel = this.target.userData.velocity || new THREE.Vector3();
     const lookAhead = vel.clone().multiplyScalar(this.lookAheadFactor);
-    const desiredPos = targetPos.clone()
+    const desiredPos = targetPos
+      .clone()
       .add(this.followOffset.clone().applyQuaternion(this.target.quaternion));
     this.camera.position.lerp(desiredPos, this.lerpSpeed);
-    this.camera.lookAt(targetPos.add(lookAhead).add(new THREE.Vector3(0, 1.5, 0)));
+    this.camera.lookAt(
+      targetPos.add(lookAhead).add(new THREE.Vector3(0, 1.5, 0)),
+    );
   }
 
   _updateAiming(delta) {
     // Over-the-shoulder for ranged weapons
     const shoulderOffset = new THREE.Vector3(0.6, 1.8, -3.5);
-    const desiredPos = this.target.position.clone()
+    const desiredPos = this.target.position
+      .clone()
       .add(shoulderOffset.applyQuaternion(this.target.quaternion));
     this.camera.position.lerp(desiredPos, 0.15);
   }
 
   shake(intensity, duration) {
     this._shakeIntensity = intensity;
-    this._shakeDuration  = duration;
+    this._shakeDuration = duration;
   }
 
   _applyShake(delta) {
@@ -1108,9 +1200,10 @@ export class AudioManager {
   play(id, position = null) {
     const entry = this.sounds.get(id);
     if (!entry) return;
-    const audio = entry.positional && position
-      ? new THREE.PositionalAudio(this.listener)
-      : new THREE.Audio(this.listener);
+    const audio =
+      entry.positional && position
+        ? new THREE.PositionalAudio(this.listener)
+        : new THREE.Audio(this.listener);
     audio.setBuffer(entry.buffer);
     audio.setVolume(this.sfxVolume);
     if (position && audio.isPositionalAudio) {
@@ -1163,12 +1256,12 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 ### 12.2 Lighting Per Chapter
 
-| Chapter | Sky | Key Light | Fill Light | Special |
-|---|---|---|---|---|
-| Windy | HDR sky (daytime) | Warm directional sun | Blue ambient | Wind volumetric |
-| Bats Tower | Night HDR | Cold moonlight | Near-black ambient | Dynamic torch point lights |
-| It's War | Overcast HDR | Desaturated sun | Khaki ambient | Muzzle flash point lights |
-| Future World | Dark sci-fi HDR | Cold-white directional | Emissive panels GI | Neon strip point lights |
+| Chapter      | Sky               | Key Light              | Fill Light         | Special                    |
+| ------------ | ----------------- | ---------------------- | ------------------ | -------------------------- |
+| Windy        | HDR sky (daytime) | Warm directional sun   | Blue ambient       | Wind volumetric            |
+| Bats Tower   | Night HDR         | Cold moonlight         | Near-black ambient | Dynamic torch point lights |
+| It's War     | Overcast HDR      | Desaturated sun        | Khaki ambient      | Muzzle flash point lights  |
+| Future World | Dark sci-fi HDR   | Cold-white directional | Emissive panels GI | Neon strip point lights    |
 
 ### 12.3 Material Upgrades
 
@@ -1176,21 +1269,21 @@ All characters and environments use `MeshStandardMaterial` (PBR):
 
 ```js
 const material = new THREE.MeshStandardMaterial({
-  map:          colorTexture,          // albedo
-  normalMap:    normalTexture,         // surface detail
+  map: colorTexture, // albedo
+  normalMap: normalTexture, // surface detail
   roughnessMap: roughnessTexture,
   metalnessMap: metalnessTexture,
-  aoMap:        aoTexture,             // baked AO
+  aoMap: aoTexture, // baked AO
 });
 ```
 
 ### 12.4 Post-Processing (via three/addons or postprocessing npm)
 
 ```js
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass }     from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass }from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { SSAOPass }       from 'three/addons/postprocessing/SSAOPass.js';
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { SSAOPass } from "three/addons/postprocessing/SSAOPass.js";
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -1219,6 +1312,7 @@ void main() {
 ### 12.6 Particle Systems
 
 Use `THREE.Points` + custom shaders for:
+
 - Explosion sparks
 - Coin/money pickup shimmer
 - Rain (Windy/War chapters)
@@ -1237,9 +1331,9 @@ Render the HUD as an HTML overlay on top of the canvas (CSS + JS), NOT as 3D obj
 <!-- index.html overlay -->
 <div id="hud">
   <div id="health-bar">
-    <img id="honey-pot-1" class="honey active" src="/ui/honeypot.webp">
-    <img id="honey-pot-2" class="honey active" src="/ui/honeypot.webp">
-    <img id="honey-pot-3" class="honey active" src="/ui/honeypot.webp">
+    <img id="honey-pot-1" class="honey active" src="/ui/honeypot.webp" />
+    <img id="honey-pot-2" class="honey active" src="/ui/honeypot.webp" />
+    <img id="honey-pot-3" class="honey active" src="/ui/honeypot.webp" />
   </div>
   <div id="money-display">
     <span id="money-icon">💰</span>
@@ -1249,7 +1343,7 @@ Render the HUD as an HTML overlay on top of the canvas (CSS + JS), NOT as 3D obj
     <span id="ammo-count">--</span>
   </div>
   <div id="context-prompt" class="hidden">
-    <img id="context-icon" src="">
+    <img id="context-icon" src="" />
     <span id="context-label"></span>
     <kbd>B</kbd>
   </div>
@@ -1261,35 +1355,36 @@ Render the HUD as an HTML overlay on top of the canvas (CSS + JS), NOT as 3D obj
 // ui/HUD.js
 export const HUD = {
   updateHealth(hp) {
-    document.querySelectorAll('.honey').forEach((el, i) => {
-      el.classList.toggle('active', i < hp);
-      el.classList.toggle('empty', i >= hp);
+    document.querySelectorAll(".honey").forEach((el, i) => {
+      el.classList.toggle("active", i < hp);
+      el.classList.toggle("empty", i >= hp);
     });
   },
   updateMoney(amount) {
-    document.getElementById('money-count').textContent = `$${amount}`;
+    document.getElementById("money-count").textContent = `$${amount}`;
   },
   showContextPrompt(label, iconSrc) {
-    const el = document.getElementById('context-prompt');
-    el.classList.remove('hidden');
-    document.getElementById('context-label').textContent = label;
-    document.getElementById('context-icon').src = iconSrc;
+    const el = document.getElementById("context-prompt");
+    el.classList.remove("hidden");
+    document.getElementById("context-label").textContent = label;
+    document.getElementById("context-icon").src = iconSrc;
   },
   hideContextPrompt() {
-    document.getElementById('context-prompt').classList.add('hidden');
+    document.getElementById("context-prompt").classList.add("hidden");
   },
   showChapterTitle(title) {
-    const el = document.getElementById('chapter-title');
+    const el = document.getElementById("chapter-title");
     el.textContent = title;
-    el.classList.remove('hidden');
-    setTimeout(() => el.classList.add('hidden'), 4000);
-  }
+    el.classList.remove("hidden");
+    setTimeout(() => el.classList.add("hidden"), 4000);
+  },
 };
 ```
 
 ### 13.2 Main Menu
 
 Build as a full-screen HTML/CSS screen that sits above the canvas:
+
 - **New Game / Continue** → triggers ChapterDirector
 - **Multiplayer** → mode + player count selection
 - **Options** → audio sliders, graphics quality, controls rebinding
@@ -1298,8 +1393,8 @@ Build as a full-screen HTML/CSS screen that sits above the canvas:
 ### 13.3 Pause Menu
 
 ```js
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') GameLoop.togglePause();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") GameLoop.togglePause();
 });
 ```
 
@@ -1331,34 +1426,38 @@ export class CutsceneDirector {
     const steps = this.scripts.get(id);
     if (!steps) return;
     this.isPlaying = true;
-    GameLoop.pause('cutscene');
+    GameLoop.pause("cutscene");
     for (const step of steps) {
       await this._executeStep(step);
     }
-    GameLoop.resume('cutscene');
+    GameLoop.resume("cutscene");
     this.isPlaying = false;
   }
 
   async _executeStep(step) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       switch (step.type) {
-        case 'wait':
+        case "wait":
           setTimeout(resolve, step.duration * 1000);
           break;
-        case 'moveCam':
-          this.rig.moveTo(step.position, step.lookAt, step.duration).then(resolve);
+        case "moveCam":
+          this.rig
+            .moveTo(step.position, step.lookAt, step.duration)
+            .then(resolve);
           break;
-        case 'dialogue':
-          DialogueBox.show(step.speaker, step.text, step.portrait).then(resolve);
+        case "dialogue":
+          DialogueBox.show(step.speaker, step.text, step.portrait).then(
+            resolve,
+          );
           break;
-        case 'playAnim':
+        case "playAnim":
           step.target.animator.playOnce(step.anim, resolve);
           break;
-        case 'playSFX':
+        case "playSFX":
           this.audio.play(step.id);
           resolve();
           break;
-        case 'custom':
+        case "custom":
           Promise.resolve(step.fn()).then(resolve);
           break;
       }
@@ -1373,16 +1472,16 @@ export class CutsceneDirector {
 // ui/DialogueBox.js
 export const DialogueBox = {
   show(speaker, text, portrait) {
-    return new Promise(resolve => {
-      const box = document.getElementById('dialogue-box');
-      document.getElementById('dialogue-speaker').textContent = speaker;
-      document.getElementById('dialogue-portrait').src = portrait;
-      this._typewrite(text, document.getElementById('dialogue-text'), () => {
-        box.classList.remove('hidden');
-        document.addEventListener('keydown', function handler(e) {
-          if (e.key === ' ' || e.key === 'Enter') {
-            box.classList.add('hidden');
-            document.removeEventListener('keydown', handler);
+    return new Promise((resolve) => {
+      const box = document.getElementById("dialogue-box");
+      document.getElementById("dialogue-speaker").textContent = speaker;
+      document.getElementById("dialogue-portrait").src = portrait;
+      this._typewrite(text, document.getElementById("dialogue-text"), () => {
+        box.classList.remove("hidden");
+        document.addEventListener("keydown", function handler(e) {
+          if (e.key === " " || e.key === "Enter") {
+            box.classList.add("hidden");
+            document.removeEventListener("keydown", handler);
             resolve();
           }
         });
@@ -1391,13 +1490,16 @@ export const DialogueBox = {
   },
 
   _typewrite(text, el, onDone) {
-    el.textContent = '';
+    el.textContent = "";
     let i = 0;
     const interval = setInterval(() => {
       el.textContent += text[i++];
-      if (i >= text.length) { clearInterval(interval); onDone(); }
+      if (i >= text.length) {
+        clearInterval(interval);
+        onDone();
+      }
     }, 30);
-  }
+  },
 };
 ```
 
@@ -1426,9 +1528,9 @@ export class SaveManager {
       completedObjectives: [],
       money: 0,
       health: 3,
-      lastChunk: 'windy',
-      lastSpawn: 'spawn_main',
-      playtime: 0
+      lastChunk: "windy",
+      lastSpawn: "spawn_main",
+      playtime: 0,
     };
   }
 
@@ -1500,46 +1602,53 @@ basisu input.png -output_file output.ktx2 -uastc -uastc_rdo_l 1.5
 Follow this sequence to build the game up incrementally:
 
 ### Phase 1 — Core Loop (Get Conker Moving)
+
 1. `CharacterController` with full movement/jump/roll
 2. `CameraRig` in follow mode
 3. `PhysicsWorld` with Rapier integration
 4. Basic `WorldManager` — load one chunk (Windy), walk around
 
 ### Phase 2 — Interaction
-5. `ContextSystem` with 3 example zones
-6. `TailWhip` combat + 1 enemy type (zombie scarecrow)
-7. `HUD` — health, money, context prompt
-8. `AudioManager` — footsteps, hits, ambient music
+
+1. `ContextSystem` with 3 example zones
+2. `TailWhip` combat + 1 enemy type (zombie scarecrow)
+3. `HUD` — health, money, context prompt
+4. `AudioManager` — footsteps, hits, ambient music
 
 ### Phase 3 — First Chapter (Hungover)
-9. Full Hungover chapter with all objectives
-10. `ChapterDirector` + opening/closing cutscenes
-11. `DialogueBox` + `CutsceneDirector`
-12. Mrs. Bee boss fight
-13. `SaveManager`
+
+1. Full Hungover chapter with all objectives
+2. `ChapterDirector` + opening/closing cutscenes
+3. `DialogueBox` + `CutsceneDirector`
+4. Mrs. Bee boss fight
+5. `SaveManager`
 
 ### Phase 4 — Graphics Polish
-14. PBR materials across all existing meshes
-15. Post-processing stack (SSAO, Bloom)
-16. Dynamic lighting per chapter
-17. Cel-shader hybrid on Conker
+
+1. PBR materials across all existing meshes
+2. Post-processing stack (SSAO, Bloom)
+3. Dynamic lighting per chapter
+4. Cel-shader hybrid on Conker
 
 ### Phase 5 — Remaining Chapters
-18. Implement chapters in story order: Barn Boys → Bats Tower → Uga Buga → Spooky → It's War → Heist → Future World
+
+1. Implement chapters in story order: Barn Boys → Bats Tower → Uga Buga → Spooky → It's War → Heist → Future World
 
 ### Phase 6 — Multiplayer
-19. Split-screen renderer
-20. Beach (deathmatch) mode
-21. Heist mode
-22. War mode
-23. Race mode
-24. Raptor mode
+
+1. Split-screen renderer
+2. Beach (deathmatch) mode
+3. Heist mode
+4. War mode
+5. Race mode
+6. Raptor mode
 
 ### Phase 7 — Polish & QA
-25. Full audio pass (all SFX, music layers)
-26. Performance profiling (target 60fps on mid-range GPU)
-27. Mobile/gamepad input support
-28. Loading screens, main menu, credits
+
+1. Full audio pass (all SFX, music layers)
+2. Performance profiling (target 60fps on mid-range GPU)
+3. Mobile/gamepad input support
+4. Loading screens, main menu, credits
 
 ---
 
@@ -1547,21 +1656,21 @@ Follow this sequence to build the game up incrementally:
 
 ```js
 export const GAME_CONSTANTS = {
-  GRAVITY:               -20,
-  PLAYER_MOVE_SPEED:     7.5,
-  PLAYER_RUN_SPEED:      14.0,
-  PLAYER_JUMP_FORCE:     10.5,
-  PLAYER_DOUBLE_JUMP:    8.0,
-  PLAYER_ROLL_SPEED:     18.0,
-  MAX_HEALTH:            3,
-  CAMERA_FOLLOW_LERP:    0.08,
-  CAMERA_FOLLOW_OFFSET:  [0, 3.5, -7],
-  ENEMY_SIGHT_RANGE:     15,
-  ENEMY_ATTACK_RANGE:    2.0,
-  CONTEXT_ZONE_RADIUS:   2.0,
-  PORTAL_CHECK_INTERVAL: 100,   // ms
-  SAVE_SLOT_COUNT:       3,
-  MP_MAX_PLAYERS:        4,
+  GRAVITY: -20,
+  PLAYER_MOVE_SPEED: 7.5,
+  PLAYER_RUN_SPEED: 14.0,
+  PLAYER_JUMP_FORCE: 10.5,
+  PLAYER_DOUBLE_JUMP: 8.0,
+  PLAYER_ROLL_SPEED: 18.0,
+  MAX_HEALTH: 3,
+  CAMERA_FOLLOW_LERP: 0.08,
+  CAMERA_FOLLOW_OFFSET: [0, 3.5, -7],
+  ENEMY_SIGHT_RANGE: 15,
+  ENEMY_ATTACK_RANGE: 2.0,
+  CONTEXT_ZONE_RADIUS: 2.0,
+  PORTAL_CHECK_INTERVAL: 100, // ms
+  SAVE_SLOT_COUNT: 3,
+  MP_MAX_PLAYERS: 4,
   MP_KILL_LIMIT_DEFAULT: 10,
 };
 ```
@@ -1586,4 +1695,4 @@ export const GAME_CONSTANTS = {
 
 ---
 
-*This guide is intended for autonomous agent implementation. Each section is self-contained and can be tackled in isolation. Always extend the existing framework — do not rewrite systems that already exist. When in doubt, favor modularity over performance optimization until Phase 7.*
+_This guide is intended for autonomous agent implementation. Each section is self-contained and can be tackled in isolation. Always extend the existing framework — do not rewrite systems that already exist. When in doubt, favor modularity over performance optimization until Phase 7._

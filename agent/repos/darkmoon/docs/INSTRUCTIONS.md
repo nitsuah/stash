@@ -1,6 +1,7 @@
 # Agent Pickup Instructions
 
 ## Context
+
 You are picking up work on the Darkmoon repo (branch: play-modes). The previous agent was focused on stabilizing the solo tag game, ensuring bot-vs-player and player-vs-bot tagging is robust, and enforcing a Docker-first validation workflow for all changes.
 
 ## Flow / Order of Operations (Best Practices)
@@ -31,12 +32,15 @@ You are picking up work on the Darkmoon repo (branch: play-modes). The previous 
    - If your change affects docs, update README.md, FEATURES.md, or other relevant files.
 
 ## Where to Resume
+
 - See TASKS.md for unfinished todos. Prioritize P0 tasks first.
 - If the tag system regresses, review Bots.tsx, PlayerCharacter.tsx, useBotAI.ts, and GameManager.ts for logic symmetry and cooldown handling.
 - Always validate in Docker and visually before marking a task complete.
 
 ## Contact
+
 If you encounter blockers, document them in TASKS.md and leave a note here for the next agent.
 
 ---
+
 _Last updated: 2026-04-13_

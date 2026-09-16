@@ -2,9 +2,11 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bea254e2-2234-434c-82d1-ffb8a8c2dd26/deploy-status)](https://app.netlify.com/projects/skyviewd/deploys) [![Playwright Tests](https://github.com/nitsuah/skyview/actions/workflows/playwright.yml/badge.svg)](https://github.com/nitsuah/skyview/actions/workflows/playwright.yml) [![Docker Smoke](https://github.com/nitsuah/skyview/actions/workflows/docker-smoke.yml/badge.svg)](https://github.com/nitsuah/skyview/actions/workflows/docker-smoke.yml)
 
-**Last Updated:** 2026-04-13 (Overseer/PM compliance review)
+**Last Updated:** 2026-08-22 (documentation audit)
 
-##  What’s New
+## What's New
+- Documentation audit and accuracy pass (2026-08-22)
+- Marketplace platform backend added: Netlify Functions, Neon DB, Stripe Connect, React SPA at /app (2026-06-08)
 - Motion polish, browser monitoring, and conversion reporting baseline (2026-04-06)
 - Launch visual identity refresh and dark-mode booking embed (2026-04-06)
 - Docker smoke validation and coverage reporting (2026-03-27)
@@ -13,9 +15,9 @@
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and how to get involved.
 
 ## 🔗 Quick Links
-- [Live Site](https://skyview.nitsuah.io)
+- [Live Site](https://skyviewd.netlify.app) / [Custom Domain](https://skyview.nitsuah.io)
 - [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
-- [Owner Guide](OWNER_GUIDE.md)
+- [Owner Guide](docs/OWNER_GUIDE.md)
 - [Getting Started](docs/GETTING_STARTED.md)
 - [Metrics](METRICS.md)
 - [Features](FEATURES.md)
@@ -34,16 +36,19 @@ A stunning, high-tech website for professional drone services featuring a minima
 
 ## 🚀 Quick Start
 
-**📘 New Owner?** Start with **[OWNER_GUIDE.md](OWNER_GUIDE.md)** - your complete 30-minute launch guide!
+**📘 New Owner?** Start with **[OWNER_GUIDE.md](docs/OWNER_GUIDE.md)** - your complete 30-minute launch guide!
 
 **🛠️ Developer?** See **[Getting Started Guide](docs/GETTING_STARTED.md)** for technical setup.
 
 ### Run Locally
 
-You will need a local server to properly load JSON and modules.
+Use `npm run dev` for the full development experience (includes Netlify Functions, form handling, and Identity):
 
 ```bash
-# Using Node.js (Recommended)
+# Full dev server (Netlify CLI included as devDependency)
+npm run dev            # Runs netlify dev on port 8888
+
+# Static-only fallback (no Netlify Functions)
 npx http-server . -p 3000
 
 # Using Python
@@ -97,17 +102,31 @@ See **[🚀 Deployment Guide](docs/DEPLOYMENT_GUIDE.md)** for Netlify deployment
 - ✅ Admin CMS (Decap CMS)
 - ✅ Feature flags system
 - ✅ Email notifications
+- ✅ Campaign personalization (UTM/referrer-based hero variants)
+- ✅ A/B testing framework (feature-gated; enable via config.js)
+- ✅ Conversion funnel tracking with local dashboard and CSV/JSON export
+- ✅ Marketplace platform (Netlify Functions + React SPA at /app; enable via platform flag)
+- ✅ CSP and security headers (enforced in netlify.toml)
+- ✅ FAA cert expiry cron (daily Netlify scheduled function)
 
 ## 📦 NPM Scripts
 
 ```bash
 # Development
-npm run serve          # Start dev server on port 8080
+npm run dev            # Start Netlify dev server (port 8888; requires netlify-cli)
 
 # Testing
 npm test              # Run Playwright E2E tests
-npx vitest run --config config/vitest.config.ts  # Run unit tests
+npm run test:unit     # Run Vitest unit tests with coverage
 docker compose -f config/docker-compose.yml run --rm unit  # Run unit tests with coverage in Docker
+
+# Build
+npm run build          # Build platform SPA (React app to dist/app/)
+npm run db:migrate     # Run Neon database migrations (platform feature)
+
+# Linting
+npm run lint:js        # ESLint (config/eslint.config.mjs)
+npm run lint:css       # Stylelint (config/stylelint.config.mjs)
 
 # Optimization
 npm run optimize:images  # Convert images to WebP
@@ -117,8 +136,7 @@ npm run optimize:images  # Convert images to WebP
 
 ### Start Here
 - 📖 **[Getting Started Guide](docs/GETTING_STARTED.md)** - **Start here!** Complete setup walkthrough
-- 📖 [Quick Start](QUICKSTART.md) - 5-minute local setup
-- 📖 [Manual Setup Checklist](docs/MANUAL_SETUP.md) - All configuration steps
+- 📘 [Owner's Guide](docs/OWNER_GUIDE.md) - 30-minute non-technical launch guide
 
 ### Deployment & Management
 - 🚀 [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) - Netlify deployment
@@ -128,8 +146,8 @@ npm run optimize:images  # Convert images to WebP
 - 🔍 [SEO Guide](docs/SEO_GUIDE.md) - Search engine optimization and submission
 
 ### Content Management
+- 📝 [CMS Editing Guide](docs/CMS_GUIDE.md) - How to update gallery content via Decap CMS
 - 🖼️ [WebP Optimization](docs/WEBP_OPTIMIZATION.md) - Image optimization guide
-- 🎬 [WebP Implementation](docs/WEBP_IMPLEMENTATION.md) - Technical details
 - 🔒 [Client Portal](docs/CLIENT_PORTAL.md) - Client file delivery system
 - 📁 [Asset Management](docs/ASSET_MANAGEMENT.md) - Organizing media files
 
@@ -140,7 +158,7 @@ npm run optimize:images  # Convert images to WebP
 ### Project Overview
 - 📋 [Roadmap](ROADMAP.md) - Project phases and progress
 - ✅ [Tasks](TASKS.md) - Todo list
-- 📊 [Project Status](PROJECT_STATUS.md) - Complete overview
+- 📈 [Metrics](METRICS.md) - Test coverage and performance baseline
 
 ## ⚙️ Configuration
 
@@ -150,12 +168,14 @@ Edit `config.js` to enable/disable features:
 ```javascript
 features: {
     testimonials: false,    // Testimonials section
-    contactForm: false,     // Contact form
+    contactForm: true,      // Contact form (enabled by default)
     calendly: true,         // Booking widget
     clientPortal: false,    // Client file access
     adminCMS: true,         // Admin dashboard
     preview3D: false,       // 3D preview (future)
-    analytics: false        // Analytics tracking
+    analytics: false,       // Analytics tracking
+    analyticsDebugPanel: false, // Persistent conversion metrics panel
+    platform: false        // Marketplace mode (replaces Calendly with operator CTA)
 }
 ```
 
@@ -165,7 +185,7 @@ features: {
 3. Run `npm run optimize:images`
 4. Deploy to Netlify
 
-See [MANUAL_SETUP.md](docs/MANUAL_SETUP.md) for detailed steps.
+See [Configuration Reference](docs/CONFIG.md) for detailed steps.
 
 ## 🚀 Deployment
 
@@ -195,12 +215,3 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
-
-## Repository Index
-
-### Root Files
-- [[repos/skyview/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/skyview/FEATURES.md|FEATURES.md]]
-- [[repos/skyview/METRICS.md|METRICS.md]]
-- [[repos/skyview/ROADMAP.md|ROADMAP.md]]
-- [[repos/skyview/TASKS.md|TASKS.md]]

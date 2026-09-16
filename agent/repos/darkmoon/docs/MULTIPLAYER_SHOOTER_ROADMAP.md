@@ -196,15 +196,25 @@ friendly fire, range gating, sit out while downed), and prop wiring
 
 ## Phase E — Polish
 
-Incremental, can run alongside B–D:
+Incremental, can run alongside B–D.
 
-- **Camera**: `PlayerCharacter.tsx` already manages a follow camera; add an "aiming" mode
-  (over-the-shoulder offset, per build guide Section 10) when a weapon is equipped.
-- **Audio**: extend `musicLayers.ts`/`soundEffects.ts` with a combat music layer that
-  cross-fades in when `WeaponManager` reports recent fire/hit events, following the
-  existing layered-music approach in `SoundManager.startBackgroundMusic`.
-- **HUD**: `GameUI.tsx` gains health/ammo/kill/flag-status displays, gated by
-  `gameState.mode` so tag mode's HUD is unaffected.
+### ✅ Completed (PR #391, August 2026)
+
+- **Homepage redesign** — glassmorphism game-mode cards, feature-highlight section, roadmap teaser, mobile-first CTA; favicon added.
+- **ShotgunVFX** — cone particle burst effect rendered in the 3D scene for every shotgun shot.
+- **Reserve ammo** — `reserveAmmo` tracked in `WeaponManager` and displayed alongside magazine count in `BottomHUD`.
+- **Tag-mode health** — `TagMode` initialises `health: 100` per player and handles `"hit"` actions, enabling weapon damage without disrupting IT-transfer logic.
+- **Reload precision meter v2** — timing-based snap mechanic overlays the reload bar; hitting the snap zone grants an instant reload bonus.
+- **Weapon swap & scoreboard keys** — Tab (weapon swap), Q/E (strafe-alias swap), I (scoreboard) bound via module-level frozen `GAMEPLAY_KEYS` constant; blur resets the scoreboard.
+- **Camera-relative A/D strafing** — strafe direction now derived from current camera yaw, not world axes.
+- **GameUI componentization** — `GameUI.tsx` (2,078 lines) split into 15 focused sub-components + `useGameUIState.ts`; barrel re-export preserves imports.
+- **Solo.tsx hooks** — `useGameStart`, `useBotPositionHandlers`, `useDebugModes` extracted; Solo.tsx trimmed to ~295 lines.
+- **Performance / code quality** — Crosshair uses `transform` (GPU compositing, no layout thrash); `tensionWarning` wrapped in `useMemo`; crosshair spread uses a single `setInterval`; `onPlayAgain` guarded with a runtime type check; `currentPlayer!` non-null assertion removed.
+
+### Remaining
+
+- **Camera**: add an "aiming" mode (over-the-shoulder offset, per build guide Section 10) when a weapon is equipped — `PlayerCharacter.tsx` already manages the follow camera.
+- **Audio**: extend `musicLayers.ts`/`soundEffects.ts` with a combat music layer that cross-fades in when `WeaponManager` reports recent fire/hit events, following the existing layered-music approach in `SoundManager.startBackgroundMusic`.
 
 ---
 
@@ -241,5 +251,3 @@ branch) in the `disconnect` handler.
 addressed either as part of Phase A (if `TagMode` becomes shared client/server code) or
 as a standalone fix immediately before Multiplayer Tag moves from `[planned]` to
 `[in-progress]` in `FEATURES.md`.
-
-[[pending]]

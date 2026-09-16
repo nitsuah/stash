@@ -1,8 +1,8 @@
-# motor-pool - Local AI Ops Cockpit
+# agent-board — Local AI Ops Cockpit
 
-motor-pool is a local-first control room for multi-model AI workflows. It gives you a chat surface, safety rails, and live observability in one place, so you can run and evaluate model behavior without sending data to external APIs.
+agent-board is a local-first control room for multi-model AI workflows. It gives you a chat surface, safety rails, and live observability in one place, so you can run and evaluate model behavior without sending data to external APIs.
 
-## Why motor-pool
+## Why agent-board
 
 - **Ship safer prompts faster**: built-in input classification, prompt-injection checks, blocked-input handling, and output sanitization.
 - **Run multiple experiences**: switch between Developer Assistant, Research Mode, and Safe Chat with server-enforced routing and safety policies.
@@ -16,6 +16,8 @@ motor-pool is a local-first control room for multi-model AI workflows. It gives 
 - **Model routing**: primary Ollama endpoint, Docker Model Runner endpoints, and server-side endpoint restrictions.
 - **Operations UI**: dark and light themes, system panel controls, live container status, and endpoint health visibility.
 - **Observability stack**: metrics APIs, event bus, persistence status, tracing status, and Jaeger integration.
+- **Workspace IDE**: VSCode-style split layout with file tabs, integrated terminal pane, compact git panel, and task dispatch — all in-browser.
+- **Topbar command bar**: unified top-bar replaces the sidebar; model/endpoint controls, session picker, and system actions accessible from one surface.
 
 ## Screenshots
 
@@ -23,23 +25,30 @@ Captured from the local Docker stack at `http://localhost:3000`.
 
 ### Dashboard Overview
 
-![motor-pool dashboard overview](docs/screenshots/dashboard-overview.png)
+![agent-board dashboard overview](docs/screenshots/dashboard-overview.png)
 
 ### Metrics View
 
-![motor-pool metrics panel](docs/screenshots/metrics-panel.png)
+![agent-board metrics panel](docs/screenshots/metrics-panel.png)
 
 ### System Management
 
-![motor-pool system management panel](docs/screenshots/system-panel.png)
+![agent-board system management panel](docs/screenshots/system-panel.png)
 
 ## Quick Start
 
 Minimal stack (dashboard + Ollama + DB — fits a 16 GB host):
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\motor-pool
+cd C:\Users\$env:USERNAME\code\agent-board
 docker compose -f config/docker-compose.yml --project-directory . up -d
+```
+
+or for GPU:
+
+```powershell
+cd C:\Users\$env:USERNAME\code\agent-board
+docker compose -f config/docker-compose.yml -f config/docker-compose.gpu.yml up -d
 ```
 
 Open [http://localhost:3000](http://localhost:3000) — that's it.
@@ -56,6 +65,9 @@ docker compose -f config/docker-compose.yml --project-directory . --profile bb-m
 
 # MCP tool servers (Content Studio / Website Agent)
 docker compose -f config/docker-compose.yml --project-directory . --profile tools up -d tool-content-gen tool-website
+
+# NemoClaw safety sandbox
+docker compose -f config/docker-compose.yml --project-directory . --profile sandbox up -d nemoclaw
 ```
 
 Default endpoints (minimal stack):
@@ -91,7 +103,14 @@ Optional endpoints (require profile flags above):
 
 ```bash
 dashboard/                    # Web UI & API server (React + Express)
-  src/                        # React frontend
+  server.js                   # Express entry point — thin; logic in routes/ and modules/
+  routes/                     # Route modules (docker.js, sessions.js, …)
+  src/
+    App.jsx                   # React root — session lifecycle, endpoint routing
+    components/               # Extracted UI components (StatusBar, ChatColumn, SystemPanel, …)
+    hooks/                    # Stateful logic hooks (useWebSocket, useSessionStreaming, useServiceActions, …)
+    constants/                # App-wide config constants (app-config.js)
+    utils/                    # Shared utilities (serviceErrors.js, …)
   tests/                      # Integration tests
   Dockerfile
 config/                       # Stack config and model manifests
@@ -105,7 +124,7 @@ scripts/                      # Setup & management scripts
 
 ## Models & Selective Loading
 
-Models are loaded at startup based on the `config/model-manifest.json` file. Only models listed in the `enabled` array will be loaded. By default, only `llama2:latest` is enabled for minimal RAM usage.
+Models are loaded at startup based on the `config/model-manifest.json` file. Only models listed in the `enabled` array will be loaded. The application default is `llama3.2:3b` — `ollama-init` automatically pulls `PRIMARY_LLM_MODEL` (default: `llama3.2:3b`) on `docker compose up`, so no manual pull is needed for the default model.
 
 To enable additional models:
 
@@ -117,9 +136,9 @@ To enable additional models:
 
 ```json
 {
-  "default": "llama2:latest",
+  "default": "llama3.2:3b",
   "enabled": [
-    "llama2:latest",
+    "llama3.2:3b",
     "qwen3-coder:latest"
   ]
 }
@@ -127,7 +146,8 @@ To enable additional models:
 
 | Model | Size | Use |
 | --- | --- | --- |
-| `llama2:latest` | 3.8 GB | Default — general chat, fits in RAM |
+| `llama3.2:3b` | 2 GB | **Default** — modern, fast on CPU, fits in RAM |
+| `llama2:latest` | 3.8 GB | Legacy baseline; superseded by llama3.2:3b |
 | `qwen3-coder:latest` | 18 GB | Code generation (requires ~18 GB free RAM) |
 | `qwen3:latest` | 5.2 GB | General (MoE, loads as 17.7 GB at runtime) |
 
@@ -224,6 +244,25 @@ With the overlay applied:
 ### Messages
 
 - `POST /api/sessions/:id/message` — Send message (`{ message, useSafeMode }`)
+- `POST /api/sessions/:id/stream` — Stream message via SSE (`text/event-stream`; final event is `data: {"type":"done","messageCount":<count>}`)
+
+### Task Queue
+
+- `GET /api/tasks` — List all tasks (filter by `status`, `sessionId`, `priority`)
+- `POST /api/tasks` — Create task (`{ title, description, priority, sessionId, experience }`)
+- `PUT /api/tasks/:id` — Update task status/priority/session
+- `DELETE /api/tasks/:id` — Delete task
+- `GET /api/sessions/:id/tasks` — Tasks assigned to a session
+
+### Webhooks
+
+- `POST /api/webhooks/trigger` — Ingest an external event and optionally create a task (`{ event, source, payload, createTask }`); requests must include an `x-hub-signature-256` header — HMAC-SHA256 of the raw request body signed with `WEBHOOK_SECRET`
+
+### External Endpoints (BYOK)
+
+- `GET /api/config/endpoints` — List configured LLM endpoints (built-in + runtime-added)
+- `POST /api/config/endpoints` — Register a runtime endpoint (`{ key, url, name, apiStyle, defaultModel, apiKey }`)
+- `DELETE /api/config/endpoints/:key` — Remove a runtime endpoint (built-ins cannot be removed)
 
 ### Product Surface
 
@@ -236,9 +275,22 @@ With the overlay applied:
 - `GET /api/metrics/feedback` — Positive/negative feedback by model and experience
 - `GET /api/metrics/errors` — Error rate and recent failures
 
+### Workspace File I/O
+
+Requires `WORKSPACE_PATH` in `.env` and the `docker-compose.workspace.yml` overlay. Paths are sandboxed to prevent traversal.
+
+- `GET /api/workspace/status` — Workspace mount status and git repo info
+- `GET /api/workspace/ls` — List a workspace directory
+- `GET /api/workspace/read` — Read a workspace file (max 1 MB)
+- `POST /api/workspace/write` — Write a workspace file (`{ path, content }`)
+- `GET /api/workspace/git/status` — Changed files in the workspace repo
+- `POST /api/workspace/git/commit` — Stage and commit workspace changes (`{ message, files? }`)
+- `POST /api/workspace/git/push` — Push the workspace branch
+
 ### System
 
 - `GET /api/health` — Health check (LLM endpoints + Docker status)
+- `GET /api/system/info` — Node/platform/environment info (uptime, memory, endpoint list)
 - `GET /api/models` — Available models from all endpoints
 - `GET /api/docker/status` — Container status (includes `endpoints[*].modelInstalled`/`modelLoaded`)
 - `GET /api/system/services` — Service discovery catalog (resolved URLs, candidates, controllability)
@@ -247,6 +299,8 @@ With the overlay applied:
   endpoint's configured model). Ollama pulls stream progress via `/ws/events`
   (`model_pull_progress`); Docker Model Runner pulls (`docker_runner`/`glm_flash`) require
   `AGENT_BOARD_ENABLE_DOCKER_CONTROL=true` and the [docker-control overlay](#docker-control-and-model-pulls-opt-in).
+- `POST /api/models/pull-all` — Kick off pulls for all configured endpoints where the default model has not yet been pulled (uses Docker Model Runner exact-ID matching; `docker.io/` prefix variants or omitted `:latest` tags may not match an already-pulled image)
+- `POST /api/models/unload` — Remove a Docker Model Runner model from disk (`{ model }`, requires Docker control)
 - `GET /api/models/pull-status` — In-progress/last-known pull status per `endpoint:model`
 - `GET /api/persistence/status` — Postgres persistence status (configured/enabled)
 - `GET /api/tracing/status` — OpenTelemetry tracing status (enabled/initialized/endpoint)
@@ -269,14 +323,32 @@ With the overlay applied:
 
 ```bash
 dashboard/
-├── server.js         # Express API — session mgmt, LLM proxy, Docker status
+├── server.js              # Express entry point — thin; logic in routes/ and modules/
+├── routes/                # Route modules (docker.js, sessions.js, …)
 ├── src/
-│   ├── App.jsx       # React frontend
-│   ├── App.css       # Styles
-│   └── main.jsx      # Entry point
-├── tests/
-│   ├── test-chat.js  # Integration test (session → message → delete)
-│   └── e2e-chat.js
+│   ├── App.jsx            # React root — session lifecycle, endpoint state
+│   ├── App.css            # Styles
+│   ├── main.jsx           # Entry point
+│   ├── components/        # Extracted UI components
+│   │   ├── ChatColumn.jsx
+│   │   ├── SystemPanel.jsx, ServiceRow.jsx, ByokEndpointForm.jsx, ServiceDiscovery.jsx
+│   │   ├── SessionHeader.jsx, MessageComposer.jsx, ReplayPanel.jsx
+│   │   ├── StatusBar.jsx, OnboardingStrip.jsx
+│   │   └── … (LiminalDashboard, WorkspaceView, TopBar, …)
+│   ├── hooks/             # Stateful logic hooks
+│   │   ├── useWebSocket.js         # WS connection + auto-reconnect
+│   │   ├── useSessionStreaming.js  # Streaming, message queue, pause/resume
+│   │   ├── useServiceActions.js   # Service control, model pulls, content clients
+│   │   ├── useWorkspaceOps.js
+│   │   └── useTaskManagement.js
+│   ├── constants/         # App-wide config (app-config.js)
+│   └── utils/             # Shared utilities (serviceErrors.js, …)
+├── tests/                 # 64 test files (48 unit + 16 integration/e2e)
+│   ├── safety-layer.js    # Unit — PII/injection/harmful content checks
+│   ├── session-*.js       # Unit — session lifecycle, fork, export, filter, replay
+│   ├── task-*.js          # Unit — task queue CRUD, priority, search
+│   ├── e2e-chat.js        # Integration — end-to-end chat session
+│   └── …
 └── Dockerfile
 ```
 
@@ -323,14 +395,14 @@ cd dashboard && npm run test:integration
 
 > If **Chat returns error / LLM not responding**
 
-- Check Ollama has models: `docker exec llm_qwen_coder ollama list`
+- Check Ollama has models: `docker exec ollama ollama list`
 - Check memory — large models (qwen3-coder 18 GB) need enough free RAM
-- Default model is `llama2:latest` which is safe for ~8 GB+ systems
+- Default model is `llama3.2:3b` which is safe for ~8 GB+ systems
 
 > **Container unhealthy**
 
 - `docker logs agent-dashboard` — server errors
-- `docker logs llm_qwen_coder` — Ollama errors (OOM will show here)
+- `docker logs ollama` — Ollama errors (OOM will show here)
 
 > **Port conflicts**
 
@@ -413,30 +485,3 @@ Shared community policies are centralized in [https://github.com/nitsuah/.github
 - Contributing: [https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md)
 - Code of Conduct: [https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md](https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md)
 - Security: [https://github.com/nitsuah/.github/blob/main/SECURITY.md](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
-
-## Repository Index
-
-### Root Files
-- [[repos/motor-pool/CHANGELOG.md|CHANGELOG.md]]
-- [[repos/motor-pool/FEATURES.md|FEATURES.md]]
-- [[repos/motor-pool/METRICS.md|METRICS.md]]
-- [[repos/motor-pool/ROADMAP.md|ROADMAP.md]]
-- [[repos/motor-pool/TASKS.md|TASKS.md]]
-
-### Documentation
-- [[repos/motor-pool/docs/motor-pool-DEMO_VIDEO_SCRIPT.md|motor-pool-DEMO_VIDEO_SCRIPT.md]]
-- [[repos/motor-pool/docs/AI_STACK_STRATEGY.md|AI_STACK_STRATEGY.md]]
-- [[repos/motor-pool/docs/API.md|API.md]]
-- [[repos/motor-pool/docs/ARCHITECTURE.md|ARCHITECTURE.md]]
-- [[repos/motor-pool/docs/DEMO_VIDEO_SCRIPT_SHORT.md|DEMO_VIDEO_SCRIPT_SHORT.md]]
-- [[repos/motor-pool/docs/HANDOFF-bb-mcp-opt-in-20260403.md|HANDOFF-bb-mcp-opt-in-20260403.md]]
-- [[repos/motor-pool/docs/HANDOFF-service-discovery-system-panel-20260403.md|HANDOFF-service-discovery-system-panel-20260403.md]]
-- [[repos/motor-pool/docs/MCP_SETUP.md|MCP_SETUP.md]]
-- [[repos/motor-pool/docs/MIGRATION.md|MIGRATION.md]]
-- [[repos/motor-pool/docs/MODEL_LOADING_AUDIT.md|MODEL_LOADING_AUDIT.md]]
-- [[repos/motor-pool/docs/QUICK_REFERENCE.md|QUICK_REFERENCE.md]]
-- [[repos/motor-pool/docs/README-orchestration.md|README-orchestration.md]]
-- [[repos/motor-pool/docs/REORGANIZATION_SUMMARY.md|REORGANIZATION_SUMMARY.md]]
-- [[repos/motor-pool/docs/SETUP_INSTRUCTIONS.md|SETUP_INSTRUCTIONS.md]]
-- [[repos/motor-pool/docs/motor-pool-roadmap.md|motor-pool-roadmap.md]]
-- [[repos/motor-pool/docs/neo4js.md|neo4js.md]]

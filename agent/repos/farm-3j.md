@@ -1,50 +1,46 @@
 # farm-3j
 
-> Reviewed: 2026-06-25
+> Reviewed: 2026-09-11
 
 ## Overview
 
-Interactive farm website (v0.dev / Vercel) built with Next.js 15, TypeScript, and Tailwind CSS v4. Features an animated homepage with weather effects/day-night cycle and a Farm Tycoon isometric simulation game. Currently pivoting focus to a Farm RTS MVP.
+"PG Farms" (site rebranded from "Farm 3J RTS Prototype") — an interactive farm website (v0.dev / Vercel) built with Next.js 16, TypeScript, Tailwind CSS v4, and pnpm 9. Centerpiece is a full-featured isometric Farm RTS game (`/rtsfarm/play`, SVG-rendered, Warcraft II/AoE II-inspired) with workers, combat units, buildings, enemy waves, a hero unit, fog of war, and tech upgrades; also has an animated homepage and a legacy Farm Tycoon simulation (`/farm`, on hold). Cloud saves/high scores are backed by Neon Postgres with localStorage fallback. 440 Vitest tests across `lib/`, `components/`, and RTS domain hooks.
 
 ## Current Goals / Roadmap Focus
 
-**Q2–Q3 2026 (active):** Farm RTS MVP
-- Complete all MVP milestones from `docs/Farm_RTS_Game_Manual.md` and `docs/FARM-RTS-TODO.md`
-- Core systems: map, camera, resource, worker, building, win/lose
-- Stretch: combat, AI, upgrades, polish
-- Progress: Milestone 1 (map/camera) complete; Milestone 3 (resource node depletion/feedback) complete
+**2026 Q1** ✅ Completed — core Next.js architecture, Farm Tycoon Phase 1 MVP, Phase 2a–2f isometric grid.
 
-**Q4 2026 (planned):** Product and Content Surface
-- Product gallery and catalog improvements
-- Blog/news publishing path
-- Ecommerce phase 1
-- Accessibility and SEO hardening
-- Fog of war (tile visibility by unit/building vision radius)
-- Unit formation commands (line, wedge, box)
+**2026 Q2–Q3: Farm RTS MVP** ✅ Feature-complete — 25×25 map, 10+ enemy unit types, full economy/combat/building loop, fog of war, day/night cycle, hero unit, 20+ buildings, unit veterancy, tech research, save/load, procedural audio, high-score leaderboard. Modularization Phases 1, 2a, and 2b all complete (`RTSUI`, `useGameLoop`, and `RTSMap`'s SVG render tree all decomposed into focused modules/hooks).
 
-**Legacy Tycoon Tasks (on hold):**
-- Animal needs loop, feeding mechanics, fence placement, save/load
+**2026 Q3: Farm RTS — Round 2** (active)
+- Technical health: [x] blacksmith upgrade costs extracted to shared constants; [ ] continued SVG component extraction (worker/enemy/building shapes); [ ] render-loop profiling at 30+ units; [ ] unit tests for `tileDist`/`tileToSvg`/A* pathfinding
+- Gameplay: [x] cloud save slots (Neon-backed, 3 slots); [ ] named unit formations; [ ] enemy hero (Warlord); [ ] dropped hero items; [ ] achievement/challenge system; [ ] campaign mode Phase 1
+- Content & polish: [ ] ambient audio loop; [ ] more voice lines/audio cues; [ ] minimap shows dropped items/loot crates; [ ] farmers always render in front of barn and stay selectable
+
+**2026 Q4 (planned): Product and Content Surface**
+- Product gallery/catalog, blog/news path, ecommerce phase 1, subscription evaluation, accessibility/SEO hardening — none started
+
+**Legacy Tycoon Tasks (on hold):** animal needs loop, feeding mechanics, fence placement/terrain editing, save/load, full Docker gameplay validation
 
 ## Open P0/P1 Tasks
 
-- [ ] **P0** Complete Farm RTS MVP — all core gameplay systems playable and validated in Docker
-  - Remaining unfinished todos:
-    - [ ] Add stone resource nodes
-    - [ ] Add animal units (chickens, cows, pigs) with grazing AI
-    - [ ] Implement grazing logic and food meter
-    - [ ] Enable building placement on valid tiles
-    - [ ] Ensure farmers render in front of barn and are always selectable
-    - [ ] Add box selection for multiple units
-    - [ ] Lay groundwork for control groups
-    - [ ] Add buttons to train animal units
+- [ ] **P0** Complete all Farm RTS MVP milestones per `docs/Farm_RTS_Game_Manual.md`/`docs/FARM-RTS-TODO.md` — in practice the core loop has since shipped (per ROADMAP.md's Q2–Q3 "feature-complete" status); TASKS.md still lists this item open with 3 genuinely unfinished sub-todos:
+  - [ ] Implement grazing logic and food meter
+  - [ ] Ensure farmers render in front of barn and are always selectable
+  - [ ] Add buttons to train animal units from the Barn
+
+No other P0/P1-tagged items are open in TASKS.md — the Round 2 technical/gameplay/polish items above and the Q4 product-surface work are untagged backlog, not P0/P1.
 
 ## Blockers
 
-None documented. Farm RTS is the single active focus; Tycoon work deferred.
+None documented. Coverage % is currently untrustworthy rather than blocking: METRICS.md notes the 2026-09-02 Docker/bind-mount coverage run produced an empty `coverage-final.json` (v8 provider attribution failure) and needs a clean re-run.
 
 ## Recent Changes (Unreleased)
 
-- Farm Tycoon Phase 1 MVP: 60 FPS game loop, 4 animal types, resource production, economic system, day/night cycle, tutorial overlay, keyboard shortcuts
-- Farm Tycoon Phase 2a–f: isometric grid foundation, grid-based terrain (4 tile types), visible fence entities, editor sidebar with Build/Animals/Select modes, click-to-place, hover indicator
-- Tailwind CSS v4 migration with new `@import` syntax
-- Contact form: `POST /api/contact`, optional `FARM_CONTACT_WEBHOOK_URL`
+- **PG Farms rebrand** — site renamed from "Farm 3J RTS Prototype"; new `/rtsfarm` feature landing page (mechanics/unit/enemy/building rosters); actual game moved to `/rtsfarm/play`
+- **Cloud save system** — anonymous device UUID + Neon Postgres backend (`@neondatabase/serverless`); hybrid persistence (sync localStorage + fire-and-forget cloud writes); `/api/saves` and `/api/highscores` edge routes
+- **Privacy & Security page** (`/privacy`) documenting the data policy
+- **Garrison barn HP regen** — garrisoned units heal the barn 4 HP/tick
+- Fixed: grunts could damage the barn from any distance after a far attack (now range-checked); save-slot API validation hardened; high-score field alignment with DB schema; async high-score loading with localStorage fallback; inaccurate privacy-page cross-device claim removed
+- Accessibility: homepage feature cards switched from `<div onClick>` to proper `<button aria-expanded aria-controls>`
+- **RTS code modularization** — `RTSUI` (2110 lines) decomposed into `BuildMenu`/`WaveTimer`/`HeroPanel`/`BaseTab`/`BuildTab`/`TrainTab`/`TechTab`; background animation extracted; combat/spawn/map-selector helpers extracted and unit-tested; +55 tests (264 → up further to 440 total with later RTS coverage expansion)

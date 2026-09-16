@@ -2,6 +2,14 @@
 
 ## Core Capabilities
 
+### GCP Project Provisioning (`gcp/gcp_setup.py`)
+
+- `[shipped]` **Automated GCP project creation**: generates an RFC-compliant project ID, creates the project, and links a billing account via `gcloud` CLI
+- `[shipped]` **API enablement**: enables Gmail, Calendar, Drive, Gemini, and Billing Budgets APIs in a single step
+- `[shipped]` **Budget alerts**: creates a $50/month budget with 50 % and 90 % threshold notifications
+- `[shipped]` **OAuth client provisioning**: attempts automated creation of an OAuth 2.0 web application client via `gcloud alpha`; on failure prints step-by-step manual Console instructions and writes a placeholder `apps/client_secrets.json`
+- `[shipped]` **Sensitive value redaction**: specific flagged parameters (billing account IDs and named project ID flags) are redacted from error logs; raw positional arguments are still logged
+
 ### Authentication & Authorization
 
 - OAuth2 authentication flow using Google OAuth 2.0 with local server callback
@@ -35,6 +43,23 @@
 - `[shipped]` **Final Summary**: `COPY PROGRESS SUMMARY` at completion with total elapsed duration
 - `[shipped]` **Skipped Counter**: Tracks files skipped by MIME filters or `--skip-existing`
 
+### Duplicate Detection & Permissions (Q4 2026)
+
+- `[shipped]` **Duplicate Detection Report** (`--duplicate-report`): Recursively scans the
+  source and destination folder trees and writes `outputs/duplicate-report.csv` listing every
+  file whose name and byte size match in both trees (source path, destination path, name,
+  size). Runs as a standalone report mode — exits after writing the report without copying —
+  so it can be run before a copy (to check pre-existing overlap) or after one (to spot
+  redundant copies). Google-native files (Docs, Sheets, Slides, Forms, Drawings) are excluded
+  from matching since Drive reports no byte size for them.
+- `[shipped]` **Permission Mirroring** (`--mirror-permissions`): Copies sharing/ACL permissions
+  from each source file and folder onto its destination counterpart immediately after it is
+  copied/created, so migrated content keeps its original collaborators instead of defaulting
+  to destination-owner-only access. The `owner` role is never mirrored (Drive requires a
+  separate ownership-transfer flow); a permission that fails to apply is logged and skipped
+  without aborting the copy. Applies only to objects copied/created during the run — files and
+  folders reused via `--skip-existing` are not touched.
+
 ## Configuration
 
 ### Environment Variables
@@ -56,6 +81,8 @@
 | `--max-retries N` | 1 | Retry attempts per file |
 | `--max-backoff SECONDS` | 60 | Cap on exponential backoff delay |
 | `--skip-existing` | off | Skip files/folders already in destination |
+| `--mirror-permissions` | off | Copy sharing/ACL permissions from source to destination |
+| `--duplicate-report` | off | Write a name+size duplicate report and exit (no copy) |
 | `--help-env` | — | Print required environment variable names and exit |
 
 ## Output Artifacts
@@ -65,4 +92,5 @@
 | `outputs/assessment-1.csv` | Root folder file and folder counts |
 | `outputs/assessment-2.csv` | Recursive counts for all child folders |
 | `outputs/assessment-3.csv` | Destination folder validation report |
+| `outputs/duplicate-report.csv` | Files with identical name+size in both source and destination (`--duplicate-report`) |
 | `outputs/gcp-<timestamp>.log` | Timestamped log with operation details and errors |

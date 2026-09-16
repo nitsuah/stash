@@ -1,7 +1,7 @@
 # Apply Workspace — Terms, Privacy & Security
 
-**Document version:** 1.0
-**Last updated:** May 31, 2026
+**Document version:** 1.1
+**Last updated:** September 2, 2026
 **Applies to:** the Apply Workspace browser extension ("the extension") in this repository.
 
 This is the canonical, public statement of the extension's Terms of Use (EULA),
@@ -37,9 +37,10 @@ By accepting consent in the extension, you agree to the following:
    suggestions. You are solely responsible for the truthfulness and content of
    anything you submit to an employer.
 3. **Bring your own key (BYOK).** Optional AI features run through your own
-   Google Gemini API key; optional extra job sources (Adzuna, USAJOBS) and the
-   optional LinkedIn profile import run through your own credentials. Your use of
-   those third-party services is governed by their terms, not ours.
+   Google Gemini API key; optional extra job sources (Adzuna, USAJOBS, Reed,
+   Jooble, and any custom RSS source you add) and the optional LinkedIn/Google
+   profile import run through your own credentials. Your use of those
+   third-party services is governed by their terms, not ours.
 4. **No warranty.** The extension is provided "as is", without warranty of any
    kind, express or implied. To the maximum extent permitted by law, the authors
    are not liable for any damages, lost opportunities, or rejected applications
@@ -77,8 +78,10 @@ Data leaves your device **only** when *you* trigger an optional network action:
 | Action | Destination | Sent | Auth |
 | --- | --- | --- | --- |
 | Resume parsing / answer drafting / summarize | Google Gemini API | the relevant resume/JD/answer text | your Gemini key |
-| Job search | Remotive, Arbeitnow, The Muse (keyless); Adzuna, USAJOBS (your keys) | your search query | your keys where applicable |
-| LinkedIn profile import (optional) | LinkedIn OAuth/OIDC | OAuth handshake | your LinkedIn app + your sign-in |
+| Job search | Nine keyless boards (Remotive, Arbeitnow, The Muse, Remote OK, Jobicy, Working Nomads, HN Who's Hiring, We Work Remotely, remote.co); Indeed and Hackajob (no key); Adzuna, USAJOBS, Reed, Jooble (your keys); any custom RSS source you add | your search query | your keys where applicable |
+| LinkedIn session job search (optional) | LinkedIn Voyager API | your search query, via your active browser session | your existing LinkedIn sign-in |
+| LinkedIn / Google profile import (optional) | LinkedIn or Google OAuth/OIDC | OAuth handshake | your own app credentials + your sign-in |
+| Custom job source fetch (optional) | whatever URL you add | your search query (appended as a param when the feed doesn't already encode one) | none — a one-time browser permission prompt scoped to that site |
 
 Without a Gemini key, autofill still works fully using deterministic, on-device
 logic and sends nothing anywhere. Each request sends only what is needed to
@@ -100,12 +103,18 @@ any kind.
 
 - **Data at rest:** stored in the browser's per-profile extension storage,
   protected by the browser's and operating system's user-account isolation.
-- **Data in transit:** all third-party calls are over HTTPS to the providers'
-  official API endpoints.
+- **Data in transit:** all third-party calls are over HTTPS. Built-in job
+  boards and integrations use the providers' official API endpoints; a
+  custom RSS source is whatever URL you add, and the extension requires it
+  to be `https://` — non-HTTPS custom source URLs are rejected before any
+  request is made, since the search query is sent as a plaintext GET param.
 - **Credentials:** API keys and OAuth client secrets are stored locally and used
   only to authenticate the requests you trigger. They are never sent to us.
 - **Permissions:** the extension requests only the host permissions needed to
-  read job pages, fill forms, and reach the optional APIs you enable.
+  read job pages, fill forms, and reach the optional APIs you enable. Adding a
+  custom job source asks for a one-time, one-site permission (via the
+  browser's own permission prompt) scoped to just that source's domain,
+  instead of requesting broad access to all sites up front.
 - **No remote code:** the extension does not load or execute remote code.
 - **Reporting:** see [`SECURITY.md`](SECURITY.md) for how to report a
   vulnerability.

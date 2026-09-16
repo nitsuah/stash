@@ -1,57 +1,55 @@
 # darkmoon
 
-> Reviewed: 2026-06-25
+> Reviewed: 2026-09-16
 
 ## Overview
 
-Solo-live 3D browser tag game at darkmoon.dev built with React 19, Three Fiber, Socket.io, and Vite. Solo mode with AI bots is the live experience; multiplayer foundations exist but are not yet deployed. Recently expanded into a full shooter with Deathmatch and Capture the Flag modes.
+Solo-live 3D browser combat game at darkmoon.dev built with React 19, Three Fiber, Socket.io, and Vite. Solo mode with AI bots (Deathmatch, CTF, Tag) is the live experience; multiplayer foundations and a readiness gate exist but the deployed experience is still solo-first.
 
 ## Current Goals / Roadmap Focus
 
-**Q2 2026 (active):**
-- 21st.dev component integration (lobby, scoreboard, game-over screens) — P1
-- UI/UX interactivity improvements (micro-interactions, card layouts) — P1
-- Open-source safety scrub (remove sensitive/employer-identifying content) — P1
-- Fix Docker production build path — P0
-- Align product messaging (docs still overstate live multiplayer) — P0
-- Mobile controls + responsive layout validation on real devices — P0
+**2025 Q4 + "Beyond scope" combat phases (BC–BM): Complete.** Browser-game foundation, Deathmatch/CTF modes, weapon reload system, bot LOS/angular-spread AI, mouse-aimed firing, grenade hold-to-throw, GameUI/Solo.tsx componentization.
 
-**Q3 2026 (planned):**
-- Ship first validated multiplayer-capable experience after readiness gate
+**2026 Q1: Complete.** Docker production build fixed; README/FEATURES messaging aligned with solo-first reality.
 
-**Q4 2026 (exploratory):**
-- Identity, progression, social systems
-- Native mobile packaging
+**2026 Q2: Mostly complete.**
+- [x] Multiplayer readiness gate (deployment, CORS, logging, observability — all 4 criteria pass, PR #418)
+- [x] `ARCHITECTURE.md` + `API.md` added
+- [x] `METRICS.md` refreshed with measured values (71.18% stmts / 659 test cases, 2026-08-28)
+- [ ] 21st.dev component integration (lobby, scoreboard, game-over) — CEO priority, not started, carried to 2027
+- [ ] UI/UX interactivity pass — CEO priority, not started, carried to 2027
+- [ ] Open-source safety scrub — CEO priority, not started, carried to 2027
+- [ ] Re-scope remaining refactor backlog against current codebase
+
+**2026 Q3 (in progress):** Ship first validated multiplayer-capable experience — readiness gate is done; blocked on remaining server-side tag-parity gaps (cooldown/freeze enforcement, IT-disconnect handoff). New: CORS wildcard/allowlist operator doc (not started).
+
+**2026 Q4 (exploratory):** Identity/progression/social systems; native mobile packaging.
+
+**2027 (scoped, not started):** 21st.dev + UI/UX pass, open-source safety scrub, aim camera + combat music (Phase E remaining), crosshair-vs-aim-point-under-pointer-lock fix (needs a design decision). (`docker-compose` `test`-service stale-image issue — fixed 2026-09-11, see Recent Changes.)
 
 ## Open P0/P1 Tasks
 
-- [ ] **P0** Fix Docker production build path (currently broken)
-- [ ] **P0** Align product messaging — README/FEATURES still overstate live multiplayer
-- [ ] **P0** Stabilize mobile input and mobile layout on physical devices (iOS Safari + Android Chrome)
+No open P0 items — Docker build, product messaging, and mobile-input stabilization all shipped.
+
 - [ ] **P1** 21st.dev component integration — lobby, scoreboard, game-over, nav
 - [ ] **P1** UI/UX interactivity improvements (hover states, transitions, Lighthouse no-regress)
 - [ ] **P1** Open-source safety scrub — remove/anonymize sensitive examples
-- [ ] **P1** Architecture and deployment contract docs (`ARCHITECTURE.md`, `API.md`)
-- [ ] **P1** Refresh `METRICS.md` with measured values
-- [ ] **P1** Server production-hardening (structured logging, graceful shutdown, operational visibility)
-- [ ] **P1** Fix server-side multiplayer tag parity before Multiplayer Tag ships (no cooldown/freeze enforcement, trusts client IDs)
-- [ ] **P2** Grenade hold-to-throw + trajectory arc [Phase BM]
-- [ ] **P2** Multiplayer shooter polish [Phase E] — aim camera + combat music
-
-Completed: pluggable game modes, combat primitives (Phases B–BL), Deathmatch mode, CTF mode, tag logic edge case tests, bot tag parity fix.
+- [ ] **P1** Fix server-side multiplayer tag parity before Multiplayer Tag ships — `taggerId` impersonation trust issue is fixed, but cooldown/freeze enforcement and IT-player disconnect handoff remain open
 
 ## Blockers
 
-- Docker production build path broken — blocks Docker-first validation
-- Server-side multiplayer tag parity must be fixed before Multiplayer Tag exits `[planned]`
+- Server-side multiplayer tag parity incomplete (cooldown/freeze enforcement, IT-disconnect handoff) — blocks Multiplayer Tag exiting `[planned]`
 
 ## Recent Changes (Unreleased)
 
-- Documentation compliance updates for Overseer integration
-- FEATURES.md, TASKS.md, METRICS.md structured
-- Vitest bumped 4.0.4 → 4.0.15; react-dom synced to 19.2.3
-- Roadmap refactored to quarterly format
-
-Latest gameplay work (from TASKS Done):
-- Tag cooldown/freeze edge cases: 8 new tests in `gameManager.edgeCases.test.ts`; `lastTaggedById`-based tag-back cooldown; 200ms `TAG_RETRY_INTERVAL_MS` bot retry
-- Full test suite: 378 passed / 5 skipped, lint clean, `tsc --noEmit` clean
+- Fixed (2026-09-11): `.husky/pre-push` was silently validating a stale Docker test image — `config/docker-compose.yml`'s `test` service has no bind mount (unlike `solo`), so `docker compose run` without `--build` reused whatever `darkmoon-test:latest` image already existed locally; caught when a 41-hour-stale image reported different vitest/test-count output than a freshly built one for the same commit. Fixed by adding `--build` to both the real and Docker-missing-fallback command paths in `.husky/pre-push`.
+- Multiplayer readiness gate (PR #418): structured JSON logging (`server/logger.js`), shared HTTP/WebSocket CORS allowlist (`server/cors.js`), `/health` and `PORT` validation modules, `player-tagged` authorization binding to the authenticated socket, SIGTERM graceful shutdown, 96 new server tests
+- Mobile controls overhaul (PR #417): reworked touch joystick, aim assist, responsive HUD
+- Fixed: CORS wildcard matcher escaping + single-DNS-label scoping; bare `ALLOWED_ORIGINS=*` no longer combines with `credentials: true`
+- Fixed: downed player could still move (movement/jump/jetpack now frozen during respawn wait)
+- Fixed: grenade charge (was bound to right-click) and throw (left-click) now consolidated onto left-click
+- Fixed: rocket/grenade splash damage missing in Tag mode, including when the IT player lands the direct hit
+- Fixed: mobile joystick camera vertical-axis inversion relative to desktop mouse-look
+- Fixed: desktop jetpack double-jump (second SPACE press while airborne) now mirrors the mobile double-tap flow
+- Fixed: home page bottom cards clipped on desktop (`.App { overflow: hidden }` outranked the mobile-only scroll fix)
+- Docs: METRICS.md refreshed with measured values, README test-count staleness corrected, `docs/ROADMAP_DETAILED.md` archived, `docs/TECH_DEBT.md` updated

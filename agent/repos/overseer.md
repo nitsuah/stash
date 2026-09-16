@@ -1,55 +1,53 @@
 # overseer
 
-> Reviewed: 2026-06-25
+> Reviewed: 2026-09-16
 
 ## Overview
 
-Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.nitsuah.io. Enforces documentation standards (ROADMAP, TASKS, METRICS, FEATURES), provides AI-powered repo summaries (Gemini/OpenAI/Anthropic failover), one-click PR creation for missing docs, health scoring, and agent task queue API. Next.js 16 + Neon Postgres + Netlify Functions + NextAuth GitHub OAuth.
+Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.nitsuah.io. Enforces documentation standards (ROADMAP, TASKS, METRICS, FEATURES), provides AI-powered repo summaries (Gemini/OpenAI/Anthropic failover), one-click PR creation for missing docs, health scoring, an MCP server (7 tools) + LLM context endpoint, PMO mode with a chat-driven doc-edit panel, and an agent task queue with a working dispatch bridge into agent-board. Next.js 16 + Neon Postgres + Netlify Functions + NextAuth GitHub OAuth.
 
 ## Current Goals / Roadmap Focus
 
-**Q2 2026:** ✅ Completed — AI feature suggestions, inline doc improvement, workflow visualization, real-time webhook sync, PMO mode, DEV-flow handoff, Gemini model evolution resilience, repo-detail query batching
+**Q2 2026:** ✅ Completed — AI feature suggestions, inline doc improvement, workflow visualization, real-time webhook sync, PMO mode, DEV-flow handoff, Gemini model evolution resilience, repo-detail query batching.
 
-**Q3 2026 (PMO Mode — partially done):**
-- [x] PMO mode: portfolio-wide roadmap progress, plan execution status, handoff management
-- [x] DEV-flow handoff UI: promote roadmap items into agent task queue
-- [ ] AI-assisted roadmap management (auto-suggest from health signals, auto-update from PR/issue state)
-- [ ] Chat-driven TASKS/ROADMAP/FEATURES management interface
+**Q3 2026 (PMO Mode — mostly done):**
+- [x] PMO mode, DEV-flow handoff UI
+- [x] Chat-driven TASKS/ROADMAP/FEATURES management — proposal/apply/dismiss flow shipped (chat proposes a diffable edit → inline card → applies via the existing fix-doc PR flow); direct "check off in TASKS.md from chat" (stage 3) still open
+- [ ] AI-assisted roadmap management (auto-suggest from health signals, auto-update from PR/issue state) — still open
 
-**Q3 2026 (Analytics & MCP):**
-- [ ] Conversational interface foundation (one or two repo-hygiene workflows end-to-end)
-- [ ] Advanced analytics: velocity scoring, technical-debt trending, zombie-branch detection
-- [ ] Expose overseer repo intelligence as MCP server (`get_repo_health`, `list_tasks`)
-- [ ] Cross-repo dependency mapping (interactive 3D graph)
+**Q3 2026 (Analytics & MCP): ✅ effectively complete**
+- [x] Conversational interface foundation — per-repo chat panel (PR #196)
+- [x] Velocity scoring + trending — `repo_snapshots` time-series, trend endpoint, sparkline; `TASKS.md` (2026-09-10) now marks this item fully shipped, covering the technical-debt-trending acceptance criteria too
+- [x] MCP server — 7 tools + `/api/context` LLM endpoint (PR #181)
+- [x] Cross-repo dependency mapping — shipped as a 2D SVG graph (`GET /api/dependencies`), not the originally-scoped interactive 3D graph — that upgrade is now a distinct backlog item
 
-**Q4 2026 (exploratory):**
-- Autonomous plan execution (agents read ROADMAP/TASKS, open PRs, close items)
-- Portfolio intelligence dashboard (cross-repo health roll-up, trend lines)
-- Repo "mood" signal (sentiment from PR descriptions, commit messages, TASKS tone)
-- AI PR pairing suggestions (surface co-landing items across repos before merge)
-- Mobile-responsive + lightweight PWA
+**v2 Launch (2026-09-01) + Portfolio Intelligence Batch (2026-09-03):** both shipped (PR #200, PR #204) — force-refresh sync, maintenance-mode detection, chat doc-edit proposals, token-density/comment-to-code metrics, DB scaling assessment doc.
+
+**Q4 2026 (exploratory):** autonomous plan execution, portfolio intelligence dashboard, repo "mood" signal, AI PR pairing suggestions, mobile-responsive PWA, stale-review detector, agent session receipts.
 
 ## Open P0/P1 Tasks
 
-- [ ] **P1** Deprioritize stash repo: mark private, block PRs, add sanitization checklist
-- [ ] **P2** Connect overseer Agent Task Queue → motor-pool local model runtime (dispatch bridge v0)
-- [ ] **P2** Conversational interface foundation (messenger-style chat, 1-2 hygiene workflows)
-- [ ] **P2** Cross-repo dependency mapping (3D interactive graph)
-- [ ] **P2** Expose overseer as MCP server
-- [ ] **P2** DB scalability assessment (indexing, query patterns at 100+ repos, connection pooling)
-- [ ] **P3** Zombie-branch detection + bulk-action delete dialog
-- [ ] **P3** Maintenance-mode detection (inactive repo auto-classification)
-- [ ] **P3** Token-density and comment-to-code ratio metrics
-- [ ] **P3** Dark/light mode toggle
-- [ ] **P3** Velocity scoring and technical-debt trending
+**No open P1 items** as of the current `TASKS.md` (2026-09-10) — the one P1 (Agent Task Queue → agent-board dispatch bridge) shipped in PR #159, hardened in PR #204. No P0s tracked.
+
+Note: the previously-tracked P1 "deprioritize stash repo (mark private, block PRs, add sanitization checklist)" is **no longer present** in the current root `TASKS.md`/`ROADMAP.md` — it has no corresponding "shipped" entry in `FEATURES.md` or `CHANGELOG.md` either, so its status is ambiguous (dropped vs. quietly resolved out-of-band). A stale copy of it still exists in `docs/TASKS.md`/`docs/ROADMAP.md` (both dated 2026-06-25, clearly unmaintained duplicates of the root files) — worth a manual check on whether stash was actually deprioritized/privated, since this repo's own doc-hygiene tracking has lost the thread on it.
+
+Most-notable open P2 (flagged 2026-09-11, today, by CodeRabbit on PR #211): **`session?.user?.email` gates the entire shared-key AI rate limiter** — a GitHub OAuth profile with no public/verified email skips the gate entirely, letting that request reach `generateAIContent` with no budget enforcement at all. Confirmed pre-existing (predates PR #211). Needs a stable non-email session identity wired up before it's closed.
+
+Since the last review, three of those open P2s shipped per `TASKS.md` (2026-09-10): **durably persist agent task receipts** (await + surface-failure path, `persistReceipt` now awaited instead of fire-and-forget, 3 new tests), **paginate `reviewThreads`/`refs` GraphQL connections** (both `getZombieBranches` and `getPullRequestReadiness` now page to a documented cap, plus a CodeRabbit-flagged follow-up fix on PR #216 so an incomplete page-walk fails closed instead of false-reporting `staleReview: true`), and **mobile card a11y** (the `role="button"` wrapper around nested focusable links is gone — expand/collapse is now a real sibling `<button>`). Velocity scoring + trending (`repo_snapshots`, trend endpoint, sparkline) also shipped, covering most of what "technical-debt trending" meant.
+
+Other open P2s: stale-review detector for PR readiness (CodeRabbit misses re-approving after all threads resolve), thread `full_name` (not just `name`) through to the trend endpoint, 3D dependency-graph upgrade (current graph is 2D SVG).
+
+Open P3s: zombie-branch detection, dark/light mode toggle, agent session receipts.
 
 ## Blockers
 
-None hard-blocking. stash repo decommission is a P1 housekeeping item with no dependencies.
+None hard-blocking.
 
 ## Recent Changes (Unreleased)
 
-- **Roadmap-to-DEV-flow handoff linkage:** `PATCH /api/repos/[name]/roadmap-items/[id]` links roadmap items to PR/agent task; `lib/sync.ts` merges (not delete+insert) `roadmap_items` so DB-only links survive re-syncs
-- **Centralized Gemini Model Discovery:** `gemini-model-discovery.ts` — single source of truth, auto-fallback across model versions, 1-hour cache, unified `GEMINI_MODEL_NAME` env var
-- **Repo-detail query batching:** 7 sequential round trips → single `db.transaction()` call (~7× latency reduction)
-- Default model updated: `models/gemini-2.0-flash-exp` → `models/gemini-2.5-flash`
+- **Shared-key rate limiter moved to a Neon-backed store** — replaces a process-local `Map` that reset per cold-started serverless instance (each instance effectively got its own budget); now a `shared_key_rate_limits` table with atomic upsert-based fixed-window counting
+- **Reserve-before-fallback rate-limit fix (CWE-770)** — a configured-but-failing personal AI key used to fall through to the shared key *after* the spend already happened; the limiter now reserves a slot before the call and only releases it on success, closing the budget-bypass window
+- **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via agent-board's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)
+- **Portfolio Intelligence batch (PR #204):** chat-driven doc-edit proposals (propose → diff card → apply via existing PR flow), cross-repo dependency graph, token-density + comment-to-code ratio metrics, `docs/db-scaling-assessment.md`, velocity/health-score trending via `repo_snapshots`
+- **v2 Launch (PR #200):** sync button force-refreshes all filtered repos (not just new ones), maintenance-mode badge (90+ days no commits), velocity score (0-100)
+- Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap (see Open P2s above) remains the most notable one still open.

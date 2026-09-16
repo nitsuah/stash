@@ -4,23 +4,25 @@
 
 | Metric        | Value |
 | ------------- | ----- |
-| Code Coverage | 93.98% |
+| Code Coverage | 89.66% lines |
 | Build Time    | 3.44s |
 | Bundle Size   | 619.78KB |
-| Test Files    | 6 (5 unit + 1 Playwright e2e) |
-| Test Cases    | 32 (30 unit + 2 Playwright e2e) |
+| Test Files    | 13 (9 unit + 4 Playwright e2e) |
+| Test Cases    | 120 (106 unit + 14 Playwright e2e) |
+| Other coverage | 89.66% lines / 66.89% branches / 86.24% functions |
 
 ## Health
 
 | Metric        | Value  |
 | ------------- | ------ |
-| Open Issues   | unknown |
-| PR Turnaround | unknown |
+| Open Issues   | 0 (gh issue list, 2026-09-02) |
+| PR Turnaround | ~11h avg, last 5 merged PRs (#56–#60, gh pr list, 2026-09-02) |
 | Skipped Tests | 0      |
-| Lint Status   | pass (Docker Node 20 Alpine, `npm run lint`, 2026-05-24) |
-| Latest Validation | Docker Node 20 Alpine + Playwright Noble image: lint pass, `npm test` 30 pass / 0 fail, Playwright 2 pass / 0 fail (2026-05-24) |
-| Lockfile Sync | pass (`npm ci` succeeds in clean container, 2026-05-24) |
+| Lint Status   | pass (Docker Node 22 Alpine, `npm run lint`, 2026-09-02) |
+| Latest Validation | Docker Node 22 Alpine + Playwright Noble image: lint pass, `npm test` 106 pass / 0 fail, Playwright 14 pass / 0 fail (incl. a11y audits), `npm run test:coverage` 89.66% lines / 66.89% branches / 86.24% functions (2026-09-02) |
+| Lockfile Sync | pass (`npm ci` succeeds in clean container, 2026-09-02) |
 | Health Score  | 92/100 |
+
 
 ## How to Update
 

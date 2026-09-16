@@ -8,13 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **Roadmap**: New strategic roadmap focusing on Services, Gallery, and Contact features.
-- **Tasks**: Specific implementation tasks for Phase 1 and 2.
-- **Features**: clearer definition of core site features (Drone services, dynamic gallery).
+
+- **Client Portal**: Server-side access-code verification (`netlify/functions/api-portal.mjs`) using HMAC-SHA256 with a mandatory `PORTAL_SALT` secret and fail-closed behavior — replaces the previous client-only length check.
+- **Drone Cursor**: Transparent spotlight/laser beam rendered from the drone to the pointer.
+- **Docker**: `Dockerfile` is now a multi-stage build that runs `scripts/build.js`, so the local Docker preview serves the marketplace platform SPA at `/app` (via `config/nginx.conf` SPA fallback), matching the Netlify production build.
+- **Identity Config**: `config.js` `contact.address`, `contact.geo`, and `contact.social.facebook` — schema.org JSON-LD now reflects these via `updateStructuredData()`.
 
 ### Changed
-- **Documentation**: Complete overhaul of project documentation (`ROADMAP.md`, `TASKS.md`, `FEATURES.md`) to align with Skyview project goals.
-- **Cleanup**: Removed generic boilerplate tasks unrelated to the current static site architecture.
+
+- **Drone Cursor**: Hover offset moved further up-and-right of the pointer.
+- **Docker Compose**: Fixed a relative-path resolution bug in `config/docker-compose.yml` that broke the documented `docker compose -f config/docker-compose.yml run --rm unit` / `up --build web` commands when invoked from the repo root.
+- **Documentation**: Refreshed `ROADMAP.md`, `TASKS.md`, `FEATURES.md` for the 2026-09 cycle; archived stale docs into `docs/archive/` (see that directory's README for what moved and why). `METRICS.md` is still stale (last validated 2026-05-24) — not part of this refresh.
+
+### Security
+
+- **Dependencies**: `netlify-cli` upgraded to remove an `extract-zip` vulnerability (PR #120).
 
 ## [0.1.0] - In Progress
 
