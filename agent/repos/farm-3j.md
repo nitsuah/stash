@@ -1,6 +1,6 @@
 # farm-3j
 
-> Reviewed: 2026-09-11
+> Reviewed: 2026-09-16 (PMO audit — see [[pmo-audit-2026-09-16]])
 
 ## Overview
 
@@ -33,7 +33,11 @@ No other P0/P1-tagged items are open in TASKS.md — the Round 2 technical/gamep
 
 ## Blockers
 
-None documented. Coverage % is currently untrustworthy rather than blocking: METRICS.md notes the 2026-09-02 Docker/bind-mount coverage run produced an empty `coverage-final.json` (v8 provider attribution failure) and needs a clean re-run.
+None documented. Coverage % is currently untrustworthy rather than blocking: METRICS.md notes the 2026-09-02 Docker/bind-mount coverage run produced an empty `coverage-final.json` (v8 provider attribution failure) and needs a clean re-run. **Re-confirmed still broken on 2026-09-16** (PMO audit re-ran `test:docker`/`test:coverage`): same 0%-across-the-board report despite 440/440 tests passing. Two audits in a row now without a fix attempt — worth a dedicated ticket if a real coverage number becomes a reporting requirement.
+
+## 2026-09-16 PMO Audit
+
+Docs (README/ROADMAP/TASKS/FEATURES/METRICS) were current and accurate — no contradictions found, nothing needed beyond a metrics refresh. `scripts/run-in-docker.js test:coverage` re-run: 440/440 tests passed in ~14s (was ~35s on 2026-09-02 — same test count, faster this run). Filled in previously-`TBD` Open Issues (0, via `gh issue list`) and reconfirmed the coverage bug above. PR: [nitsuah/farm-3j#340](https://github.com/nitsuah/farm-3j/pull/340) (initial push failed CI on `prettier --check`; fixed with a follow-up `pnpm run format` commit, all checks green after).
 
 ## Recent Changes (Unreleased)
 
