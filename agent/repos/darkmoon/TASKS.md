@@ -167,10 +167,23 @@ Last Updated: 2026-08-27
   - Note: HUD, ammo, reload bar, kill feed, damage numbers, hit marker, ShotgunVFX, reserve ammo, tag-mode health, reload snap mechanic, homepage redesign, and GameUI/Solo componentization are all done. Remaining: over-the-shoulder aim-mode camera offset and a combat music layer that cross-fades when shooting/hit events occur.
   - Acceptance Criteria: see `docs/MULTIPLAYER_SHOOTER_ROADMAP.md` Phase E "Remaining" section.
 
-- [ ] Fix server-side multiplayer tag parity before Multiplayer Tag ships.
+- [x] Fix server-side multiplayer tag parity before Multiplayer Tag ships.
   - Priority: P1
-  - Problem: `server/index.js`'s `player-tagged` handler has no cooldown/freeze enforcement, and its `disconnect` handler doesn't reassign or clear `itPlayerId` if the IT player disconnects.
+  - Problem: `server/index.js`'s `player-tagged` handler had no cooldown/freeze enforcement, and its `disconnect` handler didn't reassign or clear `itPlayerId` if the IT player disconnected — a server-authoritative match diverged from the solo/local `TagMode` rules.
   - Note (2026-08-27): the client-supplied tagger/tagged ID trust issue is fixed — `taggerId` is now bound to `client.id`, self-tags are rejected, and the broadcast payload always carries the authenticated IDs rather than whatever the client sent. Cooldown/freeze enforcement and IT-disconnect handoff remain open.
+  - Evidence (2026-09-11): ported `TagMode.applyTag`'s `TAG_BACK_COOLDOWN_MS`
+    (2000ms)/`TAG_FREEZE_MS` (1500ms)/`lastTaggedById` pairing rule into
+    `authorizeTag` (`server/tagAuthorization.js`), reading/writing
+    `lastTagTime`/`lastTaggedById` on the tracked `clients` map in
+    `server/index.js`'s `player-tagged` handler (new rejection reasons
+    `tag_back_cooldown`/`tag_freeze`), reset on `game-start`/`game-end`. Added a
+    new pure `resolveItHandoff` (`server/itHandoff.js`, mirroring
+    `TagMode.onPlayerRemoved`'s zero-players branch) that the `disconnect`
+    handler now calls to reassign `itPlayerId` to a remaining player
+    (broadcast as `it-player-changed`) or end the round if none remain, instead
+    of leaving `itPlayerId` pointing at a disconnected client. New tests in
+    `src/__tests__/server.tagAuthorization.test.ts` and
+    `src/__tests__/server.itHandoff.test.ts`; full Docker suite green.
   - Acceptance Criteria: see `docs/MULTIPLAYER_SHOOTER_ROADMAP.md` "Server-side tag parity"; must be resolved before Multiplayer Tag moves out of `[planned]` in `FEATURES.md`.
 
 ## See also: docs/INSTRUCTIONS.md for agent handoff and workflow best practices.

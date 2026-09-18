@@ -62,28 +62,36 @@ but not yet driven by a shipped client experience.
 
 ### Client to server
 
-| Event           | Payload                                    | Notes                                                                                                                                                                                                                                  |
-| --------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `move`          | `{ position: [x,y,z], rotation: [x,y,z] }` | Validated and rate limited (100/s)                                                                                                                                                                                                     |
-| `chat-message`  | `{ message, playerId, playerName }`        | Validated, profanity filtered, 10/min                                                                                                                                                                                                  |
-| `game-start`    | `{ mode }`                                 | Mode must be `tag`/`collectible`/`race`/`solo`                                                                                                                                                                                         |
-| `player-tagged` | `{ taggedId }`                             | Tagger is always the sending socket (`client.id`), never a client-supplied `taggerId` — this prevents impersonating the IT player. Rejected unless the sender is currently IT, or if `taggedId` is missing/unknown/equal to the tagger |
-| `game-end`      | none                                       | Resets game state and scores                                                                                                                                                                                                           |
+| Event           | Payload                                    | Notes                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `move`          | `{ position: [x,y,z], rotation: [x,y,z] }` | Validated and rate limited (100/s)                                                                                                                                                                                                                                                                                                                                                                       |
+| `chat-message`  | `{ message, playerId, playerName }`        | Validated, profanity filtered, 10/min                                                                                                                                                                                                                                                                                                                                                                    |
+| `game-start`    | `{ mode }`                                 | Mode must be `tag`/`collectible`/`race`/`solo`                                                                                                                                                                                                                                                                                                                                                           |
+| `player-tagged` | `{ taggedId }`                             | Tagger is always the sending socket (`client.id`), never a client-supplied `taggerId` — this prevents impersonating the IT player. Rejected unless the sender is currently IT, if `taggedId` is missing/unknown/equal to the tagger, if the tagger is within `TAG_BACK_COOLDOWN_MS` (2s) of being tagged by the same target, or if the target is within `TAG_FREEZE_MS` (1.5s) of being tagged by anyone |
+| `game-end`      | none                                       | Resets game state and scores                                                                                                                                                                                                                                                                                                                                                                             |
 
 ### Server to client
 
-| Event           | Payload                                  |
-| --------------- | ---------------------------------------- |
-| `move`          | Map of all client positions/rotations    |
-| `chat-message`  | Filtered message with a server timestamp |
-| `game-start`    | `{ ...gameData, itPlayerId, startTime }` |
-| `player-tagged` | `{ ...data, scores }`                    |
-| `game-end`      | none                                     |
-| `error`         | `{ message }` for validation/rate limits |
-| `game-error`    | `{ message }` for rejected game actions  |
+| Event               | Payload                                  |
+| ------------------- | ---------------------------------------- |
+| `move`              | Map of all client positions/rotations    |
+| `chat-message`      | Filtered message with a server timestamp |
+| `game-start`        | `{ ...gameData, itPlayerId, startTime }` |
+| `player-tagged`     | `{ ...data, scores }`                    |
+| `it-player-changed` | `{ itPlayerId, reason }`                 |
+| `game-end`          | none                                     |
+| `error`             | `{ message }` for validation/rate limits |
+| `game-error`        | `{ message }` for rejected game actions  |
 
 > `scores` on `player-tagged` is additive; existing clients that ignore the
 > field are unaffected.
+
+> `it-player-changed` is broadcast when the current IT player disconnects and
+> IT is handed to a remaining player (`reason: "disconnect"`). If no players
+> remain, the round ends instead and `game-end` is broadcast with
+> `reason: "disconnect_no_players_remaining"` on the server-side
+> `game.it_reassigned` log record (not on the `game-end` payload itself, which
+> carries no fields).
 
 ## Logging
 
