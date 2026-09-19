@@ -1,6 +1,6 @@
 # overseer
 
-> Reviewed: 2026-09-16
+> Reviewed: 2026-09-18
 
 ## Overview
 
@@ -45,6 +45,7 @@ None hard-blocking.
 
 ## Recent Changes (Unreleased)
 
+- **In-progress rebrand: "Overseer" → "Vigil"** — on unmerged branch `feat/vigil-rebrand-and-chat-auth` (commit `c39be6c` "finish overseer -> vigil rebrand", plus two follow-up commits `fdea75b`/`339876d` hardening chat auth/localStorage-key migration). README.md and FEATURES.md already read "Vigil" on this branch; root docs on `main` still say "Overseer". Same branch also makes per-repo chat require authentication and meters it by a stable session identity instead of the email-based gate flagged as an open P2 below — worth re-checking that P2 once this branch merges, it may close it as a side effect. Tracked in open PR #221 ("Require auth for repo chat; finish overseer -> vigil rebrand"); the branch's working copy also has 13 modified/untracked files beyond the 3 pushed commits as of 2026-09-18.
 - **Shared-key rate limiter moved to a Neon-backed store** — replaces a process-local `Map` that reset per cold-started serverless instance (each instance effectively got its own budget); now a `shared_key_rate_limits` table with atomic upsert-based fixed-window counting
 - **Reserve-before-fallback rate-limit fix (CWE-770)** — a configured-but-failing personal AI key used to fall through to the shared key *after* the spend already happened; the limiter now reserves a slot before the call and only releases it on success, closing the budget-bypass window
 - **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via agent-board's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)

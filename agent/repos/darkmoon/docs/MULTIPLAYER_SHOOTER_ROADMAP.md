@@ -220,34 +220,41 @@ Incremental, can run alongside B–D.
 
 ## Server-side tag parity (must-fix before Multiplayer Tag ships)
 
-`FEATURES.md` lists Multiplayer Tag as `[planned]` (not live), so this is **not** a
-current blocker — but it must be resolved before that feature ships, since it would
-otherwise reintroduce the exact class of bug Phase 1 just fixed.
+**Status: fixed.** `FEATURES.md` still lists Multiplayer Tag as `[planned]` (not
+live) — this fix closes the gameplay-parity gap but does not by itself ship a
+client experience.
 
-**Found in `server/index.js`:**
+**Was found in `server/index.js`:**
 
-- The `player-tagged` handler (~lines 362–379) only checks
-  `data.taggerId === gameState.itPlayerId` and that both clients exist — it has **no**
-  equivalent of `TAG_BACK_COOLDOWN_MS` or `TAG_FREEZE_MS`, and trusts `data.taggedId` from
-  the client with no server-side distance/eligibility check.
-- The `disconnect` handler (~lines 393–409) deletes the disconnecting client from
-  `clients` but never checks whether `gameState.itPlayerId === client.id`. If the IT
-  player disconnects, `itPlayerId` keeps pointing at a non-existent client — no one can be
-  tagged again until `game-end`/`game-start` resets it.
+- The `player-tagged` handler only checked `data.taggerId === gameState.itPlayerId`
+  and that both clients exist — it had **no** equivalent of `TAG_BACK_COOLDOWN_MS`
+  or `TAG_FREEZE_MS`.
+- The `disconnect` handler deleted the disconnecting client from `clients` but
+  never checked whether `gameState.itPlayerId === client.id`. If the IT player
+  disconnected, `itPlayerId` kept pointing at a non-existent client — no one
+  could be tagged again until `game-end`/`game-start` reset it.
 
-**Fix direction:** once Phase A lands, the server should hold a server-side
-`GameManager`/`TagMode` instance as the source of truth (mirrors the client-authoritative
-→ server-authoritative shift most multiplayer tag implementations need anyway), so the
-same cooldown/freeze/IT-reassignment logic runs in one place. At minimum, before shipping:
-port the `lastTaggedById`/cooldown/freeze checks into the `player-tagged` handler, and
-reassign or clear `itPlayerId` (mirroring `GameManager.pickNewItPlayer`'s zero-players
-branch) in the `disconnect` handler.
+**Fix applied:** the cooldown/freeze thresholds and `lastTaggedById` pairing rule
+from `TagMode.applyTag` (`src/components/gameModes/TagMode.ts`) were ported into
+`authorizeTag` (`server/tagAuthorization.js`), reading/writing `lastTagTime`/
+`lastTaggedById` on the tracked `clients` map — new rejection reasons
+`tag_back_cooldown` and `tag_freeze`. The `disconnect` handler now calls a new
+pure `resolveItHandoff` (`server/itHandoff.js`, mirroring
+`TagMode.onPlayerRemoved`'s zero-players branch) to either reassign `itPlayerId`
+to a remaining player (broadcast as `it-player-changed`) or end the round if no
+players remain. Both changes are unit-tested without booting a real Socket.io
+server, following the same pure-function-extraction pattern as
+`tagAuthorization.js`/`health.js`/`port.js`.
+
+Once Phase A's `GameModeHandler` extraction reaches the server, this logic could
+move to a shared server-side `GameManager`/`TagMode` instance instead of being
+duplicated — that remains a future simplification, not a correctness gap.
 
 ---
 
 ## Suggested sequencing
 
-`A → B → C → D`, with `E` woven in incrementally. Server-side tag parity should be
-addressed either as part of Phase A (if `TagMode` becomes shared client/server code) or
-as a standalone fix immediately before Multiplayer Tag moves from `[planned]` to
-`[in-progress]` in `FEATURES.md`.
+`A → B → C → D`, with `E` woven in incrementally. Server-side tag parity was
+addressed as a standalone fix (see above); `TagMode` becoming shared
+client/server code, if Phase A extends to the server, remains a possible future
+simplification.
