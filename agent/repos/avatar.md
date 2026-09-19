@@ -1,6 +1,6 @@
 # avatar — AI Avatar Generation (DreamBooth + Stable Diffusion)
 
-**Last Validated:** 2026-09-16 | Initial vault entry
+**Last Validated:** 2026-09-18 | Initial vault entry
 **Repo:** https://github.com/nitsuah/avatar
 **Branch convention:** `pmo/avatar/planning-alignment-YYYY-MM-DD`
 
@@ -64,7 +64,7 @@ docker compose -f config/docker-compose.yml up notebook
 
 ## Active PMO
 
-See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): dataset-validation "Step 6.5" cell aligned to Pillow's accept-any-openable-file contract (previously undercounted non-`.jpg/.jpeg/.png` concept images); `actions/setup-python` pinned to a commit SHA in CI (CWE-494); doc audit corrected README/FEATURES/ROADMAP/TASKS inaccuracies; Python version matrix aligned to 3.11 across CI/Dockerfile/pyproject; `config/requirements.txt` versions pinned against the `python:3.11-slim-bookworm` base.
+See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): Python floor raised 3.11 → 3.12 across CI/Dockerfile/pyproject (unblocks Dependabot PR #23, numpy 2.4.6 → 2.5.3, which requires Python ≥3.12); `config/requirements.txt` versions re-pinned against the Python 3.12 base image; dataset-validation "Step 6.5" cell aligned to Pillow's accept-any-openable-file contract (previously undercounted non-`.jpg/.jpeg/.png` concept images); `actions/setup-python` pinned to a commit SHA in CI (CWE-494); doc audit corrected README/FEATURES/ROADMAP/TASKS inaccuracies.
 
 ---
 

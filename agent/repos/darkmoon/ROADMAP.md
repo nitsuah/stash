@@ -33,7 +33,7 @@ Last Updated: 2026-09-03
 
 ## 2026 Q3 (In Progress)
 
-- [ ] Ship the first validated multiplayer-capable experience after the readiness gate is met. Readiness gate itself is done (all four criteria pass, PR #418); remaining blockers are the two gameplay-parity gaps tracked in TASKS.md (tag cooldown/freeze window, IT-player disconnect handoff).
+- [ ] Ship the first validated multiplayer-capable experience after the readiness gate is met. Readiness gate itself is done (all four criteria pass, PR #418); the two gameplay-parity gaps tracked in TASKS.md (tag cooldown/freeze window, IT-player disconnect handoff) are also now fixed server-side — remaining work is a shipped client experience driving the existing socket events.
 - [ ] Revisit additional gameplay modes only after the live foundation is stable.
 - [ ] **CORS wildcard/allowlist operator doc** — new idea (2026-08-28): the readiness gate work fixed two subtle CORS bugs (a bare `ALLOWED_ORIGINS=*` combined with `credentials:true`, and a wildcard that matched across DNS labels instead of within one) that would be easy for a future deploy to reintroduce by hand-editing `ALLOWED_ORIGINS`. A short "how to safely add an origin" note in `docs/MULTIPLAYER_GATE.md` — with the drop-a-bare-wildcard and single-label-only rules stated plainly — would prevent the next person (or agent) from silently reverting the fix in `.env`.
 
@@ -66,11 +66,11 @@ Last Updated: 2026-09-03
 - [ ] **`config/docker-compose.yml` `test` service silently serves stale images** — discovered
       while verifying this pass's fixes: unlike `solo` (bind-mounted), the `test` service has no
       `volumes:` mount, so `docker compose -f config/docker-compose.yml --project-name darkmoon
-    run --rm test` (including the `.husky/pre-push` hook itself) reuses whatever
+  run --rm test` (including the `.husky/pre-push` hook itself) reuses whatever
       `darkmoon-test:latest` image already exists locally and does **not** rebuild on source
       changes unless `docker compose -f config/docker-compose.yml --project-name darkmoon build
-    test` is run first. On this branch the local image was 41+ hours stale and the pre-push
+  test` is run first. On this branch the local image was 41+ hours stale and the pre-push
       hook was silently validating an old commit on every push until this was caught and the
       image rebuilt by hand. Either add a bind mount to `test` like `solo` has, or have
       `.husky/pre-push` run `docker compose -f config/docker-compose.yml --project-name darkmoon
-    build test` before `run`.
+  build test` before `run`.

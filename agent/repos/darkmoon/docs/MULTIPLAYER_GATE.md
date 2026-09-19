@@ -187,6 +187,7 @@ Requirements:
 | `player.disconnected`        | info  | `playerId`, `activePlayers`, `wasIt`             |
 | `game.player_tagged`         | info  | `taggerId`, `taggedId`, `mode`                   |
 | `game.tag_rejected`          | warn  | `taggerId`, `taggedId`, `reason`                 |
+| `game.it_reassigned`         | info  | `previousItPlayerId`, `newItPlayerId`, `reason`  |
 | `game.score_changed`         | info  | `playerId`, `previousScore`, `newScore`, `delta` |
 | `game.started`               | info  | `mode`, `itPlayerId`, `playerCount`              |
 | `game.ended`                 | info  | `mode`, `durationMs`, `finalScores`              |
@@ -298,14 +299,17 @@ docker compose -f config/docker-compose.yml --profile test run --rm test
 ## Out of scope
 
 This gate certifies that the server can be **operated**. It does not certify
-that multiplayer tag is **correct**. Two known gameplay gaps remain tracked
-separately in `TASKS.md` and must also close before Multiplayer Tag ships:
+that multiplayer tag is **correct**. Two known gameplay gaps were tracked
+separately in `TASKS.md` and have since been closed (see `TASKS.md` for
+evidence):
 
-- `player-tagged` enforces no cooldown/freeze window, so server-side tag rules
-  do not match the client's `GameManager` parity rules.
-- A disconnecting IT player does not hand off or clear `itPlayerId`, so a match
-  can be left with nobody IT.
+- `player-tagged` now enforces the same `TAG_BACK_COOLDOWN_MS`/`TAG_FREEZE_MS`
+  window as the client's `TagMode` (ported into `server/tagAuthorization.js`),
+  so server-side tag rules match the client's parity rules.
+- A disconnecting IT player now hands `itPlayerId` off to a remaining player
+  (`server/itHandoff.js`, broadcast as `it-player-changed`), or ends the round
+  if no players remain, rather than leaving a match with nobody IT.
 
-Both are logged (`game.tag_rejected` with a reason, and `wasIt` on
-`player.disconnected`), so the gate's observability makes them diagnosable — it
-does not make them fixed.
+Both are logged (`game.tag_rejected` with reason `tag_back_cooldown` or
+`tag_freeze`, `game.it_reassigned`, and `wasIt` on `player.disconnected`), so
+the gate's observability makes them diagnosable in addition to being fixed.

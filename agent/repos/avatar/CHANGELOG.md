@@ -13,9 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Raised the Python floor to 3.12 (previously aligned to 3.11) across CI (`.github/workflows/ci.yml`), the Dockerfile base image, and `pyproject.toml` ruff/black targets; updated the README's Python version note accordingly. This unblocks Dependabot PR #23 (numpy 2.4.6 -> 2.5.3), which requires Python >=3.12.
 - Documentation audit: corrected inaccuracies in README, FEATURES.md, ROADMAP.md, and TASKS.md to accurately reflect the DreamBooth/Stable Diffusion pipeline.
-- Aligned the Python version matrix to 3.11 across CI (`.github/workflows/ci.yml`), the Dockerfile base image, and `pyproject.toml` ruff/black targets; updated the README's Python version note accordingly.
-- Pinned exact versions in `config/requirements.txt` (previously unpinned), resolved against the `python:3.11-slim-bookworm` base image.
+- Pinned exact versions in `config/requirements.txt` (previously unpinned), resolved against the Python 3.12 base image.
 - Expanded the vague "User feedback integration" roadmap item into a proper scoping note with open questions, rather than guessing at an implementation.
 - Bumped `actions/checkout` from v6 to v7 in CI (#17).
 - Bumped `actions/setup-python` from v6 to v7 in CI (#18).
