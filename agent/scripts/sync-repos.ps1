@@ -30,13 +30,18 @@ $Today     = Get-Date -Format 'yyyy-MM-dd'
 # drifted (still had motor-pool/opencut*, missed agent-board/deployer).
 $ScopeFile = Join-Path $VaultRoot 'projects\scope.md'
 $AllRepos = @()
+$RepoPaths = @{}
 $inTracked = $false
 foreach ($line in Get-Content -LiteralPath $ScopeFile) {
     if ($line -match '^## ') { $inTracked = $line -match '^## Tracked'; continue }
     if (-not $inTracked) { continue }
     if ($line -match '^\|\s*([A-Za-z0-9._-]+)\s*\|') {
         $name = $Matches[1]
-        if ($name -notin @('Repo', 'stash') -and $name -notmatch '^-+$') { $AllRepos += $name }
+        if ($name -notin @('Repo', 'stash') -and $name -notmatch '^-+$') {
+            $AllRepos += $name
+            # Local path column may differ from the repo name (overseer is cloned as code\vigil).
+            if ($line -match '^\|[^|]*\|\s*`([^`]+)`') { $RepoPaths[$name] = $Matches[1] }
+        }
     }
 }
 if ($AllRepos.Count -eq 0) { throw "No repos parsed from the Tracked table in $ScopeFile" }
@@ -53,7 +58,7 @@ $TotalCopied = 0
 $TotalNewHandoffs = 0
 
 foreach ($repo in $TargetRepos) {
-    $src  = "$CodeRoot\$repo"
+    $src  = if ($RepoPaths.ContainsKey($repo)) { $RepoPaths[$repo] } else { "$CodeRoot\$repo" }
     $dest = "$VaultRoot\repos\$repo"
 
     if (-not (Test-Path $src)) {
