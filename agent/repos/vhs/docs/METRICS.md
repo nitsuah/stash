@@ -2,94 +2,51 @@
 
 ## Core Metrics
 
-| Metric          | Value      | Notes                                   |
-| --------------- | ---------- | ---------------------------------------------- |
-| Code Coverage   | 85.4%      | Whole tree (`src/server.js` + `src/modules/**`), lines. Docker-measured and config-gated numbers now agree — see note below. |
-| Test Files      | 8          | server.test.js, coverage-boost.test.js, debug-jobs.test.js, basic.test.js, test-omdb-enhancements.spec.js, ebay-valuation.test.js, worker.test.js, auth.test.js |
-| Unit Test Cases | 231        | All passing (8 test files; per-suite counts below) |
-| E2E Test Files  | 14         | Playwright specs in tests_playwright/   |
-| Last Updated    | 2026-09-02 |                                         |
+| Metric          | Value      | Notes |
+| --------------- | ---------- | ----- |
+| Code Coverage   | 86.86%     | Whole tree (`src/server.js` + `src/modules/**`), lines. Docker-validated Jest run; breakdown below. |
+| Unit Test Cases | 252        | All passing (9 suites) |
+| Last Updated    | 2026-09-23 |       |
 
-## Collection Stats
+## Coverage
 
-| Metric          | Value | Notes                              |
-| --------------- | ----- | ---------------------------------- |
-| Tapes Indexed   | —     | Records in PostgreSQL `tapes` table |
-| Data Backend    | PostgreSQL (Neon) | Migrated from flat tapes.json |
+| Metric     | Coverage | Threshold | Status |
+|------------|----------|-----------|--------|
+| Statements | 86.86% (2030/2337) | 82% | ✅ |
+| Branches   | 81.82% (549/671)   | 77% | ✅ |
+| Functions  | 87.88% (58/66)     | 85% | ✅ |
+| Lines      | 86.86% (2030/2337) | 82% | ✅ |
 
-## Progress
+Percentages are rounded from the counts. Jest's text reporter truncates instead,
+so it prints 81.81% for branches and 87.87% for functions.
 
-- [ ] First tape scanned and committed
-- [x] Export to CSV working (built into web UI)
-- [x] Export to JSON working (built into web UI)
-- [x] Print price tags working
-- [x] Sell Drafts (eBay/Mercari) export working (built into web UI)
-- [x] Valuation script (eBay **active-listing** lookup) — `src/modules/ebay.js` + `POST /api/tapes/:id/valuate`. Asking prices, not sold prices; true sold data needs the Marketplace Insights API (see TASKS.md).
+Back above the thresholds after adding `tests/tmdb.test.js`. `src/modules/tmdb.js`
+(added in #55) went from 7.6% to 100% on all four metrics. Before those tests, the
+2026-09-23 run was 79.59 / 79.22 / 81.82 / 79.59, down from the 2026-09-02 baseline
+in `jest.config.js` (85.40 / 79.78 / 88.33 / 85.40, re-confirmed 2026-09-18).
 
-## Test Breakdown
+### Lowest-covered files
 
-| Test Suite            | Tests | Status  |
-| --------------------- | ----- | ------- |
-| server.test.js        | 46    | ✅ Pass |
-| coverage-boost.test.js| 77    | ✅ Pass |
-| debug-jobs.test.js    | 1     | ✅ Pass |
-| basic.test.js         | 1     | ✅ Pass |
-| test-omdb-enhancements.spec.js | 41 | ✅ Pass |
-| ebay-valuation.test.js | 39   | ✅ Pass |
-| worker.test.js        | 9     | ✅ Pass |
-| auth.test.js           | 17    | ✅ Pass |
-| **Total (unit)**      | **231** | **✅ All Pass** |
-| tests_playwright/ (14 specs) | — | E2E; run separately |
+| File | Stmts | Branch | Funcs |
+|------|-------|--------|-------|
+| src/modules/certs.js       | 48.64% | 50%    | 100%   |
+| src/server.js              | 73.88% | 75.22% | 100%   |
+| src/modules/json-parser.js | 77.41% | 72.22% | 66.66% |
+| src/modules/ollama.js      | 80.00% | 44.44% | 66.66% |
+| src/modules/activity-log.js | 81.81% | 80%   | 66.66% |
 
-## Docker Testing
+## Tests
 
-```bash
-# Build
-docker compose -f config/docker-compose.yml build
+| Metric      | Result       |
+|-------------|--------------|
+| Test Suites | 9 passed / 9 |
+| Tests       | 252 passed / 252 |
 
-# Unit tests
-docker run --rm vhs-web npx jest --runInBand
+## CI
 
-# Whole-tree coverage
-docker run --rm vhs-web npx jest --runInBand --coverage
-```
+Last `CI` workflow run on `main`: ✅ success (#54, 2026-09-11). CI does not currently
+enforce the coverage thresholds.
 
-### Coverage measurement — Docker and local now agree
+---
 
-As of 2026-09-02 the Dockerfile copies `jest.config.js` into the image (it previously
-didn't), so `docker run … npx jest --coverage` and a local `npx jest --coverage` measure
-**the same thing**: `collectCoverageFrom: ['src/server.js', 'src/modules/**/*.js']`
-(excluding the two confirmed-orphaned files below), gated by `coverageThreshold` in
-`jest.config.js`. Previously these disagreed (71.94% config-scoped vs. 74.88%
-whole-tree-ungated) because the Docker image silently ignored the config file entirely.
-
-`src/modules/routes/jobs.js` and `src/modules/routes/lookup.js` are excluded from
-`collectCoverageFrom` — both are confirmed orphaned (server.js implements those routes
-inline and never `require()`s either file; see `docs/TASKS.md`). Counting dead code
-against coverage would understate real posture, not overstate it, so this is a scope
-correction, not a threshold-gaming move.
-
-**Whole-tree measurement (2026-09-02, Docker, `npx jest --coverage`):**
-- Statements: 85.4%
-- Branches: 79.78%
-- Functions: 88.33%
-- Lines: **85.4%**
-
-Coverage history on this basis (whole tree, config honored):
-
-| Date | Lines | Notes |
-| --- | --- | --- |
-| 2026-08-27 (pre-eBay) | 70.82% | 166 tests, `src/server.js` only |
-| 2026-08-27 (post-eBay) | 74.88% | 205 tests, `src/server.js` only — but measured via the *ungated* Docker command; not directly comparable to the config-scoped number of the same date (71.94%) |
-| 2026-09-02 | **85.4%** | 231 tests, `src/server.js` + `src/modules/**` (jobs.js/lookup.js excluded as dead code); Docker and config-gated measurement now identical |
-
-The jump from 74.88% to 85.4% is **not** an apples-to-apples improvement on the old
-basis — the 2026-09-02 number covers far more code (`src/modules/**` was previously
-uncounted entirely) while also removing two dead files from the denominator. The real,
-comparable improvement: `worker.js` went from 44% to 100% lines, `auth.js` from 34% to
-100% lines, and `system.js` from 52% to 100% lines (the last one via deleting unused
-`healthHandler`/`caCertHandler`, not by adding tests to dead code).
-
-`coverageThreshold` in `jest.config.js` is set a few points below the measured
-2026-09-02 baseline (82% statements / 77% branches / 85% functions / 82% lines) so it
-gates real regressions without being brittle to minor day-to-day drift.
+Last Validated: 2026-09-23 (Docker `node:22-alpine` image from repo `Dockerfile`, `NODE_ENV=test npx jest --coverage`)

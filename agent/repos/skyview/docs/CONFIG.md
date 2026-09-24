@@ -1,5 +1,7 @@
 # Feature Flags & Configuration Guide
 
+> **Outdated as of 2026-09-19:** the `contactForm`, `calendly`, `platform` and `analyticsDebugPanel` flags no longer exist. The contact form and Calendly were removed from the marketing site (people are sent to the platform at `/app`; the contact email/phone live only on `pages/privacy.html`), and the conversion dashboard is admin-only. Sections below that mention those flags are historical; see `config.js` for the current flags.
+
 ## Overview
 
 The Skyview website uses a simple configuration file (`config.js`) to control which features are visible. This allows you to easily enable/disable sections as they become ready for production.
@@ -12,12 +14,10 @@ The Skyview website uses a simple configuration file (`config.js`) to control wh
 window.SKYVIEW_CONFIG = {
     features: {
         testimonials: false,       // ← Change to true when you have reviews
-        contactForm: true,         // ← Already enabled (ready to use!)
         calendly: true,            // ← Already enabled (ready to use!)
         clientPortal: false,       // ← Enable when ready to deliver files
         adminCMS: true,            // ← Enable when Netlify Identity is set up
         analytics: false,          // ← Enable when analytics is configured
-        analyticsDebugPanel: false,// ← Persistent conversion metrics panel (dev/debug)
         platform: false            // ← Marketplace mode; see ROADMAP.md before enabling
     }
 }

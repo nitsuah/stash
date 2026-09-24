@@ -1,6 +1,6 @@
 # overseer
 
-> Reviewed: 2026-09-18
+> Reviewed: 2026-09-24
 
 ## Overview
 
@@ -27,7 +27,12 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 ## Open P0/P1 Tasks
 
-**No open P1 items** as of the current `TASKS.md` (2026-09-10) — the one P1 (Agent Task Queue → agent-board dispatch bridge) shipped in PR #159, hardened in PR #204. No P0s tracked.
+**Update 2026-09-24** (from `docs/TASKS.md` dated 2026-09-19, synced from the local `navbar-v2` checkout; PR #229 "docs/ folder support" merged to main 2026-09-23):
+- All 5 **P0s** are done: repo-row expand crash from NUMERIC-as-string (PR #225), `RowErrorBoundary`, NUMERIC normalization at the API boundary (`lib/numeric.ts`), repo-list/by-name route access scoping (CWE-639, follow-up to PR #221, which also found `debug` had no auth), and `visibility_verified` backfill that fails closed. **After deploy each user must click Sync once** or their own private repos stay hidden.
+- **One open P1 needs a human:** rename GitHub repo `nitsuah/overseer` to `nitsuah/vigil`. The code is ready, but the order matters: merge and deploy first, then `gh repo rename`, `git remote set-url`, Sync, and check smoke. Renaming before deploy creates a duplicate row.
+- Other P1s done: keep `ghoverseer.netlify.app` (decision), the Playwright mocked e2e suite in CI, the post-merge prod smoke workflow, and the dispatch bridge (PR #159/#204).
+
+Previous status (2026-09-10): no open P1 items. The one P1 (Agent Task Queue → agent-board dispatch bridge) shipped in PR #159 and was hardened in PR #204.
 
 Note: the previously-tracked P1 "deprioritize stash repo (mark private, block PRs, add sanitization checklist)" is **no longer present** in the current root `TASKS.md`/`ROADMAP.md` — it has no corresponding "shipped" entry in `FEATURES.md` or `CHANGELOG.md` either, so its status is ambiguous (dropped vs. quietly resolved out-of-band). A stale copy of it still exists in `docs/TASKS.md`/`docs/ROADMAP.md` (both dated 2026-06-25, clearly unmaintained duplicates of the root files) — worth a manual check on whether stash was actually deprioritized/privated, since this repo's own doc-hygiene tracking has lost the thread on it.
 

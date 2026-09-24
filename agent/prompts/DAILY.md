@@ -47,6 +47,8 @@ One line per repo *that had activity today*, checked across the same repo list a
 - `gh issue list --repo nitsuah/<repo> --search "updated:>=<YYYY-MM-DD>"` — issues opened/closed/commented today.
 - `git -C C:\Users\<user>\code\<repo> log --since="<YYYY-MM-DD> 00:00" --oneline` — local commits today (catches WIP not yet pushed, which `daily-git-sync.log` shows is most repos most days).
 
+**Owner caveat (added 2026-09-24):** not every repo lives under `nitsuah/`. `deployer` and `nitsuah-io` are under `Nitsuah-Labs/`, and `gh` returns "Could not resolve to a Repository" for `nitsuah/<repo>`, which is easy to misread as "no activity". Derive the owner from `git -C <path> remote get-url origin` instead of hardcoding it.
+
 Format: `- **<repo>**: <PR #N title (state)>; <N commits>; <notable issue activity>` — include only the pieces that actually happened. Skip repos with zero activity entirely; don't list all 17 repos as "no activity", that's noise.
 
 **## Tasks**
@@ -68,6 +70,12 @@ A factual roll-up of what today's automation runs actually did, read from today'
 3. Only after that, create and open today's note.
 
 Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why the old batch of `obn: daily note` PRs piled up unmerged — same lesson as [[METRICS]]) — title `obn: daily note <date>`, branch `obn/daily-note-<date>`.
+
+**The daily-note PR carries all of today's stash writes, not just the note** (added 2026-09-24). Steps 1–2 above plus Repo sync and Stale worktree cleanup below all write `agent/repos/**` into this vault. (They also append to `agent/logs/*.log`, but `*.log` is gitignored on purpose, so logs stay local and never go in the PR.) Before this rule the `agent/repos/**` writes were never committed. They piled up as 88+ uncommitted files on `main`, which made the Repo sync step skip `stash` as `SKIPPED_DIRTY` every day. Worse, every cloud routine clones `stash` from GitHub and reads `agent/repos/*.md`, so it was working from a snapshot several days stale while the local copies stayed current. So:
+- Create the `obn/daily-note-<date>` branch **from the working tree as-is**, so the uncommitted writes come along. Commit the note and `agent/repos/**` together in the first commit.
+- **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/` onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
+- Then `git checkout main`. Do not `git pull` yet: those files are now committed on the branch, so `main` should be clean. If `git status` on `main` still shows changes under `agent/repos/`, the sweep missed something. Name it in the log instead of ignoring it.
+- Only commit paths under `agent/repos/` and `Daily Notes/`. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
 
 ## Repo sync
 

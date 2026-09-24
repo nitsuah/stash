@@ -168,13 +168,11 @@ Edit `config.js` to enable/disable features:
 ```javascript
 features: {
     testimonials: false,    // Testimonials section
-    contactForm: true,      // Contact form (enabled by default)
     calendly: true,         // Booking widget
     clientPortal: false,    // Client file access
     adminCMS: true,         // Admin dashboard
     preview3D: false,       // 3D preview (future)
     analytics: false,       // Analytics tracking
-    analyticsDebugPanel: false, // Persistent conversion metrics panel
     platform: false        // Marketplace mode (replaces Calendly with operator CTA)
 }
 ```
