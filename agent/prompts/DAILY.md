@@ -10,7 +10,7 @@
 
 ## obn (close the loop, repo doc sync, repo synthesis, daily note, weekly note chain)
 
-Run the sub-steps in order, starting with step 0. Each logs to its own file. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
+Run the sub-steps in order, starting with step 0. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
 
 ### 0. Once per day, and close the loop first
 
