@@ -138,6 +138,10 @@ When repositories are Overseer-tracked, apply strict markdown conventions:
 
 If current repo conventions differ, preserve content and introduce parser-safe structure in the least disruptive way.
 
+## Findings Ledger Handoff
+
+Before auditing, read `stash/agent/reports/findings-ledger.md` (maintained by [[TIRE]], which runs on the 28th). Every `open` row with class `pmo` for a repo in this cycle is part of that repo's audit: either turn it into an evidence-backed TASKS.md item or PR, or mark it `wontfix` with a reason. Set the row's Status and Link in the same stash PR as the audit report. Don't work on `quick` rows (TIRE owns them) or `human` rows (they go to the user).
+
 ## Product Audit Workflow
 
 1. Discovery
