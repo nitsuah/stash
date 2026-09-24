@@ -10,7 +10,7 @@ Browser arcade collection at nitsuah-arcade (Netlify) built with Next.js 16, Thr
 
 **2025 Q4 – 2026 Q1** ✅ Completed — live multi-game arcade, Docker release path, CI smoke validation, Netlify hosting model, audio init fixes, architecture docs.
 
-**2026 Q2** ✅ Completed — per `docs/ROADMAP.md`/`docs/TASKS.md` (2026-08-28, the current versions; the repo-root `ROADMAP.md`/`TASKS.md` are stale duplicates still dated 2026-06-08 and still showing these as open). Performance/asset-loading audit, mobile responsiveness + touch input, accessibility audit, and UX verification pass all shipped.
+**2026 Q2** ✅ Completed — per `docs/ROADMAP.md`/`docs/TASKS.md` (2026-08-28). Performance/asset-loading audit, mobile responsiveness + touch input, accessibility audit, and UX verification pass all shipped.
 
 **2026 Q3 (planned):** fix game-selection UI for keyboard/programmatic navigation; add unit/E2E test coverage for Memory Match and Dodge Blocks (iframe-hosted standalone games, not covered by the Jest suite); add high-score persistence to Memory Match (currently just a win alert); add mobile touch controls to Dodge Blocks (keyboard-only today); evaluate further game work only once these are closed.
 
@@ -18,11 +18,11 @@ Browser arcade collection at nitsuah-arcade (Netlify) built with Next.js 16, Thr
 
 ## Open P0/P1 Tasks
 
-None open. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28, current; supersedes the stale root-level `TASKS.md` dated 2026-06-08 which still shows them open), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add unit/E2E tests for Memory Match/Dodge Blocks (P2), add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3).
+None open. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add unit/E2E tests for Memory Match/Dodge Blocks (P2), add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3).
 
 ## Blockers
 
-None. The previously-flagged **[BLOCKED]** global client-side `ReferenceError` preventing games from loading in Docker is confirmed **[RESOLVED]** in `docs/TASKS.md` (2026-08-28). Note the repo has two copies of TASKS.md/ROADMAP.md: the repo-root files are stale (last updated 2026-06-08, still show the blocker and Q2 items open) while `docs/TASKS.md`/`docs/ROADMAP.md` are current — treat the `docs/` versions as authoritative going forward.
+None. The previously-flagged **[BLOCKED]** global client-side `ReferenceError` preventing games from loading in Docker is confirmed **[RESOLVED]** in `docs/TASKS.md` (2026-08-28). The stale repo-root `TASKS.md`/`ROADMAP.md` duplicates have since been removed (games#254); `docs/TASKS.md`/`docs/ROADMAP.md` are the only copies.
 
 ## Recent Changes (Unreleased)
 

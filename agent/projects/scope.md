@@ -25,7 +25,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 | kryptos | `C:\Users\ajhar\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
 | nitsuah-io | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
 | osrs | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
-| overseer | `C:\Users\ajhar\code\overseer` | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
+| overseer | `C:\Users\ajhar\code\vigil` (local clone renamed to match the GitHub repo; routines still call it `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
 | skyview | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
 | stash | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
 | vhs | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
