@@ -8,6 +8,7 @@
 |------|----------|-----------|-----------------|
 | `.dockerignore` | Build/Deploy | Docker reads from build context root; moving without Dockerfile breaks build | **KEEP** |
 | `.env.example` | Config/Env | Must stay root | **KEEP** |
+| `.gitignore` | VCS Config | Git reads it from repo root | **KEEP** |
 | `.mcp.json` | Tooling | Claude Code project config — read from repo root | **KEEP** |
 | `.prettierrc` | Config | Explicit MINI rule: editors resolve upward from edited file, `config/` not in that path | **KEEP** |
 | `Dockerfile` | Build/Deploy | Must stay root | **KEEP** |
@@ -24,7 +25,7 @@
 
 ## Proposed Moves (Dry Run — Not Executed)
 
-**None.** All 11 remaining root files are required-root, an existing Overseer-deferred item (`LICENSE`), or an existing out-of-scope CLEANUP item (`coverage_summary.txt`). The two moves proposed on 2026-09-16 and repeated on 2026-09-23 (`CHANGELOG.md`, `FEATURES.md` → `docs/`) have now been executed, along with `METRICS.md`, `ROADMAP.md`, and `TASKS.md` beyond what was proposed.
+**None.** All 12 remaining root files are required-root, an existing Overseer-deferred item (`LICENSE`), or an existing out-of-scope CLEANUP item (`coverage_summary.txt`). The two moves proposed on 2026-09-16 and repeated on 2026-09-23 (`CHANGELOG.md`, `FEATURES.md` → `docs/`) have now been executed, along with `METRICS.md`, `ROADMAP.md`, and `TASKS.md` beyond what was proposed.
 
 ## References That Would Need Updating
 

@@ -8,6 +8,7 @@
 |------|----------|-----------|-----------------|
 | `.dockerignore` | Build/Deploy | Docker reads from build context root; moving without Dockerfile breaks build | **KEEP** |
 | `.env.example` | Config/Env | Must stay root | **KEEP** |
+| `.gitignore` | VCS Config | Git reads it from repo root | **KEEP** |
 | `Dockerfile` | Build/Deploy | Must stay root | **KEEP** |
 | `LICENSE` | Legal | Overseer decision — flag for human review | **DEFER (Overseer)** |
 | `README.md` | Documentation | root-only (deploy badges) | **KEEP** |
@@ -23,7 +24,7 @@ This means the stale root duplicates the games.md summary describes have been re
 
 ## Proposed Moves (Dry Run — Not Executed)
 
-**None.** All 6 root files are required-root or an existing Overseer-deferred item; none are candidate-move under MINI.md's folder strategy. No planning-doc duplicates remain at root to resolve.
+**None.** All 7 audited root files (the 6 `path:/` search results plus `.gitignore`, which code search doesn't index) are required-root or an existing Overseer-deferred item; none are candidate-move under MINI.md's folder strategy. No planning-doc duplicates remain at root to resolve.
 
 ## Files Left Exempt (with rationale)
 
