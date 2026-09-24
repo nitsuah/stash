@@ -1,0 +1,4 @@
+# Shell scripts and git hooks must stay LF, or bash fails on "\r" after a
+# Windows checkout (core.autocrlf) and the pre-commit hook silently stops working.
+*.sh text eol=lf
+.githooks/* text eol=lf
