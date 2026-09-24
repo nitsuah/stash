@@ -51,3 +51,11 @@ None documented.
 - Hardening: atomic `db.json` writes (tmp file + rename), corrupt-vs-missing-file distinction in `readState`, Express global error handler, JSONata webhook mapping validated + time-boxed at 5s, Yahoo Finance fetches timeout at 10s.
 - Fixed: `DELETE /api/accounts/:id` returned 444 instead of 404 for a missing account.
 - Test suite grew past the 251-test/16-file baseline with new Plaid transaction-sync tests and targeted coverage-gap tests added this cycle (381/381 passing per the latest TASKS.md note); coverage now clears all four thresholds — statements 86.01%, lines 85.6%, branch 71.04%, functions 84.16% (branch/functions up from 68.33%/75.67%; METRICS.md itself hasn't been re-run since 2026-08-28, so its table still shows the old numbers).
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- `docker build --target test -t fire-test . && docker run --rm -u root fire-test npm run test:coverage`
+- `-u root` is needed until the Dockerfile `chown` fix lands: `WORKDIR /app` is owned by root, then `USER node`, which gives EACCES on `/app/coverage`.
+- CI runs `npm test`, not coverage, so a branch-coverage threshold failure (68.68% < 70%) is invisible in CI.

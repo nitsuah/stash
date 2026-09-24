@@ -67,3 +67,9 @@ See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): `bot/ch
 **Core:** [[repos/osrs/ROADMAP|ROADMAP]] · [[repos/osrs/TASKS|TASKS]] · [[repos/osrs/FEATURES|FEATURES]] · [[repos/osrs/METRICS|METRICS]] · [[repos/osrs/CHANGELOG|CHANGELOG]] · [[repos/osrs/README|README]]
 
 **docs/:** [[repos/osrs/docs/HANDOFF-docker-entrypoint-20260403|HANDOFF: docker entrypoint (2026-04-03)]]
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- **The Docker build is broken until the P0 fix lands:** numpy 2.5.3 needs Python >=3.12, but both Dockerfile stages use `python:3.10-slim-bookworm`. Don't burn time retrying it.
