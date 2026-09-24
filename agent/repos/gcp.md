@@ -67,3 +67,10 @@ See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): duplica
 **Core:** [[repos/gcp/ROADMAP|ROADMAP]] · [[repos/gcp/TASKS|TASKS]] · [[repos/gcp/FEATURES|FEATURES]] · [[repos/gcp/METRICS|METRICS]] · [[repos/gcp/CHANGELOG|CHANGELOG]] · [[repos/gcp/README|README]]
 
 **docs/:** [[repos/gcp/docs/HANDOFF-progress-telemetry-20260403|HANDOFF: progress telemetry (2026-04-03)]]
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- Coverage needs an editable install: `pip install -r requirements-dev.txt -e .`. A plain `pip install .` reports 0%.
+- The Dockerfile has no test stage. Working command: `docker run --rm -v <repo>:/src:ro python:3.12-slim sh -c "cp -r /src /app && cd /app && pip install -q -r requirements-dev.txt -e . && pytest tests/ --cov=gcp --cov-report=term-missing"`

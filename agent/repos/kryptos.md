@@ -53,3 +53,9 @@ Root `CHANGELOG.md` [Unreleased] is stale (RAG/serve additions only); `docs/ROAD
 ## 2026-09-16 PMO Audit
 
 `docs/TASKS.md`/`docs/ROADMAP.md` re-checked line-by-line — still accurate, no contradictions (this repo already self-flags its own doc staleness inline, e.g. ROADMAP's Phase 3 note). Real bug found and fixed: README's "Docker Fast Coverage" command was missing `geographiclib` from its manual pip-install list, breaking collection of 5 K4 geometry/geodesy test modules (`ModuleNotFoundError`) — that dependency has been real since the Phase 6 geodesy work but the doc snippet was never updated. Fixed, then re-ran the corrected command for real numbers: **1658 passed, 34 skipped, 26 deselected (slow)** in 261.37s, **89.27% coverage** (was 1192/28/89.35% on 2026-08-22 — test count jumped ~40% from the Phase 6-8 work, coverage % stayed essentially flat). `docs/METRICS.md` refreshed accordingly. `docs/ROADMAP.md`'s "Next Review: 2026-09-15" is now 1 day overdue — left untouched (content is accurate) but flagged for next cycle. PR: [nitsuah/kryptos#215](https://github.com/nitsuah/kryptos/pull/215).
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- The backend runs on Render's free plan (`kryptos-kg8t.onrender.com`), and the first request cold-starts in about 20s. Allow for this in live checks. The frontend is on Netlify.

@@ -32,3 +32,10 @@ None. The previously-flagged **[BLOCKED]** global client-side `ReferenceError` p
 - Press feedback (`:active` states) and a click sound added to the cabinet's decorative console buttons/joystick, plus a cosmetic wear/scuff overlay.
 - Deduplicated a corrupted, triplicated `.github/dependabot.yml` and corrected its npm `directory` to `/app`.
 - Documentation audit pass (2026-08-22): corrected game count (9, not 7), unit test count (482, not 218), coverage (95.41%), and dependency versions across README.md, FEATURES.md, ROADMAP.md, TASKS.md, METRICS.md, docs/API.md.
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- `docker build --target test-unit -t games-test . && docker run --rm games-test npm run test:coverage`. Leave out `-it` for non-interactive runs.
+- Right now a non-zero exit means the coverage threshold failed, not that a test failed. It's 61.09% against a 75% threshold, because `lib/tank/TankGame.jsx` (837 lines) is at 0%.
