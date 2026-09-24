@@ -109,6 +109,7 @@ When moving a config file from root to `config/`, path resolution behavior diffe
 ## Files that must stay at root
 
 Beyond the obvious (README, LICENSE, package.json, Dockerfile, .gitignore, .env*, lockfiles, .github/):
+- `LICENSE` — **decided 2026-09-24: stays at root in every repo** (GitHub only detects a license at root). Classify it KEEP; don't defer it to the Overseer or list it under "Overseer Decisions Required".
 - `.dockerignore` — Docker reads it from build context root; moving it without moving the Dockerfile breaks the build
 - `.prettierrc` / `prettier.config.*` — editors resolve by walking upward from the edited file; a `config/` subdir is not in that path
 
