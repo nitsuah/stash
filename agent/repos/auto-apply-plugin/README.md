@@ -100,19 +100,35 @@ apply-workspace/
 ## Screenshots
 
 > Maintenance note: after any significant popup, tracker, or profile UI update, regenerate these images so the README stays current.
-> Last refreshed: 2026-09-02 (Google OAuth + custom job sources panels added to AI settings)
+> Last refreshed: 2026-09-17 (nav/hamburger overhaul, collapsible Settings + Pipeline columns, Help collapsed-by-default, Interview Prep job-readiness bar)
 
 ### Main dashboard
 
 ![Apply Workspace main dashboard](screenshots/main-dashboard.png)
 
-### Tracker workspace
+### Tracker workspace (Pipeline)
 
 ![Apply Workspace tracker workspace](screenshots/tracker-workspace.png)
 
 ### Profile + Memory
 
 ![Apply Workspace profile and memory](screenshots/profile-memory.png)
+
+### Job Search
+
+![Apply Workspace job search panel](screenshots/job-search.png)
+
+### Settings
+
+![Apply Workspace settings panel](screenshots/ai-settings.png)
+
+### Help & Privacy
+
+![Apply Workspace help and privacy panel](screenshots/help-privacy.png)
+
+### Interview Prep
+
+![Apply Workspace interview prep](screenshots/interview-prep.png)
 
 ---
 
@@ -147,7 +163,7 @@ Click **🔍 Search** in the header to open the job search panel. Results are pu
 |--------|-------------|
 | LinkedIn | Uses your active LinkedIn tab session via the Voyager API — no separate key needed; shows ⚡ chip when a LinkedIn tab is open |
 
-### Optional keyed sources (add credentials in AI settings)
+### Optional keyed sources (add credentials in Settings)
 
 | Source | Coverage | Key source |
 |--------|----------|------------|
@@ -158,11 +174,11 @@ Click **🔍 Search** in the header to open the job search panel. Results are pu
 
 ### Custom job sources (bring your own RSS feed)
 
-Add any RSS-based job board from **AI settings → Custom job sources** — a state workforce board (e.g. [JOBS4TN.gov](https://www.jobs4tn.gov/)), an internal careers feed, or any niche board with an RSS endpoint. Your search terms are appended as a `?q=` param when the feed doesn't already encode a query. The extension asks for one-time permission to read that specific site rather than requesting broad site access up front.
+Add any RSS-based job board from **Settings → Custom job sources** — a state workforce board (e.g. [JOBS4TN.gov](https://www.jobs4tn.gov/)), an internal careers feed, or any niche board with an RSS endpoint. Your search terms are appended as a `?q=` param when the feed doesn't already encode a query. The extension asks for one-time permission to read that specific site rather than requesting broad site access up front.
 
 ### Filters
 
-- **Sources** — toggle individual boards on/off via chip buttons; locked chips (🔒) open the AI settings panel
+- **Sources** — toggle individual boards on/off via chip buttons; locked chips (🔒) open the Settings panel
 - **Pay** — annual or hourly dual-slider; optional toggle to **hide jobs without a published salary**
 - **Remote / Type / Location** — filter by work mode, employment type, and region
 

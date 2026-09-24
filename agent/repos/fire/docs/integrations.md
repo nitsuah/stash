@@ -54,6 +54,44 @@ SYNC_MASTER_KEY=      # 64 hex chars — required to encrypt stored OAuth tokens
 
 ---
 
+### Marketplace Account Deletion (required by eBay)
+
+eBay requires every production app to expose a notification endpoint for
+Marketplace Account Deletion/Closure. This app serves one at
+`/api/sync/ebay/marketplace-account-deletion` (exempt from the API-key gate,
+since eBay's servers call it):
+
+- **GET `?challenge_code=…`** — eBay's handshake. The response is
+  `{ "challengeResponse": sha256(challengeCode + verificationToken + endpointUrl) }` (hex).
+- **POST** — a `MARKETPLACE_ACCOUNT_DELETION` notification. The handler deletes
+  the locally stored eBay tokens, turns eBay sync off, and only then returns
+  `200 {"status":"acknowledged"}`; any cleanup failure returns 500 so eBay retries.
+
+Configuration (all in `.env`):
+
+| Variable | Meaning |
+|---|---|
+| `EBAY_VERIFICATION_TOKEN` | 32–80 characters; must match what you enter in the eBay Developer Portal |
+| `EBAY_NOTIFICATION_ENDPOINT_URL` | The exact public HTTPS URL registered with eBay (it is part of the challenge hash) |
+| `EBAY_REDIRECT_URI` | OAuth callback; defaults to the request's own host/protocol behind the Caddy proxy |
+
+This endpoint must be reachable from the public internet over HTTPS, so it
+can't be verified end to end from a laptop — register the URL in the portal
+(or use a tunnel while developing). The handshake and notification logic are
+covered by unit and route tests.
+**Not implemented:** verification of eBay's `X-EBAY-SIGNATURE` header (public
+key fetch + signature check); trust currently rests on the secret endpoint URL
+and verification token.
+
+### Sales-report CSV upload
+
+Besides the API sync, the Side Gig Ledger accepts eBay Seller Hub
+*Listings sales report* CSVs (Seller Hub → Performance → Sales → Download).
+Revenue is item sales plus shipping paid by the buyer; expenses are total
+selling costs plus shipping labels you bought. Rows are keyed by eBay item ID
+plus the report's date range: re-uploading a report is skipped, and a later
+report whose range contains an earlier one replaces those rows.
+
 ## Etherscan (Ethereum Wallet Balances)
 
 **Purpose:** Fetch ETH and ERC-20 token balances for tracked wallet addresses.  
@@ -371,3 +409,13 @@ VEHICLE_VALUE_PROVIDER=dataone
 | Vehicle value API | ❌ Phase 1 | `VEHICLE_VALUE_API_KEY` |
 | Plaid (Fidelity/bank sync) | ❌ Phase 2 | `PLAID_CLIENT_ID`, `PLAID_SECRET` |
 | Alpha Vantage / Polygon.io | ❌ Phase 2 | `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` |
+
+---
+
+## Precious Metals (Gold / Silver Spot)
+
+Gold and silver accounts (`Metal` type, weight in troy oz) are valued as
+weight × spot by `app/lib/metals-prices.js`, via `POST /api/accounts/:id/refresh-metal`.
+
+- **Free default** — Yahoo Finance COMEX futures (`GC=F` gold, `SI=F` silver); no key needed.
+- **Optional** — set `METALS_API_KEY` to prefer the metals.dev API; failures fall back to Yahoo.

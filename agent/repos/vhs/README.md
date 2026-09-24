@@ -1,5 +1,8 @@
 # VHS Collection Indexer
 
+[![CI](https://github.com/nitsuah/vhs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/vhs/actions/workflows/ci.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9cf148ef-31d4-4edc-9862-a72a4ca6e0ff/deploy-status)](https://app.netlify.com/projects/vhsbox/deploys)
+
 A personal tool to catalog a VHS collection — capturing what each tape is, what it might be worth, and building a record you can actually use (sell, store, share). Backed by PostgreSQL, served by Express, containerized with Docker.
 
 ## What's Shipped

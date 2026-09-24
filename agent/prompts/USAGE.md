@@ -12,6 +12,7 @@ Data sources, gather all before writing anything:
 2. **Shipped-work signal** — `git log --since="1 month ago" --oneline` across the owned repo list (see [[DAILY]] for the list); PR counts per repo via `gh pr list --state merged` if `gh` is authenticated.
 3. **Personal usage signal (best-effort)** — try ActivityWatch's local REST API at `http://localhost:5600/api/0/buckets` first (a few-second timeout; only use it if it responds). If unreachable, fall back to a coarse proxy: Windows Event Log unlock/lock events (System log, Event ID 7001/7002 or 4801/4800) to estimate daily active-PC hours. If neither is available, omit this section and note that installing ActivityWatch (free, local-only, https://activitywatch.net) would enable a real per-app breakdown next month.
 4. **Calendar signal (optional)** — only if a calendar MCP is connected: pull the past month's events and look for recurring meeting types that could be templated or auto-scheduled.
+5. **Routine-run findings (if present)**: any `stash/agent/reports/routine-run-findings-<YYYY-MM-DD>.md` from this month. It has cited quota and failure evidence from manual catch-up sessions. Fold it into the scheduled-task health section.
 
 ## Rules — read before touching source 3
 
@@ -21,7 +22,7 @@ Data sources, gather all before writing anything:
 
 ## Steps
 
-1. Gather sources 1-4 above.
+1. Gather sources 1-5 above.
 2. Build the report:
    - **Claude usage trend** — 5hr/weekly % samples if available, sessions started this month, top 5 repos/skills touched by session count.
    - **Scheduled-task health** — per task: run count, success/fail rate, most common failure reason. Same table shape as the 2026-09-16 audit, so months are comparable.
