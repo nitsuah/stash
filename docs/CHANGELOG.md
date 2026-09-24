@@ -16,6 +16,8 @@ Notable additions and changes to this repository.
 - `cloud/iac/ubuntu-userdata.sh` — Ubuntu 22.04 EC2 bootstrap with Docker, CloudWatch, sysctl hardening
 - `cloud/iac/windows-userdata.ps1` — Windows Server 2022 EC2 bootstrap with Chocolatey, IIS, CloudWatch, TLS hardening
 - `git/cleanup-branches.ps1` — Multi-repo merged branch cleanup utility
+- `git/sync-fork.ps1` — Fast-forward-only fork + local clone sync from upstream, with `-Install` scheduled task
+- `agent/prompts/SECURITY.md` — Open-source security reconciliation playbook (audit matrix, negative-control tests, live before/after, private disclosure, CI gates, Windows/Docker pitfalls)
 - `agent/` — Personal agent system (CFO, Career, Builder) and full product delivery pipeline (PMO → DevOps → QA)
 - `projects/auto/` — Single-page car project board (HTML + localStorage)
 
