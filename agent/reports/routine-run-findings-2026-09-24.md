@@ -38,3 +38,19 @@ Written by a manual catch-up session that re-ran failed routines in pipeline ord
 - **Cleanup done:** darkmoon and farm-3j merged agent worktrees removed; `darkmoon-solo` container (started by a pre-commit hook during PMO) stopped. **Kept:** `darkmoon/.claude/worktrees/docs-update-retry` has 2 never-PR'd commits ("chargeable weapon config", "weapon charge state", about 3 months old). Needs a human decision.
 - **ats-fill:** 12 screenshot-pipeline PRs merged overnight, then #92 "refresh UI screenshots" opened at 06:18, *after* #91 "prevent screenshot refresh merge loop". The loop may still be live.
 - **Merge gate:** the auto-mode classifier blocks `gh pr merge` from this session ("Merge Without Review"). Daily-note PRs (e.g. stash#107) need a human merge, or the next daily-repo-sync run's close-the-loop step.
+
+## Addendum 2: quota gating and schedule (evening, 2026-09-24)
+
+Context: weekly plan usage was at 72% with 5 days to reset, and extra usage was maxed ($101 of $100). This is for RSI to act on (Oct 2).
+
+- **Done:** `week-eng-mini` was set to run every weekday (`0 18 * * 1-5`) despite its name. It now runs weekly: `0 18 * * 3`, Wed 2pm ET.
+- **Gate every recurring routine on "has anything changed since my last report?"** Start each run with a cheap check and exit early with a one-line report if nothing changed:
+  - `eng-mini` / `eng-loc`: record each repo's HEAD SHA in the report and skip repos whose HEAD matches the previous report.
+  - `sun-vuln-patcher`: skip repos whose dependency manifests and lockfiles haven't changed since the last report. Re-check advisories for known versions only.
+  - `sun-stale-worktrees` / `week-vigil-check`: skip if `git ls-remote --heads` output (or open PR/issue counts) matches the previous report.
+  - `daily-pr-review`: exit early if the set of open PRs and their head SHAs is unchanged from yesterday's report.
+  - `monthly-tire-kick` already does this (14-day sweep skip, #120).
+- **`week-eng-mini` prompt is stale:** it still fetches `api.github.com/.../contents`, which returns 403 in the cloud sandbox and is why it misses `.gitignore`. Switch it to `git clone --depth 1` like the other rewritten routines, and read the repo list from scope.md.
+- **Model choice:** `daily-email` and `daily-pr-review` run on the default model. The summary-only routines (`daily-checkin`, `daily-email`) are candidates for a smaller model.
+- **Weekly-window timing:** the weekly limit resets Tue ~1am ET, so the Sun/Mon cluster (stale-worktrees, vuln-patcher, obn-import, vigil-check, eng-loc) runs at the end of the window, when it's most likely to be starved. Consider moving the heavier ones to Tue/Wed.
+- **Cleanup:** ~20 fired one-shot "Re-check PR #…" reminders (`created_kind: reminder`, `ended_reason: run_once_fired`) still come back from the routines API. They're disabled and don't run, and the API has no delete.
