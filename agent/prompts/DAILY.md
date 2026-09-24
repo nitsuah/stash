@@ -14,11 +14,13 @@ Run the sub-steps in order, starting with step 0. Each logs to its own file. Eac
 
 ### 0. Once per day, and close the loop first
 
-**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<YYYY-MM-DD>.md` exists on `origin/main`, or `gh pr list --repo nitsuah/stash --search "obn: daily note <YYYY-MM-DD> in:title" --state open` finds a PR. If so, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
+**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<YYYY-MM-DD>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <YYYY-MM-DD>` exists (`gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq '.[] | select(.title == "obn: daily note <YYYY-MM-DD>")'`). If so, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
 
 **Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
 
-1. `gh pr list --repo nitsuah/stash --search "obn: in:title" --state open` finds any open daily-note, weekly-note or weekly-review PR, including stray ones from the retired cloud weekly routines. Skip to step 4 if there are none.
+1. List the candidates with an **exact** filter, not GitHub's fuzzy title search. `"obn: in:title"` also matches unrelated PRs such as `obn-notes-run` (#100), and this step merges whatever it finds:
+   `gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName --jq '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/"))) | .number'`
+   That covers daily-note, weekly-note and weekly-review PRs, including stray ones from the retired cloud weekly routines. Skip to step 4 if there are none.
 2. Each one is at least a day old by definition, so:
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
    - If CI is green (or no CI is configured on this repo) and there are no unresolved review comments, merge it: `gh pr merge <PR> --squash --delete-branch`.
@@ -87,7 +89,7 @@ Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why t
 
 ### 4. Weekly note chain (Monday and Saturday only)
 
-Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start).
+Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start), and `YYYY` is the **ISO year**, not the calendar year. For example, Sat 2027-01-02 is `2026-W53`, so the review must go into `Weekly Notes/2026-W53.md`, the same file the Monday of that week created. Compute it with `python -c "import datetime as d; y,w,_=d.date.today().isocalendar(); print(f'{y}-W{w:02d}')"` or `[System.Globalization.ISOWeek]::GetYear((Get-Date))` / `GetWeekOfYear`. **Don't** use PowerShell's `Get-Date -UFormat %V`, which isn't reliably ISO on Windows.
 
 **Monday: create this week's weekly note.** Write `Weekly Notes/<YYYY>-W<ww>.md`, unless it already exists, in which case skip:
 

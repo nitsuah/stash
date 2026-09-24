@@ -25,11 +25,21 @@ $VaultRoot = (Resolve-Path "$PSScriptRoot\..").Path
 $CodeRoot  = "C:\Users\$env:USERNAME\code"
 $Today     = Get-Date -Format 'yyyy-MM-dd'
 
-$AllRepos = @(
-    'motor-pool', 'auto-apply-plugin', 'avatar', 'bb-mcp', 'darkmoon',
-    'farm-3j', 'fire', 'games', 'gcp', 'kryptos', 'nitsuah-io',
-    'opencut', 'opencut-controller', 'osrs', 'overseer', 'skyview', 'vhs'
-)
+# Repo list comes from the "## Tracked" table in agent/projects/scope.md (the
+# canonical registry), minus stash itself. It used to be hardcoded here and
+# drifted (still had motor-pool/opencut*, missed agent-board/deployer).
+$ScopeFile = Join-Path $VaultRoot 'projects\scope.md'
+$AllRepos = @()
+$inTracked = $false
+foreach ($line in Get-Content -LiteralPath $ScopeFile) {
+    if ($line -match '^## ') { $inTracked = $line -match '^## Tracked'; continue }
+    if (-not $inTracked) { continue }
+    if ($line -match '^\|\s*([A-Za-z0-9._-]+)\s*\|') {
+        $name = $Matches[1]
+        if ($name -notin @('Repo', 'stash') -and $name -notmatch '^-+$') { $AllRepos += $name }
+    }
+}
+if ($AllRepos.Count -eq 0) { throw "No repos parsed from the Tracked table in $ScopeFile" }
 
 $TargetRepos = if ($Repos.Count -gt 0) { $Repos } else { $AllRepos }
 
