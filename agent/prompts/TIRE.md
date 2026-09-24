@@ -59,7 +59,7 @@ Never force-push, rewrite history, or change repo settings, rulesets or secrets.
 
 ## 4. Docker health check sweep
 
-Only if budget remains after §3. Run it sequentially per repo to avoid I/O contention. Prefer repos with no health check in the last 60 days.
+Only if budget remains after §3. Skip a repo if a `tire-kick-*.md` report from the last 14 days already swept it; say so in the report. Otherwise run the sweep sequentially per repo to avoid I/O contention, preferring repos with no health check in the last 60 days.
 
 - Use Docker: `docker compose -p <repo> ... run --rm` if a compose file exists, else `docker build` + `docker run`. Always `--build`. Always pass `-p <name>` for `config/docker-compose*.yml`, because several repos share the inferred project name `config` and would collide.
 - Checks: lint, then type-check, then unit tests, then fast smoke tests (<2 min). Skip slow E2E, Playwright and network tests unless CI runs them in Docker.
