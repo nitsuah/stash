@@ -1,138 +1,111 @@
-# Tire Kick — Repo Health Check Prompt
+# Tire Kick: Findings Fix Queue + Repo Health Check
 
-Run a full health check across all in-scope repos. Verify each is up to date, test it via Docker, fix any issues found, open PRs, wait for CI, and compile a report.
+TIRE closes the loop on the report routines. Most routines only report: eng-mini, eng-loc, vuln-patcher, stale-worktrees, daily-pr-review, obn-import and metrics. TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
+
+**Runs:** monthly on the 28th (`monthly-tire-kick` scheduled task), so the ledger is current before [[PMO]] (1st) and [[RSI]] (2nd). It can also be run on demand at any time.
+
+**Who owns what:**
+- Reports **find** things.
+- TIRE **fixes the small ones** and tracks everything in the ledger.
+- [[PMO]] takes the items TIRE marks `pmo`.
+- [[RSI]] checks whether items age out. An item open more than 3 weeks means a routine isn't closing the loop, and RSI fixes that routine rather than the item.
 
 ---
 
 ## Scope
 
-In-scope repos are defined in `C:\Users\ajhar\code\stash\agent\projects\scope.md`:
-
-```bash
-- motor-pool
-- auto-apply-plugin
-- darkmoon
-- farm-3j
-- fire
-- games
-- kryptos
-- nitsuah-io
-- overseer
-- stash   ← code stash only; no docker/deploy
-- vhs
-```
+Repos: the **"Tracked" table** in `C:\Users\ajhar\code\stash\agent\projects\scope.md` (local path, GitHub URL, org). Read it live every run; don't keep a copy of the list here. For stash itself, do the findings intake and ledger only, with no Docker/deploy checks.
 
 ---
 
-## Instructions
+## 1. Git triage (per repo)
 
-### 1. Git Triage (per repo)
+- `git -C <path> branch --show-current` and `git -C <path> worktree list`.
+- If the repo isn't on `main`/`master`, is dirty, or has a user worktree outside `.claude/worktrees/`: **skip changes to it**. Note the branch in the report. Its findings still go in the ledger.
+- Otherwise run `git pull --ff-only`.
 
-For each repo:
+## 2. Findings intake → ledger
 
-- Check current branch: `git branch --show-current`
-- Check for active worktrees: `git worktree list`
-- If not on `main`/`master`, or if an active user worktree exists (outside `.claude/worktrees/`): **SKIP** — note the branch name in the report
-- If on main: `git pull --ff-only origin main` to ensure latest
+Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it from the template below if it's missing.
 
-### 2. Reconnaissance (parallel)
+1. **Window:** reports dated after the ledger's `Last intake:` date (first run: the last 35 days).
+2. **Sources:** read every report in the window:
+   - `agent/reports/eng-mini-*`, `eng-loc-*`, `metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
+   - `agent/reports/cloud/**` (vuln-patcher, stale-worktrees, daily-pr-review, obn-import, ...)
+   - the `## Notes` section of `Daily Notes/*.md` in the window
+   - Skip `daily-email`, `daily-checkin` and `week-fin-sum` output. That's personal, not repo work.
+3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
+4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
+5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it.
+6. **Classify** each open item:
+   - `quick`: small, mechanical, low risk, and verifiable with tests or CI. Examples: `git rm --cached` a generated file, a patch/minor dependency bump for an advisory, `.gitignore` or lint-config fixes, a doc fact that is provably wrong, deleting remote branches whose PR is merged or closed.
+   - `pmo`: planning or roadmap work, anything that needs product judgment, and multi-file refactors. **Most eng-loc (LOC) findings belong here.**
+   - `human`: security-sensitive, destructive, licensing, touching secrets or credentials, major-version upgrades with breaking changes, or anything that needs an account or setting change.
+   - `routine`: the finding is really a bug in a routine or prompt. Leave it for [[RSI]].
 
-For each active repo, in parallel:
+## 3. Fix `quick` items (budget: at most 5 PRs per run)
 
-- Read `README.md`
-- Read `docs/` folder (if present)
-- Identify test/lint commands from: `Makefile`, `package.json`, `pyproject.toml`, `Cargo.toml`, `docker-compose.yml`, `Dockerfile`
-- Note which CI workflows exist in `.github/workflows/`
-- Check if config has moved to `config/` subdirectory (common pattern in these repos)
+Pick the oldest or most-repeated `quick` items first, and group items for the same repo into one PR where that makes sense.
 
-### 3. Pull Latest
+1. `git checkout -b tire/<repo>/<short-theme>-<YYYY-MM-DD>` in the repo (or `EnterWorktree` if running in the background; see Tips).
+2. Fix the root cause, not a workaround. Verify via Docker, not the host toolchain (see §4 for commands).
+3. Commit with what and why, and reference the ledger IDs (`Fixes F-20260924-03`).
+4. `git push -u origin <branch>`, then `gh pr create --repo <owner>/<repo> --base main`. List the ledger IDs and the source report in the PR body.
+5. Poll `gh pr checks`. When all checks are green, `gh pr merge --squash --delete-branch`. If a required review blocks the merge, leave the PR open and mark the item `pr-open`.
+6. If CI fails and the fix isn't obvious within one retry, close nothing and leave the PR open. Mark the item `blocked` with the reason.
+7. Update the ledger row: status, PR link, date.
 
-- `git pull --ff-only origin main` for all active repos simultaneously
+Never force-push, rewrite history, or change repo settings, rulesets or secrets. Those are always `human`.
 
-### 4. Docker Health Check (sequential per repo to avoid I/O contention)
+## 4. Docker health check sweep
 
-Run checks in this order using Docker (not host toolchain). Prefer `docker compose run --rm` if a compose file exists; otherwise `docker build + docker run`.
+Only if budget remains after §3. Run it sequentially per repo to avoid I/O contention. Prefer repos with no health check in the last 60 days.
 
-Always use `--build` flag when building to avoid stale cached images. Watch for:
+- Use Docker: `docker compose -p <repo> ... run --rm` if a compose file exists, else `docker build` + `docker run`. Always `--build`. Always pass `-p <name>` for `config/docker-compose*.yml`, because several repos share the inferred project name `config` and would collide.
+- Checks: lint, then type-check, then unit tests, then fast smoke tests (<2 min). Skip slow E2E, Playwright and network tests unless CI runs them in Docker.
+- Each failure becomes a ledger item (source `tire-health`). Fix it under §3's budget if it's `quick`; otherwise classify it and leave it.
 
-- **Image naming collisions**: If a repo uses `config/docker-compose.yml`, default image names like `config-test` collide across repos. Fix by adding explicit `image:` fields.
+Common issues from past runs:
+- ESLint linting `.claude/worktrees/` → add `.claude/` to ignores.
+- `next lint` was removed in Next.js 16 → use `eslint .`.
+- `ruff` with `fix = true` modifies files through a mounted volume (kryptos). That's expected; commit the result.
+- mypy pre-commit failures that CI doesn't run: note them as pre-existing, don't fix them.
 
-For each repo, run what applies:
+## 5. Report + ledger PR (stash)
 
-1. **Lint** — ESLint, ruff, flake8, cargo clippy, etc.
-2. **Type-check** — tsc, mypy (if in CI), etc.
-3. **Unit tests** — vitest, jest, pytest, cargo test, etc.
-4. **Smoke tests** — if defined and fast (<2 min)
-5. Skip slow E2E/Playwright/network-dependent tests unless they run as part of the Docker CI pipeline
+stash is a **PUBLIC** repo. Ledger and report entries name repos, files, package names, versions and public advisory IDs only. Never include secrets, tokens, email addresses, private personal details or working exploit steps.
 
-Special case — **stash**: no docker/deploy; just review directory structure and confirm no tests exist.
+1. Write `C:\Users\ajhar\code\stash\agent\reports\tire-kick-<YYYY-MM-DD>.md` with these sections:
+   - **Intake:** sources read, items added, items deduplicated, items found already fixed.
+   - **Fixed:** repo, ledger ID, PR, status.
+   - **Handed off:** the `pmo`, `human` and `routine` items, one line each.
+   - **Health check:** per repo: checks run and result (✅/❌), or skipped and why.
+   - **Aging:** open items with `Seen` ≥ 3 or first seen more than 21 days ago. This is RSI's input.
+2. Set the ledger's `Last intake:` to today.
+3. In stash: branch `tire/stash/ledger-<YYYY-MM-DD>`, commit **only** `agent/reports/findings-ledger.md` and `agent/reports/tire-kick-<date>.md`, then open a PR. It's a report-only PR, so once `Install & syntax check` passes, squash-merge **that PR only**.
 
-### 5. On Failure: Branch → Fix → PR → Monitor
-
-If any check fails:
-
-1. `git checkout -b fix/<descriptive-name>` in the affected repo
-2. Fix the root cause (not a workaround — find the real issue)
-3. Verify the fix locally via Docker before pushing
-4. Commit with a clear message (what + why)
-5. `git push -u origin fix/<name>`
-6. `gh pr create --repo <org>/<repo> --head fix/<name> --base main ...`
-7. Poll CI: `gh pr checks <PR#> --repo <org>/<repo>`
-8. Once fully green: `gh pr merge <PR#> --repo <org>/<repo> --squash --auto` (or merge via web if branch protections require review)
-
-Common issues to watch for:
-
-- ESLint linting `.claude/worktrees/` directory → add `.claude/` to ignores
-- `next lint` removed in Next.js 16 → replace with `eslint . --ext .js,.jsx,.ts,.tsx`
-- Docker image name collisions (same `config/` dir layout across repos)
-- `ruff` with `fix = true` in pyproject.toml auto-modifies files when run via mounted volume
-- mypy pre-commit hook failures that are pre-existing (check if CI runs mypy; if not, note as pre-existing)
-
-### 6. Report
-
-After all repos are checked and all PRs merged (or noted as pending), write a report to:
-
-```
-C:\Users\ajhar\code\stash\agent\projects\TIRE\YYYY-MM-DD-tire-kick.md
-```
-
-Report structure:
+### Ledger template
 
 ```markdown
-# Tire Kick Report — YYYY-MM-DD
+# Findings ledger
 
-## Scope
-Table of repos with: branch tested, status (✅ tested / ⚠️ skipped)
+Maintained by [[TIRE]]. Read by [[PMO]] (`pmo` items) and [[RSI]] (aging).
+Last intake: YYYY-MM-DD
 
-## Test Results by Repo
-Per repo:
-- Language/stack
-- What checks ran and their result (✅/❌)
-- Issues found (specific error messages, file:line)
-- Fix applied (PR link)
-
-## Summary of Issues Found & Fixed
-Table: Repo | Issue | PR | Severity
-
-## Clean Repos
-List of repos with zero issues
-
-## Skipped Repos
-List with reason (active branch name)
-
-## Notes
-- Docker version used
-- What was NOT tested (E2E, slow tests, etc.)
+| ID | First seen | Last seen | Seen | Source | Repo | Finding | Class | Status | Link |
+|----|-----------|-----------|------|--------|------|---------|-------|--------|------|
 ```
+
+- **ID:** `F-<first-seen YYYYMMDD>-<NN>`.
+- **Status:** one of `open`, `pr-open`, `blocked`, `done`, `wontfix`.
+- Keep rows marked `done` or `wontfix` for one cycle, then move them under a `## Closed` heading at the bottom.
 
 ---
 
-## Tips From Previous Runs
+## Tips from previous runs
 
-- **Parallel recon, sequential Docker**: Spawn recon subagents in parallel; run Docker builds sequentially to avoid overwhelming the daemon.
-- **Worktree detection**: `git worktree list` — skip if any non-`.claude/worktrees/` worktree exists (user is likely mid-work).
-- **Background jobs use TIRE dir**: This prompt is designed to be run as a background agent. Write the report to `stash/agent/projects/TIRE/` as a persistent artifact.
-- **EnterWorktree required**: Background sessions require `EnterWorktree` before editing files. The worktree must be within the target repo. Use `git -C <repo> diff > patch.diff` + `git apply` to transfer unstaged changes into the worktree if needed.
-- **Pre-commit hooks that modify files**: After black/isort/etc. modify files and abort a commit, `git add -A` and retry — the second attempt should pass.
-- **kryptos ruff**: `fix = true` in pyproject.toml means `ruff check` auto-modifies files when a volume is mounted. This is expected behavior; commit the result.
-- **nitsuah-io lint**: Use `gh pr create --head <branch> --base main` explicitly when running `gh` from a different repo's worktree context.
+- **Parallel recon, sequential Docker.** Recon subagents can run in parallel; run Docker builds one at a time.
+- **EnterWorktree is required in background sessions** before editing files. The worktree must be inside the target repo.
+- **Pre-commit hooks that modify files:** after black/isort abort a commit, `git add -A` and retry.
+- **Cross-repo `gh`:** always pass `--repo <owner>/<repo>` (and `--head`), because `gh` otherwise infers the repo from the cwd.
+- **stash's pre-commit hook** runs gitleaks and the PII scan. If it blocks the ledger commit, fix the content; never use `--no-verify`.
