@@ -1,0 +1,49 @@
+# Findings ledger
+
+Maintained by [[TIRE]]. Read by [[PMO]] (`pmo` items) and [[RSI]] (aging).
+Last intake: 2026-09-24
+
+| ID | First seen | Last seen | Seen | Source | Repo | Finding | Class | Status | Link |
+|----|-----------|-----------|------|--------|------|---------|-------|--------|------|
+| F-20260901-01 | 2026-09-01 | 2026-09-16 | 2 | eng-mini | darkmoon | `test-results/.last-run.json` tracked despite `test-results/` in `.gitignore`; untrack | quick | done | [darkmoon#459](https://github.com/nitsuah/darkmoon/pull/459) |
+| F-20260901-02 | 2026-09-01 | 2026-09-01 | 1 | eng-mini | kryptos | 2 `.playwright-mcp/page-2026-06-27*` artifacts tracked despite `.playwright-mcp/` in `.gitignore`; untrack | quick | done | [kryptos#221](https://github.com/nitsuah/kryptos/pull/221) |
+| F-20260916-01 | 2026-09-16 | 2026-09-24 | 3 | eng-mini | fire | `coverage_summary.txt` tracked despite being in `.gitignore`; `git rm --cached` | quick | open | Skipped 2026-09-24: fire `main` has a staged uncommitted file |
+| F-20260924-01 | 2026-09-24 | 2026-09-24 | 2 | routine-run-findings, pmo-audit | stash | `scope.md` overseer row gave local path `code\overseer`; clone is `code\vigil` | quick | done | [stash#121](https://github.com/nitsuah/stash/pull/121) |
+| F-20260924-02 | 2026-09-24 | 2026-09-24 | 1 | eng-mini | stash | `agent/repos/games.md` claims stale root `ROADMAP.md`/`TASKS.md` duplicates that games#254 removed | quick | done | [stash#121](https://github.com/nitsuah/stash/pull/121) |
+| F-20260901-03 | 2026-09-01 | 2026-09-16 | 2 | eng-mini | darkmoon | Move root `CHANGELOG.md`, `FEATURES.md` → `docs/` (7 references to update) | pmo | open | eng-mini-darkmoon-2026-09-16 |
+| F-20260916-02 | 2026-09-16 | 2026-09-23 | 2 | eng-mini | skyview | Move root `CHANGELOG.md`, `FEATURES.md` → `docs/` (4 references to update) | pmo | open | eng-mini-skyview-2026-09-23 |
+| F-20260923-01 | 2026-09-23 | 2026-09-23 | 1 | eng-mini | skyview | Optional move of `.pre-commit-config.yaml`, `playwright.config.ts` → `config/` (path fixes needed) | pmo | open | eng-mini-skyview-2026-09-23 |
+| F-20260923-02 | 2026-09-23 | 2026-09-23 | 1 | eng-mini | skyview | `docs/archive/` setup docs vs root `SETUP.md`: confirm which are superseded | pmo | open | eng-mini-skyview-2026-09-23 |
+| F-20260924-03 | 2026-09-24 | 2026-09-24 | 1 | pmo-audit | overseer (vigil) | Stale `docs/TASKS\|ROADMAP\|METRICS\|FEATURES.md` copies shadow the root files; still present | pmo | open | pmo-audit-2026-09-24 §3.6 |
+| F-20260924-04 | 2026-09-24 | 2026-09-24 | 1 | pmo-audit | gcp | `gcp_setup.py` at 0% coverage; TASKS P2 added, no tests yet | pmo | open | [gcp#67](https://github.com/nitsuah/gcp/pull/67) |
+| F-20260901-05 | 2026-09-01 | 2026-09-01 | 1 | eng-loc | auto-apply-plugin | `background/service-worker.js` (1,314 LOC, untested): extract message routing and state sync | pmo | open | eng-loc-auto-apply-plugin-2026-09-01 |
+| F-20260916-04 | 2026-09-16 | 2026-09-16 | 1 | eng-loc | darkmoon | `src/components/characters/useBotAI.ts`: split into perception/movement/combat hooks | pmo | open | eng-loc-darkmoon-2026-09-16 |
+| F-20260916-05 | 2026-09-16 | 2026-09-16 | 1 | eng-loc | fire | `app/routes/sync.js` (942 LOC): split eBay/Plaid routes, extract transactions handler | pmo | open | eng-loc-fire-2026-09-16 |
+| F-20260901-06 | 2026-09-01 | 2026-09-01 | 1 | eng-loc | kryptos | `src/kryptos/api/k4_attack_routes.py`: extract `_run_attack_worker` job state and dispatch | pmo | open | eng-loc-kryptos-2026-09-01 |
+| F-20260916-06 | 2026-09-16 | 2026-09-16 | 1 | eng-loc | skyview | `netlify/functions/api-bookings.mjs`: add coverage, then split billing from routing | pmo | open | eng-loc-skyview-2026-09-16 |
+| F-20260901-07 | 2026-09-01 | 2026-09-01 | 1 | eng-loc | stash | `atlassian/jira/validate_project.py` (1,051 LOC): structural read before planning extraction | pmo | open | eng-loc-stash-2026-09-01 |
+| F-20260901-08 | 2026-09-01 | 2026-09-24 | 9 | eng-mini | darkmoon, fire, games, kryptos, skyview, stash | Root placement decision for `LICENSE` (plus darkmoon/skyview `ROADMAP.md`/`TASKS.md`, skyview `SETUP.md`/`config.js`); deferred to the Overseer on every run | human | open | eng-mini-*-2026-09-* |
+| F-20260917-02 | 2026-09-17 | 2026-09-24 | 3 | daily notes (stale-worktrees) | fire | 5 stale agent worktrees flagged since 2026-06/08 with no movement; need a keep/remove decision | human | open | Daily Notes 2026-09-17, 09-23, 09-24 |
+| F-20260924-12 | 2026-09-24 | 2026-09-24 | 2 | routine-run-findings, pmo-audit | auto-apply-plugin | Parked on merged `chore/chrome-web-store-cicd` with 8 uncommitted changes; `icons/icon32.png` is 768×768, should be 32×32 | human | open | routine-run-findings-2026-09-24 §5 |
+| F-20260924-13 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | Duplicate disabled one-shot "Re-check PR" triggers crowd `RemoteTrigger list`; deleting needs approval | human | open | routine-run-findings-2026-09-24 §6 |
+| F-20260924-14 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | 8 cloud routines write results only to their transcript; reporting channel decision pending | human | open | routine-run-findings-2026-09-24 §6 |
+| F-20260917-01 | 2026-09-17 | 2026-09-24 | 3 | daily notes (obn-repo) | stash | `agent/scripts/sync-repos.ps1` hardcoded default repo list is stale (motor-pool, opencut; missing agent-board, deployer, skyview); every run bypasses it | routine | open | Daily Notes 2026-09-17, 09-23, 09-24 |
+| F-20260924-16 | 2026-09-24 | 2026-09-24 | 1 | daily notes | stash | `DAILY.md` `gh` queries use `nitsuah/<repo>` for deployer and nitsuah-io (should be `Nitsuah-Labs`) | routine | open | Daily Notes 2026-09-24 |
+| F-20260924-17 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | stash | daily-repo-sync writes obn-repo/obn-review output into stash `main` without committing, then skips stash as dirty | routine | open | routine-run-findings-2026-09-24 §4 |
+| F-20260924-18 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | Read-only routines (week-eng-loc, week-vigil-check, sun-stale-worktrees, sun-vuln-patcher) escalate to `add_repo` push for REST calls | routine | open | routine-run-findings-2026-09-24 §2 |
+| F-20260924-19 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | stash | week-obn-review collects checkboxes that daily notes never contain; week-obn-notes Goals never filled | routine | open | routine-run-findings-2026-09-24 §3 |
+| F-20260924-20 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | Catch-up runs fired together hit the five_hour cap; backfills must be serialized | routine | open | routine-run-findings-2026-09-24 §1 |
+| F-20260924-21 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | week-fin-sum prompt tells it to use a fire MCP that cloud can't reach | routine | open | routine-run-findings-2026-09-24 §5 |
+| F-20260924-22 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | cloud routines | Routine "succeeded" states hide no-ops and unmerged output (daily-repo-sync 9/03 10 s run; week-metrics 9/18 stash#99 closed unmerged) | routine | open | routine-run-findings-2026-09-24 §6 |
+| F-20260904-02 | 2026-09-04 | 2026-09-04 | 1 | metrics | stash | `agent/prompts/METRICS.md` has no cloud-native path (fresh clone, no Docker) | routine | open | metrics-2026-09-04 |
+| F-20260916-03 | 2026-09-16 | 2026-09-23 | 2 | eng-mini | fire | Move root `CHANGELOG.md`, `FEATURES.md` → `docs/` | pmo | done | Executed before eng-mini-fire-2026-09-24 |
+| F-20260901-04 | 2026-09-01 | 2026-09-01 | 1 | eng-mini | games | Move root `CHANGELOG.md` → `docs/` | pmo | done | games root has only `README.md` as of 2026-09-24 |
+| F-20260916-07 | 2026-09-16 | 2026-09-16 | 1 | pmo-audit | farm-3j | Docker v8 coverage reports 0% | pmo | done | [farm-3j#349](https://github.com/nitsuah/farm-3j/pull/349) |
+| F-20260916-08 | 2026-09-16 | 2026-09-16 | 1 | pmo-audit | kryptos | `docs/ROADMAP.md` Next Review overdue (2026-09-15) | quick | done | [kryptos#220](https://github.com/nitsuah/kryptos/pull/220) |
+| F-20260924-05 | 2026-09-24 | 2026-09-24 | 2 | pmo-audit, routine-run-findings | osrs | P0 Docker build broken (numpy 2.5.3 needs Python ≥3.12) | pmo | done | [osrs#44](https://github.com/nitsuah/osrs/pull/44) |
+| F-20260924-06 | 2026-09-24 | 2026-09-24 | 2 | pmo-audit, routine-run-findings | deployer | CI Slither job green but analyzed 0 contracts | pmo | done | deployer#165 (`12c6729`) |
+| F-20260924-07 | 2026-09-24 | 2026-09-24 | 2 | pmo-audit, routine-run-findings | games | Coverage 61% vs 95% claimed; Tank Battle untested; CI didn't run coverage | pmo | done | [games#342](https://github.com/nitsuah/games/pull/342) |
+| F-20260924-08 | 2026-09-24 | 2026-09-24 | 2 | pmo-audit, routine-run-findings | fire | Branch coverage 68.68% < 70%; CI didn't run coverage; Docker test image `chown` | pmo | done | [fire#119](https://github.com/nitsuah/fire/pull/119) |
+| F-20260924-09 | 2026-09-24 | 2026-09-24 | 1 | pmo-audit | agent-board | Untracked `tools/opencut*` clones kept the repo dirty | quick | done | [agent-board#79](https://github.com/nitsuah/agent-board/pull/79) |
+| F-20260924-10 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | auto-apply-plugin | Screenshot refresh PR merge loop (ats-fill #92 after #91) | quick | done | ats-fill#93, #95 (rolling PR); no refresh PRs since |
+| F-20260924-11 | 2026-09-24 | 2026-09-24 | 1 | routine-run-findings | darkmoon | `.claude/worktrees/docs-update-retry` held 2 never-PR'd commits | human | done | Worktree and branch no longer exist as of 2026-09-24; nothing left to act on |
