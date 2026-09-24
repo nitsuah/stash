@@ -10,6 +10,8 @@ All notable changes to this project are documented here.
 - **Raw `err.message` leaked to API clients** — `tapes.js`, `jobs.js`, `server.js`, and the two remaining DB paths in `valuate.js` returned PostgreSQL error text directly to callers. All now go through a shared `serverError()` helper (`src/modules/http-errors.js`) that logs server-side and returns a fixed message.
 - **`/api/logs` unauthenticated** — gated with `requireAuth` (no-op in single-user mode).
 - **Docker/config coverage mismatch** — Dockerfile now copies `jest.config.js`, so `docker run … npx jest --coverage` honors `collectCoverageFrom`/`coverageThreshold` instead of silently measuring the whole tree ungated.
+- **`/api/logs/stream` vs `/api/logs` mismatch** (2026-09-11) — `public/js/ui.js` now opens `new EventSource('/api/logs')`, matching the server's single route, which already branches on the `Accept: text/event-stream` header `EventSource` sends automatically; the live log panel now receives real SSE events instead of silently hitting the SPA catch-all.
+- **Mobile export menu wiring was dead** (2026-09-11) — added the missing "Data" section to the `#hbr-drawer` markup (add/fill/revalidate/import/export buttons and the export sub-menu) so the already-written click handlers and CSS in `public/js/ui.js` had elements to bind to; also synced the AI-availability visibility toggle and export dropdown parity for the new mobile ids.
 
 ### Removed
 

@@ -1,6 +1,6 @@
 # skyview - Static marketing site and client portal
 
-**Last Validated:** 2026-09-18 | PMO audit - Docker-first validation
+**Last Validated:** 2026-09-24 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/skyview
 **Branch convention:** pmo/skyview/planning-alignment-YYYY-MM-DD
 
@@ -38,7 +38,11 @@
 
 **P1:** Complete the launch checklist with verified production identity data (real phone, email, address/geo, social URLs) — config plumbing is done; blocked only on the business owner supplying real values.
 
-No other P0/P1 items open; remaining TASKS.md items (signed client-file delivery, marketplace/Calendly cutover activation, analytics activation, testimonials, A/B experiments, dependency audit) are P2/P3.
+**P1 (new since last review):** Bring the marketplace backend live in production. Calendly is gone from the marketing site, and the "Find an operator", "Post a job" and hero CTAs now link to `/app/register`, so production registration and booking must work. This needs `db:migrate` against the production Neon DB (through migration 006) and the Stripe/Resend/JWT/PORTAL_SALT/DATABASE_URL env vars in Netlify, followed by one real end-to-end booking pass.
+
+**P1 (new since last review):** Verify production auth/env end-to-end. Check the Google OAuth env vars and the authorized redirect URI (`/api/auth/google/callback`), then have a human do one real "Continue with Google" sign-in and one real password-reset email (Resend sender domain verified). The routing fix is unit-tested, but nobody has run the OAuth round trip itself.
+
+All three P1s need human or owner access (business data, Netlify, Neon, Google Console). None of them is blocked on code. The other TASKS.md items (per-client storage backend, scheduling hardening, analytics, testimonials, A/B, dependency audit) are P2/P3.
 
 ## Priority Focus
 

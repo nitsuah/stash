@@ -15,6 +15,7 @@ Keep the Claude Code routine stack healthy and improving month over month, using
 3. `mcp__scheduled-tasks__list_scheduled_tasks` + `list_task_runs` for every task — live current state, not the reports' snapshot.
 4. `daily-git-sync.log` and `stale-worktrees.log` tails.
 5. `agent/projects/scope.md` — the canonical repo registry (added 2026-09-16). Cross-check it against `gh repo list nitsuah` / `gh repo list Nitsuah-Labs` each cycle: flag any repo that appeared/disappeared/changed visibility since scope.md was last touched, and flag any of `DAILY.md`/`PMO.md`/`METRICS.md`/the `monthly-pmo-audit` scheduled-task wrapper whose cached inline repo list has drifted from scope.md's Tracked table (they're meant to be synced manually until every routine reads scope.md live — see below).
+6. Any `stash/agent/reports/routine-run-findings-<YYYY-MM-DD>.md` from this cycle. Manual catch-up and debug sessions write cited findings there. Example, 2026-09-24: serialize quota use, read-only cloud routines escalate to push access, the obn weekly pair is disconnected, daily-repo-sync never commits its stash writes. Treat each item as evidence to verify, not as a pre-approved change.
 
 ## Artifacts & cycles — what reads what, so nothing silently drifts
 

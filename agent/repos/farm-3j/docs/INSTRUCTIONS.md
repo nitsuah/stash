@@ -26,6 +26,6 @@
 
 **For more context, see:**
 
-- `docs/FARM-RTS-TODO.md` (milestones, design notes)
-- `TASKS.md` (current progress)
+- `docs/Farm_RTS_Game_Manual.md` (design notes, North Star vision)
+- `TASKS.md` (current progress), `FEATURES.md` (shipped capabilities)
 - `.github/copilot-instructions.md` (coding standards)

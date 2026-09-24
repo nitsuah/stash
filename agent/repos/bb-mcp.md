@@ -1,6 +1,6 @@
 # bb-mcp PMO Runbook
 
-> Reviewed: 2026-09-16
+> Reviewed: 2026-09-23
 
 ## Overview
 

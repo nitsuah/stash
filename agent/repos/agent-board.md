@@ -1,6 +1,6 @@
 # motor-pool
 
-> Reviewed: 2026-09-11
+> Reviewed: 2026-09-24
 
 ## Overview
 
@@ -39,9 +39,10 @@ Local-first AI ops cockpit — chat surface, safety rails, and live observabilit
 - [ ] **P2** Blackboard agent demo mode
 - [ ] **P2** Replace Docker socket mount in content-gen with MPT sidecar (security issue)
 - [ ] **P2** Expand test coverage to ≥20 tests for core agent flows
-- [ ] **P1 PERFORMANCE** Setup turbovec to decrease LLM memory usage (follow-up)
 
-Completed P1: Docker optimization pass (minimal stack = agent-db + ollama + dashboard; nemoclaw/jaeger gated); API docs rewrite.
+**No open P1 items** as of `docs/TASKS.md` after the 2026-09-23 `fix/nits` docs pass (PR #78): coverage (≥80%), CI unit-test gate + lcov upload, and the coverage baseline are all complete and condensed into CHANGELOG/ROADMAP 2027 Q1. The former "P1 PERFORMANCE turbovec" line no longer appears as a P1 in TASKS.md. (The list above is P2 backlog, kept for context.)
+
+Completed P1: Docker optimization pass (minimal stack = agent-db + ollama + dashboard; nemoclaw/jaeger gated); API docs rewrite; coverage/CI gate work.
 
 ## Blockers
 
