@@ -51,6 +51,7 @@ Options: `-Branch` (default `master`), `-UpstreamRemote` (default `upstream`), `
   - If you're on another branch, the ref moves in the background.
   - If you're on it with uncommitted changes, that run is skipped.
 - Never merges, rebases or force-pushes, and leaves feature branches alone.
+- If any step fails (fork sync, fetch, fast-forward), it logs why and exits `1`, so Task Scheduler's "Last Run Result" shows the failure. Relative `-RepoPath`/`-LogPath` are resolved before installing, since tasks run from `system32`.
 
 **Requirements:** `gh` logged in, and a local clone with an `upstream` remote. Your token needs the `workflow` scope (`gh auth status`), otherwise any upstream commit that touches `.github/workflows/` is rejected.
 

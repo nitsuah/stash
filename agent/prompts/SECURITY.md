@@ -16,13 +16,16 @@ Distilled from the 9router work (September 2026): decolua/9router #4286, #4288, 
 
 - The upstream repo and its default-branch commit (record the SHA).
 - Historical security PRs and linked issues.
-- `gh api repos/<owner>/<repo>/security-advisories`: every published GHSA with its description and patched range.
+- `gh api --paginate repos/<owner>/<repo>/security-advisories`: every published GHSA with its description and patched range. Without `--paginate` you only get the first 30.
 - Open issues matching security terms (auth, bypass, SSRF, spoof, secret, token, CVE, GHSA, MCP, …).
 - `git log --grep` for security, GHSA, SSRF and auth on the default branch, to learn the maintainer's current architecture.
 
 ## Disclosure Rules (read first)
 
-1. **Report live holes privately.** If a finding is exploitable on the default branch today and not already public, use the private channel: `POST /repos/<owner>/<repo>/security-advisories/reports`. Attach the patch inline. Do not push the fix branch.
+1. **Report live holes privately.** If a finding is exploitable on the default branch today and not already public, report it privately. Attach the patch inline, and don't push the fix branch.
+   - First check `gh api repos/<owner>/<repo>/private-vulnerability-reporting` (returns `{"enabled": true|false}`).
+   - If it's enabled, submit with `POST /repos/<owner>/<repo>/security-advisories/reports`.
+   - If it's disabled, use the private contact in the repo's `SECURITY.md` (or the org's). If there isn't one, stop and ask the user to get a private contact from the maintainers. **Never** fall back to a public issue or PR.
 2. **Keep public text neutral.** PR bodies, commit messages and comments must not describe a still-unfixed hole. Write "reported privately".
 3. **Edits aren't deletions.** GitHub keeps a public edit history on PR/issue text. If sensitive text slips out, the author must delete the revision in the UI; there's no API for it.
 4. **Check before publishing.** Before opening a PR that fixes a live issue, ask whether the maintainer has seen it. Prefer private report → fix → public PR.
