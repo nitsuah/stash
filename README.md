@@ -31,6 +31,7 @@ A searchable reference to every artifact in this repository, organized by catego
 | [detect-server-v03d.ps1](windows/pwsh/detect-server-v03d.ps1) | JVM server type detection — identifies JBoss installations, maps environment topology, validates configs | PowerShell 5.1+ | Migration prep; environment discovery; server inventory audits | PowerShell 5.1+, domain access |
 | [ConvertCSV-ToExcel.ps1](windows/pwsh/ConvertCSV-ToExcel.ps1) | Batch CSV to Excel conversion with auto-formatting, header styling, data type detection, and proper COM lifecycle management | PowerShell 5.1+, Excel COM | Recurring report generation; converting data exports to formatted Excel for stakeholders | PowerShell 5.1+, Microsoft Excel installed |
 | [cleanup-branches.ps1](git/cleanup-branches.ps1) | Multi-repo branch cleanup — scans all repos under a root path, prunes merged branches locally and from origin; supports `-DryRun` and `-Force` | PowerShell 5.1+, git | Workspace hygiene; cleaning up merged branches across many repos after sprint cycles | PowerShell 5.1+, git in PATH |
+| [sync-fork.ps1](git/sync-fork.ps1) | Keeps a GitHub fork and its local clone level with upstream (fast-forward only); `-Install` registers an hourly + at-logon scheduled task | PowerShell 5.1+, gh, git, Task Scheduler | Contributing to repos you don't own without pressing "Sync fork" or starting work on a stale default branch | `gh` logged in with `workflow` scope; clone with an `upstream` remote |
 
 ### Batch Scripts (Windows CMD)
 

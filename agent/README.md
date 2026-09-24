@@ -25,6 +25,7 @@ Use as system prompts in Claude.ai or load via the Anthropic SDK.
 | Software Engineer | [prompts/ENG.md](prompts/ENG.md) | Implement features, refactor, fix bugs |
 | DevOps | [prompts/OPS.md](prompts/OPS.md) | Validate infra, CI/CD, ship via branch + PR |
 | QA | [prompts/QA.md](prompts/QA.md) | Verify quality, prevent regressions |
+| Security | [prompts/SECURITY.md](prompts/SECURITY.md) | Reconcile security PRs/advisories against current upstream, prove fixes, disclose privately |
 | Oncall | [prompts/Oncall.md](prompts/Oncall.md) | Incident response, user feedback triage |
 | Automation | [prompts/AUTO.md](prompts/AUTO.md) | Internal tooling and workflow automation |
 | Growth | [prompts/Growth.md](prompts/Growth.md) | Monetization, adoption, growth experiments |
