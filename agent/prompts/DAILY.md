@@ -6,11 +6,25 @@
 
 **Reordered 2026-09-16:** `obn` (below) now runs *first*, not last. `obn-review.log` showed this file's sections only completed end-to-end on Jun 25, Sep 11, and Sep 16 — big gaps — because the old order made a single session churn through 17 repos of sync + worktree pruning before ever reaching the daily note, so the note (the part actually worth reading day to day) was the most likely thing to get dropped when a run ran long. There were also 3 separate cloud routines (`daily-git-sync`, `obn-repo`, `obn-notes`) independently trying to cover this same ground with their own drifted, simpler prompts instead of reading this file — disabled 2026-09-16 in favor of this file being the single source of truth, run to completion by `daily-repo-sync`.
 
-**Priority if a run is short on time/turns:** finish `obn` completely (all 3 sub-steps, including the daily note) before spending remaining budget on repo sync across all 17 repos or worktree pruning. A daily note that never got written is a bigger silent failure than a repo that syncs a day late.
+**Priority if a run is short on time/turns:** finish `obn` completely (steps 0-4, including the daily note and, on Mon/Sat, the weekly note chain) before spending remaining budget on repo sync across all 17 repos or worktree pruning. A daily note that never got written is a bigger silent failure than a repo that syncs a day late.
 
-## obn (repo sync, review, daily note)
+## obn (close the loop, repo doc sync, repo synthesis, daily note, weekly note chain)
 
-Three sub-steps, run in order. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
+Run the sub-steps in order, starting with step 0. Each logs to its own file. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
+
+### 0. Once per day, and close the loop first
+
+**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<YYYY-MM-DD>.md` exists on `origin/main`, or `gh pr list --repo nitsuah/stash --search "obn: daily note <YYYY-MM-DD> in:title" --state open` finds a PR. If so, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
+
+**Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
+
+1. `gh pr list --repo nitsuah/stash --search "obn: in:title" --state open` finds any open daily-note, weekly-note or weekly-review PR, including stray ones from the retired cloud weekly routines. Skip to step 4 if there are none.
+2. Each one is at least a day old by definition, so:
+   - If it's still a draft, mark it ready: `gh pr ready <PR>`.
+   - If CI is green (or no CI is configured on this repo) and there are no unresolved review comments, merge it: `gh pr merge <PR> --squash --delete-branch`.
+   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` section instead of merging.
+3. `git -C C:\Users\<user>\code\stash checkout main` and `git pull --ff-only`, so the steps below read the merged notes. `main` should be clean here, because yesterday's end-of-run sweep committed everything. If it isn't, log it and continue without pulling.
+4. Only after that, run steps 1-4.
 
 ### 1. Repo doc sync (obn-repo)
 
@@ -25,7 +39,10 @@ OK <repo> — <N> .md files staged
 ...
 ```
 
-### 2. Repo review/synthesis (obn-review)
+### 2. Repo synthesis (logs to `obn-review.log`)
+
+Renamed 2026-09-24 from "obn-review" so it isn't confused with the **weekly review** in step 4. The log file keeps its old name so its history stays in one place.
+
 
 Read the synced `.md` files per repo and refresh each repo's summary at `stash/agent/repos/<repo>.md`. **Note: `agent/repos/` — plural.** A past log entry pointed at `agent/repo/` (singular), a directory that doesn't exist — that stale path is why this step stopped producing anything findable.
 
@@ -52,7 +69,7 @@ One line per repo *that had activity today*, checked across the same repo list a
 Format: `- **<repo>**: <PR #N title (state)>; <N commits>; <notable issue activity>` — include only the pieces that actually happened. Skip repos with zero activity entirely; don't list all 17 repos as "no activity", that's noise.
 
 **## Tasks**
-Open P0/P1 items pulled straight from each active-today repo's synthesis file (`agent/repos/<repo>.md`, "Open P0/P1 Tasks" section, just refreshed by obn-review above), plus anything today's dated section of `agent/logs/daily-git-sync.log` explicitly flags as needing a human (a branch parked N+ days, a diverged pull, a recurring `SKIPPED_DIRTY`/`SKIPPED_BRANCH`) — if repo sync (below) hasn't run yet this session, skip this source rather than reading yesterday's stale log entry.
+Open P0/P1 items pulled straight from each active-today repo's synthesis file (`agent/repos/<repo>.md`, "Open P0/P1 Tasks" section, just refreshed by repo synthesis in step 2), plus anything today's dated section of `agent/logs/daily-git-sync.log` explicitly flags as needing a human (a branch parked N+ days, a diverged pull, a recurring `SKIPPED_DIRTY`/`SKIPPED_BRANCH`) — if repo sync (below) hasn't run yet this session, skip this source rather than reading yesterday's stale log entry.
 
 **## Notes**
 A factual roll-up of what today's automation runs actually did, read from today's dated entries in `agent/logs/daily-git-sync.log`, `agent/logs/stale-worktrees.log`, `agent/logs/obn-repo.log`, and `agent/logs/obn-review.log`: counts of PULLED/SKIPPED_* results, worktrees pruned or flagged, `.md` files staged per repo, repos reviewed. Summary of the logs, not commentary — save interpretation for Reflections. If repo sync/worktree cleanup haven't run yet this session, note that plainly rather than reading a prior day's log.
@@ -60,22 +77,51 @@ A factual roll-up of what today's automation runs actually did, read from today'
 **## Reflections**
 1-3 sentences of actual synthesis across the sections above — a pattern worth a human's attention (e.g. several repos stuck on the same shared branch for a week, a repo with no activity in a long stretch, a blocker recurring across runs). This is the one section allowed to be interpretive, but every sentence must point back to something concrete already named above — never a generic platitude, and never left empty.
 
-**Before writing today's note, close the loop on yesterday's** (auto-merge-later, added 2026-09-16 — distinct from [[METRICS]]'s immediate merge-on-green, since note content is narrative rather than machine-verified and deserves a real review window):
-
-1. `gh pr list --repo nitsuah/stash --search "obn: daily note in:title" --state open` — find any prior day's note PR still open. Skip this whole step if none found (e.g. first run, or yesterday's already merged/closed).
-2. For each one found, it has now had at least a day for review by definition (today's run is happening a day later):
-   - If it's still draft, mark it ready: `gh pr ready <PR>`.
-   - If CI is green (or no CI is configured on this repo) and there are no unresolved review comments: merge it — `gh pr merge <PR> --squash --delete-branch`.
-   - If CI is red or there's an unresolved review comment: leave it open, and name it in today's `## Notes` section instead of merging.
-3. Only after that, create and open today's note.
-
 Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why the old batch of `obn: daily note` PRs piled up unmerged — same lesson as [[METRICS]]) — title `obn: daily note <date>`, branch `obn/daily-note-<date>`.
 
 **The daily-note PR carries all of today's stash writes, not just the note** (added 2026-09-24). Steps 1–2 above plus Repo sync and Stale worktree cleanup below all write `agent/repos/**` into this vault. (They also append to `agent/logs/*.log`, but `*.log` is gitignored on purpose, so logs stay local and never go in the PR.) Before this rule the `agent/repos/**` writes were never committed. They piled up as 88+ uncommitted files on `main`, which made the Repo sync step skip `stash` as `SKIPPED_DIRTY` every day. Worse, every cloud routine clones `stash` from GitHub and reads `agent/repos/*.md`, so it was working from a snapshot several days stale while the local copies stayed current. So:
 - Create the `obn/daily-note-<date>` branch **from the working tree as-is**, so the uncommitted writes come along. Commit the note and `agent/repos/**` together in the first commit.
 - **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/` onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
 - Then `git checkout main`. Do not `git pull` yet: those files are now committed on the branch, so `main` should be clean. If `git status` on `main` still shows changes under `agent/repos/`, the sweep missed something. Name it in the log instead of ignoring it.
-- Only commit paths under `agent/repos/` and `Daily Notes/`. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
+- Only commit paths under `agent/repos/`, `Daily Notes/` and `Weekly Notes/`. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
+
+### 4. Weekly note chain (Monday and Saturday only)
+
+Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start).
+
+**Monday: create this week's weekly note.** Write `Weekly Notes/<YYYY>-W<ww>.md`, unless it already exists, in which case skip:
+
+```
+# Week <ww> — Mon <YYYY-MM-DD> to Fri <YYYY-MM-DD>
+
+## Goals
+- [ ] <up to 3, seeded from last week's review; see below>
+
+## Last Week Review
+<one line pointing to last week's "Week Review" section: coverage + top win, or "No review last week.">
+
+## Key Dates
+
+## Active Projects
+<`projects/` subdirectories with commits in the last 7 days (`git log -1 --format=%ci -- projects/<dir>`), or "None this week.">
+```
+
+Seed **Goals** from last week's note: its "Next week priorities", then any "Recurring issues" not already covered, up to 3, most important first. If last week has no review, write one line saying so instead of blank checkboxes. Blank goals were the norm before 2026-09-24 and made the Friday goals check meaningless.
+
+**Saturday: append the week review.** Step 0 has just merged Friday's daily note, so all five weekdays are on `main`. Read `Daily Notes/<Mon..Fri>.md` and this week's weekly note, then append (append only; never rewrite earlier sections) to `Weekly Notes/<YYYY>-W<ww>.md`:
+
+```
+## Week Review — Saturday <YYYY-MM-DD>
+**Coverage:** <N> of 5 daily notes (missing: <dates> or "none").
+**Wins:** <shipped work from the notes' Repo Activity: merged PRs, pushed commits, with repo + PR #>
+**Recurring issues:** <Tasks items that appear on 2+ days, e.g. the same stale worktree or parked branch>
+**Goals check:** <per goal: progress shown or not; or "No goals were set.">
+**Next week priorities:** <1-3 items, from Recurring issues and Reflections, most important first>
+```
+
+Daily notes are prose with four sections (Repo Activity / Tasks / Notes / Reflections) and normally contain **no checkboxes**, so don't count `- [x]`. If the week has no daily notes and no weekly note, write nothing and say so in the log.
+
+Both files are committed on the day's `obn/daily-note-<date>` branch with the daily note. Mention the weekly note or review in the PR body.
 
 ## Repo sync
 

@@ -32,7 +32,8 @@ Before making changes, understand the full input/output graph. Verify it's still
 | `metrics` (cloud, runs [[METRICS]]) | scope.md (live), `METRICS.md` | per-target-repo METRICS.md (PR, auto-merge on green), `metrics-<date>.md` (PR to stash) |
 | `eng-loc` (cloud, runs `LOC.md`) | scope.md (live) | `agent/reports/eng-loc-<repo>-<date>.md` (PR) |
 | `eng-mini` (cloud, runs `MINI.md`) | scope.md (live) | `agent/reports/eng-mini-<repo>-<date>.md` (PR) |
-| `obn-weekly` / `obn-review` (cloud) | `Daily Notes/`, `Weekly Notes/` in stash | Weekly Notes/*, review sections (PR, branch+PR fixed 2026-09-16) |
+| ~~`week-obn-notes` / `week-obn-review` (cloud)~~ | — | **Disabled 2026-09-24.** Weekly note (Mon) and week review (Sat) now run inside `daily-repo-sync` (DAILY.md step 4) and ship in that day's daily-note PR, because the cloud versions' PRs were never merged, which broke the Mon → Fri → Mon chain |
+| `week-obn-import` (cloud, **weekly Mon 10:00 UTC** since 2026-09-24; was daily) | stash on GitHub | `agent/reports/cloud/obn-import/<date>.md` (PR, auto-merged on green) |
 | `stale-worktrees` / `vuln-patcher` / `gh-overseer` (cloud) | scope.md (live, fixed 2026-09-16) | advisory report only, no writes |
 | `import-memory` (cloud) | `agent/notes`, `agent/reports`, `agent/prompts`, `agent/repos`, `agent/jobs` | advisory report only |
 | [[USAGE]] (local) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` |
