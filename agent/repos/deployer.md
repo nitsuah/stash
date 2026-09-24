@@ -49,3 +49,9 @@ None. TASKS.md's open "Todo" items are all P2/P3 (CLI interface, upgradeability 
 - Fixed a flaky RegisterPortal balance-depletion test (was a 50/50 coin-flip that often never exercised its revert path) — now deterministic via `networkHelpers.setPrevRandao`.
 - Removed dead code: four legacy `scripts/*.js` deploy scripts and an unused Hardhat v2-only `hardhat.config.cjs`.
 - Docs: corrected a stale "CI/CD Pipeline Success Rate: 0%" figure (actual ~98% green); corrected README/FEATURES Hardhat version references; removed a dead `TESTING.md` link; `.env.template` now matches the env vars actually read by the config/deploy script.
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- Check the Slither job's actual output with `gh run view --job <id> --log | grep Slither`. A green conclusion alone proves nothing: it currently analyzes 0 contracts, with `continue-on-error: true` and `fail-on: none`.
