@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0 # full history so the gitleaks step can scan exactly the new commits
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -39,3 +40,20 @@ jobs:
       - name: PII / credential scan (public reports)
         working-directory: .
         run: bash agent/scripts/pii-scan.sh
+
+      # Secret scan of only the commits this PR or push adds, with the triaged
+      # allowlist in .gitleaks.toml. The full history was scanned clean on
+      # 2026-09-24 (48 findings, all triaged non-secrets).
+      - name: Secret scan (gitleaks)
+        working-directory: .
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            range="HEAD~1..HEAD"
+          else
+            range="$BASE..HEAD"
+          fi
+          echo "Scanning commits: $range"
+          docker run --rm -v "$PWD:/repo" --entrypoint sh ghcr.io/gitleaks/gitleaks:v8.30.1 -c \
+            "git config --global --add safe.directory /repo && cd /repo && gitleaks git . --config .gitleaks.toml --log-opts='$range' --redact --no-banner -v"

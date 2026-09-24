@@ -1,0 +1,34 @@
+# gitleaks config for stash (PUBLIC repo). Used by the pre-commit hook
+# (.githooks/pre-commit) and the CI "Secret scan (gitleaks)" job.
+#
+# Extends the default ruleset. The allowlists below cover only findings that were
+# triaged as non-secrets in the 2026-09-24 full-history scan (48 findings, 0 real):
+#   - agent/repos/*/docs/lighthouse-*.report.{html,json}: a Navattic *public*
+#     client-side SDK key captured by Lighthouse (46 hits; it ships to every
+#     browser that loads the page).
+#   - atlassian/jira/automation/*.json: Atlassian automation "clientKey"
+#     installation identifiers (2 hits). The actual secret would be a
+#     sharedSecret, which isn't present.
+# Keep these narrow: add a path or regex only after confirming the value is not
+# a credential. (Uses the gitleaks >= 8.25 [[allowlists]] syntax; the legacy
+# [allowlist] table ignores regexTarget.)
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Lighthouse reports: Navattic public client-side SDK key"
+paths = [
+  '''agent/repos/[^/]+/docs/lighthouse-[^/]+\.report\.(html|json)$''',
+]
+
+[[allowlists]]
+description = "Jira automation exports: clientKey installation identifier, not a secret"
+regexTarget = "match"
+regexes = [
+  '''"clientKey"\s*:\s*"[^"]+"''',
+]
+paths = [
+  '''^atlassian/jira/automation/[^/]+\.json$''',
+]
+condition = "AND"
