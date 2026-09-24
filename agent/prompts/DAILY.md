@@ -14,7 +14,19 @@ Run the sub-steps in order, starting with step 0. Each logs to its own file. Eac
 
 ### 0. Once per day, and close the loop first
 
-**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<YYYY-MM-DD>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <YYYY-MM-DD>` exists (`gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq '.[] | select(.title == "obn: daily note <YYYY-MM-DD>")'`). If so, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
+**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<today>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <today>` exists. "Today" is the **local (America/New_York) date**, the same date used in the note's filename. Compute it once into a variable and substitute it; never run a filter containing a literal `<today>` placeholder, which silently matches nothing and defeats this guard:
+
+```powershell
+$today = Get-Date -Format 'yyyy-MM-dd'
+git -C C:\Users\<user>\code\stash fetch -q origin
+git -C C:\Users\<user>\code\stash cat-file -e "origin/main:Daily Notes/$today.md"   # exit 0 = note already merged
+$filter = '.[] | select(.title == "obn: daily note ' + $today + '") | .title'   # build by concatenation: backslash/backtick-escaped quotes reach gh literally in PowerShell 7 and break the filter
+gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq $filter   # any output = PR already open
+```
+
+(Verified under PowerShell 7.6 on 2026-09-24: an existing date returns the title, a future date returns nothing.)
+
+If either check hits, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
 
 **Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
 
