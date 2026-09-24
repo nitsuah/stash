@@ -10,19 +10,48 @@
 
 ## obn (close the loop, repo doc sync, repo synthesis, daily note, weekly note chain)
 
-Run the sub-steps in order, starting with step 0. Each logs to its own file. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
+Run the sub-steps in order, starting with step 0. Each logs to its own file — an empty/no-op run still appends a dated entry so drift stays visible instead of going silent.
 
 ### 0. Once per day, and close the loop first
 
-**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<YYYY-MM-DD>.md` exists on `origin/main`, or `gh pr list --repo nitsuah/stash --search "obn: daily note <YYYY-MM-DD> in:title" --state open` finds a PR. If so, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
+**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<today>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <today>` exists. "Today" is the **local (America/New_York) date**, the same date used in the note's filename. Compute it once into a variable and substitute it; never run a filter containing a literal `<today>` placeholder, which silently matches nothing and defeats this guard:
+
+```powershell
+$today = Get-Date -Format 'yyyy-MM-dd'
+git -C C:\Users\<user>\code\stash fetch -q origin
+git -C C:\Users\<user>\code\stash cat-file -e "origin/main:Daily Notes/$today.md"   # exit 0 = note already merged
+$filter = '.[] | select(.title == "obn: daily note ' + $today + '") | .title'   # build by concatenation: backslash/backtick-escaped quotes reach gh literally in PowerShell 7 and break the filter
+gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq $filter   # any output = PR already open
+```
+
+(Verified under PowerShell 7.6 on 2026-09-24: an existing date returns the title, a future date returns nothing.)
+
+If either check hits, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
 
 **Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
 
-1. `gh pr list --repo nitsuah/stash --search "obn: in:title" --state open` finds any open daily-note, weekly-note or weekly-review PR, including stray ones from the retired cloud weekly routines. Skip to step 4 if there are none.
-2. Each one is at least a day old by definition, so:
+1. **Merge gate (hardened 2026-09-24; stash is PUBLIC, so anyone can open a PR).** This step merges unattended, so a PR is a candidate only if **all** of these hold:
+   - the title starts with `obn: ` **and** the branch starts with `obn/`. Use an exact filter, never GitHub's fuzzy search: `"obn: in:title"` also matches unrelated PRs like `obn-notes-run` (#100) and code PRs like #88/#89;
+   - it is **not from a fork** (`isCrossRepository` is false). A stranger's fork can use the same title and branch names;
+   - the **author is `nitsuah`**, the account every routine and note PR is opened as.
+
+   ```powershell
+   $candidatesFilter = '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/")) and (.isCrossRepository | not) and (.author.login == "nitsuah")) | .number'
+   $candidates = @(gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName,isCrossRepository,author --jq $candidatesFilter)
+   ```
+   Skip to step 3 if there are none.
+2. For each candidate (each is at least a day old by definition):
+   - **Path check:** every changed file must be under `Daily Notes/`, `Weekly Notes/` or `agent/repos/`:
+     ```powershell
+     $files   = @(gh pr view $pr --repo nitsuah/stash --json files --jq '.files[].path')
+     $outside = @($files | Where-Object { $_ -notmatch '^(Daily Notes/|Weekly Notes/|agent/repos/)' })
+     ```
+     If `$outside` is non-empty, **don't merge**. Name the PR and the first outside path in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
-   - If CI is green (or no CI is configured on this repo) and there are no unresolved review comments, merge it: `gh pr merge <PR> --squash --delete-branch`.
-   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` section instead of merging.
+   - If CI is green (or no CI is configured) and there are no unresolved review comments, merge: `gh pr merge <PR> --squash --delete-branch`.
+   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` instead of merging.
+
+   (Gate verified 2026-09-24 against every stash PR: 10 note PRs qualify. #88, #89 and #100 are never candidates, and the path check flags #92.)
 3. `git -C C:\Users\<user>\code\stash checkout main` and `git pull --ff-only`, so the steps below read the merged notes. `main` should be clean here, because yesterday's end-of-run sweep committed everything. If it isn't, log it and continue without pulling.
 4. Only after that, run steps 1-4.
 
@@ -87,7 +116,7 @@ Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why t
 
 ### 4. Weekly note chain (Monday and Saturday only)
 
-Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start).
+Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start), and `YYYY` is the **ISO year**, not the calendar year. For example, Sat 2027-01-02 is `2026-W53`, so the review must go into `Weekly Notes/2026-W53.md`, the same file the Monday of that week created. Compute it with `python -c "import datetime as d; y,w,_=d.date.today().isocalendar(); print(f'{y}-W{w:02d}')"` or `[System.Globalization.ISOWeek]::GetYear((Get-Date))` / `GetWeekOfYear`. **Don't** use PowerShell's `Get-Date -UFormat %V`, which isn't reliably ISO on Windows.
 
 **Monday: create this week's weekly note.** Write `Weekly Notes/<YYYY>-W<ww>.md`, unless it already exists, in which case skip:
 
