@@ -81,7 +81,16 @@ If destination is unclear, keep file in place and mark as deferred for review.
 
 ## Overseer note
 
-- Do not modify README, LICENSE, ROADMAP, TASKS or other similar files without explicit validation of root sensitivity (check overseer configuration for supported .github fallback files or supported locations `/docs` is not supported for all but may be in the future).
+- Do not modify README, LICENSE, ROADMAP, TASKS or other similar files without explicit validation of root sensitivity.
+- **Current vigil (formerly overseer) behavior, verified 2026-09-24:** root and `docs/` are both valid for ROADMAP, TASKS, FEATURES, METRICS and CHANGELOG (`lib/sync.ts`, `lib/doc-health.ts`, since vigil #159). Sync reads the **root file first** and only falls back to `docs/` when root is missing. README stays root-only. Community-health files also fall back to the org `.github` repo.
+- Because root wins, a leftover root copy silently hides a newer `docs/` copy from the dashboard (and vice versa, a stale `docs/` copy just drifts). That's how vigil ended up with five root/`docs/` duplicates from #159.
+
+## Duplicate and destination checks (required)
+
+- **Before every move**, check whether the destination already exists. If it does, don't move and don't overwrite. Record it as a conflict in the report with both paths, the last-commit date of each (`git log -1 --format=%cs -- <path>`), and which one vigil reads (root).
+- **During the root audit**, check every planning doc (ROADMAP, TASKS, FEATURES, METRICS, CHANGELOG, CONTRIBUTING) at both root and `docs/`. Report any pair as a duplicate finding with the same details.
+- A move is complete only when the source is gone. Use `git mv`, never copy-then-leave. After moving, confirm the source path no longer exists.
+- Resolving an existing duplicate is a deletion, so it is out of scope for the non-destructive pass. Propose it in the PR (which copy to keep and why), and let the human or a follow-up PR remove the stale one.
 
 ## Tool-specific path resolution rules (learned from 2026-06-20 run)
 
@@ -102,7 +111,6 @@ When moving a config file from root to `config/`, path resolution behavior diffe
 Beyond the obvious (README, LICENSE, package.json, Dockerfile, .gitignore, .env*, lockfiles, .github/):
 - `.dockerignore` — Docker reads it from build context root; moving it without moving the Dockerfile breaks the build
 - `.prettierrc` / `prettier.config.*` — editors resolve by walking upward from the edited file; a `config/` subdir is not in that path
-- `METRICS.md` — protected until global doc folder standards are established
 
 ## Pre-commit hook path after moving config
 
@@ -122,9 +130,9 @@ Repos with Husky pre-push hooks that run `docker compose run` or `docker run` wi
 
 When Docker mounts the repo root as a volume, files under `.claude/worktrees/` are included. If a test runner (vitest, jest) uses a glob that picks up those files, it will run tests from other Claude sessions. This can cause pre-push hook failures unrelated to the branch being pushed. The fix is to add `.claude/` to the test runner's exclude list (or `.dockerignore` if the worktree dir should be excluded from the Docker build context).
 
-## Overseer integration — planned multi-location support
+## Overseer integration — multi-location support (shipped in vigil #159, 2026-06-30)
 
-After the 2026-06-20 root-cleanup MINI run, overseer will be updated to accept files in `docs/` and `config/` as valid, equivalent to root. This affects how overseer scores repos after MINI moves.
+The `docs/` fallback for documentation files is live (see the Overseer note above for precedence). The tables below are the original design. Config-file (`config/`) detection has not been re-verified since, so check vigil's `lib/best-practices.ts` before relying on it.
 
 ### Documentation files — root OR docs/ accepted
 | File | Detection change |

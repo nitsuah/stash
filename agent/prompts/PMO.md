@@ -17,6 +17,11 @@ You are the PMO agent for this workspace. Your job is to keep product plans hone
 
 ## Scope of Review (Per Repository)
 
+**Doc location rule:** planning docs (ROADMAP, TASKS, FEATURES, METRICS, CHANGELOG, CONTRIBUTING, API, ARCHITECTURE) may live at the repo root **or** in `docs/`. Check both locations for every doc. If both exist, that's a finding:
+- Report the last-commit date of each copy and note that vigil reads the root copy first.
+- Edit only the copy that is current, and add a task to remove the stale one.
+- Never update just one copy without flagging the other. Found in the 2026-09-24 audit: vigil had five root/`docs/` pairs from #159.
+
 - README.md: Product purpose, setup/run instructions, deployment links, and onboarding clarity.
 - CONTRIBUTING.md: Current contribution workflow, standards, and developer expectations.
 - TASKS.md: Open work quality, stale tasks, priority correctness, and missing follow-ups.
