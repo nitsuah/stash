@@ -30,13 +30,28 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
 
 **Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
 
-1. List the candidates with an **exact** filter, not GitHub's fuzzy title search. `"obn: in:title"` also matches unrelated PRs such as `obn-notes-run` (#100), and this step merges whatever it finds:
-   `gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName --jq '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/"))) | .number'`
-   That covers daily-note, weekly-note and weekly-review PRs, including stray ones from the retired cloud weekly routines. Skip to step 4 if there are none.
-2. Each one is at least a day old by definition, so:
+1. **Merge gate (hardened 2026-09-24; stash is PUBLIC, so anyone can open a PR).** This step merges unattended, so a PR is a candidate only if **all** of these hold:
+   - the title starts with `obn: ` **and** the branch starts with `obn/`. Use an exact filter, never GitHub's fuzzy search: `"obn: in:title"` also matches unrelated PRs like `obn-notes-run` (#100) and code PRs like #88/#89;
+   - it is **not from a fork** (`isCrossRepository` is false). A stranger's fork can use the same title and branch names;
+   - the **author is `nitsuah`**, the account every routine and note PR is opened as.
+
+   ```powershell
+   $candidatesFilter = '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/")) and (.isCrossRepository | not) and (.author.login == "nitsuah")) | .number'
+   $candidates = @(gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName,isCrossRepository,author --jq $candidatesFilter)
+   ```
+   Skip to step 3 if there are none.
+2. For each candidate (each is at least a day old by definition):
+   - **Path check:** every changed file must be under `Daily Notes/`, `Weekly Notes/` or `agent/repos/`:
+     ```powershell
+     $files   = @(gh pr view $pr --repo nitsuah/stash --json files --jq '.files[].path')
+     $outside = @($files | Where-Object { $_ -notmatch '^(Daily Notes/|Weekly Notes/|agent/repos/)' })
+     ```
+     If `$outside` is non-empty, **don't merge**. Name the PR and the first outside path in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
-   - If CI is green (or no CI is configured on this repo) and there are no unresolved review comments, merge it: `gh pr merge <PR> --squash --delete-branch`.
-   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` section instead of merging.
+   - If CI is green (or no CI is configured) and there are no unresolved review comments, merge: `gh pr merge <PR> --squash --delete-branch`.
+   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` instead of merging.
+
+   (Gate verified 2026-09-24 against every stash PR: 10 note PRs qualify. #88, #89 and #100 are never candidates, and the path check flags #92.)
 3. `git -C C:\Users\<user>\code\stash checkout main` and `git pull --ff-only`, so the steps below read the merged notes. `main` should be clean here, because yesterday's end-of-run sweep committed everything. If it isn't, log it and continue without pulling.
 4. Only after that, run steps 1-4.
 
