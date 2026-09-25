@@ -1,4 +1,4 @@
-# PROJECTS.MD
+# Resume projects
 
 A summarized list of projects I've worked on in the past.
 Below is some of the original text source and json format I converted to.

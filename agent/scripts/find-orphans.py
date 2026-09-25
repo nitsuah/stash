@@ -205,6 +205,12 @@ def main():
             names[os.path.basename(n).lower()].append(n)
         dupes = {k: v for k, v in names.items() if len(v) > 1}
         ghosts = {n: ts for n, ts in broken.items() if n in native}
+        # .MD / .Md: the sync copies them (its match ignores case) but the link scripts skip them
+        odd_ext = [n for n in notes if not n.endswith(".md")]
+        if odd_ext:
+            print(f"\nFAIL: {len(odd_ext)} note(s) with an extension other than lower-case .md; rename upstream:")
+            for n in odd_ext:
+                print("  " + n)
         if ghosts:
             print(f"\nFAIL: {sum(len(v) for v in ghosts.values())} broken link(s) in notes outside the repo mirrors "
                   "(fix with scripts/fix-doc-links.py --vault):")
@@ -219,7 +225,7 @@ def main():
                   "(a bare [[name]] is ambiguous and the graph shows look-alike nodes); rename one:")
             for v in dupes.values():
                 print("  " + " · ".join(v))
-        if bad or dupes or ghosts:
+        if bad or dupes or ghosts or odd_ext:
             sys.exit(1)
 
 
