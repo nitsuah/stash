@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: stash
+date: 2026-09-23
+---
+
 # eng-mini: stash — 2026-09-23 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/stash|stash]] · [[reports/eng-mini-stash-2026-09-24|2026-09-24]] → <!-- nav -->

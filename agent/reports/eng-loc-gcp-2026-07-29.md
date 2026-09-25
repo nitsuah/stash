@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: gcp
+date: 2026-07-29
+---
+
 # ENG LOC Report — gcp (2026-07-29)
 
 > 🧭 [[repos/gcp|gcp]] <!-- nav -->

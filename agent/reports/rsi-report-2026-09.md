@@ -1,3 +1,7 @@
+---
+kind: rsi-report
+---
+
 # RSI report — 2026-09
 
 This is the first run of the `monthly-self-improvement` scheduled task. It was kicked off manually on 2026-09-24 (ET), ahead of the 2026-10-02 fire, with the user's kickoff context in `routine-run-findings-2026-09-24.md` addendum 3. Spec: [[RSI]]. Every prompt, routine and memory edit is logged in `agent/logs/rsi-changes.log`, which is local-only because `*.log` is gitignored.

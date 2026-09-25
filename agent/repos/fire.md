@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: fire
+---
+
 # fire
 
 > Reviewed: 2026-09-23

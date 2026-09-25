@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: fire
+date: 2026-09-24
+---
+
 # eng-mini: fire — 2026-09-24 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-09-23|2026-09-23]] <!-- nav -->

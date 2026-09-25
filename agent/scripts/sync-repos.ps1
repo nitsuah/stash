@@ -17,9 +17,11 @@
   Preview what would be copied without making changes.
 
 .PARAMETER Prune
-  Also delete mirrored .md files under repos/[name]/ that no longer exist in the
-  source repo (e.g. a root FEATURES.md left behind after the repo moved it to
-  docs/, or a doc since archived upstream). Off by default; combine with -DryRun
+  Also delete files under repos/[name]/ that the current sync didn't produce: mirrored
+  .md files that no longer exist in the source repo (e.g. a root FEATURES.md left
+  behind after the repo moved it to docs/, or a doc since archived upstream), and any
+  non-.md file, since only .md is mirrored (e.g. a lighthouse report or
+  .github/dependabot.yml copied by an older sync). Off by default; combine with -DryRun
   to preview.
 
 .PARAMETER MaxPrune
@@ -45,7 +47,9 @@ $CodeRoot  = "C:\Users\$env:USERNAME\code"
 $Today     = Get-Date -Format 'yyyy-MM-dd'
 
 # Repo list comes from the "## Tracked" table in agent/projects/scope.md (the
-# canonical registry), minus stash itself. It used to be hardcoded here and
+# canonical registry), including stash itself: its docs outside agent/ (runbooks,
+# projects/, docs/) are mirrored like any repo's; agent/ is the vault and is skipped
+# below. It used to be hardcoded here and
 # drifted (still had motor-pool/opencut*, missed agent-board/deployer).
 $ScopeFile = Join-Path $VaultRoot 'projects\scope.md'
 $AllRepos = @()
@@ -56,7 +60,7 @@ foreach ($line in Get-Content -LiteralPath $ScopeFile) {
     if (-not $inTracked) { continue }
     if ($line -match '^\|\s*([A-Za-z0-9._-]+)\s*\|') {
         $name = $Matches[1]
-        if ($name -notin @('Repo', 'stash') -and $name -notmatch '^-+$') {
+        if ($name -ne 'Repo' -and $name -notmatch '^-+$') {
             $AllRepos += $name
             # Local path column may differ from the repo name (overseer is cloned as code\vigil).
             if ($line -match '^\|[^|]*\|\s*`([^`]+)`') { $RepoPaths[$name] = $Matches[1] }
@@ -97,7 +101,8 @@ foreach ($repo in $TargetRepos) {
     if ($LASTEXITCODE -ne 0) { Write-Host "  [SKIP] $repo — no origin/HEAD (run: git -C $src remote set-head origin -a)" -ForegroundColor Yellow; continue }
     $files = @(git -C $src ls-tree -r --name-only $ref 2>$null |
         Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' -and
-                       $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' })
+                       $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' -and
+                       -not ($repo -eq 'stash' -and $_ -match '^agent/') })
     if ($files.Count -eq 0) {
         Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
         continue
@@ -130,7 +135,9 @@ foreach ($repo in $TargetRepos) {
     # deletion is held BEFORE anything is removed; a count that high usually
     # means a repo moved/renamed its docs rather than a normal cleanup.
     if ($Prune -and (Test-Path $dest)) {
-        $stale = @(Get-ChildItem $dest -File -Filter '*.md' -Recurse | Where-Object {
+        # every file, not just .md: only .md is mirrored, so anything else (a lighthouse report
+        # or .github/dependabot.yml left by an older sync) is stale by definition
+        $stale = @(Get-ChildItem $dest -File -Recurse | Where-Object {
             -not $expected.ContainsKey($_.FullName.Substring($dest.Length + 1).ToLower())
         })
         if ($stale.Count -gt $MaxPrune -and -not $DryRun) {

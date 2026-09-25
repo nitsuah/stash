@@ -3,6 +3,8 @@ name: darkmoon-overview
 description: Central synthesis document for the Darkmoon 3D tag game.
 metadata:
   type: project
+kind: overview
+repo: darkmoon
 ---
 
 # Darkmoon Overview

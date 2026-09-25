@@ -48,3 +48,12 @@ Still open:
 
 - Smart Connections: suggest-only pass for notes that are reachable only through a chain. Never auto-write links.
 - `projects/docs/` holds 2026 Q2 leftovers (two `AUDIT_GRAPH_2026_06_09*` near-duplicates): archive or fold into project hubs.
+
+## Round 3 (2026-09-25): automation
+
+- CI "Vault graph check" in stash: regenerates links in the workspace, fails on unreachable notes, duplicate names or broken links outside the mirrors
+- Properties `kind` / `repo` / `date` (generator-owned) + [[vault-views.base|vault-views]] (Bases: latest reports, by repo, repo hubs, repo docs, notes)
+- `suggest-links.py`: weekly suggest-only links from Smart Connections embeddings (DAILY, Mondays)
+- Templater templates in `templates/` (parent-hub picker); archive of dated notes older than last month to `notes/archive/YYYY-MM/`
+- Mirrors: hashtags/hex escaped (no false tag nodes); stash's own non-vault docs now mirrored under `repos/stash/`
+- Declutter: PMO.md audit history moved to [[pmo-audit-2026-03-27]]; README repo table points to [[VAULT-MAP]]; scripts linked from VAULT-MAP instead of hidden

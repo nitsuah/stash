@@ -1,3 +1,8 @@
+---
+kind: routine-run-findings
+date: 2026-09-24
+---
+
 # Routine run findings — 2026-09-23/24 (manual catch-up session)
 
 Written by a manual catch-up session that re-ran failed routines in pipeline order (daily → weekly → Sunday → monthly). The input for [[USAGE]] and [[RSI]] this cycle. Every item below cites the run or file it came from.

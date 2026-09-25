@@ -1,9 +1,11 @@
 """Gate for auto-merging routine PRs in stash: is every change routine-owned?
 
 Passes a file when it is
-  - a dated note (agent/notes/YYYY-MM-DD.md or YYYY-Www.md) or under agent/repos/, or
+  - a dated note (agent/notes/YYYY-MM-DD.md or YYYY-Www.md, or its notes/archive/YYYY-MM/ copy),
+    under agent/repos/, or a weekly agent/reports/link-suggestions-<date>.md, or
   - any other .md whose only differences are build-vault-indexes.py output: `<!-- nav -->`
-    lines and `<!-- vault-links:start/end -->` blocks (including a new folder-hub stub).
+    lines, `<!-- vault-links:start/end -->` blocks (including a new folder-hub stub), and
+    the kind/repo/date frontmatter keys.
 Anything else (a hand edit riding along, a deletion, a non-.md file) fails the gate.
 
 Usage (from the stash repo root):
@@ -15,7 +17,8 @@ import re
 import subprocess
 import sys
 
-ROUTINE_PATHS = re.compile(r"^agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|^agent/repos/")
+ROUTINE_PATHS = re.compile(r"^agent/notes/(archive/\d{4}-\d{2}/)?\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|^agent/repos/"
+                           r"|^agent/reports/link-suggestions-\d{4}-\d{2}-\d{2}\.md$")
 BLOCK = re.compile(r"\n*<!-- vault-links:start -->.*?<!-- vault-links:end -->\n*", re.S)
 STUB = re.compile(r"^# [^\n]+\nFolder hub for `projects/[^`]+/`\. Add context above the generated block\.$")
 
@@ -32,6 +35,12 @@ def show(ref, path):
 def strip(text):
     """Content minus generated text; blank lines are ignored (the generator pads around what it inserts)."""
     text = BLOCK.sub("\n", text.replace("\r\n", "\n"))
+    # kind/repo/date frontmatter keys are build-vault-indexes.py output too: drop them, and
+    # the --- fences when nothing else is left in the frontmatter
+    m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
+    if m:
+        rest = [l for l in m.group(1).split("\n") if l.split(":", 1)[0].strip() not in ("kind", "repo", "date")]
+        text = ("---\n" + "\n".join(rest) + "\n---\n" if any(l.strip() for l in rest) else "") + text[m.end():]
     return "\n".join(l.rstrip() for l in text.split("\n") if l.strip() and "<!-- nav -->" not in l)
 
 

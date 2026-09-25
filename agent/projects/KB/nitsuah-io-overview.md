@@ -3,6 +3,8 @@ name: nitsuah-io-overview
 description: Central synthesis document for the Nitsuah-IO application.
 metadata:
   type: project
+kind: overview
+repo: nitsuah-io
 ---
 
 # Nitsuah-IO Overview

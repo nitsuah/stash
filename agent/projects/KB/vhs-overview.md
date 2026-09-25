@@ -3,6 +3,8 @@ name: vhs-overview
 description: Central synthesis document for the VHS application.
 metadata:
   type: project
+kind: overview
+repo: vhs
 ---
 
 # VHS Overview

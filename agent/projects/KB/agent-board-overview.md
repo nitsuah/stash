@@ -13,7 +13,7 @@ motor-pool is a local-first control room designed for managing multi-model AI wo
 
 - **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via [[repos/darkmoon/docs/API.md|NemoClaw]] integration.
 - **Experience-Aware Sessions**: Persistent sessions with context, role metadata, and message history, tailored to different experience modes (e.g., Research, Developer).
-- **Live Observability**: Real-time observability using [[repos/motor-pool/METRICS.md|Metrics]] dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
+- **Live Observability**: Real-time observability using Metrics dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
 
 ## Key Capabilities
 
@@ -23,7 +23,7 @@ motor-pool is a local-first control room designed for managing multi-model AI wo
 
 ## Related Resources
 
-- **Source Code**: [[repos/motor-pool/README.md|motor-pool README]]
-- **Architecture**: [[repos/motor-pool/docs/ARCHITECTURE.md|System Architecture]]
-- **Roadmap**: [[repos/motor-pool/ROADMAP.md|Roadmap and Future Goals]]
-- **Safety Strategy**: [[repos/motor-pool/docs/AI_STACK_STRATEGY.md|AI Stack Strategy]]
+- **Source Code**: motor-pool README
+- **Architecture**: System Architecture
+- **Roadmap**: Roadmap and Future Goals
+- **Safety Strategy**: [[repos/agent-board/docs/archive/AI_STACK_STRATEGY|AI Stack Strategy]]

@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: deployer
+date: 2026-07-29
+---
+
 # ENG LOC Report — deployer (2026-07-29)
 
 > 🧭 [[repos/deployer|deployer]] <!-- nav -->

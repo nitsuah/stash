@@ -41,6 +41,16 @@ jobs:
         working-directory: .
         run: bash agent/scripts/pii-scan.sh
 
+      # Vault graph health. Links are regenerated in the CI workspace first (not committed:
+      # the daily routine commits them), so a PR that only adds a report passes, while one
+      # that adds a note no naming rule can place, a duplicate note name, or a broken
+      # [[link]] outside the repo mirrors fails. See agent/README.md, Vault Linking Conventions.
+      - name: Vault graph check
+        working-directory: agent
+        run: |
+          python3 scripts/build-vault-indexes.py > /dev/null
+          python3 scripts/find-orphans.py --check
+
       # Secret scan of only the commits this PR or push adds, with the triaged
       # allowlist in .gitleaks.toml. The full history was scanned clean on
       # 2026-09-24 (48 findings, all triaged non-secrets).

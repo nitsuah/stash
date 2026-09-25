@@ -3,6 +3,8 @@ name: bb-mcp-overview
 description: Central synthesis document for the Blackboard Learn MCP Server.
 metadata:
   type: project
+kind: overview
+repo: bb-mcp
 ---
 
 # Blackboard Learn MCP Server (Bb-MCP)

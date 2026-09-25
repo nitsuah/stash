@@ -3,6 +3,8 @@ name: gcp-overview
 description: Central synthesis document for the GCP utility.
 metadata:
   type: project
+kind: overview
+repo: gcp
 ---
 
 # GCP Overview

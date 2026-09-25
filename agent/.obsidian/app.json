@@ -1,4 +1,10 @@
 {
   "alwaysUpdateLinks": true,
-  "readableLineLength": false
+  "readableLineLength": false,
+  "userIgnoreFilters": [
+    "logs/",
+    "Nexus/",
+    "/\\.txt$/",
+    "/__pycache__/"
+  ]
 }

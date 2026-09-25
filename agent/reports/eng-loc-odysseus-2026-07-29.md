@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: odysseus
+date: 2026-07-29
+---
+
 # ENG LOC Report — odysseus (2026-07-29)
 
 > 🧭 [[repos/Odysseus|odysseus]] <!-- nav -->

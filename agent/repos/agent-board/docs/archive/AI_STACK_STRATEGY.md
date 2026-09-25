@@ -12,7 +12,7 @@ source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/AI_STACK
 **Last updated:** June 2026
 **Author:** nitsuah
 **Status:** Working doc — evolving with motor-pool Q2/Q3 roadmap
-Repos: ![[motor-pool]]
+Repos: `motor-pool`
 
 ---
 

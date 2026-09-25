@@ -1,3 +1,9 @@
+---
+kind: eng-loc-high-LOC
+repo: agent-board
+date: 2026-06-28
+---
+
 > 🧭 [[repos/agent-board|agent-board]] <!-- nav -->
 
 ## motor-pool High LOC Report (>1000 lines, 2026-06-28)

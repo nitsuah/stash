@@ -3,6 +3,8 @@ name: auto-apply-plugin-overview
 description: Central synthesis document for the Auto-Apply Plugin (Apply Workspace).
 metadata:
   type: project
+kind: overview
+repo: ats-fill
 ---
 
 # Auto-Apply Plugin (Apply Workspace)

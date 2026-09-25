@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: nitsuah-io
+date: 2026-07-29
+---
+
 # ENG LOC Report — nitsuah-io (2026-07-29)
 
 > 🧭 [[repos/nitsuah-io|nitsuah-io]] · ← [[reports/eng-loc-nitsuah-io-2026-07-04|2026-07-04]] <!-- nav -->

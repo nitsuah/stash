@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: games
+date: 2026-07-29
+---
+
 # ENG LOC Report — games (2026-07-29)
 
 > 🧭 [[repos/games|games]] · ← [[reports/eng-loc-games-2026-07-04|2026-07-04]] <!-- nav -->

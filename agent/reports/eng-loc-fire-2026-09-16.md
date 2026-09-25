@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: fire
+date: 2026-09-16
+---
+
 # LOC Report — fire
 
 > 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-07-29|2026-07-29]] <!-- nav -->

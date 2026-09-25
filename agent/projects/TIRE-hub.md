@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # TIRE
 
 Working files for the [[prompts/TIRE|TIRE]] routine. Findings land in [[reports/findings-ledger]].

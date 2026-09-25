@@ -1,3 +1,8 @@
+---
+kind: eng-loc
+repo: farm-3j
+---
+
 > 🧭 [[repos/farm-3j|farm-3j]] · [[reports/eng-loc-farm-3j-2026-06-25|2026-06-25]] → <!-- nav -->
 
 ## Farm-3j LOC Report ()

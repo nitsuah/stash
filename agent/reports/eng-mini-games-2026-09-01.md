@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: games
+date: 2026-09-01
+---
+
 # eng-mini: games — 2026-09-01 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/games|games]] · [[reports/eng-mini-games-2026-09-24|2026-09-24]] → <!-- nav -->

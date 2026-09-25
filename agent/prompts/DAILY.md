@@ -154,6 +154,8 @@ Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `wee
 
 Seed **Goals** from last week's note: its "Next week priorities", then any "Recurring issues" not already covered, up to 3, most important first. If last week has no review, write one line saying so instead of blank checkboxes. Blank goals were the norm before 2026-09-24 and made the Friday goals check meaningless.
 
+**Monday also: link suggestions.** Run `python agent/scripts/suggest-links.py --write`. It writes `agent/reports/link-suggestions-<date>.md`, which ranks notes that are similar to weakly connected notes but not linked to them yet, using the Smart Connections embeddings in `.smart-env/` (Obsidian must have run recently). It never edits notes. Don't act on the suggestions in this run. List the count in the weekly note under Goals as "review N link suggestions", and commit the report with the rest of today's files.
+
 **Saturday: append the week review.** Step 0 has just merged Friday's daily note, so all five weekdays are on `main`. Read `agent/notes/<Mon..Fri date>.md` and this week's weekly note, then append (append only; never rewrite earlier sections) to `agent/notes/<YYYY>-W<ww>.md`:
 
 ```

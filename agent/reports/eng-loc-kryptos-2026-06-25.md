@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: kryptos
+date: 2026-06-25
+---
+
 # eng-loc: kryptos — 2026-06-25
 
 > 🧭 [[repos/kryptos|kryptos]] · [[reports/eng-loc-kryptos-2026-07-03|2026-07-03]] → <!-- nav -->

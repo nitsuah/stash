@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: farm-3j
+date: 2026-06-25
+---
+
 # eng-loc: farm-3j — 2026-06-25
 
 > 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-|undated]] · [[reports/eng-loc-farm-3j-2026-07-03|2026-07-03]] → <!-- nav -->

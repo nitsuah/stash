@@ -3,6 +3,8 @@ name: opencut-overview
 description: Central synthesis document for the OpenCut application.
 metadata:
   type: project
+kind: overview
+repo: opencut
 ---
 
 # OpenCut Overview

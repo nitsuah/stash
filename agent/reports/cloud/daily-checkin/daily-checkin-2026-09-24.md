@@ -1,3 +1,8 @@
+---
+kind: cloud/daily-checkin
+date: 2026-09-24
+---
+
 # daily-checkin — 2026-09-24
 
 > 🧭 [[reports/cloud/daily-checkin/daily-checkin-2026-09-25|2026-09-25]] → <!-- nav -->

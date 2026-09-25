@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: ats-fill
+date: 2026-09-01
+---
+
 # LOC Report — auto-apply-plugin
 
 > 🧭 [[repos/ats-fill|auto-apply-plugin]] · ← [[reports/eng-loc-auto-apply-plugin-2026-07-04|2026-07-04]] <!-- nav -->

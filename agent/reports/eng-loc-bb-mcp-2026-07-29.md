@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: bb-mcp
+date: 2026-07-29
+---
+
 # ENG LOC Report — bb-mcp (2026-07-29)
 
 > 🧭 [[repos/bb-mcp|bb-mcp]] <!-- nav -->

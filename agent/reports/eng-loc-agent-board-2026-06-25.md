@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: agent-board
+date: 2026-06-25
+---
+
 # eng-loc: motor-pool — 2026-06-25
 
 > 🧭 [[repos/agent-board|agent-board]] · [[reports/eng-loc-agent-board-2026-06-28|2026-06-28]] → <!-- nav -->

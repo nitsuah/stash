@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: vigil
+---
+
 # overseer
 
 > Reviewed: 2026-09-24

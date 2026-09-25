@@ -3,6 +3,8 @@ name: farm-3j-overview
 description: Central synthesis document for the Farm-3j RTS game.
 metadata:
   type: project
+kind: overview
+repo: farm-3j
 ---
 
 # Farm-3j Overview

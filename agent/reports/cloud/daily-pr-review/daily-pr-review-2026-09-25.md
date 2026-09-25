@@ -1,3 +1,8 @@
+---
+kind: cloud/daily-pr-review
+date: 2026-09-25
+---
+
 # daily-pr-review — 2026-09-25
 
 > 🧭 ← [[reports/cloud/daily-pr-review/daily-pr-review-2026-09-24|2026-09-24]] <!-- nav -->

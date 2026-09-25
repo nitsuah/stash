@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: vhs
+date: 2026-07-29
+---
+
 # ENG LOC Report — vhs (2026-07-29)
 
 > 🧭 [[repos/vhs|vhs]] · ← [[reports/eng-loc-vhs-2026-07-04|2026-07-04]] <!-- nav -->
