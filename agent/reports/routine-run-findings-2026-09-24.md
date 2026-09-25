@@ -54,3 +54,78 @@ Context: weekly plan usage was at 72% with 5 days to reset, and extra usage was 
 - **Model choice:** `daily-email` and `daily-pr-review` run on the default model. The summary-only routines (`daily-checkin`, `daily-email`) are candidates for a smaller model.
 - **Weekly-window timing:** the weekly limit resets Tue ~1am ET, so the Sun/Mon cluster (stale-worktrees, vuln-patcher, obn-import, vigil-check, eng-loc) runs at the end of the window, when it's most likely to be starved. Consider moving the heavier ones to Tue/Wed.
 - **Cleanup:** ~20 fired one-shot "Re-check PR #…" reminders (`created_kind: reminder`, `ended_reason: run_once_fired`) still come back from the routines API. They're disabled and don't run, and the API has no delete.
+
+## Addendum 3: RSI kickoff context from the user (2026-09-24 night, after the first Tire Kick)
+
+Provided by the user when starting RSI. Everything below is **user-directed**, so treat it as instructions for this cycle, not just evidence. Still verify state before editing.
+
+### Ledger updates (`agent/reports/findings-ledger.md`)
+- **Mark done:**
+  - F-20260924-04: gcp_setup.py tests (gcp#68)
+  - F-20260924-24: gcp_setup login prompt + ID validation (gcp#69)
+  - F-20260923-01: skyview config moves (skyview#148)
+  - F-20260923-02: skyview docs/archive cleanup (skyview#149)
+  - F-20260924-19: obn weekly pair. The cloud week-obn-notes/review were disabled 2026-09-24 and folded into daily-repo-sync (DAILY.md step 4).
+  - auto-apply-plugin ui-overhaul worktree: removed; its branch was merged as ats-fill#64.
+- **Add as new `quick` items:**
+  - skyview: `pre-commit run` fails with InvalidManifestError. The stylelint hook points at `stylelint/stylelint@15.10.1`, which has no pre-commit hook definition. Pre-existing.
+  - skyview: `.dockerignore` lists root `eslint.config.mjs` / `stylelint.config.mjs`, which now live in `config/`.
+  - skyview: README links `CONTRIBUTING.md`, which doesn't exist.
+  - vigil: `docs/CHANGELOG.md` has ~5 entries missing from root `CHANGELOG.md`. Merge them, then delete it (TASKS P2 is marked PARTIAL).
+  - darkmoon: `docs/archive/ARCHITECTURE_IMPROVEMENTS.md:650` links `./ROADMAP.md`, which doesn't exist.
+
+### Already fixed; don't re-fix
+- sync-repos.ps1 reads scope.md (stash#116) and uses its Local path column (stash#124). overseer is cloned at `code\vigil`.
+- DAILY.md derives the gh owner from origin (stash#108).
+- daily-repo-sync commits `agent/repos/**` with the daily note (stash#108).
+- LICENSE stays at root; the rule was added to MINI.md (stash#124). If eng-mini still lists LICENSE under "Overseer Decisions Required", the cloud eng-mini prompt isn't honoring MINI.md's required-root list. Fix that routine. The same prompt still uses `api.github.com/.../contents`, which returns 403 (Addendum 2).
+- daily-pr-review now searches all owned repos (updated 2026-09-24 evening; it was stash-only).
+
+### Decided by the user: move notes into `agent/notes/` (resolves decision 6)
+The user wants `Daily Notes/` and `Weekly Notes/` moved into the **stash** repo's `agent/notes/` folder (`C:\Users\ajhar\code\stash\agent\notes\`), **flat, with no subfolders**: `agent/notes/YYYY-MM-DD.md` for daily notes and `agent/notes/YYYY-Www.md` for weekly notes. This matches the existing `agent/notes/2026-09-16.md` and the `obn-breadcrumb` branch. The old top-level `Daily Notes/` and `Weekly Notes/` folders go away. Filename patterns (date vs ISO week) are what tell daily and weekly notes apart, so the merge gate needs a filename pattern such as `^agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$`, not a bare folder prefix. Other files in `agent/notes/` (e.g. `eng-loc-notes.md`) must not become auto-mergeable. Review the routine writing them (daily-repo-sync / DAILY.md) and land the move **in one change** that also updates every reader and writer:
+- DAILY.md: the daily and weekly note steps, the once-per-day guard (`origin/main:Daily Notes/$today.md`), and the **merge gate's allowed-path regex** `^(Daily Notes/|Weekly Notes/|agent/repos/)`. If you miss the gate, every daily-note PR gets held.
+- The daily-note PR's commit scope.
+- TIRE.md §2 sources.
+- `agent/scripts/pii-scan.sh` default paths, `.githooks/pre-commit`'s path filter, and CI scope.
+- Any Obsidian config pointing at the old folders (e.g. `.obsidian/daily-notes.json` and the periodic-notes plugin settings).
+- Cloud routines that read them (check week-obn-import and anything else that references `Daily Notes`).
+
+The existing notes history moves with `git mv`. The unpushed local branch `obn-breadcrumb` (db8dfaf "nits") already moves the folders. Reuse it only if it's clean against current main; otherwise redo the move on a fresh branch and drop it.
+
+### Decisions for the user. Ask; don't pick
+1. Where the 8 transcript-only cloud routines should report (F-20260924-14).
+2. Whether to delete the duplicate disabled "Re-check PR #78/#83" one-shot triggers. This is irreversible, and the API may not support it (F-20260924-13).
+3. Read-only cloud routines that escalate to push access: attach the repos as sources, or rewrite them to use git clone + Read only (F-20260924-18)?
+4. week-fin-sum: drop the "use the fire mcp" line, or make it a local routine (F-20260924-21)? Note: the cloud week-fin-sum is already disabled and the local one is active.
+5. Auto-merge vs CodeRabbit. Its CHANGES_REQUESTED review stays active after its findings are fixed: it doesn't re-review commits it has seen, and the free tier is rate-limited. Dismissing that review before merging is blocked by the auto-mode classifier ("CI bypass"); this hit gcp#68 and gcp#69. Options: (a) routines leave these PRs open for the user, (b) add a permission rule allowing review dismissal plus merge, (c) change the CodeRabbit config so it doesn't request changes.
+
+### Routine fixes, no decision needed
+- Serialize catch-up/backfill runs. Firing 6 at once hit the five_hour cap (F-20260924-20). Check whether Addendum 2 already covers it.
+- "Succeeded" hides no-ops and unmerged output: daily-repo-sync on 9/03 took 10 s, and week-metrics on 9/18 produced stash#99, which closed unmerged (F-20260924-22). Add output checks.
+- METRICS.md has no cloud-native path (fresh clone, no Docker) (F-20260904-02).
+- TIRE.md step 2.5: also re-verify `routine`-class items against the current prompt/script state. The first run marked 3 open that were already fixed.
+- TIRE.md tips: "use EnterWorktree in background sessions" conflicts with repo hooks:
+  - vigil's husky pre-commit always runs lint-staged on the Windows host.
+  - darkmoon's runs on the host from a worktree; otherwise it starts the `darkmoon-solo` container and leaves it running.
+  - stash's gitleaks hook runs in Docker against the repo root and fails from a worktree.
+  Update the tip to "commit on a branch in the main checkout when the repo is clean", and consider making those hooks Docker-first and worktree-aware (vigil especially).
+- The auto-mode classifier blocks `docker stop` ("Interfere With Workloads"), so routines can't clean up containers that hooks start. Report the container instead of trying to stop it.
+- Quota gating per Addendum 2 (changed-since-last-run gates, eng-mini clone rewrite, smaller models for summary-only routines).
+
+### Review-bot notes
+- `gcp/gcp_setup.py` is an interactive CLI that uses print by design. Decline print-to-logging suggestions there; CodeRabbit has already recorded this.
+
+### Sequencing after RSI (don't start these in this cycle)
+Re-run LOC/MINI if RSI changes them → the user's state-of-the-union regen → then the refactor epics (all `pmo`, none started):
+- skyview `netlify/functions/api-bookings.mjs` (payment path; add coverage first)
+- fire `app/routes/sync.js`
+- darkmoon `src/components/characters/useBotAI.ts`
+- kryptos `src/kryptos/api/k4_attack_routes.py`
+- auto-apply-plugin `background/service-worker.js`
+- stash `atlassian/jira/validate_project.py` (structural read first)
+
+### Housekeeping
+- Branch from `origin/main` for every stash change.
+- `auto-apply-plugin/screenshots/fullscreen-tracker.png` is untracked on purpose (personal job data, public repo). Never commit it.
+- `darkmoon-solo` may still be running from a pre-commit hook. Report it; don't stop it.
+- Quota: weekly plan usage was ~72% on 9/24 with extra usage maxed. Prefer prompt and config fixes over heavy repo work, and finish with the report rather than starting large changes.
