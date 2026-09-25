@@ -1,7 +1,7 @@
 # CodeStash
 
 > 🧭 **stash** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
-
+>
 > Austin J. Hardy's technical evolution from VBA wizard to AI architect — 15+ years of enterprise automation and developer productivity innovation.
 
 ## Overview
