@@ -1,6 +1,8 @@
 ---
 up: "[[repos/games]]"
 source: https://github.com/nitsuah/games/blob/main/docs/archive/INSTRUCTIONS.md
+kind: repo-doc
+repo: games
 ---
 
 > **Archived 2026-09-23**: describes a client-side exception and Q2 2026

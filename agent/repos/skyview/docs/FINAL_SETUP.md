@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/FINAL_SETUP.md
+kind: repo-doc
+repo: skyview
 ---
 
 # SkyView Dynamics — Platform Setup

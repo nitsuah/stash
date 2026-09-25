@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/frontend/README.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Kryptos dashboard (frontend)

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/ASSET_MANAGEMENT.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Asset Management & Admin Guide

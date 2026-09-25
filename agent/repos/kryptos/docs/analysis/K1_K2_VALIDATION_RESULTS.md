@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K1_K2_VALIDATION_RESULTS.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # K1/K2 Autonomous Recovery Validation Results

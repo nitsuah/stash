@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/DEPLOYMENT_GUIDE.md
+kind: repo-doc
+repo: skyview
 ---
 
 # 🚀 Production Deployment Guide

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_SCRIPT_SHORT.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # motor-pool Short Demo Script (60-75s)

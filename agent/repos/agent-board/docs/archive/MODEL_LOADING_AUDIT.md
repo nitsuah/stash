@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MODEL_LOADING_AUDIT.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Ollama Model Loading Performance Audit

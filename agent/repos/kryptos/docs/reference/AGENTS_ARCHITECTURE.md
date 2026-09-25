@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/reference/AGENTS_ARCHITECTURE.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Agents Architecture

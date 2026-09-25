@@ -1,6 +1,8 @@
 ---
 up: "[[repos/deployer]]"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/CHANGELOG.md
+kind: repo-doc
+repo: deployer
 ---
 
 # Changelog

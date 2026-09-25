@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/multi/MULTIPLAYER_GATE.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # Multiplayer Readiness Gate

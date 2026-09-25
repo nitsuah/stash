@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K4_CAPABILITY_TABLE.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # K4 Capability Table

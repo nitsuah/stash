@@ -1,6 +1,8 @@
 ---
 up: "[[repos/osrs]]"
 source: https://github.com/nitsuah/osrs/blob/main/README.md
+kind: repo-doc
+repo: osrs
 ---
 
 # OSRS Bot

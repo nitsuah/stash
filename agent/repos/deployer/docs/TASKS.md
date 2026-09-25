@@ -1,6 +1,8 @@
 ---
 up: "[[repos/deployer]]"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/TASKS.md
+kind: repo-doc
+repo: deployer
 ---
 
 # Tasks

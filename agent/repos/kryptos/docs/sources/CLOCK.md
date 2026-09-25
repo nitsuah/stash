@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/sources/CLOCK.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # The World Clock (Weltzeituhr) in Kryptos K4

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/bb-mcp]]"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/HANDOFF-mcp-provider-contract-20260403.md
+kind: repo-doc
+repo: bb-mcp
 ---
 
 # Delivery Pipeline Handoff

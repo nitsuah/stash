@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/database/migrations/README.md
+kind: repo-doc
+repo: vigil
 ---
 
 # Migration history (frozen)

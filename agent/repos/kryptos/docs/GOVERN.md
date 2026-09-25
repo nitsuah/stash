@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/GOVERN.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Governance and Maintenance Notes

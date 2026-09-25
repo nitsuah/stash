@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CLIENT_PORTAL.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Client Portal Documentation

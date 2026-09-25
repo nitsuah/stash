@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/REORGANIZATION_SUMMARY.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Reorganization Summary

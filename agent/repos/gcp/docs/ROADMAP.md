@@ -1,6 +1,8 @@
 ---
 up: "[[repos/gcp]]"
 source: https://github.com/nitsuah/gcp/blob/main/docs/ROADMAP.md
+kind: repo-doc
+repo: gcp
 ---
 
 # GCP Google Drive Tools Roadmap

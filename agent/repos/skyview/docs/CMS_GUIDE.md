@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CMS_GUIDE.md
+kind: repo-doc
+repo: skyview
 ---
 
 # CMS Editing Guide

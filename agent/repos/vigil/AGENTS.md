@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/AGENTS.md
+kind: repo-doc
+repo: vigil
 ---
 
 <!-- BEGIN:nextjs-agent-rules -->

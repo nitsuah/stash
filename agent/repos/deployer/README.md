@@ -1,6 +1,8 @@
 ---
 up: "[[repos/deployer]]"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/README.md
+kind: repo-doc
+repo: deployer
 ---
 
 # Contract Safe

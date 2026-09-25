@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/docs/db-scaling-assessment.md
+kind: repo-doc
+repo: vigil
 ---
 
 # DB Scaling Assessment

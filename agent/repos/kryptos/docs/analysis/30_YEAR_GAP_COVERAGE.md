@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/30_YEAR_GAP_COVERAGE.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # 30-YEAR GAP COVERAGE ANALYSIS

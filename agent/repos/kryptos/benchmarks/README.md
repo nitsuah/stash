@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/benchmarks/README.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Attack-sweep benchmarks

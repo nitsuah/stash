@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/pitch-structure.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Pitch Deck Structure (Claude generates fresh HTML for each client)

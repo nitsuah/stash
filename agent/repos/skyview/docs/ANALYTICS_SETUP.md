@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/ANALYTICS_SETUP.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Analytics Setup Guide

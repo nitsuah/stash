@@ -1,6 +1,8 @@
 ---
 up: "[[repos/games]]"
 source: https://github.com/nitsuah/games/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: games
 ---
 
 # Games Collection Features

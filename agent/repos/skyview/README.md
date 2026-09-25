@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/README.md
+kind: repo-doc
+repo: skyview
 ---
 
 # 🚁 SkyView Dynamics - Cinematic Drone Services

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/reference/AUTONOMOUS_SYSTEM.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Autonomous Cryptanalysis System

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/ats-fill]]"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/README.md
+kind: repo-doc
+repo: ats-fill
 ---
 
 # ats-fill — Local-First AI Job Application Chrome Extension

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/docs/AGENT_TASK_QUEUE_API.md
+kind: repo-doc
+repo: vigil
 ---
 
 # Agent Task Queue API

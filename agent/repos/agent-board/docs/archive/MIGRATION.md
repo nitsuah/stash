@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MIGRATION.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Migration Notes

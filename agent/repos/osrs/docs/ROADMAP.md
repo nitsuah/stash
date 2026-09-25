@@ -1,6 +1,8 @@
 ---
 up: "[[repos/osrs]]"
 source: https://github.com/nitsuah/osrs/blob/main/docs/ROADMAP.md
+kind: repo-doc
+repo: osrs
 ---
 
 # OSRS Bot Roadmap

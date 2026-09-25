@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/conkers/TECH_DEBT.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # Tech Debt Tracker

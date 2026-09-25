@@ -1,6 +1,8 @@
 ---
 up: "[[repos/bb-mcp]]"
 source: https://github.com/nitsuah/bb-mcp/blob/main/README.md
+kind: repo-doc
+repo: bb-mcp
 ---
 
 # blackboard-learn-mcp

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/farm-3j]]"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/archive/FARM-RTS-TODO.md
+kind: repo-doc
+repo: farm-3j
 ---
 
 > **Archived 2026-09-23**: superseded by `docs/FEATURES.md`'s "Shipped" section —
