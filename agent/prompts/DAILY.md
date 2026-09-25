@@ -175,6 +175,15 @@ For each repo with local git worktrees (`git worktree list`):
 
 Log to `stash/agent/logs/stale-worktrees.log` in the same format as prior runs.
 
+## Before you finish: prove the run did something
+
+Added 2026-09-24. The 2026-09-03 run was recorded as "succeeded" after 10 seconds, which is too short to have synced 17 repos, and nothing flagged it. Before ending, check that today's run left evidence:
+- a dated section for today in `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log` and `obn-review.log`;
+- today's daily-note PR is open (or step 0's once-per-day guard fired, and the log says so);
+- the branch has nothing unpushed (`git status -sb` shows no `ahead`).
+
+If any of these is missing, make the **first line** of your final output `INCOMPLETE: <what's missing>`, so the gap shows in the task's run summary instead of hiding behind a green status.
+
 ## Non-goals
 
 This routine never: force-pushes, discards uncommitted work, rewrites history, or merges a note PR the same day it was opened. It only fast-forwards clean checkouts, prunes already-merged worktrees, and merges a *previous* day's note PR once it's clean and had a full review window — everything else is logged for a human to act on.
