@@ -51,13 +51,19 @@ def strip_code(text):
 
 
 def collect():
-    notes = []
+    """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
+    notes, attachments = [], []
     for dp, dn, fn in os.walk(VAULT):
-        dn[:] = [d for d in dn if d not in SKIP_DIRS]
+        dn[:] = [d for d in dn if d not in SKIP_DIRS and not d.startswith(".")]
         for f in fn:
+            rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.lower().endswith(".md"):
-                notes.append(os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/"))
-    return sorted(notes)
+                notes.append(rel)
+            # same exclusions as .obsidian/app.json userIgnoreFilters (tooling, logs, scratch .txt)
+            elif not re.search(r"\.(log|jsonl|py|ps1|sh|pyc|txt)$", f, re.I) \
+                    and not rel.startswith(("Nexus/", "scripts/", "logs/")):
+                attachments.append(rel)
+    return sorted(notes), sorted(attachments)
 
 
 def main():
@@ -70,12 +76,14 @@ def main():
                          "two notes outside the mirrors share a name (an ambiguous [[wikilink]])")
     a = ap.parse_args()
 
-    notes = collect()
-    lower = {n.lower(): n for n in notes}
+    notes, attachments = collect()
+    lower = {n.lower(): n for n in notes + attachments}
     noext = {n[:-3].lower(): n for n in notes}
     by_base = defaultdict(list)
     for n in notes:
         by_base[os.path.basename(n)[:-3].lower()].append(n)
+    for n in attachments:  # [[farm.png]] resolves by full file name
+        by_base[os.path.basename(n).lower()].append(n)
 
     def resolve(src, target):
         t = unquote(target.split("#")[0].split("?")[0]).strip().rstrip("\\")
@@ -151,6 +159,9 @@ def main():
         print("star hubs (40+ out-links): " + ", ".join(f"{n} ({c})" for c, n in stars))
     broken = {n: sorted(unresolved[n]) for n in scope if unresolved[n]}
     print(f"unresolved links (ghost nodes): {sum(len(v) for v in broken.values())} in {len(broken)} notes")
+    loose = [f for f in attachments if not in_links[f]]
+    print(f"attachments: {len(attachments)}  unlinked (loose dots in the graph): {len(loose)}"
+          + ("  -> " + ", ".join(loose) if loose else ""))
     print("\norphans by folder:")
     for k, v in Counter(top(n) for n in orphans).most_common():
         print(f"  {v:4d}  {k}")

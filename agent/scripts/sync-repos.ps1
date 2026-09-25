@@ -130,7 +130,9 @@ foreach ($repo in $TargetRepos) {
     # deletion is held BEFORE anything is removed; a count that high usually
     # means a repo moved/renamed its docs rather than a normal cleanup.
     if ($Prune -and (Test-Path $dest)) {
-        $stale = @(Get-ChildItem $dest -File -Filter '*.md' -Recurse | Where-Object {
+        # every file, not just .md: only .md is mirrored, so anything else (a lighthouse report
+        # or .github/dependabot.yml left by an older sync) is stale by definition
+        $stale = @(Get-ChildItem $dest -File -Recurse | Where-Object {
             -not $expected.ContainsKey($_.FullName.Substring($dest.Length + 1).ToLower())
         })
         if ($stale.Count -gt $MaxPrune -and -not $DryRun) {
