@@ -31,8 +31,18 @@ Goal: every note reachable from [[AGENT-MAIN]] in ≤2 meaningful hops, without 
 
 #### Result (2026-09-25)
 
-- 406/422 reachable from AGENT-MAIN (382 within 3 hops); the 16 left are the stale mirrors above
-- Only star hub is AGENT-MAIN's Vault map (63 links, intentional)
+Round 1 (flat indexes → hubs): 406/422 reachable, 16 orphans (stale mirrors).
+
+Round 2 (names, mirrors, links):
+- Home moved to [[VAULT-MAP]]; [[AGENT-MAIN]] is the process guide again
+- Unique names: folder hubs `<Folder>-hub`, cloud reports `<routine>-<date>` (4 cloud routines updated), `ARGUS/odysseus-automation-tasks`
+- `enrich-mirror.py` in the sync: `up:`/`source:` frontmatter on every mirrored doc → **0 orphans**, one named cluster per repo
+- `fix-doc-links.py`: ghost links 100 → 61. Upstream PRs: kryptos#224, skyview#152, agent-board#83, darkmoon#462
+- Now 423/424 reachable, VAULT-MAP is the only star hub (51 links)
+
+Still open:
+- Remaining ghost links: `motor-pool` references in agent-board archive docs (wikilinks upstream), missing ARGUS attachments (png/csv), `darkmoon/docs/projects/conkers/TECH_DEBT.md` → `TODO.md`, and the in-progress `projects/KB/agent-board-overview.md`
+- Graph labels are file names. To show `title:` instead, install the *Front Matter Title* community plugin (human decision)
 
 #### Later ideas
 
