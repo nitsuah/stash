@@ -1,5 +1,7 @@
 # eng-mini: stash — 2026-09-24 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-mini-stash-2026-09-23|2026-09-23]] <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently updated in-scope repo (`updated_at` 2026-09-24T17:43:56Z; last commit `c677ebf` "DAILY: move weekly note chain into daily-repo-sync; close the loop first; once per day" (#115)). Root audited directly from the local checkout (`ls -la`), same as the 2026-09-23 run, since this repo hosts the eng-mini routine itself.
 
 ## Root Audit — stash/

@@ -1,5 +1,7 @@
 # ENG LOC Report: games (2026-07-04)
 
+> 🧭 [[repos/games|games]] · ← [[reports/eng-loc-games-2026-07-03|2026-07-03]] · [[reports/eng-loc-games-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
   829 | games/app/lib/asteroid/_comp/Game/Game.jsx

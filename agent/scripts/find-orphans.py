@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import re
+import sys
 from collections import Counter, defaultdict
 from urllib.parse import unquote
 
@@ -64,6 +65,8 @@ def main():
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--json")
     ap.add_argument("--under", default="")
+    ap.add_argument("--check", action="store_true",
+                    help="exit 1 if a note outside the repos/<repo>/ mirrors is orphaned or unreachable")
     a = ap.parse_args()
 
     notes = collect()
@@ -115,6 +118,20 @@ def main():
     orphans = [n for n in scope if not out_links[n] and not in_links[n]]
     unref = [n for n in scope if out_links[n] and not in_links[n]]
 
+    # agents navigate top-down: how many notes can they reach from AGENT-MAIN by following links?
+    depth = {"AGENT-MAIN.md": 0} if "AGENT-MAIN.md" in out_links else {}
+    frontier = list(depth)
+    while frontier:
+        nxt = []
+        for n in frontier:
+            for t in out_links[n]:
+                if t not in depth:
+                    depth[t] = depth[n] + 1
+                    nxt.append(t)
+        frontier = nxt
+    unreachable = [n for n in scope if n not in depth]
+    stars = sorted(((len(out_links[n]), n) for n in scope if len(out_links[n]) >= 40), reverse=True)
+
     def top(n):
         parts = n.split("/")
         return "/".join(parts[:2]) if parts[0] == "repos" and len(parts) > 2 else parts[0] if len(parts) > 1 else "(root)"
@@ -122,6 +139,11 @@ def main():
     print(f"vault: {VAULT}")
     print(f"notes: {len(scope)}  orphans (no links in or out): {len(orphans)}  "
           f"unreferenced (links out, none in): {len(unref)}")
+    hops = Counter(min(d, 4) for n, d in depth.items() if n in scope)
+    print(f"reachable from AGENT-MAIN: {len(scope) - len(unreachable)}  unreachable: {len(unreachable)}  "
+          "by hops: " + ", ".join(f"{'4+' if k == 4 else k}:{v}" for k, v in sorted(hops.items())))
+    if stars:
+        print("star hubs (40+ out-links): " + ", ".join(f"{n} ({c})" for c, n in stars))
     print("\norphans by folder:")
     for k, v in Counter(top(n) for n in orphans).most_common():
         print(f"  {v:4d}  {k}")
@@ -129,9 +151,24 @@ def main():
         print("\norphans:")
         for n in orphans:
             print("  " + n)
+        print("\nunreferenced:")
+        for n in unref:
+            print("  " + n)
+        print("\nunreachable from AGENT-MAIN (outside repo mirrors):")
+        for n in unreachable:
+            if not re.match(r"^repos/[^/]+/", n):
+                print("  " + n)
     if a.json:
         with open(a.json, "w", encoding="utf-8") as f:
-            json.dump({"notes": len(scope), "orphans": orphans, "unreferenced": unref}, f, indent=2)
+            json.dump({"notes": len(scope), "orphans": orphans, "unreferenced": unref,
+                       "unreachable": unreachable}, f, indent=2)
+    if a.check:
+        bad = sorted({n for n in orphans + unreachable if not re.match(r"^repos/[^/]+/", n)})
+        if bad:
+            print(f"\nFAIL: {len(bad)} note(s) outside the repo mirrors have no path from AGENT-MAIN:")
+            for n in bad:
+                print("  " + n)
+            sys.exit(1)
 
 
 if __name__ == "__main__":

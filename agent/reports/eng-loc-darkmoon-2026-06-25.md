@@ -1,5 +1,7 @@
 # eng-loc: darkmoon — 2026-06-25
 
+> 🧭 [[repos/darkmoon|darkmoon]] · [[reports/eng-loc-darkmoon-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -38,4 +40,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 24 | `src\__tests__\Footer.test.tsx` |
 
 _...and 11 more_
-

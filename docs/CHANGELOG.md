@@ -8,6 +8,13 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-09-25 — vault hub links replace flat indexes
+
+- Removed `agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md` and `agent/REPOS-INDEX.md`. `build-vault-indexes.py` now writes prev/next nav lines into reports and dated notes, plus generated *Vault links* blocks in repo and project-folder hubs and a *Vault map* in `AGENT-MAIN.md`. New stub folder hubs: `projects/{CLEANUP,COSTS,LOC,MINI,TIRE,docs}.md`.
+- `find-orphans.py` reports reachability from `AGENT-MAIN` and gains `--check`. Result: 406/422 notes reachable. The 16 unreachable notes are stale repo mirrors that the next sync fixes.
+- `check-generated-diff.py` replaces DAILY's path allowlist for auto-merging `obn:` PRs.
+- `agent/README.md` documents the linking conventions. `prompts/DAILY.md` is updated to match.
+
 ### 2026-09-24 — `pmo-ff` 2027 planning reset
 
 - `agent/scripts/sync-repos.ps1` now mirrors `docs/` recursively (subfolder paths preserved, so upstream breadcrumb links such as `../../README.md` resolve in the vault) and gains an opt-in `-Prune` switch for stale mirror copies.

@@ -1,3 +1,5 @@
+> 🧭 [[repos/agent-board|agent-board]] · ← [[reports/eng-loc-agent-board-2026-06-25|2026-06-25]] · [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] → <!-- nav -->
+
 ## motor-pool LOC Report (2026-06-28)
 ### Refactor Candidates (>500 lines)
 - C:\Users\ajhar\code\motor-pool\tools\content-gen\modules\MoneyPrinterTurbo\app\services\llm.py (901 lines)

@@ -1,5 +1,7 @@
 # eng-loc: games — 2026-06-25
 
+> 🧭 [[repos/games|games]] · [[reports/eng-loc-games-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -36,4 +38,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 8 | `app\pages\fps\_comps\Crosshair.jsx` |
 
 _...and 31 more_
-

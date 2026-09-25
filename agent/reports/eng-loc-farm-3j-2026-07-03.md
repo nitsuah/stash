@@ -1,4 +1,7 @@
 # ENG LOC Report: farm-3j
+
+> 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-06-25|2026-06-25]] · [[reports/eng-loc-farm-3j-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** farm-3j (farm-3j)
 **Thresholds:** max_lines=500, min_lines=30

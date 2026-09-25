@@ -1,5 +1,7 @@
 # ENG LOC Report — deployer (2026-07-29)
 
+> 🧭 [[repos/deployer|deployer]] <!-- nav -->
+
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`
 **Excluded**: `node_modules/`, `.git/`, `dist/`, `build/`, `.next/`, `.claude/worktrees/`, `.playwright-mcp/`, `.venv/`, `venv/`, `env/`

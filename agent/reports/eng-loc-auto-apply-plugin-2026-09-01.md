@@ -1,5 +1,7 @@
 # LOC Report — auto-apply-plugin
 
+> 🧭 [[repos/ats-fill|auto-apply-plugin]] · ← [[reports/eng-loc-auto-apply-plugin-2026-07-04|2026-07-04]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-01
 Source: shallow clone (`--depth 1`) of `nitsuah/auto-apply-plugin` @ `80abb21cfdc025570566dbb8327ccd70a254f6e9`

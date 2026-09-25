@@ -1,5 +1,7 @@
 # eng-mini: skyview — 2026-09-23 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/skyview|skyview]] · ← [[reports/eng-mini-skyview-2026-09-16|2026-09-16]] <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (last commit 2026-09-19T07:43:16Z / 2026-09-19T03:43:12-04:00, PR #139 "Native operator scheduling" — real feature work, not an automated metrics-bot commit). Repo discovery used `search_repositories` (`user:nitsuah`, sort=updated) and root-file discovery used `search_code` (`repo:nitsuah/skyview path:/`), since this session's git proxy scopes direct repo/content access (`get_file_contents`, `list_commits`) to `nitsuah/stash` only. **Root listing caveat:** the repo reports `total_count: 21` root entries but `search_code` returned only 20 — GitHub's code-search index is known to exclude some generated/lockfile-shaped files (e.g. `package-lock.json`) and possibly `.gitignore`; the missing entry is most likely one of those two and is not expected to change the findings below (both are required-root regardless).
 
 ## Root Audit — skyview/

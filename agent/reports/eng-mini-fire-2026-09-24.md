@@ -1,5 +1,7 @@
 # eng-mini: fire — 2026-09-24 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-09-23|2026-09-23]] <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (`updated_at` 2026-09-24T17:36:41Z; PR #119 "fix: restore 70% branch coverage, enforce it in CI, fix Docker coverage perms", merged 2026-09-24T17:35:47Z — real test/coverage work from the same-day PMO audit #118, not an automated bot commit). Repo discovery used `search_repositories` (`user:nitsuah`, sort=updated); root-file discovery used `search_code` (`repo:nitsuah/fire path:/`), since this session's git proxy scopes direct repo/content access (`get_file_contents`) to `nitsuah/stash` only. `vigil` and `ats-fill` were excluded — both rank above `fire` by `updated_at` but neither has an entry under `agent/repos/*.md`.
 
 ## Root Audit — fire/

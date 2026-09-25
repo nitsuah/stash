@@ -1,5 +1,7 @@
 # ENG LOC Report: 9router (2026-07-04)
 
+> 🧭 [[reports/eng-loc-9router-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
  1731 | 9router/src/app/(dashboard)/dashboard/providers/[id]/page.js

@@ -1,4 +1,7 @@
 # ENG LOC Report: vhs
+
+> 🧭 [[repos/vhs|vhs]] · ← [[reports/eng-loc-vhs-2026-06-25|2026-06-25]] · [[reports/eng-loc-vhs-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** vhs (vhs)
 **Thresholds:** max_lines=500, min_lines=30

@@ -1,5 +1,7 @@
 # LOC Report — fire
 
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-07-29|2026-07-29]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-16
 Source: shallow clone (`--depth 1`) of `nitsuah/fire` @ `25a783a594b6753e1a7cfc86abd9440dcb8afac0`

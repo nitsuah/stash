@@ -1,5 +1,7 @@
 # ENG LOC Report: kryptos (2026-07-04)
 
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-07-03|2026-07-03]] · [[reports/eng-loc-kryptos-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
   903 | kryptos/src/kryptos/k4/transposition_analysis.py

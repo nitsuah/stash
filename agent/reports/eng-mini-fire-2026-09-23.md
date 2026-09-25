@@ -1,5 +1,7 @@
 # eng-mini: fire — 2026-09-23 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-09-16|2026-09-16]] · [[reports/eng-mini-fire-2026-09-24|2026-09-24]] → <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (last commit 2026-09-19T07:44:03Z / 2026-09-19T03:43:57-04:00, PR #111 "Product/UI + reliability pass" — real feature/bugfix work, not an automated metrics-bot commit). Repo discovery used `search_repositories` (`user:nitsuah`, sort=updated) and root-file discovery used `search_code` (`repo:nitsuah/fire path:/`), since this session's git proxy scopes direct repo/content access (`get_file_contents`, `list_commits`) to `nitsuah/stash` only and denies the unscoped `/users/{user}/repos` REST path. `vigil` (updated 2026-09-21, most recent of all nitsuah repos) was excluded — it has no entry under `agent/repos/*.md` and is therefore not yet a tracked repo for this routine.
 
 ## Root Audit — fire/

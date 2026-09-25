@@ -1,5 +1,7 @@
 # eng-loc: kryptos — 2026-06-25
 
+> 🧭 [[repos/kryptos|kryptos]] · [[reports/eng-loc-kryptos-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -39,4 +41,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 9 | `tests\functional\test_transposition_constraints_empty.py` |
 
 _...and 72 more_
-

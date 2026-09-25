@@ -92,5 +92,25 @@ response = client.messages.create(
 
 ## Additional Documentation
 
-See [REPO-README.md](REPO-README.md) for scope, projects index, and notes index.
+See [REPO-README.md](REPO-README.md) for the repo overview.
 See [projects/scope.md](projects/scope.md) for the full project scope definition.
+
+## Vault Linking Conventions
+
+The vault has no flat INDEX files. Every note hangs off the hub it belongs to, so it's at most a few hops from the *Vault map* in [AGENT-MAIN.md](AGENT-MAIN.md). `scripts/build-vault-indexes.py` derives all of these links from file names, so anything that writes a note only has to name it right:
+
+| Write to | Linked from |
+|---|---|
+| `reports/<kind>-<repo>-<date>.md` (`eng-loc`, `eng-mini`) | `repos/<repo>.md` hub (latest) + prev/next chain |
+| `reports/<kind>-<date>.md`, `reports/cloud/<routine>/<date>.md` | AGENT-MAIN *Vault map* (latest) + prev/next chain |
+| `notes/<YYYY-MM-DD>.md`, `notes/<YYYY>-W<ww>.md` | AGENT-MAIN (latest) + prev/next/week chain |
+| `projects/<Folder>/<doc>.md` | `projects/<Folder>.md` folder hub (stub created if missing) |
+| `projects/KB/<repo>-overview.md` | `repos/<repo>.md` hub |
+| `projects/<doc>.md` | AGENT-MAIN *Vault map* |
+
+Rules for agents and routines:
+
+- Never hand-edit a `<!-- nav -->` line or a `<!-- vault-links:start/end -->` block. They're regenerated.
+- A note that fits no row above gets `up: "[[parent]]"` frontmatter. Obsidian counts that as a link.
+- Link to what the content actually depends on, in the body. Don't add "see also" lists to reach coverage.
+- `python scripts/find-orphans.py --check` fails when a note outside the `repos/<repo>/` mirrors can't be reached from AGENT-MAIN.

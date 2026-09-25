@@ -1,3 +1,5 @@
+> 🧭 [[repos/agent-board|agent-board]] <!-- nav -->
+
 ## motor-pool High LOC Report (>1000 lines, 2026-06-28)
 - C:\Users\ajhar\code\motor-pool\tools\content-gen\modules\MoneyPrinterTurbo\app\services\voice.py (1276 lines)
 - C:\Users\ajhar\code\motor-pool\tools\content-gen\modules\MoneyPrinterTurbo\webui\Main.py (1293 lines)
