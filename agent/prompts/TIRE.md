@@ -36,7 +36,7 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
    - Skip `daily-email`, `daily-checkin` and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
 4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
-5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it.
+5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
 6. **Classify** each open item:
    - `quick`: small, mechanical, low risk, and verifiable with tests or CI. Examples: `git rm --cached` a generated file, a patch/minor dependency bump for an advisory, `.gitignore` or lint-config fixes, a doc fact that is provably wrong, deleting remote branches whose PR is merged or closed.
    - `pmo`: planning or roadmap work, anything that needs product judgment, and multi-file refactors. **Most eng-loc (LOC) findings belong here.**
@@ -47,7 +47,7 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 
 Pick the oldest or most-repeated `quick` items first, and group items for the same repo into one PR where that makes sense.
 
-1. `git checkout -b tire/<repo>/<short-theme>-<YYYY-MM-DD>` in the repo (or `EnterWorktree` if running in the background; see Tips).
+1. `git checkout -b tire/<repo>/<short-theme>-<YYYY-MM-DD>` in the repo's main checkout, if it is clean and on the default branch. If it isn't, skip the repo and log it (see Tips for why not a worktree).
 2. Fix the root cause, not a workaround. Verify via Docker, not the host toolchain (see §4 for commands).
 3. Commit with what and why, and reference the ledger IDs (`Fixes F-20260924-03`).
 4. `git push -u origin <branch>`, then `gh pr create --repo <owner>/<repo> --base main`. List the ledger IDs and the source report in the PR body.
@@ -105,7 +105,8 @@ Last intake: YYYY-MM-DD
 ## Tips from previous runs
 
 - **Parallel recon, sequential Docker.** Recon subagents can run in parallel; run Docker builds one at a time.
-- **EnterWorktree is required in background sessions** before editing files. The worktree must be inside the target repo.
+- **Commit on a branch in the main checkout when the repo is clean; don't use worktrees.** Several repos' hooks break from a worktree (2026-09-24): vigil's husky pre-commit always runs lint-staged on the Windows host; darkmoon's runs on the host from a worktree, otherwise it starts the `darkmoon-solo` container and leaves it running; stash's gitleaks hook runs in Docker against the repo root and fails from a worktree. If the main checkout is dirty or on another branch, that's someone's work in progress: skip the repo.
+- **Don't `docker stop` containers that hooks start.** The auto-mode classifier blocks it ("Interfere With Workloads"). Name the container (e.g. `darkmoon-solo`) in the report for a human instead.
 - **Pre-commit hooks that modify files:** after black/isort abort a commit, `git add -A` and retry.
 - **Cross-repo `gh`:** always pass `--repo <owner>/<repo>` (and `--head`), because `gh` otherwise infers the repo from the cwd.
 - **stash's pre-commit hook** runs gitleaks and the PII scan. If it blocks the ledger commit, fix the content; never use `--no-verify`.
