@@ -10,7 +10,7 @@ source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/conkers/TECH
 **Last Updated:** September 2, 2026  
 **Status:** Actively tracked
 
-> **Note:** This document tracks actionable tech debt items. See QA issues in [TODO.md](./TODO.md)
+> **Note:** This document tracks actionable tech debt items. See QA issues in TODO.md
 
 ---
 
@@ -289,5 +289,5 @@ _(Move items here as they're resolved)_
 
 **Related Documents:**
 
-- [TODO.md](./TODO.md) - QA checklist and open bugs
-- [archive/](./archive/) - Historical analysis and planning docs
+- TODO.md - QA checklist and open bugs
+- archive/ - Historical analysis and planning docs

@@ -17,9 +17,11 @@
   Preview what would be copied without making changes.
 
 .PARAMETER Prune
-  Also delete mirrored .md files under repos/[name]/ that no longer exist in the
-  source repo (e.g. a root FEATURES.md left behind after the repo moved it to
-  docs/, or a doc since archived upstream). Off by default; combine with -DryRun
+  Also delete files under repos/[name]/ that the current sync didn't produce: mirrored
+  .md files that no longer exist in the source repo (e.g. a root FEATURES.md left
+  behind after the repo moved it to docs/, or a doc since archived upstream), and any
+  non-.md file, since only .md is mirrored (e.g. a lighthouse report or
+  .github/dependabot.yml copied by an older sync). Off by default; combine with -DryRun
   to preview.
 
 .PARAMETER MaxPrune

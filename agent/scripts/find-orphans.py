@@ -28,6 +28,7 @@ from urllib.parse import unquote
 
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
+IGNORED_DIRS = {"scripts", "logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
 MDLINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
@@ -54,14 +55,16 @@ def collect():
     """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
     notes, attachments = [], []
     for dp, dn, fn in os.walk(VAULT):
-        dn[:] = [d for d in dn if d not in SKIP_DIRS and not d.startswith(".")]
+        # same exclusions as .obsidian/app.json userIgnoreFilters (tooling, logs, scratch .txt),
+        # applied to notes and attachments alike
+        top = dp == VAULT
+        dn[:] = [d for d in dn if d not in SKIP_DIRS and not d.startswith(".")
+                 and not (top and d in IGNORED_DIRS)]
         for f in fn:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.lower().endswith(".md"):
                 notes.append(rel)
-            # same exclusions as .obsidian/app.json userIgnoreFilters (tooling, logs, scratch .txt)
-            elif not re.search(r"\.(log|jsonl|py|ps1|sh|pyc|txt)$", f, re.I) \
-                    and not rel.startswith(("Nexus/", "scripts/", "logs/")):
+            elif not re.search(r"\.(log|jsonl|py|ps1|sh|pyc|txt)$", f, re.I):
                 attachments.append(rel)
     return sorted(notes), sorted(attachments)
 
@@ -84,6 +87,7 @@ def main():
         by_base[os.path.basename(n)[:-3].lower()].append(n)
     for n in attachments:  # [[farm.png]] resolves by full file name
         by_base[os.path.basename(n).lower()].append(n)
+    att_set = set(attachments)
 
     def resolve(src, target):
         t = unquote(target.split("#")[0].split("?")[0]).strip().rstrip("\\")
@@ -116,7 +120,12 @@ def main():
         except OSError:
             continue
         text = strip_code(text)
-        targets = WIKI.findall(text) + [m for m in MDLINK.findall(text) if m.lower().split("#")[0].endswith(".md") or "." not in os.path.basename(m.split("#")[0])]
+        # Markdown links count when they point at a note, or at an attachment that exists
+        # (![diagram](diagram.png)); other file links aren't graph nodes
+        targets = WIKI.findall(text) + [m for m in MDLINK.findall(text)
+                                        if m.lower().split("#")[0].endswith(".md")
+                                        or "." not in os.path.basename(m.split("#")[0])
+                                        or resolve(n, m) in att_set]
         for t in targets:
             r = resolve(n, t)
             if r and r != n:

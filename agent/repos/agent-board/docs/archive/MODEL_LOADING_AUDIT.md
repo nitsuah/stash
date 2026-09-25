@@ -11,7 +11,7 @@ source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MODEL_LO
 > shipped (model swap), additional opt-in mitigation added (warmup), GPU work
 > tracked separately as the path to a larger win.
 
-repo: [[motor-pool]]
+repo: `motor-pool`
 ## Background
 
 [Q2-CEO] Model loading performance audit (TASKS.md, P1):
