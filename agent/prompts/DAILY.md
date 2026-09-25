@@ -57,7 +57,11 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
 
 ### 1. Repo doc sync (obn-repo)
 
-Run `agent/scripts/sync-repos.ps1` (or an equivalent manual copy) to pull each repo's root PMO files (`CHANGELOG.md`, `FEATURES.md`, `METRICS.md`, `README.md`, `ROADMAP.md`, `TASKS.md`, etc.) and `docs/*.md` into `stash/agent/repos/<repo>/`.
+Run `agent/scripts/sync-repos.ps1 -Prune`. It mirrors every **committed** `.md` in each repo (`git ls-tree HEAD`, any depth, paths preserved) into `stash/agent/repos/<repo>/`, exporting content from git rather than copying the working tree. So untracked, staged, or locally modified files are never published into this public vault. (2026-09-25: the old working-tree copy leaked fire's uncommitted private `docs/weekly-checkin-prompt.md` and had to be deleted by hand.)
+
+`-Prune` removes mirrored `.md` files that no longer exist upstream: old root-level duplicates from before a repo moved its docs into `docs/`, and docs since deleted or archived. The deletions land in the daily-note PR with the rest of `agent/repos/**`. The script has a per-repo cap (`-MaxPrune`, default 25): over it, it deletes **nothing** for that repo and prints `[prune-held]`. Copy any `[prune-held]` line into the daily note's `## Notes` for a human instead of raising the cap yourself. It usually means a repo moved or renamed its docs folder.
+
+Don't add HANDOFF wikilinks by hand: every doc is already linked from its repo README's Docs Index and from `agent/REPOS-INDEX.md`, so the old "add wikilinks to <repo>.md Vault Index" action is retired.
 
 Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never overwrite) a new dated section in this exact format, matching prior entries:
 
@@ -66,6 +70,8 @@ Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never ov
 OK <repo> — <N> .md files staged
 OK <repo> — <N> .md files staged
 ...
+PRUNED <repo> — <path>, <path>   (only when -Prune removed something)
+HELD <repo> — <N> stale files over -MaxPrune; nothing deleted
 ```
 
 ### 2. Repo synthesis (logs to `obn-review.log`)
@@ -154,14 +160,14 @@ Both files are committed on the day's `obn/daily-note-<date>` branch with the da
 
 ## Repo sync
 
-For each repo in the list below, checked out at `C:\Users\<user>\code\<repo>`:
+For each repo in the list below, at the **Local path** given for it in `agent/projects/scope.md`. That's usually `C:\Users\<user>\code\<repo>`, but not always: `overseer` is cloned at `code\vigil` and `auto-apply-plugin` at `code\ats-fill`.
 
 1. `git status --short --branch`.
 2. If clean and on the default branch (`main`/`master`): `git pull --ff-only`. Log `PULLED` with the commit count pulled.
 3. If dirty (uncommitted changes) or on a non-default branch: **skip, do not stash, do not switch branches.** Log `SKIPPED_DIRTY` or `SKIPPED_BRANCH` with a one-line reason. This is someone's in-progress work — never touch it automatically.
 4. If the pull would not fast-forward (diverged history): skip and log `SKIPPED_DIVERGED` — this needs a human to resolve, not automation.
 
-Canonical repo list: `agent/projects/scope.md`'s "Tracked" table. The list below is a cached copy kept in sync manually — if you notice it's drifted from scope.md, trust scope.md and fix this line: `agent-board`, `auto-apply-plugin`, `avatar`, `bb-mcp`, `darkmoon`, `deployer`, `farm-3j`, `fire`, `games`, `gcp`, `kryptos`, `nitsuah-io`, `osrs`, `overseer`, `skyview`, `stash`, `vhs`.
+Canonical repo list: `agent/projects/scope.md`'s "Tracked" table. The list below is a cached copy kept in sync manually — if you notice it's drifted from scope.md, trust scope.md and fix this line: `agent-board`, `auto-apply-plugin` (at `code\ats-fill`), `avatar`, `bb-mcp`, `darkmoon`, `deployer`, `farm-3j`, `fire`, `games`, `gcp`, `kryptos`, `nitsuah-io`, `osrs`, `overseer` (at `code\vigil`), `skyview`, `stash`, `vhs`.
 
 Log to `stash/agent/logs/daily-git-sync.log`, appending a new dated section in the same `| repo | result | commits | note |` table format as prior runs — don't overwrite history.
 
@@ -170,7 +176,7 @@ Log to `stash/agent/logs/daily-git-sync.log`, appending a new dated section in t
 For each repo with local git worktrees (`git worktree list`):
 
 - Prune broken worktree refs (`git worktree prune`).
-- Delete worktrees for branches already merged to the default branch.
+- Delete worktrees for branches already merged to the default branch. **Squash merges count too.** `git branch --merged` can't see them, so if a worktree's branch isn't merged by ancestry, check `gh pr list --repo <owner/repo> --head <branch> --state merged --json number` (owner/repo from scope.md's GitHub URL). If a merged PR exists, the worktree is safe to delete; log which PR proved it.
 - Flag (don't delete) worktrees older than 30 days that are *not* merged — those need a human decision.
 
 Log to `stash/agent/logs/stale-worktrees.log` in the same format as prior runs.

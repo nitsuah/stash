@@ -1,11 +1,11 @@
-<#
+﻿<#
 .SYNOPSIS
   Syncs repo docs from live repos into stash/agent/repos/[name]/
-  Copies root PMO files and every .md under docs/ (including subfolders such as
-  docs/archive/ and docs/analysis/, keeping their relative paths so the
-  breadcrumb links added upstream in the 2026-09-24 pmo-ff pass resolve).
+  Mirrors every COMMITTED .md in each repo (git ls-tree HEAD, any depth, paths
+  preserved) so the breadcrumb/Docs Index links added upstream resolve in the
+  vault. Content comes from git (HEAD), never the working tree, so untracked,
+  staged, or locally modified files are never published into this public vault.
   Updates "Last Validated" in each summary .md.
-  Reports newly detected HANDOFF-*.md files for vault index updates.
 
 .PARAMETER Repos
   One or more repo names to sync. Defaults to all known repos.
@@ -19,6 +19,11 @@
   docs/, or a doc since archived upstream). Off by default; combine with -DryRun
   to preview.
 
+.PARAMETER MaxPrune
+  Per-repo safety cap for -Prune (default 25). If a repo has more stale files
+  than this, nothing is deleted for that repo and a [prune-held] line is printed;
+  review with -Repos <repo> -Prune -DryRun, then re-run with a higher -MaxPrune.
+
 .EXAMPLE
   .\sync-repos.ps1
   .\sync-repos.ps1 -Repos overseer, nitsuah-io
@@ -28,7 +33,8 @@
 param(
     [string[]]$Repos  = @(),
     [switch]  $DryRun,
-    [switch]  $Prune
+    [switch]  $Prune,
+    [int]     $MaxPrune = 25
 )
 
 $VaultRoot = (Resolve-Path "$PSScriptRoot\..").Path
@@ -58,14 +64,8 @@ if ($AllRepos.Count -eq 0) { throw "No repos parsed from the Tracked table in $S
 
 $TargetRepos = if ($Repos.Count -gt 0) { $Repos } else { $AllRepos }
 
-# Root-level files to sync (if present in source repo)
-$RootFiles = @(
-    'CHANGELOG.md', 'FEATURES.md', 'METRICS.md', 'README.md',
-    'ROADMAP.md', 'TASKS.md', 'PRIVACY.md', 'PROMPTS.md', 'README.es.md'
-)
-
 $TotalCopied = 0
-$TotalNewHandoffs = 0
+$TotalHeld   = 0
 
 foreach ($repo in $TargetRepos) {
     $src  = if ($RepoPaths.ContainsKey($repo)) { $RepoPaths[$repo] } else { "$CodeRoot\$repo" }
@@ -77,54 +77,55 @@ foreach ($repo in $TargetRepos) {
     }
 
     Write-Host "`n[$repo]" -ForegroundColor Cyan
-    $copied      = 0
-    $newHandoffs = @()
 
-    if (-not $DryRun) {
-        New-Item -ItemType Directory -Path $dest           -Force | Out-Null
-        New-Item -ItemType Directory -Path "$dest\docs"    -Force | Out-Null
+    # --- Every COMMITTED .md in the repo (git ls-tree HEAD), any depth ---
+    # Committed-only on purpose: copying the working tree once leaked a
+    # user's staged-but-uncommitted private doc (fire/docs/weekly-checkin-prompt.md)
+    # into this public vault. Untracked, staged, and modified files never sync.
+    $files = @(git -C $src ls-tree -r --name-only HEAD 2>$null |
+        Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' })
+    if ($files.Count -eq 0) {
+        Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
+        continue
     }
-
-    # --- Root PMO files ---
-    foreach ($f in $RootFiles) {
-        $srcFile = "$src\$f"
-        if (-not (Test-Path $srcFile)) { continue }
-        $destFile = "$dest\$f"
-        $isNew    = -not (Test-Path $destFile)
-        if (-not $DryRun) { Copy-Item $srcFile $destFile -Force }
+    $expected = @{}
+    foreach ($f in $files) {
+        $expected[($f -replace '/','\').ToLower()] = $true
+        $isNew = -not (Test-Path "$dest\$($f -replace '/','\')")
         Write-Host "  $(if ($isNew){'[NEW]'}else{'[upd]'}) $f"
-        $copied++
     }
-
-    # --- docs/ .md files (recursive, relative paths preserved) ---
-    $srcDocs = "$src\docs"
-    $expected = @{}   # vault-relative paths this run produced, for -Prune
-    foreach ($f in $RootFiles) { if (Test-Path "$src\$f") { $expected["$f".ToLower()] = $true } }
-    if (Test-Path $srcDocs) {
-        Get-ChildItem $srcDocs -File -Filter '*.md' -Recurse |
-            Where-Object { $_.FullName -notmatch '\\node_modules\\' } |
-            ForEach-Object {
-                $rel      = $_.FullName.Substring($srcDocs.Length + 1)
-                $destFile = "$dest\docs\$rel"
-                $isNew    = -not (Test-Path $destFile)
-                if (-not $DryRun) {
-                    New-Item -ItemType Directory -Path (Split-Path $destFile) -Force | Out-Null
-                    Copy-Item $_.FullName $destFile -Force
-                }
-                Write-Host "  $(if ($isNew){'[NEW]'}else{'[upd]'}) docs/$($rel -replace '\\','/')"
-                $copied++
-                $expected["docs\$rel".ToLower()] = $true
-                if ($_.Name -match '^HANDOFF-' -and $isNew) { $newHandoffs += ($rel -replace '\\','/') }
-            }
+    if (-not $DryRun) {
+        New-Item -ItemType Directory -Path $dest -Force | Out-Null
+        # git archive exports exactly the committed bytes; tar (bsdtar, built
+        # into Windows 10+) unpacks them with paths preserved.
+        $tar = Join-Path ([System.IO.Path]::GetTempPath()) "sync-$repo-$PID.tar"
+        git -C $src archive --format=tar -o $tar HEAD -- @files
+        if ($LASTEXITCODE -ne 0) { Write-Host "  [ERROR] git archive failed for $repo" -ForegroundColor Red; continue }
+        tar -xf $tar -C $dest
+        Remove-Item $tar -Force -ErrorAction SilentlyContinue
     }
+    $copied = $files.Count
 
     # --- optional: prune mirrored .md files that no longer exist upstream ---
+    # The per-repo cap lives here (not in the calling routine) so a mass
+    # deletion is held BEFORE anything is removed; a count that high usually
+    # means a repo moved/renamed its docs rather than a normal cleanup.
     if ($Prune -and (Test-Path $dest)) {
-        Get-ChildItem $dest -File -Filter '*.md' -Recurse | ForEach-Object {
-            $rel = $_.FullName.Substring($dest.Length + 1)
-            if (-not $expected.ContainsKey($rel.ToLower())) {
-                if (-not $DryRun) { Remove-Item $_.FullName -Force }
-                Write-Host "  [prune] $($rel -replace '\\','/')" -ForegroundColor DarkYellow
+        $stale = @(Get-ChildItem $dest -File -Filter '*.md' -Recurse | Where-Object {
+            -not $expected.ContainsKey($_.FullName.Substring($dest.Length + 1).ToLower())
+        })
+        if ($stale.Count -gt $MaxPrune -and -not $DryRun) {
+            Write-Host "  [prune-held] $($stale.Count) stale files exceed -MaxPrune $MaxPrune; nothing deleted. Review with: -Repos $repo -Prune -DryRun" -ForegroundColor Red
+            $TotalHeld++
+        } else {
+            foreach ($f in $stale) {
+                if (-not $DryRun) { Remove-Item $f.FullName -Force }
+                Write-Host "  [prune] $($f.FullName.Substring($dest.Length + 1) -replace '\\','/')" -ForegroundColor DarkYellow
+            }
+            # drop directories the prune left empty
+            if (-not $DryRun) {
+                Get-ChildItem $dest -Directory -Recurse | Sort-Object { $_.FullName.Length } -Descending |
+                    Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item -Force
             }
         }
     }
@@ -140,19 +141,12 @@ foreach ($repo in $TargetRepos) {
         }
     }
 
-    # --- Report new HANDOFF files ---
-    if ($newHandoffs.Count -gt 0) {
-        Write-Host "`n  [ACTION REQUIRED] New HANDOFF files — add wikilinks to $repo.md Vault Index:" -ForegroundColor Green
-        $newHandoffs | ForEach-Object { Write-Host "    [[repos/$repo/docs/$($_ -replace '\.md$','')]]" -ForegroundColor Green }
-        $TotalNewHandoffs += $newHandoffs.Count
-    }
-
     Write-Host "  $copied file(s) $(if ($DryRun){'would be '}else{''})copied"
     $TotalCopied += $copied
 }
 
 Write-Host "`n--- Sync $(if ($DryRun){'preview (dry run)'}else{'complete'}) ---" -ForegroundColor Cyan
 Write-Host "Total files: $TotalCopied"
-if ($TotalNewHandoffs -gt 0) {
-    Write-Host "New HANDOFF files needing vault index updates: $TotalNewHandoffs" -ForegroundColor Green
+if ($TotalHeld -gt 0) {
+    Write-Host "Repos with a held prune (over -MaxPrune): $TotalHeld" -ForegroundColor Red
 }
