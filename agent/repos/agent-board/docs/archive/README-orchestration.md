@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/README-orchestration.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Agent Ecosystem - Local Development Stack

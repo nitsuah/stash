@@ -1,6 +1,8 @@
 ---
 up: "[[repos/deployer]]"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/METRICS.md
+kind: repo-doc
+repo: deployer
 ---
 
 # Metrics for Nitsuah-Labs/deployer

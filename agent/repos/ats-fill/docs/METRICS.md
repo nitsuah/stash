@@ -1,6 +1,8 @@
 ---
 up: "[[repos/ats-fill]]"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/METRICS.md
+kind: repo-doc
+repo: ats-fill
 ---
 
 # Metrics

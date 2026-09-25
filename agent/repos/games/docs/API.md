@@ -1,6 +1,8 @@
 ---
 up: "[[repos/games]]"
 source: https://github.com/nitsuah/games/blob/main/docs/API.md
+kind: repo-doc
+repo: games
 ---
 
 # API and Interfaces

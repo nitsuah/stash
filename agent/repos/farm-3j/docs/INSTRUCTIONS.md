@@ -1,6 +1,8 @@
 ---
 up: "[[repos/farm-3j]]"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/INSTRUCTIONS.md
+kind: repo-doc
+repo: farm-3j
 ---
 
 # Agent Instructions: Farm RTS Handoff

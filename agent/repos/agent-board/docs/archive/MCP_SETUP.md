@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MCP_SETUP.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Model Context Protocol (MCP) Setup Guide

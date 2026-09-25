@@ -1,6 +1,8 @@
 ---
 up: "[[repos/fire]]"
 source: https://github.com/nitsuah/fire/blob/main/docs/METRICS.md
+kind: repo-doc
+repo: fire
 ---
 
 # METRICS.md

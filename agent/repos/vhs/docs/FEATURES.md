@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vhs]]"
 source: https://github.com/nitsuah/vhs/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: vhs
 ---
 
 # VHS Collection Indexer — Features

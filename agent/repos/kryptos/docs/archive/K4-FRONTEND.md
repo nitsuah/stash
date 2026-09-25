@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4-FRONTEND.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Frontend design spec

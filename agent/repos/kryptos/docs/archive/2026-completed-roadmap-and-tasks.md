@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/archive/2026-completed-roadmap-and-tasks.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # 2026 Completed Roadmap Phases & Done Tasks (Archive)

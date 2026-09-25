@@ -1,6 +1,8 @@
 ---
 up: "[[repos/osrs]]"
 source: https://github.com/nitsuah/osrs/blob/main/docs/archive/HANDOFF-docker-entrypoint-20260403.md
+kind: repo-doc
+repo: osrs
 ---
 
 > **Archived 2026-09-23**: the fix this handoff describes shipped long ago;

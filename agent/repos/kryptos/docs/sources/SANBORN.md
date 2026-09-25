@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/sources/SANBORN.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Jim Sanborn — notes and research pointers

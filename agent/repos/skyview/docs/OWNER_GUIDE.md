@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/OWNER_GUIDE.md
+kind: repo-doc
+repo: skyview
 ---
 
 # SkyView Website - Owner's Guide

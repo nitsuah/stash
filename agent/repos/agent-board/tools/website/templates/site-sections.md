@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/site-sections.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # Website Section Guide by Industry

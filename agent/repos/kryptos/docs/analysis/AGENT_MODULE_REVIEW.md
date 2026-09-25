@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/AGENT_MODULE_REVIEW.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # Agent Module Review (Post-K4, Pre-GUI)

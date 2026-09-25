@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K3_VALIDATION_RESULTS.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # K3 Autonomous Solving Validation Results

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/farm-3j]]"
 source: https://github.com/nitsuah/farm-3j/blob/main/components/animations/README.md
+kind: repo-doc
+repo: farm-3j
 ---
 
 # Farm Animation Components

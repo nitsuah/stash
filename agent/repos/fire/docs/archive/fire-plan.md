@@ -1,6 +1,8 @@
 ---
 up: "[[repos/fire]]"
 source: https://github.com/nitsuah/fire/blob/main/docs/archive/fire-plan.md
+kind: repo-doc
+repo: fire
 ---
 
 > 🧭 [fire](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
@@ -56,7 +58,7 @@ styles.css
 The design system stylesheet:
 
 CSS custom properties (variables) for theme tokens.
-Curated dark palette (e.g., Deep Space Blue #0b0f19, Emerald Green #10b981 for gains, Sunset Coral #f43f5e for expenses).
+Curated dark palette (e.g., Deep Space Blue #0b0f19, Emerald Green #10b981 for gains, Sunset Coral \#f43f5e for expenses).
 Glassmorphism effects (semi-transparent backdrops, blur filters, subtle borders).
 Smooth hover animations, responsive grid layouts, and modern typography (Outfit / Inter).
 [NEW] 

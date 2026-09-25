@@ -1,6 +1,8 @@
 ---
 up: "[[repos/agent-board]]"
 source: https://github.com/nitsuah/agent-board/blob/master/README.md
+kind: repo-doc
+repo: agent-board
 ---
 
 # agent-board — Local AI Ops Cockpit

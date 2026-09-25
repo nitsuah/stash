@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/API.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # Darkmoon API Reference

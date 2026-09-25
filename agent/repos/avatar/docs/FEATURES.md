@@ -1,6 +1,8 @@
 ---
 up: "[[repos/avatar]]"
 source: https://github.com/nitsuah/avatar/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: avatar
 ---
 
 # Features

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/archive/WEBP_IMPLEMENTATION.md
+kind: repo-doc
+repo: skyview
 ---
 
 # WebP Optimization - Implementation Summary

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/archive/README.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Archived Documentation

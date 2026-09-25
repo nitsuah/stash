@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CHANGELOG.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Changelog

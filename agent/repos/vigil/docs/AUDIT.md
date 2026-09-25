@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/docs/AUDIT.md
+kind: repo-doc
+repo: vigil
 ---
 
 # Overseer Feature Audit

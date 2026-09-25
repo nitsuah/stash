@@ -1,6 +1,8 @@
 ---
 up: "[[repos/bb-mcp]]"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/blackboard-mcp-full-plan.md
+kind: repo-doc
+repo: bb-mcp
 ---
 
 # Project: blackboard-learn-mcp + agent-board Edtech Integration

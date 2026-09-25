@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/archive/HANDOFF-player-tag-fix-20260403.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # Delivery Pipeline Handoff

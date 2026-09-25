@@ -1,6 +1,8 @@
 ---
 up: "[[repos/bb-mcp]]"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/blackboard-learn-mcp-plan.md
+kind: repo-doc
+repo: bb-mcp
 ---
 
 # Blackboard Learn — MCP Server & Agent-Board Integration

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/farm-3j]]"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/archive/FARM-RTS-NORTH-STAR.md
+kind: repo-doc
+repo: farm-3j
 ---
 
 > **Archived 2026-09-23**: superseded by `docs/Farm_RTS_Game_Manual.md`, which

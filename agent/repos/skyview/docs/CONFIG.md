@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CONFIG.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Feature Flags & Configuration Guide
@@ -93,8 +95,8 @@ contactForm: true
 - Shows/hides the entire Booking section
 - Shows/hides "BOOKING" link in navigation
 - Controls where the hero "BOOK A CONSULTATION" button links to
-  - If enabled: Links to #booking
-  - If disabled: Links to #contact instead
+  - If enabled: Links to \#booking
+  - If disabled: Links to \#contact instead
 
 **When to disable:**
 - If Calendly account isn't set up yet
@@ -112,9 +114,9 @@ calendly: {
 
 **Hero CTA Behavior:**
 The "BOOK A CONSULTATION" button automatically updates based on what's enabled:
-- Calendly enabled → Links to #booking
-- Calendly disabled, Contact enabled → Links to #contact  
-- Both disabled → Links to #gallery and changes text to "VIEW OUR WORK"
+- Calendly enabled → Links to \#booking
+- Calendly disabled, Contact enabled → Links to \#contact  
+- Both disabled → Links to \#gallery and changes text to "VIEW OUR WORK"
 
 **To disable:**
 ```javascript

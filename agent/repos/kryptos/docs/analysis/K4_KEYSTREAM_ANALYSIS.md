@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K4_KEYSTREAM_ANALYSIS.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # K4 Keystream Analysis — Confirmed Period-13 Window

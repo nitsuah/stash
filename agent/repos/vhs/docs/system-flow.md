@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vhs]]"
 source: https://github.com/nitsuah/vhs/blob/main/docs/system-flow.md
+kind: repo-doc
+repo: vhs
 ---
 
 # VHS Scanner — System Flow Diagrams

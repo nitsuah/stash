@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/conkers/CONKER_BFD_BUILD_GUIDE.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # 🐿️ Conker's Bad Fur Day — Open Source Three.js Recreation Guide

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/darkmoon]]"
 source: https://github.com/nitsuah/darkmoon/blob/main/README.md
+kind: repo-doc
+repo: darkmoon
 ---
 
 # DARKMOON.DEV

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/bb-mcp]]"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/TASKS.md
+kind: repo-doc
+repo: bb-mcp
 ---
 
 # TASKS

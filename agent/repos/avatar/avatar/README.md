@@ -1,6 +1,8 @@
 ---
 up: "[[repos/avatar]]"
 source: https://github.com/nitsuah/avatar/blob/main/avatar/README.md
+kind: repo-doc
+repo: avatar
 ---
 
 # Avatar Utils - Testing Jupyter Notebooks

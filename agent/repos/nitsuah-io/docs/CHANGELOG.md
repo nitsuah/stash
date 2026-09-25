@@ -1,6 +1,8 @@
 ---
 up: "[[repos/nitsuah-io]]"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/CHANGELOG.md
+kind: repo-doc
+repo: nitsuah-io
 ---
 
 # Changelog

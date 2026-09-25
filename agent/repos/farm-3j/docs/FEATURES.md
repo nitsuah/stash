@@ -1,6 +1,8 @@
 ---
 up: "[[repos/farm-3j]]"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: farm-3j
 ---
 
 # Features

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/fire]]"
 source: https://github.com/nitsuah/fire/blob/main/docs/privacy-policy.md
+kind: repo-doc
+repo: fire
 ---
 
 # FIRE Tracker — Privacy Policy & Terms of Use

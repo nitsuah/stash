@@ -1,6 +1,8 @@
 ---
 up: "[[repos/kryptos]]"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4_ATTACK_LANDSCAPE.md
+kind: repo-doc
+repo: kryptos
 ---
 
 # K4 Attack Landscape — 3D Fingerprint

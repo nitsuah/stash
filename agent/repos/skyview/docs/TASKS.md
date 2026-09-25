@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/TASKS.md
+kind: repo-doc
+repo: skyview
 ---
 
 

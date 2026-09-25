@@ -1,6 +1,8 @@
 ---
 up: "[[repos/ats-fill]]"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/release/chrome-web-store.md
+kind: repo-doc
+repo: ats-fill
 ---
 
 # Chrome Web Store release setup

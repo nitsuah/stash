@@ -1,6 +1,8 @@
 ---
 up: "[[repos/games]]"
 source: https://github.com/nitsuah/games/blob/main/docs/README-docker.md
+kind: repo-doc
+repo: games
 ---
 
 # Arcade Docker Run Instructions

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/OPTIMIZATION_FLOW.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Image Optimization Flow

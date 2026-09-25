@@ -1,6 +1,8 @@
 ---
 up: "[[repos/skyview]]"
 source: https://github.com/nitsuah/skyview/blob/main/docs/EMAIL_NOTIFICATIONS.md
+kind: repo-doc
+repo: skyview
 ---
 
 # Email Notification Setup for Netlify Forms

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/vigil]]"
 source: https://github.com/nitsuah/vigil/blob/main/docs/TESTING_STRATEGY_PROMPT.md
+kind: repo-doc
+repo: vigil
 ---
 
 # Testing Improvement Strategy Prompt

@@ -1,6 +1,8 @@
 ---
 up: "[[repos/nitsuah-io]]"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/public/blogs/postcss-xss-blog-post.md
+kind: repo-doc
+repo: nitsuah-io
 ---
 
 # The </style> Escape Hatch: How PostCSS Quietly Enabled XSS in Your Build Pipeline
