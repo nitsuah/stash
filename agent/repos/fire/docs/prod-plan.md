@@ -9,7 +9,7 @@ repo: fire
 # PROD Plan — FIRE Tracker Productionization
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
-
+>
 > **Status:** Planning  
 > **Last updated:** 2026-08-12  
 > **See also:** [ROADMAP.md](./ROADMAP.md), [TASKS.md](./TASKS.md), [docs/security-hardening.md](security-hardening.md), [docs/integrations.md](integrations.md)

@@ -27,7 +27,7 @@ import sys
 from urllib.parse import unquote
 
 src, dest, repo = sys.argv[1:4]
-MDLINK = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
+MDLINK = re.compile(r"(!?\[(?:\\.|[^\]\\])*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")  # link text may hold \[ \]
 WIKI = re.compile(r"(!?\[\[)([^\]|#]+)((?:#[^\]|]*)?(?:\|[^\]]*)?\]\])")
 FENCE = re.compile(r"^\s*(```|~~~)")
 
