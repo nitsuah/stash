@@ -169,7 +169,8 @@ def main(repo_dir, repo_name):
             if g != group:
                 rows += ([""] if rows else []) + [f"**`{g}`**", ""]
                 group = g
-            rows.append(f"- [{title_of(p)}]({r}) — `{r[2:]}`")
+            title = re.sub(r"([\[\]])", lambda m: "\\" + m.group(1), title_of(p))  # a [ or ] in a title would break the link
+            rows.append(f"- [{title}]({r}) — `{r[2:]}`")
         # blank lines inside the markers keep the block Prettier-stable
         scope = ("Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the "
                  "Obsidian vault), so none of them is orphaned.") if not extras else (

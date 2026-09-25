@@ -252,7 +252,7 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 
 - [9router Projects](./projects/9router/9router-projects.md) — `projects/9router/9router-projects.md`
 - [9router: Function Tool Schema Compatibility in Fallback Combos](./projects/9router/copilot-9router-tool-streaming-investigation.md) — `projects/9router/copilot-9router-tool-streaming-investigation.md`
-- [Custom Endpoint wizard saves the endpoint as the group name and leaves models[].url empty](./projects/9router/copilot-custom-endpoint-wizard-bug.md) — `projects/9router/copilot-custom-endpoint-wizard-bug.md`
+- [Custom Endpoint wizard saves the endpoint as the group name and leaves models\[\].url empty](./projects/9router/copilot-custom-endpoint-wizard-bug.md) — `projects/9router/copilot-custom-endpoint-wizard-bug.md`
 - [Schema Normalization Framework for Multi-Provider Support](./projects/9router/schema-normalization-framework.md) — `projects/9router/schema-normalization-framework.md`
 
 **`projects/`**
