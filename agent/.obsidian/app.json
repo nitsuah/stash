@@ -4,6 +4,7 @@
   "userIgnoreFilters": [
     "logs/",
     "Nexus/",
-    "/\\.txt$/"
+    "/\\.txt$/",
+    "/__pycache__/"
   ]
 }

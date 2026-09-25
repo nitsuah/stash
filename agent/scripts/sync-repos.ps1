@@ -47,7 +47,9 @@ $CodeRoot  = "C:\Users\$env:USERNAME\code"
 $Today     = Get-Date -Format 'yyyy-MM-dd'
 
 # Repo list comes from the "## Tracked" table in agent/projects/scope.md (the
-# canonical registry), minus stash itself. It used to be hardcoded here and
+# canonical registry), including stash itself: its docs outside agent/ (runbooks,
+# projects/, docs/) are mirrored like any repo's; agent/ is the vault and is skipped
+# below. It used to be hardcoded here and
 # drifted (still had motor-pool/opencut*, missed agent-board/deployer).
 $ScopeFile = Join-Path $VaultRoot 'projects\scope.md'
 $AllRepos = @()
@@ -58,7 +60,7 @@ foreach ($line in Get-Content -LiteralPath $ScopeFile) {
     if (-not $inTracked) { continue }
     if ($line -match '^\|\s*([A-Za-z0-9._-]+)\s*\|') {
         $name = $Matches[1]
-        if ($name -notin @('Repo', 'stash') -and $name -notmatch '^-+$') {
+        if ($name -ne 'Repo' -and $name -notmatch '^-+$') {
             $AllRepos += $name
             # Local path column may differ from the repo name (overseer is cloned as code\vigil).
             if ($line -match '^\|[^|]*\|\s*`([^`]+)`') { $RepoPaths[$name] = $Matches[1] }
@@ -99,7 +101,8 @@ foreach ($repo in $TargetRepos) {
     if ($LASTEXITCODE -ne 0) { Write-Host "  [SKIP] $repo — no origin/HEAD (run: git -C $src remote set-head origin -a)" -ForegroundColor Yellow; continue }
     $files = @(git -C $src ls-tree -r --name-only $ref 2>$null |
         Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' -and
-                       $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' })
+                       $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' -and
+                       -not ($repo -eq 'stash' -and $_ -match '^agent/') })
     if ($files.Count -eq 0) {
         Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
         continue

@@ -135,10 +135,12 @@ def main(repo_dir, repo_name):
 
     # committed docs outside the repo root and docs/ (subfolder READMEs etc.): indexed
     # in the README so they aren't orphans, but no nav line is inserted into them.
-    # Same exclusions as stash's sync-repos.ps1 (.github/, root templates/).
+    # Same exclusions as stash's sync-repos.ps1 (.github/, root templates/; for stash itself,
+    # agent/ is the vault and links itself through VAULT-MAP).
     extras = [os.path.join(repo_dir, *t.split("/")) for t in sorted(tracked)
               if t.lower().endswith(".md") and "/" in t and not t.startswith("docs/")
-              and not re.search(r"(^|/)\.github/|^templates/|(^|/)node_modules/", t)]
+              and not re.search(r"(^|/)\.github/|^templates/|(^|/)node_modules/", t)
+              and not (repo_name == "stash" and t.startswith("agent/"))]
 
     changed = 0
     for p in dict.fromkeys(targets):

@@ -208,7 +208,9 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
 
 - [API Decision Record](./docs/API.md) — `docs/API.md`
 - [Architecture](./docs/ARCHITECTURE.md) — `docs/ARCHITECTURE.md`
@@ -217,5 +219,88 @@ Every doc at the repo root and under `docs/` (the files mirrored into the Obsidi
 - [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
 - [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
 - [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`SAAS/`**
+
+- [SAAS](./SAAS/README.md) — `SAAS/README.md`
+
+**`atlassian/`**
+
+- [Atlassian Cloud API Examples](./atlassian/README.md) — `atlassian/README.md`
+
+**`atlassian/jira/`**
+
+- [Jira Script Operations Runbook](./atlassian/jira/RUNBOOK.md) — `atlassian/jira/RUNBOOK.md`
+
+**`backend/`**
+
+- [Backend API Examples](./backend/README.md) — `backend/README.md`
+
+**`cloud/`**
+
+- [Cloud](./cloud/README.md) — `cloud/README.md`
+
+**`database/`**
+
+- [Database](./database/README.md) — `database/README.md`
+
+**`git/`**
+
+- [Git Utilities](./git/README.md) — `git/README.md`
+
+**`projects/9router/`**
+
+- [9router Projects](./projects/9router/9router-projects.md) — `projects/9router/9router-projects.md`
+- [9router: Function Tool Schema Compatibility in Fallback Combos](./projects/9router/copilot-9router-tool-streaming-investigation.md) — `projects/9router/copilot-9router-tool-streaming-investigation.md`
+- [Custom Endpoint wizard saves the endpoint as the group name and leaves models[].url empty](./projects/9router/copilot-custom-endpoint-wizard-bug.md) — `projects/9router/copilot-custom-endpoint-wizard-bug.md`
+- [Schema Normalization Framework for Multi-Provider Support](./projects/9router/schema-normalization-framework.md) — `projects/9router/schema-normalization-framework.md`
+
+**`projects/`**
+
+- [Projects](./projects/README.md) — `projects/README.md`
+
+**`projects/auto/`**
+
+- [Auto — Car Project Board](./projects/auto/README.md) — `projects/auto/README.md`
+
+**`projects/fps-tech/`**
+
+- [FPS Tech](./projects/fps-tech/README.md) — `projects/fps-tech/README.md`
+
+**`projects/pfa/`**
+
+- [Power Failure Alarm Circuit](./projects/pfa/README.md) — `projects/pfa/README.md`
+
+**`projects/remora/`**
+
+- [Remora](./projects/remora/README.md) — `projects/remora/README.md`
+
+**`projects/resume/`**
+
+- [Resume & Portfolio Data](./projects/resume/README.md) — `projects/resume/README.md`
+
+**`projects/resume/projects/`**
+
+- [PROJECTS.MD](./projects/resume/projects/projects.MD) — `projects/resume/projects/projects.MD`
+
+**`projects/sampler/`**
+
+- [Sampler - Enterprise PDF Processing Automation](./projects/sampler/README.md) — `projects/sampler/README.md`
+
+**`projects/vmt/`**
+
+- [VMT - Vulnerability Management Tool](./projects/vmt/README.md) — `projects/vmt/README.md`
+
+**`sso/`**
+
+- [SSO / Identity](./sso/README.md) — `sso/README.md`
+
+**`windows/`**
+
+- [Windows](./windows/README.md) — `windows/README.md`
+
+**`windows/pwsh/`**
+
+- [PowerShell System Administration Utilities](./windows/pwsh/README.md) — `windows/pwsh/README.md`
 
 <!-- docs-index:end -->
