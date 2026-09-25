@@ -208,7 +208,7 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 
 ## Docs Index
 
-Every tracked doc in this repo, so nothing is orphaned (also used by the Obsidian vault mirror).
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
 
 - [API Decision Record](./docs/API.md) — `docs/API.md`
 - [Architecture](./docs/ARCHITECTURE.md) — `docs/ARCHITECTURE.md`
