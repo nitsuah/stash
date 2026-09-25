@@ -2,7 +2,6 @@
   "alwaysUpdateLinks": true,
   "readableLineLength": false,
   "userIgnoreFilters": [
-    "scripts/",
     "logs/",
     "Nexus/",
     "/\\.txt$/"

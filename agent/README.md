@@ -112,6 +112,7 @@ Rules for agents and routines:
 
 - **Names must be unique and say what the note is.** The graph labels each node with its file name, and a bare `[[name]]` picks one of several notes that share a name. Prefix generic names: `daily-email-2026-09-25`, not `2026-09-25`; `LOC-hub`, not a second `LOC`. The one exception is the upstream `README`/`ROADMAP`/... mirrored under `repos/<repo>/`, which keep their GitHub names; link to them by full path.
 - Never hand-edit a `<!-- nav -->` line or a `<!-- vault-links:start/end -->` block. They're regenerated.
+- Scripts in `scripts/` are listed in VAULT-MAP with their own one-line description, so start every new script with one: a Python docstring, a PowerShell `.SYNOPSIS` or `<#` block, or a shell comment. Only runtime output (`logs/`, plugin data, scratch `*.txt`) is hidden from the vault, in `.obsidian/app.json`.
 - A note that fits no row above gets `up: "[[parent]]"` frontmatter. Obsidian counts that as a link.
 - Link to what the content actually depends on, in the body. Don't add "see also" lists to reach coverage.
 - Links inside mirrored repo docs are fixed **upstream** with `scripts/fix-doc-links.py <repo>` (the PMO audit runs it). Links in vault notes are fixed with `scripts/fix-doc-links.py --vault --write`.

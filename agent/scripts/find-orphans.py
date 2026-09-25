@@ -28,7 +28,7 @@ from urllib.parse import unquote
 
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
-IGNORED_DIRS = {"scripts", "logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
+IGNORED_DIRS = {"logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
 MDLINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
@@ -55,7 +55,7 @@ def collect():
     """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
     notes, attachments = [], []
     for dp, dn, fn in os.walk(VAULT):
-        # same exclusions as .obsidian/app.json userIgnoreFilters (tooling, logs, scratch .txt),
+        # same exclusions as .obsidian/app.json userIgnoreFilters (logs, plugin data, scratch .txt),
         # applied to notes and attachments alike
         top = dp == VAULT
         dn[:] = [d for d in dn if d not in SKIP_DIRS and not d.startswith(".")
@@ -64,7 +64,7 @@ def collect():
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.lower().endswith(".md"):
                 notes.append(rel)
-            elif not re.search(r"\.(log|jsonl|py|ps1|sh|pyc|txt)$", f, re.I):
+            elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.I):  # scripts are knowledge: VAULT-MAP links them
                 attachments.append(rel)
     return sorted(notes), sorted(attachments)
 

@@ -270,6 +270,25 @@ if top_projects:
     home.append("- **Projects:** " + " · ".join(link(p, os.path.basename(p)[:-3]) for p in top_projects))
 if other_notes:
     home.append("- **Other notes:** " + " · ".join(link(p, os.path.basename(p)[:-3]) for p in other_notes))
+
+
+def script_summary(rel):
+    """First line of a script's own description: Python docstring, PowerShell .SYNOPSIS or
+    the first line of its <# #> block, or a shell script's first comment."""
+    text, _ = read(rel)
+    if rel.endswith(".py"):
+        m = re.search(r'^\s*(?:#[^\n]*\n\s*)*[rRbBuU]?("""|\'\'\')\s*(.+)', text)
+    elif rel.endswith(".ps1"):
+        m = re.search(r"\.SYNOPSIS\s*\n\s*(.+)", text) or re.search(r"<#\s*\n?\s*(.+)", text)
+    else:
+        m = re.search(r"^#(?!!)\s*(.+)", text, re.M)
+    return (m.group(m.lastindex) if m else "").strip().rstrip(".")
+
+
+scripts = sorted(f for f in os.listdir(path_of("scripts")) if re.search(r"\.(py|ps1|sh)$", f))
+if scripts:
+    home.append("- **Scripts** (the vault's own tooling; each line is the script's own description):")
+    home += [f"  - {link('scripts/' + s, s)}: {script_summary('scripts/' + s)}" for s in scripts]
 if not exists("VAULT-MAP.md"):
     write("VAULT-MAP.md", "# Vault Map\n\nEntry point to this vault: start here, then follow a hub. "
           "Process guide: [[AGENT-MAIN]] · conventions: [[README|Vault README]].")
