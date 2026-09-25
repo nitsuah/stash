@@ -13,7 +13,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 | Repo | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|
 | agent-board | `C:\Users\ajhar\code\agent-board` | https://github.com/nitsuah/agent-board | nitsuah | public |
-| auto-apply-plugin | `C:\Users\ajhar\code\auto-apply-plugin` | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| auto-apply-plugin | `C:\Users\ajhar\code\ats-fill` | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | avatar | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
 | bb-mcp | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
 | darkmoon | `C:\Users\ajhar\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |

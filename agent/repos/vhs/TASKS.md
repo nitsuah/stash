@@ -1,8 +1,0 @@
-# Tasks
-
-## TODO
-
-- The system should be able to handle multiple photo uploads and to process them individually or in batch (and we should see them individually instwad of one at a  time - it does a good job of showing the next tape as a form tho, so just collapse the form a bit so all tapes are shown but the details can be edited by clicking on the title of the card to epxand it to the form view). Each photo should be associated with a specific tape record (so we can eventually have multiple photos per tape). The system should also be able to handle different photo formats (JPEG, PNG, etc.) and sizes. The photos should be stored in a way that they can be easily retrieved and displayed in the web interface (so we can rebuild the "tape wall" digitally too!).
-- we need to improve the performance utilizing GPU
-- photos might include multiple tapes, so we need to be able to detect and crop each tape from the photo, and associate it with the correct tape record. This might involve some computer vision techniques (OpenCV, etc.) to detect the edges of each tape and crop them out.
-- we should allow for barcode scanning as this could ease some of our data entry tasks. This could be done using a barcode scanner or a mobile app that can scan barcodes and send the data to the system (so instead of AI mode, having a "scan code" option that still uses the webcam but utilizes a barcode scanning library to detect and read the barcode, and then associate it with the correct tape record).
