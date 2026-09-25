@@ -57,7 +57,9 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
 
 ### 1. Repo doc sync (obn-repo)
 
-Run `agent/scripts/sync-repos.ps1` (or an equivalent manual copy) to pull each repo's root PMO files (`CHANGELOG.md`, `FEATURES.md`, `METRICS.md`, `README.md`, `ROADMAP.md`, `TASKS.md`, etc.) and `docs/*.md` into `stash/agent/repos/<repo>/`.
+Run `agent/scripts/sync-repos.ps1 -Prune` to pull each repo's root PMO files (`CHANGELOG.md`, `FEATURES.md`, `METRICS.md`, `README.md`, `ROADMAP.md`, `TASKS.md`, etc.) and every `docs/**/*.md` (subfolders included, paths preserved) into `stash/agent/repos/<repo>/`.
+
+`-Prune` (added 2026-09-25) deletes mirrored `.md` files that no longer exist in the source repo, such as old root-level duplicates from before a repo moved its docs into `docs/`, or docs since archived upstream. Without it those stale copies pile up as orphans in the vault graph. The deletions land in the daily-note PR with everything else under `agent/repos/**`, so they get the same review window. List the pruned paths (the script prints `[prune] <path>`) in the obn-repo log entry. If a single run would prune more than 25 files for one repo, run `-Prune -DryRun` first and flag it in the daily note's `## Notes` instead of deleting, because that usually means a repo moved or renamed its docs folder rather than a normal cleanup.
 
 Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never overwrite) a new dated section in this exact format, matching prior entries:
 
@@ -66,6 +68,7 @@ Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never ov
 OK <repo> — <N> .md files staged
 OK <repo> — <N> .md files staged
 ...
+PRUNED <repo> — <path>, <path>   (only when -Prune removed something)
 ```
 
 ### 2. Repo synthesis (logs to `obn-review.log`)
