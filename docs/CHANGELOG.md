@@ -1,10 +1,20 @@
 # Changelog
 
+> 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 Notable additions and changes to this repository.
 
 ---
 
 ## [Unreleased]
+
+### 2026-09-24 — `pmo-ff` 2027 planning reset
+
+- `agent/scripts/sync-repos.ps1` now mirrors `docs/` recursively (subfolder paths preserved, so upstream breadcrumb links such as `../../README.md` resolve in the vault) and gains an opt-in `-Prune` switch for stale mirror copies.
+- `agent/scripts/find-orphans.py` — vault orphan finder; baseline 486 notes / 241 orphans.
+- `agent/REPOS-INDEX.md` — repo docs hub (outside `agent/repos/`, which the sync rewrites) linked from `AGENT-MAIN.md`.
+- `agent/reports/pmo-ff-2026-09-24.md` — cross-repo summary of the 16 upstream `pmo-ff` PRs and next week's vault plan.
+- Planning docs: completed 2026 items condensed into FEATURES/CHANGELOG, open 2026 Q3/Q4 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
 
 ### Added
 - `cloud/aws/examples.py` — boto3 examples for EC2, S3, IAM, SSM, CloudWatch, Lambda, RDS, ECS, CloudFormation, Route53

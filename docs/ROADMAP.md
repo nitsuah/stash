@@ -1,12 +1,17 @@
 # Roadmap
 
-Last Updated: 2026-09-02
+> 🧭 [stash](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-## 2026 Q1–Q2 ✅
+Last Updated: 2026-09-24
 
-> Completed. Planning integrity reset, documentation baseline, security hygiene pass, open-source sanitization, backend/database/SSO examples, and IaC consolidation all shipped.
+> 2027 planning reset (2026-09-24): 2026 Q1–Q2 (planning integrity, docs baseline, security hygiene, open-source
+> sanitization, backend/database/SSO examples, IaC consolidation) and the completed 2026 Q3 items (Jira runbook,
+> per-directory README audit) are condensed in [FEATURES](./FEATURES.md) / [CHANGELOG](./CHANGELOG.md). Every open
+> 2026 Q3/Q4 item was carried into 2027 Q1 below; the old "2027 Q1+ (Backlog)" list follows it unchanged.
 
-## 2026 Q3 (Status: Planned)
+## 2027 Q1 (Status: Planned)
+
+### Carried from 2026 Q3
 
 - [ ] Naming and Consistency Cleanup (In Progress)
 	- Objective: normalize anomalous filenames and tighten cross-reference accuracy across docs/scripts.
@@ -19,16 +24,7 @@ Last Updated: 2026-09-02
 	- Sequencing Rationale: exploratory until script inventory and risk tiers are finalized in Q2.
 	- Exit Criteria: decision record on feasibility and an initial validation workflow draft.
 
-- [x] Complete the Jira Runbook (Committed)
-	- Objective: fill in `atlassian/jira/RUNBOOK.md` with safe execution guidance for all Atlassian scripts.
-	- Exit Criteria: runbook covers prerequisites, parameter references, dry-run steps, and known risks.
-
-- [x] Per-Directory READMEs Audit (Committed)
-	- Objective: ensure every major subdirectory has a README.md explaining what is in it and how to use it.
-	- Exit Criteria: all major directories have a README.md; content is accurate and links are valid.
-	- Closed 2026-09-02: all top-level directories and all 7 `projects/*` subdirectories have a README.md; added the one missing index (`projects/README.md`). `docs/` and `flipper/` are intentional exceptions (see Tasks audit notes).
-
-## 2026 Q4 (Status: Planned)
+### Carried from 2026 Q4
 
 - [ ] Cross-Repo Automation Catalog (Exploratory)
 	- Objective: publish a discoverable catalog of script capabilities and ownership metadata.
@@ -58,7 +54,14 @@ Last Updated: 2026-09-02
 	- Strategic Fit: ensures PowerShell scripts follow best practices; catches common mistakes before distribution.
 	- Exit Criteria: CI runs `Invoke-ScriptAnalyzer` on all `.ps1` files with zero warnings at `Error` severity.
 
-## 2027 Q1+ (Backlog)
+### Vault knowledge management (new, prepped 2026-09-24)
+
+- [ ] **Obsidian orphan-detection routine** (Committed)
+	- Objective: turn `agent/scripts/find-orphans.py` into a scheduled obn routine (or skill) that reports unconnected notes and proposes links.
+	- Baseline: 486 notes / 241 orphans (2026-09-24). Simulated after the 16 upstream `pmo-ff` PRs merge + `sync-repos.ps1 -Prune` + `REPOS-INDEX.md`: 412 / 95, with `repos/` down to 8 known stale files.
+	- Exit Criteria: routine runs weekly, trend recorded in `agent/reports/`, remaining `reports/`/`notes/`/`projects/` orphans indexed.
+
+## 2027 Backlog (unscheduled)
 
 - [ ] **Modernize VBA/Access tools** (Aspirational)
 	- Objective: document migration paths for Remora, Sampler, and VMT from VBA/Access to web-based equivalents (e.g., Python + PostgreSQL + simple web UI).

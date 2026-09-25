@@ -1,5 +1,7 @@
 # Architecture
 
+> 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 This repository is a personal technical reference stash — scripts, API examples, automation tools, and agent prompts. There is no hosted service or external API contract.
 
 ---
