@@ -82,7 +82,7 @@ Provided by the user when starting RSI. Everything below is **user-directed**, s
 - daily-pr-review now searches all owned repos (updated 2026-09-24 evening; it was stash-only).
 
 ### Decided by the user: move notes into `agent/notes/` (resolves decision 6)
-The user wants `Daily Notes/` and `Weekly Notes/` to live under `agent/notes/` (`agent/notes/Daily Notes/`, `agent/notes/Weekly Notes/`, unless an existing convention there says otherwise). Review the routine writing them (daily-repo-sync / DAILY.md) and land the move **in one change** that also updates every reader and writer:
+The user wants `Daily Notes/` and `Weekly Notes/` moved into the **stash** repo's `agent/notes/` folder (`C:\Users\ajhar\code\stash\agent\notes\`), **flat, with no subfolders**: `agent/notes/YYYY-MM-DD.md` for daily notes and `agent/notes/YYYY-Www.md` for weekly notes. This matches the existing `agent/notes/2026-09-16.md` and the `obn-breadcrumb` branch. The old top-level `Daily Notes/` and `Weekly Notes/` folders go away. Filename patterns (date vs ISO week) are what tell daily and weekly notes apart, so the merge gate needs a filename pattern such as `^agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$`, not a bare folder prefix. Other files in `agent/notes/` (e.g. `eng-loc-notes.md`) must not become auto-mergeable. Review the routine writing them (daily-repo-sync / DAILY.md) and land the move **in one change** that also updates every reader and writer:
 - DAILY.md: the daily and weekly note steps, the once-per-day guard (`origin/main:Daily Notes/$today.md`), and the **merge gate's allowed-path regex** `^(Daily Notes/|Weekly Notes/|agent/repos/)`. If you miss the gate, every daily-note PR gets held.
 - The daily-note PR's commit scope.
 - TIRE.md §2 sources.
