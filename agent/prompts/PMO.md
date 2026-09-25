@@ -60,7 +60,7 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 ### Stash Runbooks Updated
 
 - [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
-- [[repos/overseer]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
+- [[repos/vigil]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
 - [[repos/motor-pool]] — Foundation tasks, feature audit needed, test baseline required
 - [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 
@@ -126,6 +126,10 @@ Never hallucinate facts.
 - If uncertain, mark as TBD with context.
 - For measurable values (especially coverage), prefer observed outputs over estimates.
 - If exact values are unavailable, label estimates clearly.
+
+## Breadcrumbs and Docs Index (every audited repo)
+
+Every doc carries a `> 🧭` breadcrumb line linking back to the repo README and the core docs, and the README has a generated `<!-- docs-index:start/end -->` Docs Index listing every committed doc (except `.github/` and `templates/`). This is the same set `agent/scripts/sync-repos.ps1` mirrors into the vault, so nothing in the Obsidian graph is orphaned. After the audit's doc edits, run `python <stash>/agent/scripts/repo-breadcrumbs.py . <repo>` from the repo root and include any changes in the audit PR. The script is idempotent: no new or moved docs means no diff. Never hand-edit the Docs Index block.
 
 ## Parser-Safe Documentation Standards
 

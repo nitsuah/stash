@@ -55,7 +55,7 @@ The `repos/` directory contains per-repository context files loaded alongside ag
 | File | Covers |
 |------|--------|
 | [repos/stash.md](repos/stash.md) | This repository |
-| [repos/overseer.md](repos/overseer.md) | Overseer agent platform |
+| [repos/vigil.md](repos/vigil.md) | Overseer agent platform |
 | [repos/agent-board.md](repos/agent-board.md) | Agent board dashboard |
 | [repos/kryptos.md](repos/kryptos.md) | Kryptos cipher research system |
 | [repos/darkmoon.md](repos/darkmoon.md) | Darkmoon multiplayer game |

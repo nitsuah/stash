@@ -1,10 +1,11 @@
 ﻿<#
 .SYNOPSIS
   Syncs repo docs from live repos into stash/agent/repos/[name]/
-  Mirrors every COMMITTED .md in each repo (git ls-tree HEAD, any depth, paths
+  Mirrors every MERGED .md in each repo (git ls-tree origin/HEAD, any depth, paths
   preserved) so the breadcrumb/Docs Index links added upstream resolve in the
-  vault. Content comes from git (HEAD), never the working tree, so untracked,
-  staged, or locally modified files are never published into this public vault.
+  vault. Content comes from the default branch on the remote (origin/HEAD), never
+  the working tree or the checked-out branch, so untracked, staged, locally
+  modified, or unmerged-branch files are never published into this public vault.
   Updates "Last Validated" in each summary .md.
 
 .PARAMETER Repos
@@ -78,12 +79,23 @@ foreach ($repo in $TargetRepos) {
 
     Write-Host "`n[$repo]" -ForegroundColor Cyan
 
-    # --- Every COMMITTED .md in the repo (git ls-tree HEAD), any depth ---
+    # --- Every .md on the default branch (git ls-tree origin/HEAD), any depth ---
+    # origin/HEAD, not HEAD: a clone checked out on a feature branch (e.g. fire
+    # on agent-prompts, 2026-09-25) would otherwise publish unmerged work.
     # Committed-only on purpose: copying the working tree once leaked a
     # user's staged-but-uncommitted private doc (fire/docs/weekly-checkin-prompt.md)
     # into this public vault. Untracked, staged, and modified files never sync.
-    $files = @(git -C $src ls-tree -r --name-only HEAD 2>$null |
-        Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' })
+    # .github/ (copilot instructions, issue/PR templates) and a root templates/
+    # folder are repo config, not knowledge; mirroring them only added orphans.
+    # fetch only updates remote refs; it never touches the checkout or local work,
+    # so repos the daily routine skipped as dirty/on-a-branch still mirror current main.
+    if (-not $DryRun) { git -C $src fetch -q origin 2>$null }
+    $ref = 'origin/HEAD'
+    git -C $src rev-parse --verify --quiet $ref *> $null
+    if ($LASTEXITCODE -ne 0) { Write-Host "  [SKIP] $repo — no origin/HEAD (run: git -C $src remote set-head origin -a)" -ForegroundColor Yellow; continue }
+    $files = @(git -C $src ls-tree -r --name-only $ref 2>$null |
+        Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' -and
+                       $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' })
     if ($files.Count -eq 0) {
         Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
         continue
@@ -99,7 +111,7 @@ foreach ($repo in $TargetRepos) {
         # git archive exports exactly the committed bytes; tar (bsdtar, built
         # into Windows 10+) unpacks them with paths preserved.
         $tar = Join-Path ([System.IO.Path]::GetTempPath()) "sync-$repo-$PID.tar"
-        git -C $src archive --format=tar -o $tar HEAD -- @files
+        git -C $src archive --format=tar -o $tar $ref -- @files
         if ($LASTEXITCODE -ne 0) { Write-Host "  [ERROR] git archive failed for $repo" -ForegroundColor Red; continue }
         tar -xf $tar -C $dest
         Remove-Item $tar -Force -ErrorAction SilentlyContinue

@@ -2,7 +2,7 @@
 
 You are working in the `overseer` repo — a Next.js app that monitors repo health across the org.
 
-repo: [[repos/overseer/README|README]]
+repo: [[repos/vigil/README|README]]
 
 ## Mission
 
