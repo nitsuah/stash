@@ -60,7 +60,7 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 ### Stash Runbooks Updated
 
 - [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
-- [[repos/overseer]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
+- [[repos/vigil]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
 - [[repos/motor-pool]] — Foundation tasks, feature audit needed, test baseline required
 - [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 

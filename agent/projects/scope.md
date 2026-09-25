@@ -13,7 +13,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 | Repo | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|
 | agent-board | `C:\Users\ajhar\code\agent-board` | https://github.com/nitsuah/agent-board | nitsuah | public |
-| auto-apply-plugin | `C:\Users\ajhar\code\ats-fill` | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| ats-fill | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | avatar | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
 | bb-mcp | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
 | darkmoon | `C:\Users\ajhar\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |
@@ -25,7 +25,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 | kryptos | `C:\Users\ajhar\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
 | nitsuah-io | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
 | osrs | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
-| overseer | `C:\Users\ajhar\code\vigil` (local clone renamed to match the GitHub repo; routines still call it `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
+| vigil | `C:\Users\ajhar\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
 | skyview | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
 | stash | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
 | vhs | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |

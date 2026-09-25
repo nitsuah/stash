@@ -10,4 +10,4 @@ metadata:
 Overseer is a monitoring and control utility.
 
 ## Related Resources
-- **Source Code**: [[repos/overseer/README.md|Overseer README]]
+- **Source Code**: [[repos/vigil/README.md|Overseer README]]

@@ -23,6 +23,6 @@ The Auto-Apply Plugin is a local-first Chrome extension designed to streamline j
 
 ## Related Resources
 
-- **Source Code**: [[repos/auto-apply-plugin/README.md|Auto-Apply Plugin README]]
-- **Privacy Policy**: [[repos/auto-apply-plugin/docs/PRIVACY.md|Privacy & Terms]]
-- **Roadmap**: [[repos/auto-apply-plugin/ROADMAP.md|Roadmap]]
+- **Source Code**: [[repos/ats-fill/README.md|Auto-Apply Plugin README]]
+- **Privacy Policy**: [[repos/ats-fill/docs/PRIVACY.md|Privacy & Terms]]
+- **Roadmap**: [[repos/ats-fill/docs/ROADMAP.md|Roadmap]]

@@ -11,12 +11,12 @@ Until the upstream `pmo-ff` PRs merge and the next sync runs, the mirrored docs 
 them still show as orphans. That's the true state, and it resolves on re-sync.
 
 Repo list comes from [[projects/scope|scope.md]]'s Tracked table (minus `stash`, which is the vault itself).
-`overseer` is mirrored under `repos/overseer/` but its local clone and GitHub repo are named `vigil`.
+`overseer` is mirrored under `repos/vigil/` but its local clone and GitHub repo are named `vigil`.
 
 | Repo hub                                       | Docs entry point                           |
 | ---------------------------------------------- | ------------------------------------------ |
 | [[repos/agent-board\|agent-board]]             | [[repos/agent-board/README\|README]]       |
-| [[repos/auto-apply-plugin\|auto-apply-plugin]] | [[repos/auto-apply-plugin/README\|README]] |
+| [[repos/ats-fill\|ats-fill]]                   | [[repos/ats-fill/README\|README]]          |
 | [[repos/avatar\|avatar]]                       | [[repos/avatar/README\|README]]            |
 | [[repos/bb-mcp\|bb-mcp]]                       | [[repos/bb-mcp/README\|README]]            |
 | [[repos/darkmoon\|darkmoon]]                   | [[repos/darkmoon/README\|README]]          |
@@ -28,7 +28,7 @@ Repo list comes from [[projects/scope|scope.md]]'s Tracked table (minus `stash`,
 | [[repos/kryptos\|kryptos]]                     | [[repos/kryptos/README\|README]]           |
 | [[repos/nitsuah-io\|nitsuah-io]]               | [[repos/nitsuah-io/README\|README]]        |
 | [[repos/osrs\|osrs]]                           | [[repos/osrs/README\|README]]              |
-| [[repos/overseer\|overseer]]                   | [[repos/overseer/README\|README]]          |
+| [[repos/vigil\|vigil]]                         | [[repos/vigil/README\|README]]             |
 | [[repos/skyview\|skyview]]                     | [[repos/skyview/README\|README]]           |
 | [[repos/vhs\|vhs]]                             | [[repos/vhs/README\|README]]               |
 | [[stash]]                                      | [[repos/stash/README\|README]]             |
