@@ -1,3 +1,8 @@
+---
+up: "[[repos/osrs]]"
+source: https://github.com/nitsuah/osrs/blob/main/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [osrs](./README.md) · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · **Changelog** · [Metrics](./docs/METRICS.md) <!-- nav -->

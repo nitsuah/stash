@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/HANDOFF-home-landing-redesign-20260411.md
+---
+
 > 🧭 [nitsuah-io](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
 ## HANDOFF BRIEF

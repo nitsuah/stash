@@ -1,5 +1,7 @@
 # eng-loc: nitsuah-io — 2026-06-25
 
+> 🧭 [[repos/nitsuah-io|nitsuah-io]] · [[reports/eng-loc-nitsuah-io-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -34,4 +36,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 8 | `src\app\resume\_components\index.ts` |
 
 _...and 38 more_
-

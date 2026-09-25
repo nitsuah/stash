@@ -1,4 +1,7 @@
 # ENG LOC Report: nitsuah-io
+
+> 🧭 [[repos/nitsuah-io|nitsuah-io]] · ← [[reports/eng-loc-nitsuah-io-2026-06-25|2026-06-25]] · [[reports/eng-loc-nitsuah-io-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** nitsuah-io (nitsuah-io)
 **Thresholds:** max_lines=500, min_lines=30

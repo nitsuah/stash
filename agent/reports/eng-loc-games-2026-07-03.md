@@ -1,4 +1,7 @@
 # ENG LOC Report: games
+
+> 🧭 [[repos/games|games]] · ← [[reports/eng-loc-games-2026-06-25|2026-06-25]] · [[reports/eng-loc-games-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** games (games)
 **Thresholds:** max_lines=500, min_lines=30

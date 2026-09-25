@@ -1,3 +1,8 @@
+---
+up: "[[repos/bb-mcp]]"
+source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/blackboard-mcp-full-plan.md
+---
+
 # Project: blackboard-learn-mcp + agent-board Edtech Integration
 
 > 🧭 [bb-mcp](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->

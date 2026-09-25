@@ -55,8 +55,11 @@ All examples follow a consistent pattern: read-only by default, `--demo-write` f
 ## Vault Tooling
 
 - **Repo docs sync** - `agent/scripts/sync-repos.ps1` mirrors each tracked repo's root PMO docs and every `docs/**/*.md` into `agent/repos/<repo>/` (paths preserved); `-Prune` removes mirror copies that no longer exist upstream.
-- **Repo Docs Index** - `agent/REPOS-INDEX.md` links each repo's hub note and README only; each repo's other docs attach to its README through the upstream breadcrumbs, so the graph forms per-repo clusters.
-- **Orphan finder** - `agent/scripts/find-orphans.py` reports notes with no links in or out (and unreferenced notes), by folder, resolving wikilinks and markdown links the way Obsidian does.
+- **Vault hub links** - `agent/scripts/build-vault-indexes.py` links every routine-written note through its hub instead of flat INDEX files: repo hubs link their README, KB overview and latest LOC/MINI reports; reports and dated notes chain prev/next; project subfolders hang off folder hubs; the *Vault map* in `AGENT-MAIN.md` links the latest notes, the latest report of each kind, and every project. The graph forms per-repo and per-project clusters.
+- **Mirror enrichment** - `agent/scripts/enrich-mirror.py` (run by `sync-repos.ps1`) gives each mirrored doc `up:`/`source:` frontmatter and turns links to un-mirrored files into GitHub URLs, so repo docs cluster around a named hub and are never orphaned.
+- **Doc link fixer** - `agent/scripts/fix-doc-links.py` repairs broken relative links in a repo (run by the PMO audit) or in vault notes (`--vault`). It only rewrites a link when exactly one target is plausible, and it unlinks dead references in archived docs.
+- **Routine-owned diff gate** - `agent/scripts/check-generated-diff.py` passes an auto-merge PR only when every change is a dated note, a repo mirror, or generated nav/block text.
+- **Orphan finder** - `agent/scripts/find-orphans.py` reports notes with no links in or out (and unreferenced notes), by folder, resolving wikilinks and markdown links the way Obsidian does. It also reports reachability from `AGENT-MAIN` by hop count and flags star hubs. `--check` fails when a note outside the repo mirrors can't be reached.
 - **Jira runbook** - `atlassian/jira/RUNBOOK.md` covers prerequisites, parameters, dry-run steps, risk levels, and troubleshooting for all 7 Atlassian scripts.
 - **Per-directory READMEs** - every top-level directory and all 7 `projects/*` subdirectories have a README (`docs/` and `flipper/` are intentional exceptions).
 

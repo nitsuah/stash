@@ -61,7 +61,7 @@ If a file does not exist, log it as a documentation gap and create a task if it 
 
 - [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
 - [[repos/vigil]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
-- [[repos/motor-pool]] — Foundation tasks, feature audit needed, test baseline required
+- `repos/motor-pool` — Foundation tasks, feature audit needed, test baseline required
 - [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
 
 ### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
@@ -130,6 +130,8 @@ Never hallucinate facts.
 ## Breadcrumbs and Docs Index (every audited repo)
 
 Every doc carries a `> 🧭` breadcrumb line linking back to the repo README and the core docs, and the README has a generated `<!-- docs-index:start/end -->` Docs Index listing every committed doc (except `.github/` and `templates/`). This is the same set `agent/scripts/sync-repos.ps1` mirrors into the vault, so nothing in the Obsidian graph is orphaned. After the audit's doc edits, run `python <stash>/agent/scripts/repo-breadcrumbs.py . <repo>` from the repo root and include any changes in the audit PR. The script is idempotent: no new or moved docs means no diff. Never hand-edit the Docs Index block.
+
+Then repair links between docs: `python <stash>/agent/scripts/fix-doc-links.py . --unlink-dead-archive --write`. Moving docs into `docs/` or `docs/archive/` breaks relative links, which 404 on GitHub and show up as ghost nodes in the vault graph. The script only rewrites a link that has exactly one plausible target. It turns dead links in `*/archive/*` docs into plain text and prints anything else it can't fix. Fix those by hand or list them in the audit PR. It's idempotent, and its fixes go in the same audit PR. Since 2026-09-25 the vault mirror also gives every synced doc `up: "[[repos/<repo>]]"` frontmatter (`enrich-mirror.py`, run by the sync), so a repo's docs cluster around its hub even before the README Docs Index catches up.
 
 ## Parser-Safe Documentation Standards
 

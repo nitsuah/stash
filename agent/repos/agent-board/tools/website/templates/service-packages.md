@@ -1,3 +1,8 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/service-packages.md
+---
+
 # Service Packages Reference
 
 Use this when generating pitch decks, emails, and invoices.

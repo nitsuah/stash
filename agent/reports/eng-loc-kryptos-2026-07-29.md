@@ -1,5 +1,7 @@
 # ENG LOC Report — kryptos (2026-07-29)
 
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-07-04|2026-07-04]] · [[reports/eng-loc-kryptos-2026-09-01|2026-09-01]] → <!-- nav -->
+
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`
 **Excluded**: `node_modules/`, `.git/`, `dist/`, `build/`, `.next/`, `.claude/worktrees/`, `.playwright-mcp/`, `.venv/`, `venv/`, `env/`, `htmlcov/`

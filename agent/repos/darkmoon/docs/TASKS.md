@@ -1,3 +1,8 @@
+---
+up: "[[repos/darkmoon]]"
+source: https://github.com/nitsuah/darkmoon/blob/main/docs/TASKS.md
+---
+
 # Tasks
 
 > 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

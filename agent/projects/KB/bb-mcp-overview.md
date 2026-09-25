@@ -26,11 +26,11 @@ Bb-MCP is a standalone [Model Context Protocol](https://modelcontextprotocol.io)
 
 ## Integration
 
-- Used within the [[KB/motor-pool-overview|motor-pool]] stack via the connector configuration in `config/connectors.json`.
+- Used within the `motor-pool` (repo since removed) stack via the connector configuration in `config/connectors.json`.
 - Can be run standalone or within the `motor-pool` Docker stack.
 
 ## Related Resources
 
 - **Source Code**: [[repos/bb-mcp/README.md|Bb-MCP README]]
-- **Metrics/Health**: [[repos/bb-mcp/METRICS.md|Metrics Overview]]
-- **Roadmap**: [[repos/bb-mcp/ROADMAP.md|Roadmap and Future Goals]]
+- **Metrics/Health**: [[repos/bb-mcp/docs/METRICS|Metrics Overview]]
+- **Roadmap**: [[repos/bb-mcp/docs/ROADMAP|Roadmap and Future Goals]]

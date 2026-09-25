@@ -1,6 +1,11 @@
+---
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/release/chrome-web-store.md
+---
+
 # Chrome Web Store release setup
 
-> 🧭 [auto-apply-plugin](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+> 🧭 [ats-fill](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
 ats-fill uses the Chrome Web Store API v2 with the documented OAuth 2.0 credential flow for subsequent releases. The first Store listing remains a manual setup step; after that, a protected GitHub Actions environment can publish tagged releases.
 

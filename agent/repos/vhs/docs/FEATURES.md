@@ -1,3 +1,8 @@
+---
+up: "[[repos/vhs]]"
+source: https://github.com/nitsuah/vhs/blob/main/docs/FEATURES.md
+---
+
 # VHS Collection Indexer — Features
 
 > 🧭 [vhs](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

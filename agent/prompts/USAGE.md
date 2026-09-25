@@ -2,7 +2,7 @@
 
 > Monthly Claude Code usage report — surfaces what you actually used Claude time on this month and flags recurring manual work worth automating. This is about *your* usage of Claude Code, not the simulated product team's — unrelated to [[AUTO]].
 
-**Status:** created 2026-09-16 following the routine-pipeline audit ([[../../reports|see that day's report]] if still present). First scheduled run: 1st of next month.
+**Status:** created 2026-09-16 following the routine-pipeline audit (see [[notes/2026-09-16|that day's note]] and [[reports/pmo-audit-2026-09-16|PMO audit]]). First scheduled run: 1st of next month.
 
 ## Scope
 

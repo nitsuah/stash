@@ -1,3 +1,8 @@
+---
+up: "[[repos/farm-3j]]"
+source: https://github.com/nitsuah/farm-3j/blob/main/components/animations/README.md
+---
+
 # Farm Animation Components
 
 Reusable animation components for both marketing pages and farm game.

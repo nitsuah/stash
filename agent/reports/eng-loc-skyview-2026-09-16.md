@@ -1,5 +1,7 @@
 # LOC Report — skyview
 
+> 🧭 [[repos/skyview|skyview]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-16
 Source: shallow clone (`--depth 1`) of `nitsuah/skyview` @ `76657ed528c0a4a728a19163c9178ff6f4639d79`

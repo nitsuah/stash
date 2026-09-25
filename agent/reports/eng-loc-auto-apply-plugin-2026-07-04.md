@@ -1,5 +1,7 @@
 # ENG LOC Report: auto-apply-plugin (2026-07-04)
 
+> 🧭 [[repos/ats-fill|auto-apply-plugin]] · ← [[reports/eng-loc-auto-apply-plugin-2026-07-03|2026-07-03]] · [[reports/eng-loc-auto-apply-plugin-2026-09-01|2026-09-01]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
  1504 | auto-apply-plugin/background/service-worker.js

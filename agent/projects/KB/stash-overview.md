@@ -10,4 +10,4 @@ metadata:
 Stash is a core repository management application.
 
 ## Related Resources
-- **Source Code**: [[repos/stash/README.md|Stash README]]
+- **Source Code**: [Stash README](https://github.com/nitsuah/stash#readme) (stash is the vault, so it isn't mirrored under `repos/`)

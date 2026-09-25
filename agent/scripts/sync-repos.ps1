@@ -6,6 +6,8 @@
   vault. Content comes from the default branch on the remote (origin/HEAD), never
   the working tree or the checked-out branch, so untracked, staged, locally
   modified, or unmerged-branch files are never published into this public vault.
+  Then enrich-mirror.py gives each copy `up:`/`source:` frontmatter and turns links to
+  un-mirrored files into GitHub URLs (vault copies only).
   Updates "Last Validated" in each summary .md.
 
 .PARAMETER Repos
@@ -115,6 +117,11 @@ foreach ($repo in $TargetRepos) {
         if ($LASTEXITCODE -ne 0) { Write-Host "  [ERROR] git archive failed for $repo" -ForegroundColor Red; continue }
         tar -xf $tar -C $dest
         Remove-Item $tar -Force -ErrorAction SilentlyContinue
+        # Vault-only enrichment of the fresh copies: `up: [[repos/<repo>]]` frontmatter
+        # (one named cluster per repo, no orphaned mirror docs) and GitHub URLs for links
+        # to files the mirror doesn't carry. Upstream files are never touched.
+        python "$PSScriptRoot\enrich-mirror.py" $src $dest $repo
+        if ($LASTEXITCODE -ne 0) { Write-Host "  [WARN] enrich-mirror.py failed for $repo; mirror left as exported" -ForegroundColor Yellow }
     }
     $copied = $files.Count
 

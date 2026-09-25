@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/30_YEAR_GAP_COVERAGE.md
+---
+
 # 30-YEAR GAP COVERAGE ANALYSIS
 
 > 🧭 [kryptos](../../README.md) · [Index](../INDEX.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->

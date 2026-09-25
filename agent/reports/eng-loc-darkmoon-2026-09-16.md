@@ -1,5 +1,7 @@
 # LOC Report — darkmoon
 
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-loc-darkmoon-2026-07-29|2026-07-29]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-16
 Source: shallow clone (`--depth 1`) of `nitsuah/darkmoon` @ `6f1e9940659709de47f776c897f7f52f723cb74f`

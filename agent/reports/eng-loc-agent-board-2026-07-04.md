@@ -1,5 +1,7 @@
 # ENG LOC Report: agent-board (2026-07-04)
 
+> 🧭 [[repos/agent-board|agent-board]] · ← [[reports/eng-loc-agent-board-2026-06-28|2026-06-28]] · [[reports/eng-loc-agent-board-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
  1819 | agent-board/tools/opencut/apps/web/src/stickers/providers/countries-data.ts

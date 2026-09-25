@@ -1,5 +1,7 @@
 # eng-mini: vhs — 2026-06-29 (DRY RUN)
 
+> 🧭 [[repos/vhs|vhs]] <!-- nav -->
+
 > First run for this repo — report only, no moves executed. Set `DRY_RUN=false` in `config/eng-mini.toml` to enable execution.
 
 ## Root Audit — vhs/

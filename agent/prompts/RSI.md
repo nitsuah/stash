@@ -34,7 +34,7 @@ Before making changes, understand the full input/output graph. Verify it's still
 | `week-eng-loc` (cloud, Mon 17:00 UTC, runs `LOC.md`) | scope.md (live); `git clone --depth 1` only; skips repos whose HEAD matches the last report's `HEAD:` line (2026-09-25) | `agent/reports/eng-loc-<repo>-<date>.md` (PR) |
 | `week-eng-mini` (cloud, Wed 18:00 UTC since 2026-09-24, runs `MINI.md`) | scope.md (live); `git clone --depth 1` only; same HEAD-SHA gate (2026-09-25) | `agent/reports/eng-mini-<repo>-<date>.md` (PR) |
 | ~~`week-obn-notes` / `week-obn-review` (cloud)~~ | — | **Disabled 2026-09-24.** Weekly note (Mon) and week review (Sat) now run inside `daily-repo-sync` (DAILY.md step 4) and ship in that day's daily-note PR, because the cloud versions' PRs were never merged, which broke the Mon → Fri → Mon chain |
-| `week-obn-import` (cloud, **weekly Mon 10:00 UTC** since 2026-09-24; was daily) | stash on GitHub | `agent/reports/cloud/obn-import/<date>.md` (PR, auto-merged on green) |
+| `week-obn-import` (cloud, **weekly Mon 10:00 UTC** since 2026-09-24; was daily) | stash on GitHub | `agent/reports/cloud/obn-import/obn-import-<date>.md` (PR, auto-merged on green) |
 | `stale-worktrees` / `vuln-patcher` / `gh-overseer` (cloud) | scope.md (live, fixed 2026-09-16) | advisory report only, no writes |
 | `import-memory` (cloud) | `agent/notes`, `agent/reports`, `agent/prompts`, `agent/repos`, `agent/jobs` | advisory report only |
 | [[USAGE]] (local) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` |

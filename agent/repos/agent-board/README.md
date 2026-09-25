@@ -1,4 +1,13 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/README.md
+---
+
 # agent-board — Local AI Ops Cockpit
+
+
+<!-- Deployment Status -->
+[![Deploy Status](https://github.com/nitsuah/agent-board/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/agent-board/actions)
 
 > 🧭 **agent-board** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
 
@@ -27,15 +36,15 @@ Captured from the local Docker stack at `http://localhost:3000`.
 
 ### Dashboard Overview
 
-![agent-board dashboard overview](docs/screenshots/dashboard-overview.png)
+![agent-board dashboard overview](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/dashboard-overview.png)
 
 ### Metrics View
 
-![agent-board metrics panel](docs/screenshots/metrics-panel.png)
+![agent-board metrics panel](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/metrics-panel.png)
 
 ### System Management
 
-![agent-board system management panel](docs/screenshots/system-panel.png)
+![agent-board system management panel](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/system-panel.png)
 
 ## Quick Start
 
@@ -481,7 +490,7 @@ services:
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
 
 - [API Documentation](./docs/API.md) — `docs/API.md`
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
@@ -508,6 +517,20 @@ Every doc at the repo root and under `docs/` (the files mirrored into the Obsidi
 - [Setup Instructions](./docs/archive/SETUP_INSTRUCTIONS.md) — `docs/archive/SETUP_INSTRUCTIONS.md`
 - [motor-pool — Product Improvement Roadmap](./docs/archive/agent-board-roadmap.md) — `docs/archive/agent-board-roadmap.md`
 - [3D Memory Palace — Design Notes (raw)](./docs/archive/neo4js-memory-palace-notes.md) — `docs/archive/neo4js-memory-palace-notes.md`
+
+**`artifacts/`**
+
+- [connection_status](./artifacts/connection_status.md) — `artifacts/connection_status.md`
+
+**`tools/`**
+
+- [installed tools](./tools/README.md) — `tools/README.md`
+
+**`tools/website/templates/`**
+
+- [Pitch Deck Structure (Claude generates fresh HTML for each client)](./tools/website/templates/pitch-structure.md) — `tools/website/templates/pitch-structure.md`
+- [Service Packages Reference](./tools/website/templates/service-packages.md) — `tools/website/templates/service-packages.md`
+- [Website Section Guide by Industry](./tools/website/templates/site-sections.md) — `tools/website/templates/site-sections.md`
 
 <!-- docs-index:end -->
 

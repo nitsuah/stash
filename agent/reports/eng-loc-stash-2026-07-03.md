@@ -1,4 +1,7 @@
 # ENG LOC Report: stash
+
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-06-25|2026-06-25]] · [[reports/eng-loc-stash-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** stash (stash)
 **Thresholds:** max_lines=500, min_lines=30

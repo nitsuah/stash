@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K1_2_3_PATTERN_ANALYSIS.md
+---
+
 # K1-K3 PATTERN ANALYSIS REPORT
 
 > 🧭 [kryptos](../../README.md) · [Index](../INDEX.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->

@@ -1,6 +1,6 @@
 # Autonomous Agent Delivery Flow
 
-> 🧭 [[REPOS-INDEX|Repo Docs Index]] · [[reports/INDEX|Reports]] · [[projects/INDEX|Projects]] · [[notes/INDEX|Notes]] · [[projects/scope|Scope]] · [[REPO-README]]
+> 🧭 [[VAULT-MAP|Vault Map]] (latest notes, reports, repo and project hubs) · [[README|Vault README]] · [[projects/scope|Scope]] · [[REPO-README]]
 
 This document defines the happy path for running agents autonomously against a repository in the product delivery pipeline.
 
@@ -44,7 +44,7 @@ This document defines the happy path for running agents autonomously against a r
 
 ## Supporting Agents
 
-[[prompts/AUTO|Automation]] and [[prompts/Growth|Growth]] agents run in parallel at any stage. [[prompts/LOC|LOC]], [[prompts/MINI|MINI]], and [[prompts/CLEANUP|Cleanup]] agents apply within individual repos as needed.
+[[prompts/AUTO|Automation]] and [[prompts/Growth|Growth]] agents run in parallel at any stage. [[prompts/LOC|LOC]], [[prompts/MINI|MINI]], [[prompts/TEST|Test]], and [[prompts/CLEANUP|Cleanup]] agents apply within individual repos as needed.
 
 ---
 

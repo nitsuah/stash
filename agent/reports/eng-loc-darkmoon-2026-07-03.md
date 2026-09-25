@@ -1,4 +1,7 @@
 # ENG LOC Report: darkmoon
+
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-loc-darkmoon-2026-06-25|2026-06-25]] · [[reports/eng-loc-darkmoon-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** darkmoon (darkmoon)
 **Thresholds:** max_lines=500, min_lines=30

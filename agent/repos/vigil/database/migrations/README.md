@@ -1,3 +1,8 @@
+---
+up: "[[repos/vigil]]"
+source: https://github.com/nitsuah/vigil/blob/main/database/migrations/README.md
+---
+
 # Migration history (frozen)
 
 The numbered `.sql` files in this directory document schema changes made

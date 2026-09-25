@@ -1,5 +1,7 @@
 # LOC Report — kryptos
 
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-07-29|2026-07-29]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-01
 Source: shallow clone (`--depth 1`) of `nitsuah/kryptos` @ `a7b6927f89c3d0cfaa512044c0e12c445b91b813`

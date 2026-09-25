@@ -1,3 +1,8 @@
+---
+up: "[[repos/deployer]]"
+source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [deployer](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

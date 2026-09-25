@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/scripts/testing/README.md
+---
+
 # Testing Notes
 
 This folder contains lightweight testing artifacts and helper files.

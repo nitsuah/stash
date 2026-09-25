@@ -1,3 +1,8 @@
+---
+up: "[[repos/vigil]]"
+source: https://github.com/nitsuah/vigil/blob/main/README.md
+---
+
 # Vigil
 
 > 🧭 **vigil** · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
@@ -81,7 +86,7 @@ npm run dev
 ## Quick Links
 
 - [Live Dashboard](https://ghoverseer.netlify.app)
-- [Docs](./docs/)
+- [Docs](https://github.com/nitsuah/vigil/tree/main/docs)
 - [GitHub](https://github.com/nitsuah/vigil)
 
 ## Contributing
@@ -197,18 +202,24 @@ See `/templates` for examples with AI agent instructions.
 
 ## Health Score
 
-Vigil calculates a composite 0–100 score across 6 weighted components:
+Vigil calculates a composite 0–100 score against a selectable repository maturity profile:
 
-| Component             | Weight | What It Measures                                                        |
-| --------------------- | ------ | ----------------------------------------------------------------------- |
-| Best Practices        | 30%    | CI/CD, pre-commit, linting, branch protection, Docker, Dependabot, etc. |
-| Security              | 30%    | Dependabot vulnerability alerts and secret-scanning alerts              |
-| Documentation Health  | 15%    | Presence and health of the 8 tracked doc files                          |
-| Testing & Quality     | 15%    | Test coverage percentage, framework detection, CI pass/fail             |
-| Community Standards   | 5%     | 12 community health files (CODE_OF_CONDUCT, CONTRIBUTING, etc.)         |
-| Activity & Engagement | 5%     | Commit frequency, PR/issue counts, contributor activity                 |
+- **Starter** — core hygiene for personal projects, prototypes, and small open-source repos.
+- **Production** — balanced expectations for actively deployed or maintained software.
+- **Enterprise** — stricter security, governance, testing, and engineering expectations.
 
-Scores are displayed as letter grades (A–F) with per-component breakdowns in the detail panel. See [FEATURES.md](FEATURES.md) for full details.
+The default profile is **Production**. The profile changes the relative weight of each component rather than inventing arbitrary penalties, while security now measures both control enablement and open findings. A repository with zero reported alerts does not receive a perfect security score when its detection controls are disabled.
+
+| Component             | Starter | Production | Enterprise | What It Measures |
+| --------------------- | ------- | ---------- | ---------- | ---------------- |
+| Security              | 15%     | 25%        | 30%        | Security controls plus critical/high/code-scanning/secret findings |
+| Testing & Quality     | 15%     | 20%        | 20%        | Test framework, coverage, and CI state |
+| Best Practices        | 20%     | 20%        | 20%        | CI/CD, pre-commit, linting, branch protection, Docker, Dependabot, etc. |
+| Documentation Health  | 25%     | 15%        | 10%        | Presence and health of tracked project docs |
+| Community Standards   | 5%      | 10%        | 15%        | Community and contribution standards |
+| Activity & Engagement | 20%     | 10%        | 5%         | Maintenance cadence, open issues, and PR backlog |
+
+The health breakdown includes a **Starter / Production / Enterprise picker**. Changing the profile persists it for the repository and immediately recalculates the score. Scores are displayed as letter grades (A–F) with per-component breakdowns in the detail panel. See [FEATURES.md](FEATURES.md) for full details.
 
 ## API Endpoints
 
@@ -309,7 +320,9 @@ netlify deploy --prod
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
 
 - [Agent Task Queue API](./docs/AGENT_TASK_QUEUE_API.md) — `docs/AGENT_TASK_QUEUE_API.md`
 - [Overseer Feature Audit](./docs/AUDIT.md) — `docs/AUDIT.md`
@@ -330,6 +343,10 @@ Every doc at the repo root and under `docs/` (the files mirrored into the Obsidi
 - [Metrics](./METRICS.md) — `METRICS.md`
 - [This is NOT the Next.js you know](./AGENTS.md) — `AGENTS.md`
 - [CLAUDE](./CLAUDE.md) — `CLAUDE.md`
+
+**`database/migrations/`**
+
+- [Migration history (frozen)](./database/migrations/README.md) — `database/migrations/README.md`
 
 <!-- docs-index:end -->
 

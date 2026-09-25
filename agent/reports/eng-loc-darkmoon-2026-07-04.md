@@ -1,5 +1,7 @@
 # ENG LOC Report: darkmoon (2026-07-04)
 
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-loc-darkmoon-2026-07-03|2026-07-03]] · [[reports/eng-loc-darkmoon-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
  2078 | darkmoon/src/components/GameUI.tsx

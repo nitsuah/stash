@@ -1,3 +1,8 @@
+---
+up: "[[repos/skyview]]"
+source: https://github.com/nitsuah/skyview/blob/main/docs/FEATURES.md
+---
+
 # Skyview Features
 
 > 🧭 [skyview](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->

@@ -1,3 +1,8 @@
+---
+up: "[[repos/vigil]]"
+source: https://github.com/nitsuah/vigil/blob/main/FEATURES.md
+---
+
 # Vigil Features
 
 > 🧭 [vigil](./README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
@@ -8,7 +13,7 @@ Status guide: features listed here are shipped unless explicitly marked as plann
 
 ### 📊 Repository Intelligence
 
-- **Health Scoring**: Comprehensive health scores (0-100) based on documentation, testing, best practices, community standards, activity, and security with component breakdown display
+- **Health Scoring**: Profile-aware health scores (0-100) with Starter, Production, and Enterprise maturity profiles, per-component breakdowns, and security posture scoring that separates control enablement from open findings
 - **Documentation Tracking**: Monitors presence and status of key docs with 4-state health model (Missing, Dormant, Malformed, Healthy)
 - **Template Health Detection**: Content hashing to detect unchanged/stale templates marked as "dormant" state
 - **Template Version Tracking**: Tracks which template version docs are based on with template_version column

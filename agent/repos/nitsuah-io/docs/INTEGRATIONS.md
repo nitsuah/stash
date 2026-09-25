@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/INTEGRATIONS.md
+---
+
 # Integrations
 
 > 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

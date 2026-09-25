@@ -1,3 +1,8 @@
+---
+up: "[[repos/gcp]]"
+source: https://github.com/nitsuah/gcp/blob/main/docs/TASKS.md
+---
+
 # Tasks
 
 > 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

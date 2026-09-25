@@ -1,3 +1,8 @@
+---
+up: "[[repos/avatar]]"
+source: https://github.com/nitsuah/avatar/blob/main/docs/ROADMAP.md
+---
+
 # Roadmap
 
 > 🧭 [avatar](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

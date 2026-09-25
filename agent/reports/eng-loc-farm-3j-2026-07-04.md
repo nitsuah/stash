@@ -1,5 +1,7 @@
 # ENG LOC Report: farm-3j (2026-07-04)
 
+> 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-07-03|2026-07-03]] · [[reports/eng-loc-farm-3j-2026-07-29|2026-07-29]] → <!-- nav -->
+
 ## Files > 500 lines (refactor candidates)
 
  4703 | farm-3j/components/rts/hooks/useGameLoop.tsx

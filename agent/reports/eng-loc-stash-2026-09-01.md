@@ -1,5 +1,7 @@
 # LOC Report — stash
 
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-07-04|2026-07-04]] <!-- nav -->
+
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-01
 Source: full clone of `nitsuah/stash` @ `c6cdaf6f79e0a9770d7c5f0b7395d0a443b22745`

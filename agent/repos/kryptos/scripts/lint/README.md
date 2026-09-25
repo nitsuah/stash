@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/scripts/lint/README.md
+---
+
 # Lint Tools
 
 **Consolidated tools:** `mdlint.py` + `autofix_unused_vars.py`

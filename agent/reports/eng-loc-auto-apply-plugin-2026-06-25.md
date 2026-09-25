@@ -1,5 +1,7 @@
 # eng-loc: auto-apply-plugin — 2026-06-25
 
+> 🧭 [[repos/ats-fill|auto-apply-plugin]] · [[reports/eng-loc-auto-apply-plugin-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -20,4 +22,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 15 | `popup\ux\consent.js` |
 | 24 | `popup\tracker\tracker-state.js` |
 | 29 | `popup\ux\state.js` |
-

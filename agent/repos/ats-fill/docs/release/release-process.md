@@ -1,6 +1,11 @@
+---
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/release/release-process.md
+---
+
 # Release process
 
-> 🧭 [auto-apply-plugin](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+> 🧭 [ats-fill](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
 ## Normal development
 

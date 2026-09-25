@@ -12,7 +12,7 @@ Use the current `feedback-dev` branch if there is one and if not create a new br
 - if the repo is not found clone into code C:\Users\ajhar\code from https://github.com/nitsuah/ like https://github.com/nitsuah/motor-pool
 - use worktrees but always make sure you are on the correct branch for the repo you are working on to avoid cross-repo contamination. if you need to make a change in multiple repos for a single task, make sure to switch branches and commit separately in each repo before moving to the next one. As well as ensuring each branch has a PR created for it (so worktrees are consolidated back to that users working development branch or as a PR) before moving to the next repo.
 
-## [[repos/motor-pool|motor-pool]]
+## motor-pool
 
 - 
 

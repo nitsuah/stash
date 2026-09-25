@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/docs/TASKS.md
+---
+
 # Tasks
 
 > 🧭 [kryptos](../README.md) · [Index](./INDEX.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

@@ -1,5 +1,7 @@
 # eng-mini: skyview — 2026-09-16 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/skyview|skyview]] · [[reports/eng-mini-skyview-2026-09-23|2026-09-23]] → <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (last commit 2026-09-16T04:54:24-04:00: "metrics: refresh skyview coverage (2026-09-11), flag native test failures (#129)"). Note: the top 3 repos by `updated_at` (skyview, fire, darkmoon) all show the same automated `metrics: refresh coverage` bot commit within seconds of each other — this reflects a scheduled metrics job, not necessarily the most recent human development activity. Repo discovery used GitHub code search (`user:nitsuah`, sort=updated) since the unscoped `/users/{user}/repos` REST endpoint is blocked by this session's git proxy for repos outside its attached set.
 
 ## Root Audit — skyview/

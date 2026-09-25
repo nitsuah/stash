@@ -1,6 +1,11 @@
+---
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/README.md
+---
+
 # ats-fill — Local-First AI Job Application Chrome Extension
 
-> 🧭 **auto-apply-plugin** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+> 🧭 **ats-fill** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
 >
 > Save your profile once. Land on any job page. Review tailored answers. Fill faster.
 > No Docker. No server. No subscription. Review before submitting.
@@ -107,31 +112,31 @@ ats-fill/
 
 ### Main dashboard
 
-![ats-fill main dashboard](screenshots/main-dashboard.png)
+![ats-fill main dashboard](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/main-dashboard.png)
 
 ### Tracker workspace (Pipeline)
 
-![ats-fill tracker workspace](screenshots/tracker-workspace.png)
+![ats-fill tracker workspace](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/tracker-workspace.png)
 
 ### Profile + Memory
 
-![ats-fill profile and memory](screenshots/profile-memory.png)
+![ats-fill profile and memory](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/profile-memory.png)
 
 ### Job Search
 
-![ats-fill job search panel](screenshots/job-search.png)
+![ats-fill job search panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/job-search.png)
 
 ### Settings
 
-![ats-fill settings panel](screenshots/ai-settings.png)
+![ats-fill settings panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/ai-settings.png)
 
 ### Help & Privacy
 
-![ats-fill help and privacy panel](screenshots/help-privacy.png)
+![ats-fill help and privacy panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/help-privacy.png)
 
 ### Interview Prep
 
-![ats-fill interview prep](screenshots/interview-prep.png)
+![ats-fill interview prep](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/interview-prep.png)
 
 ---
 
@@ -298,7 +303,7 @@ pip install pre-commit && pre-commit install && pre-commit install --hook-type p
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
 
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
 - [Features](./docs/FEATURES.md) — `docs/FEATURES.md`

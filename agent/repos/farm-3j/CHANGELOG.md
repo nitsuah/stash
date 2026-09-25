@@ -1,3 +1,8 @@
+---
+up: "[[repos/farm-3j]]"
+source: https://github.com/nitsuah/farm-3j/blob/main/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [farm-3j](./README.md) · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · **Changelog** · [Metrics](./docs/METRICS.md) <!-- nav -->

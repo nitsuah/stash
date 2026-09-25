@@ -1,5 +1,7 @@
 # eng-mini: games — 2026-09-24 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/games|games]] · ← [[reports/eng-mini-games-2026-09-01|2026-09-01]] <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (`updated_at` 2026-09-24T17:36:47Z; PR #342 "fix: test Tank Battle logic, restore 75% coverage, enforce it in CI", merged 2026-09-24T17:35:46Z — real coverage/test work from the same-day PMO audit #341, not an automated bot commit). Repo discovery used `search_repositories` (`user:nitsuah`, sort=updated); root-file discovery used `search_code` (`repo:nitsuah/games path:/`), since this session's git proxy scopes direct repo/content access (`get_file_contents`) to `nitsuah/stash` only. `vigil` and `ats-fill` were excluded — both rank above `games` by `updated_at` but neither has an entry under `agent/repos/*.md`, so neither is a tracked repo for this routine.
 
 ## Root Audit — games/

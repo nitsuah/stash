@@ -1,5 +1,7 @@
 # eng-mini: darkmoon — 2026-09-01 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/darkmoon|darkmoon]] · [[reports/eng-mini-darkmoon-2026-09-16|2026-09-16]] → <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 2–3 most recently pushed in-scope repos (last commit 2026-09-01T03:03:41-04:00).
 
 ## Root Audit — darkmoon/

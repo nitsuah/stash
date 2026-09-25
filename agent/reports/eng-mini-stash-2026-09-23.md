@@ -1,5 +1,7 @@
 # eng-mini: stash — 2026-09-23 (REPORT MODE / DRY RUN)
 
+> 🧭 [[repos/stash|stash]] · [[reports/eng-mini-stash-2026-09-24|2026-09-24]] → <!-- nav -->
+
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently updated in-scope repo (last commit 2026-09-19T07:44:58Z, PR #101 "metrics: require 3-5min backoff before auto-merge, add native fallback"). Unlike `fire`/`skyview` below, this repo is the one hosting the eng-mini routine itself, so its root was audited directly from the local checkout (`ls -la`) rather than through the GitHub API workaround.
 
 ## Root Audit — stash/

@@ -1,3 +1,8 @@
+---
+up: "[[repos/gcp]]"
+source: https://github.com/nitsuah/gcp/blob/main/docs/FEATURES.md
+---
+
 # GCP Google Drive API Script Features
 
 > 🧭 [gcp](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

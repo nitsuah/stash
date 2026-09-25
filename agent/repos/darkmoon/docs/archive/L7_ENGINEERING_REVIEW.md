@@ -1,3 +1,8 @@
+---
+up: "[[repos/darkmoon]]"
+source: https://github.com/nitsuah/darkmoon/blob/main/docs/archive/L7_ENGINEERING_REVIEW.md
+---
+
 # L7 Engineering Review - Darkmoon
 
 > 🧭 [darkmoon](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->

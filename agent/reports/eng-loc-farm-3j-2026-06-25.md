@@ -1,5 +1,7 @@
 # eng-loc: farm-3j — 2026-06-25
 
+> 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-|undated]] · [[reports/eng-loc-farm-3j-2026-07-03|2026-07-03]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -30,4 +32,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 24 | `lib\farm\FarmContext.tsx` |
 | 28 | `lib\utils.test.ts` |
 | 28 | `scripts\print-docker-port.js` |
-

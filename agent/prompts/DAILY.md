@@ -41,12 +41,12 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
    ```
    Skip to step 3 if there are none.
 2. For each candidate (each is at least a day old by definition):
-   - **Path check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`), one of the three generated indexes (`agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md`), or under `agent/repos/`. Match the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable:
+   - **Routine-owned check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`), under `agent/repos/`, or a file whose **only** changes are `build-vault-indexes.py` output (`<!-- nav -->` lines, `<!-- vault-links -->` blocks, a new folder-hub stub). The script matches the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable. It compares content, so a hand edit riding along in `VAULT-MAP.md` or a report fails, even though the generator also touches those files:
      ```powershell
-     $files   = @(gh pr view $pr --repo nitsuah/stash --json files --jq '.files[].path')
-     $outside = @($files | Where-Object { $_ -notmatch '^(agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|agent/(reports|projects|notes)/INDEX\.md$|agent/repos/)' })
+     git -C C:\Users\<user>\code\stash fetch origin main "pull/$pr/head"
+     python C:\Users\<user>\code\stash\agent\scripts\check-generated-diff.py origin/main FETCH_HEAD
      ```
-     If `$outside` is non-empty, **don't merge**. Name the PR and the first outside path in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
+     (Run it from the stash repo root.) If it exits 1, **don't merge**. Name the PR and the first path it prints in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
    - If CI is green (or no CI is configured) and there are no unresolved review comments, merge: `gh pr merge <PR> --squash --delete-branch`.
    - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` instead of merging.
@@ -61,7 +61,9 @@ Run `agent/scripts/sync-repos.ps1 -Prune`. It fetches each repo, then mirrors ev
 
 `-Prune` removes mirrored `.md` files that no longer exist upstream: old root-level duplicates from before a repo moved its docs into `docs/`, and docs since deleted or archived. The deletions land in the daily-note PR with the rest of `agent/repos/**`. The script has a per-repo cap (`-MaxPrune`, default 25): over it, it deletes **nothing** for that repo and prints `[prune-held]`. Copy any `[prune-held]` line into the daily note's `## Notes` for a human instead of raising the cap yourself. It usually means a repo moved or renamed its docs folder.
 
-Don't add HANDOFF wikilinks by hand: every doc is already linked from its repo README's Docs Index and from `agent/REPOS-INDEX.md`, so the old "add wikilinks to <repo>.md Vault Index" action is retired.
+After the export, the sync runs `enrich-mirror.py` on the fresh copies. Every mirrored doc gets `up: "[[repos/<repo>]]"` and `source:` frontmatter, and links to files the mirror doesn't carry (LICENSE, images, `.github/`) become GitHub URLs. That's vault-only; upstream is never touched. Mirror docs therefore can't be orphaned, and each repo is one cluster around its named hub.
+
+Don't add wikilinks by hand: every mirrored doc is linked from its repo README's Docs Index, and each `agent/repos/<repo>.md` hub links that README through its generated *Vault links* block. The old "add wikilinks to <repo>.md Vault Index" action and `agent/REPOS-INDEX.md` are both retired. Step 2 may rewrite a hub's prose freely but must leave its `<!-- vault-links:start/end -->` block alone; it is regenerated anyway.
 
 Log to `C:\Users\<user>\code\stash\agent\logs\obn-repo.log`, appending (never overwrite) a new dated section in this exact format, matching prior entries:
 
@@ -116,10 +118,18 @@ Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why t
 
 **The daily-note PR carries all of today's stash writes, not just the note** (added 2026-09-24). Steps 1–2 above plus Repo sync and Stale worktree cleanup below all write `agent/repos/**` into this vault. (They also append to `agent/logs/*.log`, but `*.log` is gitignored on purpose, so logs stay local and never go in the PR.) Before this rule the `agent/repos/**` writes were never committed. They piled up as 88+ uncommitted files on `main`, which made the Repo sync step skip `stash` as `SKIPPED_DIRTY` every day. Worse, every cloud routine clones `stash` from GitHub and reads `agent/repos/*.md`, so it was working from a snapshot several days stale while the local copies stayed current. So:
 - Create the `obn/daily-note-<date>` branch **from the working tree as-is**, so the uncommitted writes come along. Commit the note and `agent/repos/**` together in the first commit.
-- **Regenerate the vault indexes** after today's note (and, on Mon/Sat, the weekly note) is written: `python agent/scripts/build-vault-indexes.py`. It rebuilds `agent/reports/INDEX.md`, `agent/projects/INDEX.md` and `agent/notes/INDEX.md`, and sets the prev/next/week nav line in every dated note, so new reports and notes are linked in the graph without anyone editing links. It's deterministic, so re-running it changes nothing when nothing is new.
-- **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/`, the dated notes, and the three `INDEX.md` files onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
+- **Regenerate the vault links** after today's note (and, on Mon/Sat, the weekly note) is written: `python agent/scripts/build-vault-indexes.py`. The flat INDEX files were retired on 2026-09-25 (see [[projects/Vault]]). The script now links every note through the hub it belongs to:
+  - prev/next nav lines in dated notes and reports
+  - a *Vault links* block in each `agent/repos/<repo>.md` hub (README, KB overview, latest LOC/MINI report)
+  - a *Vault links* block in each `agent/projects/<Folder>.md` folder hub
+  - the generated block in `agent/VAULT-MAP.md`, the vault home (latest notes, the latest report of each kind, every repo and project hub)
+
+  It's deterministic, so re-running it changes nothing when nothing is new. It prints the files it changed: keep that list for the commit below.
+- **Repair hub links:** `python agent/scripts/fix-doc-links.py --vault --under=repos/ --unlink-dead-mirrors --write`. Step 2 rewrites hub prose from memory, and its `[[repos/<repo>/ROADMAP]]`-style links go stale when a repo moves docs into `docs/`. This repoints them (or unlinks docs that no longer exist). It only touches `agent/repos/*.md`, so the fixes ride along in the daily-note PR. Add the files it changed to the commit list below.
+- **Then check the graph:** `python agent/scripts/find-orphans.py --check`. It exits 1 in two cases: a note outside the `agent/repos/<repo>/` mirrors has no link path from `VAULT-MAP`, which means a new note fits none of the generator's naming rules, or two such notes share a file name. Don't hand-link or rename anything in this run. Name it in `## Notes` so a human can add an `up: "[[parent]]"` frontmatter line, a naming rule, or a unique name. Also copy the `notes / orphans / reachable / unresolved links` summary lines into `## Notes`, so the trend is visible day to day.
+- **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/`, the dated notes, and the files `build-vault-indexes.py` reported changing onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
 - Then `git checkout main`. Do not `git pull` yet: those files are now committed on the branch, so `main` should be clean. If `git status` on `main` still shows changes under `agent/repos/`, the sweep missed something. Name it in the log instead of ignoring it.
-- Only commit `agent/repos/**`, the dated note files (`agent/notes/<YYYY-MM-DD>.md`, `agent/notes/<YYYY>-W<ww>.md`), and the generated `agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md`. Never `git add agent/notes/` as a folder. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
+- Only commit `agent/repos/**`, the dated note files (`agent/notes/<YYYY-MM-DD>.md`, `agent/notes/<YYYY>-W<ww>.md`), and the files `build-vault-indexes.py` listed as changed, by exact path. Never `git add agent/notes/`, `agent/reports/` or `agent/projects/` as a folder. Before pushing, run `python agent/scripts/check-generated-diff.py origin/main HEAD` from the stash root. If it fails, a human's edit got staged: unstage that file. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
 
 ### 4. Weekly note chain (Monday and Saturday only)
 

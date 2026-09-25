@@ -49,7 +49,7 @@ Exclusions: `node_modules`, `.next`, `dist`, `build`, `venv`, `.venv`, `vendor`,
 
 ---
 
-### [[repos/motor-pool|motor-pool]]
+### motor-pool
 
 #### Top Files
 

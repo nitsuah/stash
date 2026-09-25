@@ -1,3 +1,8 @@
+---
+up: "[[repos/skyview]]"
+source: https://github.com/nitsuah/skyview/blob/main/README.md
+---
+
 # 🚁 SkyView Dynamics - Cinematic Drone Services
 
 > 🧭 **skyview** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
@@ -222,7 +227,7 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
 
 - [Analytics Setup Guide](./docs/ANALYTICS_SETUP.md) — `docs/ANALYTICS_SETUP.md`
 - [Asset Management & Admin Guide](./docs/ASSET_MANAGEMENT.md) — `docs/ASSET_MANAGEMENT.md`

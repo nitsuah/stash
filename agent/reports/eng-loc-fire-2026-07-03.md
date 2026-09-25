@@ -1,4 +1,7 @@
 # ENG LOC Report: fire
+
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-06-25|2026-06-25]] · [[reports/eng-loc-fire-2026-07-04|2026-07-04]] → <!-- nav -->
+
 **Date:** 2026-07-03
 **Repo:** fire (fire)
 **Thresholds:** max_lines=500, min_lines=30

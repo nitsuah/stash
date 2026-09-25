@@ -1,3 +1,8 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/site-sections.md
+---
+
 # Website Section Guide by Industry
 
 Use this to inform what sections to generate for each client site.

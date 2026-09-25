@@ -1,3 +1,8 @@
+---
+up: "[[repos/fire]]"
+source: https://github.com/nitsuah/fire/blob/main/docs/METRICS.md
+---
+
 # METRICS.md
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->

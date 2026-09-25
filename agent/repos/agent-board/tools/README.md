@@ -1,3 +1,8 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/tools/README.md
+---
+
 # installed tools
 
 website - generator is just a script we have wrapped in a dockerfile to make it easier to run.

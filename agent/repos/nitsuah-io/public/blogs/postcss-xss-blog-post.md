@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/public/blogs/postcss-xss-blog-post.md
+---
+
 # The </style> Escape Hatch: How PostCSS Quietly Enabled XSS in Your Build Pipeline
 
 If you're running a Next.js, Vite, or any modern frontend stack, there's a good chance PostCSS is somewhere in your dependency tree — and until very recently, it had a surprisingly simple XSS vector hiding in plain sight.

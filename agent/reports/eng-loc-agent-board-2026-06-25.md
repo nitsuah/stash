@@ -1,5 +1,7 @@
 # eng-loc: motor-pool — 2026-06-25
 
+> 🧭 [[repos/agent-board|agent-board]] · [[reports/eng-loc-agent-board-2026-06-28|2026-06-28]] → <!-- nav -->
+
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
 ## Large Files (≥500 lines) — Refactor Candidates
@@ -19,4 +21,3 @@ Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, 
 | 21 | `dashboard\tests\persistence-status.js` |
 | 25 | `dashboard\tests\test-chat.js` |
 | 26 | `test\safety-layer-adversarial.test.js` |
-

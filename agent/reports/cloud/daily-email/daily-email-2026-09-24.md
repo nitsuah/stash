@@ -1,5 +1,7 @@
 # daily-email — 2026-09-24
 
+> 🧭 [[reports/cloud/daily-email/daily-email-2026-09-25|2026-09-25]] → <!-- nav -->
+
 - Urgent: 0
 - Action Needed: 0
 - FYI: 4

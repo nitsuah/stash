@@ -1,6 +1,11 @@
+---
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/PRIVACY.md
+---
+
 # ats-fill — Terms, Privacy & Security
 
-> 🧭 [auto-apply-plugin](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+> 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 **Document version:** 1.2
 **Last updated:** September 23, 2026

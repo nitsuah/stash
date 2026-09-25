@@ -1,3 +1,8 @@
+---
+up: "[[repos/games]]"
+source: https://github.com/nitsuah/games/blob/main/README.md
+---
+
 # Games Collection
 
 > 🧭 **games** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
@@ -254,7 +259,7 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
 
 - [API and Interfaces](./docs/API.md) — `docs/API.md`
 - [Architecture](./docs/ARCHITECTURE.md) — `docs/ARCHITECTURE.md`

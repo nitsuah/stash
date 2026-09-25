@@ -1,10 +1,12 @@
 ---
 updated: 2026-09-24
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/TASKS.md
 ---
 
 # Tasks
 
-> 🧭 [auto-apply-plugin](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+> 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 ## In Progress
 
