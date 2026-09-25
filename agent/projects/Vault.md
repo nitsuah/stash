@@ -20,9 +20,21 @@ Goal: every note reachable from [[AGENT-MAIN]] in ≤2 meaningful hops, without 
 
 ## Progress
 
-- [ ] Generator rewrite (`build-vault-indexes.py`)
-- [ ] Remove INDEX files + REPOS-INDEX, fix references
-- [ ] `find-orphans.py`: flag notes with no hub, CI-style `--check`
-- [ ] Update routines (`prompts/DAILY.md`, PMO, scheduled task)
-- [ ] Upstream: nested READMEs orphaned in repo mirrors
-- [ ] PR + before/after numbers
+- [x] Generator rewrite (`build-vault-indexes.py`): idempotent, second run changes 0 files
+- [x] Removed `reports/`, `projects/`, `notes/` INDEX and `REPOS-INDEX`; fixed references (AGENT-MAIN, pmo-ff report, stash docs)
+- [x] `find-orphans.py`: reachability from AGENT-MAIN, star hubs, `--check`
+- [x] `check-generated-diff.py`: content-based auto-merge gate for `obn:` PRs (replaces the path allowlist)
+- [x] Routines: `prompts/DAILY.md` updated; `agent/README.md` documents the naming conventions. Report-writing prompts (LOC, MINI, PMO, RSI, TIRE, USAGE) already follow them. Cloud `reports/cloud/<routine>/<date>.md` is covered.
+- [x] Upstream: no PRs needed. Upstream READMEs already index nested docs; the next `sync-repos.ps1` refreshes the stale mirrors (confirmed with `-DryRun`).
+- [x] PR: https://github.com/nitsuah/stash/pull/139
+- [ ] After merge + next daily run: confirm `find-orphans.py` shows 0 orphans and 422/422 reachable
+
+#### Result (2026-09-25)
+
+- 406/422 reachable from AGENT-MAIN (382 within 3 hops); the 16 left are the stale mirrors above
+- Only star hub is AGENT-MAIN's Vault map (63 links, intentional)
+
+#### Later ideas
+
+- Smart Connections: suggest-only pass for notes that are reachable only through a chain. Never auto-write links.
+- `projects/docs/` holds 2026 Q2 leftovers (two `AUDIT_GRAPH_2026_06_09*` near-duplicates): archive or fold into project hubs.
