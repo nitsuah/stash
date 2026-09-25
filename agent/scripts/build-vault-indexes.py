@@ -135,6 +135,24 @@ def set_block(rel, lines):
     write(rel, text, nl)
 
 
+PROPS = ("kind", "repo", "date")  # the only frontmatter keys this script owns (Bases views filter on them)
+
+
+def set_props(rel, props):
+    """Set kind/repo/date in a note's frontmatter, leaving every other key alone."""
+    props = {k: v for k, v in props.items() if v}
+    text, nl = read(rel)
+    m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
+    lines = m.group(1).split("\n") if m and m.group(1) else []
+    body = text[m.end():] if m else text
+    kept = [l for l in lines if l.split(":", 1)[0].strip() not in PROPS]
+    new = kept + [f"{k}: {props[k]}" for k in PROPS if k in props]
+    if not new:
+        write(rel, body.lstrip("\n"), nl)
+        return
+    write(rel, "---\n" + "\n".join(new) + "\n---\n" + ("" if m else "\n") + body, nl)
+
+
 # ---------- reports ----------
 def report_kind_and_subject(rel):
     rest = rel[len("reports/"):]
@@ -172,6 +190,8 @@ for (kind, subject), files in sorted(chains.items(), key=lambda kv: (kv[0][0], k
         if i + 1 < len(files):
             parts.append(link(files[i + 1], date_key(files[i + 1]) or "undated") + " →")
         set_nav(f, parts)
+        full = date_key(f) if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_key(f)) else None
+        set_props(f, {"kind": kind, "repo": RENAMED.get(subject, subject) if subject else None, "date": full})
     newest = files[-1]
     label = date_key(newest) or os.path.basename(newest)[:-3]
     if hub:
@@ -196,6 +216,9 @@ for hub in hubs:
     for label, rel, date in sorted(hub_lines.get(hub, [])):
         lines.append(f"- Latest {label}: {link(rel, date)} (older ones chain from it)")
     set_block(hub, ["## Vault links", "", GENERATED, ""] + lines if lines else [])
+    set_props(hub, {"kind": "repo-hub", "repo": name})
+    if hub in kb:
+        set_props(kb[hub], {"kind": "overview", "repo": name})
 
 # tracked = the Tracked table in projects/scope.md (the repo registry every routine reads)
 text, _ = read("projects/scope.md")
@@ -218,15 +241,41 @@ for folder, files in sorted(folders.items()):
         write(hub, f"# {folder}\n\nFolder hub for `projects/{folder}/`. Add context above the generated block.")
     lines = [f"- {link(f, f[len(folder) + 10:-3])}" for f in files]
     set_block(hub, ["## Vault links", "", GENERATED, ""] + lines)
+    set_props(hub, {"kind": "project-hub"})
 top_projects = [p for p in md_files("projects") if p.count("/") == 1 and not p.endswith("/INDEX.md")]
 if CHECK:  # stub hubs a real run would create
     top_projects = sorted(set(top_projects) | {f"projects/{f}.md" if exists(f"projects/{f}.md")
                                                else f"projects/{f}-hub.md" for f in folders})
 
 # ---------- notes ----------
+def note_month(name):
+    """YYYY-MM a dated note belongs to (a week counts in the month of its Monday)."""
+    if WEEK.match(name):
+        y, w = map(int, re.findall(r"\d+", name)[:2])
+        return dt.date.fromisocalendar(y, w, 1).strftime("%Y-%m")
+    return name[:7]
+
+
+# Archive: dated notes older than last month move to notes/archive/YYYY-MM/, so notes/ stays
+# short. The chains below span the archive and are rebuilt from wherever each note now lives.
+first = dt.date.today().replace(day=1)
+keep_from = (first - dt.timedelta(days=1)).replace(day=1).strftime("%Y-%m")
+for f in sorted(os.listdir(path_of("notes"))):
+    if (DAY.match(f) or WEEK.match(f)) and note_month(f) < keep_from:
+        old, new = f"notes/{f}", f"notes/archive/{note_month(f)}/{f}"
+        changed += [old, new]
+        if not CHECK:
+            os.makedirs(os.path.dirname(path_of(new)), exist_ok=True)
+            os.replace(path_of(old), path_of(new))
+
+NOTE = {}  # stem -> vault path without .md, flat or archived
+for dp, _, fn in os.walk(path_of("notes")):
+    for f in fn:
+        if DAY.match(f) or WEEK.match(f):
+            NOTE[f[:-3]] = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")[:-3]
 names = sorted(f for f in os.listdir(path_of("notes")) if f.endswith(".md") and f != "INDEX.md")
-days = [f[:-3] for f in names if DAY.match(f)]
-weeks = [f[:-3] for f in names if WEEK.match(f)]
+days = sorted(s for s in NOTE if DAY.match(s + ".md"))
+weeks = sorted(s for s in NOTE if WEEK.match(s + ".md"))
 other_notes = [f"notes/{f}" for f in names if not DAY.match(f) and not WEEK.match(f)]
 
 
@@ -238,25 +287,27 @@ def iso_week(day):
 def chain(items, i):
     parts = []
     if i > 0:
-        parts.append("← " + link(f"notes/{items[i - 1]}", items[i - 1]))
+        parts.append("← " + link(NOTE[items[i - 1]], items[i - 1]))
     if i + 1 < len(items):
-        parts.append(link(f"notes/{items[i + 1]}", items[i + 1]) + " →")
+        parts.append(link(NOTE[items[i + 1]], items[i + 1]) + " →")
     return parts
 
 
 for i, d in enumerate(days):
     wk = iso_week(d)
-    set_nav(f"notes/{d}.md", chain(days, i) + ([f"week {link(f'notes/{wk}', wk)}"] if wk in weeks else []))
+    set_nav(NOTE[d] + ".md", chain(days, i) + ([f"week {link(NOTE[wk], wk)}"] if wk in weeks else []))
+    set_props(NOTE[d] + ".md", {"kind": "daily-note", "date": d})
 for i, w in enumerate(weeks):
-    set_nav(f"notes/{w}.md", chain(weeks, i) + [link(f"notes/{d}", d) for d in days if iso_week(d) == w])
+    set_nav(NOTE[w] + ".md", chain(weeks, i) + [link(NOTE[d], d) for d in days if iso_week(d) == w])
+    set_props(NOTE[w] + ".md", {"kind": "weekly-note"})
 
 # ---------- VAULT-MAP (the vault home) ----------
 home = ["## Vault map", "", GENERATED, ""]
 latest = []
 if days:
-    latest.append(f"{link('notes/' + days[-1], days[-1])} (daily)")
+    latest.append(f"{link(NOTE[days[-1]], days[-1])} (daily)")
 if weeks:
-    latest.append(f"{link('notes/' + weeks[-1], weeks[-1])} (weekly)")
+    latest.append(f"{link(NOTE[weeks[-1]], weeks[-1])} (weekly)")
 if latest:
     home.append("- **Latest notes:** " + " · ".join(latest) + " (older ones chain from these)")
 home.append("- **Repos** ([[projects/scope|Scope]] tracked; each hub links its README, KB overview and latest reports): "
@@ -284,6 +335,16 @@ def script_summary(rel):
         m = re.search(r"^#(?!!)\s*(.+)", text, re.M)
     return (m.group(m.lastindex) if m else "").strip().rstrip(".")
 
+
+templates = sorted(f for f in os.listdir(path_of("templates")) if f.endswith(".md")) if exists("templates") else []
+if templates:
+    home.append("- **Templates** (Templater: *Create new note from template*; each asks which hub the note belongs under): "
+                + " · ".join(link("templates/" + t, t[:-3]) for t in templates))
+
+bases = sorted(f for f in os.listdir(VAULT) if f.endswith(".base"))
+if bases:
+    home.append("- **Views** (Obsidian Bases, live tables built from each note's kind/repo/date properties): "
+                + " · ".join(link(b, b[:-5]) for b in bases))
 
 scripts = sorted(f for f in os.listdir(path_of("scripts")) if re.search(r"\.(py|ps1|sh)$", f))
 if scripts:

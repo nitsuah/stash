@@ -1,3 +1,7 @@
+---
+kind: findings-ledger
+---
+
 # Findings ledger
 
 Maintained by [[TIRE]]. Read by [[PMO]] (`pmo` items) and [[RSI]] (aging).

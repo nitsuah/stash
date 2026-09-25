@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: opencut-controller
+---
+
 # opencut-controller — MCP Server for OpenCut Video Editor
 
 **Last Validated:** 2026-06-10 | Initial vault entry

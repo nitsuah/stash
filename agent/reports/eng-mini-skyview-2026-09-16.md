@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: skyview
+date: 2026-09-16
+---
+
 # eng-mini: skyview — 2026-09-16 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/skyview|skyview]] · [[reports/eng-mini-skyview-2026-09-23|2026-09-23]] → <!-- nav -->

@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: bb-mcp
+---
+
 # bb-mcp PMO Runbook
 
 > Reviewed: 2026-09-23

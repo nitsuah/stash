@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: skyview
+---
+
 # skyview - Static marketing site and client portal
 
 **Last Validated:** 2026-09-25 | PMO audit - Docker-first validation

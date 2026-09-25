@@ -3,6 +3,8 @@ name: fire-overview
 description: Central synthesis document for the Fire application.
 metadata:
   type: project
+kind: overview
+repo: fire
 ---
 
 # Fire Overview

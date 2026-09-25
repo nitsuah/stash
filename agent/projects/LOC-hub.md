@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # LOC
 
 Working files for the [[prompts/LOC|LOC]] routine (refactor inventory, pending items). Reports: `reports/eng-loc-*`, linked from each repo hub.

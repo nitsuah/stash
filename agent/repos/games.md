@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: games
+---
+
 # games
 
 > Reviewed: 2026-09-23

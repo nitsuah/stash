@@ -3,6 +3,8 @@ name: games-overview
 description: Central synthesis document for the games application.
 metadata:
   type: project
+kind: overview
+repo: games
 ---
 
 # Games Overview

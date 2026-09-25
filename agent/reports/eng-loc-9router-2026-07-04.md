@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: 9router
+date: 2026-07-04
+---
+
 # ENG LOC Report: 9router (2026-07-04)
 
 > 🧭 [[reports/eng-loc-9router-2026-07-29|2026-07-29]] → <!-- nav -->

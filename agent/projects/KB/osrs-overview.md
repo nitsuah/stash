@@ -3,6 +3,8 @@ name: osrs-overview
 description: Central synthesis document for the OSRS utility.
 metadata:
   type: project
+kind: overview
+repo: osrs
 ---
 
 # OSRS Overview

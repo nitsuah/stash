@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: agent-board
+date: 2026-07-29
+---
+
 # ENG LOC Report — agent-board (2026-07-29)
 
 > 🧭 [[repos/agent-board|agent-board]] · ← [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] <!-- nav -->

@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: darkmoon
+date: 2026-09-16
+---
+
 # eng-mini: darkmoon — 2026-09-16 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-09-01|2026-09-01]] <!-- nav -->

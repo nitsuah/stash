@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: agent-board
+---
+
 # motor-pool
 
 > Reviewed: 2026-09-24

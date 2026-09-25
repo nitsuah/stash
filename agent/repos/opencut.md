@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: opencut
+---
+
 # opencut — Legacy OpenCut Video Editor (Archived)
 
 **Last Validated:** 2026-06-10 | Initial vault entry

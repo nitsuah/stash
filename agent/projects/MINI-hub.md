@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # MINI
 
 Working files for the [[prompts/MINI|MINI]] routine. Reports: `reports/eng-mini-*`, linked from each repo hub.

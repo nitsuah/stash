@@ -3,6 +3,8 @@ name: stash-overview
 description: Central synthesis document for the Stash application.
 metadata:
   type: project
+kind: overview
+repo: stash
 ---
 
 # Stash Overview

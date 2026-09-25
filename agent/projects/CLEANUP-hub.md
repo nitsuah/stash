@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # CLEANUP
 
 Working files for the [[prompts/CLEANUP|Cleanup]] agent.

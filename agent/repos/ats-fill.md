@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: ats-fill
+---
+
 # auto-apply-plugin
 
 > Reviewed: 2026-09-24

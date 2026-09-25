@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: vhs
+date: 2026-06-29
+---
+
 # eng-mini: vhs — 2026-06-29 (DRY RUN)
 
 > 🧭 [[repos/vhs|vhs]] <!-- nav -->

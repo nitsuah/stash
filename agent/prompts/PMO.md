@@ -42,64 +42,9 @@ Also verify ecosystem standards that affect repository health scoring (see [[OVE
 
 If a file does not exist, log it as a documentation gap and create a task if it blocks delivery, onboarding, or support.
 
-## Most Recent Planning-Alignment Audit (2026-03-27)
+## Past Audits
 
-### Results Summary
-
-**Completed**:
-
-- 
-
-### Common Patterns Found
-
-1. All 2025 Q1 roadmaps now 12+ months old; need reset to 2026 Q1.
-2. Q2 2025 items: mixed — overseer shipped, motor-pool/bb-mcp not started.
-3. Stale docs: audit info 3-6 months behind actual product state.
-4. Live validation: nitsuah-io and overseer both confirmed working; Docker builds successful for both.
-
-### Stash Runbooks Updated
-
-- [[repos/nitsuah-io]] — Version drift, visual assets, dark mode UI
-- [[repos/vigil]] — Coverage confirmed above target, P1 focuses on Agent Task Queue API
-- `repos/motor-pool` — Foundation tasks, feature audit needed, test baseline required
-- [[repos/bb-mcp]] — Foundation-first approach, API wrapper critical path, Q1 2026 reset
-
-### Follow-Up Sweep (Low Priority Repos, 2026-03-27)
-
-Additional low-priority repos were validated with Docker-first checks and planning docs were normalized to parser-safe format.
-
-| Repo | Runtime Validation | Key Finding |
-|------|--------------------|-------------|
-| gcp | ❌ Docker build failed | `COPY copy_folder.py` path mismatch in Dockerfile (P0) |
-| osrs | ⚠️ Docker build passed; runtime failed | Entrypoint references missing `main.py` (P0) |
-| kryptos | ⚠️ Docker build passed; runtime failed | Artifact path permission error at startup (P0) |
-| skyview | ✅ Docker build and runtime passed | Launch-ready; metrics consistency drift (P1 docs) |
-
-### Additional Runbooks Added/Updated
-
-- [[repos/gcp]] — Docker build blocker, backlog reset to real gaps
-- [[repos/osrs]] — Runtime entrypoint blocker + version policy drift
-- [[repos/kryptos]] — Container permission blocker + phase priorities
-- [[repos/skyview]] — Launch-ready status + metrics reconciliation focus
-
-## Repositories of Note
-
-### Active Development (prioritized)
-
-- motor-pool (review: PR #7 open)
-- bb-mcp (review: PR #11 open)
-- overseer (review: PR #82 open)
-- nitsuah-io (review: PR #234 open at Nitsuah-Labs)
-- darkmoon (review: PR #151 open)
-- games (review: PR #126 open)
-
-### Low Priority
-
-- farm
-- skyview
-- kryptos
-- gcp
-- osrs
+Results of past audit cycles live in `reports/pmo-audit-<date>.md`, chained newest to oldest, with the latest linked from VAULT-MAP. The repo list is the Tracked table in `projects/scope.md`. Don't copy per-repo results or PR lists into this prompt, because they go stale; write them in the cycle's report.
 
 ## Documentation Preservation Rule
 

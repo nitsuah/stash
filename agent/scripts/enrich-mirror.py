@@ -5,7 +5,7 @@ runs on every sync, over bytes just exported from git, so its output is
 deterministic and never drifts. Upstream files are never touched.
 
 For every mirrored .md:
-  1. Frontmatter `up: "[[repos/<repo>]]"` and `source: <GitHub URL>`, merged into
+  1. Frontmatter `up: "[[repos/<repo>]]"`, `source: <GitHub URL>`, `kind: repo-doc`, `repo:`, merged into
      any upstream frontmatter (upstream keys win). Every mirrored doc then links
      to its repo hub. That makes each repo one cluster around a node named after
      the repo instead of a generic README, and a mirrored doc can't be orphaned.
@@ -14,6 +14,8 @@ For every mirrored .md:
      ghost nodes. Links between mirrored docs stay relative. Links that match
      nothing upstream are left as they are; fix-doc-links.py fixes those
      upstream.
+  3. `#word` in prose (hex colours, web hashtags) is escaped with a backslash, so repo docs
+     don't create tag nodes in the graph; the vault has no tags of its own.
 
 Usage: python enrich-mirror.py <repo-clone> <mirror-dir> <repo-name>
 """
@@ -50,6 +52,17 @@ for dp, _, fn in os.walk(dest):
     for f in fn:
         if f.endswith(".md"):
             mirrored.add(os.path.relpath(os.path.join(dp, f), dest).replace(os.sep, "/"))
+
+
+TAG = re.compile(r"(^|[\s(])#([A-Za-z][\w/-]*)")
+
+
+def untag(line):
+    """Repo docs never mean Obsidian tags: `#ff4444` or `#DronePhotography` in prose would
+    become tag nodes in the graph. Backslash-escape them outside headings, code and links."""
+    if re.match(r"^\s*#{1,6}\s", line) or "](" in line and re.search(r"\]\([^)]*#", line):
+        return line
+    return TAG.sub(lambda m: m.group(1) + "\\#" + m.group(2), line)
 
 
 def url(path, anchor=""):
@@ -99,10 +112,10 @@ def enrich(doc, text):
             out.append(line)
             continue
         parts = re.split(r"((?<!\[)`[^`]*`(?!\]))", line)  # a `code` span, but not [`link text`](...)
-        out.append("".join(p if i % 2 else WIKI.sub(fix_wiki, MDLINK.sub(fix, p)) for i, p in enumerate(parts)))
+        out.append("".join(p if i % 2 else untag(WIKI.sub(fix_wiki, MDLINK.sub(fix, p))) for i, p in enumerate(parts)))
     body = "\n".join(out)
 
-    ours = {"up": f'"[[repos/{repo}]]"', "source": url(doc)}
+    ours = {"up": f'"[[repos/{repo}]]"', "source": url(doc), "kind": "repo-doc", "repo": repo}
     m = re.match(r"^---\n(.*?)\n---\n", body, re.S)
     if m:
         keys = {l.split(":", 1)[0].strip() for l in m.group(1).split("\n") if ":" in l}

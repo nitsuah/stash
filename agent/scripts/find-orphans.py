@@ -195,7 +195,8 @@ def main():
     if a.json:
         with open(a.json, "w", encoding="utf-8") as f:
             json.dump({"notes": len(scope), "orphans": orphans, "unreferenced": unref,
-                       "unreachable": unreachable, "unresolved": broken}, f, indent=2)
+                       "unreachable": unreachable, "unresolved": broken,
+                       "links": {n: sorted(out_links[n] | in_links[n]) for n in notes}}, f, indent=2)
     if a.check:
         native = [n for n in notes if not re.match(r"^repos/[^/]+/", n)]
         bad = sorted({n for n in orphans + unreachable if n in native})
@@ -203,6 +204,12 @@ def main():
         for n in native:
             names[os.path.basename(n).lower()].append(n)
         dupes = {k: v for k, v in names.items() if len(v) > 1}
+        ghosts = {n: ts for n, ts in broken.items() if n in native}
+        if ghosts:
+            print(f"\nFAIL: {sum(len(v) for v in ghosts.values())} broken link(s) in notes outside the repo mirrors "
+                  "(fix with scripts/fix-doc-links.py --vault):")
+            for n, ts in ghosts.items():
+                print(f"  {n}: " + ", ".join(ts))
         if bad:
             print(f"\nFAIL: {len(bad)} note(s) outside the repo mirrors have no path from the vault home:")
             for n in bad:
@@ -212,7 +219,7 @@ def main():
                   "(a bare [[name]] is ambiguous and the graph shows look-alike nodes); rename one:")
             for v in dupes.values():
                 print("  " + " · ".join(v))
-        if bad or dupes:
+        if bad or dupes or ghosts:
             sys.exit(1)
 
 

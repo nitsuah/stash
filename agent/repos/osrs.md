@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: osrs
+---
+
 # osrs - Automation bot for game interaction
 
 **Last Validated:** 2026-09-25 | PMO audit - doc-sync validation (no live Docker run this pass)

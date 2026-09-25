@@ -1,3 +1,7 @@
+---
+kind: usage-report
+---
+
 # Usage report — 2026-09
 
 Generated 2026-09-24 by the `monthly-usage-report` scheduled task (spec: [[USAGE]]). This was a manually triggered run, 7 days before the first scheduled fire on 2026-10-01. Window: **2026-08-24 → 2026-09-24** (the last ~30 days). Read-only: nothing was committed, no PR was opened, and no task config was changed.

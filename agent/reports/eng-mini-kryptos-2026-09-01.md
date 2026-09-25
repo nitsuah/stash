@@ -1,3 +1,9 @@
+---
+kind: eng-mini
+repo: kryptos
+date: 2026-09-01
+---
+
 # eng-mini: kryptos — 2026-09-01 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/kryptos|kryptos]] <!-- nav -->

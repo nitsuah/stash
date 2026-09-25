@@ -3,6 +3,8 @@ name: overseer-overview
 description: Central synthesis document for the Overseer application.
 metadata:
   type: project
+kind: overview
+repo: vigil
 ---
 
 # Overseer Overview

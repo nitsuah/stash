@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: deployer
+---
+
 # Contract Safe
 
 > Reviewed: 2026-09-23

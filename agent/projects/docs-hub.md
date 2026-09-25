@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # docs
 
 Older planning docs, audits and checklists (mostly 2026 Q2). Candidates to archive or fold into a project hub when they go stale.

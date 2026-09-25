@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: avatar
+---
+
 # avatar — AI Avatar Generation (DreamBooth + Stable Diffusion)
 
 **Last Validated:** 2026-09-25 | Initial vault entry

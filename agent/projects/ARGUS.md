@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 repo [[repos/odysseus|odysseus]]
 # Project ARGUS: Obsidian External Data Integration Plan
 

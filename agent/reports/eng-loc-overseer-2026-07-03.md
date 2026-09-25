@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: vigil
+date: 2026-07-03
+---
+
 # ENG LOC Report: overseer
 
 > 🧭 [[repos/vigil|overseer]] · ← [[reports/eng-loc-overseer-2026-06-25|2026-06-25]] · [[reports/eng-loc-overseer-2026-07-04|2026-07-04]] → <!-- nav -->

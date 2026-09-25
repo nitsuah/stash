@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: darkmoon
+date: 2026-09-16
+---
+
 # LOC Report — darkmoon
 
 > 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-loc-darkmoon-2026-07-29|2026-07-29]] <!-- nav -->

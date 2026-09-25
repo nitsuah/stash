@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: kryptos
+---
+
 # kryptos
 
 > Reviewed: 2026-09-23 (no material change since 2026-09-16 PMO audit — see [[pmo-audit-2026-09-16]])

@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: nitsuah-io
+---
+
 # nitsuah-io
 
 > Reviewed: 2026-09-23

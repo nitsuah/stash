@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: stash
+date: 2026-07-04
+---
+
 # ENG LOC Report: stash (2026-07-04)
 
 > 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-07-03|2026-07-03]] · [[reports/eng-loc-stash-2026-09-01|2026-09-01]] → <!-- nav -->

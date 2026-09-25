@@ -3,6 +3,8 @@ name: kryptos-overview
 description: Central synthesis document for the Kryptos application.
 metadata:
   type: project
+kind: overview
+repo: kryptos
 ---
 
 # Kryptos Overview

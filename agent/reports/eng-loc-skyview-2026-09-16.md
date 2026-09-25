@@ -1,3 +1,9 @@
+---
+kind: eng-loc
+repo: skyview
+date: 2026-09-16
+---
+
 # LOC Report — skyview
 
 > 🧭 [[repos/skyview|skyview]] <!-- nav -->

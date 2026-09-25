@@ -8,27 +8,27 @@ Use as system prompts in Claude.ai or load via the Anthropic SDK.
 
 ## Personal Agents
 
-| Agent | File | Purpose | Cadence |
-|-------|------|---------|---------|
-| CFO | [projects/Finance.md](projects/Finance.md) | Track finances, runway, CDs; generate weekly financial summaries | Weekly or on-demand |
-| Career | [projects/Career.md](projects/Career.md) | Evaluate job listings, draft outreach, track applications | When job-hunting |
-| Builder | [projects/Builder.md](projects/Builder.md) | Find leads, close web design clients, manage project pipeline | When building |
+| Agent   | File                                       | Purpose                                                          | Cadence             |
+| ------- | ------------------------------------------ | ---------------------------------------------------------------- | ------------------- |
+| CFO     | [projects/Finance.md](projects/Finance.md) | Track finances, runway, CDs; generate weekly financial summaries | Weekly or on-demand |
+| Career  | [projects/Career.md](projects/Career.md)   | Evaluate job listings, draft outreach, track applications        | When job-hunting    |
+| Builder | [projects/Builder.md](projects/Builder.md) | Find leads, close web design clients, manage project pipeline    | When building       |
 
 ---
 
 ## Delivery Pipeline Agents
 
-| Agent | Prompt | Purpose |
-|-------|--------|---------|
-| PMO | [prompts/PMO.md](prompts/PMO.md) | Audit products, maintain ROADMAP/TASKS, enforce governance |
-| Intake | [projects/Intake.md](projects/Intake.md) | Convert findings into prioritized, acceptance-ready tasks |
-| Software Engineer | [prompts/ENG.md](prompts/ENG.md) | Implement features, refactor, fix bugs |
-| DevOps | [prompts/OPS.md](prompts/OPS.md) | Validate infra, CI/CD, ship via branch + PR |
-| QA | [prompts/QA.md](prompts/QA.md) | Verify quality, prevent regressions |
-| Security | [prompts/SECURITY.md](prompts/SECURITY.md) | Reconcile security PRs/advisories against current upstream, prove fixes, disclose privately |
-| Oncall | [prompts/Oncall.md](prompts/Oncall.md) | Incident response, user feedback triage |
-| Automation | [prompts/AUTO.md](prompts/AUTO.md) | Internal tooling and workflow automation |
-| Growth | [prompts/Growth.md](prompts/Growth.md) | Monetization, adoption, growth experiments |
+| Agent             | Prompt                                     | Purpose                                                                                     |
+| ----------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| PMO               | [prompts/PMO.md](prompts/PMO.md)           | Audit products, maintain ROADMAP/TASKS, enforce governance                                  |
+| Intake            | [projects/Intake.md](projects/Intake.md)   | Convert findings into prioritized, acceptance-ready tasks                                   |
+| Software Engineer | [prompts/ENG.md](prompts/ENG.md)           | Implement features, refactor, fix bugs                                                      |
+| DevOps            | [prompts/OPS.md](prompts/OPS.md)           | Validate infra, CI/CD, ship via branch + PR                                                 |
+| QA                | [prompts/QA.md](prompts/QA.md)             | Verify quality, prevent regressions                                                         |
+| Security          | [prompts/SECURITY.md](prompts/SECURITY.md) | Reconcile security PRs/advisories against current upstream, prove fixes, disclose privately |
+| Oncall            | [prompts/Oncall.md](prompts/Oncall.md)     | Incident response, user feedback triage                                                     |
+| Automation        | [prompts/AUTO.md](prompts/AUTO.md)         | Internal tooling and workflow automation                                                    |
+| Growth            | [prompts/Growth.md](prompts/Growth.md)     | Monetization, adoption, growth experiments                                                  |
 
 **Recommended flow:** PMO → Intake → ENG → OPS → QA → Oncall → loop
 
@@ -36,15 +36,15 @@ Use as system prompts in Claude.ai or load via the Anthropic SDK.
 
 ## Reusable Prompt Modules
 
-| Module | File | Purpose |
-|--------|------|---------|
-| DAILY | [prompts/DAILY.md](prompts/DAILY.md) | Daily standup and planning prompt |
-| HANDOFF | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Structured handoff template between agents |
-| CLEANUP | [prompts/CLEANUP.md](prompts/CLEANUP.md) | Codebase cleanup and housekeeping prompt |
-| MINI | [prompts/MINI.md](prompts/MINI.md) | Lightweight engineering task runner for low-cost model delegation |
-| TEST | [prompts/TEST.md](prompts/TEST.md) | Test strategy and coverage prompt |
-| LOC | [prompts/LOC.md](prompts/LOC.md) | LOC analysis automation for the delivery pipeline |
-| TIRE | [prompts/TIRE.md](prompts/TIRE.md) | Tire-kick evaluation prompt for new tools/libraries |
+| Module   | File                                     | Purpose                                                           |
+| -------- | ---------------------------------------- | ----------------------------------------------------------------- |
+| DAILY    | [prompts/DAILY.md](prompts/DAILY.md)     | Daily standup and planning prompt                                 |
+| HANDOFF  | [prompts/HANDOFF.md](prompts/HANDOFF.md) | Structured handoff template between agents                        |
+| CLEANUP  | [prompts/CLEANUP.md](prompts/CLEANUP.md) | Codebase cleanup and housekeeping prompt                          |
+| MINI     | [prompts/MINI.md](prompts/MINI.md)       | Lightweight engineering task runner for low-cost model delegation |
+| TEST     | [prompts/TEST.md](prompts/TEST.md)       | Test strategy and coverage prompt                                 |
+| LOC      | [prompts/LOC.md](prompts/LOC.md)         | LOC analysis automation for the delivery pipeline                 |
+| TIRE     | [prompts/TIRE.md](prompts/TIRE.md)       | Tire-kick evaluation prompt for new tools/libraries               |
 
 ---
 
@@ -52,16 +52,7 @@ Use as system prompts in Claude.ai or load via the Anthropic SDK.
 
 The `repos/` directory contains per-repository context files loaded alongside agent prompts. Each `.md` file gives an agent background on a specific repo's architecture, conventions, and current state.
 
-| File | Covers |
-|------|--------|
-| [repos/stash.md](repos/stash.md) | This repository |
-| [repos/vigil.md](repos/vigil.md) | Overseer agent platform |
-| [repos/agent-board.md](repos/agent-board.md) | Agent board dashboard |
-| [repos/kryptos.md](repos/kryptos.md) | Kryptos cipher research system |
-| [repos/darkmoon.md](repos/darkmoon.md) | Darkmoon multiplayer game |
-| [repos/farm-3j.md](repos/farm-3j.md) | Farm RTS game |
-| [repos/nitsuah-io.md](repos/nitsuah-io.md) | nitsuah.io portfolio site |
-| [[VAULT-MAP|Vault Map]] | All repo and project hubs |
+Each tracked repo has a hub at `repos/<repo>.md` (a synthesis kept current by the daily routine) plus a mirror of its docs under `repos/<repo>/`. The full, generated list is the Repos line in [[VAULT-MAP]]; the registry behind it is the Tracked table in [projects/scope.md](projects/scope.md).
 
 ---
 
@@ -113,6 +104,9 @@ Rules for agents and routines:
 - **Names must be unique and say what the note is.** The graph labels each node with its file name, and a bare `[[name]]` picks one of several notes that share a name. Prefix generic names: `daily-email-2026-09-25`, not `2026-09-25`; `LOC-hub`, not a second `LOC`. The one exception is the upstream `README`/`ROADMAP`/... mirrored under `repos/<repo>/`, which keep their GitHub names; link to them by full path.
 - Never hand-edit a `<!-- nav -->` line or a `<!-- vault-links:start/end -->` block. They're regenerated.
 - Scripts in `scripts/` are listed in VAULT-MAP with their own one-line description, so start every new script with one: a Python docstring, a PowerShell `.SYNOPSIS` or `<#` block, or a shell comment. Only runtime output (`logs/`, plugin data, scratch `*.txt`) is hidden from the vault, in `.obsidian/app.json`.
+- **Properties.** The generator owns `kind`, `repo` and `date` in frontmatter (for example `kind: eng-loc`, `repo: kryptos`). The views in `vault-views.base` are built on them, so don't hand-edit those three keys.
+- **Hand-written notes** start from a template in `templates/` (Templater: *Create new note from template*), which asks for the parent hub and writes `up:`.
+- **Archive.** Daily and weekly notes older than last month move to `notes/archive/YYYY-MM/` on the next generator run. Link dated notes by bare name (`[[2026-09-16]]`), not by path, so the link survives the move.
 - A note that fits no row above gets `up: "[[parent]]"` frontmatter. Obsidian counts that as a link.
 - Link to what the content actually depends on, in the body. Don't add "see also" lists to reach coverage.
 - Links inside mirrored repo docs are fixed **upstream** with `scripts/fix-doc-links.py <repo>` (the PMO audit runs it). Links in vault notes are fixed with `scripts/fix-doc-links.py --vault --write`.

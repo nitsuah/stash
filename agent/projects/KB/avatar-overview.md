@@ -3,6 +3,8 @@ name: avatar-overview
 description: Central synthesis document for the Avatar application.
 metadata:
   type: project
+kind: overview
+repo: avatar
 ---
 
 # Avatar Overview

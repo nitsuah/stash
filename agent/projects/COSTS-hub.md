@@ -1,3 +1,7 @@
+---
+kind: project-hub
+---
+
 # COSTS
 
 Cost and plan decisions for paid tooling (Copilot, Netlify). See also [[prompts/USAGE|USAGE]].

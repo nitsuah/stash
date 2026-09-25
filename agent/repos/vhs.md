@@ -1,3 +1,8 @@
+---
+kind: repo-hub
+repo: vhs
+---
+
 # vhs
 
 > Reviewed: 2026-09-23
