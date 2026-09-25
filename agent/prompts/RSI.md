@@ -28,7 +28,7 @@ Before making changes, understand the full input/output graph. Verify it's still
 
 | Routine | Reads | Writes |
 |---|---|---|
-| `daily-repo-sync` (local, runs [[DAILY]]) | scope.md (cached), each tracked repo's git state | `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log`, `obn-review.log`, `agent/repos/**`, `Daily Notes/<date>.md` (PR, auto-merges the *previous* day's note once reviewed) |
+| `daily-repo-sync` (local, runs [[DAILY]]) | scope.md (cached), each tracked repo's git state | `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log`, `obn-review.log`, `agent/repos/**`, `agent/notes/<date>.md` + Mon/Sat `agent/notes/<YYYY>-W<ww>.md` (PR, auto-merges the *previous* day's note once reviewed) |
 | `monthly-pmo-audit` (local, runs [[PMO]]) | scope.md (cached), each tracked repo's docs | per-repo TASKS/ROADMAP/METRICS.md (PR), `agent/repos/<repo>.md`, `pmo-audit-<date>.md` |
 | `metrics` (cloud, runs [[METRICS]]) | scope.md (live), `METRICS.md` | per-target-repo METRICS.md (PR, auto-merge on green), `metrics-<date>.md` (PR to stash) |
 | `eng-loc` (cloud, runs `LOC.md`) | scope.md (live) | `agent/reports/eng-loc-<repo>-<date>.md` (PR) |
@@ -38,7 +38,7 @@ Before making changes, understand the full input/output graph. Verify it's still
 | `stale-worktrees` / `vuln-patcher` / `gh-overseer` (cloud) | scope.md (live, fixed 2026-09-16) | advisory report only, no writes |
 | `import-memory` (cloud) | `agent/notes`, `agent/reports`, `agent/prompts`, `agent/repos`, `agent/jobs` | advisory report only |
 | [[USAGE]] (local) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` |
-| `monthly-tire-kick` (local, runs [[TIRE]], 28th) | every report in `agent/reports/**` since last intake, `Daily Notes` `## Notes`, scope.md (live) | `findings-ledger.md`, `tire-kick-<date>.md` (stash PR, self-merge on green), `tire/<repo>/*` fix PRs (≤5/run) |
+| `monthly-tire-kick` (local, runs [[TIRE]], 28th) | every report in `agent/reports/**` since last intake, daily notes' `## Notes` (`agent/notes/`), scope.md (live) | `findings-ledger.md`, `tire-kick-<date>.md` (stash PR, self-merge on green), `tire/<repo>/*` fix PRs (≤5/run) |
 | RSI itself | inputs 1-7 above | routine prompts, memory files, `rsi-changes.log`, `rsi-report-<month>.md`, product-repo PRs |
 
 **Known gap, not yet RSI's to fix alone:** several cloud routines (`obn-weekly`, `stale-worktrees`, `vuln-patcher`, `gh-overseer`, `daily-git-sync`, `eng-loc`, `eng-mini`) each have a same-named **account-level claude.ai skill** (`ListSkills`/`SearchSkills`) that describes a different, more elaborate, not-actually-wired-up system — "Odysseus notes," an "Overseer app DB," `config/*.toml` files, a `scope.md` meant for *local* git worktrees rather than this cloud setup. Every observed run has correctly recognized the mismatch and ignored the skill in favor of the routine's own prompt — but that's the model's judgment call each time, not a guarantee. If a future run ever follows one of those skills instead of the real task, that's the root cause to check first. Worth a real decision eventually (retire the mismatched skills, or actually build what they describe) — flag it in the monthly report if it keeps coming up, don't silently fix it by deleting account-level skills unattended.

@@ -4,7 +4,7 @@ set -euo pipefail
 # Blocks personal data and credentials from landing in this PUBLIC repo.
 #
 # By default scans every folder that routines publish to automatically:
-# agent/reports/ (incl. agent/reports/cloud/), Daily Notes/, Weekly Notes/.
+# agent/reports/ (incl. agent/reports/cloud/) and agent/notes/ (daily + weekly notes).
 # Fails on:
 #   - email addresses (each address is checked on its own; noreply/bot and
 #     example.* addresses are allowed)
@@ -20,7 +20,7 @@ set -euo pipefail
 if [ "$#" -gt 0 ]; then
   paths=("$@")
 else
-  paths=("agent/reports" "Daily Notes" "Weekly Notes")
+  paths=("agent/reports" "agent/notes")
 fi
 
 existing=()
