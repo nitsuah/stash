@@ -13,6 +13,9 @@ Repo mode (default), from any repo:
   Anything else is reported and left alone; never guessed. Code spans and fences are skipped.
   --unlink-dead-archive also turns unrepairable links in */archive/* docs into plain
   text. Archived docs are history, so their references to deleted files are expected.
+  --unlink-dead goes further: any link (or Obsidian [[wikilink]]) whose target exists nowhere
+  in the repo becomes plain text (a missing image becomes its alt text). Use it once a human
+  has looked at the report and agreed the targets are really gone.
 
 Vault mode, for notes written in this vault (skips the repos/<repo>/ mirrors, which are
 fixed upstream and re-synced):
@@ -38,6 +41,7 @@ from urllib.parse import unquote
 
 WRITE = "--write" in sys.argv
 UNLINK = "--unlink-dead-mirrors" in sys.argv or "--unlink-dead-archive" in sys.argv
+UNLINK_ALL = "--unlink-dead" in sys.argv
 UNDER = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--under=")), "")  # vault mode: only notes under this prefix
 MDLINK = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
 WIKI = re.compile(r"(!?\[\[)([^\]|#]+)((?:#[^\]|]*)?(?:\|[^\]]*)?\]\])")
@@ -58,7 +62,7 @@ def rewrite(text, fix_line):
         if fenced or FENCE.match(line):
             out.append(line)
             continue
-        parts = re.split(r"(`[^`]*`)", line)
+        parts = re.split(r"((?<!\[)`[^`]*`(?!\]))", line)  # a `code` span, but not [`link text`](...)
         out.append("".join(p if i % 2 else fix_line(p) for i, p in enumerate(parts)))
     return "\n".join(out)
 
@@ -89,8 +93,17 @@ def repo_mode(repo):
     for f in files:
         by_name[posixpath.basename(f).lower()].append(f)
     fixed, unfixable = 0, []
+    # repo docs may carry vault-style [[repos/<repo>]] links; those resolve in the vault mirror
+    vault = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    vault_notes = set()
+    for dp, dn, fn in os.walk(vault):
+        dn[:] = [d for d in dn if not d.startswith(".")]
+        vault_notes |= {os.path.relpath(os.path.join(dp, f), vault).replace(os.sep, "/")[:-3].lower()
+                        for f in fn if f.endswith(".md")}
 
-    for doc in (f for f in files if f.lower().endswith(".md")):
+    # same set sync-repos.ps1 mirrors: .github/ and a root templates/ are repo config, not docs
+    for doc in (f for f in files if f.lower().endswith(".md")
+                and not re.search(r"(^|/)\.github/|^templates/|(^|/)node_modules/", f)):
         here = posixpath.dirname(doc)
         found = []
 
@@ -113,19 +126,35 @@ def repo_mode(repo):
             else:
                 cands = by_name.get(posixpath.basename(root).lower(), [])
             if len(cands) != 1:
-                if UNLINK and "/archive/" in "/" + doc:
-                    # archived docs are history: keep the words, drop a link to what no longer exists
+                if (UNLINK and "/archive/" in "/" + doc) or (UNLINK_ALL and not cands):
+                    # keep the words, drop a link to something that doesn't exist anywhere in the repo
                     fixed += 1
                     text = m.group(1)[m.group(1).index("[") + 1:-2]
-                    return text if not m.group(1).startswith("!") else m.group(0)
+                    return text if not m.group(1).startswith("!") else (text or f"`{path}`") + " (image not in repo)"
                 found.append(target)
                 return m.group(0)
             fixed += 1
             new = rel(here, cands[0]) + (("#" + anchor) if anchor else "")
             return m.group(1) + new + m.group(3)
 
+        def fix_wiki(m):
+            # Obsidian-style [[links]] in repo docs: GitHub never renders them, so only dead ones matter
+            nonlocal fixed
+            t = m.group(2).strip().rstrip("\\")
+            stem = t[:-3] if t.lower().endswith(".md") else t
+            if stem.lower() in vault_notes or (stem + ".md") in exists or t in exists \
+                    or posixpath.basename(stem).lower() + ".md" in by_name \
+                    or posixpath.basename(t).lower() in by_name:
+                return m.group(0)
+            if not UNLINK_ALL:
+                found.append(t)
+                return m.group(0)
+            fixed += 1
+            alias = m.group(3).split("|", 1)[1][:-2] if "|" in m.group(3) else None
+            return alias or f"`{t}`"
+
         text, nl = load(os.path.join(repo, doc))
-        new = rewrite(text, lambda s: MDLINK.sub(fix, s))
+        new = rewrite(text, lambda s: WIKI.sub(fix_wiki, MDLINK.sub(fix, s)))
         save(os.path.join(repo, doc), text, new, nl)
         unfixable += [f"{doc}: {t}" for t in found]
     return fixed, unfixable
@@ -160,6 +189,9 @@ def vault_mode(vault):
             while base and not any(n.lower().startswith(base.lower() + "/") for n in notes):
                 base = posixpath.dirname(base)
             cands = [n for n in by_name.get(name, []) if not base or n.lower().startswith(base.lower() + "/")]
+            repo = t.lower().split("/")[1] if t.lower().startswith("repos/") and "/" in t else None
+            if repo and f"repos/{repo}" not in lower and not any(n.lower().startswith(f"repos/{repo}/") for n in notes):
+                cands = []  # the whole repo is gone (e.g. motor-pool): a same-named doc elsewhere isn't it
             if not cands and UNLINK and t.lower().startswith("repos/"):
                 # a mirror doc (or repo) that no longer exists: keep the words, drop the ghost node
                 fixed += 1

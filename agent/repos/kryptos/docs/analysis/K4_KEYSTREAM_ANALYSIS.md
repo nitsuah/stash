@@ -230,7 +230,7 @@ These also look high-entropy under pure Vigenère, consistent with the composite
 
 ## 10. Related Documents
 
-- [`docs/archive/K4-CLOCKS.html`](../archive/K4-CLOCKS.html) — Archived 2026-09-01, superseded by K4_ACTIVE_RESEARCH.md. Clock-based composite cipher theories (note: position labels for NORTHEAST in that document are incorrect; see Section 1 above)
+- [`docs/archive/K4-CLOCKS.html`](https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4-CLOCKS.html) — Archived 2026-09-01, superseded by K4_ACTIVE_RESEARCH.md. Clock-based composite cipher theories (note: position labels for NORTHEAST in that document are incorrect; see Section 1 above)
 - [`docs/archive/K4-T1.md`](../archive/K4-T1.md) — Archived 2026-09-01, superseded by K4_ACTIVE_RESEARCH.md. Physical-geometric resolver specification with toggle matrix
 - [`docs/sources/CLOCK.md`](../sources/CLOCK.md) — World Clock geographic interpretation
 - [`docs/sources/SANBORN-summary.md`](../sources/SANBORN-summary.md) — Sanborn clue research checklist

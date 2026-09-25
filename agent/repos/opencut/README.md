@@ -73,7 +73,7 @@ The `.env.example` has sensible defaults that match the Docker Compose config �
 
 Desktop is opt-in. If you're only working on the web app, skip this entirely.
 
-If you want to get ready for `apps/desktop`, see [`apps/desktop/README.md`](apps/desktop/README.md). It's a two-step setup: Rust toolchain first, then desktop native dependencies.
+If you want to get ready for `apps/desktop`, see `apps/desktop/README.md`. It's a two-step setup: Rust toolchain first, then desktop native dependencies.
 
 ### Local WASM development
 
@@ -143,18 +143,18 @@ We welcome contributions! While we're actively developing and refactoring certai
 
 **⚠️ Avoid for now:** Preview panel enhancements (fonts, stickers, effects) and export functionality - we're refactoring these with a new binary rendering approach.
 
-See our [Contributing Guide](.github/CONTRIBUTING.md) for detailed setup instructions, development guidelines, and complete focus area guidance.
+See our Contributing Guide for detailed setup instructions, development guidelines, and complete focus area guidance.
 
 **Quick start for contributors:**
 
 - Fork the repo and clone locally
 - Follow the setup instructions in CONTRIBUTING.md
-- Working on `apps/desktop`? See [`apps/desktop/README.md`](apps/desktop/README.md) for setup
+- Working on `apps/desktop`? See `apps/desktop/README.md` for setup
 - Create a feature branch and submit a PR
 
 ## License
 
-[MIT LICENSE](LICENSE)
+MIT LICENSE
 
 ---
 

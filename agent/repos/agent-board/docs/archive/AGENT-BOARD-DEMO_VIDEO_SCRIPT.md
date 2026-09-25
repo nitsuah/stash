@@ -123,4 +123,4 @@ Voiceover:
 
 ## Related
 - [[repos/motor-pool/docs/DEMO_VIDEO_SCRIPT_SHORT|DEMO_VIDEO_SCRIPT_SHORT]] — 60-75s short-form version for social
-- Caption files: [[repos/motor-pool/docs/DEMO_VIDEO_120S.srt|DEMO_VIDEO_120S.srt]] · [[repos/motor-pool/docs/DEMO_VIDEO_60S.srt|DEMO_VIDEO_60S.srt]] · [[repos/motor-pool/docs/DEMO_VIDEO_60S_MOBILE.srt|DEMO_VIDEO_60S_MOBILE.srt]]
+- Caption files: [DEMO_VIDEO_120S.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_120S.srt) · [DEMO_VIDEO_60S.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_60S.srt) · [DEMO_VIDEO_60S_MOBILE.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_60S_MOBILE.srt)

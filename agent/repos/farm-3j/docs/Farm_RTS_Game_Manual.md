@@ -662,10 +662,10 @@ _Last updated: Project inception. Update this document with each milestone compl
 
 ## Related
 
-- [[repos/farm-3j/docs/farm.png|farm.png]] — RTS map/asset reference image
+- [farm.png](https://github.com/nitsuah/farm-3j/blob/main/docs/farm.png) — RTS map/asset reference image
 - [[repos/farm-3j/docs/FARM-RTS-NORTH-STAR|FARM-RTS-NORTH-STAR]] — project north star and MVP goals
 - [[repos/farm-3j/docs/FARM-RTS-TODO|FARM-RTS-TODO]] — active implementation checklist
 
 ## Assets
 
-- ![[farm.png]] — RTS map reference image
+- ![farm.png](https://github.com/nitsuah/farm-3j/blob/main/docs/farm.png) — RTS map reference image

@@ -61,7 +61,7 @@ The `repos/` directory contains per-repository context files loaded alongside ag
 | [repos/darkmoon.md](repos/darkmoon.md) | Darkmoon multiplayer game |
 | [repos/farm-3j.md](repos/farm-3j.md) | Farm RTS game |
 | [repos/nitsuah-io.md](repos/nitsuah-io.md) | nitsuah.io portfolio site |
-| [repos/](repos/) | All repos |
+| [[VAULT-MAP|Vault Map]] | All repo and project hubs |
 
 ---
 

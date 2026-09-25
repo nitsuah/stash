@@ -11,11 +11,11 @@ https://github.com/nitsuah/odysseus
 
   <a href="#quick-start">Quick Start</a> ·
 
-  <a href="docs/setup.md">Setup Guide</a> ·
+  <a href="https://github.com/nitsuah/odysseus/blob/main/docs/setup.md">Setup Guide</a> ·
 
-  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="https://github.com/nitsuah/odysseus/blob/main/CONTRIBUTING.md">Contributing</a> ·
 
-  <a href="ROADMAP.md">Roadmap</a>
+  <a href="https://github.com/nitsuah/odysseus/blob/main/ROADMAP.md">Roadmap</a>
 
 </p>
 
@@ -55,7 +55,7 @@ Open `http://localhost:7000` when the containers are healthy. The first admin pa
 
   
 
-Native installs, GPU notes, Windows/macOS instructions, HTTPS, and configuration live in the [setup guide](docs/setup.md).
+Native installs, GPU notes, Windows/macOS instructions, HTTPS, and configuration live in the [setup guide](https://github.com/nitsuah/odysseus/blob/main/docs/setup.md).
 
   
 
@@ -93,7 +93,7 @@ A full hover-to-play tour lives on the landing page: [`docs/index.html`](docs/in
 
   
 
-Help is welcome. The best entry points are fresh-install testing, provider setup bugs, mobile/editor polish, docs, and small focused refactors. See [CONTRIBUTING.md](CONTRIBUTING.md) and [ROADMAP.md](ROADMAP.md).
+Help is welcome. The best entry points are fresh-install testing, provider setup bugs, mobile/editor polish, docs, and small focused refactors. See [CONTRIBUTING.md](https://github.com/nitsuah/odysseus/blob/main/CONTRIBUTING.md) and [ROADMAP.md](https://github.com/nitsuah/odysseus/blob/main/ROADMAP.md).
 
   
 
@@ -101,7 +101,7 @@ Help is welcome. The best entry points are fresh-install testing, provider setup
 
   
 
-Odysseus is a self-hosted workspace with powerful local tools. Keep auth enabled, keep private data out of Git, and do not expose raw model/service ports publicly. Deployment details are in the [setup guide](docs/setup.md#security-notes).
+Odysseus is a self-hosted workspace with powerful local tools. Keep auth enabled, keep private data out of Git, and do not expose raw model/service ports publicly. Deployment details are in the [setup guide](https://github.com/nitsuah/odysseus/blob/main/docs/setup.md#security-notes).
 
   
 
@@ -129,7 +129,7 @@ Odysseus is a self-hosted workspace with powerful local tools. Keep auth enabled
 
   
 
-AGPL-3.0-or-later -- see [LICENSE](LICENSE) and [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
+AGPL-3.0-or-later -- see [LICENSE](https://github.com/nitsuah/odysseus/blob/main/LICENSE) and [ACKNOWLEDGMENTS.md](https://github.com/nitsuah/odysseus/blob/main/ACKNOWLEDGMENTS.md).
 
 <!-- vault-links:start -->
 ## Vault links
