@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/METRICS.md
+---
+
 
 # Metrics
 

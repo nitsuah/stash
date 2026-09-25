@@ -25,5 +25,5 @@ Darkmoon is a solo-live 3D browser tag game built with modern web technologies, 
 
 - **Source Code**: [[repos/darkmoon/README.md|Darkmoon README]]
 - **Architecture**: [[repos/darkmoon/docs/ARCHITECTURE.md|Architecture and App Boundaries]]
-- **Multiplayer Plans**: [[repos/darkmoon/docs/MULTIPLAYER_SHOOTER_ROADMAP.md|Multiplayer Shooter Roadmap]]
-- **Technical Debt**: [[repos/darkmoon/docs/TECH_DEBT.md|Known Engineering Debt]]
+- **Multiplayer Plans**: [[repos/darkmoon/docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP|Multiplayer Shooter Roadmap]]
+- **Technical Debt**: [[repos/darkmoon/docs/projects/conkers/TECH_DEBT|Known Engineering Debt]]

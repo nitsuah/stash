@@ -1,10 +1,12 @@
 ---
 updated: 2026-09-24
+up: "[[repos/ats-fill]]"
+source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/ROADMAP.md
 ---
 
 # Roadmap
 
-> 🧭 [auto-apply-plugin](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+> 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
 > 2027 planning reset (2026-09-24): all 2026 quarters (Q1–Q4) were fully shipped and have been removed from this file — see [FEATURES](./FEATURES.md) and [CHANGELOG](./CHANGELOG.md) (released as v1.0.1/v1.0.2 on the Chrome Web Store).
 

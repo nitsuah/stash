@@ -1,3 +1,8 @@
+---
+up: "[[repos/farm-3j]]"
+source: https://github.com/nitsuah/farm-3j/blob/main/docs/METRICS.md
+---
+
 # Metrics
 
 > 🧭 [farm-3j](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · **Metrics** <!-- nav -->

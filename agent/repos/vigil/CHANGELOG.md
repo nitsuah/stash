@@ -1,3 +1,8 @@
+---
+up: "[[repos/vigil]]"
+source: https://github.com/nitsuah/vigil/blob/main/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [vigil](./README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
@@ -8,6 +13,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Health scoring profiles
+
+- **Added:** Repository health maturity profiles: Starter, Production, and Enterprise, with persisted per-repo selection and profile-specific component weights.
+- **Changed:** Security scoring now measures both security-control coverage and open findings, so zero reported alerts no longer implies a fully enabled security posture.
+- **Added:** Health breakdown profile picker with immediate score recalculation.
+
 
 ### 2026-09-18 → 2026-09-24 (PRs #221–#233)
 

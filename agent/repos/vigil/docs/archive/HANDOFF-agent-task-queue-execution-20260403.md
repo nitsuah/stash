@@ -1,3 +1,8 @@
+---
+up: "[[repos/vigil]]"
+source: https://github.com/nitsuah/vigil/blob/main/docs/archive/HANDOFF-agent-task-queue-execution-20260403.md
+---
+
 # Handoff: Agent Task Queue Execution (2026-04-03)
 
 > 🧭 [vigil](../../README.md) · [Features](../../FEATURES.md) · [Roadmap](../../ROADMAP.md) · [Tasks](../../TASKS.md) · [Changelog](../../CHANGELOG.md) · [Metrics](../../METRICS.md) <!-- nav -->

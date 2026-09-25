@@ -1,3 +1,8 @@
+---
+up: "[[repos/fire]]"
+source: https://github.com/nitsuah/fire/blob/main/docs/TASKS.md
+---
+
 # Tasks
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

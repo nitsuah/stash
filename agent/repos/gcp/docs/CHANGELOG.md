@@ -1,3 +1,8 @@
+---
+up: "[[repos/gcp]]"
+source: https://github.com/nitsuah/gcp/blob/main/docs/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

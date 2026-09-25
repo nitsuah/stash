@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/scripts/README.md
+---
+
 # Scripts Directory
 
 Purpose: lightweight developer utilities that do not belong in the production package.

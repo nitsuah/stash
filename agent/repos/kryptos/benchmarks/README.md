@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/benchmarks/README.md
+---
+
 # Attack-sweep benchmarks
 
 Timing and search-space throughput for the fast K4 attack sweeps, so changes

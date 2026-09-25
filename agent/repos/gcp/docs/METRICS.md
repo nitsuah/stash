@@ -1,3 +1,8 @@
+---
+up: "[[repos/gcp]]"
+source: https://github.com/nitsuah/gcp/blob/main/docs/METRICS.md
+---
+
 # Metrics
 
 > 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->

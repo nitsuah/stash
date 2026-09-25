@@ -1,3 +1,8 @@
+---
+up: "[[repos/farm-3j]]"
+source: https://github.com/nitsuah/farm-3j/blob/main/docs/archive/FARM-RTS-TODO.md
+---
+
 > **Archived 2026-09-23**: superseded by `docs/FEATURES.md`'s "Shipped" section —
 > nearly every milestone below now reads as unchecked despite having shipped long
 > ago (see FEATURES.md for the current, accurate state). Kept for historical

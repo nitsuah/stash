@@ -72,7 +72,7 @@ See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): Python 
 
 *Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
 
-**Core:** [[repos/avatar/ROADMAP|ROADMAP]] · [[repos/avatar/TASKS|TASKS]] · [[repos/avatar/FEATURES|FEATURES]] · [[repos/avatar/METRICS|METRICS]] · [[repos/avatar/CHANGELOG|CHANGELOG]] · [[repos/avatar/README|README]]
+**Core:** [[repos/avatar/docs/ROADMAP|ROADMAP]] · [[repos/avatar/docs/TASKS|TASKS]] · [[repos/avatar/docs/FEATURES|FEATURES]] · [[repos/avatar/docs/METRICS|METRICS]] · [[repos/avatar/docs/CHANGELOG|CHANGELOG]] · [[repos/avatar/README|README]]
 
 <!-- vault-links:start -->
 ## Vault links

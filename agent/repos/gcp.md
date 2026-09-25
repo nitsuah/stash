@@ -64,9 +64,9 @@ See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): duplica
 
 *Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
 
-**Core:** [[repos/gcp/ROADMAP|ROADMAP]] · [[repos/gcp/TASKS|TASKS]] · [[repos/gcp/FEATURES|FEATURES]] · [[repos/gcp/METRICS|METRICS]] · [[repos/gcp/CHANGELOG|CHANGELOG]] · [[repos/gcp/README|README]]
+**Core:** [[repos/gcp/docs/ROADMAP|ROADMAP]] · [[repos/gcp/docs/TASKS|TASKS]] · [[repos/gcp/docs/FEATURES|FEATURES]] · [[repos/gcp/docs/METRICS|METRICS]] · [[repos/gcp/docs/CHANGELOG|CHANGELOG]] · [[repos/gcp/README|README]]
 
-**docs/:** [[repos/gcp/docs/HANDOFF-progress-telemetry-20260403|HANDOFF: progress telemetry (2026-04-03)]]
+**docs/:** HANDOFF: progress telemetry (2026-04-03)
 
 ## Verified Runbook (PMO 2026-09-24)
 

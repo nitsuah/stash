@@ -97,20 +97,22 @@ See [projects/scope.md](projects/scope.md) for the full project scope definition
 
 ## Vault Linking Conventions
 
-The vault has no flat INDEX files. Every note hangs off the hub it belongs to, so it's at most a few hops from the *Vault map* in [AGENT-MAIN.md](AGENT-MAIN.md). `scripts/build-vault-indexes.py` derives all of these links from file names, so anything that writes a note only has to name it right:
+The vault has no flat INDEX files. Every note hangs off the hub it belongs to, a few hops from [VAULT-MAP.md](VAULT-MAP.md), the vault home. `scripts/build-vault-indexes.py` derives all of these links from file names, so anything that writes a note only has to name it right:
 
 | Write to | Linked from |
 |---|---|
 | `reports/<kind>-<repo>-<date>.md` (`eng-loc`, `eng-mini`) | `repos/<repo>.md` hub (latest) + prev/next chain |
-| `reports/<kind>-<date>.md`, `reports/cloud/<routine>/<date>.md` | AGENT-MAIN *Vault map* (latest) + prev/next chain |
-| `notes/<YYYY-MM-DD>.md`, `notes/<YYYY>-W<ww>.md` | AGENT-MAIN (latest) + prev/next/week chain |
-| `projects/<Folder>/<doc>.md` | `projects/<Folder>.md` folder hub (stub created if missing) |
+| `reports/<kind>-<date>.md`, `reports/cloud/<routine>/<routine>-<date>.md` | VAULT-MAP (latest) + prev/next chain |
+| `notes/<YYYY-MM-DD>.md`, `notes/<YYYY>-W<ww>.md` | VAULT-MAP (latest) + prev/next/week chain |
+| `projects/<Folder>/<doc>.md` | folder hub: `projects/<Folder>.md` if it exists, else `projects/<Folder>-hub.md` (stub created) |
 | `projects/KB/<repo>-overview.md` | `repos/<repo>.md` hub |
-| `projects/<doc>.md` | AGENT-MAIN *Vault map* |
+| `projects/<doc>.md`, `repos/<repo>.md` | VAULT-MAP |
 
 Rules for agents and routines:
 
+- **Names must be unique and say what the note is.** The graph labels each node with its file name, and a bare `[[name]]` picks one of several notes that share a name. Prefix generic names: `daily-email-2026-09-25`, not `2026-09-25`; `LOC-hub`, not a second `LOC`. The one exception is the upstream `README`/`ROADMAP`/... mirrored under `repos/<repo>/`, which keep their GitHub names; link to them by full path.
 - Never hand-edit a `<!-- nav -->` line or a `<!-- vault-links:start/end -->` block. They're regenerated.
 - A note that fits no row above gets `up: "[[parent]]"` frontmatter. Obsidian counts that as a link.
 - Link to what the content actually depends on, in the body. Don't add "see also" lists to reach coverage.
-- `python scripts/find-orphans.py --check` fails when a note outside the `repos/<repo>/` mirrors can't be reached from AGENT-MAIN.
+- Links inside mirrored repo docs are fixed **upstream** with `scripts/fix-doc-links.py <repo>` (the PMO audit runs it). Links in vault notes are fixed with `scripts/fix-doc-links.py --vault --write`.
+- `python scripts/find-orphans.py --check` fails when a note outside the `repos/<repo>/` mirrors can't be reached from VAULT-MAP, or when two such notes share a name. It also counts unresolved links (ghost nodes).

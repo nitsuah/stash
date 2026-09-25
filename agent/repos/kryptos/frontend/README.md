@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/frontend/README.md
+---
+
 # Kryptos dashboard (frontend)
 
 Terminal-aesthetic React SPA over the kryptos FastAPI backend

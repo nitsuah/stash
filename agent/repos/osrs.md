@@ -64,9 +64,9 @@ See TASKS.md and ROADMAP.md for current priorities. Recent (Unreleased): `bot/ch
 
 *Copied from repo — do not edit these files, overwritten on sync. Edit only this `.md`.*
 
-**Core:** [[repos/osrs/ROADMAP|ROADMAP]] · [[repos/osrs/TASKS|TASKS]] · [[repos/osrs/FEATURES|FEATURES]] · [[repos/osrs/METRICS|METRICS]] · [[repos/osrs/CHANGELOG|CHANGELOG]] · [[repos/osrs/README|README]]
+**Core:** [[repos/osrs/docs/ROADMAP|ROADMAP]] · [[repos/osrs/docs/TASKS|TASKS]] · [[repos/osrs/docs/FEATURES|FEATURES]] · [[repos/osrs/docs/METRICS|METRICS]] · [[repos/osrs/CHANGELOG|CHANGELOG]] · [[repos/osrs/README|README]]
 
-**docs/:** [[repos/osrs/docs/HANDOFF-docker-entrypoint-20260403|HANDOFF: docker entrypoint (2026-04-03)]]
+**docs/:** [[repos/osrs/docs/archive/HANDOFF-docker-entrypoint-20260403|HANDOFF: docker entrypoint (2026-04-03)]]
 
 ## Verified Runbook (PMO 2026-09-24)
 

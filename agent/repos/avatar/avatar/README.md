@@ -1,3 +1,8 @@
+---
+up: "[[repos/avatar]]"
+source: https://github.com/nitsuah/avatar/blob/main/avatar/README.md
+---
+
 # Avatar Utils - Testing Jupyter Notebooks
 
 This module provides testable Python utilities extracted from the DreamBooth Stable Diffusion notebook, enabling comprehensive test coverage while keeping the notebook workflow intact.

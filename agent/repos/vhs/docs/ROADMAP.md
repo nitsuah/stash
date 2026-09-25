@@ -1,3 +1,8 @@
+---
+up: "[[repos/vhs]]"
+source: https://github.com/nitsuah/vhs/blob/main/docs/ROADMAP.md
+---
+
 # ROADMAP
 
 > 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

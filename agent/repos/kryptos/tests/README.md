@@ -1,3 +1,8 @@
+---
+up: "[[repos/kryptos]]"
+source: https://github.com/nitsuah/kryptos/blob/main/tests/README.md
+---
+
 # Test Suite
 
 Tests are organized into three tiers. Run all tiers with `pytest` from the project root.

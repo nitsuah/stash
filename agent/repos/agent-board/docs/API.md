@@ -1,3 +1,8 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/docs/API.md
+---
+
 # API Documentation
 
 > 🧭 [agent-board](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
@@ -471,7 +476,7 @@ GET /api/tracing/status
 }
 ```
 
-Enable tracing with `OTEL_ENABLED=true` and `--profile observability` — see [.env.example](../.env.example).
+Enable tracing with `OTEL_ENABLED=true` and `--profile observability` — see [.env.example](https://github.com/nitsuah/agent-board/blob/master/.env.example).
 
 ---
 

@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/public/social-preview-placeholder.md
+---
+
 # Social Preview Image Placeholder
 
 This directory should contain `social-preview.png` (1200x630px) for social media previews.

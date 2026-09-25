@@ -1,3 +1,8 @@
+---
+up: "[[repos/games]]"
+source: https://github.com/nitsuah/games/blob/main/docs/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

@@ -1,6 +1,6 @@
 # daily-checkin — 2026-09-25
 
-> 🧭 ← [[reports/cloud/daily-checkin/2026-09-24|2026-09-24]] <!-- nav -->
+> 🧭 ← [[reports/cloud/daily-checkin/daily-checkin-2026-09-24|2026-09-24]] <!-- nav -->
 
 - Day: Friday
 - Calendar events today: 0

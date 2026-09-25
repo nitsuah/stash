@@ -1,3 +1,8 @@
+---
+up: "[[repos/fire]]"
+source: https://github.com/nitsuah/fire/blob/main/docs/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

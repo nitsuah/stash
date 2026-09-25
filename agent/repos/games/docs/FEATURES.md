@@ -1,3 +1,8 @@
+---
+up: "[[repos/games]]"
+source: https://github.com/nitsuah/games/blob/main/docs/FEATURES.md
+---
+
 # Games Collection Features
 
 > 🧭 [games](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

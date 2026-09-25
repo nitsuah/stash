@@ -1,3 +1,8 @@
+---
+up: "[[repos/osrs]]"
+source: https://github.com/nitsuah/osrs/blob/main/docs/archive/HANDOFF-docker-entrypoint-20260403.md
+---
+
 > **Archived 2026-09-23**: the fix this handoff describes shipped long ago;
 > kept for historical context only (README.md references it as background on
 > a prior Docker/runtime mismatch).

@@ -1,3 +1,8 @@
+---
+up: "[[repos/darkmoon]]"
+source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md
+---
+
 # Multiplayer Shooter Roadmap — "Robot Conker's Bad Fur Day"
 
 > 🧭 [darkmoon](../../../README.md) · [Features](../../FEATURES.md) · [Roadmap](../../ROADMAP.md) · [Tasks](../../TASKS.md) · [Changelog](../../CHANGELOG.md) · [Metrics](../../METRICS.md) <!-- nav -->

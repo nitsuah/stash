@@ -1,3 +1,8 @@
+---
+up: "[[repos/vhs]]"
+source: https://github.com/nitsuah/vhs/blob/main/docs/CHANGELOG.md
+---
+
 # Changelog
 
 > 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

@@ -42,7 +42,7 @@ Exist on GitHub, cloned or not, but out of scope for PMO/metrics/LOC/MINI automa
 | windirstat-mcp | `C:\Users\ajhar\code\windirstat-mcp` | https://github.com/nitsuah/windirstat-mcp | fork |
 | gods-eye-view | not cloned locally | https://github.com/nitsuah/gods-eye-view | fork |
 | odysseus | not cloned locally | https://github.com/nitsuah/odysseus | fork |
-| opencut-classic | not cloned locally as this name (see [[project-opencut]] memory — cloned as `opencut` from a different fork, `nitsuah/opencut-classic` on GitHub isn't the same working copy) | https://github.com/nitsuah/opencut-classic | fork |
+| opencut-classic | not cloned locally as this name (see the `project-opencut` Claude memory — cloned as `opencut` from a different fork, `nitsuah/opencut-classic` on GitHub isn't the same working copy) | https://github.com/nitsuah/opencut-classic | fork |
 | initiative-opensource-release | not cloned locally | https://github.com/nitsuah/initiative-opensource-release | stale fork (last push 2023) |
 | .github (nitsuah) | not cloned locally | https://github.com/nitsuah/.github | community-health defaults repo, not a product |
 | .github (Nitsuah-Labs) | not cloned locally | https://github.com/Nitsuah-Labs/.github | fork, community-health defaults |

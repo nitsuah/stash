@@ -1,7 +1,7 @@
 """Link routine-generated notes into the vault graph through meaningful hubs.
 
 No flat INDEX files: every note hangs off the hub it belongs to, so an agent
-reaches anything from AGENT-MAIN in two hops and the Obsidian graph shows one
+reaches anything from VAULT-MAP in a few hops and the Obsidian graph shows one
 cluster per repo/project instead of a few giant stars. Safe to re-run any time;
 output is deterministic, so a run with nothing new changes nothing. Run by the
 daily-repo-sync routine (prompts/DAILY.md) right after the repo doc sync.
@@ -10,17 +10,21 @@ Rules (naming conventions first, `up:` frontmatter for anything else):
   reports/<kind>-<repo>-<date>.md   nav line: up to repos/<repo> hub, prev/next in
                                     the same kind+repo. The hub's Vault links
                                     block links the latest one.
-  reports/<kind>-<date>.md,         nav line: prev/next in the same kind. AGENT-MAIN's
-  reports/cloud/<routine>/<date>.md Vault map links the latest one.
+  reports/<kind>-<date>.md,         nav line: prev/next in the same kind. VAULT-MAP
+  reports/cloud/<routine>/<date>.md links the latest one.
   projects/KB/<repo>-overview.md    linked from the repos/<repo> hub.
-  projects/<Folder>/**.md           linked from a children block in the folder hub
-                                    projects/<Folder>.md (created as a stub if missing).
-  projects/*.md, notes/<other>.md   linked from AGENT-MAIN's Vault map.
+  projects/<Folder>/**.md           linked from a children block in the folder hub: an
+                                    existing projects/<Folder>.md, else projects/<Folder>-hub.md
+                                    (created as a stub; the suffix keeps names unique).
+  projects/*.md, notes/<other>.md   linked from VAULT-MAP.
   notes/<YYYY-MM-DD>.md, <YYYY>-W<ww>.md
                                     nav line: prev/next + week (weeks list their days).
-                                    AGENT-MAIN links the latest of each.
-  repos/<repo>.md                   listed in projects/scope.md; its Vault links block
-                                    also links the mirrored README.
+                                    VAULT-MAP links the latest of each.
+  repos/<repo>.md                   linked from VAULT-MAP; its Vault links block links the
+                                    mirrored README, KB overview and latest reports.
+
+VAULT-MAP.md is the vault home (created with a short intro if missing). Its body is
+the generated block; AGENT-MAIN stays the delivery-process guide and links to it.
 
 Writes only two kinds of generated text, both replaced in place and never
 duplicated:
@@ -157,7 +161,7 @@ for p in md_files("reports"):
         chains[report_kind_and_subject(p)].append(p)
 
 hub_lines = defaultdict(list)   # repos/<x>.md -> block lines
-latest_reports = []             # (label, rel) for AGENT-MAIN
+latest_reports = []             # (label, rel) for VAULT-MAP
 for (kind, subject), files in sorted(chains.items(), key=lambda kv: (kv[0][0], kv[0][1] or "")):
     files.sort(key=lambda f: (date_key(f), f))
     hub = repo_hub(subject) if subject else None
@@ -207,14 +211,17 @@ for p in md_files("projects"):
         continue
     folders[rest.split("/")[0]].append(p)
 for folder, files in sorted(folders.items()):
-    hub = f"projects/{folder}.md"
+    # an existing projects/<Folder>.md note (e.g. ARGUS) is the hub; otherwise <Folder>-hub.md, a
+    # distinct name so it never collides with prompts/<Folder>.md in [[wikilinks]] or the graph
+    hub = f"projects/{folder}.md" if exists(f"projects/{folder}.md") else f"projects/{folder}-hub.md"
     if not exists(hub):
         write(hub, f"# {folder}\n\nFolder hub for `projects/{folder}/`. Add context above the generated block.")
     lines = [f"- {link(f, f[len(folder) + 10:-3])}" for f in files]
     set_block(hub, ["## Vault links", "", GENERATED, ""] + lines)
 top_projects = [p for p in md_files("projects") if p.count("/") == 1 and not p.endswith("/INDEX.md")]
 if CHECK:  # stub hubs a real run would create
-    top_projects = sorted(set(top_projects) | {f"projects/{f}.md" for f in folders})
+    top_projects = sorted(set(top_projects) | {f"projects/{f}.md" if exists(f"projects/{f}.md")
+                                               else f"projects/{f}-hub.md" for f in folders})
 
 # ---------- notes ----------
 names = sorted(f for f in os.listdir(path_of("notes")) if f.endswith(".md") and f != "INDEX.md")
@@ -243,7 +250,7 @@ for i, d in enumerate(days):
 for i, w in enumerate(weeks):
     set_nav(f"notes/{w}.md", chain(weeks, i) + [link(f"notes/{d}", d) for d in days if iso_week(d) == w])
 
-# ---------- AGENT-MAIN vault map ----------
+# ---------- VAULT-MAP (the vault home) ----------
 home = ["## Vault map", "", GENERATED, ""]
 latest = []
 if days:
@@ -263,8 +270,13 @@ if top_projects:
     home.append("- **Projects:** " + " · ".join(link(p, os.path.basename(p)[:-3]) for p in top_projects))
 if other_notes:
     home.append("- **Other notes:** " + " · ".join(link(p, os.path.basename(p)[:-3]) for p in other_notes))
-set_block("AGENT-MAIN.md", home)
+if not exists("VAULT-MAP.md"):
+    write("VAULT-MAP.md", "# Vault Map\n\nEntry point to this vault: start here, then follow a hub. "
+          "Process guide: [[AGENT-MAIN]] · conventions: [[README|Vault README]].")
+set_block("VAULT-MAP.md", home)
+set_block("AGENT-MAIN.md", [])  # the map lived here until 2026-09-25
 
+changed = list(dict.fromkeys(changed))
 print(f"{'would change' if CHECK else 'changed'}: {len(changed)} file(s)")
 for c in changed:
     print("  " + c)

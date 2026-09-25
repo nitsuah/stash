@@ -1,6 +1,6 @@
 # daily-pr-review — 2026-09-25
 
-> 🧭 ← [[reports/cloud/daily-pr-review/2026-09-24|2026-09-24]] <!-- nav -->
+> 🧭 ← [[reports/cloud/daily-pr-review/daily-pr-review-2026-09-24|2026-09-24]] <!-- nav -->
 
 3 open PRs across 2 repos, 1 needs attention.
 

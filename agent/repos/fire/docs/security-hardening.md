@@ -1,3 +1,8 @@
+---
+up: "[[repos/fire]]"
+source: https://github.com/nitsuah/fire/blob/main/docs/security-hardening.md
+---
+
 
 # Security Hardening Plan
 

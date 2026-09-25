@@ -1,3 +1,8 @@
+---
+up: "[[repos/farm-3j]]"
+source: https://github.com/nitsuah/farm-3j/blob/main/docs/TASKS.md
+---
+
 # TASKS
 
 > 🧭 [farm-3j](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

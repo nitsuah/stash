@@ -1,3 +1,8 @@
+---
+up: "[[repos/nitsuah-io]]"
+source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/README.md
+---
+
 
 # Nitsuah.io — Personal Portfolio
 
@@ -257,7 +262,9 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 
 ## Docs Index
 
-Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
 
 - [Project Architecture](./docs/ARCH.md) — `docs/ARCH.md`
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
@@ -275,5 +282,13 @@ Every doc at the repo root and under `docs/` (the files mirrored into the Obsidi
 - [Delivery Pipeline Handoff](./docs/archive/HANDOFF-spline-move-3d-20260403.md) — `docs/archive/HANDOFF-spline-move-3d-20260403.md`
 - [Playwright Stability Notes](./docs/archive/PLAYWRIGHT_FIXES.md) — `docs/archive/PLAYWRIGHT_FIXES.md`
 - [Screenshot Requirements](./docs/archive/SCREENSHOTS.md) — `docs/archive/SCREENSHOTS.md`
+
+**`public/blogs/`**
+
+- [The </style> Escape Hatch: How PostCSS Quietly Enabled XSS in Your Build Pipeline](./public/blogs/postcss-xss-blog-post.md) — `public/blogs/postcss-xss-blog-post.md`
+
+**`public/`**
+
+- [Social Preview Image Placeholder](./public/social-preview-placeholder.md) — `public/social-preview-placeholder.md`
 
 <!-- docs-index:end -->

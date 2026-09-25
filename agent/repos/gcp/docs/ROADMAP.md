@@ -1,3 +1,8 @@
+---
+up: "[[repos/gcp]]"
+source: https://github.com/nitsuah/gcp/blob/main/docs/ROADMAP.md
+---
+
 # GCP Google Drive Tools Roadmap
 
 > 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

@@ -1,6 +1,6 @@
 # daily-checkin — 2026-09-24
 
-> 🧭 [[reports/cloud/daily-checkin/2026-09-25|2026-09-25]] → <!-- nav -->
+> 🧭 [[reports/cloud/daily-checkin/daily-checkin-2026-09-25|2026-09-25]] → <!-- nav -->
 
 - **Date:** Thursday, 2026-09-24
 - **Calendar events today:** 0

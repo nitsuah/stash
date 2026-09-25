@@ -1,3 +1,8 @@
+---
+up: "[[repos/osrs]]"
+source: https://github.com/nitsuah/osrs/blob/main/docs/TASKS.md
+---
+
 # Tasks
 
 > 🧭 [osrs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

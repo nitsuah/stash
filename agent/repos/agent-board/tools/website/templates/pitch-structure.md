@@ -1,3 +1,8 @@
+---
+up: "[[repos/agent-board]]"
+source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/pitch-structure.md
+---
+
 # Pitch Deck Structure (Claude generates fresh HTML for each client)
 
 Generate a single-file HTML pitch deck using Tailwind CSS CDN.

@@ -14,6 +14,9 @@ Notable additions and changes to this repository.
 - `find-orphans.py` reports reachability from `AGENT-MAIN` and gains `--check`. Result: 406/422 notes reachable. The 16 unreachable notes are stale repo mirrors that the next sync fixes.
 - `check-generated-diff.py` replaces DAILY's path allowlist for auto-merging `obn:` PRs.
 - `agent/README.md` documents the linking conventions. `prompts/DAILY.md` is updated to match.
+- The vault home moved from AGENT-MAIN to `agent/VAULT-MAP.md`. Folder hubs are named `<Folder>-hub.md`, so they never collide with `prompts/<Folder>.md`. Cloud reports are named `<routine>-<date>.md` (routine prompts updated too). `find-orphans.py --check` now also fails on duplicate note names and counts unresolved links (ghost nodes).
+- `enrich-mirror.py` runs inside `sync-repos.ps1`. It gives every mirrored doc `up: "[[repos/<repo>]]"` frontmatter and turns links to un-mirrored files into GitHub URLs. Result: 0 orphans.
+- `fix-doc-links.py` repairs broken relative links upstream (the PMO audit runs it) and in vault notes (DAILY runs it on hubs). The first pass opened fix PRs in kryptos, skyview, agent-board and darkmoon.
 
 ### 2026-09-24 — `pmo-ff` 2027 planning reset
 

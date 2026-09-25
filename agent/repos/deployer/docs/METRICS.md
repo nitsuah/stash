@@ -1,3 +1,8 @@
+---
+up: "[[repos/deployer]]"
+source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/METRICS.md
+---
+
 # Metrics for Nitsuah-Labs/deployer
 
 > 🧭 [deployer](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->

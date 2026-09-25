@@ -1,3 +1,8 @@
+---
+up: "[[repos/osrs]]"
+source: https://github.com/nitsuah/osrs/blob/main/docs/FEATURES.md
+---
+
 # OSRS Bot Features
 
 > 🧭 [osrs](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

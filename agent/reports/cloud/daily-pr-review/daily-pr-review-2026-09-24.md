@@ -1,6 +1,6 @@
 # daily-pr-review — 2026-09-24
 
-> 🧭 [[reports/cloud/daily-pr-review/2026-09-25|2026-09-25]] → <!-- nav -->
+> 🧭 [[reports/cloud/daily-pr-review/daily-pr-review-2026-09-25|2026-09-25]] → <!-- nav -->
 
 0 open PRs, 0 need attention.
 
