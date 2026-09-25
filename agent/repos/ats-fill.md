@@ -1,6 +1,7 @@
 ---
 kind: repo-hub
 repo: ats-fill
+aliases: [auto-apply-plugin]
 ---
 
 # auto-apply-plugin

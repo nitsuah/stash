@@ -1,6 +1,7 @@
 ---
 kind: repo-hub
 repo: vigil
+aliases: [overseer]
 ---
 
 # overseer

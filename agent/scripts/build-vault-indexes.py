@@ -53,7 +53,19 @@ WEEK = re.compile(r"^(\d{4})-W(\d{2})\.md$")
 DATE_IN_NAME = re.compile(r"(\d{4}-\d{2}(?:-\d{2})?)")
 REPO_KINDS = {"eng-loc-high-LOC": "High-LOC report", "eng-loc": "LOC report", "eng-mini": "MINI report"}
 # repos renamed since older reports were written (report name -> current hub)
-RENAMED = {"overseer": "vigil", "auto-apply-plugin": "ats-fill"}
+def scope_renames():
+    """{old name: current repo} from the "formerly `x`" notes in scope.md's Tracked table, the
+    single source for renames: old report names map to the current hub, and each hub gets the
+    old name as an alias, so a search or [[link]] for "overseer" still finds vigil."""
+    path = os.path.join(VAULT, "projects", "scope.md")
+    text = open(path, encoding="utf-8").read() if os.path.exists(path) else ""
+    tracked = text.split("## Tracked", 1)[-1].split("\n## ", 1)[0]
+    return {old: m.group(1) for line in tracked.splitlines()
+            for m in [re.match(r"^\| ([a-z0-9-]+) \|", line)] if m
+            for old in re.findall(r"formerly `([a-z0-9-]+)`", line)}
+
+
+RENAMED = scope_renames()
 changed = []
 
 
@@ -135,7 +147,7 @@ def set_block(rel, lines):
     write(rel, text, nl)
 
 
-PROPS = ("kind", "repo", "date")  # the only frontmatter keys this script owns (Bases views filter on them)
+PROPS = ("kind", "repo", "date", "aliases")  # the only frontmatter keys this script owns (Bases views filter on them)
 
 
 def set_props(rel, props):
@@ -216,7 +228,8 @@ for hub in hubs:
     for label, rel, date in sorted(hub_lines.get(hub, [])):
         lines.append(f"- Latest {label}: {link(rel, date)} (older ones chain from it)")
     set_block(hub, ["## Vault links", "", GENERATED, ""] + lines if lines else [])
-    set_props(hub, {"kind": "repo-hub", "repo": name})
+    olds = sorted(o for o, n in RENAMED.items() if n.lower() == name.lower())
+    set_props(hub, {"kind": "repo-hub", "repo": name, "aliases": "[" + ", ".join(olds) + "]" if olds else None})
     if hub in kb:
         set_props(kb[hub], {"kind": "overview", "repo": name})
 
@@ -301,6 +314,50 @@ for i, w in enumerate(weeks):
     set_nav(NOTE[w] + ".md", chain(weeks, i) + [link(NOTE[d], d) for d in days if iso_week(d) == w])
     set_props(NOTE[w] + ".md", {"kind": "weekly-note"})
 
+# ---------- topics: cross-repo maps by subject ----------
+# Each topics/topic-<name>.md defines itself: `match: '<regex>'` in its frontmatter, prose by hand.
+# Notes are matched on file name + first headings (not full text, which is far too noisy);
+# core planning docs, hubs, reports and dated notes are left out: they are linked elsewhere.
+CORE_DOCS = {"readme", "roadmap", "tasks", "features", "changelog", "metrics", "index", "claude", "agents"}
+SKIP_TOPIC = re.compile(r"^(reports/|notes/|templates/|topics/|scripts/|logs/|Nexus/|projects/KB/)|^repos/[^/]+\.md$"
+                        r"|^(VAULT-MAP|AGENT-MAIN)\.md$")
+
+
+def title_of(rel):
+    text, _ = read(rel)
+    m = re.search(r"^#\s+(.+)$", text or "", re.M)
+    return re.sub(r"[\[\]|]", "", m.group(1)).strip() if m else os.path.basename(rel)[:-3]
+
+
+topic_notes = sorted(f"topics/{f}" for f in os.listdir(path_of("topics")) if f.endswith(".md")) if exists("topics") else []
+candidates = []
+if topic_notes:
+    for dp, dn, fn in os.walk(VAULT):
+        dn[:] = sorted(d for d in dn if not d.startswith("."))
+        for f in fn:
+            rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
+            if f.endswith(".md") and not SKIP_TOPIC.search(rel) and f[:-3].lower() not in CORE_DOCS:
+                text, _ = read(rel)
+                heads = " ".join(re.findall(r"^#{1,2}\s+(.+)$", text, re.M)[:6])
+                candidates.append((rel, (f[:-3].replace("_", " ").replace("-", " ") + " " + heads).lower()))
+for tn in topic_notes:
+    text, _ = read(tn)
+    m = re.search(r"^match:\s*'(.*)'\s*$", text, re.M)
+    if not m:
+        continue
+    rx = re.compile(m.group(1), re.I)
+    groups = defaultdict(list)
+    for rel, hay in candidates:
+        if rx.search(hay):
+            area = rel.split("/")[1] if rel.startswith("repos/") else "vault"
+            groups[area].append(rel)
+    lines = ["## Notes on this topic", "", GENERATED, ""]
+    for area in sorted(groups, key=lambda a: (a != "vault", a)):
+        hub = repo_hub(area) if area != "vault" else None
+        head = link(hub, area) if hub else f"**{area}**"
+        lines.append(f"- {head}: " + " · ".join(link(r, title_of(r)) for r in sorted(groups[area])))
+    set_block(tn, lines if groups else [])
+
 # ---------- VAULT-MAP (the vault home) ----------
 home = ["## Vault map", "", GENERATED, ""]
 latest = []
@@ -335,6 +392,10 @@ def script_summary(rel):
         m = re.search(r"^#(?!!)\s*(.+)", text, re.M)
     return (m.group(m.lastindex) if m else "").strip().rstrip(".")
 
+
+if topic_notes:
+    home.append("- **Topics** (cross-repo maps: every note on a subject, grouped by repo): "
+                + " · ".join(link(t, os.path.basename(t)[6:-3]) for t in topic_notes))
 
 templates = sorted(f for f in os.listdir(path_of("templates")) if f.endswith(".md")) if exists("templates") else []
 if templates:
