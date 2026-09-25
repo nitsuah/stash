@@ -281,7 +281,7 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 
 **`projects/resume/projects/`**
 
-- [PROJECTS.MD](./projects/resume/projects/projects.MD) — `projects/resume/projects/projects.MD`
+- [Resume projects](./projects/resume/projects/resume-projects.md) — `projects/resume/projects/resume-projects.md`
 
 **`projects/sampler/`**
 
