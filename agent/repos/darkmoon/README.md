@@ -1,5 +1,7 @@
 # DARKMOON.DEV
 
+> 🧭 **darkmoon** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/darkmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/darkmoon/actions)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2ae05c81-761a-4d3a-91ac-dcd5980d48d3/deploy-status)](https://app.netlify.com/projects/darkmoon-dev/deploys)
 
@@ -68,7 +70,41 @@ pip install pre-commit && pre-commit install
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for code quality standards and deployment tips.
+See [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md) (org default) for code quality standards and deployment tips.
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Darkmoon API Reference](./docs/API.md) — `docs/API.md`
+- [Darkmoon Architecture](./docs/ARCHITECTURE.md) — `docs/ARCHITECTURE.md`
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [DARKMOON Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Agent Pickup Instructions](./docs/INSTRUCTIONS.md) — `docs/INSTRUCTIONS.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [Architecture Improvements - Quick Reference](./docs/archive/ARCHITECTURE_IMPROVEMENTS.md) — `docs/archive/ARCHITECTURE_IMPROVEMENTS.md`
+- [Delivery Pipeline Handoff](./docs/archive/HANDOFF-player-tag-fix-20260403.md) — `docs/archive/HANDOFF-player-tag-fix-20260403.md`
+- [L7 Engineering Review - Darkmoon](./docs/archive/L7_ENGINEERING_REVIEW.md) — `docs/archive/L7_ENGINEERING_REVIEW.md`
+- [DARKMOON Product Roadmap](./docs/archive/ROADMAP_DETAILED.md) — `docs/archive/ROADMAP_DETAILED.md`
+
+**`docs/projects/conkers/`**
+
+- [🐿️ Conker's Bad Fur Day — Open Source Three.js Recreation Guide](./docs/projects/conkers/CONKER_BFD_BUILD_GUIDE.md) — `docs/projects/conkers/CONKER_BFD_BUILD_GUIDE.md`
+- [Tech Debt Tracker](./docs/projects/conkers/TECH_DEBT.md) — `docs/projects/conkers/TECH_DEBT.md`
+
+**`docs/projects/multi/`**
+
+- [Multiplayer Readiness Gate](./docs/projects/multi/MULTIPLAYER_GATE.md) — `docs/projects/multi/MULTIPLAYER_GATE.md`
+- [Multiplayer Shooter Roadmap — "Robot Conker's Bad Fur Day"](./docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md) — `docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md`
+
+<!-- docs-index:end -->
 
 ## 📝 License
 

@@ -1,5 +1,7 @@
 # Getting Started with SkyView Website
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 Welcome! This guide will help you get the SkyView drone services website up and running. Everything is set up and ready - you just need to configure a few things.
 
 ## 🎯 What's Already Done
@@ -9,7 +11,7 @@ Your website includes:
 - ✅ Services showcase with pricing
 - ✅ Dynamic photo & video gallery
 - ✅ Contact form ready for Netlify
-- ✅ Calendly booking integration
+- ✅ Booking via the marketplace platform (`/app`) — hero CTA goes to `/app/register`
 - ✅ Client portal system (password-protected file delivery)
 - ✅ Testimonials section
 - ✅ Privacy policy page
@@ -50,16 +52,10 @@ The recommended dev command is `npm run dev` (runs `netlify dev` on port 8888 wi
 Open `config.js` in the root folder and customize:
 
 ```javascript
-// Update these first!
-calendly: {
-    url: 'https://calendly.com/YOUR-USERNAME/consultation',
-}
-
 // Enable features you want visible
 features: {
     testimonials: true,   // Show testimonials section
     contactForm: true,    // Show contact form (after Netlify setup)
-    calendly: true,       // Show booking section
     clientPortal: true,   // Show client login link
     analytics: true,      // Enable analytics (after setup)
 }
@@ -141,16 +137,8 @@ Edit `index.html` - all sections clearly labeled:
 - Gallery section (lines 170-185)
 - Testimonials section (lines 300-350)
 
-### Calendly Settings
-Update `config.js`:
-```javascript
-calendly: {
-    url: 'your-calendly-link',
-    height: 700,
-    text: 'Schedule a Free Consultation',
-    primaryColor: '00d4ff'
-}
-```
+### Booking (marketplace platform)
+Booking runs through the marketplace SPA at `/app` (clients post jobs / book operators; operators set availability). The marketing site's booking section links into it. Production needs the Neon migrations and Stripe/Resend/JWT env vars — see `docs/ROADMAP.md` 2027 Q1.
 
 ## 📊 Analytics Setup (Optional)
 
@@ -185,7 +173,7 @@ Already built and ready! Clients can:
 
 Before going live:
 - [ ] Test contact form submission
-- [ ] Test Calendly booking flow
+- [ ] Test the booking flow (`/app/register` → post a job → book an operator → operator accepts)
 - [ ] Check gallery loads images AND videos
 - [ ] Test on mobile device
 - [ ] Test client portal login
@@ -199,10 +187,9 @@ Before going live:
 - Check `assets/gallery.json` paths match actual files
 - Hard refresh browser (Ctrl+Shift+R)
 
-### Calendly not showing
-- Check `config.js` has correct Calendly URL
-- Verify `features.calendly: true` in config
-- Check browser console for errors
+### Booking links go nowhere
+- The marketplace backend (`/app`) must be deployed with its env vars and DB migrations
+- Check the browser console / Netlify function logs for API errors
 
 ### Contact form not working
 - Deploy to Netlify first (forms don't work locally)
@@ -216,6 +203,7 @@ Before going live:
 
 ## 📚 Documentation Index
 
+- `FINAL_SETUP.md` - Marketplace platform setup (Neon, env vars, Resend, OAuth, Stripe)
 - `DEPLOYMENT_GUIDE.md` - Detailed Netlify deployment
 - `CONFIG.md` - config.js reference
 - `WEBP_OPTIMIZATION.md` - Image optimization details

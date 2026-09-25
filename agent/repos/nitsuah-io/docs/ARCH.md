@@ -1,5 +1,7 @@
 # Project Architecture
 
+> 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 This document provides a comprehensive overview of the `nitsuah-io` project architecture, including the technology stack, project structure, and key components.
 
 ## Technology Stack

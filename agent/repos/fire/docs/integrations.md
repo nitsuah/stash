@@ -1,4 +1,7 @@
-?# Integrations Reference
+
+# Integrations Reference
+
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 > **Status:** Planning  
 > **Last updated:** 2026-08-12  
@@ -79,9 +82,13 @@ This endpoint must be reachable from the public internet over HTTPS, so it
 can't be verified end to end from a laptop — register the URL in the portal
 (or use a tunnel while developing). The handshake and notification logic are
 covered by unit and route tests.
-**Not implemented:** verification of eBay's `X-EBAY-SIGNATURE` header (public
-key fetch + signature check); trust currently rests on the secret endpoint URL
-and verification token.
+Every deletion notification's `X-EBAY-SIGNATURE` header is verified before
+anything is purged: the connector fetches eBay's public key for the header's
+`kid` from the Notification API (so `EBAY_CLIENT_ID`/`EBAY_CLIENT_SECRET` are
+required; keys are cached for an hour) and checks the ECDSA signature over the
+raw body, falling back to `JSON.stringify(body)`, the form eBay's SDKs sign.
+Missing/invalid signatures and unknown `kid`s get `412`; if the key can't be
+fetched the endpoint answers `503` so eBay retries.
 
 ### Sales-report CSV upload
 

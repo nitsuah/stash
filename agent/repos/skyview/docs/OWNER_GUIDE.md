@@ -1,5 +1,7 @@
 # SkyView Website - Owner's Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 **Welcome!** This is your complete, production-ready drone services website. Everything works - you just need to plug in your accounts and content.
 
 ## 🎉 What You Have
@@ -64,24 +66,24 @@ Edit `config.js` file:
 ## 📖 Documentation Map
 
 **START HERE:**
-- 📘 **[Getting Started](docs/GETTING_STARTED.md)** ← **Read this first!**
+- 📘 **[Getting Started](./GETTING_STARTED.md)** ← **Read this first!**
 
 **Setup & Configuration:**
-- [Configuration Reference](docs/CONFIG.md) - What each setting does
-- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) - Publishing to web
+- [Configuration Reference](./CONFIG.md) - What each setting does
+- [Deployment Guide](./DEPLOYMENT_GUIDE.md) - Publishing to web
 
 **Adding Content:**
-- [WebP Optimization](docs/WEBP_OPTIMIZATION.md) - Images & videos
-- [Asset Management](docs/ASSET_MANAGEMENT.md) - Organizing files
+- [WebP Optimization](./WEBP_OPTIMIZATION.md) - Images & videos
+- [Asset Management](./ASSET_MANAGEMENT.md) - Organizing files
 
 **Advanced Features:**
-- [Client Portal](docs/CLIENT_PORTAL.md) - Delivering files to clients
-- [Email Notifications](docs/EMAIL_NOTIFICATIONS.md) - Form alerts
-- [Analytics Setup](docs/ANALYTICS_SETUP.md) - Tracking visitors
+- [Client Portal](./CLIENT_PORTAL.md) - Delivering files to clients
+- [Email Notifications](./EMAIL_NOTIFICATIONS.md) - Form alerts
+- [Analytics Setup](./ANALYTICS_SETUP.md) - Tracking visitors
 
 **Performance:**
-- [Performance Checklist](docs/PERFORMANCE_CHECKLIST.md) - Speed tips
-- [Optimization Flow](docs/OPTIMIZATION_FLOW.md) - Technical details
+- [Performance Checklist](./PERFORMANCE_CHECKLIST.md) - Speed tips
+- [Optimization Flow](./OPTIMIZATION_FLOW.md) - Technical details
 
 ## 🎯 Common Tasks
 

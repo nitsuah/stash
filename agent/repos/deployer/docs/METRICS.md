@@ -1,5 +1,7 @@
 # Metrics for Nitsuah-Labs/deployer
 
+> 🧭 [deployer](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
+
 This document outlines the key metrics used to track the health and performance of the Nitsuah-Labs/deployer project.
 
 _Last verified: 2026-09 roadmap-and-docs cycle. "Verified" below means measured directly in this cycle, in Docker, against the code in this PR — not carried forward from a prior update._
@@ -10,8 +12,8 @@ _Last verified: 2026-09 roadmap-and-docs cycle. "Verified" below means measured 
 | ---------------------------- | ------- | ------- | ------ |
 | Code Coverage                | 92.45% lines / 85.90% statements (verified, `npm run coverage` in Docker — see "Coverage" note below) | 90%     | 🟢 (lines) / 🟡 (statements) |
 | Number of Tests              | 63 (verified, `npm test` in Docker) | 50      | 🟢     |
-| Slither Findings (High)      | not measured this cycle — see TASKS.md | 0       | ⚪     |
-| Slither Findings (Medium)    | not measured this cycle — see TASKS.md | <= 2    | ⚪     |
+| Slither Findings (High)      | 2 (`weak-prng` in RegisterPortal; 2026-09-24, 47 contracts analyzed) | 0       | 🔴     |
+| Slither Findings (Medium)    | 2 (`locked-ether`, `divide-before-multiply` in Base64; 2026-09-24) | <= 2    | 🟢     |
 | Gas Usage (Deployment)       | RegisterPortal 512,195 / Domains 4,036,286 / LabNFT 13,162,757 (verified via `deploy/deploy.ts` against the local Hardhat network) | < 5000000 | 🟢 (RegisterPortal, Domains) / 🔴 (LabNFT — see note) |
 | Gas Usage (Typical Tx)       | TBD (needs a `REPORT_GAS=true npm test` run; not captured this cycle) | < 100000  | 🟡     |
 | Cyclomatic Complexity (Avg)  | TBD     | < 10      | 🟡     |
@@ -69,7 +71,7 @@ This section describes how to update the metrics listed above.
 
 ### Slither Findings (High & Medium)
 
-    1.  `npm run security:slither` (uses `config/slither.config.json`), or let the CI `slither` job (`.github/workflows/ci.yml`) run it on a normal-network runner.
+    1.  `npm run security:slither` (runs `slither contracts/` with `config/slither.config.json`; needs `solc` 0.8.28, e.g. `solc-select install 0.8.28 && solc-select use 0.8.28`), or read the CI `slither` job summary, which lists counts by impact.
     2.  Review the output/job summary and count the number of High and Medium severity findings. Update the "Current" column.  Address or mitigate findings.
 
 ### Gas Usage (Deployment & Typical Tx)

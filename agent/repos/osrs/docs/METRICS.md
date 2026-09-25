@@ -1,24 +1,26 @@
 # Metrics
 
+> 🧭 [osrs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · **Metrics** <!-- nav -->
+
 ## Core Metrics
 
 | Metric              | Value | Notes                                      |
 | ------------------- | ----- | ------------------------------------------ |
-| Code Coverage       | 100%  | Docker run 2026-08-23: `bot/camera.py` 100%, `bot/compass.py` 100%, `bot/utils.py` 100% (25 tests pass, 0 failures). Scoped to tested modules; `bot.core`, `bot.recorder`, skills not yet covered. Command: `pytest tests/ --cov=bot --cov-report=term` |
-| Lines of Code       | 396   | Python code in bot/ directory              |
-| Python Files        | 11    | Core bot modules                           |
-| Test Files          | 4     | test_smoke, test_utils, test_camera, test_compass |
-| Test Cases          | 25    | All 25 tests passing (Docker run 2026-08-23) with comprehensive mocking |
+| Code Coverage | 98% | 784 statements, 16 missed; 87 tests passed. Measured 2026-09-24 inside the fixed Python 3.12 image: `docker build -t osrs-bot . && docker run --rm --entrypoint sh osrs-bot -c "cd /app && xvfb-run -a python -m pytest -q"` |
+| Lines of Code | 939 | Raw line count of all `.py` files under `bot/` (`wc -l`, 2026-09-24) |
+| Python Files | 13 | `.py` files under `bot/` (2026-09-24) |
+| Test Files | 8 | test_camera, test_checkpoint, test_compass, test_health, test_question_handler, test_screen_processing, test_smoke, test_utils (+ conftest.py) |
+| Test Cases | 87 | 87 passed in the fixed Python 3.12 Docker image (2026-09-24, see Code Coverage row). |
 | Config Files        | 1     | INI configuration file                     |
 | Question Database   | 131   | Anti-bot question/answer pairs             |
 | Skills Implemented  | 2     | Thieving and Fishing automation            |
-| Dependencies        | 10    | Python packages (see requirements.txt)     |
+| Dependencies | 9 | Pinned runtime packages in requirements.txt (2026-09-24) |
 
 ## Health
 
 | Metric       | Value      | Notes                              |
 | ------------ | ---------- | ---------------------------------- |
-| Open Issues  | 0          | GitHub issues                                   |
-| Test Files   | 4          | test_smoke, test_utils, test_camera, test_compass |
-| Health Score | A+ / 100   | 100% coverage scoped to `bot.camera`, `bot.compass`, `bot.utils`; full CI pipeline |
-| Last Updated | 2026-08-23 | Docker coverage run confirmed                   |
+| Open Issues | 1 | `gh issue list` (2026-09-24) |
+| Test Files | 8 | test_camera, test_checkpoint, test_compass, test_health, test_question_handler, test_screen_processing, test_smoke, test_utils (+ conftest.py) |
+| Health Score | TBD | Docker build restored on 2026-09-24 (Python 3.12 alignment, and CI now builds the image). Re-score on the next PMO cycle |
+| Last Updated | 2026-09-24 | PMO audit; Docker build restored (#44) and the full test run completed in the Python 3.12 image |

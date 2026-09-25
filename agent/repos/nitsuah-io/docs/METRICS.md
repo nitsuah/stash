@@ -1,14 +1,16 @@
 
 # Metrics
 
-**Last Validated:** 2026-09-01 (full re-run in Docker — Jest via `config/Dockerfile.unit`, Playwright via `config/docker-compose.test.yml`)
+> 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
+
+**Last Validated:** 2026-09-24 (PMO audit: Jest unit/coverage re-run in Docker via `config/Dockerfile.unit`. Playwright was last run 2026-09-01 via `config/docker-compose.test.yml` and not re-run this pass)
 
 ## Core Metrics
 
 | Metric        | Value                                        | Notes                                        |
 | ------------- | --------------------------------------------- | --------------------------------------------- |
-| Code Coverage | 97.21% stmts / 81.37% branch / 83.33% funcs   | Jest unit tests (214 passing)                |
-| Test Suites   | 17                                            | Jest unit test suites                        |
+| Code Coverage | 97.37% stmts / 84.56% branch / 84% funcs / 97.37% lines | Jest unit tests (223 passing, Docker 2026-09-24) |
+| Test Suites   | 19                                            | Jest unit test suites (Docker 2026-09-24)    |
 | TypeScript    | Strict mode                                  | Assumed zero errors — not re-run this pass    |
 | Lines of Code | ~21.8K                                        | Not re-measured this pass; excludes tests/generated/config |
 
@@ -16,16 +18,16 @@
 
 | Metric          | Value      | Notes                          |
 | --------------- | ---------- | ------------------------------ |
-| Passing Tests   | 214 Jest + 11 Playwright = 225 | 100% of tests actually run |
+| Passing Tests   | 223 Jest (2026-09-24) + 11 Playwright (2026-09-01) = 234 | 100% of tests actually run |
 | Skipped Tests   | 9          | Wallet-connection Playwright tests, intentionally gated pending a local wallet mock (see `docs/TASKS.md` P2) |
 | Security Alerts | Not re-run this pass | Last known: 0 (npm audit, zero high/critical, 2026-04-13) |
-| Last Updated    | 2026-09-01 | Metrics audit date |
+| Last Updated    | 2026-09-24 | PMO audit: Jest coverage re-run in Docker |
 
 ## Test Breakdown
 
 | Test Suite      | Count | Status | Notes |
 | ---------------- | ----- | ------ | ----- |
-| Jest Unit Tests   | 214   | ✅ 214/214 passing | React Testing Library, 17 suites |
+| Jest Unit Tests   | 223   | ✅ 223/223 passing | React Testing Library, 19 suites (Docker 2026-09-24) |
 | Playwright A11y   | 5     | ✅ 5/5 passing | `tests/accessibility/critical.spec.ts`, WCAG 2.1 AA (axe-core) |
 | Playwright Nav    | 1     | ✅ 1/1 passing | `tests/e2e/labs/navigation.spec.ts` |
 | Playwright Smoke  | 5     | ✅ 5/5 passing | `tests/smoke.spec.ts` |
@@ -44,7 +46,8 @@ The previously published "Resume Tests" (8) and "Visual Tests" (9) rows no longe
 ## Notes
 
 - **Bug found and fixed while refreshing these numbers**: `npm run test:e2e:docker` (`config/docker-compose.test.yml`) ran `npx playwright test` with no `--config` flag. Since `config/playwright.config.ts` isn't at the repo root, Playwright silently fell back to zero-config discovery and picked up the `src/**/__tests__/*.test.tsx` Jest files too, which crashed with `ReferenceError: describe is not defined` for every Jest file. Fixed by pointing the compose command at `--config config/playwright.config.ts`.
-- **Code Coverage**: 97.21% statements / 81.37% branch / 83.33% functions, measured via Jest coverage report, re-run 2026-09-01 in Docker (`config/Dockerfile.unit`). 214 tests across 17 suites — up from the previously recorded 213/16.
+- **Code Coverage (2026-09-24)**: 97.37% statements / 84.56% branch / 84% functions, 223 tests across 19 suites. Re-run in Docker (`config/Dockerfile.unit`, `npm run test:coverage`, 6.4s). Previous measurement:
+- **Code Coverage (2026-09-01)**: 97.21% statements / 81.37% branch / 83.33% functions, measured via Jest coverage report, re-run 2026-09-01 in Docker (`config/Dockerfile.unit`). 214 tests across 17 suites — up from the previously recorded 213/16.
 - **Build Performance / Bundle Size**: not re-measured this pass; previous values (35.13s build, 324.90 MB `.next`) are stale and removed rather than re-published unverified.
 - **Test Status**: both Jest and Playwright were re-verified this pass (see Test Breakdown above) — the only gap is `npm audit` and manual bundle/build timing, which weren't re-run.
 - **Lines of Code**: not re-measured this pass; previously recorded at ~21.8K (2026-04-13).

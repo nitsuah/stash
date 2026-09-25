@@ -1,5 +1,7 @@
 # OSRS Bot
 
+> 🧭 **osrs** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/osrs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
 
 A Python-based bot designed to automate Old School RuneScape tasks with computer vision and chat-response handling. Thieving and fishing are the shipped automation paths today; broader recovery and expansion work remains planned.
@@ -8,7 +10,7 @@ A Python-based bot designed to automate Old School RuneScape tasks with computer
 
 ## Dependencies
 
-- Python 3.10 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py310`). One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/archive/HANDOFF-docker-entrypoint-20260403.md` for context on prior Docker/runtime mismatches.
+- Python 3.12 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py312`). It was raised from 3.10 on 2026-09-24 because numpy 2.5.x requires Python ≥3.12. CI now also builds the Docker image, so a version drift like this one fails the PR instead of reaching `main`. One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/archive/HANDOFF-docker-entrypoint-20260403.md` for context on prior Docker/runtime mismatches.
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
 - Additional Python packages (see `requirements.txt`):
   - `pyautogui`
@@ -177,3 +179,24 @@ Shared community policies are centralized in [nitsuah/.github](https://github.co
 - Contributing: [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md)
 - Code of Conduct: [CODE_OF_CONDUCT.md](https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md)
 - Security: [SECURITY.md](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [OSRS Bot Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [OSRS Bot Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [Delivery Pipeline Handoff](./docs/archive/HANDOFF-docker-entrypoint-20260403.md) — `docs/archive/HANDOFF-docker-entrypoint-20260403.md`
+
+**`repo root`**
+
+- [Changelog](./CHANGELOG.md) — `CHANGELOG.md`
+
+<!-- docs-index:end -->

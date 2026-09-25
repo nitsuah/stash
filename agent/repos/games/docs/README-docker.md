@@ -1,5 +1,7 @@
 # Arcade Docker Run Instructions
 
+> 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 To run the arcade app in a Docker container on a cluster with many agents:
 
 1. Use the provided `arcade-docker-run.sh` script to automatically find an available port, run the container, and log the port for coordination.

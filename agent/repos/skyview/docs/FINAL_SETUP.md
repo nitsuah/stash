@@ -1,5 +1,7 @@
 # SkyView Dynamics — Platform Setup
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 This guide covers everything you need to do manually before the marketplace platform goes live. The code is already in place — these are the external accounts and configuration steps.
 
 ---
@@ -36,6 +38,9 @@ In **Netlify dashboard → your site → Site configuration → Environment vari
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Stripe dashboard (Phase 2) |
 | `GOOGLE_CLIENT_ID` | `....apps.googleusercontent.com` | Google Cloud Console (optional) |
 | `GOOGLE_CLIENT_SECRET` | `GOCSPX-...` | Google Cloud Console (optional) |
+| `PORTAL_SALT` | 32+ random chars | Generate like `JWT_SECRET`. Required only for client-portal file delivery (`api-portal`), and it must match the value used by `scripts/portal-token.js` |
+
+See `.env.example` for the full list, including local-only variables.
 
 ---
 
@@ -73,17 +78,7 @@ If these env vars are absent, the Google button redirects to a 503 — everythin
 
 ## 5. Turn on the Platform
 
-Once the DB is migrated and env vars are set, flip the feature flag in `config.js`:
-
-```js
-features: {
-    platform: true,   // ← change this
-    calendly: false,  // ← optionally disable Calendly
-    ...
-}
-```
-
-This replaces the Calendly embed with the "Find an Operator / Post a Job" CTA and redirects the hero button to `/app/register`.
+You don't need to flip any flag. `config.js` no longer has the `platform` or `calendly` flags. Scheduling now lives in the platform, and the homepage hero and booking CTAs already link straight to `/app/register` (`?role=client` / `?role=operator`). The platform works once the DB is migrated and the env vars above are set.
 
 ---
 
@@ -128,7 +123,7 @@ The admin panel is at `/app/admin` — use it to approve operator certifications
 - [ ] Stripe account → enable **Connect** (for operator payouts)
 - [ ] Set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in Netlify
 - [ ] Complete the Stripe Connect onboarding flow in the operator profile (already wired in the DB schema)
-- [ ] Uncomment the Stripe transfer logic in `netlify/functions/api-bookings.mjs`
+- [ ] Nothing to uncomment. When a booking completes, `payoutAndInvoice()` in `netlify/functions/api-bookings.mjs` transfers the operator payout automatically, provided that operator has finished Connect onboarding.
 
 ---
 

@@ -1,5 +1,7 @@
 # GCP Google Drive API Script Features
 
+> 🧭 [gcp](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Core Capabilities
 
 ### GCP Project Provisioning (`gcp/gcp_setup.py`)

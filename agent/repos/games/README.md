@@ -1,5 +1,7 @@
 # Games Collection
 
+> 🧭 **games** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+>
 > Browser arcade collection built with Next.js, Three.js, and React Three Fiber. Nine games are live at [nitsuah-arcade.netlify.app](https://nitsuah-arcade.netlify.app); the current work is release-path reliability and runtime cleanup.
 
 [![CI](https://github.com/nitsuah/games/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/nitsuah/games/actions)
@@ -179,7 +181,7 @@ app/
 
 ## 📊 Testing & Quality
 
-- **Unit Tests**: 482 passing across 35 suites (Jest)
+- **Unit Tests**: 1017 passing across 71 suites (Jest)
 - **E2E Tests**: Full game flow coverage (Playwright)
 - **Test Coverage**: Core game logic covered
 - **CI/CD**: GitHub Actions (type-check, test, E2E, Lighthouse audits)
@@ -199,7 +201,7 @@ app/
 - ✅ All 9 games fully playable (7 React/Three.js games, plus Memory Match and Dodge Blocks as sandboxed HTML5 embeds); Memory Match and Dodge Blocks have unit/E2E tests pending (see TASKS.md)
 - ✅ Code quality improvements (TypeScript types, documentation)
 - ✅ Performance optimizations (game loops, physics)
-- ✅ Comprehensive test coverage (482 unit tests, ~95% statement coverage)
+- ✅ Comprehensive test coverage (1017 unit tests, 98.58% statement coverage; CI enforces 85%)
 - ✅ E2E testing for all game flows
 - ✅ Accessibility improvements (keyboard navigation, ARIA labels)
 - ✅ Asteroid audio startup race fixed (`bgm` readiness-gated on route init)
@@ -247,3 +249,25 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [API and Interfaces](./docs/API.md) — `docs/API.md`
+- [Architecture](./docs/ARCHITECTURE.md) — `docs/ARCHITECTURE.md`
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Games Collection Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [games feedback](./docs/FEEDBACK.md) — `docs/FEEDBACK.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [Arcade Docker Run Instructions](./docs/README-docker.md) — `docs/README-docker.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [INSTRUCTIONS.md](./docs/archive/INSTRUCTIONS.md) — `docs/archive/INSTRUCTIONS.md`
+
+<!-- docs-index:end -->

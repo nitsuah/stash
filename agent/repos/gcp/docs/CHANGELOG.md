@@ -1,11 +1,20 @@
 # Changelog
 
+> 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### 2026-09 — Hardening & coverage
+
+- `gcp/gcp_setup.py` covered by `tests/test_gcp_setup.py` (51 tests, `subprocess` mocked): the module went from 0% to 99%, and total coverage from 70% to 99% (#67, #68).
+- `gcp_setup` now shows the gcloud login prompt and validates typed project/billing IDs (#69).
+- Python dependencies pinned with a `pip-audit` CI signal (#63); Bandit scan excludes `tests/`/`testing/` (#66); `apps/` `qs` bumped to 6.16.0 for Dependabot alerts #9/#10 (#64); CodeQL action v4 and grouped Actions/Python bumps (#60–#62).
+- Planning docs reset for 2027 (`pmo-ff`): completed 2026 roadmap sections removed, the web-UI evaluation carried into 2027 Q1, breadcrumb navigation + README docs index added.
 
 ### Added (Q4 2026)
 

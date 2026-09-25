@@ -18,11 +18,7 @@
 
 ## Open P0/P1 Tasks
 
-- [ ] **P1** — OAuth / sign-in for personalized job search (deferred to 2027 Q1; blocked on partner API availability — no currently-integrated board exposes a consumer OAuth job-search/personalization endpoint)
-
-No other open P1 items — all Q2–Q4 2026 roadmap goals (popup redesign, rebrand, job search expansion, analytics, interview prep, a11y audit) shipped and are marked done in TASKS.md. The two "In Progress" P1s (job-workspace popup polish; local-first privacy controls) are both checked `[x]`, with only "monitor follow-up feedback" remaining.
-
-Note (2026-09-24): the local checkout is on `chore/chrome-web-store-cicd` (Chrome Web Store release workflow, CodeRabbit fixes pushed 2026-09-23) with uncommitted icon/.env.example changes, so the synced docs reflect that branch; its `fix/nits` docs pass (`92a02df`) was pushed but does not show a merge to main yet.
+None open (updated 2026-09-25). After the 2026-09-24/25 "2027 Q1 planning reset" pass, `docs/TASKS.md` says there are no open tasks: every P1-P4 item from the last cycle either shipped or moved to the 2027 ROADMAP. That includes the former deferred P1 for OAuth / sign-in for personalized job search, which is no longer tracked as a P1. The local checkout is back on `main` (clean apart from an untracked `screenshots/fullscreen-tracker.png`). The GitHub repo is now `nitsuah/ats-fill`.
 
 ## Blockers
 

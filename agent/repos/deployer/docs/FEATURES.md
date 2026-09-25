@@ -1,3 +1,7 @@
+# Features
+
+> 🧭 [deployer](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Core Functionality
 
 - **Smart Contract Deployment** - Deploys smart contracts to Ethereum and Polygon networks.
@@ -43,7 +47,7 @@ None — this is a Solidity contract + Hardhat tooling repo with no web interfac
 - **Solhint Linting** - Automated code quality and best practices enforcement.
 - **Pre-commit Hooks** - Catch issues before commit (linting, formatting, security).
 - **Docker Testing** - Run tests in containerized environment.
-- **Slither Static Analysis** - `npm run security:slither` / CI `slither` job (see TASKS.md for current status).
+- **Slither Static Analysis** - `npm run security:slither` / CI `slither` job analyzes `contracts/` with solc 0.8.28 (47 contracts, 21 findings baseline on 2026-09-24) and fails if it ever analyzes 0 contracts; High-finding gate tracked in TASKS.md.
 
 ## Security
 

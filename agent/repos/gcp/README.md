@@ -1,5 +1,7 @@
 # gcp
 
+> 🧭 **gcp** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 <!-- Status -->
 [![Linting](https://github.com/nitsuah/gcp/actions/workflows/pylint.yml/badge.svg)](https://github.com/nitsuah/gcp/actions)
 <!-- CI is TBD [![CI](https://github.com/nitsuah/gcp/actions/workflows/pylint.yml/badge.svg)](https://github.com/nitsuah/gcp/actions) -->
@@ -197,3 +199,17 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [GCP Google Drive API Script Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [GCP Google Drive Tools Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+<!-- docs-index:end -->

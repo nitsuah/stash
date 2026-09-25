@@ -1,5 +1,7 @@
 # 🌾 Farm RTS: Complete Game Manual & North Star Plan
 
+> 🧭 [farm-3j](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+>
 > _A browser-based isometric real-time strategy game with a farm theme — inspired by Warcraft 3 and StarCraft_
 
 ---

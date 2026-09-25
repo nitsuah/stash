@@ -1,7 +1,6 @@
 # Jim Sanborn — notes and research pointers
 
-Breadcrumb: Home > Docs > Sources > Sanborn
-
+> 🧭 [kryptos](../../README.md) · [Index](../INDEX.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
 This note collects what is publicly known or widely reported about Jim Sanborn (the sculptor who created the Kryptos
 piece), the kinds of clues he has given publicly, and pragmatic next steps for researching artist-level hints that might
@@ -65,6 +64,12 @@ dates or times, enumerate small key-stream families derived from time encodings 
 lamp patterns) and sweep them with the Berlin-clock stage in a small budget run. 5. Cross-check artist themes against
 the sculpture text: if an interview emphasizes a theme (e.g., geography, time, espionage jargon), prioritize scoring
 features sensitive to those themes (wordlist filters, domain-specific vocabularies).
+
+## Known primary-source events (dated)
+
+- **2025-09-02 — Sanborn's 1990 archival working papers found at the Smithsonian.** Researchers Jarett Kobek and Richard Byrne located sentence strips Sanborn had cut up and taped out of order for CIA verification, in the Smithsonian's Archives of American Art, and recovered what they believe is K4's complete plaintext by cross-referencing against Sanborn's public clues. Both are explicit this is **not a cryptographic solve** ("There's no way on earth that this is a cryptographic solve, and we have not claimed that" — Kobek). Primary sources: [RR Auction's official lot record](https://www.rrauction.com/auctions/lot-detail/350761607302001-the-complete-secrets-of-kryptos-jim-sanborns-private-archive/), [RR Auction's own account of the discovery](https://content.rrauction.com/kryptos-k4-discovered-not-solved-heres-what-actually-happened/). Secondary reporting: [Scientific American](https://www.scientificamerican.com/article/how-the-cias-kryptos-sculpture-gave-up-its-final-secret/), [Washington Post](https://www.washingtonpost.com/entertainment/art/2025/11/01/kryptos-code-jim-sanborn-k5-auction/), [Seattle Times](https://www.seattletimes.com/entertainment/a-cia-secret-kept-for-35-years-is-found-in-the-smithsonians-vault/).
+- **2025-11-20 — Sanborn's complete archive auctioned by RR Auction** ("Decoding History: Kryptos K4 & K5, Enigma, and the Rosetta Stone"), sold for $962,500 to Paradigm (a crypto firm), including the K4 plaintext materials above and a previously-unpublished **K5** — a genuine second 97-character message, confirmed by Sanborn to be released once K4 is *cryptographically* solved. Primary source: [RR Auction's post-auction results](https://content.rrauction.com/jim-sanborns-complete-kryptos-archive-sells-for-962500-at-auction/).
+- **Status label for both of the above:** treat as **reported and corroborated by primary auction/institutional records**, not as this repo's own verified finding — this repo did not independently confirm the archival documents, only cross-checked the resulting plaintext claim's positional alignment against K4's own confirmed cribs (see `docs/analysis/K4_ACTIVE_RESEARCH.md`'s "External Developments" section and `kryptos.k4.validation.benchmark_external_candidate`).
 
 ## Safety and provenance notes
 

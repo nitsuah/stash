@@ -1,5 +1,7 @@
 # Image Optimization Flow
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 Visual guide showing how WebP optimization works in the system.
 
 ---

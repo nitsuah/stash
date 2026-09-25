@@ -1,5 +1,7 @@
 # games feedback
 
+> 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Arcade main
 
 - the arcade "pink" top section is too low on mobile (might be top padding) so it overlaps too far into the play section of the main screen.

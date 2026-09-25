@@ -1,5 +1,7 @@
 # WebP Optimization - Implementation Summary
 
+> 🧭 [skyview](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../../METRICS.md) <!-- nav -->
+
 ## ✅ What Was Done
 
 ### 1. Automatic WebP Support in Gallery

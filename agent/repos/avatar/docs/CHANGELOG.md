@@ -1,5 +1,7 @@
 # Changelog
 
+> 🧭 [avatar](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -19,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded the vague "User feedback integration" roadmap item into a proper scoping note with open questions, rather than guessing at an implementation.
 - Bumped `actions/checkout` from v6 to v7 in CI (#17).
 - Bumped `actions/setup-python` from v6 to v7 in CI (#18).
+- Dependency bumps: numpy 2.5.3 (#23), pandas 3.0.6 (#26), matplotlib 3.11.2 (#27).
+- README "Copy Colab file" link now opens this repo's own notebook instead of the archived buildspace `diffusers` fork.
+- Planning docs reset for 2027 (`pmo-ff`): completed roadmap items condensed into FEATURES, open 2026 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
 
 ### Fixed
 

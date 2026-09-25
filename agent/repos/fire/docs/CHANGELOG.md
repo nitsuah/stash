@@ -1,11 +1,38 @@
 # Changelog
 
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### 2026-09 — eBay notification signature verification (PR #123)
+
+#### Security
+- **Marketplace Account Deletion notifications are now signature-verified** (CWE-345). `POST /api/sync/ebay/marketplace-account-deletion` checks eBay's `X-EBAY-SIGNATURE` (ECDSA, public key per `kid` fetched from the Notification API and cached) over the raw request body, falling back to `JSON.stringify(body)` as eBay's SDKs do, before purging tokens or disabling sync. Unsigned, tampered or unknown-`kid` notifications get `412`; key-lookup failures or missing `EBAY_CLIENT_ID`/`EBAY_CLIENT_SECRET` get `503` so eBay retries. Previously the endpoint trusted only the secret URL + verification token.
+
+### 2026-09 — Coverage gate + docs reset
+
+#### Fixed
+- Branch coverage restored above the 70% threshold (74.85%, 484 tests via `tests/unit/finance-calcs-branches.test.mjs`) and CI now runs `npm run test:coverage`, so the threshold is actually enforced (#118, #119).
+- Docker `test` image can write coverage output (`chown node:node /app`) (#119).
+
+#### Changed
+- Netlify deploy-status badge in README (#117); generated `coverage_summary.txt` untracked (#121); vitest / coverage-v8 5.0.1, prettier 3.9.8 (#114–#116).
+- Planning docs reset for 2027 (`pmo-ff`): completed roadmap/TASKS items condensed into FEATURES/CHANGELOG, open 2026 Q4 items carried into 2027 Q1, relative doc links fixed, breadcrumb navigation + README docs index added.
+
+### 2026-09 — Side gig tax tagging
+
+#### Added
+- **Tax tags on Side Gig Ledger sales** (`app/lib/side-gig-tax.js`): tag each sale as business/resale, personal, gift or free ($0 basis) with an optional item cost. The ledger shows an estimated-taxable summary, flags untagged sales and personal/gift sales missing a cost, and treats personal losses as non-taxable and non-deductible.
+- **MCP tool `get_side_gig_tax_summary`** (read-only, optional `year`).
+
+#### Fixed
+- `get_side_gig_income` grouped every entry under "Other" with $0 gross because it read legacy `platform`/`gross` fields; it now reads `category`/`revenue`.
+- The eBay calculator no longer folds item cost into Fees/Expenses; it is stored as `costBasis` (net is unchanged).
 
 ### 2026-09 — Product / UI + Reliability pass (PR #111)
 
@@ -126,7 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial calculations for net worth and basic FIRE progress indicators.
 - Basic data persistence layer (file-based db.json).
 
-## [0.1.0] - YYYY-MM-DD
+## [0.1.0] - 2026-06-03
 
 ### Added
 

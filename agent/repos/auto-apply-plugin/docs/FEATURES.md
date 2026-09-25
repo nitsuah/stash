@@ -1,5 +1,7 @@
 # Features
 
+> 🧭 [auto-apply-plugin](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Core capabilities are grouped below by category.
 
 ### 🧠 Candidate Profile Intelligence
@@ -81,8 +83,17 @@ Aggregate stats computed entirely from local tracker data, with no new API calls
 - **AI Interview Question Generation**: Generates tailored interview questions based on the job description and your profile, with suggested answer structures.
 - **Answer Editing and Saving**: Allows you to draft and save your answers to generated questions locally.
 
+### 🗂️ Job Tracker Workspace
+
+Turns saved applications into a reviewable job workspace rather than a flat list.
+
+- **Job Workspace View**: Stores JD metadata, location, employment type, and structured pay bands per job, with search/filter controls and a wide scrolling popup layout
+- **Verdicts & Scorecards**: Per-job verdict controls and scorecard fields, plus job-fit scoring and verdict assistance
+- **Picker-Style JD Capture**: Capture job details from the current page or from pasted JD text straight into the tracker
+
 ### ♿ Accessibility Enhancements
 
+- **axe Accessibility Audit**: `@axe-core/playwright` checks over popup navigation, labels, and contrast
 - **WCAG AA Contrast Audit**: Automated checks for color contrast compliance to WCAG AA standards.
 - **Improved Keyboard Navigation**: Enhanced focus management and keyboard shortcuts for better accessibility.
 - **Accessible Form Elements**: Programmatic labels and aria attributes for form fields to improve screen reader compatibility.
@@ -90,6 +101,8 @@ Aggregate stats computed entirely from local tracker data, with no new API calls
 ### 🖼️ UI/UX Enhancements
 
 - **Responsive Tracker View**: Tracker view now adapts to narrower viewports, allowing it to shrink gracefully.
+- **Collapsible Header Nav**: Header nav reorders to Search → Pipeline → Interview Prep → Settings → Profile → Help/Privacy, collapsing to a hamburger menu with the 3 primary buttons below a 700px breakpoint
+- **Auto-Collapsing Settings Cards**: Settings cards collapse into a "✅ Configured" summary once saved and reopen on click to edit; Pipeline stage columns and Help/Privacy sections default collapsed when empty
 - **Chrome Mock for E2E Tests**: Consolidated and reusable Chrome mock setup for consistent e2e testing.
 - **Dynamic CSS Variable Mapping**: Custom CSS property values are now derived directly from `popup.css` for up-to-date contrast checks.
 

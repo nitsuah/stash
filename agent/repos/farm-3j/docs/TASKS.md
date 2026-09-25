@@ -1,12 +1,14 @@
 # TASKS
 
-Last Updated: 2026-09-23
+> 🧭 [farm-3j](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Last Updated: 2026-09-24
 
 _Shipped work (all iter1-109+ RTS feature history) is condensed into
 `docs/FEATURES.md`'s "Shipped" section and the root `CHANGELOG.md` — see those
 files rather than a duplicated narrative here._
 
-## Farm RTS — Round 2 (2026 Q3)
+## Farm RTS — Round 2 (2027 Q1)
 
 ### Technical Cleanup
 
@@ -16,6 +18,7 @@ files rather than a duplicated narrative here._
 
 ### Gameplay Features
 
+- [ ] Save-slot picker UI on the New Game screen (3 cloud-backed slots already shipped)
 - [ ] Named unit formations — move selected group in line/wedge/box formation
 - [ ] Enemy hero unit — Warlord (wave 20+, unique abilities, drops loot)
 - [ ] Dropped hero items — equippable pickups from slain elite enemies (Speed Boots, War Banner, Healing Totem)
@@ -30,15 +33,6 @@ files rather than a duplicated narrative here._
 - [ ] Ensure farmers always render in front of barn and remain selectable when barn is clicked
 - [ ] Implement grazing logic and food meter for animal units
 - [ ] Add buttons to train animal units from Barn
-
----
-
-## Farm RTS MVP (2026 Q2–Q3)
-
-- [ ] Complete all MVP milestones as defined in docs/Farm_RTS_Game_Manual.md
-  - Progress: all core systems (map/camera, resource, worker, building, win/lose) are shipped — see `docs/FEATURES.md`. The superseded milestone checklist was archived to `docs/archive/FARM-RTS-TODO.md` since it no longer reflected reality.
-  - Priority: P0
-  - Acceptance Criteria: All core gameplay systems (map, camera, resource, worker, building, win/lose) are playable and validated in Docker.
 
 ## Legacy Tycoon Tasks (on hold)
 

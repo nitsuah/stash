@@ -1,5 +1,7 @@
 # Client Portal Documentation
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 ## Overview
 
 The Skyview Client Portal provides a secure, professional way for clients to access and download their completed project files. This system includes:

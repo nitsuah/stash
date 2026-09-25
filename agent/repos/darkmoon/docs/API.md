@@ -1,5 +1,7 @@
 # Darkmoon API Reference
 
+> 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## HTTP Endpoints
 
 ### `GET /health`
@@ -96,7 +98,7 @@ but not yet driven by a shipped client experience.
 ## Logging
 
 All server output is newline-delimited JSON with `timestamp`, `level`, and a
-stable `event` key. See `docs/MULTIPLAYER_GATE.md` for the event catalogue.
+stable `event` key. See `docs/projects/multi/MULTIPLAYER_GATE.md` for the event catalogue.
 
 ## Deployment Contracts
 

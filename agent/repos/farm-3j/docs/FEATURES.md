@@ -1,4 +1,6 @@
-# FEATURES.md
+# Features
+
+> 🧭 [farm-3j](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 ## Shipped
 
@@ -134,12 +136,14 @@
 - **Farm RTS: Queued Waypoint Path Visualization** — When workers have queued shift+right-click move orders, a green dashed path with numbered circle markers renders on the map from the worker to each queued waypoint; last waypoint has a larger ring; intermediate waypoints are numbered 1,2,3…; mirrors WC3/SC2 shift-queue visualization so players can plan and verify complex unit routes.
 - **Farm RTS: Hero Level 3 — Earthquake** — Barnabas gains a third ability at level 3 (280 XP cumulative): 🌋 Earthquake deals 45 damage to all enemy units (grunts, shamans, trolls, siege, warchiefs) within a 5-tile radius and stuns grunts for 2.5 seconds via frozenUntil; hotkey [E]; 45s cooldown; expanding amber/red double ellipse shockwave visual effect; locked placeholder shown until level 3; XP level bar updated to show progress toward level 3 (☆☆☆ → ⭐⭐⭐ progression); WC3-style high-level hero nuke rewarding investing in the hero unit.
 - **Farm RTS: Building Construction Time** — All placed buildings take 6s to construct; shown as scaffold SVG (wooden frame, cross-poles, planks, faint icon, progress bar); buildings are invulnerable and non-functional while constructing; foodCapBonus applied on completion not placement; "✅ Built!" float on complete; multiple workers can assist (each adds 40% speed); right-click scaffold with no units selected cancels with 50% resource refund; WC3/AoE2-style construction time adding strategic depth to base-building timing.
+- **Farm RTS: Cloud Saves & Save Slots** — anonymous device UUID + Neon Postgres backend with hybrid persistence (synchronous localStorage for the game loop, fire-and-forget cloud writes); 3 save slots (0/1/2); `/api/saves` and `/api/highscores` edge routes.
+- **Farm RTS: Modular Game Loop** — `useGameLoop.tsx` decomposed into domain hooks (`useEnemyAI`, `useResourceTick`, `useCombatResolution`, `usePathfinding`, `useBotController` + `hooks/ai/` tick modules) orchestrated in one `requestAnimationFrame` (Phase 2a, PR #295); `RTSMap.tsx` renders through `MapRenderer` (Phase 2b, 2026-09-02).
+- **PG Farms Site Surface** — site branded "PG Farms"; `/rtsfarm` feature landing page (mechanics, unit/enemy rosters, buildings) with the game at `/rtsfarm/play`; `/privacy` data-policy page.
 
 ## Planned
 
 ### Farm RTS Game
 
-- **Componentize Large Files Phase 2** — Migrate game logic from `useGameLoop.tsx` into domain hooks (`useEnemyAI`, `useResourceTick`, `useCombatResolution`, `usePathfinding`) and wire `RTSMap.tsx` through `MapRenderer` + `mapSelectors`
 - **Named Unit Formations** — Move a selected group in line, wedge, or box formation
 - **Enemy Hero Unit (Warlord)** — Spawns wave 20+; unique abilities; drops rare item
 - **Dropped Hero Items** — Equippable pickups from slain elite enemies (Speed Boots, War Banner, Healing Totem)

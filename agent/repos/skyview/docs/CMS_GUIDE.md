@@ -1,5 +1,7 @@
 # CMS Editing Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 **Last Updated:** 2026-08-22
 
 SkyView uses [Decap CMS](https://decapcms.org/) (formerly Netlify CMS) with a Git Gateway backend. Content changes made in the CMS editor result in commits to the `main` branch, which triggers an automatic Netlify deploy.

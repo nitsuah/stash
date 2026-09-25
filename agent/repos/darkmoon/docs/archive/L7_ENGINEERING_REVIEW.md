@@ -1,5 +1,7 @@
 # L7 Engineering Review - Darkmoon
 
+> 🧭 [darkmoon](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 **Date:** November 23, 2025  
 **Reviewer:** L7 Engineering Analysis  
 **Repository:** github.com/nitsuah/darkmoon
@@ -650,6 +652,7 @@ Darkmoon has a **solid foundation** but needs **systematic refactoring** to scal
 **Next Steps:** See `ROADMAP.md` for prioritized implementation plan.
 
 ## Related
+
 - [[repos/darkmoon/docs/archive/ARCHITECTURE_IMPROVEMENTS|Architecture Improvements]] — actionable improvements derived from this review
 - [[repos/darkmoon/docs/ARCHITECTURE|Architecture]] — current active architecture document
 - [[repos/darkmoon|darkmoon runbook]] — repo context

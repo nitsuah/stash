@@ -1,5 +1,7 @@
 # Image Optimization Guide - WebP Format
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 ## Why WebP?
 
 WebP images are 25-35% smaller than JPEG/PNG while maintaining the same quality. This means:

@@ -1,5 +1,7 @@
 # avatar
 
+> 🧭 **avatar** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/avatar/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/avatar/actions)
 
 Uses Google Colab & Jupyter notebook to create a personalized AI avatar by fine-tuning Stable Diffusion v1-5 with DreamBooth on a small set of user-provided photos. The trained model produces new images of the subject in arbitrary styles and settings.
@@ -41,7 +43,7 @@ pip install -r config/requirements.txt
 
 - **GPU required** for DreamBooth training. Google Colab may provide a free GPU runtime; GPU type and quota vary — use the Colab link below.
 - 4-5 GB of free space on Google Drive
-- [Copy Colab file to your Google Drive](https://colab.research.google.com/github/buildspace/diffusers/blob/main/examples/dreambooth/DreamBooth_Stable_Diffusion.ipynb?utm_source=buildspace.so&utm_medium=buildspace_project#scrollTo=XU7NuMAA2drw)
+- [Copy Colab file to your Google Drive](https://colab.research.google.com/github/nitsuah/avatar/blob/main/notebooks/DreamBooth_Stable_Diffusion.ipynb)
 - [Register or Login at HuggingFace.co](https://huggingface.co/login)
 - A HuggingFace account is only needed for uploads or gated models; `runwayml/stable-diffusion-v1-5` is public and ungated
 
@@ -83,3 +85,17 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+<!-- docs-index:end -->

@@ -1,8 +1,10 @@
-# Apply Workspace — Terms, Privacy & Security
+# ats-fill — Terms, Privacy & Security
 
-**Document version:** 1.1
-**Last updated:** September 2, 2026
-**Applies to:** the Apply Workspace browser extension ("the extension") in this repository.
+> 🧭 [auto-apply-plugin](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+**Document version:** 1.2
+**Last updated:** September 23, 2026
+**Applies to:** the ats-fill browser extension ("the extension") in this repository.
 
 This is the canonical, public statement of the extension's Terms of Use (EULA),
 Privacy Policy, Security posture, and your data rights. The same content is
@@ -14,7 +16,7 @@ authoritative for the corresponding release.
 ## Summary (TL;DR)
 
 - **Local-first.** Your data lives in your browser's local extension storage on
-  your device. There is no Apply Workspace account, server, or backend.
+  your device. There is no ats-fill account, server, or backend.
 - **We never receive your data.** We have no way to see, collect, store, or sell
   it — there is nothing to send to us.
 - **Review-first.** The extension drafts and fills fields. It never submits an
@@ -48,14 +50,14 @@ By accepting consent in the extension, you agree to the following:
 5. **Acceptable use.** Do not use the extension to submit fraudulent or
    misleading applications, or to violate the terms of any job board or ATS.
 6. **Open source.** The extension is distributed under the license in this
-   repository ([`LICENSE`](LICENSE)); that license governs the software itself.
+   repository ([`LICENSE`](../LICENSE)); that license governs the software itself.
 
 ---
 
 ## Privacy Policy
 
 ### We run no servers
-There is no Apply Workspace account and no backend. Your data is never
+There is no ats-fill account and no backend. Your data is never
 transmitted to us, and we have no infrastructure capable of receiving it.
 
 ### What is stored, and where
@@ -116,7 +118,7 @@ any kind.
   browser's own permission prompt) scoped to just that source's domain,
   instead of requesting broad access to all sites up front.
 - **No remote code:** the extension does not load or execute remote code.
-- **Reporting:** see [`SECURITY.md`](SECURITY.md) for how to report a
+- **Reporting:** see [`SECURITY.md`](https://github.com/nitsuah/.github/blob/main/SECURITY.md) for how to report a
   vulnerability.
 
 ---
@@ -162,4 +164,4 @@ constitutes acceptance of the revised terms.
 ## Contact
 
 This is an open-source, local-first project. Questions and reports go through the
-repository's issue tracker / the process described in [`SECURITY.md`](SECURITY.md).
+repository's issue tracker / the process described in [`SECURITY.md`](https://github.com/nitsuah/.github/blob/main/SECURITY.md).

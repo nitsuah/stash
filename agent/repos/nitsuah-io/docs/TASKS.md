@@ -1,8 +1,10 @@
 # TASKS
 
-**Last Updated:** 2026-09-01
+> 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-> **Status check (2026-09-01):** verified against the current codebase — none of the items below have shipped since the last update. See `docs/ROADMAP.md` for the quarter-level status note.
+**Last Updated:** 2026-09-24
+
+> **Status check (2026-09-24):** none of the open items below shipped in 2026; all are carried into `docs/ROADMAP.md` 2027 Q1 for planning. Completed items were condensed into `docs/FEATURES.md` / `docs/CHANGELOG.md`.
 
 ## Todo
 
@@ -20,11 +22,9 @@
   - Context: several project and crypto entries still reuse the same placeholder images.
   - Acceptance Criteria: each featured project and crypto item has distinct representative media.
 
-- [x] Migrate labs contracts from Mumbai to Amoy testnet. (chain-config/UI done; contract redeployment still manual — see note below)
-  - Context: Mumbai is deprecated; labs contract flows need an updated chain target.
-  - Acceptance Criteria: `src/wagmi.ts` and all labs pages reference Amoy; zero Mumbai references remain.
-  - Done: `src/wagmi.ts` now uses wagmi's built-in `polygonAmoy` chain preset (custom Mumbai `defineChain` removed); all chain-id checks (80001 -> 80002), explorer links (mumbai.polygonscan.com -> amoy.polygonscan.com), the OpenSea testnet slug, user-facing "Switch to Mumbai" copy, and the network icon asset were updated across `src/app/labs/**` and `src/app/_components/_labs/**`. Zero `mumbai`/80001 references remain in `src/`.
-  - **Manual follow-up required (not done here, needs a funded wallet):** the Register and Domains labs contracts (`0x94b40dDa4ACfDe42c7B334A60f25a0f86CE163d8` and `0xBbDF8C47BC3FF87aaC2396493C3F98a89C399163`) were only ever deployed to Mumbai, which is now fully shut down. The UI/chain-config points at Amoy, but there is no contract at those addresses on Amoy yet. Someone with a funded Amoy testnet wallet needs to redeploy both contracts to Amoy and update `CONTRACT_ADDRESS` in `RegisterContentProduction.tsx` and `DomainsContentProduction.tsx` to the new addresses before these labs pages will actually work on-chain.
+- [ ] Redeploy the Register and Domains labs contracts to Amoy.
+  - Context: #519 migrated `src/wagmi.ts`, chain-id checks, explorer links and copy from Mumbai to Amoy, but the contracts (`0x94b40dDa4ACfDe42c7B334A60f25a0f86CE163d8`, `0xBbDF8C47BC3FF87aaC2396493C3F98a89C399163`) were only ever deployed to Mumbai, which is shut down — so the labs pages point at addresses with no contract on Amoy. Needs a funded Amoy wallet (a human step); `Nitsuah-Labs/deployer`'s `deploy/deploy.ts` deploys `RegisterPortal`/`Domains` and is the natural tool.
+  - Acceptance Criteria: both contracts deployed to Amoy; `CONTRACT_ADDRESS` updated in `RegisterContentProduction.tsx` and `DomainsContentProduction.tsx`; labs Register/Domains flows work on-chain.
 
 - [ ] Add AI chat widget via bb-mcp.
   - Context: bb-mcp repo provides the MCP-compatible AI chat backend; surfacing it here gives portfolio visitors an interactive Q&A about the work.
@@ -71,9 +71,9 @@
   - Context: EAS (Ethereum Attestation Service) on Base allows on-chain skill and experience attestations tied to a wallet address.
   - Acceptance Criteria: a `/resume/onchain` route renders attestations from a configured wallet; falls back gracefully when no attestations found.
 
-- [ ] motor-pool showcase section.
-  - Context: motor-pool orchestrates autonomous coding agents; showing its activity log on the portfolio is a meta-demonstration of the stack.
-  - Acceptance Criteria: a `/lab/agents` page embeds a read-only agent activity feed from motor-pool; updates are near-real-time via polling or SSE.
+- [ ] agent-board (formerly motor-pool) showcase section.
+  - Context: agent-board orchestrates autonomous coding agents; showing its activity log on the portfolio is a meta-demonstration of the stack.
+  - Acceptance Criteria: a `/lab/agents` page embeds a read-only agent activity feed from agent-board; updates are near-real-time via polling or SSE.
 
 - [ ] PWA manifest and offline support.
   - Context: portfolio is frequently shared on mobile; PWA install prompt improves retention.
@@ -91,13 +91,12 @@
 
 ## Done
 
-- [x] Refresh `METRICS.md` and add a validation marker. (2026-09-01)
-  - Re-ran the full test suite in Docker: Jest via `config/Dockerfile.unit` (214/214 passing, 97.21% stmt coverage) and Playwright via `config/docker-compose.test.yml` with `FORCE_BROWSER_E2E=1` (11/20 passing, 9 intentionally skipped wallet tests). Found and fixed a real bug along the way: the Docker Playwright command was missing `--config config/playwright.config.ts`, causing it to scan and crash on Jest test files.
+_Completed items are condensed into `docs/FEATURES.md` (capabilities) and `docs/CHANGELOG.md` (history) rather than kept here._
 
 <!-- AGENT INSTRUCTIONS:
 1. Keep work in P0-P3 sections.
 2. Preserve short, scannable checklist entries with Context and Acceptance Criteria.
 3. Keep detailed visual-asset inventory in `docs/archive/SCREENSHOTS.md`.
 4. Cross-repo integration tasks should reference the source repo by name (e.g., bb-mcp, kryptos).
-5. Move completed items to Done when CI confirms the feature ships.
+5. When an item ships, remove it and condense it into FEATURES.md / CHANGELOG.md.
 -->

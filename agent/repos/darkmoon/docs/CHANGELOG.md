@@ -1,5 +1,7 @@
 # Changelog
 
+> 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -9,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Multiplayer readiness gate** (PR #418) — `server/logger.js` (structured JSON logging), `server/cors.js` (shared HTTP/WebSocket origin allowlist), `server/health.js`, `server/port.js`, and `server/tagAuthorization.js`; SIGTERM graceful shutdown; 96 new server tests. See `docs/MULTIPLAYER_GATE.md`.
+- **Multiplayer readiness gate** (PR #418) — `server/logger.js` (structured JSON logging), `server/cors.js` (shared HTTP/WebSocket origin allowlist), `server/health.js`, `server/port.js`, and `server/tagAuthorization.js`; SIGTERM graceful shutdown; 96 new server tests. See `docs/projects/multi/MULTIPLAYER_GATE.md`.
 - **Mobile controls overhaul** (PR #417) — reworked touch joystick, aim assist, and responsive HUD; mobile input verified functional via browser emulation.
 - **Dependabot grouping** — `minor`/`patch` npm updates and GitHub Actions updates now group into single PRs instead of one-per-dependency.
 
@@ -25,11 +27,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Rocket/grenade splash damage missing in Tag mode** — `TagMode` didn't apply `splashRadius`/`splashDamage` to bystanders the way `DeathmatchMode`/`CTFMode` do, and even after adding it, splash was skipped whenever the direct hit came from the IT player (the tag-transfer branch returned before splash ran). Both paths now apply splash.
 - **Mobile joystick camera inversion** — the touch camera joystick's vertical axis used `+=` while both mouse-look paths use `-=` for the same screen-space delta convention, inverting vertical look for touch users relative to desktop.
 - **Desktop jetpack double-jump missing** — a second SPACE press while airborne now activates the jetpack (rising-edge detection with a 600ms window), mirroring the existing mobile double-tap flow.
+- **Shooting-gallery bot forced misses** now actually clear the hitbox (#457).
 - **Home page bottom cards clipped on desktop** — an unconditional `.App { overflow: hidden }` rule outranked the mobile-only scroll fix at equal specificity, clipping content on any viewport once it exceeded one screen's height. `.App` now scrolls vertically.
+
+### Security
+
+- Patched transitive `js-yaml` to 4.3.2 for CVE-2026-84375 (#451).
+
+### Changed
+
+- Test coverage raised from ~74% to ~96% lines (#456).
+- Dependency bumps: vitest 5.0 (#441) and grouped minor/patch updates (#444, #450, #453).
+- `CHANGELOG.md` and `FEATURES.md` moved into `docs/` (#460); multiplayer planning docs live under `docs/projects/multi/`.
 
 ### Docs
 
-- Documentation audit passes (PRs #409, #419, #420): refreshed METRICS.md coverage/test figures, corrected README test-count staleness, archived the superseded `docs/ROADMAP_DETAILED.md`, and updated `docs/TECH_DEBT.md` to reflect the completed mobile-controls and `PlayerCharacter.tsx` refactor items.
+- Planning docs reset for 2027 (`pmo-ff`): completed roadmap items condensed into FEATURES/CHANGELOG, all open 2026 items carried into 2027 Q1, stale `docs/MULTIPLAYER_*` paths fixed, breadcrumb navigation + README docs index added.
+- Documentation audit passes (PRs #409, #419, #420): refreshed METRICS.md coverage/test figures, corrected README test-count staleness, archived the superseded `docs/ROADMAP_DETAILED.md`, and updated `docs/projects/conkers/TECH_DEBT.md` to reflect the completed mobile-controls and `PlayerCharacter.tsx` refactor items.
 
 ## [1.1.0] - 2026-08-08
 

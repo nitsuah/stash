@@ -1,6 +1,8 @@
 
 # Nitsuah.io — Personal Portfolio
 
+> 🧭 **nitsuah-io** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 ---
 **Last Updated:** 2026-09-01
 ---
@@ -62,7 +64,7 @@ Collection of practical IT automation and enterprise tools
 
 ## What’s New
 
-- See [CHANGELOG.md](CHANGELOG.md) for recent updates and version history
+- See [CHANGELOG.md](./docs/CHANGELOG.md) for recent updates and version history
 
 ## User Feedback & Testimonials
 
@@ -250,3 +252,28 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Project Architecture](./docs/ARCH.md) — `docs/ARCH.md`
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Integrations](./docs/INTEGRATIONS.md) — `docs/INTEGRATIONS.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [ROADMAP](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [TASKS](./docs/TASKS.md) — `docs/TASKS.md`
+- [Testing Guide](./docs/TESTING.md) — `docs/TESTING.md`
+
+**`docs/archive/`**
+
+- [Demo Component Quick Reference](./docs/archive/DEMO_REF.md) — `docs/archive/DEMO_REF.md`
+- [HANDOFF-home-landing-redesign-20260411](./docs/archive/HANDOFF-home-landing-redesign-20260411.md) — `docs/archive/HANDOFF-home-landing-redesign-20260411.md`
+- [Delivery Pipeline Handoff](./docs/archive/HANDOFF-spline-move-3d-20260403.md) — `docs/archive/HANDOFF-spline-move-3d-20260403.md`
+- [Playwright Stability Notes](./docs/archive/PLAYWRIGHT_FIXES.md) — `docs/archive/PLAYWRIGHT_FIXES.md`
+- [Screenshot Requirements](./docs/archive/SCREENSHOTS.md) — `docs/archive/SCREENSHOTS.md`
+
+<!-- docs-index:end -->

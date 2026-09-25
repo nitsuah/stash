@@ -1,5 +1,7 @@
 # VHS Scanner — System Flow Diagrams
 
+> 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Diagram 1 — Capture Types & Staging States
 
 ```mermaid

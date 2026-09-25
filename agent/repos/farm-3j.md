@@ -24,12 +24,7 @@
 
 ## Open P0/P1 Tasks
 
-- [ ] **P0** Complete all Farm RTS MVP milestones per `docs/Farm_RTS_Game_Manual.md`/`docs/FARM-RTS-TODO.md` — in practice the core loop has since shipped (per ROADMAP.md's Q2–Q3 "feature-complete" status); TASKS.md still lists this item open with 3 genuinely unfinished sub-todos:
-  - [ ] Implement grazing logic and food meter
-  - [ ] Ensure farmers render in front of barn and are always selectable
-  - [ ] Add buttons to train animal units from the Barn
-
-No other P0/P1-tagged items are open in TASKS.md — the Round 2 technical/gameplay/polish items above and the Q4 product-surface work are untagged backlog, not P0/P1.
+None open (updated 2026-09-25). The old P0 "Complete all Farm RTS MVP milestones" is gone from `docs/TASKS.md` after the 2027 Q1 planning reset. Its unfinished sub-todos now sit, untagged, under "Farm RTS — Round 2 (2027 Q1)": for example "Add buttons to train animal units from Barn", core-helper unit tests (`tileDist`, `tileToSvg`, A* pathfinding) and campaign mode Phase 1.
 
 ## Blockers
 

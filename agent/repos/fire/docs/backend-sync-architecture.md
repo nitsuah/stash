@@ -1,4 +1,7 @@
-?# Backend Sync Architecture
+
+# Backend Sync Architecture
+
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 > **Last updated:** 2026-08-12  
 > **See also:** [docs/integrations.md](integrations.md), [docs/prod-plan.md](prod-plan.md), [docs/security-hardening.md](security-hardening.md)

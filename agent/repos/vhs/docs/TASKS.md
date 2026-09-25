@@ -1,8 +1,13 @@
 # Tasks
 
-Last Updated: 2026-09-23
+> 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Last Updated: 2026-09-24
 
 ## Todo
+
+- [ ] **Review `scripts/audit-metadata.js` dry-run output against the real collection before any `--apply`** — PR #55 added the tool (dry-run by default, OMDb comparison, high-confidence-only corrections) but its own test plan left this unchecked: `--apply` was only ever dry-run against local test data because no `OMDB_API_KEY` was configured. Acceptance: a dry run over the ~500-title collection is reviewed by a human, then `--apply` is run (or specific corrections rejected with reasons).
+- [ ] **Finish PR #55's remaining priorities** — P6 (mobile Easter eggs) and P7 (polish) were marked in progress on that branch when it merged; confirm what shipped and either close them out or re-scope.
 
 ## Ideas
 
@@ -16,21 +21,19 @@ Last Updated: 2026-09-23
 ### Tech Debt / Cleanup
 
 - [ ] **Delete orphaned `src/modules/routes/jobs.js` and `routes/lookup.js`** — confirmed unused: `server.js` implements `/api/jobs*` and `/api/lookup*` inline and never `require()`s either file (verified 2026-09-02: zero references anywhere in `src/` or `tests/`). Currently excluded from `jest.config.js` `collectCoverageFrom` with a comment rather than deleted, to keep the 2026-09 cleanup PR reviewable. Delete both files in a follow-up, or wire `server.js` to use them instead of the inline duplicates (bigger refactor, same net effect).
-- [x] **`/api/logs/stream` vs `/api/logs` mismatch** — fixed 2026-09-11: `public/js/ui.js` now opens `new EventSource('/api/logs')`, matching the server's single `app.get('/api/logs', ...)` route (`src/server.js`), which already branches on the `Accept: text/event-stream` header that `EventSource` sends automatically. The live log panel now receives real SSE events instead of silently hitting the SPA catch-all.
-- [x] **Mobile export menu wiring is dead** — fixed 2026-09-11: added the missing "Data" section to the `#hbr-drawer` markup in `public/index.html` (`btn-add-tape-mob`, `btn-fill-data-mob`, `btn-revalidate-mob`, `btn-import-mob`, `btn-export-mob`, and the `exp-dd-mob` sub-menu with `exp-json-mob`/`exp-csv-mob`/`exp-sell-mob`/`exp-drafts-mob`/`exp-print-mob`) so the already-written click-through handlers in `public/js/ui.js` and the already-written `#hbr-drawer .exp-dd` CSS have elements to bind to. Also added the two new `-mob` ids to the AI-availability visibility toggle in `public/js/ai.js` so Fill/Check hide together with their desktop counterparts, and added `exp-drafts-mob` to the `ui.js` forEach for full parity with the desktop dropdown.
 
 ## P1
 
-- [ ] **GPU performance optimization for AI scanning** — `config/docker-compose.yml` already has a `web-gpu` profile for pointing at a native GPU-accelerated Ollama (DirectML/CUDA) instead of the CPU container. Remaining work (model/prompt tuning, throughput benchmarking under real GPU load) needs actual GPU hardware to measure — deferred to **2027** (see `docs/ROADMAP.md`).
-- [ ] **Multi-tape detection** — detect and crop individual tapes from a single batch photo (OpenCV). Real computer-vision work, not tractable as part of a docs/hardening pass — deferred to **2027** (see `docs/ROADMAP.md`).
+- [ ] **GPU performance optimization for AI scanning** — `config/docker-compose.yml` already has a `web-gpu` profile for pointing at a native GPU-accelerated Ollama (DirectML/CUDA) instead of the CPU container. Remaining work (model/prompt tuning, throughput benchmarking under real GPU load) needs actual GPU hardware to measure — carried into **2027 Q1** (see `docs/ROADMAP.md`).
+- [ ] **Multi-tape detection** — detect and crop individual tapes from a single batch photo (OpenCV). Real computer-vision work, not tractable as part of a docs/hardening pass — carried into **2027 Q1** (see `docs/ROADMAP.md`).
 
 ## P2
 
-- [ ] **Auto-crop tape thumbnails** — per-tape crop from a batch photo (OpenCV/ImageMagick). Real computer-vision work — deferred to **2027** (see `docs/ROADMAP.md`).
+- [ ] **Auto-crop tape thumbnails** — per-tape crop from a batch photo (OpenCV/ImageMagick). Real computer-vision work — carried into **2027 Q1** (see `docs/ROADMAP.md`).
 
-## Done (2026-09-02 security/coverage/docs pass)
+## Done
 
-Condensed into `docs/ROADMAP.md` (phases/milestones), `docs/FEATURES.md` (shipped
+Condensed into `docs/FEATURES.md` (shipped
 capabilities), and `docs/CHANGELOG.md` (change-by-change history, including the
 later SSE-stream and mobile export-menu fixes from 2026-09-11) — see those
 files rather than a duplicated narrative here.

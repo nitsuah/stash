@@ -1,5 +1,7 @@
 # Darkmoon Architecture
 
+> 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Overview
 
 Darkmoon is a solo-first 3D browser game built with React 19, Three Fiber, Vite, Express, and Socket.io. The architecture supports both solo and future multiplayer modes.
@@ -34,7 +36,7 @@ Darkmoon is a solo-first 3D browser game built with React 19, Three Fiber, Vite,
 
 ## Multiplayer Readiness Gate
 
-`docs/MULTIPLAYER_GATE.md` defines the pass/fail bar the server must clear
+`docs/projects/multi/MULTIPLAYER_GATE.md` defines the pass/fail bar the server must clear
 before Multiplayer Tag can ship: deployment, CORS, logging, and observability,
 each with a runnable acceptance check.
 

@@ -1,6 +1,8 @@
 # Skyview Features
 
-**Last Validated:** 2026-09-02
+> 🧭 [skyview](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
+**Last Validated:** 2026-09-24
 
 ## Core Experiences
 
@@ -32,6 +34,12 @@
 - **Server-Side Token Validation** — `netlify/functions/api-portal.mjs` verifies access codes via HMAC-SHA256 (`netlify/functions/utils/portal.js`); `PORTAL_SALT` is a mandatory production secret with no fallback, and the endpoint fails closed (denies access) if it's unset
 - **Token Generator** — `scripts/portal-token.js` Node.js CLI produces signed `clientId.expiry_unix.hmac` codes with configurable TTL, sharing the same signing implementation as the verification endpoint
 
+## Marketplace Platform
+
+- **Two-Sided Marketplace** — Netlify Functions + Neon DB + Stripe Connect + React SPA at `/app` matching clients to drone operators; the marketing site's booking CTAs (hero → `/app/register`, "Find a drone operator" / "Post a job" / "List as an operator") point into it
+- **Native Operator Scheduling** — recurring weekly availability windows and blocked dates (migration `006_operator_availability.sql`); `checkOperatorAvailability()` enforces no overlaps at booking creation and confirmation, backed by a DB-level exclusion constraint; onboarding Availability step and a booking modal that proposes a date/time with a live availability hint
+- **Calendly Removed** — the Calendly widget, script, CSP entries, config and CSS were removed on 2026-09-19 in favor of native platform scheduling
+
 ## Security & Infrastructure
 
 - **Content Security Policy** — CSP + Permissions-Policy headers on all pages via `netlify.toml`
@@ -43,7 +51,7 @@
 
 ## Planned
 
-- **Client Delivery File Backend** — `client-gallery.html` still serves a client-side prototype file listing; the login gate (above) is server-verified, but re-verifying the code and serving a real signed file manifest is a separate P2 workstream (see TASKS.md)
-- **Marketplace Platform Activation (Calendly Cutover)** — the platform SPA and frontend swap logic are shipped; production activation (DB migration, Stripe/Resend env vars, flipping `features.platform`) is an operational step, not a code change — see ROADMAP.md
-- **Multi-Segment Personalization** — expand campaign variants to cover service spotlight targeting (Q4 2026)
-- **Live A/B Experiments** — enable framework already shipped; wire to analytics and analyse results (Q4 2026)
+- **Per-Client Protected Delivery** — signed-token verification and a server-provided manifest with signed download links are shipped, but every verified session gets the same demo manifest pointing at publicly served `/assets/gallery` files; private per-client storage (Netlify Blobs/S3) is the remaining work (2027 Q1)
+- **Marketplace Production Go-Live** — the platform SPA, scheduling, and Calendly cutover are shipped; production activation (Neon migrations through 006, Stripe/Resend/JWT/`PORTAL_SALT` env vars, one live end-to-end pass) remains (2027 Q1)
+- **Multi-Segment Personalization** — expand campaign variants to cover service spotlight targeting (2027 Q1)
+- **Live A/B Experiments** — enable framework already shipped; wire to analytics and analyse results (2027 Q1)
