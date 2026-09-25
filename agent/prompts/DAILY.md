@@ -41,10 +41,10 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
    ```
    Skip to step 3 if there are none.
 2. For each candidate (each is at least a day old by definition):
-   - **Path check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`) or under `agent/repos/`. Match the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable:
+   - **Path check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`), one of the three generated indexes (`agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md`), or under `agent/repos/`. Match the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable:
      ```powershell
      $files   = @(gh pr view $pr --repo nitsuah/stash --json files --jq '.files[].path')
-     $outside = @($files | Where-Object { $_ -notmatch '^(agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|agent/repos/)' })
+     $outside = @($files | Where-Object { $_ -notmatch '^(agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|agent/(reports|projects|notes)/INDEX\.md$|agent/repos/)' })
      ```
      If `$outside` is non-empty, **don't merge**. Name the PR and the first outside path in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
@@ -57,7 +57,7 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
 
 ### 1. Repo doc sync (obn-repo)
 
-Run `agent/scripts/sync-repos.ps1 -Prune`. It mirrors every **committed** `.md` in each repo (`git ls-tree HEAD`, any depth, paths preserved) into `stash/agent/repos/<repo>/`, exporting content from git rather than copying the working tree. So untracked, staged, or locally modified files are never published into this public vault. (2026-09-25: the old working-tree copy leaked fire's uncommitted private `docs/weekly-checkin-prompt.md` and had to be deleted by hand.)
+Run `agent/scripts/sync-repos.ps1 -Prune`. It fetches each repo, then mirrors every `.md` on its **default branch on the remote** (`origin/HEAD`, any depth, paths preserved) into `stash/agent/repos/<repo>/`, exported from git. It never copies the working tree or the checked-out branch, so untracked, staged, locally modified, and unmerged-branch files are never published into this public vault. It skips `.github/` and a root `templates/` folder, which are repo config rather than knowledge. (2026-09-25: the old working-tree copy leaked fire's uncommitted private `docs/weekly-checkin-prompt.md` and had to be deleted by hand.)
 
 `-Prune` removes mirrored `.md` files that no longer exist upstream: old root-level duplicates from before a repo moved its docs into `docs/`, and docs since deleted or archived. The deletions land in the daily-note PR with the rest of `agent/repos/**`. The script has a per-repo cap (`-MaxPrune`, default 25): over it, it deletes **nothing** for that repo and prints `[prune-held]`. Copy any `[prune-held]` line into the daily note's `## Notes` for a human instead of raising the cap yourself. It usually means a repo moved or renamed its docs folder.
 
@@ -116,9 +116,10 @@ Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why t
 
 **The daily-note PR carries all of today's stash writes, not just the note** (added 2026-09-24). Steps 1–2 above plus Repo sync and Stale worktree cleanup below all write `agent/repos/**` into this vault. (They also append to `agent/logs/*.log`, but `*.log` is gitignored on purpose, so logs stay local and never go in the PR.) Before this rule the `agent/repos/**` writes were never committed. They piled up as 88+ uncommitted files on `main`, which made the Repo sync step skip `stash` as `SKIPPED_DIRTY` every day. Worse, every cloud routine clones `stash` from GitHub and reads `agent/repos/*.md`, so it was working from a snapshot several days stale while the local copies stayed current. So:
 - Create the `obn/daily-note-<date>` branch **from the working tree as-is**, so the uncommitted writes come along. Commit the note and `agent/repos/**` together in the first commit.
-- **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/` onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
+- **Regenerate the vault indexes** after today's note (and, on Mon/Sat, the weekly note) is written: `python agent/scripts/build-vault-indexes.py`. It rebuilds `agent/reports/INDEX.md`, `agent/projects/INDEX.md` and `agent/notes/INDEX.md`, and sets the prev/next/week nav line in every dated note, so new reports and notes are linked in the graph without anyone editing links. It's deterministic, so re-running it changes nothing when nothing is new.
+- **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/`, the dated notes, and the three `INDEX.md` files onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
 - Then `git checkout main`. Do not `git pull` yet: those files are now committed on the branch, so `main` should be clean. If `git status` on `main` still shows changes under `agent/repos/`, the sweep missed something. Name it in the log instead of ignoring it.
-- Only commit `agent/repos/**` and the dated note files (`agent/notes/<YYYY-MM-DD>.md`, `agent/notes/<YYYY>-W<ww>.md`). Never `git add agent/notes/` as a folder. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
+- Only commit `agent/repos/**`, the dated note files (`agent/notes/<YYYY-MM-DD>.md`, `agent/notes/<YYYY>-W<ww>.md`), and the generated `agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md`. Never `git add agent/notes/` as a folder. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
 
 ### 4. Weekly note chain (Monday and Saturday only)
 

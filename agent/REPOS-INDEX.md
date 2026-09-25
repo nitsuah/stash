@@ -31,7 +31,7 @@ Repo list comes from [[projects/scope|scope.md]]'s Tracked table (minus `stash`,
 | [[repos/vigil\|vigil]]                         | [[repos/vigil/README\|README]]             |
 | [[repos/skyview\|skyview]]                     | [[repos/skyview/README\|README]]           |
 | [[repos/vhs\|vhs]]                             | [[repos/vhs/README\|README]]               |
-| [[stash]]                                      | [[repos/stash/README\|README]]             |
+| [[repos/stash\|stash]]                         | [[README\|README]] (vault root)            |
 
 Links go live after the upstream PRs merge and the next `sync-repos.ps1` run. Run it with `-Prune` once to clear
 mirror copies that no longer exist upstream (old root-level duplicates, since-archived docs); preview with
