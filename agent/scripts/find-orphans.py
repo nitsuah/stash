@@ -31,7 +31,7 @@ SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
 IGNORED_DIRS = {"logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
-MDLINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+MDLINK = re.compile(r"\[(?:\\.|[^\]\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")  # link text may hold \[ \]
 FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 INLINE = re.compile(r"(`+)[^`\n].*?\1")
 

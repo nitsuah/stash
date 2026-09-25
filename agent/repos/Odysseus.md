@@ -90,7 +90,7 @@ Native installs, GPU notes, Windows/macOS instructions, HTTPS, and configuration
 
   
 
-A full hover-to-play tour lives on the landing page: [`docs/index.html`](docs/index.html).
+A full hover-to-play tour lives on the landing page: [`docs/index.html`](https://github.com/nitsuah/odysseus/blob/main/docs/index.html).
 
   
 

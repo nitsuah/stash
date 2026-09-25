@@ -1,9 +1,13 @@
 ---
 up: "[[repos/fire]]"
 source: https://github.com/nitsuah/fire/blob/main/docs/weekly-checkin-prompt.md
+kind: repo-doc
+repo: fire
 ---
 
 # Weekly financial check-in prompt (local)
+
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 Used by the local `week-fin-sum` scheduled task. Unlike the cloud version, this
 assumes live account access through the fire-tracker MCP server (`.mcp.json`).

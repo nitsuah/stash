@@ -43,7 +43,7 @@ WRITE = "--write" in sys.argv
 UNLINK = "--unlink-dead-mirrors" in sys.argv or "--unlink-dead-archive" in sys.argv
 UNLINK_ALL = "--unlink-dead" in sys.argv
 UNDER = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--under=")), "")  # vault mode: only notes under this prefix
-MDLINK = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
+MDLINK = re.compile(r"(!?\[(?:\\.|[^\]\\])*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")  # link text may hold \[ \]
 WIKI = re.compile(r"(!?\[\[)([^\]|#]+)((?:#[^\]|]*)?(?:\|[^\]]*)?\]\])")
 FENCE = re.compile(r"^\s*(```|~~~)")
 
@@ -103,7 +103,8 @@ def repo_mode(repo):
 
     # same set sync-repos.ps1 mirrors: .github/ and a root templates/ are repo config, not docs
     for doc in (f for f in files if f.lower().endswith(".md")
-                and not re.search(r"(^|/)\.github/|^templates/|(^|/)node_modules/", f)):
+                and not re.search(r"(^|/)\.github/|^templates/|(^|/)node_modules/", f)
+                and not (os.path.basename(repo) == "stash" and f.startswith("agent/"))):  # the vault: use --vault
         here = posixpath.dirname(doc)
         found = []
 
