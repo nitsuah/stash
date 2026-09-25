@@ -55,7 +55,7 @@ All examples follow a consistent pattern: read-only by default, `--demo-write` f
 ## Vault Tooling
 
 - **Repo docs sync** - `agent/scripts/sync-repos.ps1` mirrors each tracked repo's root PMO docs and every `docs/**/*.md` into `agent/repos/<repo>/` (paths preserved); `-Prune` removes mirror copies that no longer exist upstream.
-- **Repo Docs Index** - `agent/REPOS-INDEX.md` links every repo hub, README, and core doc so mirrored files are connected in the Obsidian graph.
+- **Repo Docs Index** - `agent/REPOS-INDEX.md` links each repo's hub note and README only; each repo's other docs attach to its README through the upstream breadcrumbs, so the graph forms per-repo clusters.
 - **Orphan finder** - `agent/scripts/find-orphans.py` reports notes with no links in or out (and unreferenced notes), by folder, resolving wikilinks and markdown links the way Obsidian does.
 - **Jira runbook** - `atlassian/jira/RUNBOOK.md` covers prerequisites, parameters, dry-run steps, risk levels, and troubleshooting for all 7 Atlassian scripts.
 - **Per-directory READMEs** - every top-level directory and all 7 `projects/*` subdirectories have a README (`docs/` and `flipper/` are intentional exceptions).

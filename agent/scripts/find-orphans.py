@@ -30,7 +30,23 @@ SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
 MDLINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
-CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
+FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+INLINE = re.compile(r"(`+)[^`\n].*?\1")
+
+
+def strip_code(text):
+    """Drop fenced blocks (``` or ~~~, closed by the same char at >= the opening length) and inline code."""
+    out, fence = [], None
+    for line in text.splitlines():
+        m = FENCE.match(line)
+        if fence is None:
+            if m:
+                fence = m.group(1)
+                continue
+            out.append(INLINE.sub("", line))
+        elif m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+            fence = None
+    return "\n".join(out)
 
 
 def collect():
@@ -64,8 +80,12 @@ def main():
         cands = []
         here = os.path.dirname(src)
         for base in (here, ""):
-            p = os.path.normpath(os.path.join(base, t)).replace(os.sep, "/").lstrip("./")
+            p = os.path.normpath(os.path.join(base, t)).replace(os.sep, "/")
+            if p == ".." or p.startswith("../"):
+                continue  # resolves outside the vault
             cands += [p.lower(), (p + ".md").lower()]
+        if not cands:
+            return None
         for c in cands:
             if c in lower:
                 return lower[c]
@@ -82,7 +102,7 @@ def main():
             text = open(os.path.join(VAULT, n), encoding="utf-8", errors="replace").read()
         except OSError:
             continue
-        text = CODE.sub("", text)
+        text = strip_code(text)
         targets = WIKI.findall(text) + [m for m in MDLINK.findall(text) if m.lower().split("#")[0].endswith(".md") or "." not in os.path.basename(m.split("#")[0])]
         for t in targets:
             r = resolve(n, t)
@@ -90,7 +110,8 @@ def main():
                 out_links[n].add(r)
                 in_links[r].add(n)
 
-    scope = [n for n in notes if n.startswith(a.under)] if a.under else notes
+    under = a.under.replace("\\", "/").strip("/")
+    scope = [n for n in notes if n == under or n.startswith(under + "/")] if under else notes
     orphans = [n for n in scope if not out_links[n] and not in_links[n]]
     unref = [n for n in scope if out_links[n] and not in_links[n]]
 

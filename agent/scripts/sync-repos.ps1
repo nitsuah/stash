@@ -114,7 +114,7 @@ foreach ($repo in $TargetRepos) {
                 Write-Host "  $(if ($isNew){'[NEW]'}else{'[upd]'}) docs/$($rel -replace '\\','/')"
                 $copied++
                 $expected["docs\$rel".ToLower()] = $true
-                if ($_.Name -match '^HANDOFF-' -and $isNew) { $newHandoffs += $_.Name }
+                if ($_.Name -match '^HANDOFF-' -and $isNew) { $newHandoffs += ($rel -replace '\\','/') }
             }
     }
 
