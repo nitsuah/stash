@@ -429,12 +429,12 @@ Create `.lighthouserc.json`:
 
 <<<<<<< Updated upstream
 ## Related
-- [[repos/skyview/docs/lighthouse-desktop.report.html|lighthouse-desktop.report.html]] — desktop Lighthouse audit report
-- [[repos/skyview/docs/lighthouse-desktop.report.json|lighthouse-desktop.report.json]] — Lighthouse JSON data
+- [lighthouse-desktop.report.html](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.html) — desktop Lighthouse audit report
+- [lighthouse-desktop.report.json](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.json) — Lighthouse JSON data
 - [[repos/skyview/docs/DEPLOYMENT_GUIDE|Deployment Guide]] — production deployment reference
 =======
 ## Assets
 
-- [[lighthouse-desktop.report.html]] — Lighthouse desktop audit report
-- [[lighthouse-desktop.report.json]] — Lighthouse desktop audit data
+- [lighthouse-desktop.report.html](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.html) — Lighthouse desktop audit report
+- [lighthouse-desktop.report.json](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.json) — Lighthouse desktop audit data
 >>>>>>> Stashed changes

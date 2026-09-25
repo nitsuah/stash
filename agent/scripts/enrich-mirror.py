@@ -9,8 +9,8 @@ For every mirrored .md:
      any upstream frontmatter (upstream keys win). Every mirrored doc then links
      to its repo hub. That makes each repo one cluster around a node named after
      the repo instead of a generic README, and a mirrored doc can't be orphaned.
-  2. Relative links to things the sync doesn't copy (LICENSE, images, .github/,
-     folders) become GitHub URLs, so they still work and stop showing up as
+  2. Relative links, and vault-style [[wikilinks]], to things the sync doesn't copy
+     (LICENSE, images, .github/, folders) become GitHub URLs, so they still work and stop showing up as
      ghost nodes. Links between mirrored docs stay relative. Links that match
      nothing upstream are left as they are; fix-doc-links.py fixes those
      upstream.
@@ -26,6 +26,7 @@ from urllib.parse import unquote
 
 src, dest, repo = sys.argv[1:4]
 MDLINK = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
+WIKI = re.compile(r"(!?\[\[)([^\]|#]+)((?:#[^\]|]*)?(?:\|[^\]]*)?\]\])")
 FENCE = re.compile(r"^\s*(```|~~~)")
 
 
@@ -72,6 +73,22 @@ def enrich(doc, text):
             return m.group(1) + url(p, anchor) + m.group(3)
         return m.group(0)
 
+    def fix_wiki(m):
+        # vault-style [[farm.png]] / [[repos/<repo>/docs/x.html|x]] pointing at a file the mirror
+        # doesn't carry (sync copies .md only): turn it into a Markdown link to GitHub
+        t = m.group(2).strip().rstrip("\\")
+        rel_t = t[len(f"repos/{repo}/"):] if t.lower().startswith(f"repos/{repo.lower()}/") else t
+        if rel_t in upstream and not rel_t.endswith(".md"):
+            p = rel_t
+        else:
+            hits = [f for f in upstream if posixpath.basename(f) == posixpath.basename(t) and not f.endswith(".md")]
+            if len(hits) != 1:  # one upstream file with that name, even under a stale path (a renamed repo)
+                return m.group(0)
+            p = hits[0]
+        label = m.group(3).split("|", 1)[1][:-2] if "|" in m.group(3) else posixpath.basename(p)
+        bang = "!" if m.group(1).startswith("!") else ""
+        return f"{bang}[{label}]({url(p)})"
+
     out, fenced = [], False
     for line in text.split("\n"):
         if FENCE.match(line):
@@ -81,8 +98,8 @@ def enrich(doc, text):
         if fenced:
             out.append(line)
             continue
-        parts = re.split(r"(`[^`]*`)", line)
-        out.append("".join(p if i % 2 else MDLINK.sub(fix, p) for i, p in enumerate(parts)))
+        parts = re.split(r"((?<!\[)`[^`]*`(?!\]))", line)  # a `code` span, but not [`link text`](...)
+        out.append("".join(p if i % 2 else WIKI.sub(fix_wiki, MDLINK.sub(fix, p)) for i, p in enumerate(parts)))
     body = "\n".join(out)
 
     ours = {"up": f'"[[repos/{repo}]]"', "source": url(doc)}
@@ -100,9 +117,7 @@ for doc in sorted(mirrored):
     raw = open(path, encoding="utf-8", errors="replace").read()
     nl = "\r\n" if "\r\n" in raw else "\n"
     text = raw.replace("\r\n", "\n")
-    if text.startswith("---\n") and f'up: "[[repos/{repo}]]"' in text.split("\n---\n", 1)[0]:
-        continue  # already enriched (file unchanged since the last sync)
-    new = enrich(doc, text)
+    new = enrich(doc, text)  # idempotent: existing keys are kept, GitHub URLs aren't rewritten again
     if new != text:
         with open(path, "w", encoding="utf-8", newline="") as f:
             f.write(new.replace("\n", nl))

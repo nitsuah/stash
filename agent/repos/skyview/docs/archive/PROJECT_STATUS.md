@@ -255,13 +255,13 @@ This website provides:
 
 ## 🆘 Support Resources
 
-- [config.js](config.js) - **Feature flags & settings**
-- [CONFIG.md](docs/CONFIG.md) - **Feature flags guide**
+- [config.js](https://github.com/nitsuah/skyview/blob/main/config.js) - **Feature flags & settings**
+- [CONFIG.md](../CONFIG.md) - **Feature flags guide**
 - `MANUAL_SETUP.md` (deleted 2026-09-24; see git history) - Configuration checklist
-- [ANALYTICS_SETUP.md](docs/ANALYTICS_SETUP.md) - Analytics guide
-- [EMAIL_NOTIFICATIONS.md](docs/EMAIL_NOTIFICATIONS.md) - Email setup
-- [CLIENT_PORTAL.md](docs/CLIENT_PORTAL.md) - Portal options
-- [ASSET_MANAGEMENT.md](docs/ASSET_MANAGEMENT.md) - Asset hosting
+- [ANALYTICS_SETUP.md](../ANALYTICS_SETUP.md) - Analytics guide
+- [EMAIL_NOTIFICATIONS.md](../EMAIL_NOTIFICATIONS.md) - Email setup
+- [CLIENT_PORTAL.md](../CLIENT_PORTAL.md) - Portal options
+- [ASSET_MANAGEMENT.md](../ASSET_MANAGEMENT.md) - Asset hosting
 
 ### External Resources
 - Netlify Docs: https://docs.netlify.com

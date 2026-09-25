@@ -509,7 +509,7 @@ Per `elonka.com/kryptos/wishlist.html`, "which way exactly is the needle on the 
 
 - [`docs/archive/K4_ATTACK_LANDSCAPE.md`](../archive/K4_ATTACK_LANDSCAPE.md) — 3D attack fingerprint; historical evidence-basis narrative only
 - [`docs/archive/K4-T1.md`](../archive/K4-T1.md) — Physical-geometric composite pipeline spec; its own mechanism (RIS, ENE routing, Hill 2×2) is null exactly as noted below. Its "Smithsonian Archive"/"K5" premise was flagged unverified/likely-fabricated as of 2026-09-01 — **that flag was itself wrong**; see "External Developments (2025–2026)" below
-- [`docs/archive/K4-CLOCKS.html`](../archive/K4-CLOCKS.html) — Interactive clock theory artifact; NORTHEAST position labels known incorrect (see K4_KEYSTREAM_ANALYSIS.md §1)
+- [`docs/archive/K4-CLOCKS.html`](https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4-CLOCKS.html) — Interactive clock theory artifact; NORTHEAST position labels known incorrect (see K4_KEYSTREAM_ANALYSIS.md §1)
 - [`docs/archive/K4-FRONTEND.md`](../archive/K4-FRONTEND.md) — Frontend spec describing a SQLite schema that was never built (actual: Neon/Postgres)
 
 ## Vault Links

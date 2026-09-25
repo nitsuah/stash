@@ -55,7 +55,7 @@ By accepting consent in the extension, you agree to the following:
 5. **Acceptable use.** Do not use the extension to submit fraudulent or
    misleading applications, or to violate the terms of any job board or ATS.
 6. **Open source.** The extension is distributed under the license in this
-   repository ([`LICENSE`](../LICENSE)); that license governs the software itself.
+   repository ([`LICENSE`](https://github.com/nitsuah/auto-apply-plugin/blob/main/LICENSE)); that license governs the software itself.
 
 ---
 

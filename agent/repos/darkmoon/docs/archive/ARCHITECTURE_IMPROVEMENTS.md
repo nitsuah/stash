@@ -8,7 +8,7 @@ source: https://github.com/nitsuah/darkmoon/blob/main/docs/archive/ARCHITECTURE_
 > 🧭 [darkmoon](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
 **Purpose:** Actionable improvements for code organization and architecture  
-**Related:** [L7_ENGINEERING_REVIEW.md](./L7_ENGINEERING_REVIEW.md), [TECH_DEBT.md](./TECH_DEBT.md)
+**Related:** [L7_ENGINEERING_REVIEW.md](./L7_ENGINEERING_REVIEW.md), [TECH_DEBT.md](../projects/conkers/TECH_DEBT.md)
 
 ---
 
@@ -653,8 +653,8 @@ export const setupMovementHandlers = (io) => {
 **Related Documents:**
 
 - [L7_ENGINEERING_REVIEW.md](./L7_ENGINEERING_REVIEW.md) - Full analysis
-- [TECH_DEBT.md](./TECH_DEBT.md) - Prioritized items
-- [ROADMAP.md](./ROADMAP.md) - Implementation timeline
+- [TECH_DEBT.md](../projects/conkers/TECH_DEBT.md) - Prioritized items
+- [ROADMAP.md](../ROADMAP.md) - Implementation timeline
 
 ## Related
 

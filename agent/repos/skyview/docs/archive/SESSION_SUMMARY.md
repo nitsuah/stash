@@ -218,7 +218,7 @@ npm run optimize:images
 6. ✅ Enable desired features in config.js
 
 ### Deployment (1 hour)
-Follow [DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md):
+Follow [DEPLOYMENT_GUIDE.md](../DEPLOYMENT_GUIDE.md):
 1. Push to GitHub
 2. Connect to Netlify
 3. Configure Netlify Forms
@@ -398,9 +398,9 @@ npm run serve
 ## 📞 Support Resources
 
 ### Documentation
-- 📖 [WebP Optimization Guide](docs/WEBP_OPTIMIZATION.md)
-- 📖 [Performance Checklist](docs/PERFORMANCE_CHECKLIST.md)
-- 📖 [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
+- 📖 [WebP Optimization Guide](../WEBP_OPTIMIZATION.md)
+- 📖 [Performance Checklist](../PERFORMANCE_CHECKLIST.md)
+- 📖 [Deployment Guide](../DEPLOYMENT_GUIDE.md)
 
 ### External Resources
 - 🔗 [WebP Documentation](https://developers.google.com/speed/webp)
