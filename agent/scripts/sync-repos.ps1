@@ -1,7 +1,9 @@
 <#
 .SYNOPSIS
   Syncs repo docs from live repos into stash/agent/repos/[name]/
-  Copies root PMO files and docs/ .md files.
+  Copies root PMO files and every .md under docs/ (including subfolders such as
+  docs/archive/ and docs/analysis/, keeping their relative paths so the
+  breadcrumb links added upstream in the 2026-09-24 pmo-ff pass resolve).
   Updates "Last Validated" in each summary .md.
   Reports newly detected HANDOFF-*.md files for vault index updates.
 
@@ -11,14 +13,22 @@
 .PARAMETER DryRun
   Preview what would be copied without making changes.
 
+.PARAMETER Prune
+  Also delete mirrored .md files under repos/[name]/ that no longer exist in the
+  source repo (e.g. a root FEATURES.md left behind after the repo moved it to
+  docs/, or a doc since archived upstream). Off by default; combine with -DryRun
+  to preview.
+
 .EXAMPLE
   .\sync-repos.ps1
   .\sync-repos.ps1 -Repos overseer, nitsuah-io
   .\sync-repos.ps1 -DryRun
+  .\sync-repos.ps1 -Prune -DryRun
 #>
 param(
     [string[]]$Repos  = @(),
-    [switch]  $DryRun
+    [switch]  $DryRun,
+    [switch]  $Prune
 )
 
 $VaultRoot = (Resolve-Path "$PSScriptRoot\..").Path
@@ -86,16 +96,36 @@ foreach ($repo in $TargetRepos) {
         $copied++
     }
 
-    # --- docs/ .md files ---
+    # --- docs/ .md files (recursive, relative paths preserved) ---
     $srcDocs = "$src\docs"
+    $expected = @{}   # vault-relative paths this run produced, for -Prune
+    foreach ($f in $RootFiles) { if (Test-Path "$src\$f") { $expected["$f".ToLower()] = $true } }
     if (Test-Path $srcDocs) {
-        Get-ChildItem $srcDocs -File -Filter '*.md' | ForEach-Object {
-            $destFile = "$dest\docs\$($_.Name)"
-            $isNew    = -not (Test-Path $destFile)
-            if (-not $DryRun) { Copy-Item $_.FullName $destFile -Force }
-            Write-Host "  $(if ($isNew){'[NEW]'}else{'[upd]'}) docs/$($_.Name)"
-            $copied++
-            if ($_.Name -match '^HANDOFF-' -and $isNew) { $newHandoffs += $_.Name }
+        Get-ChildItem $srcDocs -File -Filter '*.md' -Recurse |
+            Where-Object { $_.FullName -notmatch '\\node_modules\\' } |
+            ForEach-Object {
+                $rel      = $_.FullName.Substring($srcDocs.Length + 1)
+                $destFile = "$dest\docs\$rel"
+                $isNew    = -not (Test-Path $destFile)
+                if (-not $DryRun) {
+                    New-Item -ItemType Directory -Path (Split-Path $destFile) -Force | Out-Null
+                    Copy-Item $_.FullName $destFile -Force
+                }
+                Write-Host "  $(if ($isNew){'[NEW]'}else{'[upd]'}) docs/$($rel -replace '\\','/')"
+                $copied++
+                $expected["docs\$rel".ToLower()] = $true
+                if ($_.Name -match '^HANDOFF-' -and $isNew) { $newHandoffs += $_.Name }
+            }
+    }
+
+    # --- optional: prune mirrored .md files that no longer exist upstream ---
+    if ($Prune -and (Test-Path $dest)) {
+        Get-ChildItem $dest -File -Filter '*.md' -Recurse | ForEach-Object {
+            $rel = $_.FullName.Substring($dest.Length + 1)
+            if (-not $expected.ContainsKey($rel.ToLower())) {
+                if (-not $DryRun) { Remove-Item $_.FullName -Force }
+                Write-Host "  [prune] $($rel -replace '\\','/')" -ForegroundColor DarkYellow
+            }
         }
     }
 

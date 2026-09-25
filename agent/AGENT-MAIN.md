@@ -1,5 +1,7 @@
 # Autonomous Agent Delivery Flow
 
+> 🧭 [[REPOS-INDEX|Repo Docs Index]] · [[projects/scope|Scope]] · [[REPO-README]]
+
 This document defines the happy path for running agents autonomously against a repository in the product delivery pipeline.
 
 ## Agent Run Order (Happy Path)

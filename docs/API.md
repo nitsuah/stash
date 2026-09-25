@@ -1,5 +1,7 @@
 # API Decision Record
 
+> 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Decision: No External API
 
 This repository contains scripts, examples, and automation tools. It does not expose any hosted API, webhook endpoint, or external service contract.

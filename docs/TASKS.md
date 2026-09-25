@@ -1,10 +1,28 @@
 # Tasks
 
-Last Updated: 2026-09-02
+> 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Last Updated: 2026-09-24
 
 ## In Progress
 
 ## Todo
+
+### Vault / Obsidian (next week — prepped in the 2026-09-24 `pmo-ff` pass, see `agent/reports/pmo-ff-2026-09-24.md`)
+
+- [ ] After the 16 upstream `pmo-ff` PRs merge, run `agent/scripts/sync-repos.ps1 -Prune -DryRun`, review, then `-Prune` for real.
+  - Priority: P1
+  - Type: Docs / Vault
+  - Acceptance: stale mirror copies (old root-level duplicates, since-archived docs) are gone; `python agent/scripts/find-orphans.py` shows `repos/` orphans ≤ 8.
+- [ ] Delete the stale `agent/repos/stash/` and `agent/repos/.github/` mirrors (neither is synced any more; both are orphans).
+  - Priority: P2
+  - Type: Vault
+- [ ] Fix `agent/repos/agent-board.md` hub note title (`# motor-pool` → `# agent-board`) and its 2026-quarter content after the agent-board PR merges.
+  - Priority: P2
+  - Type: Vault
+- [ ] Build the obn orphan-detection routine on `agent/scripts/find-orphans.py` (see ROADMAP 2027 Q1) and index the remaining `reports/`, `notes/`, `projects/` orphans.
+  - Priority: P2
+  - Type: Automation
 
 ### Documentation
 
