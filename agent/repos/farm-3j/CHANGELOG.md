@@ -1,11 +1,24 @@
 # Changelog
 
+> 🧭 [farm-3j](./README.md) · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · **Changelog** · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Security
+
+- Bumped `sharp` to 0.35.4 to patch the libheif RCE (GHSA-rgj7-g3m4-5g8c) (#341).
+
+### Maintenance
+
+- Coverage: the `app/**` exclude no longer zeroes coverage when run in Docker (#349).
+- Dependency bumps: React 19.3 (#338, #344), Next 16.3.5 (#347), eslint 10.10 (#334), jsdom 30.1 (#343), prettier 3.9.8 (#348), lucide-react, Radix aspect-ratio.
+- Modularization Phase 2a (PR #295: `useGameLoop.tsx` → domain hooks) and Phase 2b (2026-09-02: `RTSMap.tsx` → `MapRenderer`) completed.
+- Planning docs reset for 2027 (`pmo-ff`): completed roadmap items condensed into FEATURES/CHANGELOG, open 2026 Q3/Q4 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
 
 ### Added
 
@@ -88,7 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## [0.1.0] - YYYY-MM-DD
+## [0.1.0] - 2025-07-24
 
 ### Added
 

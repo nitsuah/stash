@@ -1,5 +1,7 @@
 # DARKMOON Features
 
+> 🧭 [darkmoon](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Status guide: `[shipped]` is live today, `[in-progress]` is partially implemented or awaiting validation, and `[planned]` remains roadmap work.
 
 ## Game Modes
@@ -19,7 +21,7 @@ Status guide: `[shipped]` is live today, `[in-progress]` is partially implemente
 
 ### 🎮 Multiplayer Tag `[planned]`
 
-- **Real-time Multiplayer**: WebSocket-based synchronization with Socket.io; solo-first experience is live; multiplayer planned.
+- **Real-time Multiplayer**: WebSocket-based synchronization with Socket.io; solo-first experience is live. The server side is launch-ready (readiness gate passes, tag cooldown/freeze parity and IT-player disconnect handoff enforced server-side); the client experience is the 2027 Q1 target.
 - **Lobby System**: Planned for future release
 - **Tag Mechanics**: Planned for future release
 - **Player Sync**: Planned for future release
@@ -126,7 +128,7 @@ Status guide: `[shipped]` is live today, `[in-progress]` is partially implemente
 - **TypeScript**: Full type safety with strict mode enabled
 - **ESLint & Prettier**: Automated code quality and formatting
 - **Pre-commit Hooks**: Husky + lint-staged for quality gates
-- **Component Testing**: Vitest + React Testing Library
+- **Component Testing**: Vitest + React Testing Library; ~96% line coverage (PR #456, see `docs/METRICS.md`)
 - **CI/CD Pipeline**: GitHub Actions for automated testing and deployment
 
 ### 🚀 Performance
@@ -144,6 +146,6 @@ Status guide: `[shipped]` is live today, `[in-progress]` is partially implemente
 - **Structured JSON Logging**: Every server log line is one JSON object (`server/logger.js`) with a stable `event` key; child loggers carry permanent bound fields that a call-site context key cannot silently overwrite
 - **Graceful Shutdown**: `SIGTERM` drains connections and exits `0` within 10s, verified against a `server.shutdown` log record — required for zero-downtime deploys on platforms that send `SIGTERM` on scale-down
 - **player-tagged Authorization**: the tag-mode socket event binds the acting player to the authenticated socket connection (`client.id`) rather than trusting a client-supplied ID, and rejects self-tags — prevents a connected client from impersonating the current IT player; server-side cooldown/freeze (`server/tagAuthorization.js`) mirrors `TagMode.applyTag`'s rules, and `server/itHandoff.js` reassigns the IT player to a remaining player on disconnect (or ends the round and clears `itPlayerId` if none remain) instead of leaving it pointing at a disconnected client
-- **Multiplayer Readiness Gate**: four criteria (deployment, CORS, logging, observability) each with a runnable acceptance check documented in `docs/MULTIPLAYER_GATE.md`; all four pass
+- **Multiplayer Readiness Gate**: four criteria (deployment, CORS, logging, observability) each with a runnable acceptance check documented in `docs/projects/multi/MULTIPLAYER_GATE.md`; all four pass
 - **Connection Management**: Graceful disconnect handling
 - **Error Recovery**: Automatic reconnection with exponential backoff

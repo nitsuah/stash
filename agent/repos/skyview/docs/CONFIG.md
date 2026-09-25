@@ -1,5 +1,7 @@
 # Feature Flags & Configuration Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+>
 > **Outdated as of 2026-09-19:** the `contactForm`, `calendly`, `platform` and `analyticsDebugPanel` flags no longer exist. The contact form and Calendly were removed from the marketing site (people are sent to the platform at `/app`; the contact email/phone live only on `pages/privacy.html`), and the conversion dashboard is admin-only. Sections below that mention those flags are historical; see `config.js` for the current flags.
 
 ## Overview

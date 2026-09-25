@@ -1,5 +1,7 @@
 # Farm 3J - Interactive Farm Website
 
+> 🧭 **farm-3j** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 _Automatically synced with your [v0.dev](https://v0.dev) deployments_
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/austin-hardys-projects/v0-farm-contact-website)
@@ -197,3 +199,27 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [🌾 Farm RTS: Complete Game Manual & North Star Plan](./docs/Farm_RTS_Game_Manual.md) — `docs/Farm_RTS_Game_Manual.md`
+- [Agent Instructions: Farm RTS Handoff](./docs/INSTRUCTIONS.md) — `docs/INSTRUCTIONS.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [ROADMAP](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [TASKS](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [Farm RTS: North Star & Milestone Plan](./docs/archive/FARM-RTS-NORTH-STAR.md) — `docs/archive/FARM-RTS-NORTH-STAR.md`
+- [Farm RTS: Implementation TODOs (MVP)](./docs/archive/FARM-RTS-TODO.md) — `docs/archive/FARM-RTS-TODO.md`
+
+**`repo root`**
+
+- [Changelog](./CHANGELOG.md) — `CHANGELOG.md`
+
+<!-- docs-index:end -->

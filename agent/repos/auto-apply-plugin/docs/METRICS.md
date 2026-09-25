@@ -1,5 +1,7 @@
 # Metrics
 
+> 🧭 [auto-apply-plugin](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
+
 ## Core Metrics
 
 | Metric        | Value |
@@ -30,28 +32,28 @@ All commands run inside Docker — no local Node required.
 
 ### Build test image
 ```bash
-docker build --target test -t auto-apply-plugin:test .
+docker build --target test -t ats-fill:test .
 ```
 
 ### Lint
 ```bash
-docker run --rm auto-apply-plugin:test npm run lint
+docker run --rm ats-fill:test npm run lint
 ```
 
 ### Tests
 ```bash
-docker run --rm auto-apply-plugin:test npm test
+docker run --rm ats-fill:test npm test
 ```
 
 ### Coverage
 ```bash
-docker run --rm auto-apply-plugin:test npm run test:coverage
+docker run --rm ats-fill:test npm run test:coverage
 ```
 
 ### Playwright e2e
 ```bash
-docker build --target e2e -t auto-apply-plugin:e2e .
-docker run --rm auto-apply-plugin:e2e npm run test:e2e
+docker build --target e2e -t ats-fill:e2e .
+docker run --rm ats-fill:e2e npm run test:e2e
 ```
 
 ### docker-compose shortcuts

@@ -1,5 +1,7 @@
 # API and Interfaces
 
+> 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Last Updated: 2026-08-22
 
 ## Scope

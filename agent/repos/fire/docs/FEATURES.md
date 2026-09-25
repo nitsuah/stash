@@ -1,5 +1,7 @@
 # Features
 
+> 🧭 [fire](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 `nitsuah/fire` is a lightweight FIRE (Financial Independence, Retire Early) tracker and API server built with Node/Express and vanilla JavaScript, designed for local self-hosted use with full LLM integration via MCP.
 
 ## Core Infrastructure
@@ -14,9 +16,9 @@
 
 ## MCP Server
 
-- **12 Functional Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway` (plus 7 registered `not_implemented` stubs); a test asserts no write tools exist.
+- **13 Functional Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway` (plus 7 registered `not_implemented` stubs); a test asserts no write tools exist.
 - **Claude Code Integration** — `.mcp.json` at repo root auto-connects the server when Claude Code starts in this directory.
-- **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates the 8 original read-only tools listed in its `EXPECTED_TOOLS` (the four newer tools are covered by unit tests, not the smoke script).
+- **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates the 8 original read-only tools listed in its `EXPECTED_TOOLS` (the five newer tools are covered by unit tests, not the smoke script).
 
 ## Net Worth Tracking
 
@@ -121,7 +123,7 @@
 
 ## Testing
 
-- **Vitest Suite** — 472 unit and integration tests; coverage tracked via `@vitest/coverage-v8`.
+- **Vitest Suite** — 484 unit and integration tests; coverage tracked via `@vitest/coverage-v8`.
 - **Playwright UI Suite** — 50 real-browser regression tests (layout, navigation, drill-down, imports, presets, responsive behaviour) run in a pinned Docker image.
 - **MCP Smoke Test** — `scripts/test-mcp.mjs` exercises the 8 tools in `EXPECTED_TOOLS` end-to-end via the SDK client.
 

@@ -1,18 +1,18 @@
 
 # Tasks
 
-**Last Updated:** 2026-09-23
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
+**Last Updated:** 2026-09-24
 
 > **Delivery split:** public FE covers the marketing site and funnel. `/admin` is a separate CMS surface. Secure client portal/download auth is a separate backend workstream.
 
-## Done (2026-09 cycle)
+## Done
 
-Condensed into `docs/ROADMAP.md` (milestones) and `CHANGELOG.md` (change-by-change
-history, including the native operator scheduling and signed-link/token
-generation, drone cursor, Docker SPA build, identity config plumbing, and Vitest 5
-regression fix) — see those files rather than a duplicated narrative here. The
-still-open gaps from this cycle (per-client storage backend, bulk ZIP download,
-demo manifest) are tracked under Todo below.
+Shipped work is condensed into `docs/FEATURES.md` (capabilities) and `docs/CHANGELOG.md`
+(change-by-change history, incl. native operator scheduling, signed-link/token generation,
+drone cursor, Docker SPA build, identity config plumbing, and the Vitest 5 regression fix).
+Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
 
 ## In Progress
 

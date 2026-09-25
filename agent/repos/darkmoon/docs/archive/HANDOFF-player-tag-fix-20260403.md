@@ -1,5 +1,7 @@
 # Delivery Pipeline Handoff
 
+> 🧭 [darkmoon](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 ## Repository Context
 
 - Repository: nitsuah/darkmoon
@@ -80,5 +82,6 @@
 - Final disposition: ready for merge.
 
 ## Related
+
 - [[repos/darkmoon|darkmoon runbook]] — repo context
 - [[prompts/HANDOFF|HANDOFF template]] — pipeline handoff format

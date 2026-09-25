@@ -1,9 +1,11 @@
-# 🤖 Apply Workspace — Local-First AI Job Application Chrome Extension
+# ats-fill — Local-First AI Job Application Chrome Extension
 
+> 🧭 **auto-apply-plugin** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+>
 > Save your profile once. Land on any job page. Review tailored answers. Fill faster.
 > No Docker. No server. No subscription. Review before submitting.
 
-[![CI](https://github.com/nitsuah/auto-apply-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/auto-apply-plugin/actions/workflows/ci.yml)
+[![CI](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml)
 
 ---
 
@@ -32,7 +34,7 @@ A Chrome extension that:
 1. Clone this repo (or download as ZIP)
 2. Open `chrome://extensions` → enable **Developer mode**
 3. Click **Load unpacked** → select the repo folder
-4. Click the 🤖 icon → paste your [free Gemini API key](https://aistudio.google.com/app/apikey) and leave the model on **Auto**
+4. Click the extension icon → paste your [free Gemini API key](https://aistudio.google.com/app/apikey) and leave the model on **Auto**
 5. Upload your resume (PDF, DOCX, or paste text)
 6. Navigate to a job page → click the icon → **Fill Form**
 
@@ -41,7 +43,7 @@ A Chrome extension that:
 ## Project Structure
 
 ```
-apply-workspace/
+ats-fill/
 ├── manifest.json          # Chrome MV3 manifest
 ├── popup/                 # Extension popup UI
 │   ├── popup.html
@@ -99,36 +101,37 @@ apply-workspace/
 
 ## Screenshots
 
-> Maintenance note: after any significant popup, tracker, or profile UI update, regenerate these images so the README stays current.
-> Last refreshed: 2026-09-17 (nav/hamburger overhaul, collapsible Settings + Pipeline columns, Help collapsed-by-default, Interview Prep job-readiness bar)
+> The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
+> The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
+> Last refreshed: 2026-09-25 · UI snapshot: v1.0.2 (nav/hamburger overhaul, collapsible Settings + Pipeline columns, Help collapsed-by-default, Interview Prep job-readiness bar)
 
 ### Main dashboard
 
-![Apply Workspace main dashboard](screenshots/main-dashboard.png)
+![ats-fill main dashboard](screenshots/main-dashboard.png)
 
 ### Tracker workspace (Pipeline)
 
-![Apply Workspace tracker workspace](screenshots/tracker-workspace.png)
+![ats-fill tracker workspace](screenshots/tracker-workspace.png)
 
 ### Profile + Memory
 
-![Apply Workspace profile and memory](screenshots/profile-memory.png)
+![ats-fill profile and memory](screenshots/profile-memory.png)
 
 ### Job Search
 
-![Apply Workspace job search panel](screenshots/job-search.png)
+![ats-fill job search panel](screenshots/job-search.png)
 
 ### Settings
 
-![Apply Workspace settings panel](screenshots/ai-settings.png)
+![ats-fill settings panel](screenshots/ai-settings.png)
 
 ### Help & Privacy
 
-![Apply Workspace help and privacy panel](screenshots/help-privacy.png)
+![ats-fill help and privacy panel](screenshots/help-privacy.png)
 
 ### Interview Prep
 
-![Apply Workspace interview prep](screenshots/interview-prep.png)
+![ats-fill interview prep](screenshots/interview-prep.png)
 
 ---
 
@@ -291,9 +294,35 @@ pip install pre-commit && pre-commit install && pre-commit install --hook-type p
 
 ---
 
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [ats-fill — Terms, Privacy & Security](./docs/PRIVACY.md) — `docs/PRIVACY.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/release/`**
+
+- [Chrome Web Store release setup](./docs/release/chrome-web-store.md) — `docs/release/chrome-web-store.md`
+- [Release process](./docs/release/release-process.md) — `docs/release/release-process.md`
+
+<!-- docs-index:end -->
+
 ## License
 
 MIT — built because filling out the same form 47 times is beneath EVERYONE. 🤙
+## Automation & CI
+
+The repository uses GitHub Actions to run the blocking test, lint, coverage, security, and Playwright checks. The same CI pipeline also generates the deterministic screenshot gallery and validates the resulting assets before publishing a documentation PR when the UI snapshot changes.
+
+Screenshot publication is deliberately **rerun-safe** and uses a **single rolling PR**. Every refresh rebuilds the fixed `automation/ui-screenshot-gallery` branch from `main` and updates its open PR instead of opening a new one. Commits that merge a gallery refresh are skipped, so publication can't loop. When `main` already matches the captured gallery, any open refresh PR is closed. Gallery screenshots are generated from fictional fixture data and never contain personal resume, API-key, or application data.
+
 ## Community Standards
 
 Shared community policies are centralized in https://github.com/nitsuah/.github:

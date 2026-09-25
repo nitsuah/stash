@@ -1,5 +1,7 @@
 # Integrations
 
+> 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 **Last Updated:** 2026-04-03
 
 Maps the connection points between `nitsuah-io` and each sister repo in the Nitsuah-Labs ecosystem.
@@ -51,17 +53,17 @@ Overseer agents use this file to know which repos to pull context from when exec
 | Update Cadence   | Per page view / CTA click                                   |
 | Task Ref         | TASKS.md P2 "Wire skyview analytics"                        |
 
-### motor-pool — Agent Activity Showcase
+### agent-board (formerly motor-pool) — Agent Activity Showcase
 
 | Field            | Value                                                       |
 | ---------------- | ----------------------------------------------------------- |
 | Status           | Planned (Q3 2026)                                           |
-| Direction        | motor-pool → nitsuah-io                                    |
+| Direction        | agent-board → nitsuah-io                                    |
 | Entry Point      | `/lab/agents` page (read-only activity feed)                |
 | Auth Model       | Public read endpoint or signed read token                   |
 | Data Contract    | SSE or polling: `{ agentId, action, status, ts }[]`         |
 | Update Cadence   | Near-real-time (SSE preferred)                              |
-| Task Ref         | TASKS.md P3 "motor-pool showcase section"                  |
+| Task Ref         | TASKS.md P3 "agent-board (formerly motor-pool) showcase section"                  |
 
 ### farm — Staking Demo
 

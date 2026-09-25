@@ -1,5 +1,7 @@
 # SEO Implementation Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 ## ✅ Completed SEO Features
 
 All SEO optimizations have been implemented for SkyView Dynamics website.

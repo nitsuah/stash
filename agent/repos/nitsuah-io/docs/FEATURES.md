@@ -1,6 +1,8 @@
 
 # Features
 
+> 🧭 [nitsuah-io](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ---
 **Last Updated:** 2026-09-01
 ---
@@ -15,7 +17,7 @@ Modern personal portfolio with curated project showcase and professional present
 - **Interactive 3D Scenes**: Spline-powered 3D graphics and animations for visual engagement
 - **Professional Resume**: Structured CV with downloadable PDF option and contact information
 - **About Page**: Personal introduction, skills matrix, and professional background
-- **Blog Platform**: Technical writing and project updates with markdown support
+- **Blog Platform**: Technical writing and project updates with markdown support. Posts are file-sourced from `src/data/blogs.json` (11 entries as of 2026-09-24) and rendered with `react-markdown`. The in-app "New Blog Post" form and localStorage drafts were removed in #526 (2026-09-23)
 
 ### ⛓️ Web3 Integration
 
@@ -117,7 +119,7 @@ Modern development workflow with type safety, code quality tools, and comprehens
 - **AI Chat Widget**: bb-mcp-powered portfolio Q&A with streaming and persistent toggle
 - **On-chain Resume**: EAS verifiable credentials page for wallet-based skill attestations
 - **Bento Grid Layout**: 2026 design trend for Projects and Skills
-- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and motor-pool
+- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and agent-board (formerly motor-pool)
 - **PWA & Offline Support**: Installable, offline-ready portfolio with push notifications
 - **Showcase Page**: User-submitted demos and real-world use cases
 
@@ -204,7 +206,7 @@ Connections to sister repos that enrich portfolio content and demonstrations.
 
 - **kryptos Feed**: Live cipher challenge stats surfaced in Labs sidebar (kryptos repo)
 - **farm Staking Demo**: Live staking flow in Labs pulling from farm contracts on Amoy
-- **motor-pool Showcase**: `/lab/agents` page showing autonomous agent activity log (read-only)
+- **agent-board Showcase**: `/lab/agents` page showing autonomous agent activity log (read-only)
 - **darkmoon Tokens**: Shared design token pipeline for consistent cross-repo branding (Q4)
 
 ### 🏅 On-Chain Resume

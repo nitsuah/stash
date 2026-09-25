@@ -1,5 +1,7 @@
 # Analytics Setup Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 This document outlines options for adding privacy-friendly analytics to track visitor interest and site performance.
 
 ## Recommended: Plausible Analytics

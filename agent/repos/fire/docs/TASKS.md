@@ -1,6 +1,8 @@
-updated: 2026-09-23
-
 # Tasks
+
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+updated: 2026-09-24
 
 ---
 
@@ -15,10 +17,6 @@ for shipped capabilities. Its follow-up items are below._
 ## Follow-ups from PR #111 — Sep 2026
 
 - [ ] Manual step: register the public HTTPS notification URL + verification token in the eBay Developer Portal (cannot be verified in CI)
-- [ ] Verify eBay's `X-EBAY-SIGNATURE` on Marketplace Account Deletion notifications (`app/routes/sync.js`)
-  - Priority: P1 (security) — deferred from PR #111 review (CodeRabbit, `sync.js` thread).
-  - Context: the POST handler currently trusts the secret endpoint URL + verification token. eBay signs notifications: `X-EBAY-SIGNATURE` is base64 JSON `{alg, kid, signature, digest}`; fetch the public key for `kid` from eBay's Notification API, verify the signature over the raw body (needs `rawBody` capture on this route), and reject on mismatch before purging anything. Needs live eBay credentials to test end to end; mock the key fetch in unit tests.
-  - Acceptance Criteria: unsigned/invalid notifications return 4xx without touching tokens or state; valid ones behave as today; tests cover valid, tampered-body and unknown-`kid` cases.
 - [ ] Stop exposing browser helpers as classic-script globals (`app/lib/fetch-utils.js` `fetchJson`, and the rest of `app/lib/**`)
   - Priority: P3 (maintainability) — deferred from PR #111 review (CodeRabbit, `fetch-utils.js` thread).
   - Context: the SPA loads ~40 plain `<script>` files that share one global scope, so any helper is a cross-file global by design. Fixing just `fetchJson` would mean converting every consumer to `import`; doing it properly means moving the frontend to ES modules with a bundler (or native `type="module"`) as one migration.
@@ -26,7 +24,7 @@ for shipped capabilities. Its follow-up items are below._
 
 ---
 
-## PROD Phase 1 — Real-Time Data Connectors ✅ (see ROADMAP.md Q1 2027)
+## PROD Phase 1 — Real-Time Data Connectors ✅ (open items in ROADMAP.md 2027 Q1)
 
 - [ ] Model real eBay fee brackets in `calculateEbayFeesTotal` (`app/lib/side-gig.js`), not just a flat rate + order fee.
   - Priority: P2
@@ -36,7 +34,7 @@ for shipped capabilities. Its follow-up items are below._
 
 ---
 
-## PROD Phase 2 — Financial Institution Integration ✅ (see ROADMAP.md Q2 2027)
+## PROD Phase 2 — Financial Institution Integration ✅ (see ROADMAP.md 2027 Q2)
 
 Plaid transaction sync implementation detail (cursor handling, category
 resolution, partial-failure edge cases) moved to `CHANGELOG.md`. Known gaps:
@@ -50,9 +48,9 @@ Plaid sync is active (only the underlying status the gate reads is covered).
 
 ---
 
-## PROD Phase 3 — Security Hardening ✅ (see ROADMAP.md Q3 2027; remaining item below)
+## PROD Phase 3 — Security Hardening ✅ (see ROADMAP.md 2027 Q3; remaining item below)
 
-See [docs/security-hardening.md](docs/security-hardening.md) for full remediation detail.
+See [security-hardening.md](./security-hardening.md) for full remediation detail.
 
 - [ ] Run full penetration testing checklist from docs/security-hardening.md
   - Reviewed the checklist (see docs/security-hardening.md) and triaged which items
@@ -75,11 +73,11 @@ See [docs/security-hardening.md](docs/security-hardening.md) for full remediatio
       partially in the current test suite.
   - Not attempted as part of this pass — flagging for a follow-up task.
 
-_Branch/function coverage gap closed; all thresholds now met — see `docs/METRICS.md` for current figures._
+_Coverage: branch coverage is back above the 70% threshold (74.85%, 484 tests, #119) and CI now enforces it via `npm run test:coverage`; see `docs/METRICS.md`._
 
 ---
 
-## PROD Phase 4 — Feature Parity (Q4 2027)
+## PROD Phase 4 — Feature Parity (2027 Q4)
 
 - [~] Portfolio rebalancing suggestions — v1 tool on the Insights tab (targets vs. current); suggestion polish pending
 - [~] Tax-loss harvesting alert — v1 table on the Insights tab; threshold config/notifications pending

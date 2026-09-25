@@ -1,5 +1,7 @@
 # Asset Management & Admin Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 Skyview uses a decentralized asset management system powered by **Decap CMS** (formerly Netlify CMS). This allows you to manage gallery images without touching code.
 
 ## Accessing the Admin Panel

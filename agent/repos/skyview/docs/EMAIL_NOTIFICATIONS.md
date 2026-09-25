@@ -1,5 +1,7 @@
 # Email Notification Setup for Netlify Forms
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 This document explains how to set up automated email notifications for form submissions on Netlify.
 
 ## Automatic Email Notifications (Built-in)

@@ -1,5 +1,7 @@
 # FIRE Tracker — Privacy Policy & Terms of Use
 
+> 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 **Effective Date:** August 2026  
 **Application:** FIRE Tracker (`lifefire.netlify.app` / self-hosted)  
 **Repository:** [github.com/nitsuah/fire](https://github.com/nitsuah/fire)

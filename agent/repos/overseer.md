@@ -27,22 +27,9 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 ## Open P0/P1 Tasks
 
-**Update 2026-09-24** (from `docs/TASKS.md` dated 2026-09-19, synced from the local `navbar-v2` checkout; PR #229 "docs/ folder support" merged to main 2026-09-23):
-- All 5 **P0s** are done: repo-row expand crash from NUMERIC-as-string (PR #225), `RowErrorBoundary`, NUMERIC normalization at the API boundary (`lib/numeric.ts`), repo-list/by-name route access scoping (CWE-639, follow-up to PR #221, which also found `debug` had no auth), and `visibility_verified` backfill that fails closed. **After deploy each user must click Sync once** or their own private repos stay hidden.
-- **One open P1 needs a human:** rename GitHub repo `nitsuah/overseer` to `nitsuah/vigil`. The code is ready, but the order matters: merge and deploy first, then `gh repo rename`, `git remote set-url`, Sync, and check smoke. Renaming before deploy creates a duplicate row.
-- Other P1s done: keep `ghoverseer.netlify.app` (decision), the Playwright mocked e2e suite in CI, the post-merge prod smoke workflow, and the dispatch bridge (PR #159/#204).
+None open (updated 2026-09-25). The root `TASKS.md` reads "P0: None open — P0 hardening shipped in #225/#226" and "P1: None open — see CHANGELOG for the #221–#233 work". The one human-gated P1 from 2026-09-24, renaming the GitHub repo `nitsuah/overseer` to `nitsuah/vigil`, is done: the GitHub repo is `nitsuah/vigil`, and the local clone moved to `C:\Users\ajhar\code\vigil` (clean on `main`). The routines still call it `overseer`; see `agent/projects/scope.md`. The `navbar-v2` checkout and the `pr-229-merge-conflicts` worktree flagged on 2026-09-24 went with the old clone.
 
-Previous status (2026-09-10): no open P1 items. The one P1 (Agent Task Queue → agent-board dispatch bridge) shipped in PR #159 and was hardened in PR #204.
-
-Note: the previously-tracked P1 "deprioritize stash repo (mark private, block PRs, add sanitization checklist)" is **no longer present** in the current root `TASKS.md`/`ROADMAP.md` — it has no corresponding "shipped" entry in `FEATURES.md` or `CHANGELOG.md` either, so its status is ambiguous (dropped vs. quietly resolved out-of-band). A stale copy of it still exists in `docs/TASKS.md`/`docs/ROADMAP.md` (both dated 2026-06-25, clearly unmaintained duplicates of the root files) — worth a manual check on whether stash was actually deprioritized/privated, since this repo's own doc-hygiene tracking has lost the thread on it.
-
-Most-notable open P2 (flagged 2026-09-11, today, by CodeRabbit on PR #211): **`session?.user?.email` gates the entire shared-key AI rate limiter** — a GitHub OAuth profile with no public/verified email skips the gate entirely, letting that request reach `generateAIContent` with no budget enforcement at all. Confirmed pre-existing (predates PR #211). Needs a stable non-email session identity wired up before it's closed.
-
-Since the last review, three of those open P2s shipped per `TASKS.md` (2026-09-10): **durably persist agent task receipts** (await + surface-failure path, `persistReceipt` now awaited instead of fire-and-forget, 3 new tests), **paginate `reviewThreads`/`refs` GraphQL connections** (both `getZombieBranches` and `getPullRequestReadiness` now page to a documented cap, plus a CodeRabbit-flagged follow-up fix on PR #216 so an incomplete page-walk fails closed instead of false-reporting `staleReview: true`), and **mobile card a11y** (the `role="button"` wrapper around nested focusable links is gone — expand/collapse is now a real sibling `<button>`). Velocity scoring + trending (`repo_snapshots`, trend endpoint, sparkline) also shipped, covering most of what "technical-debt trending" meant.
-
-Other open P2s: stale-review detector for PR readiness (CodeRabbit misses re-approving after all threads resolve), thread `full_name` (not just `name`) through to the trend endpoint, 3D dependency-graph upgrade (current graph is 2D SVG).
-
-Open P3s: zombie-branch detection, dark/light mode toggle, agent session receipts.
+Still worth tracking (P2, from 2026-09-11): **`session?.user?.email` gates the shared-key AI rate limiter**. A GitHub OAuth profile with no public email skips the budget gate. Re-check it against the current TASKS.md before assuming it's still open.
 
 ## Blockers
 

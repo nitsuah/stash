@@ -1,5 +1,7 @@
 # Contract Safe
 
+> 🧭 **deployer** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/Nitsuah-Labs/deployer/actions/workflows/ci.yml/badge.svg)](https://github.com/Nitsuah-Labs/deployer/actions)
 
 Nitsuah Labs Contract Safe - A collection of Solidity smart contracts including Wave Portal, Domain Name Service, and NFT collections.
@@ -196,3 +198,17 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics for Nitsuah-Labs/deployer](./docs/METRICS.md) — `docs/METRICS.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+<!-- docs-index:end -->

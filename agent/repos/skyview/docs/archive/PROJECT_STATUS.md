@@ -1,5 +1,7 @@
 # 🎯 Project Status Summary
 
+> 🧭 [skyview](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../../METRICS.md) <!-- nav -->
+
 **Last Updated:** 2025-12-13  
 **Project:** Skyview Aerial Media Website  
 **Status:** Ready for Production Deployment 🚀
@@ -48,7 +50,7 @@
 
 ## 📋 Manual Setup Required
 
-Your friend still needs to configure these items (see [MANUAL_SETUP.md](MANUAL_SETUP.md)):
+Your friend still needs to configure these items (see `MANUAL_SETUP.md` (deleted 2026-09-24; see git history)):
 
 ### High Priority
 1. **Netlify Identity** - Enable for Decap CMS access
@@ -250,7 +252,7 @@ This website provides:
 
 - [config.js](config.js) - **Feature flags & settings**
 - [CONFIG.md](docs/CONFIG.md) - **Feature flags guide**
-- [MANUAL_SETUP.md](MANUAL_SETUP.md) - Configuration checklist
+- `MANUAL_SETUP.md` (deleted 2026-09-24; see git history) - Configuration checklist
 - [ANALYTICS_SETUP.md](docs/ANALYTICS_SETUP.md) - Analytics guide
 - [EMAIL_NOTIFICATIONS.md](docs/EMAIL_NOTIFICATIONS.md) - Email setup
 - [CLIENT_PORTAL.md](docs/CLIENT_PORTAL.md) - Portal options
@@ -295,4 +297,4 @@ Your friend now has a professional online presence to:
 - Build credibility
 - Scale their business
 
-**Next Action:** Give your friend the [MANUAL_SETUP.md](MANUAL_SETUP.md) checklist!
+**Next Action:** Give your friend the `MANUAL_SETUP.md` (deleted 2026-09-24; see git history) checklist!

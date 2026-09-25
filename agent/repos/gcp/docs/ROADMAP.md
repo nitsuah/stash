@@ -1,27 +1,19 @@
 # GCP Google Drive Tools Roadmap
 
-Last Updated: 2026-09-02
+> 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-The `drive-copy` CLI is in maintenance mode: the core assessment/copy feature set (Q1-Q3 2026)
-and both concrete Q4 exploratory items below have shipped. The only open idea is the 2027 web
-UI evaluation; barring a new concrete request, future work here is expected to be bugfixes and
+Last Updated: 2026-09-24
+
+The `drive-copy` CLI is in maintenance mode: the core assessment/copy feature set (2026 Q1–Q3), both
+2026 Q4 items (duplicate-detection report, permission mirroring), and `gcp_setup.py` test coverage (99%)
+have shipped — see [FEATURES](./FEATURES.md) and [CHANGELOG](./CHANGELOG.md). Completed 2026 sections were
+removed in the 2027 planning reset (2026-09-24). Barring a new concrete request, future work is bugfixes and
 dependency upkeep rather than new CLI surface area.
 
-## 2026 Q1–Q3 ✅
-
-> Completed. All shipped features documented in FEATURES.md and CHANGELOG.md.
-
-## 2026 Q4 ✅
-
-> Completed. Both concrete Q4 items shipped; see FEATURES.md and CHANGELOG.md for details.
-
-- [x] **Duplicate detection report** (`--duplicate-report`) — before or after a copy run, generate a CSV of files with identical names and sizes across source and destination; helps identify redundant copies and cleanup candidates alongside the existing assessment reports.
-- [x] **Permission mirroring** (`--mirror-permissions`) — copy ACL/sharing settings from source files and folders to their destination counterparts so migrated content retains its original access controls instead of defaulting to destination-owner-only access.
-
-## 2027 (Exploratory)
+## 2027 Q1 (Exploratory)
 
 - [ ] **Lightweight web UI for credential and folder configuration** — evaluated during the 2026
-  Q4 pass and deferred. `drive-copy` is a single-user local CLI configured via three environment
+  Q4 pass and deferred to 2027. `drive-copy` is a single-user local CLI configured via three environment
   variables (`GOOGLE_DRIVE_CLIENT_ID_FILE`, `GOOGLE_DRIVE_SOURCE_FOLDER_ID`,
   `GOOGLE_DRIVE_DESTINATION_FOLDER_ID`) and an `InstalledAppFlow` OAuth flow that already opens a
   local browser tab to authorize; there's no persistent server process or account/session model

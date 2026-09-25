@@ -1,6 +1,25 @@
 # Changelog
 
+> 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project are documented here.
+
+## [Unreleased] — 2026-09-11 → 2026-09-24
+
+### Added
+
+- **Collection UX overhaul + local AI discovery + metadata audit tool** (#55): Collections → Stacks default view, unified multi-select, sortable/resizable columns, Add Photo + crop fixes, Ollama auto-probe and "Find Local AI" for OpenAI-compatible backends, `scripts/audit-metadata.js` (dry-run by default).
+- `tmdbLookup` test coverage; coverage thresholds restored (#59). CI and Netlify deploy badges in README (#61).
+
+### Changed
+
+- Collection middle bar reordered; sign-in moved next to the AI detection button (#57).
+- METRICS: coverage baseline + Docker refreshes (#56, #58, #60).
+- Planning docs reset for 2027 (`pmo-ff`): completed Phases 1 & 3 condensed into FEATURES/CHANGELOG, Phase 2 open work and the triaged CV items carried into 2027 Q1, breadcrumb navigation + README docs index added.
+
+### Fixed
+
+- Mobile export menu and activity-log SSE endpoint dead wiring (#54).
 
 ## [Unreleased] — 2026 roadmap completion + docs refresh
 

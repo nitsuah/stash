@@ -1,5 +1,7 @@
 # VHS Collection Indexer
 
+> 🧭 **vhs** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/vhs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/vhs/actions/workflows/ci.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9cf148ef-31d4-4edc-9862-a72a4ca6e0ff/deploy-status)](https://app.netlify.com/projects/vhsbox/deploys)
 
@@ -203,3 +205,19 @@ Immutable IDs: once a tape gets a `VHS-XXXX` ID, it keeps it forever. If a barco
 - **Sold tapes** — stay in the database. `status` field handles everything: `in_collection`, `for_sale`, `sold`, `donated`. No archive table needed.
 - **AI for the tedious parts** — photo scanning, title recognition, valuation lookups. Not for the data model.
 - **Build incrementally** — don't solve distribution before you've finished cataloging.
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Easter Eggs](./docs/EASTEREGG.md) — `docs/EASTEREGG.md`
+- [VHS Collection Indexer — Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [ROADMAP](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+- [VHS Scanner — System Flow Diagrams](./docs/system-flow.md) — `docs/system-flow.md`
+
+<!-- docs-index:end -->

@@ -1,5 +1,7 @@
 # 🚁 SkyView Dynamics - Cinematic Drone Services
 
+> 🧭 **skyview** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bea254e2-2234-434c-82d1-ffb8a8c2dd26/deploy-status)](https://app.netlify.com/projects/skyviewd/deploys) [![Playwright Tests](https://github.com/nitsuah/skyview/actions/workflows/playwright.yml/badge.svg)](https://github.com/nitsuah/skyview/actions/workflows/playwright.yml) [![Docker Smoke](https://github.com/nitsuah/skyview/actions/workflows/docker-smoke.yml/badge.svg)](https://github.com/nitsuah/skyview/actions/workflows/docker-smoke.yml)
 
 **Last Updated:** 2026-08-22 (documentation audit)
@@ -12,7 +14,7 @@
 - Docker smoke validation and coverage reporting (2026-03-27)
 
 ## 🤝 Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and how to get involved.
+See [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md) (org default) for guidelines, code of conduct, and how to get involved.
 
 ## 🔗 Quick Links
 - [Live Site](https://skyviewd.netlify.app) / [Custom Domain](https://skyview.nitsuah.io)
@@ -20,9 +22,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and how 
 - [Owner Guide](docs/OWNER_GUIDE.md)
 - [Getting Started](docs/GETTING_STARTED.md)
 - [Metrics](METRICS.md)
-- [Features](FEATURES.md)
-- [Roadmap](ROADMAP.md)
-- [Tasks](TASKS.md)
+- [Features](docs/FEATURES.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Tasks](docs/TASKS.md)
 
 A stunning, high-tech website for professional drone services featuring a minimalist design with full-bleed photography, dark high-contrast aesthetics, and glassmorphic UI elements.
 
@@ -78,7 +80,7 @@ See **[🚀 Deployment Guide](docs/DEPLOYMENT_GUIDE.md)** for Netlify deployment
 - **JavaScript**: ES6 Modules (`scripts/`).
 - **CMS**: Decap CMS (git-based content management).
 - **Testing**:
-  - **E2E**: Playwright (`npx playwright test`)
+  - **E2E**: Playwright (`npx playwright test --config config/playwright.config.ts`)
   - **Unit**: Vitest (`npx vitest run --config config/vitest.config.ts`)
 - **Netlify**: Hosting, Forms, and Identity.
 
@@ -127,6 +129,7 @@ npm run db:migrate     # Run Neon database migrations (platform feature)
 # Linting
 npm run lint:js        # ESLint (config/eslint.config.mjs)
 npm run lint:css       # Stylelint (config/stylelint.config.mjs)
+pre-commit run --all-files --config config/.pre-commit-config.yaml  # pre-commit hooks (install with: pre-commit install --config config/.pre-commit-config.yaml)
 
 # Optimization
 npm run optimize:images  # Convert images to WebP
@@ -136,6 +139,7 @@ npm run optimize:images  # Convert images to WebP
 
 ### Start Here
 - 📖 **[Getting Started Guide](docs/GETTING_STARTED.md)** - **Start here!** Complete setup walkthrough
+- 🛠️ [Platform Setup](docs/FINAL_SETUP.md) - Neon, Netlify env vars, Resend, Google OAuth, Stripe, and local dev for the `/app` marketplace
 - 📘 [Owner's Guide](docs/OWNER_GUIDE.md) - 30-minute non-technical launch guide
 
 ### Deployment & Management
@@ -156,8 +160,8 @@ npm run optimize:images  # Convert images to WebP
 - 📈 [Optimization Flow](docs/OPTIMIZATION_FLOW.md) - Performance workflow
 
 ### Project Overview
-- 📋 [Roadmap](ROADMAP.md) - Project phases and progress
-- ✅ [Tasks](TASKS.md) - Todo list
+- 📋 [Roadmap](./docs/ROADMAP.md) - Project phases and progress
+- ✅ [Tasks](./docs/TASKS.md) - Todo list
 - 📈 [Metrics](METRICS.md) - Test coverage and performance baseline
 
 ## ⚙️ Configuration
@@ -213,3 +217,41 @@ Shared community policies are centralized in https://github.com/nitsuah/.github:
 - Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
 - Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
 - Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Analytics Setup Guide](./docs/ANALYTICS_SETUP.md) — `docs/ANALYTICS_SETUP.md`
+- [Asset Management & Admin Guide](./docs/ASSET_MANAGEMENT.md) — `docs/ASSET_MANAGEMENT.md`
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Client Portal Documentation](./docs/CLIENT_PORTAL.md) — `docs/CLIENT_PORTAL.md`
+- [CMS Editing Guide](./docs/CMS_GUIDE.md) — `docs/CMS_GUIDE.md`
+- [Feature Flags & Configuration Guide](./docs/CONFIG.md) — `docs/CONFIG.md`
+- [🚀 Production Deployment Guide](./docs/DEPLOYMENT_GUIDE.md) — `docs/DEPLOYMENT_GUIDE.md`
+- [Email Notification Setup for Netlify Forms](./docs/EMAIL_NOTIFICATIONS.md) — `docs/EMAIL_NOTIFICATIONS.md`
+- [Skyview Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [SkyView Dynamics — Platform Setup](./docs/FINAL_SETUP.md) — `docs/FINAL_SETUP.md`
+- [Getting Started with SkyView Website](./docs/GETTING_STARTED.md) — `docs/GETTING_STARTED.md`
+- [Image Optimization Flow](./docs/OPTIMIZATION_FLOW.md) — `docs/OPTIMIZATION_FLOW.md`
+- [SkyView Website - Owner's Guide](./docs/OWNER_GUIDE.md) — `docs/OWNER_GUIDE.md`
+- [Performance Optimization Checklist](./docs/PERFORMANCE_CHECKLIST.md) — `docs/PERFORMANCE_CHECKLIST.md`
+- [Skyview Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [SEO Implementation Guide](./docs/SEO_GUIDE.md) — `docs/SEO_GUIDE.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+- [Image Optimization Guide - WebP Format](./docs/WEBP_OPTIMIZATION.md) — `docs/WEBP_OPTIMIZATION.md`
+
+**`docs/archive/`**
+
+- [🎯 Project Status Summary](./docs/archive/PROJECT_STATUS.md) — `docs/archive/PROJECT_STATUS.md`
+- [Archived Documentation](./docs/archive/README.md) — `docs/archive/README.md`
+- [Session Summary: WebP Optimization & Performance Enhancement](./docs/archive/SESSION_SUMMARY.md) — `docs/archive/SESSION_SUMMARY.md`
+- [WebP Optimization - Implementation Summary](./docs/archive/WEBP_IMPLEMENTATION.md) — `docs/archive/WEBP_IMPLEMENTATION.md`
+
+**`repo root`**
+
+- [Skyview Metrics](./METRICS.md) — `METRICS.md`
+
+<!-- docs-index:end -->

@@ -1,9 +1,11 @@
 
 # Skyview Metrics
 
-Last Validated: 2026-09-18 (native `npx vitest run --coverage` — no Docker in this cloud automation environment)
+> 🧭 [skyview](./README.md) · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · **Metrics** <!-- nav -->
+
+Last Validated: 2026-09-24 (PMO audit — Docker: `docker compose -f config/docker-compose.yml run --rm unit`)
 Health Score: 98/100
-Compliance: Overseer/PM core metrics and health scoring validated for Q2 2026
+Compliance: Overseer/PM core metrics and health scoring validated for Q3 2026
 
 ## 🎯 Project Status: Production Ready
 
@@ -17,7 +19,7 @@ Authoritative validation sources: `docker compose run --rm unit`, Docker Playwri
 
 | Metric                          | Current | Target | Status |
 |---------------------------------|---------|--------|--------|
-| **Code Coverage**               | 88.44% (all 123/123 unit tests passing; below target, see Test Coverage Details) | > 95%  | 🔴 |
+| **Code Coverage**               | 88.44% (all 193/193 unit tests passing in Docker, 2026-09-24; below target, see Test Coverage Details) | > 95%  | 🔴 |
 | **Lighthouse Performance**      | 92/100  | > 90   | 🟢 |
 | **Lighthouse Accessibility**    | 96/100  | > 90   | 🟢 |
 | **Lighthouse Best Practices**   | 57/100 on local HTTP preview* | Informational | 🟡 |
@@ -127,12 +129,13 @@ Performance monitoring is built-in (development mode):
 
 **Overall Coverage**: 88.44% statements (222/251), 90.12% lines (210/233), 95% functions (38/40), 71.07% branches (86/121). Statement/line/function coverage recovered from the 2026-09-11 degraded pass now that all unit tests pass; branch coverage remains below the >95% target and below the prior 98.48%/98.41%/100%/75% baseline.
 
-**Verification Date**: 2026-09-18
+**Verification Date**: 2026-09-24 (PMO audit, Docker). Previous: 2026-09-18 (native).
 
-**Verification Commands** (native — no Docker in this cloud automation environment):
-- `npm install && npx vitest run --coverage --coverage.reportOnFailure --config config/vitest.config.ts`
+**Verification Commands**:
+- Docker (preferred, used 2026-09-24): `docker compose -f config/docker-compose.yml run --rm unit`
+- Native fallback (used 2026-09-18): `npm install && npx vitest run --coverage --coverage.reportOnFailure --config config/vitest.config.ts`
 
-**Test Result**: 123/123 unit tests passing across 21/21 test files; 0 failures. Playwright E2E not run in this pass (Docker/browser-dependent, not re-verified here).
+**Test Result**: 193/193 unit tests passing across 24/24 test files in Docker (2026-09-24, 27.94s); 0 failures. The 2026-09-18 native pass reported 123/123 across 21 files. Playwright E2E not run in this pass (Docker/browser-dependent, not re-verified here).
 
 **Failing tests**: None. The happy-dom getter-only `window.scrollY`/`window.pageYOffset` issue noted on 2026-09-11 (pinned `happy-dom@20.11.15`) did not reproduce in this run — `tests/unit/integration.test.js`, `tests/unit/performance-monitor.test.js`, `tests/unit/smooth-scroll.test.js`, and `tests/unit/ui.test.js` all passed. Root cause and fix are left documented here for reference in case it recurs: these tests assign directly to `window.scrollY`/`window.pageYOffset`, which that happy-dom version can expose as a getter-only property; the fix would be `Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })` (or `vi.stubGlobal`) instead of direct assignment.
 
@@ -141,7 +144,10 @@ Performance monitoring is built-in (development mode):
 - `campaign.js`: 82.97%
 - `gallery-loader.js`: 98.24% (gallery data fetch and rendering)
 - `main.js`: 97.22% (application bootstrap)
-- `smooth-scroll.js`: its test suite (3 tests) passed, but the file no longer appears as a scoped row in today's coverage text summary (it was included and included at 23.07% in the prior degraded run) — not re-added to the per-file list below to avoid inventing a number; see Verification Commands to reproduce.
+- `mobile-menu.js`: 100% (Docker 2026-09-24)
+- `smooth-scroll.js`: 100% (Docker 2026-09-24)
+- `utils.js`: 100% (Docker 2026-09-24)
+- Note: the 2026-09-18 native run left `mobile-menu.js`, `smooth-scroll.js` and `utils.js` out of its text summary. The 2026-09-24 Docker run includes all three at 100%, with the same aggregate totals.
 
 **Excluded From Coverage**:
 - `convert-to-webp.js`: Node.js build script not loaded in the browser bundle
@@ -158,7 +164,7 @@ Performance monitoring is built-in (development mode):
 
 **Notes**:
 - The published coverage value is the aggregate Vitest/V8 statement percentage.
-- Docker is the preferred validation path on this repo because it does not require a local Node toolchain; this pass was run natively (no Docker available). All 123 tests passed — the happy-dom `scrollY`/`pageYOffset` failures reported on 2026-09-11 did not reproduce and appear resolved.
+- Docker is the preferred validation path on this repo because it does not require a local Node toolchain; the 2026-09-24 PMO pass used Docker (193/193 passed). The 2026-09-18 pass was native (123 passed) — the happy-dom `scrollY`/`pageYOffset` failures reported on 2026-09-11 did not reproduce and appear resolved.
 
 ---
 
@@ -171,4 +177,4 @@ Performance monitoring is built-in (development mode):
 
 ---
 
-**Last Updated:** May 24, 2026
+**Last Updated:** 2026-09-24

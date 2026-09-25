@@ -1,5 +1,7 @@
 # Agent Instructions: Farm RTS Handoff
 
+> 🧭 [farm-3j](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 ## Where to Pick Up
 
 - See `TASKS.md` under 'Unfinished Todos (RTS Farm Game)' for the current actionable items.

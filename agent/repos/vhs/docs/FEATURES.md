@@ -1,5 +1,7 @@
 # VHS Collection Indexer — Features
 
+> 🧭 [vhs](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 
 ## Browser App
@@ -73,9 +75,17 @@ Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 
 - `[shipped]` **eBay Valuation** — 🛒 eBay button in the detail modal estimates low/high/avg from eBay Browse API listings and stores the result on the tape (`source: "ebay-browse"`). **Asking prices from active listings, not sold prices** — true sold data needs the Marketplace Insights API (tracked in TASKS.md)
 
+## Collection UX & Local AI (2026-09, PR #55)
+
+- **Collection-first Default View** — Collect opens to Collections → Stacks with a reordered `Search | View | Sort | Export | Sign-in` toolbar; unified multi-selection across table and card views; layout, sort, and zoom preferences remembered
+- **Sortable, Resizable Wall/Table Columns** — column-header sort with direction indicators and resizable columns with saved widths
+- **Local AI Discovery** — Docker deployments auto-probe for Ollama with zero config; a "Find Local AI" flow in Settings detects Ollama and OpenAI-compatible backends (e.g. LM Studio) for hosted deployments
+- **Metadata Audit Tool** — `scripts/audit-metadata.js` compares stored metadata against fresh OMDb lookups; dry-run by default and only auto-applies high-confidence corrections with explicit `--apply`
+- **Photo Upload & Crop Editor Fixes** — Add Photo wired end to end; crop preview matches the real display aspect ratio
+
 ## Planned
 
 - `[planned]` **Sold-price valuation** — eBay Marketplace Insights API for realized sale prices rather than asking prices
-- `[planned — 2027]` **Multi-tape detection** — detect and crop individual tapes from batch photos (OpenCV); see `docs/ROADMAP.md`
-- `[planned — 2027]` **Auto-crop thumbnails for wall view** — depends on multi-tape detection above; see `docs/ROADMAP.md`
-- `[planned — 2027]` **GPU performance tuning for AI scanning** — the `web-gpu` Docker Compose profile exists; benchmarking and model/prompt tuning against real GPU hardware is the remaining work; see `docs/ROADMAP.md`
+- `[planned — 2027 Q1]` **Multi-tape detection** — detect and crop individual tapes from batch photos (OpenCV); see `docs/ROADMAP.md`
+- `[planned — 2027 Q1]` **Auto-crop thumbnails for wall view** — depends on multi-tape detection above; see `docs/ROADMAP.md`
+- `[planned — 2027 Q1]` **GPU performance tuning for AI scanning** — the `web-gpu` Docker Compose profile exists; benchmarking and model/prompt tuning against real GPU hardware is the remaining work; see `docs/ROADMAP.md`

@@ -1,5 +1,7 @@
 # 🚀 Production Deployment Guide
 
+> 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 Complete step-by-step guide to deploy SkyView to production.
 
 ---
@@ -167,7 +169,7 @@ Netlify detects forms automatically! Just verify:
 3. Set email notification address
 
 #### Manual Setup (If Needed)
-Add to your form in [index.html](index.html):
+Add to your form in [index.html](../index.html):
 ```html
 <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="contact">

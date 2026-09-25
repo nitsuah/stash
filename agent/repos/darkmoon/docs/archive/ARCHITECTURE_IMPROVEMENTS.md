@@ -1,5 +1,7 @@
 # Architecture Improvements - Quick Reference
 
+> 🧭 [darkmoon](../../README.md) · [Features](../FEATURES.md) · [Roadmap](../ROADMAP.md) · [Tasks](../TASKS.md) · [Changelog](../CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
+
 **Purpose:** Actionable improvements for code organization and architecture  
 **Related:** [L7_ENGINEERING_REVIEW.md](./L7_ENGINEERING_REVIEW.md), [TECH_DEBT.md](./TECH_DEBT.md)
 
@@ -396,7 +398,7 @@ describe("usePlayerMovement", () => {
     const keysPressed = { current: { [W]: true } };
 
     const { result } = renderHook(() =>
-      usePlayerMovement(meshRef, keysPressed, false)
+      usePlayerMovement(meshRef, keysPressed, false),
     );
 
     // Simulate frame update
@@ -650,6 +652,7 @@ export const setupMovementHandlers = (io) => {
 - [ROADMAP.md](./ROADMAP.md) - Implementation timeline
 
 ## Related
+
 - [[repos/darkmoon/docs/archive/L7_ENGINEERING_REVIEW|L7 Engineering Review]] — full analysis this document is derived from
 - [[repos/darkmoon/docs/ARCHITECTURE|Architecture]] — current active architecture document
 - [[repos/darkmoon|darkmoon runbook]] — repo context

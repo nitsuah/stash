@@ -1,4 +1,6 @@
-## FEATURES.md
+# Features
+
+> 🧭 [avatar](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 ## Core Functionality
 
@@ -8,6 +10,7 @@
 - **Mixed Precision (fp16) Training** — Reduces GPU memory usage by half, enabling training on consumer-grade GPUs and Colab instances.
 - **8-bit Adam Optimizer** — Further reduces GPU memory footprint (via `bitsandbytes`) without meaningful loss in training quality.
 - **Configurable Training Steps** — `max_train_steps` is user-adjustable up to 2000; the utility module auto-recommends 100 steps per image + 100 base.
+- **Notebook Dataset Validation (Step 6.5)** — A notebook cell opens and verifies every training image with Pillow and fails fast with a clear message if any concept has fewer than 3 or more than 10 images.
 - **Image Count Validation** — Utility function enforces the 3–10 image recommendation and surfaces clear messages when the count is out of range.
 - **Concepts List (JSON)** — Multi-concept training is supported via a structured `concepts_list.json` file, configurable per subject and class.
 - **Sample Image Generation During Training** — `save_sample_prompt` generates preview images at checkpoint intervals so progress can be monitored without a separate inference step.
@@ -32,5 +35,6 @@
 - **Container Healthcheck** — Docker Compose and the Dockerfile both configure a curl-based healthcheck on the Jupyter port.
 - **25 Unit Tests, 100% Coverage** — All utility functions in `avatar/utils.py` are covered by pytest with 25 tests across 7 test classes.
 - **Pre-commit Hooks** — Lint (ruff, flake8), format (black, isort), and test-on-push hooks enforced via `.pre-commit-config.yaml`.
-- **GitHub Actions CI** — Runs linting and the full test suite on every push and pull request to `main`.
+- **GitHub Actions CI** — Runs linting and the full test suite on every push and pull request to `main`, with least-privilege `GITHUB_TOKEN` permissions; `actions/setup-python` is pinned to a commit SHA.
+- **Python 3.12 Everywhere** — CI, the Docker base image, and `pyproject.toml` lint/format targets all target Python 3.12; runtime dependencies are pinned in `config/requirements.txt`.
 - **Environment Variable Template** — `.env.example` documents `JUPYTER_TOKEN` and other runtime variables.

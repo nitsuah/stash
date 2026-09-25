@@ -1,5 +1,7 @@
 # 🔥 FIRE Tracker
 
+> 🧭 **fire** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
 [![CI](https://github.com/nitsuah/fire/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/fire/actions/workflows/ci.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2daa3b19-e0a6-46e5-95b3-189b61df5d5f/deploy-status)](https://app.netlify.com/projects/lifefire/deploys)
 
@@ -20,7 +22,7 @@
 - **Precious metals** — Gold/Silver account type valued by weight × live spot (metals.dev with a free Yahoo futures fallback)
 - **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier; wallet tracking appears under the form when Type = Cryptocurrency
 - **REST API** — full CRUD for accounts, CDs, wallets, vehicles, sync templates, state; `FIRE_API_KEY` header auth required by default (opt out with `FIRE_AUTH_DISABLED=true` for local-only use); `FIRE_ADMIN_KEY`-gated key-rotation endpoint
-- **MCP Server** — 12 functional tools for Claude/LLM integration via `app/mcp-server.mjs` (plus 7 registered stubs)
+- **MCP Server** — 13 functional tools for Claude/LLM integration via `app/mcp-server.mjs` (plus 7 registered stubs)
 - **Yahoo Finance prices** — live portfolio valuation with crumb-based auth, stale-data fallback, and SSE (`GET /api/prices/stream`) for live push; configurable via `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` as stable alternatives
 - **Webhook sync framework** — JSON data-mapped templates for automated data ingestion (full CRUD + live receiver at `POST /api/sync/webhook/:templateId`)
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
@@ -153,7 +155,7 @@ Connect Claude Code to your live financial data. The project ships a `.mcp.json`
 }
 ```
 
-**Functional tools (12):** `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway`
+**Functional tools (13):** `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway`
 
 **Registered stubs (return `not_implemented`):** `get_market_correlation`, `get_swr_sensitivity`, `set_price_target_alert`, `auto_reconcile_csv`, `get_dividend_forecast`, `get_net_worth_trend`, `get_diversification_score`
 
@@ -180,7 +182,7 @@ fire/
 ├── app/
 │   ├── index.html              # Single-page app entry point
 │   ├── server.js               # Express server (port 3001)
-│   ├── mcp-server.mjs          # MCP server — 12 functional tools + 7 registered stubs
+│   ├── mcp-server.mjs          # MCP server — 13 functional tools + 7 registered stubs
 │   ├── lib/
 │   │   ├── db.js               # State persistence (db.json, atomic writes)
 │   │   ├── crypto-utils.js     # AES-256-GCM encrypt/decrypt
@@ -283,6 +285,30 @@ See [docs/prod-plan.md](docs/prod-plan.md) for the full productionization roadma
 - Integration setup → [docs/integrations.md](docs/integrations.md)
 - Security hardening → [docs/security-hardening.md](docs/security-hardening.md)
 - Sync architecture → [docs/backend-sync-architecture.md](docs/backend-sync-architecture.md)
-- Milestones → [ROADMAP.md](ROADMAP.md)
-- Task backlog → [TASKS.md](TASKS.md)
-- Shipped features → [FEATURES.md](FEATURES.md)
+- Milestones → [ROADMAP.md](./docs/ROADMAP.md)
+- Task backlog → [TASKS.md](./docs/TASKS.md)
+- Shipped features → [FEATURES.md](./docs/FEATURES.md)
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [METRICS.md](./docs/METRICS.md) — `docs/METRICS.md`
+- [🗺️ FIRE Tracker Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+- [Backend Sync Architecture](./docs/backend-sync-architecture.md) — `docs/backend-sync-architecture.md`
+- [Integrations Reference](./docs/integrations.md) — `docs/integrations.md`
+- [FIRE Tracker — Privacy Policy & Terms of Use](./docs/privacy-policy.md) — `docs/privacy-policy.md`
+- [PROD Plan — FIRE Tracker Productionization](./docs/prod-plan.md) — `docs/prod-plan.md`
+- [Security Hardening Plan](./docs/security-hardening.md) — `docs/security-hardening.md`
+
+**`docs/archive/`**
+
+- [fire-feedback](./docs/archive/fire-feedback.md) — `docs/archive/fire-feedback.md`
+- [fire-plan](./docs/archive/fire-plan.md) — `docs/archive/fire-plan.md`
+
+<!-- docs-index:end -->

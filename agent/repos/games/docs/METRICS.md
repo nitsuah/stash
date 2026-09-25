@@ -1,5 +1,7 @@
 # Metrics
 
+> 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
+
 ## Docker-based E2E Test Workflow
 
 All Playwright E2E tests can be run in Docker:
@@ -12,10 +14,10 @@ All Playwright E2E tests can be run in Docker:
 
 | Metric                | Value          | Notes                     |
 | --------------------- | -------------- | ------------------------- |
-| Code Coverage         | 95.41% | Docker-validated in latest unit coverage run. |
-| Unit Tests            | 482 passing    | 35/35 Jest suites passing in the latest Docker coverage run. |
+| Code Coverage | 98.58% | Docker `npm run test:ci` (2026-09-24): statements 98.58%, branches 92.2%, functions 99.06%, lines 99.47%. Coverage now counts `.ts/.tsx` and `contexts/` (3,804 statements, up from 1,096) and includes audio, asteroid UI/weapons and the TS game components; only canvas/R3F render shells are excluded. CI enforces 85% thresholds. |
+| Unit Tests | 1017 passing | 71/71 Jest suites pass in Docker (2026-09-24, coverage expansion). |
 | E2E Tests             | 8 passing      | Based on the last validated Playwright Docker run; not rerun in this refresh. |
-| Test Files            | 35             | Current `app/tests` file count. |
+| Test Files            | 71             | Current `app/tests` file count. |
 | Build Time            | TBD            | Pending current run measurement. |
 | Bundle Size (JS)      | TBD            | Pending current build artifact analysis. |
 | Lighthouse Score      | TBD            | Pending current Lighthouse run. |
@@ -27,18 +29,18 @@ All Playwright E2E tests can be run in Docker:
 | Open Issues           | TBD        | Pull from current GitHub state during next metrics refresh. |
 | Open PRs              | TBD        | Pull from current GitHub state during next metrics refresh. |
 | Health Score          | TBD        | Replace self-rating with computed score source. |
-| Last Updated          | 2026-08-22 | Metrics updated from Docker-based test run. |
-| Passing Unit Tests    | 482/482    | Latest Docker coverage run completed cleanly. |
+| Last Updated | 2026-09-24 | Coverage expanded to TS/audio/UI; Docker unit coverage re-run. |
+| Passing Unit Tests | 1017/1017 | All tests pass, and coverage thresholds pass (2026-09-24). |
 | Deploy Success Rate   | TBD        | Pull from provider and CI history. |
 
 ## Test Distribution
 
 | Test Group                | Count | Status     |
 | ------------------------- | ----- | ---------- |
-| Jest Test Suites          | 35    | ✅ Passing |
-| Jest Tests                | 482   | ✅ Passing |
+| Jest Test Suites          | 71    | ✅ Passing |
+| Jest Tests                | 1017  | ✅ Passing |
 | Playwright E2E Tests      | 8     | ✅ Last validated |
-| **Current Unit Coverage** | **95.41% statements** | **✅ Docker validated** |
+| **Current Unit Coverage** | **98.58% statements** | **✅ Above the 85% threshold; Docker `npm run test:ci` exits 0 (2026-09-24)** |
 
 ## Docker-based Test & Coverage Workflow
 
@@ -46,9 +48,11 @@ All unit tests and coverage can be run in Docker:
 
 - Build test image: `docker build --target test-unit -t games-test .`
 - Run all unit tests with coverage: `docker run --rm -it games-test npm run test:coverage`
-- All 482 unit tests pass in Docker across 35 suites (latest validation)
+- All 1017 unit tests pass in Docker across 71 suites (2026-09-24, latest validation)
 
-Coverage (statements/branches/functions/lines): 95.41% / 87.66% / 93.77% / 96.87%
+Coverage (statements/branches/functions/lines): 98.58% / 92.2% / 99.06% / 99.47% (Docker, 2026-09-24, over 3,804 statements now that `.ts/.tsx`, audio and asteroid UI are counted). _History: 95.34% earlier the same day measured only 1,096 `.js/.jsx` statements._
+
+_History: 61.09% / 59.13% / 80.99% / 62.55% at the 2026-09-24 PMO audit, before the fix, while `TankGame.jsx` was counted untested. It was 95.41% / 87.66% / 93.77% / 96.87% before Tank Battle was added in #284._
 
 ## Performance Metrics
 
@@ -107,7 +111,7 @@ Coverage (statements/branches/functions/lines): 95.41% / 87.66% / 93.77% / 96.87
 
 ---
 
-**Last Updated**: August 22, 2026  
+**Last Updated**: September 24, 2026  
 **Data Source**: Latest Docker Jest coverage run plus previously validated Playwright Docker results. Performance rows for Memory Match and Dodge Blocks are estimates (iframe-hosted standalone games; FPS column N/A for Memory Match as it is DOM-based).
 
 <!--

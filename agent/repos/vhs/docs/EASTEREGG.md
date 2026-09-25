@@ -1,5 +1,7 @@
 # Easter Eggs
 
+> 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Hidden interactions and references in VHS Box.
 
 ---

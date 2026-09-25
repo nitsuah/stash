@@ -1,5 +1,7 @@
 # Games Collection Features
 
+> 🧭 [games](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 Status guide: all game entries below are `[shipped]` unless otherwise noted. Planned platform work is called out inline.
 
 ## 🎮 Arcade Games
@@ -115,9 +117,9 @@ Status guide: all game entries below are `[shipped]` unless otherwise noted. Pla
 
 ### 📊 Testing Infrastructure
 
-- **Unit Tests**: 482 passing unit tests across 35 suites covering game logic and shared systems
+- **Unit Tests**: 1017 passing unit tests across 71 suites covering game logic, shared systems, audio and UI
 - **E2E Testing**: Playwright tests for complete game flows
-- **Code Coverage**: 95.41% statement coverage (87.66% branch / 93.77% function / 96.87% line)
+- **Code Coverage**: 98.58% statement coverage (92.2% branch / 99.06% function / 99.47% line), including TypeScript modules; CI enforces 85%
 - **CI/CD Pipeline**: Automated testing on every push with GitHub Actions
 - **Lighthouse Audits**: Performance and accessibility monitoring
 
@@ -143,7 +145,7 @@ Status guide: all game entries below are `[shipped]` unless otherwise noted. Pla
 
 - **Next.js 16.3.3**: React framework with server-side rendering
 - **Three.js 0.185.1**: 3D graphics library for WebGL rendering
-- **React Three Fiber 9.7.0**: React renderer for Three.js with declarative API
+- **React Three Fiber 9.8.0**: React renderer for Three.js with declarative API
 - **React Three Cannon 6.6.0**: Physics engine integration for React Three Fiber
 - **Styled Components 6.5.3**: CSS-in-JS styling solution
 - **GSAP 3.15.0**: Animation library for smooth transitions and effects

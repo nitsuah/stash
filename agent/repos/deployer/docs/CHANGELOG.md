@@ -1,5 +1,7 @@
 # Changelog
 
+> 🧭 [deployer](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -27,7 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - RegisterPortal's "contract balance depletion" test was a 50/50 coin-flip wrapped in a try/catch that treated both outcomes as passing, so it often never exercised the revert path it was meant to test. Rewritten to be fully deterministic using `networkHelpers.setPrevRandao` (see `test/RegisterPortal.test.ts` for the full explanation) — it now reliably exercises and asserts the low-balance revert on every run.
 
+### Security
+- CI Slither job now actually analyzes the contracts (47 contracts, 21 findings incl. 2 High `weak-prng`) and fails if it analyzes 0 — it had been green while checking nothing (#164, #165).
+- Patched high-severity Dependabot alerts (#152); `adm-zip` override bumped to 0.6.1 (#158); `js-yaml` 4.3.2 (#153).
+
 ### Docs
+- Planning docs reset for 2027 (`pmo-ff`): Near/Mid/Long-Term horizons replaced with 2027 Q1, completed items condensed into FEATURES/CHANGELOG, breadcrumb navigation + README docs index added.
 - METRICS.md: corrected the "CI/CD Pipeline Success Rate: 0%" figure, which was stale (recent runs are ~98% green — see METRICS.md's investigation note for the `gh run list` evidence); documented that the previous 86.33% coverage figure predates a toolchain change that makes it unverifiable, rather than carrying it forward as current.
 - README.md, FEATURES.md: corrected Hardhat version references (were still showing Hardhat 2.x fields despite `package.json` depending on Hardhat 3.x), added Local Development and Security sections, removed a dead link to a `TESTING.md` that was never created.
 - `.env.template`: replaced generic, unrelated boilerplate (`DATABASE_URL`, `PORT`, ...) with the environment variables this project's `hardhat.config.mjs` and `deploy/deploy.ts` actually read.
