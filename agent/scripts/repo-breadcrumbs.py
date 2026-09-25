@@ -153,7 +153,8 @@ def main(repo_dir, repo_name):
         text, nl = read(readme)
         text = insert_nav(text, nav_for(readme))
         rows = []
-        group = "docs/"  # top-level docs/ files are listed first without a sub-heading
+        # top-level docs/ files lead without a heading, unless other folders get headings too
+        group = None if extras else "docs/"
         for p in list(dict.fromkeys(targets)) + extras:
             r = rel(repo_dir, p)
             if p in extras:
