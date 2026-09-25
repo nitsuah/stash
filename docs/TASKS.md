@@ -39,6 +39,48 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P3
   - Type: Vault
 
+### Vault scorecard follow-ups (2026-09-25 review: overall 8.3/10)
+
+Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **routine**: prompt change in `agent/prompts/` or a cloud routine. **stash**: scripts or vault. Items already listed above are referenced, not repeated.
+
+**Semantic layer (7.5 → 9)**
+- [ ] Embedding freshness: `suggest-links.py` reports notes missing a Smart Connections embedding, or embedded before their last edit, so suggestions aren't built on stale vectors.
+  - Priority: P3 · Owner: stash
+- [ ] Close the loop on suggestions: the PMO audit reads the latest `reports/link-suggestions-*.md`, adds the links that reflect a real dependency (in the note body), and records accepted/ignored counts in its report. See also "Review the first weekly link-suggestions" and "Tune topic hubs" above.
+  - Priority: P3 · Owner: routine (PMO.md)
+
+**Content quality (6.5 → 8)**
+- [ ] Long-note report: `find-orphans.py` lists notes outside the mirrors over a size threshold (e.g. 300 lines), and the PMO audit splits the worst offenders into single-idea notes. See also "Smaller, single-idea notes" above.
+  - Priority: P3 · Owner: stash (report) + routine (PMO.md)
+- [ ] Stale hub prose: the generator flags repo hubs whose `Reviewed:`/`Last Validated` date is more than 30 days old in VAULT-MAP, and DAILY step 2 refreshes those first.
+  - Priority: P2 · Owner: stash + routine (DAILY.md)
+- [ ] KB overviews drift (`projects/KB/*-overview.md`): either fold them into the repo hubs, or regenerate them from vigil's `/api/context` so there is one source per repo.
+  - Priority: P2 · Owner: vigil (context source) + stash (decision)
+
+**Work tracking (6 → 8)**
+- [ ] Cross-repo task rollup in vigil (MCP tool and/or `/api/context`); see "Cross-repo task rollup" above.
+  - Priority: P2 · Owner: vigil
+- [ ] Once it lands, DAILY's "## Tasks" section reads open P0/P1 items from vigil's MCP instead of re-deriving them from hub notes.
+  - Priority: P2 · Owner: routine (DAILY.md)
+- [ ] Parser-safe TASKS.md everywhere: the PMO audit checks every repo's TASKS.md against the shared format (priority, status, type), so vigil's parser sees all items.
+  - Priority: P2 · Owner: routine (PMO.md)
+
+**Visuals (3 → 7)**
+- [ ] CI-generated diagrams and screenshots, embedded in each README; see "Diagrams and screenshots" above.
+  - Priority: P2 · Owner: vigil
+- [ ] Decide whether the vault mirrors image assets from repo `docs/` (small PNG/SVG only) so they render in Obsidian, or keeps linking them to GitHub as it does today. If mirroring, extend `sync-repos.ps1` + `enrich-mirror.py` and set a size cap.
+  - Priority: P3 · Owner: stash
+
+**Operational polish (7 → 9)**
+- [ ] Routine failure visibility: DAILY lists yesterday's failed cloud routine runs (RemoteTrigger `list_runs`), with the reason (e.g. spend or rate limit), in `## Notes`, and retries them one at a time per the serialize-catch-up rule.
+  - Priority: P2 · Owner: routine (DAILY.md)
+- [ ] Stale CodeRabbit "changes requested" reviews: enable CodeRabbit's `request_changes_workflow` (it approves once its comments are resolved) in the org/repo config, so a fixed PR isn't blocked on a manual dismiss.
+  - Priority: P2 · Owner: stash (CodeRabbit config; human applies org setting)
+- [ ] No pushes to a merged PR's branch: agent PR workflows check `gh pr view --json state` before pushing follow-ups, and open a new PR if the old one merged (commits were briefly stranded after #141).
+  - Priority: P3 · Owner: routine (AGENT-MAIN / HANDOFF guidance)
+- [ ] Local-only Obsidian settings: decide which `.obsidian/` files to track (e.g. the Templater `templates_folder`, currently gitignored), so a fresh clone gets the same vault behavior.
+  - Priority: P3 · Owner: stash
+
 ### Documentation
 
 - [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
