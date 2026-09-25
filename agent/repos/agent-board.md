@@ -3,7 +3,7 @@ kind: repo-hub
 repo: agent-board
 ---
 
-# motor-pool
+# agent-board
 
 > Reviewed: 2026-09-24
 

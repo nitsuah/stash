@@ -105,6 +105,8 @@ Rules for agents and routines:
 - Never hand-edit a `<!-- nav -->` line or a `<!-- vault-links:start/end -->` block. They're regenerated.
 - Scripts in `scripts/` are listed in VAULT-MAP with their own one-line description, so start every new script with one: a Python docstring, a PowerShell `.SYNOPSIS` or `<#` block, or a shell comment. Only runtime output (`logs/`, plugin data, scratch `*.txt`) is hidden from the vault, in `.obsidian/app.json`.
 - **Properties.** The generator owns `kind`, `repo` and `date` in frontmatter (for example `kind: eng-loc`, `repo: kryptos`). The views in `vault-views.base` are built on them, so don't hand-edit those three keys.
+- **Renames and aliases.** Record a repo rename once, as "formerly `old-name`" in `projects/scope.md`'s Tracked table. The generator maps old report names to the current hub and writes the old name into the hub's `aliases:`, so searches and links for the old name still resolve.
+- **Topics.** `topics/topic-<name>.md` are cross-repo maps by subject (deployment, auth, MCP, testing, ...). Each defines its own `match:` pattern in frontmatter, and the generator lists matching notes grouped by repo. To add a topic, add a note; to tune one, edit its pattern.
 - **Hand-written notes** start from a template in `templates/` (Templater: *Create new note from template*), which asks for the parent hub and writes `up:`.
 - **Archive.** Daily and weekly notes older than last month move to `notes/archive/YYYY-MM/` on the next generator run. Link dated notes by bare name (`[[2026-09-16]]`), not by path, so the link survives the move.
 - A note that fits no row above gets `up: "[[parent]]"` frontmatter. Obsidian counts that as a link.
