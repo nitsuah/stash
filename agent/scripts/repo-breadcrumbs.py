@@ -170,7 +170,7 @@ def main(repo_dir, repo_name):
         # blank lines inside the markers keep the block Prettier-stable
         scope = ("Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the "
                  "Obsidian vault), so none of them is orphaned.") if not extras else (
-                 "Every committed doc in this repo (other than this README, `.github/` and `templates/`), "
+                 "Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), "
                  "the same set mirrored into the Obsidian vault, so none of them is orphaned.")
         block = "\n".join([IDX_START, "", "## Docs Index", "", scope, ""] + rows + ["", IDX_END])
         if IDX_START in text:
