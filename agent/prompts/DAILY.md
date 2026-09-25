@@ -14,12 +14,12 @@ Run the sub-steps in order, starting with step 0. Each logs to its own file — 
 
 ### 0. Once per day, and close the loop first
 
-**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `Daily Notes/<today>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <today>` exists. "Today" is the **local (America/New_York) date**, the same date used in the note's filename. Compute it once into a variable and substitute it; never run a filter containing a literal `<today>` placeholder, which silently matches nothing and defeats this guard:
+**Run once per day (added 2026-09-24).** Before anything else, check whether today's run already happened: `agent/notes/<today>.md` exists on `origin/main`, or an open PR titled exactly `obn: daily note <today>` exists. "Today" is the **local (America/New_York) date**, the same date used in the note's filename. Compute it once into a variable and substitute it; never run a filter containing a literal `<today>` placeholder, which silently matches nothing and defeats this guard:
 
 ```powershell
 $today = Get-Date -Format 'yyyy-MM-dd'
 git -C C:\Users\<user>\code\stash fetch -q origin
-git -C C:\Users\<user>\code\stash cat-file -e "origin/main:Daily Notes/$today.md"   # exit 0 = note already merged
+git -C C:\Users\<user>\code\stash cat-file -e "origin/main:agent/notes/$today.md"   # exit 0 = note already merged
 $filter = '.[] | select(.title == "obn: daily note ' + $today + '") | .title'   # build by concatenation: backslash/backtick-escaped quotes reach gh literally in PowerShell 7 and break the filter
 gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq $filter   # any output = PR already open
 ```
@@ -41,17 +41,17 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
    ```
    Skip to step 3 if there are none.
 2. For each candidate (each is at least a day old by definition):
-   - **Path check:** every changed file must be under `Daily Notes/`, `Weekly Notes/` or `agent/repos/`:
+   - **Path check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`) or under `agent/repos/`. Match the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable:
      ```powershell
      $files   = @(gh pr view $pr --repo nitsuah/stash --json files --jq '.files[].path')
-     $outside = @($files | Where-Object { $_ -notmatch '^(Daily Notes/|Weekly Notes/|agent/repos/)' })
+     $outside = @($files | Where-Object { $_ -notmatch '^(agent/notes/\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|agent/repos/)' })
      ```
      If `$outside` is non-empty, **don't merge**. Name the PR and the first outside path in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
    - If CI is green (or no CI is configured) and there are no unresolved review comments, merge: `gh pr merge <PR> --squash --delete-branch`.
    - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` instead of merging.
 
-   (Gate verified 2026-09-24 against every stash PR: 10 note PRs qualify. #88, #89 and #100 are never candidates, and the path check flags #92.)
+   (Gate verified 2026-09-24 against every stash PR: 10 note PRs qualify. #88, #89 and #100 are never candidates, and the path check flags #92. The path regex was changed the same day when notes moved from `Daily Notes/`/`Weekly Notes/` to flat `agent/notes/`; re-verified against note, repo, `eng-loc-notes.md`, subfolder and old-folder paths.)
 3. `git -C C:\Users\<user>\code\stash checkout main` and `git pull --ff-only`, so the steps below read the merged notes. `main` should be clean here, because yesterday's end-of-run sweep committed everything. If it isn't, log it and continue without pulling.
 4. Only after that, run steps 1-4.
 
@@ -85,7 +85,7 @@ Log to `C:\Users\<user>\code\stash\agent\logs\obn-review.log`, appending (never 
 
 **Do not delegate content to `agent/prompts/AUTO.md`** — it is a generic automation-agent role description with no daily-note content spec at all, which is why every `obn: daily note <date>` PR to date (#75, #78, #82, #83, #86) shipped as an empty `## Tasks` / `## Notes` / `## Reflections` skeleton and none were ever merged. Use the concrete spec below instead; it draws entirely from data steps 1–2 above already produced plus one live query, so no open-ended research is needed.
 
-Write to `Daily Notes/<YYYY-MM-DD>.md` (vault root, matching the existing `obn: daily note <date>` PRs) with exactly these four sections. If a section genuinely has nothing to report, write one factual line saying so (e.g. "No PR/commit activity across tracked repos today.") — never leave a heading with no content under it.
+Write to `agent/notes/<YYYY-MM-DD>.md` (flat, no subfolders; moved from the vault-root `Daily Notes/` folder on 2026-09-24) with exactly these four sections. If a section genuinely has nothing to report, write one factual line saying so (e.g. "No PR/commit activity across tracked repos today.") — never leave a heading with no content under it.
 
 **## Repo Activity**
 One line per repo *that had activity today*, checked across the same repo list as the "Repo sync" section below. For each repo:
@@ -112,13 +112,13 @@ Open today's note as a **regular, non-draft PR** in `stash` (draft PRs are why t
 - Create the `obn/daily-note-<date>` branch **from the working tree as-is**, so the uncommitted writes come along. Commit the note and `agent/repos/**` together in the first commit.
 - **Last step of the whole run, after Stale worktree cleanup:** commit whatever is still uncommitted under `agent/repos/` onto the same branch, then `git push`. The open PR picks it up automatically. Never leave commits on the branch unpushed; a squash-merge would orphan them.
 - Then `git checkout main`. Do not `git pull` yet: those files are now committed on the branch, so `main` should be clean. If `git status` on `main` still shows changes under `agent/repos/`, the sweep missed something. Name it in the log instead of ignoring it.
-- Only commit paths under `agent/repos/`, `Daily Notes/` and `Weekly Notes/`. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
+- Only commit `agent/repos/**` and the dated note files (`agent/notes/<YYYY-MM-DD>.md`, `agent/notes/<YYYY>-W<ww>.md`). Never `git add agent/notes/` as a folder. Any other uncommitted file in `stash` is a human's in-progress work: leave it alone and mention it in `## Notes`.
 
 ### 4. Weekly note chain (Monday and Saturday only)
 
-Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start), and `YYYY` is the **ISO year**, not the calendar year. For example, Sat 2027-01-02 is `2026-W53`, so the review must go into `Weekly Notes/2026-W53.md`, the same file the Monday of that week created. Compute it with `python -c "import datetime as d; y,w,_=d.date.today().isocalendar(); print(f'{y}-W{w:02d}')"` or `[System.Globalization.ISOWeek]::GetYear((Get-Date))` / `GetWeekOfYear`. **Don't** use PowerShell's `Get-Date -UFormat %V`, which isn't reliably ISO on Windows.
+Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `week-obn-review` (Fri), which were then disabled. Those routines read `main` on GitHub, but nothing ever merged their PRs. So Friday's review found no weekly note, Monday's note never saw the review, and the Friday review always missed Friday's still-unmerged daily note. Here, both land in the day's daily-note PR and get merged by step 0, and step 0 runs first, so every read below sees merged notes. Weeks are ISO weeks (`YYYY-Www`, Monday start), and `YYYY` is the **ISO year**, not the calendar year. For example, Sat 2027-01-02 is `2026-W53`, so the review must go into `agent/notes/2026-W53.md`, the same file the Monday of that week created. Compute it with `python -c "import datetime as d; y,w,_=d.date.today().isocalendar(); print(f'{y}-W{w:02d}')"` or `[System.Globalization.ISOWeek]::GetYear((Get-Date))` / `GetWeekOfYear`. **Don't** use PowerShell's `Get-Date -UFormat %V`, which isn't reliably ISO on Windows.
 
-**Monday: create this week's weekly note.** Write `Weekly Notes/<YYYY>-W<ww>.md`, unless it already exists, in which case skip:
+**Monday: create this week's weekly note.** Write `agent/notes/<YYYY>-W<ww>.md` (same flat folder as the daily notes; the `W` in the filename is what tells them apart), unless it already exists, in which case skip:
 
 ```
 # Week <ww> — Mon <YYYY-MM-DD> to Fri <YYYY-MM-DD>
@@ -137,7 +137,7 @@ Moved here on 2026-09-24 from the cloud routines `week-obn-notes` (Mon) and `wee
 
 Seed **Goals** from last week's note: its "Next week priorities", then any "Recurring issues" not already covered, up to 3, most important first. If last week has no review, write one line saying so instead of blank checkboxes. Blank goals were the norm before 2026-09-24 and made the Friday goals check meaningless.
 
-**Saturday: append the week review.** Step 0 has just merged Friday's daily note, so all five weekdays are on `main`. Read `Daily Notes/<Mon..Fri>.md` and this week's weekly note, then append (append only; never rewrite earlier sections) to `Weekly Notes/<YYYY>-W<ww>.md`:
+**Saturday: append the week review.** Step 0 has just merged Friday's daily note, so all five weekdays are on `main`. Read `agent/notes/<Mon..Fri date>.md` and this week's weekly note, then append (append only; never rewrite earlier sections) to `agent/notes/<YYYY>-W<ww>.md`:
 
 ```
 ## Week Review — Saturday <YYYY-MM-DD>

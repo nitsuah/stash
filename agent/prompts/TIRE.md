@@ -32,7 +32,7 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 2. **Sources:** read every report in the window:
    - `agent/reports/eng-mini-*`, `eng-loc-*`, `metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
    - `agent/reports/cloud/**` (vuln-patcher, stale-worktrees, daily-pr-review, obn-import, ...)
-   - the `## Notes` section of `Daily Notes/*.md` in the window
+   - the `## Notes` section of the daily notes (`agent/notes/YYYY-MM-DD.md`) in the window
    - Skip `daily-email`, `daily-checkin` and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
 4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
