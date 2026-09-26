@@ -1,6 +1,6 @@
 # Tire Kick: Findings Fix Queue + Repo Health Check
 
-TIRE closes the loop on the report routines. Most routines only report: eng-mini, eng-loc, vuln-patcher, stale-worktrees, daily-pr-review, obn-import and metrics. TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
+TIRE closes the loop on the report routines. Most routines only report: eng-mini, eng-loc, week-vuln, daily-brief and obn-import. Since 2026-09-26 TIRE also owns the monthly coverage refresh ([[METRICS]], moved here from the retired cloud week-metrics) and remote stale-branch pruning (from the retired sun-stale-worktrees). TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
 
 **Runs:** monthly on the 28th (`monthly-tire-kick` scheduled task), so the ledger is current before [[PMO]] (1st) and [[RSI]] (2nd). It can also be run on demand at any time.
 
@@ -31,9 +31,10 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 1. **Window:** reports dated after the ledger's `Last intake:` date (first run: the last 35 days).
 2. **Sources:** read every report in the window:
    - `agent/reports/eng-mini-*`, `eng-loc-*`, `metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
-   - `agent/reports/cloud/**` (vuln-patcher, stale-worktrees, daily-pr-review, obn-import, ...)
+   - `agent/reports/cloud/**` (week-vuln, daily-brief's PR section, obn-import, plus older vuln-patcher / stale-worktrees / daily-pr-review files)
+   - **week-vuln's `## For TIRE` section** is pre-classified: each `quick | <repo> | bump ...` line becomes a `quick` ledger item as written. Re-verify it in §2.5 before fixing, and treat a `peer-dep risk` note as a reason to pin exact versions (see the darkmoon#450 / farm-3j#338 pattern in `rsi-changes.log`).
    - the `## Notes` section of the daily notes (`agent/notes/YYYY-MM-DD.md`) in the window
-   - Skip `daily-email`, `daily-checkin` and `week-fin-sum` output. That's personal, not repo work.
+   - Skip `daily-email`, `daily-checkin`, daily-brief's calendar and inbox sections, and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
 4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
 5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
@@ -70,6 +71,13 @@ Common issues from past runs:
 - `next lint` was removed in Next.js 16 → use `eslint .`.
 - `ruff` with `fix = true` modifies files through a mounted volume (kryptos). That's expected; commit the result.
 - mypy pre-commit failures that CI doesn't run: note them as pre-existing, don't fix them.
+
+## 4b. Monthly coverage refresh + remote branch pruning
+
+Only if budget remains after §3 and §4. Both were weekly cloud routines until 2026-09-26. They need Docker or local git, so they live here.
+
+- **Coverage ([[METRICS]]):** for up to 3 repos whose `METRICS.md` coverage line is older than 30 days, run the repo's coverage command in Docker and update `METRICS.md` on a `tire/<repo>/metrics-<date>` branch. It uses the same PR and merge rules as §3 and **counts toward the 5-PR budget**. Never write a number you didn't measure this run.
+- **Remote stale branches:** per repo, run `git branch -r --merged origin/<default>` plus `gh pr list --state merged --search "head:<branch>"` for squash-merges. Remote branches whose PR **merged** more than 14 days ago (or that `--merged` lists) are `quick`. A branch whose PR was closed **without** merging may hold unmerged work: it's `human`, like any other unmerged stale branch, and is never deleted here. Delete them with `gh api -X DELETE repos/<owner>/<repo>/git/refs/heads/<branch>` (the classifier blocks `git push --delete`), at most 20 per run, and log them in the report. Unmerged stale branches go in the ledger as `human`.
 
 ## 5. Report + ledger PR (stash)
 

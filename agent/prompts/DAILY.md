@@ -205,6 +205,8 @@ Added 2026-09-24. The 2026-09-03 run was recorded as "succeeded" after 10 second
 
 If any of these is missing, make the **first line** of your final output `INCOMPLETE: <what's missing>`, so the gap shows in the task's run summary instead of hiding behind a green status.
 
+**Then end the run.** The final line of output is `DONE: start a new session for follow-ups.` Don't take on follow-up work, CI fixes or other conversations in this session (added 2026-09-26). On 9/26 a daily-repo-sync session ran for 7.5 h and 568 messages as a general work session with Autofix events routed into it, re-sending the whole routine context every turn and hiding the run's real duration. USAGE counts routine sessions longer than 2 h as `hijacked`.
+
 ## Non-goals
 
 This routine never: force-pushes, discards uncommitted work, rewrites history, or merges a note PR the same day it was opened. It only fast-forwards clean checkouts, prunes already-merged worktrees, and merges a *previous* day's note PR once it's clean and had a full review window — everything else is logged for a human to act on.
