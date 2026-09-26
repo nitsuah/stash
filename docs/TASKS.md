@@ -67,18 +67,16 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
   - Priority: P2 · Owner: routine (PMO.md)
 
 **Visuals (3 → 7)**
-- [ ] CI-generated diagrams and screenshots, embedded in each README; see "Diagrams and screenshots" above.
-  - Priority: P2 · Owner: vigil
 - [ ] Decide whether the vault mirrors image assets from repo `docs/` (small PNG/SVG only) so they render in Obsidian, or keeps linking them to GitHub as it does today. If mirroring, extend `sync-repos.ps1` + `enrich-mirror.py` and set a size cap.
   - Priority: P3 · Owner: stash
 
 **Operational polish (7 → 9)**
-- [ ] Routine failure visibility: DAILY lists yesterday's failed cloud routine runs (RemoteTrigger `list_runs`), with the reason (e.g. spend or rate limit), in `## Notes`, and retries them one at a time per the serialize-catch-up rule.
-  - Priority: P2 · Owner: routine (DAILY.md)
+- [x] Routine failure visibility: DAILY lists yesterday's failed cloud routine runs (RemoteTrigger `list_runs`), with the reason (e.g. spend or rate limit), in `## Notes`, and retries them one at a time per the serialize-catch-up rule.
+  - Priority: P2 · Owner: routine (DAILY.md) · Done 2026-09-26: DAILY `## Notes` lists failed runs from `list_runs` plus `get_run_log`; retries are queued in `## Tasks`, one at a time.
 - [ ] Stale CodeRabbit "changes requested" reviews: enable CodeRabbit's `request_changes_workflow` (it approves once its comments are resolved) in the org/repo config, so a fixed PR isn't blocked on a manual dismiss.
   - Priority: P2 · Owner: stash (CodeRabbit config; human applies org setting)
-- [ ] No pushes to a merged PR's branch: agent PR workflows check `gh pr view --json state` before pushing follow-ups, and open a new PR if the old one merged (commits were briefly stranded after #141).
-  - Priority: P3 · Owner: routine (AGENT-MAIN / HANDOFF guidance)
+- [x] No pushes to a merged PR's branch: agent PR workflows check `gh pr view --json state` before pushing follow-ups, and open a new PR if the old one merged (commits were briefly stranded after #141).
+  - Priority: P3 · Owner: routine (AGENT-MAIN / HANDOFF guidance) · Done 2026-09-26: rule added to AGENT-MAIN, and the DAILY push step checks it.
 - [ ] Local-only Obsidian settings: decide which `.obsidian/` files to track (e.g. the Templater `templates_folder`, currently gitignored), so a fresh clone gets the same vault behavior.
   - Priority: P3 · Owner: stash
 
