@@ -60,7 +60,7 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
   - Priority: P2 · Owner: vigil (context source) + stash (decision)
 
 **Work tracking (6 → 8)**
-- [x] Cross-repo task rollup in vigil (MCP tool and/or `/api/context`): shipped in vigil #241 (2026-09-26) as the `get_open_tasks` MCP tool and the `open_work` block in `/api/context`. Connecting it to Claude Code and the DAILY switch stay open below and above.
+- [x] Cross-repo task rollup in vigil (MCP tool and/or `/api/context`): shipped in vigil #241 (2026-09-26) as the `get_open_tasks` MCP tool and the `open_work` block in `/api/context`. The Claude Code connection and the DAILY switch are also done (2026-09-26), as recorded above and below.
   - Priority: P2 · Owner: vigil
 - [x] Once it lands, DAILY's "## Tasks" section reads open P0/P1 items from vigil's MCP instead of re-deriving them from hub notes.
   - Priority: P2 · Owner: routine (DAILY.md) · Done 2026-09-26 (hub notes remain the fallback).
