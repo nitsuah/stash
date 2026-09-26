@@ -77,7 +77,7 @@ Common issues from past runs:
 Only if budget remains after §3 and §4. Both were weekly cloud routines until 2026-09-26. They need Docker or local git, so they live here.
 
 - **Coverage ([[METRICS]]):** for up to 3 repos whose `METRICS.md` coverage line is older than 30 days, run the repo's coverage command in Docker and update `METRICS.md` on a `tire/<repo>/metrics-<date>` branch. It uses the same PR and merge rules as §3 and **counts toward the 5-PR budget**. Never write a number you didn't measure this run.
-- **Remote stale branches:** per repo, run `git branch -r --merged origin/<default>` plus `gh pr list --state merged --search "head:<branch>"` for squash-merges. Remote branches whose PR merged or closed more than 14 days ago are `quick`. Delete them with `gh api -X DELETE repos/<owner>/<repo>/git/refs/heads/<branch>` (the classifier blocks `git push --delete`), at most 20 per run, and log them in the report. Unmerged stale branches go in the ledger as `human`.
+- **Remote stale branches:** per repo, run `git branch -r --merged origin/<default>` plus `gh pr list --state merged --search "head:<branch>"` for squash-merges. Remote branches whose PR **merged** more than 14 days ago (or that `--merged` lists) are `quick`. A branch whose PR was closed **without** merging may hold unmerged work: it's `human`, like any other unmerged stale branch, and is never deleted here. Delete them with `gh api -X DELETE repos/<owner>/<repo>/git/refs/heads/<branch>` (the classifier blocks `git push --delete`), at most 20 per run, and log them in the report. Unmerged stale branches go in the ledger as `human`.
 
 ## 5. Report + ledger PR (stash)
 

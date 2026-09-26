@@ -24,7 +24,7 @@ A run counts as **not successful** if its status is `failed`, or its summary sta
 
 1. **Usage gate.** Call `get_usage`. If the weekly window is at 25% or more, or the 5-hour window is at 40% or more, write one line to the log and stop. The reset has either not happened or something else is already spending the window.
 2. **Find misses.** `list_task_runs` with limit 3 for each critical task. Build the missed list in the order above.
-3. **Schedule, don't run.** For each missed task, create a **one-time** scheduled task (`create_scheduled_task` with `fireAt`) named `catchup-<task>-<YYYY-MM-DD>`. Its prompt is "Read `C:\Users\ajhar\.claude\scheduled-tasks\<task>\SKILL.md` and follow it exactly." Space the fires **3 hours apart**, starting 15 minutes from now, so no two land in the same 5-hour window. Skip any task that already has a pending `catchup-*` one-shot.
+3. **Schedule, don't run.** For each missed task, create a **one-time** scheduled task (`create_scheduled_task` with `fireAt`) named `catchup-<task>-<YYYY-MM-DD>`. Its prompt is "Read `C:\Users\ajhar\.claude\scheduled-tasks\<task>\SKILL.md` and follow it exactly." Space the fires **6 hours apart** (the 5-hour window plus a 1-hour runtime buffer), starting 15 minutes from now, so no two land in the same 5-hour window. Skip any task that already has a pending `catchup-*` one-shot.
 4. **Log.** Append one line per action to `C:\Users\ajhar\code\stash\agent\logs\ops-catchup.log`: `<date> | <task> | scheduled <fireAt> | reason`. Also log `nothing missed` or `gated: weekly n%`.
 5. **Notify** (push notification) only when something is scheduled. List the tasks and their fire times.
 6. **Clean up.** Delete `catchup-*` one-shots older than 7 days that have already fired.

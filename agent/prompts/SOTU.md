@@ -7,8 +7,8 @@
 ## Steps
 
 1. **Usage preflight.** Call `get_usage`. If the weekly window is at 90% or more, stop and make the first line of your output `DEFERRED: weekly <n>%`. [[CATCHUP]] runs it after the reset.
-2. **Sync.** `git -C C:\Users\ajhar\code\stash fetch -q origin`. Don't touch the checkout; the script reads `origin` refs.
-3. **Routine health.** Write `%TEMP%\sotu-routines.json` in this shape: `{"quota": {"weekly": n, "five_hour": n, "weekly_resets": "..."}, "routines": [{"name", "last_run", "status", "next_run"}]}`.
+2. **Clean check (before Build, since Build writes the report files).** Run `git -C C:\Users\ajhar\code\stash status --porcelain` and `branch --show-current`, and record whether stash is clean and on `main`. Step 7 uses the answer. You don't need to fetch: `sotu.py` runs `git fetch` in every tracked repo, stash included, before reading `origin` refs (60 s timeout each). Repos whose fetch fails are listed in the report as possibly stale.
+3. **Routine health.** Write `%TEMP%\sotu-routines.json` in this shape: `{"quota": {"weekly": n, "five_hour": n, "weekly_resets": "..."}, "routines": [{"name", "last_run", "status", "next_run", "note"}]}`. Keep `status` to one word (`succeeded`, `failed`, `running`, `deferred`, `new`) and put any detail in `note`, so the health table stays aligned.
    - Local tasks: `list_scheduled_tasks`, plus `list_task_runs` with limit 1 for each.
    - Cloud routines: `RemoteTrigger get` on each ID in the `reference-cloud-routine-ids` memory. Take only `enabled`, `last_run.status` and `next_run_at` from each response and ignore the prompt text.
    - Mark a run `INCOMPLETE` or `DEFERRED` if its summary starts with that word.
@@ -27,13 +27,21 @@
    - Then `Artifact publish` with that `url`, `file_path` = `agent/scripts/sotu-page.html`, and `files` = `{"sotu-data.json": "agent/reports/sotu/sotu-data.json"}`.
    - Leave the icon alone.
 7. **Save.** Commit only `agent/reports/sotu/sotu-<week>.md` and `sotu-data.json`, on a branch `sotu/<week>` cut from `origin/main` (`git switch -c sotu/<week> origin/main` in the clean checkout).
-   - If the checkout is dirty or not on main, skip the commit and say so. The artifact is the main output.
+   - Use the step 2 answer. If stash was dirty or off main **before** Build, skip the commit and say so; the artifact is the main output. Otherwise the only expected changes are the two generated files. Commit exactly those paths, and if anything else changed, skip the commit.
    - Push and open a PR. It's a machine-generated report, like TIRE's, so run `gh pr merge --squash --auto --delete-branch` and let it land when CI is green. If the merge is refused, leave the PR open and say so.
 8. **Output.** One line: the artifact link, the counts line, and the focus note's first sentence. Then end the run. Don't take follow-up work in this session; start a new one.
 
 ## Rules
 
 - Read-only against product repos.
-- stash is PUBLIC. Task titles from public repos are fine. For the private `deployer`, titles only.
+- stash is PUBLIC. Task titles from public repos are fine. For private repos (scope.md Visibility = private, i.e. `deployer`), `sotu.py` keeps titles only and drops criteria, owner and section before writing either output.
+- `VIGIL_MCP_KEY` must be a Windows **user** environment variable, so scheduled tasks inherit it. Restart the desktop app after setting it. Without it, the script falls back to TASKS.md and reports `source local TASKS.md`.
 - The user edits `- Owner: you` sub-bullets in TASKS.md to route items into **Needs you**. Don't hand-edit the JSON to move items.
 - To change what the page shows, change `sotu.py` or `sotu-page.html` in a PR. Never regenerate the page by hand.
+
+## Initiatives vs single-app work (added 2026-09-26, user direction)
+
+- **Portfolio initiatives** are TASKS items that apply across repos. Most are filed in stash, because stash aggregates the obn/routine output (e.g. "Diagrams and screenshots for app repos", which vigil will offer as a one-click best practice). `sotu.py` marks them `initiative` and weights them 1.5×. A P2 initiative therefore outranks a P2 app item, but a P1 app item still outranks it. Single-app items keep their own priority, plus a small bump for tier I apps, so a problem that only one app has isn't buried under portfolio work.
+- The kickoff queue takes at most one item per app repo and at most two initiatives.
+- **Routine candidates** are initiatives that act on other routines' output: reports, ledger, run history, generator results. They're the pool for new Claude routines. In the focus note, name any routine candidate that has appeared in 3+ weekly reports without moving. [[RSI]] reads the `sotu-*.md` files and proposes a routine for those (or folds the item into an existing routine's spec) rather than leaving it in a backlog.
+- Keep these items grouped under stash as they're filed. As an initiative gets broken down into per-repo processes (for example a vigil best practice plus a CI recipe), its per-repo tasks show up as ordinary app items.

@@ -42,6 +42,14 @@ TIERS = {
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
 HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.I)
 PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b", re.I)
+GIT_TIMEOUT = 60
+# Portfolio initiatives: work that applies across repos (often filed in stash, e.g. "diagrams and
+# screenshots for app repos"). They are weighted against single-app items in the kickoff queue.
+INITIATIVE = re.compile(r"\b(every|each|all|app|tracked) repos?\b|cross-repo|portfolio|best practice|"
+                        r"README|agent PR|TASKS\.md everywhere|routines?\b|PMO|DAILY|TIRE|CI-generated", re.I)
+# Initiatives that act on other routines' output (reports, ledger, notes, runs) are candidates for a routine.
+ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger|generator|runs?|checks?|lists?|reads?)\b", re.I)
+PRIO_SCORE = {"P0": 100, "P1": 60, "P2": 30, "P3": 10, None: 5}
 
 
 def tier_of(repo: str) -> str:
@@ -64,19 +72,38 @@ def tracked_repos() -> list[dict]:
         path = re.search(r"`([^`]+)`", cells[1])
         url = re.search(r"https://github\.com/([\w.-]+/[\w.-]+)", cells[2])
         if path and url:
-            repos.append({"repo": cells[0], "path": path.group(1), "full_name": url.group(1)})
+            private = len(cells) > 4 and "private" in cells[4].lower()
+            repos.append({"repo": cells[0], "path": path.group(1), "full_name": url.group(1), "private": private})
     return repos
+
+
+def git(path: str, *args: str) -> str:
+    """Run git with a timeout. Paths come from scope.md (a trusted, version-controlled file)."""
+    return subprocess.run(["git", "-C", path, *args], capture_output=True, text=True,
+                          encoding="utf-8", check=True, timeout=GIT_TIMEOUT).stdout
+
+
+def fetch_all(repos: list[dict]) -> list[str]:
+    """Refresh origin refs so the report isn't built from stale clones. Returns repos whose fetch failed."""
+    stale = []
+    for r in repos:
+        try:
+            git(r["path"], "fetch", "-q", "origin")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as exc:
+            print(f"fetch failed for {r['repo']} ({type(exc).__name__}); its tasks may be stale", file=sys.stderr)
+            stale.append(r["repo"])
+    return stale
 
 
 def git_show(path: str, rel: str) -> str | None:
     for ref in ("origin/HEAD", "origin/main", "origin/master", "HEAD"):
         try:
-            return subprocess.run(
-                ["git", "-C", path, "show", f"{ref}:{rel}"],
-                capture_output=True, text=True, encoding="utf-8", check=True,
-            ).stdout
+            return git(path, "show", f"{ref}:{rel}")
         except (subprocess.CalledProcessError, FileNotFoundError):
             continue
+        except subprocess.TimeoutExpired:
+            print(f"git show timed out in {path}", file=sys.stderr)
+            return None
     return None
 
 
@@ -140,6 +167,9 @@ def vigil_tasks(repos: list[dict]) -> list[dict] | None:
     key = os.environ.get("VIGIL_MCP_KEY")
     if not key:
         return None
+    if not VIGIL_URL.startswith("https://"):
+        print("VIGIL_MCP_URL must be https; not sending the key. Using local TASKS.md", file=sys.stderr)
+        return None
     body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
                        "params": {"name": "get_open_tasks", "arguments": {"limit": 500}}}).encode()
     req = urllib.request.Request(VIGIL_URL, data=body, headers={
@@ -185,14 +215,39 @@ def kickoff_prompt(t: dict, repos: dict) -> str:
             f"feature branch with a PR; run tests in Docker.{crit}")
 
 
-def build(routines_path: str | None, use_vigil: bool) -> dict:
+def classify(t: dict) -> dict:
+    text = f"{t['title']} {t.get('section') or ''}"
+    initiative = (t["repo"] == "stash" and bool(INITIATIVE.search(text))) or bool(
+        re.search(r"\b(every|all|each) repos?\b", t["title"], re.I))
+    t["initiative"] = initiative
+    t["routine_candidate"] = initiative and bool(ROUTINE_CANDIDATE.search(t["title"]))
+    # Initiatives reach every tracked repo, so they get 1.5x; single-app items keep their own priority
+    # weight, plus a small bump for tier I apps. A P1 app item still outranks a P2 initiative.
+    score = PRIO_SCORE.get(t["priority"], 5) * (1.5 if initiative else 1.0)
+    if not initiative and tier_of(t["repo"]) == "I":
+        score += 5
+    t["score"] = round(score, 1)
+    return t
+
+
+def public_view(t: dict, private: set[str]) -> dict:
+    """stash is public: private repos keep title, ref and priority only."""
+    if t["repo"] not in private:
+        return t
+    return {**t, "criteria": None, "owner": None, "section": None}
+
+
+def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dict:
     repos = tracked_repos()
     by_name = {r["repo"]: r for r in repos}
+    private = {r["repo"] for r in repos if r["private"]}
+    stale = fetch_all(repos) if fetch else []
     tasks = vigil_tasks(repos) if use_vigil else None
     source, missing = ("vigil", [])
     if tasks is None:
         tasks, missing = local_tasks(repos)
         source = "local TASKS.md"
+    tasks = [classify(public_view(t, private)) for t in tasks]
     tasks.sort(key=lambda t: (PRIO_RANK.get(t["priority"], 4), t["status"] != "in-progress", t["repo"]))
     ledger = ledger_items()
 
@@ -201,25 +256,31 @@ def build(routines_path: str | None, use_vigil: bool) -> dict:
     needs_you += [dict(kind="ledger", **i) for i in ledger if i["class"] == "human"]
 
     human_refs = {(i["repo"], i.get("ref")) for i in needs_you}
-    kickoff, seen = [], set()
-    for t in tasks:
-        if t["priority"] not in ("P0", "P1") or (t["repo"], t["ref"]) in human_refs or t.get("parked") or PARKED.search(t["title"]):
+    kickoff, seen, n_init = [], set(), 0
+    for t in sorted(tasks, key=lambda t: -t["score"]):
+        if t["score"] < 30 or (t["repo"], t["ref"]) in human_refs or t.get("parked") or PARKED.search(t["title"]):
             continue
-        if t["repo"] in seen:
+        # One app item per repo; up to 2 initiatives so cross-repo work competes without crowding out apps.
+        if t["initiative"]:
+            if n_init >= 2:
+                continue
+            n_init += 1
+        elif t["repo"] in seen:
             continue
         seen.add(t["repo"])
         kickoff.append({**t, "prompt": kickoff_prompt(t, by_name)})
         if len(kickoff) == 5:
             break
+    initiatives = [t for t in tasks if t["initiative"] and not t.get("parked")]
 
     today = dt.date.today()
     aging = [i for i in ledger if i["seen"] >= 3 or (today - dt.date.fromisoformat(i["first_seen"])).days > 21]
     routines = json.loads(Path(routines_path).read_text(encoding="utf-8")) if routines_path else {}
     return {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
-        "source": source, "missing_tasks_file": missing,
+        "source": source, "missing_tasks_file": missing, "stale_refs": stale,
         "counts": {p or "none": sum(1 for t in tasks if t["priority"] == p) for p in ("P0", "P1", "P2", "P3", None)},
-        "needs_you": needs_you, "kickoff": kickoff, "aging": aging,
+        "needs_you": needs_you, "kickoff": kickoff, "aging": aging, "initiatives": initiatives,
         "tasks": [dict(tier=tier_of(t["repo"]), **t) for t in tasks],
         "ledger_open": ledger,
         "routines": routines.get("routines", []), "quota": routines.get("quota"),
@@ -237,7 +298,11 @@ def to_markdown(d: dict, week: str) -> str:
     L.append("## Needs you\n")
     L += [f"- **{i['repo']}**: {i.get('title') or i.get('finding')} ({i.get('ref') or i.get('id')})" for i in d["needs_you"]] or ["- nothing"]
     L.append("\n## Kickoff queue\n")
-    L += [f"{n}. **{t['repo']}** {t['priority']}: {t['title']} ({t['ref']})\n   > {t['prompt']}" for n, t in enumerate(d["kickoff"], 1)] or ["- nothing at P0/P1"]
+    L += [f"{n}. **{t['repo']}** {t['priority']}{' (initiative)' if t['initiative'] else ''}: {t['title']} ({t['ref']})\n   > {t['prompt']}"
+          for n, t in enumerate(d["kickoff"], 1)] or ["- nothing ready"]
+    L.append("\n## Portfolio initiatives\n\nCross-repo work. A routine candidate acts on other routines' output.\n")
+    L += [f"- {t['priority'] or '-'} {'[routine candidate] ' if t['routine_candidate'] else ''}{t['title']} ({t['repo']} {t['ref']})"
+          for t in d["initiatives"]] or ["- none"]
     if d["routines"]:
         L.append("\n## Routine health\n\n| Routine | Last run | Status | Next |\n|---|---|---|---|")
         L += [f"| {r.get('name')} | {r.get('last_run', '')} | {r.get('status', '')} | {r.get('next_run', '')} |" for r in d["routines"]]
@@ -257,6 +322,8 @@ def to_markdown(d: dict, week: str) -> str:
     if low:
         L.append("\nP3 / unprioritized, counts only (full list in sotu-data.json): "
                  + ", ".join(f"{r} {n}" for r, n in sorted(low.items())) + ".")
+    if d.get("stale_refs"):
+        L.append(f"\nFetch failed, tasks may be stale: {', '.join(d['stale_refs'])}.")
     if d["missing_tasks_file"]:
         L.append(f"\nNo TASKS.md found: {', '.join(d['missing_tasks_file'])}.")
     return "\n".join(L) + "\n"
@@ -266,8 +333,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--routines", help="JSON with {routines: [...], quota: {...}} written by the routine")
     ap.add_argument("--no-vigil", action="store_true", help="skip vigil even if VIGIL_MCP_KEY is set")
+    ap.add_argument("--no-fetch", action="store_true", help="don't git fetch the tracked repos first")
     args = ap.parse_args()
-    data = build(args.routines, not args.no_vigil)
+    data = build(args.routines, not args.no_vigil, not args.no_fetch)
     data["tasks"].sort(key=lambda t: (t["tier"], t["repo"], PRIO_RANK.get(t["priority"], 4)))
     y, w, _ = dt.date.today().isocalendar()
     week = f"{y}-W{w:02d}"

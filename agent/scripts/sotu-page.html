@@ -30,8 +30,15 @@ button.cp:hover,button.cp:focus-visible{border-color:var(--accent);color:var(--a
 button.cp.done{border-color:var(--green);color:var(--green)}
 button.cp svg{width:12px;height:12px}
 .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--text-3)}
-.health{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
-.health .row{grid-template-columns:auto 1fr}
+.health{display:grid;border:1px solid var(--border);border-radius:6px;background:var(--surface);overflow:hidden}
+.hrow{display:grid;grid-template-columns:78px minmax(0,1.3fr) minmax(0,.8fr) minmax(0,1fr) minmax(0,1.4fr);gap:12px;align-items:baseline;padding:7px 12px;border-top:1px solid var(--border);font-variant-numeric:tabular-nums}
+.hrow:first-child{border-top:0}
+.hrow.head{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);background:var(--surface-2)}
+.hrow .chip{justify-self:start}
+.hrow .m{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-2)}
+.hrow .note{font-size:12.5px;color:var(--text-2)}
+.badge{font-family:"JetBrains Mono",monospace;font-size:10px;padding:1px 6px;border-radius:4px;background:var(--surface-2);color:var(--accent);margin-left:6px;white-space:nowrap}
+@media (max-width:720px){.hrow{grid-template-columns:78px minmax(0,1fr)}.hrow.head{display:none}.hrow .m,.hrow .note{grid-column:2}}
 .tier{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border-bottom:2px solid var(--accent);justify-self:start;padding-bottom:4px;margin-top:8px}
 .repo{font-family:"DM Serif Display",Georgia,serif;font-size:1.05rem;margin-top:8px}
 .toggle{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--text-2)}
@@ -50,6 +57,7 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
   </header>
   <section><h2>Needs you <small id="n-you"></small></h2><div class="list" id="you"></div></section>
   <section><h2>Kickoff queue <small>copy a ready-to-paste prompt</small></h2><div class="list" id="kick"></div></section>
+  <section><h2>Portfolio initiatives <small>cross-repo work, weighted 1.5× against single-app items</small></h2><div class="list" id="init"></div></section>
   <section><h2>Routine health <small id="n-rt"></small></h2><div class="health" id="rt"></div></section>
   <section><h2>Findings aging <small>seen 3+ times or open over 21 days</small></h2><div class="list" id="aging"></div></section>
   <section>
@@ -64,13 +72,23 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
   const $=id=>document.getElementById(id);
   const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const code=s=>esc(s).replace(/`([^`]+)`/g,"<code>$1</code>");
-  const chip=p=>`<span class="chip ${p||""}">${esc(p||"—")}</span>`;
+  // Only known values become class names; everything else is shown escaped with the neutral style.
+  const CHIP_CLASS=new Set(["P0","P1","P2","ok","bad","warn"]);
+  const chip=(p,cls)=>`<span class="chip ${CHIP_CLASS.has(cls||p)?(cls||p):""}">${esc(p||"—")}</span>`;
   const copyBtn=txt=>`<button class="cp" type="button" aria-label="Copy" data-copy="${esc(txt)}"><svg><use href="#i-copy"/></svg></button>`;
   const row=(title,ref,right,copy,cls)=>`<div class="row ${cls||""}">${copy?copyBtn(copy):'<span class="dot"></span>'}<div><div class="t">${code(title)}</div>${ref?`<div class="ref">${esc(ref)}</div>`:""}</div>${right||""}</div>`;
   document.addEventListener("click",async e=>{
     const b=e.target.closest("button.cp"); if(!b) return;
-    try{await navigator.clipboard.writeText(b.dataset.copy);}catch(_){ const r=document.createRange(); r.selectNodeContents(b.nextElementSibling); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
-    b.classList.add("done"); setTimeout(()=>b.classList.remove("done"),1500);
+    let ok=false;
+    try{await navigator.clipboard.writeText(b.dataset.copy);ok=true;}catch(_){
+      // Fallback: copy the requested text from a temporary textarea, not whatever is next to the button.
+      const ta=document.createElement("textarea"); ta.value=b.dataset.copy; ta.setAttribute("readonly","");
+      ta.style.cssText="position:fixed;opacity:0;top:0;left:0"; document.body.appendChild(ta); ta.select();
+      try{ok=document.execCommand("copy");}catch(_){ok=false;} ta.remove();
+    }
+    b.classList.toggle("done",ok); b.setAttribute("aria-label",ok?"Copied":"Copy failed, select the text manually");
+    if(!ok) b.style.borderColor="var(--red)";
+    setTimeout(()=>{b.classList.remove("done");b.style.borderColor="";b.setAttribute("aria-label","Copy");},1500);
   });
   function render(d){
     const c=d.counts||{}; const q=d.quota;
@@ -81,10 +99,12 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     if(d.focus){$("focus").textContent=d.focus;$("focus").hidden=false;}
     const you=d.needs_you||[]; $("n-you").textContent=you.length+" items";
     $("you").innerHTML=you.map(i=>row(i.title||i.finding,`${i.repo} · ${i.ref||i.id}`,chip(i.priority||i.class),i.kind==="task"?`${i.repo}: ${i.title} (${i.ref})`:null,"you")).join("")||'<p class="empty">Nothing is waiting on you.</p>';
-    $("kick").innerHTML=(d.kickoff||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}`,chip(t.priority),t.prompt)).join("")||'<p class="empty">No P0 or P1 work is ready to start.</p>';
+    const tag=t=>t.initiative?`${t.repo} · ${t.ref} · initiative`:`${t.repo} · ${t.ref}`;
+    $("kick").innerHTML=(d.kickoff||[]).map(t=>row(t.title,tag(t),chip(t.priority),t.prompt)).join("")||'<p class="empty">No work is ready to start.</p>';
+    $("init").innerHTML=(d.initiatives||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}${t.routine_candidate?" · routine candidate":""}`,chip(t.priority),`${t.repo} ${t.priority||""}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No cross-repo initiatives are open.</p>';
     const rts=d.routines||[]; $("n-rt").textContent=rts.length?rts.length+" routines":"not reported this week";
-    const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled/i.test(s)?"warn":"ok";
-    $("rt").innerHTML=rts.map(r=>`<div class="row"><span class="chip ${st(r.status)}">${esc(r.status||"?")}</span><div><div class="t">${esc(r.name)}</div><div class="ref">last ${esc(r.last_run||"—")} · next ${esc(r.next_run||"—")}</div></div></div>`).join("")||'<p class="empty">The routine didn\'t pass health data this week.</p>';
+    const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled|running/i.test(s)?"warn":"ok";
+    $("rt").innerHTML=rts.length?'<div class="hrow head"><span>status</span><span>routine</span><span>last run</span><span>next run</span><span>note</span></div>'+rts.map(r=>`<div class="hrow">${chip(r.status||"?",st(r.status||""))}<span class="t">${esc(r.name)}</span><span class="m">${esc(r.last_run||"—")}</span><span class="m">${esc(r.next_run||"—")}</span><span class="note">${esc(r.note||"")}</span></div>`).join(""):'<p class="empty" style="padding:8px 12px">The routine didn\'t pass health data this week.</p>';
     $("aging").innerHTML=(d.aging||[]).map(i=>row(i.finding,`${i.id} · ${i.repo} · seen ${i.seen}× · ${i.status}`,chip(i.class))).join("")||'<p class="empty">No findings are aging.</p>';
     const draw=()=>{
       const low=$("show-low").checked; let html="",tier=null,repo=null,n=0;

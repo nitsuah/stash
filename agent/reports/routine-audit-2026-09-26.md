@@ -116,6 +116,7 @@ That's about 30 runs a week. 15 of them are the three daily cloud briefs, and ea
   3. **Open work by repo** (current list)
   4. **Routine health strip** (green, amber, red per routine; quota bar)
   5. **Findings aging** (ledger items older than 21 days or seen 3+ times)
+- **Key for the scheduled task:** `sotu.py` reads `VIGIL_MCP_KEY` from the environment, so it has to be a Windows user environment variable that the desktop app (and so every scheduled task) inherits. Without it, the script falls back to TASKS.md.
 - **Blocker:** vigil MCP bearer setup (the `MCP_API_KEY` in Netlify plus `VIGIL_MCP_KEY` locally, per vigil `docs/MCP.md`). You're doing this in the daily-repo-sync session now. Once `claude mcp get vigil` reports Connected, week-sotu can run.
 
 ## 4. Target weekly shape (UTC; window starts Wed 05:00)
