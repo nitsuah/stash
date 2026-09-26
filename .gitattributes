@@ -2,3 +2,8 @@
 # Windows checkout (core.autocrlf) and the pre-commit hook silently stops working.
 *.sh text eol=lf
 .githooks/* text eol=lf
+
+# Obsidian rewrites its settings on every use (drops the final newline, saves graph zoom).
+# Clean filter keeps that churn out of git; setup in agent/scripts/obsidian-json-clean.py.
+.obsidian/*.json filter=obsidian-json
+agent/.obsidian/*.json filter=obsidian-json
