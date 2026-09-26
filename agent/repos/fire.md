@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-09-26
 
 ## Overview
 
@@ -48,6 +48,7 @@ None documented.
 
 ## Recent Changes (Unreleased)
 
+- **PR #126 (2026-09):** live gold/silver valuation (`/api/metals`, dealer payout % of spot), Other Assets card, HYSA/CD interest estimates rolled into Annual Income; Yahoo v7→v8 price fallback fixed stalled stock prices; eBay import no longer double-counts shipping labels; MCP `get_net_worth` reports `otherAssets` separately. PR #127 indexed `docs/weekly-checkin-prompt.md`, now on `main` and mirrored.
 - **MCP Server** (`app/mcp-server.mjs`) — grew from 8 to 12 functional tools (`fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway`) plus 7 registered stubs; `.mcp.json` project config and `scripts/test-mcp.mjs` smoke test.
 - **PROD Phase 1 UI completion (2026-09-10 cycle)** — eBay fee-rate validation against current published rates, eBay sync enable/disable toggle with last-sync timestamp, wallet manager UI (add/remove/balance display), vehicle "Refresh Value" button, Google Drive backup panel (trigger/list/restore); tests added for wallets, vehicle-api, and gdrive-backup routes.
 - **Settings Page**, **Milestone Presets** (5 financial profiles), **Diversification Tips Redesign** (dismissible tiles), **Vehicle Estimate Overlay** styling, **eBay & Plaid Integration UI** (connection status + Plaid Link SDK).

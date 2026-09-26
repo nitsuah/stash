@@ -5,7 +5,7 @@ repo: stash
 
 # stash
 
-> Reviewed: 2026-09-11
+> Reviewed: 2026-09-26
 
 ## Overview
 
@@ -51,6 +51,8 @@ Lower-priority (P3): cloud cost management examples, SaaS inventory audit exampl
 - Overseer P1 task: mark private + block PRs + sanitization (external governance item)
 
 ## Recent Changes
+
+**2026-09-25 vault overhaul (#139-#146):** flat INDEX files retired for generated hub links, mirror enrichment, `fix-doc-links.py`, CI vault graph check, properties + Bases, link suggestions, aliases, topic hubs. TASKS.md's old Vault P1 (prune + stale mirrors) is closed by that work; its new "Vault scorecard follow-ups" section (overall 8.3/10) lists P2/P3 items by owner (vigil / routine / stash). Cross-repo task rollup, one of those P2s, shipped in vigil the same day.
 
 **2026-09-02 audit (most recent activity):**
 - Fixed 14 broken cross-references left over from the `IAS/` → `cloud/iac/` and `CLOUD/` → `cloud/aws/` reorganization, across docs/CHANGELOG.md, .github/copilot-instructions.md, agent/repos/stash.md, cloud/README.md, and cloud/aws|iac scripts — the `CLOUD/` casing was a live bug that broke on case-sensitive filesystems

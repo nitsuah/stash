@@ -16,6 +16,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-09 — Live market values, Other Assets, interest roll-up (PR #126)
+
+#### Added
+- **Live gold/silver** (`/api/metals`): Metal accounts are valued at what a dealer pays — oz × spot × 95% (gold) / 88% (silver) — refreshed every 5 minutes.
+- **Other Assets** dashboard card: metals (with the spot × payout math), real estate and vehicle equity, and other valuables, with a total.
+- **Interest estimates**: HYSA/cash accounts with an APY show green est. yearly earnings in Cash & Fixed Income; HYSA + CD interest is rolled into the Annual Income banner and a new Savings Interest cash-flow row. MCP `get_accounts` reports `estimatedAnnualInterest`.
+- Per-type holdings badges (savings green, cash teal, crypto blue, CD amber, metals animated gold/silver sheen).
+
+#### Fixed
+- **Stock prices stopped updating** when Yahoo's v7 quote API returned 401; `/api/prices` now falls back to the crumb-free v8 chart endpoint, so position value/PnL stay live.
+- **eBay report import double-counted shipping labels** ("Total selling costs" already includes them), understating side-gig net; it now matches eBay's Net sales. Re-importing the same report refreshes changed rows in place.
+- Income Sources / Monthly Expenses start expanded on desktop (collapsed only on phones) instead of looking empty.
+- `side-gig-tax.js` threw `round2 is not defined` under Node (MCP `get_side_gig_tax_summary`, tests); the metals refresh timer blocked process exit and was never scheduled in the browser (undeclared `metalsRefreshTimer`).
+
+#### Changed
+- MCP `get_net_worth` reports metals/other valuables as `otherAssets` instead of folding them into cash.
+
 ### 2026-09 — eBay notification signature verification (PR #123)
 
 #### Security
