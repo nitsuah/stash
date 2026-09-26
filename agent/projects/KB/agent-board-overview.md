@@ -3,6 +3,8 @@ name: motor-pool-overview
 description: Central synthesis document for the motor-pool application.
 metadata:
   type: project
+kind: overview
+repo: agent-board
 ---
 
 # motor-pool Overview
@@ -11,7 +13,7 @@ motor-pool is a local-first control room designed for managing multi-model AI wo
 
 ## Core Pillars
 
-- **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via [[repos/darkmoon/docs/API.md|NemoClaw]] integration.
+- **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via the [[repos/agent-board/docs/API.md|agent-board API]].
 - **Experience-Aware Sessions**: Persistent sessions with context, role metadata, and message history, tailored to different experience modes (e.g., Research, Developer).
 - **Live Observability**: Real-time observability using Metrics dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
 
