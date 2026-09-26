@@ -21,9 +21,10 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Type: Docs / CI
   - Status: on hold (2026-09-26). This is the next portfolio initiative, to be built into vigil itself once the current vigil work (MCP rollup, PMO UI) ships.
   - Note: vigil is the planned home for this (as a best-practice check and a reusable CI recipe); see the vigil session started 2026-09-25. The vault then mirrors these via `enrich-mirror.py`, since images already link to GitHub.
-- [ ] Cross-repo task rollup: tracked in vigil (MCP tool / `/api/context` over each repo's TASKS.md), not in the vault. Connect vigil's MCP to Claude Code once it lands, and drop the daily note's hand-built "Tasks" section in favor of it.
+- [x] Cross-repo task rollup: tracked in vigil (MCP tool / `/api/context` over each repo's TASKS.md), not in the vault. Connect vigil's MCP to Claude Code once it lands, and drop the daily note's hand-built "Tasks" section in favor of it.
   - Priority: P2
   - Type: Integration
+  - Done 2026-09-26: the vigil MCP (HTTP, ghoverseer.netlify.app/api/mcp) is connected to local Claude Code and verified; DAILY `## Tasks` now reads `get_open_tasks`. Cloud routines can call the same endpoint once `VIGIL_MCP_TOKEN` is set in the cloud environment.
 - [ ] Tune topic hubs after a few weeks: review `agent/topics/topic-*.md` matches for noise or misses, and consider seeding new topics from Smart Connections clusters (`suggest-links.py` already reads the embeddings).
   - Priority: P3
   - Type: Vault
@@ -61,8 +62,8 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 **Work tracking (6 → 8)**
 - [x] Cross-repo task rollup in vigil (MCP tool and/or `/api/context`): shipped in vigil #241 (2026-09-26) as the `get_open_tasks` MCP tool and the `open_work` block in `/api/context`. Connecting it to Claude Code and the DAILY switch stay open below and above.
   - Priority: P2 · Owner: vigil
-- [ ] Once it lands, DAILY's "## Tasks" section reads open P0/P1 items from vigil's MCP instead of re-deriving them from hub notes.
-  - Priority: P2 · Owner: routine (DAILY.md)
+- [x] Once it lands, DAILY's "## Tasks" section reads open P0/P1 items from vigil's MCP instead of re-deriving them from hub notes.
+  - Priority: P2 · Owner: routine (DAILY.md) · Done 2026-09-26 (hub notes remain the fallback).
 - [ ] Parser-safe TASKS.md everywhere: the PMO audit checks every repo's TASKS.md against the shared format (priority, status, type), so vigil's parser sees all items.
   - Priority: P2 · Owner: routine (PMO.md)
 
