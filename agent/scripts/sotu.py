@@ -186,7 +186,7 @@ def vigil_tasks(repos: list[dict]) -> list[dict] | None:
     out = []
     for t in rollup.get("tasks", []):
         repo = names.get((t.get("full_name") or "").lower(), t.get("repo"))
-        out.append({"repo": repo, "title": t["title"], "ref": t.get("section") or "TASKS.md",
+        out.append({"repo": repo, "title": t["title"], "ref": "TASKS.md",
                     "priority": t.get("priority"), "status": t.get("status"),
                     "owner": t.get("owner"), "section": t.get("section"), "criteria": None})
     return out
@@ -234,7 +234,10 @@ def public_view(t: dict, private: set[str]) -> dict:
     """stash is public: private repos keep title, ref and priority only."""
     if t["repo"] not in private:
         return t
-    return {**t, "criteria": None, "owner": None, "section": None}
+    # ref keeps only a file:line locator; anything else (e.g. a section name) is dropped.
+    ref = t.get("ref") or ""
+    safe_ref = ref if re.fullmatch(r"(docs/)?TASKS\.md(:\d+)?", ref) else "TASKS.md"
+    return {**t, "ref": safe_ref, "criteria": None, "owner": None, "section": None}
 
 
 def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dict:
