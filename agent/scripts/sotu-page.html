@@ -1,0 +1,104 @@
+<title>nitsuah · Portfolio Checklist</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F8F7F3;--surface:#FFFFFF;--surface-2:#F0EBE0;--border:#DDD5C6;--text-1:#1C1814;--text-2:#5C5750;--text-3:#8A8374;--accent:#B8821A;--green:#2E7D47;--green-dim:#E8F5EC;--red:#C0392B;--red-dim:#FDECEA;--amber:#B45309;--amber-dim:#FFF6E0;--blue:#1D5FA4;--blue-dim:#EBF3FF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12100E;--surface:#1C1916;--surface-2:#232019;--border:#2E2A22;--text-1:#F0EBE0;--text-2:#A39B8C;--text-3:#7A7366;--accent:#D4A843;--green:#5FAD6E;--green-dim:#0D2318;--red:#E05252;--red-dim:#2A0E0E;--amber:#D29922;--amber-dim:#2A1F08;--blue:#6BA8D4;--blue-dim:#0E1F30}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#12100E;--surface:#1C1916;--surface-2:#232019;--border:#2E2A22;--text-1:#F0EBE0;--text-2:#A39B8C;--text-3:#7A7366;--accent:#D4A843;--green:#5FAD6E;--green-dim:#0D2318;--red:#E05252;--red-dim:#2A0E0E;--amber:#D29922;--amber-dim:#2A1F08;--blue:#6BA8D4;--blue-dim:#0E1F30}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text-1);font:14px/1.55 Inter,system-ui,sans-serif;margin:0;padding-inline:16px}
+.wrap{max-width:980px;margin:0 auto;padding-block:32px 48px;display:grid;gap:32px}
+h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1}
+h2{font-size:1.25rem;display:flex;align-items:baseline;gap:10px}
+h2 small,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--text-3);letter-spacing:.04em}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin:0 0 8px}
+.stats{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-variant-numeric:tabular-nums}
+.stats span{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-2)}
+.stats b{color:var(--text-1);font-weight:500}
+.focus{margin-top:14px;max-width:68ch;color:var(--text-2)}
+section{display:grid;gap:10px}
+.list{display:grid;gap:6px}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 11px}
+.row.you{border-color:var(--blue);background:var(--blue-dim)}
+.t{font-weight:500;line-height:1.35;overflow-wrap:anywhere}
+.ref{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--text-3);margin-top:2px;overflow-wrap:anywhere}
+.chip{font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 7px;border-radius:4px;white-space:nowrap;background:var(--surface-2);color:var(--text-3)}
+.P0{background:var(--red-dim);color:var(--red)}.P1{background:var(--amber-dim);color:var(--amber)}.P2{background:var(--blue-dim);color:var(--blue)}
+.ok{background:var(--green-dim);color:var(--green)}.bad{background:var(--red-dim);color:var(--red)}.warn{background:var(--amber-dim);color:var(--amber)}
+button.cp{width:24px;height:24px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text-2);display:grid;place-items:center;cursor:pointer;padding:0}
+button.cp:hover,button.cp:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+button.cp.done{border-color:var(--green);color:var(--green)}
+button.cp svg{width:12px;height:12px}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--text-3)}
+.health{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.health .row{grid-template-columns:auto 1fr}
+.tier{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border-bottom:2px solid var(--accent);justify-self:start;padding-bottom:4px;margin-top:8px}
+.repo{font-family:"DM Serif Display",Georgia,serif;font-size:1.05rem;margin-top:8px}
+.toggle{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--text-2)}
+.empty{color:var(--text-3);font-size:13px}
+footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3);border-top:1px solid var(--border);padding-top:16px}
+@media (max-width:560px){.row{grid-template-columns:auto 1fr}.row .chip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.5"/><path d="M10.5 5.5V3.8A1.3 1.3 0 0 0 9.2 2.5H3.8A1.3 1.3 0 0 0 2.5 3.8v5.4a1.3 1.3 0 0 0 1.3 1.3h1.7"/></symbol></svg>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">nitsuah labs · state of the union</p>
+    <h1 id="h">Portfolio Checklist</h1>
+    <div class="stats" id="stats"><span>Loading the latest data…</span></div>
+    <p class="focus" id="focus" hidden></p>
+  </header>
+  <section><h2>Needs you <small id="n-you"></small></h2><div class="list" id="you"></div></section>
+  <section><h2>Kickoff queue <small>copy a ready-to-paste prompt</small></h2><div class="list" id="kick"></div></section>
+  <section><h2>Routine health <small id="n-rt"></small></h2><div class="health" id="rt"></div></section>
+  <section><h2>Findings aging <small>seen 3+ times or open over 21 days</small></h2><div class="list" id="aging"></div></section>
+  <section>
+    <h2>Open work by repo <small id="n-open"></small></h2>
+    <label class="toggle"><input type="checkbox" id="show-low"> Show P3 and unprioritized</label>
+    <div class="list" id="open"></div>
+  </section>
+  <footer id="foot">Generated weekly by the week-sotu routine from agent/scripts/sotu.py (stash). An item shows under Needs you when its TASKS.md entry has an <code>- Owner: you</code> sub-bullet or starts with "Manual step". Automation history: <a href="https://claude.ai/artifact/XA1mhKeFkc41iig7schEpy" style="color:var(--accent)">Routine Pipeline Audit</a> and stash/agent/logs/rsi-changes.log.</footer>
+</div>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const code=s=>esc(s).replace(/`([^`]+)`/g,"<code>$1</code>");
+  const chip=p=>`<span class="chip ${p||""}">${esc(p||"—")}</span>`;
+  const copyBtn=txt=>`<button class="cp" type="button" aria-label="Copy" data-copy="${esc(txt)}"><svg><use href="#i-copy"/></svg></button>`;
+  const row=(title,ref,right,copy,cls)=>`<div class="row ${cls||""}">${copy?copyBtn(copy):'<span class="dot"></span>'}<div><div class="t">${code(title)}</div>${ref?`<div class="ref">${esc(ref)}</div>`:""}</div>${right||""}</div>`;
+  document.addEventListener("click",async e=>{
+    const b=e.target.closest("button.cp"); if(!b) return;
+    try{await navigator.clipboard.writeText(b.dataset.copy);}catch(_){ const r=document.createRange(); r.selectNodeContents(b.nextElementSibling); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
+    b.classList.add("done"); setTimeout(()=>b.classList.remove("done"),1500);
+  });
+  function render(d){
+    const c=d.counts||{}; const q=d.quota;
+    $("stats").innerHTML=[`<span>updated <b>${esc((d.generated_at||"").replace("T"," ").slice(0,16))} UTC</b></span>`,
+      `<span>source <b>${esc(d.source)}</b></span>`,
+      `<span>open <b>P0 ${c.P0||0} · P1 ${c.P1||0} · P2 ${c.P2||0}</b></span>`,
+      q?`<span>quota <b>weekly ${esc(q.weekly)}% · 5h ${esc(q.five_hour)}%</b> resets ${esc(q.weekly_resets)}</span>`:""].join("");
+    if(d.focus){$("focus").textContent=d.focus;$("focus").hidden=false;}
+    const you=d.needs_you||[]; $("n-you").textContent=you.length+" items";
+    $("you").innerHTML=you.map(i=>row(i.title||i.finding,`${i.repo} · ${i.ref||i.id}`,chip(i.priority||i.class),i.kind==="task"?`${i.repo}: ${i.title} (${i.ref})`:null,"you")).join("")||'<p class="empty">Nothing is waiting on you.</p>';
+    $("kick").innerHTML=(d.kickoff||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}`,chip(t.priority),t.prompt)).join("")||'<p class="empty">No P0 or P1 work is ready to start.</p>';
+    const rts=d.routines||[]; $("n-rt").textContent=rts.length?rts.length+" routines":"not reported this week";
+    const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled/i.test(s)?"warn":"ok";
+    $("rt").innerHTML=rts.map(r=>`<div class="row"><span class="chip ${st(r.status)}">${esc(r.status||"?")}</span><div><div class="t">${esc(r.name)}</div><div class="ref">last ${esc(r.last_run||"—")} · next ${esc(r.next_run||"—")}</div></div></div>`).join("")||'<p class="empty">The routine didn\'t pass health data this week.</p>';
+    $("aging").innerHTML=(d.aging||[]).map(i=>row(i.finding,`${i.id} · ${i.repo} · seen ${i.seen}× · ${i.status}`,chip(i.class))).join("")||'<p class="empty">No findings are aging.</p>';
+    const draw=()=>{
+      const low=$("show-low").checked; let html="",tier=null,repo=null,n=0;
+      for(const t of d.tasks||[]){
+        if(!low&&(t.priority==="P3"||!t.priority)) continue; n++;
+        if(t.tier!==tier){tier=t.tier;html+=`<div class="tier">Tier ${esc(tier)}</div>`;repo=null;}
+        if(t.repo!==repo){repo=t.repo;html+=`<div class="repo">${esc(repo)}</div>`;}
+        html+=row(t.title,t.ref,chip(t.priority),`${t.repo} ${t.priority||""} — ${t.title} (${t.ref})`);
+      }
+      $("open").innerHTML=html||'<p class="empty">No open items at this filter.</p>'; $("n-open").textContent=n+" shown";
+    };
+    $("show-low").addEventListener("change",draw); draw();
+  }
+  fetch("sotu-data.json",{cache:"no-store"}).then(r=>{if(!r.ok) throw new Error(r.status);return r.json();}).then(render)
+    .catch(err=>{$("stats").innerHTML=`<span>The data file didn't load (${esc(err.message)}). The week-sotu routine republishes it every Monday.</span>`;});
+})();
+</script>
