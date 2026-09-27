@@ -1,0 +1,52 @@
+{
+  "updated": "2026-09-27",
+  "method": "WSJF = (business value + time criticality + risk reduction) / job size, each on a 1-13 scale. Curated by hand; week-sotu drops finished items (SOTU.md step 5).",
+  "initiatives": [
+    {
+      "rank": 1,
+      "title": "vigil as the portfolio hub: ship the PMO UI (combined repo/work grid, cross-repo relations) on top of the MCP rollup that DAILY, daily-brief and week-sotu now read",
+      "repo": "vigil",
+      "ref": "vigil#248",
+      "why": "Every routine now reads open work from vigil, so its accuracy and UI pay off across all repos."
+    },
+    {
+      "rank": 2,
+      "title": "CI-generated diagrams and Playwright screenshots, committed to each repo and embedded in its README, built into vigil as a best-practice check and reusable CI recipe",
+      "repo": "stash",
+      "ref": "docs/TASKS.md (Diagrams and screenshots)",
+      "why": "Next after the vigil UI; portfolio polish for every app repo, which matters for the job search."
+    }
+  ],
+  "top5": [
+    {
+      "rank": 1, "wsjf": 15.0, "repo": "stash (CodeRabbit org setting)",
+      "title": "Turn on CodeRabbit's request_changes_workflow so a fixed PR isn't stuck on a stale 'changes requested' review",
+      "ref": "stash docs/TASKS.md", "match": "Stale CodeRabbit",
+      "why": "Blocked every merge on 2026-09-27; one org setting (you apply it). BV 5 · TC 5 · RR 5 / size 1."
+    },
+    {
+      "rank": 2, "wsjf": 6.5, "repo": "portfolio (farm-3j, avatar, fire, vhs, ...)",
+      "title": "Triage the 47 open TASKS items with no priority so vigil's rollup and this checklist rank them",
+      "ref": "python agent/scripts/check-tasks-format.py --details", "match": null,
+      "why": "Unprioritized items are invisible to vigil's P0/P1 view. BV 5 · TC 3 · RR 5 / size 2."
+    },
+    {
+      "rank": 3, "wsjf": 5.8, "repo": "skyview",
+      "title": "Add coverage to netlify/functions/api-bookings.mjs, then split billing from routing (F-20260916-06)",
+      "ref": "findings-ledger F-20260916-06", "match": null,
+      "why": "The payments path is untested and goes live with the Stripe switch. BV 8 · TC 8 · RR 13 / size 5."
+    },
+    {
+      "rank": 4, "wsjf": 4.8, "repo": "nitsuah-io",
+      "title": "Replace placeholder-heavy and duplicate demo/project assets on the portfolio site",
+      "ref": "nitsuah-io docs/TASKS.md (two P1s)", "match": "Replace placeholder-heavy",
+      "why": "It's the portfolio a hiring manager sees first. BV 13 · TC 8 · RR 3 / size 5."
+    },
+    {
+      "rank": 5, "wsjf": 4.3, "repo": "fire",
+      "title": "Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)",
+      "ref": "findings-ledger F-20260916-05", "match": null,
+      "why": "It grew with the eBay/Plaid work; cheapest to split before the next integration. BV 5 · TC 3 · RR 5 / size 3."
+    }
+  ]
+}

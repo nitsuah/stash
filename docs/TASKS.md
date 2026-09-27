@@ -35,10 +35,11 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P3
   - Type: Docs
   - Done 2026-09-26: covered by PMO step 7, which runs `find-orphans.py --long 300` each cycle and splits the worst one or two notes into single-idea notes.
-- [ ] Graph labels: evaluate the *Front Matter Title* community plugin, so graph nodes show `title:` instead of generic file names (README, ROADMAP).
+- [x] Graph labels: evaluate the *Front Matter Title* community plugin, so graph nodes show `title:` instead of generic file names (README, ROADMAP).
   - Priority: P3
   - Type: Vault / Obsidian config
   - Owner: you, for the install (plugin code is gitignored, so it's per machine). Vault side done 2026-09-26: `enrich-mirror.py` gives every mirrored repo doc a `title: "<repo> · <file>"` (applied on the next DAILY sync); hubs and notes already have unique file names.
+  - Done 2026-09-27: plugin installed and kept; the mirrors got their titles in the 9/27 sync, and graph nodes now read `<repo> · <file>`.
 - [x] Review the first weekly `reports/link-suggestions-*.md` and adopt or ignore; if most suggestions are noise, raise `MIN_SCORE` in `suggest-links.py`.
   - Priority: P3
   - Type: Vault
