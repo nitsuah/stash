@@ -91,6 +91,18 @@ When given a list of repos (e.g. from `scope.md`):
 - Mark uncertain assumptions clearly.
 - If a file is large but has a single clear concern (e.g. a big CSS file, a long but flat data config), note it as low structural risk even if the LOC is high.
 
+## Canaries (known hits, never reported)
+
+Files the scan **must** flag on every run and that we will never fix. They prove detection still works; don't file them as findings or refactor them.
+
+| Repo | File | Why it's a canary |
+|------|------|-------------------|
+| stash | `atlassian/jira/validate_project.py` (~1,051 LOC) | Finished interview take-home, not maintained. |
+
+- **Seen:** list it in the report under a one-line `Canaries: 1/1 detected` and nowhere else. Don't open a ledger row or a TASKS item for it.
+- **Missing:** if a canary that still exists at that size is *not* flagged, detection is broken (threshold, file walk or exclusions changed). Report that as the run's top finding, and don't trust the run's other "no issues" results until it's fixed.
+- Add a canary only for a file that will stay large and unmaintained; remove it if the file is deleted or starts being worked on.
+
 ---
 
 ## Deliverable Format (`--report`)
