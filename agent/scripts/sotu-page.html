@@ -102,9 +102,11 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     const tag=t=>t.initiative?`${t.repo} · ${t.ref} · initiative`:`${t.repo} · ${t.ref}`;
     $("kick").innerHTML=(d.kickoff||[]).map(t=>row(t.title,tag(t),chip(t.priority),t.prompt)).join("")||'<p class="empty">No work is ready to start.</p>';
     $("init").innerHTML=(d.initiatives||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}${t.routine_candidate?" · routine candidate":""}`,chip(t.priority),`${t.repo} ${t.priority||""}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No cross-repo initiatives are open.</p>';
-    const rts=d.routines||[]; $("n-rt").textContent=rts.length?rts.length+" routines":"not reported this week";
+    // Only routines that need attention are listed; healthy ones are counted in the heading.
     const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled|running/i.test(s)?"warn":"ok";
-    $("rt").innerHTML=rts.length?'<div class="hrow head"><span>status</span><span>routine</span><span>last run</span><span>next run</span><span>note</span></div>'+rts.map(r=>`<div class="hrow">${chip(r.status||"?",st(r.status||""))}<span class="t">${esc(r.name)}</span><span class="m">${esc(r.last_run||"—")}</span><span class="m">${esc(r.next_run||"—")}</span><span class="note">${esc(r.note||"")}</span></div>`).join(""):'<p class="empty" style="padding:8px 12px">The routine didn\'t pass health data this week.</p>';
+    const allRt=d.routines||[]; const rts=allRt.filter(r=>st(r.status||"")!=="ok");
+    $("n-rt").textContent=allRt.length?`${rts.length} need attention · ${allRt.length-rts.length} healthy`:"not reported this week";
+    $("rt").innerHTML=!allRt.length?'<p class="empty" style="padding:8px 12px">The routine didn\'t pass health data this week.</p>':rts.length?'<div class="hrow head"><span>status</span><span>routine</span><span>last run</span><span>next run</span><span>note</span></div>'+rts.map(r=>`<div class="hrow">${chip(r.status||"?",st(r.status||""))}<span class="t">${esc(r.name)}</span><span class="m">${esc(r.last_run||"—")}</span><span class="m">${esc(r.next_run||"—")}</span><span class="note">${esc(r.note||"")}</span></div>`).join(""):'<p class="empty" style="padding:8px 12px">All routines are healthy.</p>';
     $("aging").innerHTML=(d.aging||[]).map(i=>row(i.finding,`${i.id} · ${i.repo} · seen ${i.seen}× · ${i.status}`,chip(i.class))).join("")||'<p class="empty">No findings are aging.</p>';
     const draw=()=>{
       const low=$("show-low").checked; let html="",tier=null,repo=null,n=0;
