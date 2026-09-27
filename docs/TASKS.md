@@ -37,6 +37,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
 - [ ] Graph labels: evaluate the *Front Matter Title* community plugin, so graph nodes show `title:` instead of generic file names (README, ROADMAP).
   - Priority: P3
   - Type: Vault / Obsidian config
+  - Owner: you (install and try the plugin in Obsidian; nothing to automate until you decide).
 - [ ] Review the first weekly `reports/link-suggestions-*.md` and adopt or ignore; if most suggestions are noise, raise `MIN_SCORE` in `suggest-links.py`.
   - Priority: P3
   - Type: Vault
@@ -48,14 +49,14 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 **Semantic layer (7.5 → 9)**
 - [ ] Embedding freshness: `suggest-links.py` reports notes missing a Smart Connections embedding, or embedded before their last edit, so suggestions aren't built on stale vectors.
   - Priority: P3 · Owner: stash
-- [ ] Close the loop on suggestions: the PMO audit reads the latest `reports/link-suggestions-*.md`, adds the links that reflect a real dependency (in the note body), and records accepted/ignored counts in its report. See also "Review the first weekly link-suggestions" and "Tune topic hubs" above.
-  - Priority: P3 · Owner: routine (PMO.md)
+- [x] Close the loop on suggestions: the PMO audit reads the latest `reports/link-suggestions-*.md`, adds the links that reflect a real dependency (in the note body), and records accepted/ignored counts in its report. See also "Review the first weekly link-suggestions" and "Tune topic hubs" above.
+  - Priority: P3 · Owner: routine (PMO.md) · Done 2026-09-26: PMO step 7 adds the real-dependency links and records accepted/ignored counts.
 
 **Content quality (6.5 → 8)**
-- [ ] Long-note report: `find-orphans.py` lists notes outside the mirrors over a size threshold (e.g. 300 lines), and the PMO audit splits the worst offenders into single-idea notes. See also "Smaller, single-idea notes" above.
-  - Priority: P3 · Owner: stash (report) + routine (PMO.md)
-- [ ] Stale hub prose: the generator flags repo hubs whose `Reviewed:`/`Last Validated` date is more than 30 days old in VAULT-MAP, and DAILY step 2 refreshes those first.
-  - Priority: P2 · Owner: stash + routine (DAILY.md)
+- [x] Long-note report: `find-orphans.py` lists notes outside the mirrors over a size threshold (e.g. 300 lines), and the PMO audit splits the worst offenders into single-idea notes. See also "Smaller, single-idea notes" above.
+  - Priority: P3 · Owner: stash (report) + routine (PMO.md) · Done 2026-09-26: `find-orphans.py --long N`; PMO step 7 splits the worst one or two per cycle (5 notes over 300 lines today).
+- [x] Stale hub prose: the generator flags repo hubs whose `Reviewed:`/`Last Validated` date is more than 30 days old in VAULT-MAP, and DAILY step 2 refreshes those first.
+  - Priority: P2 · Owner: stash + routine (DAILY.md) · Done 2026-09-26: VAULT-MAP gets a generated **Stale hubs** line (over 30 days or no date); DAILY step 2 refreshes those first. None stale today.
 - [ ] KB overviews drift (`projects/KB/*-overview.md`): either fold them into the repo hubs, or regenerate them from vigil's `/api/context` so there is one source per repo.
   - Priority: P2 · Owner: vigil (context source) + stash (decision)
 
@@ -64,8 +65,8 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
   - Priority: P2 · Owner: vigil
 - [x] Once it lands, DAILY's "## Tasks" section reads open P0/P1 items from vigil's MCP instead of re-deriving them from hub notes.
   - Priority: P2 · Owner: routine (DAILY.md) · Done 2026-09-26 (hub notes remain the fallback).
-- [ ] Parser-safe TASKS.md everywhere: the PMO audit checks every repo's TASKS.md against the shared format (priority, status, type), so vigil's parser sees all items.
-  - Priority: P2 · Owner: routine (PMO.md)
+- [x] Parser-safe TASKS.md everywhere: the PMO audit checks every repo's TASKS.md against the shared format (priority, status, type), so vigil's parser sees all items.
+  - Priority: P2 · Owner: routine (PMO.md) · Done 2026-09-26: `check-tasks-format.py` (vigil's parsing rules) runs at the start of each PMO cycle; first run flagged 13 of 17 repos, 47 unprioritized items.
 
 **Visuals (3 → 7)**
 - [ ] Decide whether the vault mirrors image assets from repo `docs/` (small PNG/SVG only) so they render in Obsidian, or keeps linking them to GitHub as it does today. If mirroring, extend `sync-repos.ps1` + `enrich-mirror.py` and set a size cap.

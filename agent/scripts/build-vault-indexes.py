@@ -369,6 +369,21 @@ if latest:
     home.append("- **Latest notes:** " + " · ".join(latest) + " (older ones chain from these)")
 home.append("- **Repos** ([[projects/scope|Scope]] tracked; each hub links its README, KB overview and latest reports): "
             + " · ".join(link(h, os.path.basename(h)[:-3]) for h in tracked_hubs))
+REVIEWED = re.compile(r"(?:Reviewed|Last Validated)\W{0,4}(\d{4}-\d{2}-\d{2})")
+stale_hubs = []
+for h in tracked_hubs:
+    dates = []
+    for d in REVIEWED.findall(read(h)[0] or ""):
+        try:
+            dates.append(dt.date.fromisoformat(d))
+        except ValueError:
+            pass
+    if not dates or (dt.date.today() - max(dates)).days > 30:
+        stale_hubs.append((h, max(dates).isoformat() if dates else "never"))
+if stale_hubs:
+    home.append("- **Stale hubs** (no `Reviewed:`/`Last Validated` date in the last 30 days; "
+                "DAILY step 2 refreshes these first): "
+                + " · ".join(f"{link(h, os.path.basename(h)[:-3])} ({d})" for h, d in stale_hubs))
 if other_hubs:
     home.append("- **Other repo hubs:** " + " · ".join(link(h, os.path.basename(h)[:-3]) for h in other_hubs))
 if latest_reports:

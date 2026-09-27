@@ -81,6 +81,8 @@ HELD <repo> — <N> stale files over -MaxPrune; nothing deleted
 Renamed 2026-09-24 from "obn-review" so it isn't confused with the **weekly review** in step 4. The log file keeps its old name so its history stays in one place.
 
 
+**Stale hubs first (added 2026-09-26).** `agent/VAULT-MAP.md` has a generated **Stale hubs** line listing tracked repo hubs with no `Reviewed:`/`Last Validated` date in the last 30 days. Refresh those hubs first, even if the repo had no activity today, and update their `Reviewed:` date when you do. If the line is absent, no hub is stale.
+
 Read the synced `.md` files per repo and refresh each repo's summary at `stash/agent/repos/<repo>.md`. **Note: `agent/repos/` — plural.** A past log entry pointed at `agent/repo/` (singular), a directory that doesn't exist — that stale path is why this step stopped producing anything findable.
 
 Log to `C:\Users\<user>\code\stash\agent\logs\obn-review.log`, appending (never overwrite) one line per run in this exact format:

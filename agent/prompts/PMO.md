@@ -89,6 +89,8 @@ When repositories are Overseer-tracked, apply strict markdown conventions:
 
 If current repo conventions differ, preserve content and introduce parser-safe structure in the least disruptive way.
 
+**Check it, don't eyeball it (added 2026-09-26).** At the start of every audit cycle, run `python agent/scripts/check-tasks-format.py --fetch --details` from the stash root. It uses the same parsing rules as vigil and lists, per tracked repo: no TASKS.md, missing Done / In Progress / Todo sections, open items with no priority, and checkboxes vigil skips (indented more than one space, or `*`/`+` bullets). Paste its table into the audit report. For each audited repo, give every flagged item a priority (a `- Priority: Pn` sub-bullet) and fix skipped checkboxes in that repo's audit PR. Don't invent priorities you can't justify: use P3 and say "triage" in the sub-bullet. On 2026-09-26 it flagged 13 of 17 repos and 47 unprioritized items, mostly farm-3j (19) and avatar (10).
+
 ## Findings Ledger Handoff
 
 Before auditing, read `stash/agent/reports/findings-ledger.md` (maintained by [[TIRE]], which runs on the 28th). Every `open` row with class `pmo` for a repo in this cycle is part of that repo's audit: either turn it into an evidence-backed TASKS.md item or PR, or mark it `wontfix` with a reason. Set the row's Status and Link in the same stash PR as the audit report. Don't work on `quick` rows (TIRE owns them) or `human` rows (they go to the user).
@@ -114,6 +116,9 @@ Before auditing, read `stash/agent/reports/findings-ledger.md` (maintained by [[
 6. Knowledge Capture
 	- Update agent/repos/<repo>.md with practical runbook notes and verified shortcuts.
 	- Improve this PMO prompt when a repeatable better process is discovered.
+7. Vault upkeep (once per cycle, in the stash audit PR; added 2026-09-26)
+	- **Link suggestions:** read the latest `agent/reports/link-suggestions-*.md`. For each suggestion that reflects a real dependency (one note builds on, configures or replaces the other), add the link in the note body, in a sentence that says why, not in a "See also" list. Ignore the rest. Record `accepted N / ignored M` in the audit report. If most are noise two cycles running, propose a higher `MIN_SCORE` in `suggest-links.py`.
+	- **Long notes:** run `python agent/scripts/find-orphans.py --long 300`. It lists notes outside the `repos/<repo>/` mirrors that are over 300 lines. Split the worst one or two per cycle into single-idea notes: keep the original as a short hub that links its parts, give each part an `up:` frontmatter line, and re-run `build-vault-indexes.py` and `find-orphans.py --check` afterwards. Don't split generated reports (`reports/*-<date>.md`); those are records.
 
 ## Prioritization Framework
 

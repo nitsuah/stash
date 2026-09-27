@@ -77,6 +77,8 @@ def main():
     ap.add_argument("--check", action="store_true",
                     help="exit 1 if a note outside the repos/<repo>/ mirrors is orphaned or unreachable, or "
                          "two notes outside the mirrors share a name (an ambiguous [[wikilink]])")
+    ap.add_argument("--long", type=int, default=0, metavar="N",
+                    help="also list notes outside the repos/<repo>/ mirrors longer than N lines, longest first")
     a = ap.parse_args()
 
     notes, attachments = collect()
@@ -171,6 +173,22 @@ def main():
     loose = [f for f in attachments if not in_links[f]]
     print(f"attachments: {len(attachments)}  unlinked (loose dots in the graph): {len(loose)}"
           + ("  -> " + ", ".join(loose) if loose else ""))
+    if a.long:
+        sizes = []
+        for n in scope:
+            parts = n.split("/")
+            if parts[0] == "repos" and len(parts) > 2:
+                continue  # mirrors are copies of repo docs; split them in the repo, not here
+            try:
+                with open(os.path.join(VAULT, n), encoding="utf-8", errors="replace") as fh:
+                    lines = sum(1 for _ in fh)
+            except OSError:
+                continue
+            if lines > a.long:
+                sizes.append((lines, n))
+        print(f"long notes (over {a.long} lines, outside the mirrors): {len(sizes)}")
+        for lines, n in sorted(sizes, reverse=True):
+            print(f"  {lines:5d}  {n}")
     print("\norphans by folder:")
     for k, v in Counter(top(n) for n in orphans).most_common():
         print(f"  {v:4d}  {k}")
