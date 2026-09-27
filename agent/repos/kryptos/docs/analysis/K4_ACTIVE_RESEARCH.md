@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K4_ACTIVE_RESEARCH"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K4_ACTIVE_RESEARCH.md
 kind: repo-doc
 repo: kryptos

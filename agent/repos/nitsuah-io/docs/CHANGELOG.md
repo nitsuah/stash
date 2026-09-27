@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · CHANGELOG"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: nitsuah-io
@@ -19,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Home page redesigned as a focused landing page (`LandingHero` + `FeaturedProjects`) surfacing top projects (agent-board, overseer, bb-mcp, darkmoon) above the fold.
 - Dedicated `/3d` route for the Spline experience, moved off the home page to cut critical-path bundle weight and improve LCP.
+- `scripts/check-playwright-lockstep.js`, wired into `precheck:docker` and CI, fails the build if `config/Dockerfile.test`'s Playwright image tag drifts from the installed `@playwright/test` version, so Docker smoke runs can't silently break again.
+
+### Fixed
+- Playwright Docker image (`config/Dockerfile.test`, `mcr.microsoft.com/playwright`) was pinned to `v1.62.1-noble` while `@playwright/test` had moved to `1.63.0`; realigned both to `1.63.0` and added Dependabot grouping (npm `@playwright/*` bumps together; Docker image auto-updates ignored) so future upgrades land in lockstep by construction, not convention.
 
 ### Changed
 - Labs contracts' chain config migrated from the shut-down Mumbai testnet to Amoy (`polygonAmoy`, chain id 80002, explorer/OpenSea links, copy) (#519). The contracts themselves still need redeploying to Amoy — tracked in TASKS.md.

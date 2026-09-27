@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · L7_ENGINEERING_REVIEW"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/archive/L7_ENGINEERING_REVIEW.md
 kind: repo-doc
 repo: darkmoon

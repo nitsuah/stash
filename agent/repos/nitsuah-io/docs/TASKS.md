@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · TASKS"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: nitsuah-io
@@ -15,11 +16,12 @@ repo: nitsuah-io
 
 ## Todo
 
-### P1 - High
+### P0 - Critical
 
-- [ ] Keep the Playwright Docker image and npm version in lockstep.
-  - Context: any future Playwright upgrade must update both `Dockerfile.test` and `@playwright/test` together or Docker smoke runs will break.
-  - Acceptance Criteria: coordinated upgrades keep `npm run precheck:docker` passing.
+- [x] Keep the Playwright Docker image and npm version in lockstep.
+  - Summary: aligned `config/Dockerfile.test` (now `v1.63.0-noble`) with the installed `@playwright/test` (`1.63.0`); added `scripts/check-playwright-lockstep.js`, wired into `precheck:docker` and CI, plus grouped/ignored Dependabot rules so the two can't drift apart silently again.
+
+### P1 - High
 
 - [ ] Replace placeholder-heavy client demo assets.
   - Context: the restaurant, e-commerce, real-estate, CMS, and NFT demos still rely on missing or placeholder imagery tracked in `docs/archive/SCREENSHOTS.md`.

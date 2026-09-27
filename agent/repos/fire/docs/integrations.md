@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · integrations"
 source: https://github.com/nitsuah/fire/blob/main/docs/integrations.md
 kind: repo-doc
 repo: fire
@@ -11,7 +12,7 @@ repo: fire
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
 > **Status:** Planning  
-> **Last updated:** 2026-08-12  
+> **Last updated:** 2026-09-26  
 > **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md)
 
 This document describes every planned external integration — what credentials are needed, what data is fetched, and what setup is required.
@@ -61,6 +62,40 @@ SYNC_MASTER_KEY=      # 64 hex chars — required to encrypt stored OAuth tokens
 - ✅ Status check endpoint: `GET /api/sync/ebay/status` (returns connected state, last sync, environment)
 - ✅ Settings page UI with connection status display
 - ⏳ Requires `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `SYNC_MASTER_KEY` environment variables to function
+- ✅ Revoked access: if a token refresh fails with `invalid_grant` (the user disconnected the app or closed/deleted their eBay account), sync returns `401 {"code":"ebay_revoked"}`. The stored tokens and the ledger rows the Order API sync created (`id` exactly `ebay-<orderId>`; uploaded report rows are `ebay-csv-…` and are kept) are then deleted: on the server in self-hosted mode, and in `localStorage` in browser-only mode. The user gets an alert. Manually logged sales and uploaded CSV reports are kept.
+
+### Browser-only deploy (Netlify Functions)
+
+lifefire.netlify.app has no Express server, so `netlify.toml` rewrites the eBay
+routes to Netlify Functions in `netlify/functions/`. The public paths stay the same.
+The Functions and the Express routes share one implementation (`app/lib/ebay-handlers.js`,
+`app/lib/ebay-connector.js`).
+The Functions use the modern Netlify signature (`export default (req: Request) => Response`,
+`.mjs`), not the Lambda-compatible `exports.handler` format. The Lambda-compatible
+format caps a site's env vars at 4KB, and lifefire exceeds that.
+
+| Public path | Function | Notes |
+|---|---|---|
+| `GET /api/sync/ebay/authorize` | `ebay-authorize` | Redirects to eBay; CSRF `state` in a 10-min HttpOnly cookie |
+| `GET /api/sync/ebay/callback` | `ebay-callback` | Exchanges the code, returns the tokens **encrypted with `SYNC_MASTER_KEY`** to the SPA in the URL fragment (`/#ebay-connected=…`). The SPA accepts it only if this tab started the connect (a `sessionStorage` marker set on the Connect click) |
+| `POST /api/sync/ebay/sync` | `ebay-sync` | Body `{tokens: <blob>}`; returns ledger `entries` (+ a new blob if refreshed). The SPA merges them into `localStorage` |
+| `GET/POST /api/sync/ebay/marketplace-account-deletion` | `ebay-marketplace-account-deletion` | See below |
+
+No eBay data is stored server-side. The browser holds an opaque blob
+(`localStorage` key `fire_tracker_ebay_token`, kept out of JSON backups) that
+only the Functions can decrypt. Status and the sync on/off toggle are computed
+in the browser in this mode (`app/lib/side-gig.js`).
+
+Netlify environment variables (Site configuration → Environment variables):
+
+| Variable | Value |
+|---|---|
+| `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | Production keyset |
+| `EBAY_ENVIRONMENT` | `production` |
+| `EBAY_REDIRECT_URI` | Your eBay **RuName** (User Tokens → "Get a Token from eBay via Your Application"), with its *auth accepted URL* set to `https://lifefire.netlify.app/api/sync/ebay/callback` |
+| `SYNC_MASTER_KEY` | 64 hex chars (`openssl rand -hex 32`). Rotating it disconnects every browser (the sync returns `ebay_token_invalid` and the user reconnects) |
+| `EBAY_VERIFICATION_TOKEN` | 32–80 chars of `[A-Za-z0-9_-]` (`openssl rand -hex 32`) |
+| `EBAY_NOTIFICATION_ENDPOINT_URL` | `https://lifefire.netlify.app/api/sync/ebay/marketplace-account-deletion` |
 
 ---
 
@@ -96,6 +131,20 @@ required; keys are cached for an hour) and checks the ECDSA signature over the
 raw body, falling back to `JSON.stringify(body)`, the form eBay's SDKs sign.
 Missing/invalid signatures and unknown `kid`s get `412`; if the key can't be
 fetched the endpoint answers `503` so eBay retries.
+
+On the **Netlify Function** the rules differ, because that deploy stores no eBay user data:
+
+- If `EBAY_VERIFICATION_TOKEN` or `EBAY_NOTIFICATION_ENDPOINT_URL` is missing, the Function returns `500` and logs which variable is missing. It never hashes with an empty token.
+- A valid notification is acknowledged with `200` and nothing is purged. The log line contains only the topic and `notificationId`, never the username or user ID.
+- The signature is still verified when `EBAY_CLIENT_ID`/`EBAY_CLIENT_SECRET` are set. Without them the Function acknowledges after checking the payload shape; since there is nothing to purge, a forged notification has no effect.
+- Removing eBay data from users' browsers is the `ebay_revoked` cleanup above; a server push can't reach a browser.
+
+**Go-live steps (production keyset):**
+
+1. In Netlify, set `EBAY_VERIFICATION_TOKEN` (`openssl rand -hex 32`) and `EBAY_NOTIFICATION_ENDPOINT_URL` (see the table above).
+2. Deploy.
+3. Check the hash: `curl "https://lifefire.netlify.app/api/sync/ebay/marketplace-account-deletion?challenge_code=test"` must return the same value as `printf '%s' "test$EBAY_VERIFICATION_TOKEN$EBAY_NOTIFICATION_ENDPOINT_URL" | sha256sum`.
+4. developer.ebay.com → Application Keys → Production keyset → Notifications → Marketplace Account Deletion: enter an alert email, the endpoint URL and the verification token → Save → Send Test Notification.
 
 ### Sales-report CSV upload
 

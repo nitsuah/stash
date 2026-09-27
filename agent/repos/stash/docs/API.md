@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · API"
 source: https://github.com/nitsuah/stash/blob/main/docs/API.md
 kind: repo-doc
 repo: stash

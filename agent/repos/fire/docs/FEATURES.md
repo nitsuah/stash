@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · FEATURES"
 source: https://github.com/nitsuah/fire/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: fire
@@ -23,7 +24,7 @@ repo: fire
 
 ## MCP Server
 
-- **13 Functional Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway` (plus 7 registered `not_implemented` stubs); a test asserts no write tools exist.
+- **16 Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`. No stubs: tools with nothing behind them were removed. A test asserts no write tools exist.
 - **Claude Code Integration** — `.mcp.json` at repo root auto-connects the server when Claude Code starts in this directory.
 - **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates the 8 original read-only tools listed in its `EXPECTED_TOOLS` (the five newer tools are covered by unit tests, not the smoke script).
 

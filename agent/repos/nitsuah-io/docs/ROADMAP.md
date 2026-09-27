@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · ROADMAP"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: nitsuah-io

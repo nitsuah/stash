@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · ARCHITECTURE"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/ARCHITECTURE.md
 kind: repo-doc
 repo: darkmoon

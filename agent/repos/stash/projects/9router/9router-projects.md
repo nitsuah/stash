@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · 9router-projects"
 source: https://github.com/nitsuah/stash/blob/main/projects/9router/9router-projects.md
 kind: repo-doc
 repo: stash

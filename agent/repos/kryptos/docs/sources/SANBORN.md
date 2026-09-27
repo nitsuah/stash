@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · SANBORN"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/sources/SANBORN.md
 kind: repo-doc
 repo: kryptos

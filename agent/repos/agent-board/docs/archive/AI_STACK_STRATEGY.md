@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · AI_STACK_STRATEGY"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/AI_STACK_STRATEGY.md
 kind: repo-doc
 repo: agent-board

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · ROADMAP"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: darkmoon

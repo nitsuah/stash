@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · README"
 source: https://github.com/nitsuah/osrs/blob/main/README.md
 kind: repo-doc
 repo: osrs

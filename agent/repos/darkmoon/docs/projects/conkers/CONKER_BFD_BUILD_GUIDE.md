@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · CONKER_BFD_BUILD_GUIDE"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/conkers/CONKER_BFD_BUILD_GUIDE.md
 kind: repo-doc
 repo: darkmoon

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · FEATURES"
 source: https://github.com/nitsuah/gcp/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: gcp

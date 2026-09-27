@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · ROADMAP"
 source: https://github.com/nitsuah/osrs/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: osrs

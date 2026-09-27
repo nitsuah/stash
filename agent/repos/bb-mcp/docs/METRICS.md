@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · METRICS"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: bb-mcp

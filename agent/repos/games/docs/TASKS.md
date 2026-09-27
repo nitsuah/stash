@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · TASKS"
 source: https://github.com/nitsuah/games/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: games

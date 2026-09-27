@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · TASKS"
 source: https://github.com/nitsuah/skyview/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: skyview
@@ -10,7 +11,7 @@ repo: skyview
 
 > 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-26
 
 > **Delivery split:** public FE covers the marketing site and funnel. `/admin` is a separate CMS surface. Secure client portal/download auth is a separate backend workstream.
 
@@ -37,11 +38,14 @@ Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
 
 - [ ] Bring the marketplace backend live in production (the site's booking CTA now points at it).
   - Priority: P1 — Calendly has been removed from the marketing site; "Find an operator" / "Post a job" / the hero CTA now link straight to `/app/register`, so registration, job posting and booking must work in production.
-  - Acceptance Criteria: `db:migrate` run against production Neon DB (through migration 006, incl. the `bookings_no_operator_overlap` constraint); `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET`/`RESEND_API_KEY`/`JWT_SECRET`/`PORTAL_SALT`/`DATABASE_URL` set in Netlify; one real end-to-end pass: register as operator -> set availability -> register as client -> post a job -> book -> operator accepts.
+  - Done 2026-09-27: production Neon DB migrated through 006 (incl. `bookings_no_operator_overlap`); all 8 env vars set in Netlify, incl. the Stripe webhook (`/api/stripe-webhooks`: `payment_intent.payment_failed`, `account.updated`) and `PORTAL_SALT`.
+  - Remaining: switch the production `STRIPE_SECRET_KEY` (and the webhook secret) to live mode once the Stripe account is set up, then one real end-to-end pass: register as operator -> set availability -> register as client -> post a job -> book -> operator accepts.
+  - Note: `netlify dev:exec` can't migrate production, because the CLI only sees masked values for secret env vars. Run `db:migrate` with the connection string from the Neon console instead.; one real end-to-end pass: register as operator -> set availability -> register as client -> post a job -> book -> operator accepts.
 
-- [ ] Verify production auth/env end-to-end (left open by the 2026-09 auth + scheduling pass; nothing here could be checked without Netlify/Google/Resend access).
-  - Priority: P1
-  - Acceptance Criteria: (a) confirm `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`/`DATABASE_URL`/`JWT_SECRET`/`RESEND_API_KEY` are set in Netlify; (b) Google Cloud Console has `https://skyviewd.netlify.app/api/auth/google/callback` as an authorized redirect URI; (c) a human completes one real "Continue with Google" sign-in on production (the routing 404 is fixed and unit-tested, but the OAuth round trip itself was never exercised); (d) a real password-reset email is sent, received, and its link works (confirm the `noreply@skyviewdynamics.com` sender domain is verified in Resend).
+- [ ] Set up the email sending domain (DNS + Resend verification), then prove password reset in production.
+  - Priority: P2
+  - Blocked on: the domain/DNS decision. The owner is either moving nitsuah.io DNS from Netlify to Cloudflare (CNAME redirection, plus a DMARC investigation to centralize reports and route mail to Gmail) or buying a dedicated domain wired up the way nitsuah.io is through Netlify. `skyviewdynamics.com` may be a placeholder; see the production-identity item.
+  - Acceptance Criteria: (a) the sender domain used by `netlify/functions/utils/email.js` shows Verified in Resend (SPF/DKIM, plus a DMARC record); (b) a real password-reset email is sent, received, and its link works on production.
 
 - [ ] Native scheduling hardening (follow-ups to the availability work; none block the cutover).
   - Priority: P2
@@ -55,6 +59,7 @@ Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
 - [ ] Test and tooling debt surfaced by the 2026-09 auth + scheduling pass.
   - Priority: P3
   - `npm run lint:js` is broken: `eslint` is not in `package.json`, so linting has never run in CI (stylelint likewise unverified).
+  - The stylelint pre-commit hook now runs (local node hook, stylelint 17.15.0) and reports 134 pre-existing errors in `styles/style.css`, mostly camelCase `@keyframes` names (`keyframes-name-pattern`) and `selector-class-pattern`. Any commit that touches CSS will fail the hook until they're fixed. Either rename them (and update the JS/HTML references), or relax those two rules in `config/stylelint.config.mjs`.
   - `tests/site.spec.ts` "gallery interaction" times out intermittently under heavy parallel load (passes alone and with `--workers=2`); CI uses 1 worker, so low risk, but worth de-flaking.
   - Platform form labels (`Login.jsx`, `ResetPassword.jsx`, etc.) aren't associated with their inputs (no `htmlFor`/`id`), so `getByLabel` fails and screen readers lose the label; e2e specs currently select by placeholder. Fix the markup, then switch tests to `getByLabel`.
   - `vite preview` logs `/api/notifications` proxy errors during e2e (the `Layout` bell polls an unmocked endpoint); mock it in the specs to quiet the noise.

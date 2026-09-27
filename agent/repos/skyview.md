@@ -5,7 +5,7 @@ repo: skyview
 
 # skyview - Static marketing site and client portal
 
-**Last Validated:** 2026-09-26 | PMO audit - Docker-first validation
+**Last Validated:** 2026-09-27 | PMO audit - Docker-first validation
 **Repo:** https://github.com/nitsuah/skyview
 **Branch convention:** pmo/skyview/planning-alignment-YYYY-MM-DD
 
@@ -43,11 +43,11 @@ repo: skyview
 
 **P1:** Complete the launch checklist with verified production identity data (real phone, email, address/geo, social URLs) — config plumbing is done; blocked only on the business owner supplying real values.
 
-**P1 (new since last review):** Bring the marketplace backend live in production. Calendly is gone from the marketing site, and the "Find an operator", "Post a job" and hero CTAs now link to `/app/register`, so production registration and booking must work. This needs `db:migrate` against the production Neon DB (through migration 006) and the Stripe/Resend/JWT/PORTAL_SALT/DATABASE_URL env vars in Netlify, followed by one real end-to-end booking pass.
+**P1 (partly done 2026-09-27):** Bring the marketplace backend live in production. Production Neon DB is migrated through 006 and all 8 env vars (incl. the Stripe webhook and `PORTAL_SALT`) are set in Netlify. Remaining: switch `STRIPE_SECRET_KEY` and the webhook secret to live mode once the Stripe account is set up, then one real end-to-end booking pass. (`netlify dev:exec` can't migrate production because secret env vars are masked; use the Neon console connection string.)
 
-**P1 (new since last review):** Verify production auth/env end-to-end. Check the Google OAuth env vars and the authorized redirect URI (`/api/auth/google/callback`), then have a human do one real "Continue with Google" sign-in and one real password-reset email (Resend sender domain verified). The routing fix is unit-tested, but nobody has run the OAuth round trip itself.
+**Downgraded to P2 (2026-09-26):** production email/auth verification. Now blocked on the domain/DNS decision (move nitsuah.io DNS to Cloudflare, or buy a dedicated domain); `skyviewdynamics.com` may be a placeholder. New P2 note: the stylelint pre-commit hook reports 134 pre-existing errors in `styles/style.css`, so any CSS commit fails until they're fixed or the two rules are relaxed.
 
-All three P1s need human or owner access (business data, Netlify, Neon, Google Console). None of them is blocked on code. The other TASKS.md items (per-client storage backend, scheduling hardening, analytics, testimonials, A/B, dependency audit) are P2/P3.
+Both remaining P1s need human or owner access (business data, Stripe account). None is blocked on code.
 
 ## Priority Focus
 

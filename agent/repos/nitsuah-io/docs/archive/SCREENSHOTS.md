@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · SCREENSHOTS"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/SCREENSHOTS.md
 kind: repo-doc
 repo: nitsuah-io

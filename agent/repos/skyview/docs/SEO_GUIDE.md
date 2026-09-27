@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · SEO_GUIDE"
 source: https://github.com/nitsuah/skyview/blob/main/docs/SEO_GUIDE.md
 kind: repo-doc
 repo: skyview

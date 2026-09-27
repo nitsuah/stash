@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · HANDOFF-home-landing-redesign-20260411"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/HANDOFF-home-landing-redesign-20260411.md
 kind: repo-doc
 repo: nitsuah-io

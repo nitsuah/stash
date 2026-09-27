@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · API_REFERENCE"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/reference/API_REFERENCE.md
 kind: repo-doc
 repo: kryptos

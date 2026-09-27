@@ -1,5 +1,6 @@
 ---
 up: "[[repos/farm-3j]]"
+title: "farm-3j · METRICS"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: farm-3j

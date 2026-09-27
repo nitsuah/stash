@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · README"
 source: https://github.com/nitsuah/fire/blob/main/README.md
 kind: repo-doc
 repo: fire
@@ -29,7 +30,7 @@ repo: fire
 - **Precious metals** — Gold/Silver account type valued by weight × live spot (metals.dev with a free Yahoo futures fallback)
 - **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier; wallet tracking appears under the form when Type = Cryptocurrency
 - **REST API** — full CRUD for accounts, CDs, wallets, vehicles, sync templates, state; `FIRE_API_KEY` header auth required by default (opt out with `FIRE_AUTH_DISABLED=true` for local-only use); `FIRE_ADMIN_KEY`-gated key-rotation endpoint
-- **MCP Server** — 13 functional tools for Claude/LLM integration via `app/mcp-server.mjs` (plus 7 registered stubs)
+- **MCP Server** — 16 read-only tools for Claude/LLM integration via `app/mcp-server.mjs`
 - **Yahoo Finance prices** — live portfolio valuation with crumb-based auth, stale-data fallback, and SSE (`GET /api/prices/stream`) for live push; configurable via `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` as stable alternatives
 - **Webhook sync framework** — JSON data-mapped templates for automated data ingestion (full CRUD + live receiver at `POST /api/sync/webhook/:templateId`)
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
@@ -62,8 +63,13 @@ server refuses to start with neither set.
 
 ```bash
 # Start
-docker compose -f config/docker-compose.yml up -d
+docker compose up -d
 ```
+
+The root `compose.yaml` names the project `fire` and includes
+`config/docker-compose.yml`, so this runs from the repo root. `docker compose up fire`
+starts just the app, and the longer `docker compose -f config/docker-compose.yml …`
+form still works.
 
 Open **http://localhost:3001** (plain HTTP) or **https://localhost** (via the
 bundled Caddy reverse proxy — see [HTTPS via Caddy](#https-via-caddy) below)
@@ -71,11 +77,11 @@ in your browser.
 
 ```bash
 # Stop
-docker compose -f config/docker-compose.yml down
+docker compose down
 
 # Rebuild after dependency changes
-docker compose -f config/docker-compose.yml build
-docker compose -f config/docker-compose.yml up -d --force-recreate
+docker compose build
+docker compose up -d --force-recreate
 ```
 
 ---
@@ -96,9 +102,9 @@ basic local use — the one exception is `FIRE_API_KEY` (or its explicit
 | `SESSION_SECRET` | Secret for signing session cookies (random string; server exits in production if unset) |
 | `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | eBay Developer app credentials for Order API sync |
 | `EBAY_ENVIRONMENT` | `sandbox` (default) or `production` |
-| `EBAY_REDIRECT_URI` | OAuth callback URI. Default is derived from the incoming request (host + protocol, honouring the reverse proxy); set explicitly for any real deployment |
+| `EBAY_REDIRECT_URI` | OAuth `redirect_uri` sent to eBay. For a real eBay app this is your RuName. The default is derived from the incoming request (host + protocol, honouring the reverse proxy). **Required on Netlify** |
 | `EBAY_VERIFICATION_TOKEN` | 32–80 char token you also register in the eBay Developer Portal for Marketplace Account Deletion notifications |
-| `EBAY_NOTIFICATION_ENDPOINT_URL` | Public HTTPS URL of `/api/sync/ebay/marketplace-account-deletion` exactly as registered with eBay (used in the challenge hash) |
+| `EBAY_NOTIFICATION_ENDPOINT_URL` | Public HTTPS URL of `/api/sync/ebay/marketplace-account-deletion` exactly as registered with eBay (used in the challenge hash). On Netlify: `https://lifefire.netlify.app/api/sync/ebay/marketplace-account-deletion`. The eBay variables also apply to the Netlify Functions deploy; see [docs/integrations.md](docs/integrations.md#browser-only-deploy-netlify-functions) |
 | `METALS_API_KEY` | Optional metals.dev key for gold/silver spot; without it the free Yahoo futures fallback (`GC=F` / `SI=F`) is used |
 | `ETHERSCAN_API_KEY` | Ethereum / ERC-20 balance fetching |
 | `BSCSCAN_API_KEY` / `POLYGONSCAN_API_KEY` / `ARBISCAN_API_KEY` / `BASESCAN_API_KEY` | EVM chain balance fetching |
@@ -119,7 +125,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ## HTTPS via Caddy
 
-`docker compose -f config/docker-compose.yml up -d` also starts a
+`docker compose up -d` also starts a
 [Caddy](https://caddyserver.com/) reverse proxy (`config/Caddyfile`) that
 terminates TLS for `https://localhost`. Plain HTTP on `http://localhost:3001`
 still works for same-machine use (OAuth redirect callbacks are configured
@@ -133,7 +139,7 @@ warn until you trust it once. `caddy trust` only updates the trust store
 *inside the caddy container* — it does not touch your host or browser.
 Instead, copy the CA cert out and import it yourself:
 ```bash
-docker compose -f config/docker-compose.yml cp caddy:/data/caddy/pki/authorities/local/root.crt ./caddy-local-ca.crt
+docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt ./caddy-local-ca.crt
 ```
 then import `caddy-local-ca.crt` via your OS/browser's certificate manager
 (see [Caddy's docs](https://caddyserver.com/docs/running) for OS-specific
@@ -162,13 +168,13 @@ Connect Claude Code to your live financial data. The project ships a `.mcp.json`
 }
 ```
 
-**Functional tools (13):** `fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway`
+**Tools (16, all read-only):** `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`
 
-**Registered stubs (return `not_implemented`):** `get_market_correlation`, `get_swr_sensitivity`, `set_price_target_alert`, `auto_reconcile_csv`, `get_dividend_forecast`, `get_net_worth_trend`, `get_diversification_score`
+`simulate_rebalance` is a what-if: it reports allocation and diversification score before/after moving money between asset classes, and never trades or saves anything.
 
 Smoke-test locally:
 ```bash
-docker compose -f config/docker-compose.yml exec fire node scripts/test-mcp.mjs
+docker compose exec fire node scripts/test-mcp.mjs
 ```
 
 ---
@@ -189,7 +195,7 @@ fire/
 ├── app/
 │   ├── index.html              # Single-page app entry point
 │   ├── server.js               # Express server (port 3001)
-│   ├── mcp-server.mjs          # MCP server — 13 functional tools + 7 registered stubs
+│   ├── mcp-server.mjs          # MCP server — 16 read-only tools
 │   ├── lib/
 │   │   ├── db.js               # State persistence (db.json, atomic writes)
 │   │   ├── crypto-utils.js     # AES-256-GCM encrypt/decrypt
@@ -248,13 +254,13 @@ fire/
 
 ```bash
 # Run tests inside Docker
-docker compose -f config/docker-compose.yml exec fire npm test
+docker compose exec fire npm test
 
 # Run tests with coverage
-docker compose -f config/docker-compose.yml exec fire npm run test:coverage
+docker compose exec fire npm run test:coverage
 
 # Lint
-docker compose -f config/docker-compose.yml exec fire npm run lint
+docker compose exec fire npm run lint
 
 # Real-browser UI tests (Playwright, in Docker)
 docker build -f config/Dockerfile.playwright -t fire-playwright-e2e .

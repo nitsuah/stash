@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · METRICS"
 source: https://github.com/nitsuah/vigil/blob/main/METRICS.md
 kind: repo-doc
 repo: vigil

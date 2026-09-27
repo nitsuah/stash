@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · WEBP_IMPLEMENTATION"
 source: https://github.com/nitsuah/skyview/blob/main/docs/archive/WEBP_IMPLEMENTATION.md
 kind: repo-doc
 repo: skyview

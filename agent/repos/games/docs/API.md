@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · API"
 source: https://github.com/nitsuah/games/blob/main/docs/API.md
 kind: repo-doc
 repo: games

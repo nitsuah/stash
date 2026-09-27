@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · CHANGELOG"
 source: https://github.com/nitsuah/vhs/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: vhs

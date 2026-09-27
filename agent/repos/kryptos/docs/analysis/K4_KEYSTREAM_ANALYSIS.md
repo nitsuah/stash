@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K4_KEYSTREAM_ANALYSIS"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K4_KEYSTREAM_ANALYSIS.md
 kind: repo-doc
 repo: kryptos

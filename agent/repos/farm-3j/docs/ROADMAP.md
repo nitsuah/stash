@@ -1,5 +1,6 @@
 ---
 up: "[[repos/farm-3j]]"
+title: "farm-3j · ROADMAP"
 source: https://github.com/nitsuah/farm-3j/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: farm-3j

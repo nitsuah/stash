@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · METRICS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/METRICS.md
 kind: repo-doc
 repo: agent-board

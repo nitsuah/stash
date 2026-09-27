@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · CONFIG"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CONFIG.md
 kind: repo-doc
 repo: skyview

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · README"
 source: https://github.com/nitsuah/stash/blob/main/projects/fps-tech/README.md
 kind: repo-doc
 repo: stash

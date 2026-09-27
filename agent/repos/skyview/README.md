@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · README"
 source: https://github.com/nitsuah/skyview/blob/main/README.md
 kind: repo-doc
 repo: skyview

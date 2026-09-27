@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · MIGRATION"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MIGRATION.md
 kind: repo-doc
 repo: agent-board

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · FINAL_SETUP"
 source: https://github.com/nitsuah/skyview/blob/main/docs/FINAL_SETUP.md
 kind: repo-doc
 repo: skyview

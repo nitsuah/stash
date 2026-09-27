@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · weekly-checkin-prompt"
 source: https://github.com/nitsuah/fire/blob/main/docs/weekly-checkin-prompt.md
 kind: repo-doc
 repo: fire

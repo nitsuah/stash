@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · FEATURES"
 source: https://github.com/nitsuah/vhs/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: vhs

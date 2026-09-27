@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · GOVERN"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/GOVERN.md
 kind: repo-doc
 repo: kryptos

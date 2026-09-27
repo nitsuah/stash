@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K4_ATTACK_LANDSCAPE"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4_ATTACK_LANDSCAPE.md
 kind: repo-doc
 repo: kryptos

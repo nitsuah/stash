@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · security-hardening"
 source: https://github.com/nitsuah/fire/blob/main/docs/security-hardening.md
 kind: repo-doc
 repo: fire

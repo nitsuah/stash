@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · CHANGELOG"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: skyview
@@ -15,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### 2026-09-26
+
+- **Verified — production auth/env:** `DATABASE_URL`, `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`, `JWT_SECRET`, `RESEND_API_KEY` and `STRIPE_SECRET_KEY` are set in Netlify for all deploy contexts, and a real "Continue with Google" sign-in works on production, so the Google redirect URI is registered. The Resend sender domain and the password-reset email moved to a new task, blocked on the DNS/domain decision.
 
 ### 2026-09-19 → 2026-09-24
 

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · MULTIPLAYER_GATE"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/multi/MULTIPLAYER_GATE.md
 kind: repo-doc
 repo: darkmoon

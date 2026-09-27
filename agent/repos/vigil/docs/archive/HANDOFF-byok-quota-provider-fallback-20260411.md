@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · HANDOFF-byok-quota-provider-fallback-20260411"
 source: https://github.com/nitsuah/vigil/blob/main/docs/archive/HANDOFF-byok-quota-provider-fallback-20260411.md
 kind: repo-doc
 repo: vigil

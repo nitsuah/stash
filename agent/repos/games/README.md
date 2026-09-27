@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · README"
 source: https://github.com/nitsuah/games/blob/main/README.md
 kind: repo-doc
 repo: games

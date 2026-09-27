@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · blackboard-learn-mcp-plan"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/blackboard-learn-mcp-plan.md
 kind: repo-doc
 repo: bb-mcp

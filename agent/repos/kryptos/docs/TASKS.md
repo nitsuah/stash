@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · TASKS"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: kryptos

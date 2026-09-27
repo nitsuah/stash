@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · CHANGELOG"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/CHANGELOG.md
 kind: repo-doc
 repo: agent-board

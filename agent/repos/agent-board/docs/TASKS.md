@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · TASKS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/TASKS.md
 kind: repo-doc
 repo: agent-board

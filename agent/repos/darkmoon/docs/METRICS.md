@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · METRICS"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: darkmoon

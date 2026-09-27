@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · AGENT_TASK_QUEUE_API"
 source: https://github.com/nitsuah/vigil/blob/main/docs/AGENT_TASK_QUEUE_API.md
 kind: repo-doc
 repo: vigil

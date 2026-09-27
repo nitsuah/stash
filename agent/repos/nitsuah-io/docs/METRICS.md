@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · METRICS"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: nitsuah-io

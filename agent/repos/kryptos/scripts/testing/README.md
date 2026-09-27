@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · README"
 source: https://github.com/nitsuah/kryptos/blob/main/scripts/testing/README.md
 kind: repo-doc
 repo: kryptos

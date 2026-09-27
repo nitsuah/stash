@@ -1,5 +1,6 @@
 ---
 up: "[[repos/avatar]]"
+title: "avatar · ROADMAP"
 source: https://github.com/nitsuah/avatar/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: avatar

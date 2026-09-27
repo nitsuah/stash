@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · HANDOFF-spline-move-3d-20260403"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/HANDOFF-spline-move-3d-20260403.md
 kind: repo-doc
 repo: nitsuah-io

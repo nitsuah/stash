@@ -1,5 +1,6 @@
 ---
 up: "[[repos/deployer]]"
+title: "deployer · FEATURES"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: deployer

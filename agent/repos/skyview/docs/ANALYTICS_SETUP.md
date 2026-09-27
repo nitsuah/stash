@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · ANALYTICS_SETUP"
 source: https://github.com/nitsuah/skyview/blob/main/docs/ANALYTICS_SETUP.md
 kind: repo-doc
 repo: skyview

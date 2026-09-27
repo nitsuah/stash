@@ -1,5 +1,6 @@
 ---
 up: "[[repos/ats-fill]]"
+title: "ats-fill · PRIVACY"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/PRIVACY.md
 kind: repo-doc
 repo: ats-fill

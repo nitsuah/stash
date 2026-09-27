@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · HANDOFF-docker-entrypoint-20260403"
 source: https://github.com/nitsuah/osrs/blob/main/docs/archive/HANDOFF-docker-entrypoint-20260403.md
 kind: repo-doc
 repo: osrs

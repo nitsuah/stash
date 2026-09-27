@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · FEATURES"
 source: https://github.com/nitsuah/vigil/blob/main/FEATURES.md
 kind: repo-doc
 repo: vigil

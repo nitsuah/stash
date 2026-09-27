@@ -1,5 +1,6 @@
 ---
 up: "[[repos/avatar]]"
+title: "avatar · CHANGELOG"
 source: https://github.com/nitsuah/avatar/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: avatar

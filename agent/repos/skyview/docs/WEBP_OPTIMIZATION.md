@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · WEBP_OPTIMIZATION"
 source: https://github.com/nitsuah/skyview/blob/main/docs/WEBP_OPTIMIZATION.md
 kind: repo-doc
 repo: skyview

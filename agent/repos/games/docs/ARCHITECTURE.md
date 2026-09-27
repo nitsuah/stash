@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · ARCHITECTURE"
 source: https://github.com/nitsuah/games/blob/main/docs/ARCHITECTURE.md
 kind: repo-doc
 repo: games

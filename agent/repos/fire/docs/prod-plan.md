@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · prod-plan"
 source: https://github.com/nitsuah/fire/blob/main/docs/prod-plan.md
 kind: repo-doc
 repo: fire

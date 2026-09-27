@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · ROADMAP"
 source: https://github.com/nitsuah/games/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: games

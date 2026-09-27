@@ -1,5 +1,6 @@
 ---
 up: "[[repos/avatar]]"
+title: "avatar · TASKS"
 source: https://github.com/nitsuah/avatar/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: avatar

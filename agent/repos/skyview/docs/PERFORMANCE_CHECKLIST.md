@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · PERFORMANCE_CHECKLIST"
 source: https://github.com/nitsuah/skyview/blob/main/docs/PERFORMANCE_CHECKLIST.md
 kind: repo-doc
 repo: skyview

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/deployer]]"
+title: "deployer · TASKS"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: deployer

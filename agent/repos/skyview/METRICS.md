@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · METRICS"
 source: https://github.com/nitsuah/skyview/blob/main/METRICS.md
 kind: repo-doc
 repo: skyview

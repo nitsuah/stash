@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · AUTONOMOUS_SYSTEM"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/reference/AUTONOMOUS_SYSTEM.md
 kind: repo-doc
 repo: kryptos

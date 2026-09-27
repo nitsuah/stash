@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · ARCHITECTURE"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/ARCHITECTURE.md
 kind: repo-doc
 repo: agent-board

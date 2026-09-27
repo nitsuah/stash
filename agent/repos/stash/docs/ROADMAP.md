@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · ROADMAP"
 source: https://github.com/nitsuah/stash/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: stash

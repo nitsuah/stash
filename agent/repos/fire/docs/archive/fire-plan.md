@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · fire-plan"
 source: https://github.com/nitsuah/fire/blob/main/docs/archive/fire-plan.md
 kind: repo-doc
 repo: fire

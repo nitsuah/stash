@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · schema-normalization-framework"
 source: https://github.com/nitsuah/stash/blob/main/projects/9router/schema-normalization-framework.md
 kind: repo-doc
 repo: stash

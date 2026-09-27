@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · METRICS"
 source: https://github.com/nitsuah/stash/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: stash

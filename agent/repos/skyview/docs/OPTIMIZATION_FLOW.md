@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · OPTIMIZATION_FLOW"
 source: https://github.com/nitsuah/skyview/blob/main/docs/OPTIMIZATION_FLOW.md
 kind: repo-doc
 repo: skyview

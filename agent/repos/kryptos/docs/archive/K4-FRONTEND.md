@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K4-FRONTEND"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/archive/K4-FRONTEND.md
 kind: repo-doc
 repo: kryptos

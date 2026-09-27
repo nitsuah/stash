@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · RUNBOOK"
 source: https://github.com/nitsuah/stash/blob/main/atlassian/jira/RUNBOOK.md
 kind: repo-doc
 repo: stash
