@@ -25,31 +25,54 @@ SECTIONS = ("done", "in progress", "todo")
 SKIPPED = re.compile(r"^(?:\s{2,}- |\s*[*+] )\[( |/|x)\]\s+", re.I)
 
 
+class ReadError(Exception):
+    """git failed for a reason other than 'not there' (timeout, corrupt clone, missing git)."""
+
+
 def default_ref(path: str) -> str | None:
-    """The remote default branch only; never local HEAD, so the audit can't report an unpushed file."""
+    """The remote default branch only; never local HEAD, so the audit can't report an unpushed file.
+    Returns None when no remote default branch exists; raises ReadError when git itself fails."""
     for ref in ("origin/HEAD", "origin/main", "origin/master"):
         try:
             sotu.git(path, "rev-parse", "--verify", "-q", ref)
             return ref
-        except (sotu.subprocess.CalledProcessError, FileNotFoundError, sotu.subprocess.TimeoutExpired):
-            continue
+        except sotu.subprocess.CalledProcessError as exc:
+            if exc.returncode == 1:  # --verify -q: the ref doesn't exist
+                continue
+            raise ReadError(f"git rev-parse {ref} failed: {(exc.stderr or '').strip()[:120]}") from exc
+        except (sotu.subprocess.TimeoutExpired, FileNotFoundError, NotADirectoryError) as exc:
+            raise ReadError(f"git rev-parse {ref} failed: {type(exc).__name__}") from exc
     return None
 
 
+ABSENT = ("does not exist in", "exists on disk, but not in")
+
+
+def read_file(path: str, ref: str, rel: str) -> str | None:
+    """File text on ref, None if the file isn't on that branch; ReadError for any other failure."""
+    try:
+        return sotu.git(path, "show", f"{ref}:{rel}")
+    except sotu.subprocess.CalledProcessError as exc:
+        if any(a in (exc.stderr or "") for a in ABSENT):
+            return None
+        raise ReadError(f"git show {ref}:{rel} failed: {(exc.stderr or '').strip()[:120]}") from exc
+    except sotu.subprocess.TimeoutExpired as exc:
+        raise ReadError(f"git show {ref}:{rel} timed out") from exc
+
+
 def check(repo: dict) -> dict:
-    ref = default_ref(repo["path"])
-    if not ref:
-        return {"repo": repo["repo"], "missing": True, "why": "no remote default branch (clone missing or never fetched?)"}
-    text = rel = None
-    for candidate in ("TASKS.md", "docs/TASKS.md"):
-        try:
-            text = sotu.git(repo["path"], "show", f"{ref}:{candidate}")
-        except sotu.subprocess.CalledProcessError:
-            continue  # not on the default branch
-        except sotu.subprocess.TimeoutExpired:
-            return {"repo": repo["repo"], "missing": True, "why": f"git show timed out on {ref}"}
-        rel = candidate
-        break
+    try:
+        ref = default_ref(repo["path"])
+        if not ref:
+            return {"repo": repo["repo"], "missing": True, "why": "no remote default branch (never fetched?)"}
+        text = rel = None
+        for candidate in ("TASKS.md", "docs/TASKS.md"):
+            text = read_file(repo["path"], ref, candidate)
+            if text:
+                rel = candidate
+                break
+    except ReadError as exc:
+        return {"repo": repo["repo"], "missing": True, "why": f"read failed: {exc}"}
     if not text:
         return {"repo": repo["repo"], "missing": True, "why": f"no TASKS.md on {ref}"}
     headings = {m.group(1).strip().lower() for m in re.finditer(r"^##\s+(.*)", text, re.M)}
