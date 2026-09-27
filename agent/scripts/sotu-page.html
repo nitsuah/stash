@@ -20,6 +20,7 @@ section{display:grid;gap:10px}
 .list{display:grid;gap:6px}
 .row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 11px}
 .row.you{border-color:var(--blue);background:var(--blue-dim)}
+.row.top{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
 .t{font-weight:500;line-height:1.35;overflow-wrap:anywhere}
 .ref{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--text-3);margin-top:2px;overflow-wrap:anywhere}
 .chip{font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 7px;border-radius:4px;white-space:nowrap;background:var(--surface-2);color:var(--text-3)}
@@ -56,15 +57,16 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     <p class="focus" id="focus" hidden></p>
   </header>
   <section><h2>Needs you <small id="n-you"></small></h2><div class="list" id="you"></div></section>
+  <section id="top5-sec" hidden><h2>Top 5 by WSJF <small id="top5-note">work these first · (value + urgency + risk) ÷ size</small></h2><div class="list" id="top5"></div></section>
+  <section><h2>Next initiatives <small id="init-note">cross-repo work, in order</small></h2><div class="list" id="init"></div></section>
   <section><h2>Kickoff queue <small>copy a ready-to-paste prompt</small></h2><div class="list" id="kick"></div></section>
-  <section><h2>Portfolio initiatives <small>cross-repo work, weighted 1.5× against single-app items</small></h2><div class="list" id="init"></div></section>
-  <section><h2>Findings aging <small>seen 3+ times or open over 21 days</small></h2><div class="list" id="aging"></div></section>
   <section>
     <h2>Open work by repo <small id="n-open"></small></h2>
     <label class="toggle"><input type="checkbox" id="show-low"> Show P3 and unprioritized</label>
     <div class="list" id="open"></div>
   </section>
   <section><h2>Routine health <small id="n-rt"></small></h2><div class="health" id="rt"></div></section>
+  <section><h2>Findings aging <small>seen 3+ times or open over 21 days</small></h2><div class="list" id="aging"></div></section>
   <footer id="foot">Generated weekly by the week-sotu routine from agent/scripts/sotu.py (stash). An item shows under Needs you when its TASKS.md entry has an <code>- Owner: you</code> sub-bullet or starts with "Manual step". Automation history: <a href="https://claude.ai/artifact/XA1mhKeFkc41iig7schEpy" style="color:var(--accent)">Routine Pipeline Audit</a> and stash/agent/logs/rsi-changes.log.</footer>
 </div>
 <script>
@@ -101,10 +103,17 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     $("you").innerHTML=you.map(i=>row(i.title||i.finding,`${i.repo} · ${i.ref||i.id}`,chip(i.priority||i.class),i.kind==="task"?`${i.repo}: ${i.title} (${i.ref})`:null,"you")).join("")||'<p class="empty">Nothing is waiting on you.</p>';
     const tag=t=>t.initiative?`${t.repo} · ${t.ref} · initiative`:`${t.repo} · ${t.ref}`;
     $("kick").innerHTML=(d.kickoff||[]).map(t=>row(t.title,tag(t),chip(t.priority),t.prompt)).join("")||'<p class="empty">No work is ready to start.</p>';
-    $("init").innerHTML=(d.initiatives||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}${t.routine_candidate?" · routine candidate":""}`,chip(t.priority),`${t.repo} ${t.priority||""}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No cross-repo initiatives are open.</p>';
-    const rts=d.routines||[]; $("n-rt").textContent=rts.length?rts.length+" routines":"not reported this week";
+    const pr=d.priorities||{}; const top5=pr.top5||[];
+    if(top5.length){$("top5-sec").hidden=false;
+      $("top5").innerHTML=top5.map(t=>row(`#${t.rank} · ${t.title}`,`${t.repo} · ${t.ref}${t.why?" · "+t.why:""}`,chip("WSJF "+t.wsjf),`${t.repo}: ${t.title} (${t.ref})`,"top")).join("");}
+    if(Array.isArray(pr.initiatives)){  // curated list present: an empty one stays empty (step 5 freed the slots)
+      $("init").innerHTML=pr.initiatives.map(t=>row(`${t.rank}. ${t.title}`,`${t.repo} · ${t.ref}${t.why?" · "+t.why:""}`,"",`${t.repo}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No initiative is queued: pick the next one in priorities.json.</p>';
+    } else $("init").innerHTML=(d.initiatives||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}${t.routine_candidate?" · routine candidate":""}`,chip(t.priority),`${t.repo} ${t.priority||""}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No cross-repo initiatives are open.</p>';
+    // Only routines that need attention are listed; healthy ones are counted in the heading.
     const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled|running/i.test(s)?"warn":"ok";
-    $("rt").innerHTML=rts.length?'<div class="hrow head"><span>status</span><span>routine</span><span>last run</span><span>next run</span><span>note</span></div>'+rts.map(r=>`<div class="hrow">${chip(r.status||"?",st(r.status||""))}<span class="t">${esc(r.name)}</span><span class="m">${esc(r.last_run||"—")}</span><span class="m">${esc(r.next_run||"—")}</span><span class="note">${esc(r.note||"")}</span></div>`).join(""):'<p class="empty" style="padding:8px 12px">The routine didn\'t pass health data this week.</p>';
+    const allRt=d.routines||[]; const rts=allRt.filter(r=>st(r.status||"")!=="ok");
+    $("n-rt").textContent=allRt.length?`${rts.length} need attention · ${allRt.length-rts.length} healthy`:"not reported this week";
+    $("rt").innerHTML=!allRt.length?'<p class="empty" style="padding:8px 12px">The routine didn\'t pass health data this week.</p>':rts.length?'<div class="hrow head"><span>status</span><span>routine</span><span>last run</span><span>next run</span><span>note</span></div>'+rts.map(r=>`<div class="hrow">${chip(r.status||"?",st(r.status||""))}<span class="t">${esc(r.name)}</span><span class="m">${esc(r.last_run||"—")}</span><span class="m">${esc(r.next_run||"—")}</span><span class="note">${esc(r.note||"")}</span></div>`).join(""):'<p class="empty" style="padding:8px 12px">All routines are healthy.</p>';
     $("aging").innerHTML=(d.aging||[]).map(i=>row(i.finding,`${i.id} · ${i.repo} · seen ${i.seen}× · ${i.status}`,chip(i.class))).join("")||'<p class="empty">No findings are aging.</p>';
     const draw=()=>{
       const low=$("show-low").checked; let html="",tier=null,repo=null,n=0;
@@ -112,7 +121,8 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
         if(!low&&(t.priority==="P3"||!t.priority)) continue; n++;
         if(t.tier!==tier){tier=t.tier;html+=`<div class="tier">Tier ${esc(tier)}</div>`;repo=null;}
         if(t.repo!==repo){repo=t.repo;html+=`<div class="repo">${esc(repo)}</div>`;}
-        html+=row(t.title,t.ref,chip(t.priority),`${t.repo} ${t.priority||""} — ${t.title} (${t.ref})`);
+        const hit=top5.find(p=>p.match&&t.title.includes(p.match));
+        html+=row(hit?`★ WSJF #${hit.rank} · ${t.title}`:t.title,t.ref,chip(t.priority),`${t.repo} ${t.priority||""} — ${t.title} (${t.ref})`,hit?"top":"");
       }
       $("open").innerHTML=html||'<p class="empty">No open items at this filter.</p>'; $("n-open").textContent=n+" shown";
     };

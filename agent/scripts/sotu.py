@@ -41,7 +41,7 @@ TIERS = {
 }
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
 HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.I)
-PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b", re.I)
+PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b|\bon hold\b|\bblocked\b", re.I)
 GIT_TIMEOUT = 60
 # Portfolio initiatives: work that applies across repos (often filed in stash, e.g. "diagrams and
 # screenshots for app repos"). They are weighted against single-app items in the kickoff queue.
@@ -132,10 +132,13 @@ def parse_tasks(text: str, repo: str, rel: str) -> list[dict]:
             }
             tasks.append(current)
             continue
-        sub = re.match(r"^\s+- (Priority|Owner|Assignee|Acceptance Criteria):\s*(.*)", line)
+        sub = re.match(r"^\s+- (Priority|Owner|Assignee|Acceptance Criteria|Status|Blocker|Blocked on):\s*(.*)", line)
         if current and sub:
             key, val = sub.group(1), sub.group(2).strip()
-            if key == "Priority":
+            if key in ("Status", "Blocker", "Blocked on"):
+                # "Status: on hold ..." / "Blocked on: ..." parks the item (kept out of the kickoff queue)
+                current["parked"] = current["parked"] or key != "Status" or bool(PARKED.search(val))
+            elif key == "Priority":
                 m = re.search(r"P([0-3])", val)
                 current["priority"] = f"P{m.group(1)}" if m else current["priority"]
             elif key in ("Owner", "Assignee"):
@@ -188,7 +191,9 @@ def vigil_tasks(repos: list[dict]) -> list[dict] | None:
         repo = names.get((t.get("full_name") or "").lower(), t.get("repo"))
         out.append({"repo": repo, "title": t["title"], "ref": "TASKS.md",
                     "priority": t.get("priority"), "status": t.get("status"),
-                    "owner": t.get("owner"), "section": t.get("section"), "criteria": None})
+                    "owner": t.get("owner"), "section": t.get("section"), "criteria": None,
+                    # vigil's rollup has no sub-bullets, so honor its own flag and the title/status text
+                    "parked": bool(t.get("parked")) or bool(PARKED.search(f"{t['title']} {t.get('status') or ''}"))})
     return out
 
 
@@ -279,6 +284,8 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dic
     today = dt.date.today()
     aging = [i for i in ledger if i["seen"] >= 3 or (today - dt.date.fromisoformat(i["first_seen"])).days > 21]
     routines = json.loads(Path(routines_path).read_text(encoding="utf-8")) if routines_path else {}
+    prio_path = OUT_DIR / "priorities.json"  # curated top initiatives + WSJF top 5 (SOTU.md step 5)
+    priorities = json.loads(prio_path.read_text(encoding="utf-8")) if prio_path.exists() else {}
     return {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "source": source, "missing_tasks_file": missing, "stale_refs": stale,
@@ -287,6 +294,7 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dic
         "tasks": [dict(tier=tier_of(t["repo"]), **t) for t in tasks],
         "ledger_open": ledger,
         "routines": routines.get("routines", []), "quota": routines.get("quota"),
+        "priorities": priorities,
     }
 
 

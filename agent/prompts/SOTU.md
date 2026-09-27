@@ -16,20 +16,21 @@
    - The script uses vigil's `get_open_tasks` when `VIGIL_MCP_KEY` is set. Otherwise it parses each repo's TASKS.md from `origin`.
    - It writes `agent/reports/sotu/sotu-data.json` and `agent/reports/sotu/sotu-<YYYY>-W<ww>.md`.
    - Read the `.md` it wrote. It's about 10 KB; don't read the JSON.
-5. **Focus note.** Write 2–4 plain sentences:
+5. **Priorities.** Open `agent/reports/sotu/priorities.json` (the top 2 initiatives and the WSJF top 5). Drop any item whose task, finding or PR is now done, and renumber. Don't re-rank or add items yourself: say in the focus note that a slot is free, and the user picks the next one. If you dropped anything, re-run the step 4 Build command so the page picks it up, and commit the file with the report.
+6. **Focus note.** Write 2–4 plain sentences:
    - what changed since last week's `sotu-*.md`;
    - the one thing that most needs the user;
    - which kickoff item looks most worth starting, and why.
 
    Put the note in the `.md` in place of the `<!-- focus -->` line. Also set it as `"focus"` in `sotu-data.json`: load the JSON with a one-line Python command, set the key, and write it back.
-6. **Publish.**
+7. **Publish.**
    - `Artifact read` on https://claude.ai/artifact/EwZkbsE5ZBGZASFSZpJNbm. The page is a small shell, about 10 KB.
    - Then `Artifact publish` with that `url`, `file_path` = `agent/scripts/sotu-page.html`, and `files` = `{"sotu-data.json": "agent/reports/sotu/sotu-data.json"}`.
    - Leave the icon alone.
-7. **Save.** Commit only `agent/reports/sotu/sotu-<week>.md` and `sotu-data.json`, on a branch `sotu/<week>` cut from `origin/main` (`git switch -c sotu/<week> origin/main` in the clean checkout).
+8. **Save.** Commit only `agent/reports/sotu/sotu-<week>.md`, `sotu-data.json` and (if step 5 changed it) `priorities.json`, on a branch `sotu/<week>` cut from `origin/main` (`git switch -c sotu/<week> origin/main` in the clean checkout).
    - Use the step 2 answer. If stash was dirty or off main **before** Build, skip the commit and say so; the artifact is the main output. Otherwise the only expected changes are the two generated files. Commit exactly those paths, and if anything else changed, skip the commit.
    - Push and open a PR. It's a machine-generated report, like TIRE's, so run `gh pr merge --squash --auto --delete-branch` and let it land when CI is green. If the merge is refused, leave the PR open and say so.
-8. **Output.** One line: the artifact link, the counts line, and the focus note's first sentence. Then end the run. Don't take follow-up work in this session; start a new one.
+9. **Output.** One line: the artifact link, the counts line, and the focus note's first sentence. Then end the run. Don't take follow-up work in this session; start a new one.
 
 ## Rules
 
