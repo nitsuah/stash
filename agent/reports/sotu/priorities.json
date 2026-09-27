@@ -37,8 +37,8 @@
     {
       "rank": 2,
       "wsjf": 6.5,
-      "repo": "portfolio (farm-3j, avatar, fire, vhs, ...)",
-      "title": "Triage the 47 open TASKS items with no priority so vigil's rollup and this checklist rank them",
+      "repo": "portfolio (fire, vhs, kryptos, darkmoon, deployer, games, gcp)",
+      "title": "Triage the last 18 open TASKS items with no priority (29 of 47 done: farm-3j#352, avatar#31)",
       "ref": "python agent/scripts/check-tasks-format.py --details",
       "match": null,
       "why": "Unprioritized items are invisible to vigil's P0/P1 view. BV 5 · TC 3 · RR 5 / size 2."
