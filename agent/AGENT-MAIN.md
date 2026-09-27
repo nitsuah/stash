@@ -52,6 +52,7 @@ This document defines the happy path for running agents autonomously against a r
 
 - Each agent must respect and update handoff artifacts.
 - **Agents must create a new branch before any codebase edits and must open a pull request when work is complete.**
+- **Close the tracked item before merging.** If the work came from a `TASKS.md` / `ROADMAP.md` item (or a findings-ledger row), mark it done in the **same PR** (`- [x]` plus a one-line `Done <date>: ...` note), or note partial progress. Check this before every merge, alongside CI and review comments. Otherwise week-sotu and vigil keep reporting finished work as open.
 - **Never push to a merged PR's branch.** Before pushing a follow-up commit to an existing PR branch, run `gh pr view <branch> --json state -q .state`. If it prints `MERGED` or `CLOSED`, branch again from an up-to-date default branch, cherry-pick the new commits, and open a new PR that links the old one. A push to a merged branch strands the commits (it happened after stash#141).
 - Agents should not proceed to the next step until the previous agent’s outputs are complete and validated.
 - The loop continues until all acceptance criteria are met and no critical issues remain.
