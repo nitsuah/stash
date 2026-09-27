@@ -191,7 +191,9 @@ def vigil_tasks(repos: list[dict]) -> list[dict] | None:
         repo = names.get((t.get("full_name") or "").lower(), t.get("repo"))
         out.append({"repo": repo, "title": t["title"], "ref": "TASKS.md",
                     "priority": t.get("priority"), "status": t.get("status"),
-                    "owner": t.get("owner"), "section": t.get("section"), "criteria": None})
+                    "owner": t.get("owner"), "section": t.get("section"), "criteria": None,
+                    # vigil's rollup has no sub-bullets, so honor its own flag and the title/status text
+                    "parked": bool(t.get("parked")) or bool(PARKED.search(f"{t['title']} {t.get('status') or ''}"))})
     return out
 
 

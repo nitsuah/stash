@@ -106,8 +106,8 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     const pr=d.priorities||{}; const top5=pr.top5||[];
     if(top5.length){$("top5-sec").hidden=false;
       $("top5").innerHTML=top5.map(t=>row(`#${t.rank} · ${t.title}`,`${t.repo} · ${t.ref}${t.why?" · "+t.why:""}`,chip("WSJF "+t.wsjf),`${t.repo}: ${t.title} (${t.ref})`,"top")).join("");}
-    if((pr.initiatives||[]).length){
-      $("init").innerHTML=pr.initiatives.map(t=>row(`${t.rank}. ${t.title}`,`${t.repo} · ${t.ref}${t.why?" · "+t.why:""}`,"",`${t.repo}: ${t.title} (${t.ref})`)).join("");
+    if(Array.isArray(pr.initiatives)){  // curated list present: an empty one stays empty (step 5 freed the slots)
+      $("init").innerHTML=pr.initiatives.map(t=>row(`${t.rank}. ${t.title}`,`${t.repo} · ${t.ref}${t.why?" · "+t.why:""}`,"",`${t.repo}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No initiative is queued: pick the next one in priorities.json.</p>';
     } else $("init").innerHTML=(d.initiatives||[]).map(t=>row(t.title,`${t.repo} · ${t.ref}${t.routine_candidate?" · routine candidate":""}`,chip(t.priority),`${t.repo} ${t.priority||""}: ${t.title} (${t.ref})`)).join("")||'<p class="empty">No cross-repo initiatives are open.</p>';
     // Only routines that need attention are listed; healthy ones are counted in the heading.
     const st=s=>/fail|incomplete|error/i.test(s)?"bad":/defer|skip|disabled|running/i.test(s)?"warn":"ok";
