@@ -27,15 +27,6 @@
   "top5": [
     {
       "rank": 1,
-      "wsjf": 15.0,
-      "repo": "stash (CodeRabbit org setting)",
-      "title": "Turn on CodeRabbit's request_changes_workflow so a fixed PR isn't stuck on a stale 'changes requested' review",
-      "ref": "stash docs/TASKS.md",
-      "match": "Stale CodeRabbit",
-      "why": "Blocked every merge on 2026-09-27; one org setting (you apply it). BV 5 · TC 5 · RR 5 / size 1."
-    },
-    {
-      "rank": 2,
       "wsjf": 6.5,
       "repo": "portfolio (fire, vhs, kryptos, darkmoon, deployer, games, gcp)",
       "title": "Triage the last 18 open TASKS items with no priority (29 of 47 done: farm-3j#352, avatar#31)",
@@ -44,7 +35,7 @@
       "why": "Unprioritized items are invisible to vigil's P0/P1 view. BV 5 · TC 3 · RR 5 / size 2."
     },
     {
-      "rank": 3,
+      "rank": 2,
       "wsjf": 5.8,
       "repo": "skyview",
       "title": "Add coverage to netlify/functions/api-bookings.mjs, then split billing from routing (F-20260916-06)",
@@ -53,7 +44,7 @@
       "why": "The payments path is untested and goes live with the Stripe switch. BV 8 · TC 8 · RR 13 / size 5."
     },
     {
-      "rank": 4,
+      "rank": 3,
       "wsjf": 4.8,
       "repo": "nitsuah-io",
       "title": "Replace placeholder-heavy and duplicate demo/project assets on the portfolio site",
@@ -62,7 +53,7 @@
       "why": "It's the portfolio a hiring manager sees first. BV 13 · TC 8 · RR 3 / size 5."
     },
     {
-      "rank": 5,
+      "rank": 4,
       "wsjf": 4.3,
       "repo": "fire",
       "title": "Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)",
