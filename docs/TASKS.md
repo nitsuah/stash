@@ -31,16 +31,18 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
 - [ ] Richer properties: add `status` (active/archived/superseded) where it is cheap to derive (e.g. `docs/archive/` → archived), and a Bases view that hides archived docs.
   - Priority: P3
   - Type: Vault
-- [ ] Smaller, single-idea notes: when a mirrored doc or report grows past a few screens, split concept sections into their own notes (agents read less per answer).
+- [x] Smaller, single-idea notes: when a mirrored doc or report grows past a few screens, split concept sections into their own notes (agents read less per answer).
   - Priority: P3
   - Type: Docs
+  - Done 2026-09-26: covered by PMO step 7, which runs `find-orphans.py --long 300` each cycle and splits the worst one or two notes into single-idea notes.
 - [ ] Graph labels: evaluate the *Front Matter Title* community plugin, so graph nodes show `title:` instead of generic file names (README, ROADMAP).
   - Priority: P3
   - Type: Vault / Obsidian config
   - Owner: you, for the install (plugin code is gitignored, so it's per machine). Vault side done 2026-09-26: `enrich-mirror.py` gives every mirrored repo doc a `title: "<repo> · <file>"` (applied on the next DAILY sync); hubs and notes already have unique file names.
-- [ ] Review the first weekly `reports/link-suggestions-*.md` and adopt or ignore; if most suggestions are noise, raise `MIN_SCORE` in `suggest-links.py`.
+- [x] Review the first weekly `reports/link-suggestions-*.md` and adopt or ignore; if most suggestions are noise, raise `MIN_SCORE` in `suggest-links.py`.
   - Priority: P3
   - Type: Vault
+  - Done 2026-09-26: superseded by PMO step 7, which reviews the latest link-suggestions report every cycle, records accepted/ignored counts, and proposes a higher `MIN_SCORE` if they stay noisy.
 
 ### Vault scorecard follow-ups (2026-09-25 review: overall 8.3/10)
 
