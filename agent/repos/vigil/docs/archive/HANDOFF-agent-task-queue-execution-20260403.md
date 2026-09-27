@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · HANDOFF-agent-task-queue-execution-20260403"
 source: https://github.com/nitsuah/vigil/blob/main/docs/archive/HANDOFF-agent-task-queue-execution-20260403.md
 kind: repo-doc
 repo: vigil

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · fire-feedback"
 source: https://github.com/nitsuah/fire/blob/main/docs/archive/fire-feedback.md
 kind: repo-doc
 repo: fire

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · README"
 source: https://github.com/nitsuah/gcp/blob/main/README.md
 kind: repo-doc
 repo: gcp

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · README"
 source: https://github.com/nitsuah/vhs/blob/main/README.md
 kind: repo-doc
 repo: vhs

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · README"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/README.md
 kind: repo-doc
 repo: nitsuah-io

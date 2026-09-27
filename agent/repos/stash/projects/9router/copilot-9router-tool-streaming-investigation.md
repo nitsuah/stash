@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · copilot-9router-tool-streaming-investigation"
 source: https://github.com/nitsuah/stash/blob/main/projects/9router/copilot-9router-tool-streaming-investigation.md
 kind: repo-doc
 repo: stash

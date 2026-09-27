@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · CLIENT_PORTAL"
 source: https://github.com/nitsuah/skyview/blob/main/docs/CLIENT_PORTAL.md
 kind: repo-doc
 repo: skyview

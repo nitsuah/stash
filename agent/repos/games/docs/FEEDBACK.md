@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · FEEDBACK"
 source: https://github.com/nitsuah/games/blob/main/docs/FEEDBACK.md
 kind: repo-doc
 repo: games

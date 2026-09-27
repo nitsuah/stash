@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · METRICS"
 source: https://github.com/nitsuah/gcp/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: gcp

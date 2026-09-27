@@ -1,5 +1,6 @@
 ---
 up: "[[repos/ats-fill]]"
+title: "ats-fill · README"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/README.md
 kind: repo-doc
 repo: ats-fill

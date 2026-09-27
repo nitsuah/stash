@@ -5,7 +5,7 @@ repo: stash
 
 # stash
 
-> Reviewed: 2026-09-26
+> Reviewed: 2026-09-27
 
 ## Overview
 
@@ -34,7 +34,9 @@ Austin J. Hardy's technical evolution archive — 15+ years of enterprise automa
 
 ## Open P0/P1 Tasks
 
-No active P0/P1 tasks in this repo — work is in low-contribution mode. Highest-priority open items (P2) from TASKS.md:
+- [ ] **P1 (on hold since 2026-09-26)** CI-generated diagrams and screenshots for app repos, auto-embedded in READMEs. Raised from P2; parked as the next portfolio initiative, to be built into vigil once the MCP rollup and PMO UI ship.
+
+The Vault scorecard follow-ups were all closed 2026-09-26/27 (vigil MCP connected, Stale hubs line, failed-run reporting, `title:` frontmatter on mirrors). Highest-priority open items otherwise (P2) from TASKS.md:
 
 - [ ] **P2** Add usage examples to each SaaS script header (`SAAS/okta`, `SAAS/servicenow`, `SAAS/pagerduty`)
 - [ ] **P2** Document the VBA source files inside Remora, Sampler, VMT more precisely

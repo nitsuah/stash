@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · README"
 source: https://github.com/nitsuah/vigil/blob/main/README.md
 kind: repo-doc
 repo: vigil

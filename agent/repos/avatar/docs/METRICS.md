@@ -1,5 +1,6 @@
 ---
 up: "[[repos/avatar]]"
+title: "avatar · METRICS"
 source: https://github.com/nitsuah/avatar/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: avatar

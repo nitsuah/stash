@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · TASKS"
 source: https://github.com/nitsuah/osrs/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: osrs

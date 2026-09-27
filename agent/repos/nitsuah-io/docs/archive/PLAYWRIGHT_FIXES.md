@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · PLAYWRIGHT_FIXES"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/PLAYWRIGHT_FIXES.md
 kind: repo-doc
 repo: nitsuah-io

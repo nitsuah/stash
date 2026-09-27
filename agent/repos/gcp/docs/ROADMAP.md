@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · ROADMAP"
 source: https://github.com/nitsuah/gcp/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: gcp

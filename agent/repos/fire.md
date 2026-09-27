@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-09-26
+> Reviewed: 2026-09-27
 
 ## Overview
 
@@ -40,7 +40,9 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 
 ## Open P0/P1 Tasks
 
-None. TASKS.md's only remaining explicitly-prioritized open item is P2: model real eBay marginal fee-bracket tiers in `calculateEbayFeesTotal` instead of a flat rate (flagged by CodeRabbit on PR #103; still open — needs a per-category fee-rule schema, not just the already-fixed $0.30/$0.40 order-fee threshold). The companion P2 item — the branch/function test-coverage gap (previously 68.33% branch vs. 70% target, 75.67% functions vs. 80% target) — closed this cycle: branch 71.04%, functions 84.16%, full suite 381/381 passing. Everything else open in TASKS.md/ROADMAP.md is untagged backlog (PROD Phase 2 `prices-provider.js` tests, PROD Phase 3 penetration-test checklist, Phase 4 items, tax drag engine, PWA).
+- [ ] **P1 (new 2026-09-26)** Serve Plaid on the Netlify deploy (lifefire.netlify.app). `/api/sync/plaid/*` only exists in Express, so every Plaid call 404s on the static deploy. Approach: follow eBay's PR #130 pattern (v2 Netlify Functions + `netlify.toml` rewrites, Plaid tokens returned to the browser encrypted with `SYNC_MASTER_KEY`). New rule: any `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
+
+Otherwise, TASKS.md's only remaining explicitly-prioritized open item is P2: model real eBay marginal fee-bracket tiers in `calculateEbayFeesTotal` instead of a flat rate (flagged by CodeRabbit on PR #103; still open — needs a per-category fee-rule schema, not just the already-fixed $0.30/$0.40 order-fee threshold). The companion P2 item — the branch/function test-coverage gap (previously 68.33% branch vs. 70% target, 75.67% functions vs. 80% target) — closed this cycle: branch 71.04%, functions 84.16%, full suite 381/381 passing. Everything else open in TASKS.md/ROADMAP.md is untagged backlog (PROD Phase 2 `prices-provider.js` tests, PROD Phase 3 penetration-test checklist, Phase 4 items, tax drag engine, PWA).
 
 ## Blockers
 

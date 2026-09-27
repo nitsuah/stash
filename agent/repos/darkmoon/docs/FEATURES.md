@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · FEATURES"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: darkmoon

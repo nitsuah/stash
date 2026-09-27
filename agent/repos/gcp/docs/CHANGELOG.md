@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · CHANGELOG"
 source: https://github.com/nitsuah/gcp/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: gcp

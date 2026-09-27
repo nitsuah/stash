@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · CHANGELOG"
 source: https://github.com/nitsuah/fire/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: fire
@@ -15,6 +16,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### 2026-09 — eBay on the Netlify deploy (PR #130)
+
+#### Added
+- **eBay routes on lifefire.netlify.app:** Marketplace Account Deletion, Connect (authorize/callback) and Sync are served by Netlify Functions at the same `/api/sync/ebay/*` paths the Express server uses. The deletion endpoint is live, and eBay accepted it on 2026-09-26.
+- Browser-only eBay mode keeps only an encrypted token blob in `localStorage`. The server stores nothing.
+- If eBay access is revoked (`invalid_grant`), the token and the API-synced ledger rows are removed and the user is told. Uploaded report rows and manual entries are kept.
+
+#### Changed
+- The deletion and sync logic lives in `app/lib/ebay-handlers.js`, which both Express and the Functions use.
+
+#### Fixed (PR #132)
+- eBay Sync Now returned 502 in production. The Order API rejects the filter `orderfulfillmentstatus:{FULFILLED}`, so sync now uses `{FULFILLED|IN_PROGRESS}`.
+- Plaid Link called `create-link-token` with GET, but the route only accepts POST.
+
+### 2026-09 — Hardening, tests, real MCP tools (PR #129)
+
+#### Added
+- **FIRE progress sub-line:** past 100% it shows safe-withdrawal income and how many times it covers spending; before that, estimated years to FIRE.
+- **Daily local backups** of db.json (`data/backups/`, newest 14 kept) and cleanup of stale temp files.
+- **MCP:** `get_diversification_score`, `get_swr_sensitivity` and `simulate_rebalance` now return real results.
+- **Playwright data-integrity suite**, and the UI suite now runs in CI.
+
+#### Changed
+- Net-worth, interest and expense math lives in one shared module (`app/lib/aggregates.js`) used by both the browser and the server.
+- The container's time zone defaults to America/New_York.
+- Removed the MCP stub tools that only returned `not_implemented`.
+
+#### Fixed
+- Switching tabs kept the previous tab's scroll position.
+- The notification icon 404'd.
+
+### 2026-09 — Income vs. assets cleanup
+
+#### Changed
+- **Side hustle income is no longer counted in net worth** (dashboard banner, allocation chart, projections, `getAggregateNetWorth`). It's income: once paid out it already sits in a cash balance, so adding the ledger too double counted it. It stays on the income side (Annual Income sub-line, cash flow).
+- **Crypto staking/lending yield counts toward Annual Income** alongside HYSA and CD interest (`getEstimatedAnnualInterest().staking`; MCP `estimatedAnnualInterest.staking`).
+
+#### Added
+- **Net Worth History**: the server records a daily net-worth snapshot (`netWorthHistory`, updated hourly for the current day). There's a dashboard chart with 1M/3M/1Y/All ranges and change stats, and MCP `get_net_worth_trend` is now implemented (latest, 7/30/365-day and since-start changes, optional `days` limit).
+- **Price-move alerts**: holdings that move at least N% in a day (default 5%, configurable in Settings) raise a bell alert and push once per symbol per day.
+- **Side Gig Ledger tools**: totals strip (sales, fees & shipping, item costs entered, net profit, missing-cost warning), "Tag all untagged as…", an "Only items missing a cost" filter, and Enter-to-next-row cost entry.
+- "Live · 3:42 PM · Today −$2,855" freshness pill on Top Investment Positions (greys out as "Prices as of …" once quotes are over 30 minutes old), plus each position's daily % move under its last price.
+- Asset Allocation (and the banner bar) split out **Crypto** (blue) and **Precious Metals** (gold) slices with their own drill-downs; Other Assets is now neutral grey.
+
+#### Fixed
+- **The service worker served stale code forever.** Shell assets were cache-first under a fixed cache name, so browsers with the worker installed kept running old JS after every deploy. They are now network-first, with the cache as an offline fallback (cache v3).
+- **Full saves from an out-of-date tab are refused** (`stateRevision` / `baseRevision` → 409) instead of overwriting newer data; the tab re-syncs and asks you to redo the change.
+- **Stale tabs re-sync when you come back to them.** A tab left open reloads the data from the server when it becomes visible again (skipped while an edit is in progress), so editing in an old tab no longer posts its hours-old copy over newer changes.
+- Matured CDs no longer count toward estimated interest (dashboard, Annual Income, cash flow, MCP).
+- MCP `get_net_worth` floors underwater real estate / vehicle equity at $0, matching the dashboard.
+- **Open tabs overwrote newer data every 5 minutes.** The background price refresh called `saveState()`, posting the tab's entire state, so an older tab silently reverted edits made elsewhere (e.g. a corrected eBay import). It now writes only price-derived fields via `PATCH /api/state/live-values`.
 
 ### 2026-09 — Live market values, Other Assets, interest roll-up (PR #126)
 

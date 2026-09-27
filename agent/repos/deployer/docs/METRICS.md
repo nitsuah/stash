@@ -1,5 +1,6 @@
 ---
 up: "[[repos/deployer]]"
+title: "deployer · METRICS"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: deployer

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · social-preview-placeholder"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/public/social-preview-placeholder.md
 kind: repo-doc
 repo: nitsuah-io

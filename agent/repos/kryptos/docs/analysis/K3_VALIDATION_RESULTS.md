@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K3_VALIDATION_RESULTS"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K3_VALIDATION_RESULTS.md
 kind: repo-doc
 repo: kryptos

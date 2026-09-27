@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · MULTIPLAYER_SHOOTER_ROADMAP"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md
 kind: repo-doc
 repo: darkmoon

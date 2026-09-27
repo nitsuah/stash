@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · METRICS"
 source: https://github.com/nitsuah/osrs/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: osrs

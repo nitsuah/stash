@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · resume-projects"
 source: https://github.com/nitsuah/stash/blob/main/projects/resume/projects/resume-projects.md
 kind: repo-doc
 repo: stash

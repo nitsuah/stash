@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · FEATURES"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: kryptos

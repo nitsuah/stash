@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · GETTING_STARTED"
 source: https://github.com/nitsuah/skyview/blob/main/docs/GETTING_STARTED.md
 kind: repo-doc
 repo: skyview

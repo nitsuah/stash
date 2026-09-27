@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · ROADMAP"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: bb-mcp

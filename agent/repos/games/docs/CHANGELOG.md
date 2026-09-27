@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · CHANGELOG"
 source: https://github.com/nitsuah/games/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: games

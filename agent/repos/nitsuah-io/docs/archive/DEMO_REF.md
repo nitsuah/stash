@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · DEMO_REF"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/docs/archive/DEMO_REF.md
 kind: repo-doc
 repo: nitsuah-io

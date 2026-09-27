@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · AGENT-BOARD-DEMO_VIDEO_SCRIPT"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/AGENT-BOARD-DEMO_VIDEO_SCRIPT.md
 kind: repo-doc
 repo: agent-board

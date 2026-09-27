@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · METRICS"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: kryptos

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · CHANGELOG"
 source: https://github.com/nitsuah/osrs/blob/main/CHANGELOG.md
 kind: repo-doc
 repo: osrs

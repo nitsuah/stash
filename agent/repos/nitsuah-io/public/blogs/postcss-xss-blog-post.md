@@ -1,5 +1,6 @@
 ---
 up: "[[repos/nitsuah-io]]"
+title: "nitsuah-io · postcss-xss-blog-post"
 source: https://github.com/Nitsuah-Labs/nitsuah-io/blob/main/public/blogs/postcss-xss-blog-post.md
 kind: repo-doc
 repo: nitsuah-io

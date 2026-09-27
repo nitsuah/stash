@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · FEATURES"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: bb-mcp

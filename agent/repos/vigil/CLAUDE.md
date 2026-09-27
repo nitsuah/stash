@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · CLAUDE"
 source: https://github.com/nitsuah/vigil/blob/main/CLAUDE.md
 kind: repo-doc
 repo: vigil

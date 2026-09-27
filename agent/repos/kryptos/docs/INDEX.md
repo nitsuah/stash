@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · INDEX"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/INDEX.md
 kind: repo-doc
 repo: kryptos

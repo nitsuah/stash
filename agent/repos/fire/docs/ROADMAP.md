@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · ROADMAP"
 source: https://github.com/nitsuah/fire/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: fire

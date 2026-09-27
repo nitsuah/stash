@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · SESSION_SUMMARY"
 source: https://github.com/nitsuah/skyview/blob/main/docs/archive/SESSION_SUMMARY.md
 kind: repo-doc
 repo: skyview

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · README"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/archive/README.md
 kind: repo-doc
 repo: bb-mcp

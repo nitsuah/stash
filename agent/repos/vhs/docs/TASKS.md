@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · TASKS"
 source: https://github.com/nitsuah/vhs/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: vhs

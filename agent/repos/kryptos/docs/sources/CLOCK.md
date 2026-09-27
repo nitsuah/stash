@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · CLOCK"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/sources/CLOCK.md
 kind: repo-doc
 repo: kryptos

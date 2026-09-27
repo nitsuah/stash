@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · EMAIL_NOTIFICATIONS"
 source: https://github.com/nitsuah/skyview/blob/main/docs/EMAIL_NOTIFICATIONS.md
 kind: repo-doc
 repo: skyview

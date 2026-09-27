@@ -1,5 +1,6 @@
 ---
 up: "[[repos/deployer]]"
+title: "deployer · ROADMAP"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: deployer

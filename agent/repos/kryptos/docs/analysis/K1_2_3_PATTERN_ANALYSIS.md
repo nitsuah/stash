@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · K1_2_3_PATTERN_ANALYSIS"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/analysis/K1_2_3_PATTERN_ANALYSIS.md
 kind: repo-doc
 repo: kryptos

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · FEATURES"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/FEATURES.md
 kind: repo-doc
 repo: agent-board

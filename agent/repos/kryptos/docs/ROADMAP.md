@@ -1,5 +1,6 @@
 ---
 up: "[[repos/kryptos]]"
+title: "kryptos · ROADMAP"
 source: https://github.com/nitsuah/kryptos/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: kryptos

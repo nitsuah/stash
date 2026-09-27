@@ -1,5 +1,6 @@
 ---
 up: "[[repos/osrs]]"
+title: "osrs · FEATURES"
 source: https://github.com/nitsuah/osrs/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: osrs

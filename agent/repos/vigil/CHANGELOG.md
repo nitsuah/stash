@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · CHANGELOG"
 source: https://github.com/nitsuah/vigil/blob/main/CHANGELOG.md
 kind: repo-doc
 repo: vigil
@@ -15,6 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### MCP auth and error codes
+
+- **Fixed:** an MCP client with a missing or empty key (e.g. `Bearer $VIGIL_MCP_KEY` run from PowerShell, where it expands to nothing) was redirected to `/login` and reported "Unexpected content type: text/html". `/api/mcp` and `/api/context` now return a JSON `401` to non-browser clients; browsers still redirect.
+- **Fixed:** missing or invalid tool arguments returned `-32603` (internal error). They now return `-32602` (invalid params).
+- **Fixed:** an unknown repo on `get_repo_health`, `get_repo_details`, or `get_security_summary` came back as a normal result. It is now flagged `isError: true`.
+- **Docs:** PowerShell variant of the `claude mcp add` command in `docs/MCP.md`.
 
 ### Sync progress accuracy
 

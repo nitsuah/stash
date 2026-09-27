@@ -1,5 +1,6 @@
 ---
 up: "[[repos/gcp]]"
+title: "gcp · TASKS"
 source: https://github.com/nitsuah/gcp/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: gcp

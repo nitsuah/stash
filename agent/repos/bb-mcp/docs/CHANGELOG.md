@@ -1,5 +1,6 @@
 ---
 up: "[[repos/bb-mcp]]"
+title: "bb-mcp · CHANGELOG"
 source: https://github.com/nitsuah/bb-mcp/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: bb-mcp

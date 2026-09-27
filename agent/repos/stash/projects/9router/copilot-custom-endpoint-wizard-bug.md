@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · copilot-custom-endpoint-wizard-bug"
 source: https://github.com/nitsuah/stash/blob/main/projects/9router/copilot-custom-endpoint-wizard-bug.md
 kind: repo-doc
 repo: stash

@@ -5,7 +5,7 @@ repo: nitsuah-io
 
 # nitsuah-io
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-09-27
 
 ## Overview
 
@@ -39,12 +39,11 @@ Sister-repo integration priority: bb-mcp → kryptos → skyview → motor-pool 
 
 ## Open P0/P1 Tasks
 
-Re-verified against the codebase 2026-09-01 (`docs/TASKS.md`) — none have shipped:
+Re-checked against `docs/TASKS.md` 2026-09-27. The Playwright Docker/npm lockstep item was promoted to P0 and shipped (Dockerfile.test `v1.63.0-noble`, `scripts/check-playwright-lockstep.js` in `precheck:docker` and CI, grouped Dependabot rules). Still open:
 
-- [ ] **P1** Keep Playwright Docker + npm in lockstep (coordinated upgrades)
 - [ ] **P1** Replace placeholder-heavy client demo assets
 - [ ] **P1** Replace duplicate project and crypto page assets
-- [ ] **P1** Migrate labs contracts Mumbai → Amoy — chain-config/UI side done 2026-09-01; the Register and Domains labs contracts themselves still need redeployment to Amoy by someone with a funded testnet wallet
+- [ ] **P1** Redeploy the Register and Domains labs contracts to Amoy (chain-config/UI moved in #519; needs a funded Amoy wallet; `Nitsuah-Labs/deployer` `deploy/deploy.ts` is the tool)
 - [ ] **P1** Add AI chat widget via bb-mcp
 - [ ] **P1** Bento grid layout for Projects + Skills sections
 

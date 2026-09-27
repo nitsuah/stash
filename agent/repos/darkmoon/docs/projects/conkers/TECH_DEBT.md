@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · TECH_DEBT"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/projects/conkers/TECH_DEBT.md
 kind: repo-doc
 repo: darkmoon

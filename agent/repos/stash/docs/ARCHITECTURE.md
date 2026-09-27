@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · ARCHITECTURE"
 source: https://github.com/nitsuah/stash/blob/main/docs/ARCHITECTURE.md
 kind: repo-doc
 repo: stash

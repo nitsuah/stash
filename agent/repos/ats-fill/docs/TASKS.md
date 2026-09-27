@@ -1,6 +1,7 @@
 ---
 updated: 2026-09-24
 up: "[[repos/ats-fill]]"
+title: "ats-fill · TASKS"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: ats-fill

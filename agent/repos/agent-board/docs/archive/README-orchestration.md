@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · README-orchestration"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/README-orchestration.md
 kind: repo-doc
 repo: agent-board

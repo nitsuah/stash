@@ -1,5 +1,6 @@
 ---
 up: "[[repos/avatar]]"
+title: "avatar · README"
 source: https://github.com/nitsuah/avatar/blob/main/README.md
 kind: repo-doc
 repo: avatar

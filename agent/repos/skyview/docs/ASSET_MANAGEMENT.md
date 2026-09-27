@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · ASSET_MANAGEMENT"
 source: https://github.com/nitsuah/skyview/blob/main/docs/ASSET_MANAGEMENT.md
 kind: repo-doc
 repo: skyview

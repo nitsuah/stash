@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · TASKS"
 source: https://github.com/nitsuah/fire/blob/main/docs/TASKS.md
 kind: repo-doc
 repo: fire
@@ -9,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-09-24
+updated: 2026-09-26
 
 ---
 
@@ -23,7 +24,12 @@ for shipped capabilities. Its follow-up items are below._
 
 ## Follow-ups from PR #111 — Sep 2026
 
-- [ ] Manual step: register the public HTTPS notification URL + verification token in the eBay Developer Portal (cannot be verified in CI)
+- [ ] Manual step: turn on eBay connect/sync on Netlify. Set `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_ENVIRONMENT=production`, `EBAY_REDIRECT_URI` (RuName) and `SYNC_MASTER_KEY` in Netlify, and point the RuName's auth-accepted URL at `https://lifefire.netlify.app/api/sync/ebay/callback` (see the Browser-only deploy section of `docs/integrations.md`)
+- [ ] Serve Plaid on the Netlify deploy (lifefire.netlify.app)
+  - Priority: P1. Plaid Link, positions, accounts and transactions (`/api/sync/plaid/*`) only exist in Express, so on the static Netlify deploy every call returns 404, even though the Plaid env vars are set there.
+  - Approach: follow eBay's pattern from PR #130: v2 Netlify Functions plus `netlify.toml` rewrites, with logic shared with Express via a transport-agnostic module. Plaid access tokens go back to the browser encrypted with `SYNC_MASTER_KEY` instead of being stored server-side, and status and the toggle are computed client-side in browser-only mode.
+  - Acceptance Criteria: Link → exchange → accounts/positions/transactions works on the live site; unit tests for each Function; privacy policy and `docs/integrations.md` updated.
+  - Rule going forward: any new `/api/*` route the SPA calls needs a Netlify Function (or a documented browser-only fallback) in the same PR.
 - [ ] Stop exposing browser helpers as classic-script globals (`app/lib/fetch-utils.js` `fetchJson`, and the rest of `app/lib/**`)
   - Priority: P3 (maintainability) — deferred from PR #111 review (CodeRabbit, `fetch-utils.js` thread).
   - Context: the SPA loads ~40 plain `<script>` files that share one global scope, so any helper is a cross-file global by design. Fixing just `fetchJson` would mean converting every consumer to `import`; doing it properly means moving the frontend to ES modules with a bundler (or native `type="module"`) as one migration.

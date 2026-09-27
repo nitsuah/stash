@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · ROADMAP"
 source: https://github.com/nitsuah/vhs/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: vhs

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · privacy-policy"
 source: https://github.com/nitsuah/fire/blob/main/docs/privacy-policy.md
 kind: repo-doc
 repo: fire
@@ -30,6 +31,8 @@ When you use the hosted Netlify deployment:
 - **All data lives exclusively in your browser's `localStorage`**, keyed to `fire_tracker_state`.
 - Data never leaves your device through this application. It is not sent to Netlify servers, cloud databases, or any third party by this app.
 - Clearing your browser data, switching browsers, or using a private/incognito session **will erase your data**. Use the Export JSON Backup feature regularly.
+- **Optional eBay order sync is the one exception.** If you click *Connect eBay*, the connect and sync requests go through this site's Netlify Functions (`/api/sync/ebay/*`) to eBay. The Functions keep nothing: your eBay tokens come back to your browser encrypted with a server-held key (stored under the separate `localStorage` key `fire_tracker_ebay_token`, which your browser can't decrypt), and orders pulled during a sync are returned straight to your browser. They never log your eBay username or user ID.
+- **If you revoke this app's eBay access or close your eBay account**, the next sync gets an `invalid_grant` rejection from eBay. The app then deletes the eBay token and the sales it synced from eBay through the API from this browser and tells you. Sales you logged by hand and uploaded CSV reports are yours and are kept. eBay's account-deletion notifications reach the server, but the server holds no eBay data for you and can't reach your browser, so this cleanup happens the next time you open the app and sync.
 - The Netlify platform itself may log standard HTTP access metadata (IP address, timestamp, URL path) as part of normal CDN operation — this is governed by [Netlify's Privacy Policy](https://www.netlify.com/privacy/), not this document.
 
 ### 2b. Self-Hosted / Local Docker Mode
@@ -113,7 +116,7 @@ The optional webhook feature allows external services to push data updates into 
 ## 8. Data Backup & Deletion
 
 - **Export:** Use "Export JSON Backup" in the sidebar to download a complete copy of your data at any time.
-- **Delete (browser mode):** Clear `localStorage` in your browser (DevTools → Application → Storage → Clear Site Data).
+- **Delete (browser mode):** Clear `localStorage` in your browser (DevTools → Application → Storage → Clear Site Data). This also removes the encrypted eBay token, if you connected eBay.
 - **Delete (local server mode):** Delete `data/db.json` from your machine.
 - No data is held remotely by this application, so there is no account to close or remote data to request deletion of.
 

@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · README"
 source: https://github.com/nitsuah/agent-board/blob/master/README.md
 kind: repo-doc
 repo: agent-board

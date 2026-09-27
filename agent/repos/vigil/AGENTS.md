@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · AGENTS"
 source: https://github.com/nitsuah/vigil/blob/main/AGENTS.md
 kind: repo-doc
 repo: vigil

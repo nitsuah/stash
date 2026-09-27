@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · pitch-structure"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/pitch-structure.md
 kind: repo-doc
 repo: agent-board

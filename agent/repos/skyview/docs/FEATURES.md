@@ -1,5 +1,6 @@
 ---
 up: "[[repos/skyview]]"
+title: "skyview · FEATURES"
 source: https://github.com/nitsuah/skyview/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: skyview

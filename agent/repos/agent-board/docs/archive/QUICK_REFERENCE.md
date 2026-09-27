@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · QUICK_REFERENCE"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/QUICK_REFERENCE.md
 kind: repo-doc
 repo: agent-board

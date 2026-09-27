@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · CHANGELOG"
 source: https://github.com/nitsuah/stash/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: stash

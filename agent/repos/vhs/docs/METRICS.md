@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · METRICS"
 source: https://github.com/nitsuah/vhs/blob/main/docs/METRICS.md
 kind: repo-doc
 repo: vhs

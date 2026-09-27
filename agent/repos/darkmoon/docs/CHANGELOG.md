@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · CHANGELOG"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/CHANGELOG.md
 kind: repo-doc
 repo: darkmoon

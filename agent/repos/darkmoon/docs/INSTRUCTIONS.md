@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · INSTRUCTIONS"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/INSTRUCTIONS.md
 kind: repo-doc
 repo: darkmoon

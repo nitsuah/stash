@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · system-flow"
 source: https://github.com/nitsuah/vhs/blob/main/docs/system-flow.md
 kind: repo-doc
 repo: vhs

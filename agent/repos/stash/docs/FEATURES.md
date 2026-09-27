@@ -1,5 +1,6 @@
 ---
 up: "[[repos/stash]]"
+title: "stash · FEATURES"
 source: https://github.com/nitsuah/stash/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: stash

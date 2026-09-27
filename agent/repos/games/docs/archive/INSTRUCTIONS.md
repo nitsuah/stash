@@ -1,5 +1,6 @@
 ---
 up: "[[repos/games]]"
+title: "games · INSTRUCTIONS"
 source: https://github.com/nitsuah/games/blob/main/docs/archive/INSTRUCTIONS.md
 kind: repo-doc
 repo: games

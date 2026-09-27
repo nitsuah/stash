@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vhs]]"
+title: "vhs · EASTEREGG"
 source: https://github.com/nitsuah/vhs/blob/main/docs/EASTEREGG.md
 kind: repo-doc
 repo: vhs

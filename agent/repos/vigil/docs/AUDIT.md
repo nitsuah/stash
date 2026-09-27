@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · AUDIT"
 source: https://github.com/nitsuah/vigil/blob/main/docs/AUDIT.md
 kind: repo-doc
 repo: vigil

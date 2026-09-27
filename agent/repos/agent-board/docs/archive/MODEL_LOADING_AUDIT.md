@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · MODEL_LOADING_AUDIT"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MODEL_LOADING_AUDIT.md
 kind: repo-doc
 repo: agent-board

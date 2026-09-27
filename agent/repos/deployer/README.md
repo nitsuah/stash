@@ -1,5 +1,6 @@
 ---
 up: "[[repos/deployer]]"
+title: "deployer · README"
 source: https://github.com/Nitsuah-Labs/deployer/blob/main/README.md
 kind: repo-doc
 repo: deployer

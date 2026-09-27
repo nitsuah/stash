@@ -1,5 +1,6 @@
 ---
 up: "[[repos/vigil]]"
+title: "vigil · VISUAL_DOCS"
 source: https://github.com/nitsuah/vigil/blob/main/docs/VISUAL_DOCS.md
 kind: repo-doc
 repo: vigil

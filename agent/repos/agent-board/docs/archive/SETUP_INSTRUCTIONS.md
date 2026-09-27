@@ -1,5 +1,6 @@
 ---
 up: "[[repos/agent-board]]"
+title: "agent-board · SETUP_INSTRUCTIONS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/SETUP_INSTRUCTIONS.md
 kind: repo-doc
 repo: agent-board

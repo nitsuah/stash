@@ -1,5 +1,6 @@
 ---
 up: "[[repos/fire]]"
+title: "fire · backend-sync-architecture"
 source: https://github.com/nitsuah/fire/blob/main/docs/backend-sync-architecture.md
 kind: repo-doc
 repo: fire

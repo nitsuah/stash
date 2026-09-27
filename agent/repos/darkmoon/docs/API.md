@@ -1,5 +1,6 @@
 ---
 up: "[[repos/darkmoon]]"
+title: "darkmoon · API"
 source: https://github.com/nitsuah/darkmoon/blob/main/docs/API.md
 kind: repo-doc
 repo: darkmoon
