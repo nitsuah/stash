@@ -115,7 +115,10 @@ def enrich(doc, text):
         out.append("".join(p if i % 2 else untag(WIKI.sub(fix_wiki, MDLINK.sub(fix, p))) for i, p in enumerate(parts)))
     body = "\n".join(out)
 
-    ours = {"up": f'"[[repos/{repo}]]"', "source": url(doc), "kind": "repo-doc", "repo": repo}
+    # title: shown instead of the file name (README, ROADMAP...) by the Front Matter Title plugin
+    name = posixpath.splitext(posixpath.basename(doc))[0]
+    ours = {"up": f'"[[repos/{repo}]]"', "title": f'"{repo} · {name}"', "source": url(doc),
+            "kind": "repo-doc", "repo": repo}
     m = re.match(r"^---\n(.*?)\n---\n", body, re.S)
     if m:
         keys = {l.split(":", 1)[0].strip() for l in m.group(1).split("\n") if ":" in l}

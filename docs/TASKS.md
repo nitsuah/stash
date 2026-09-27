@@ -37,7 +37,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
 - [ ] Graph labels: evaluate the *Front Matter Title* community plugin, so graph nodes show `title:` instead of generic file names (README, ROADMAP).
   - Priority: P3
   - Type: Vault / Obsidian config
-  - Owner: you (install and try the plugin in Obsidian; nothing to automate until you decide).
+  - Owner: you, for the install (plugin code is gitignored, so it's per machine). Vault side done 2026-09-26: `enrich-mirror.py` gives every mirrored repo doc a `title: "<repo> · <file>"` (applied on the next DAILY sync); hubs and notes already have unique file names.
 - [ ] Review the first weekly `reports/link-suggestions-*.md` and adopt or ignore; if most suggestions are noise, raise `MIN_SCORE` in `suggest-links.py`.
   - Priority: P3
   - Type: Vault
