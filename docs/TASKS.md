@@ -158,3 +158,8 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 - `projects/resume/README.md` expanded with last-updated date and schema note in 2026-09-02 audit — removed from Todo.
 - 2026-09-02 audit: found and fixed 14 broken path references left over from repo reorganization — 6 instances of `IAS/` (docs/CHANGELOG.md x2, cloud/iac/ubuntu-userdata.sh, cloud/iac/windows-userdata.ps1, .github/copilot-instructions.md, agent/repos/stash.md) should have read `cloud/iac/`, and 8 instances of `CLOUD/` (wrong case; docs/CHANGELOG.md, agent/repos/stash.md, cloud/README.md x2, cloud/aws/examples.py x4 — including its own usage examples/docstring) should have read `cloud/aws/`. The `CLOUD/` casing bug would break on case-sensitive filesystems (Linux/Mac) even though it worked on Windows. This is partial progress on the "Naming and Consistency Cleanup" roadmap item — a full repo-wide filename normalization pass is still open and out of scope for this audit.
 - `projects/README.md` added in 2026-09-02 audit (index of the 7 project subdirectories, all of which already had their own READMEs) — closes the last gap in the per-directory README audit. `docs/` intentionally has no README.md (ROADMAP/TASKS/FEATURES/METRICS already serve as its index); `flipper/` is an empty, untracked directory with no content to document.
+
+## Later
+
+- [ ] Vigil key follow-up: confirm the rotated key works locally (ask Claude to "check vigil"), and add `VIGIL_MCP_KEY` to the cloud environment so daily-brief can read vigil (the setting wasn't findable in the claude.ai UI on 2026-09-26).
+  - Priority: P3
