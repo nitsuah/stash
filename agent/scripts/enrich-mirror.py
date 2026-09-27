@@ -19,6 +19,7 @@ For every mirrored .md:
 
 Usage: python enrich-mirror.py <repo-clone> <mirror-dir> <repo-name>
 """
+import json
 import os
 import posixpath
 import re
@@ -117,7 +118,7 @@ def enrich(doc, text):
 
     # title: shown instead of the file name (README, ROADMAP...) by the Front Matter Title plugin
     name = posixpath.splitext(posixpath.basename(doc))[0]
-    ours = {"up": f'"[[repos/{repo}]]"', "title": f'"{repo} · {name}"', "source": url(doc),
+    ours = {"up": f'"[[repos/{repo}]]"', "title": json.dumps(f"{repo} · {name}", ensure_ascii=False), "source": url(doc),
             "kind": "repo-doc", "repo": repo}
     m = re.match(r"^---\n(.*?)\n---\n", body, re.S)
     if m:

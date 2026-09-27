@@ -6,7 +6,7 @@ Uses sotu.py's parser (same rules as vigil), so what this flags is what vigil mi
   - open items with no priority (no `- Priority: Pn` sub-bullet, inline [Pn] tag or Pn heading)
   - checkboxes vigil skips: indented more than one space, or `*`/`+` bullets instead of `-`
 
-Reads origin's default branch (run `git fetch` first, or pass --fetch). Prints a markdown
+Reads only origin's default branch, never local HEAD (run `git fetch` first, or pass --fetch). Prints a markdown
 report for the PMO audit; --check exits 1 when anything is flagged.
 """
 import argparse
@@ -25,15 +25,33 @@ SECTIONS = ("done", "in progress", "todo")
 SKIPPED = re.compile(r"^(?:\s{2,}- |\s*[*+] )\[( |/|x)\]\s+", re.I)
 
 
+def default_ref(path: str) -> str | None:
+    """The remote default branch only; never local HEAD, so the audit can't report an unpushed file."""
+    for ref in ("origin/HEAD", "origin/main", "origin/master"):
+        try:
+            sotu.git(path, "rev-parse", "--verify", "-q", ref)
+            return ref
+        except (sotu.subprocess.CalledProcessError, FileNotFoundError, sotu.subprocess.TimeoutExpired):
+            continue
+    return None
+
+
 def check(repo: dict) -> dict:
+    ref = default_ref(repo["path"])
+    if not ref:
+        return {"repo": repo["repo"], "missing": True, "why": "no remote default branch (clone missing or never fetched?)"}
     text = rel = None
     for candidate in ("TASKS.md", "docs/TASKS.md"):
-        text = sotu.git_show(repo["path"], candidate)
-        if text:
-            rel = candidate
-            break
+        try:
+            text = sotu.git(repo["path"], "show", f"{ref}:{candidate}")
+        except sotu.subprocess.CalledProcessError:
+            continue  # not on the default branch
+        except sotu.subprocess.TimeoutExpired:
+            return {"repo": repo["repo"], "missing": True, "why": f"git show timed out on {ref}"}
+        rel = candidate
+        break
     if not text:
-        return {"repo": repo["repo"], "missing": True}
+        return {"repo": repo["repo"], "missing": True, "why": f"no TASKS.md on {ref}"}
     headings = {m.group(1).strip().lower() for m in re.finditer(r"^##\s+(.*)", text, re.M)}
     missing_sections = [s for s in SECTIONS if not any(h.startswith(s) for h in headings)]
     tasks = sotu.parse_tasks(text, repo["repo"], rel)
@@ -61,7 +79,7 @@ def main() -> int:
     for r in results:
         if r["missing"]:
             flagged += 1
-            print(f"| {r['repo']} | none | - | - | - | no TASKS.md |")
+            print(f"| {r['repo']} | none | - | - | - | {r['why']} |")
             continue
         bad = r["no_prio"] or r["skipped"] or r["missing_sections"]
         flagged += bool(bad)

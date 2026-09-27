@@ -24,7 +24,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
 - [x] Cross-repo task rollup: tracked in vigil (MCP tool / `/api/context` over each repo's TASKS.md), not in the vault. Connect vigil's MCP to Claude Code once it lands, and drop the daily note's hand-built "Tasks" section in favor of it.
   - Priority: P2
   - Type: Integration
-  - Done 2026-09-26: the vigil MCP (HTTP, ghoverseer.netlify.app/api/mcp) is connected to local Claude Code and verified; DAILY `## Tasks` now reads `get_open_tasks`. Cloud routines can call the same endpoint once `VIGIL_MCP_TOKEN` is set in the cloud environment.
+  - Done 2026-09-26: the vigil MCP (HTTP, ghoverseer.netlify.app/api/mcp) is connected to local Claude Code and verified; DAILY `## Tasks` now reads `get_open_tasks`. Cloud routines can call the same endpoint once `VIGIL_MCP_KEY` is set in the cloud environment.
 - [ ] Tune topic hubs after a few weeks: review `agent/topics/topic-*.md` matches for noise or misses, and consider seeding new topics from Smart Connections clusters (`suggest-links.py` already reads the embeddings).
   - Priority: P3
   - Type: Vault
@@ -165,3 +165,4 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 
 - [ ] Vigil key follow-up: confirm the rotated key works locally (ask Claude to "check vigil"), and add `VIGIL_MCP_KEY` to the cloud environment so daily-brief can read vigil (the setting wasn't findable in the claude.ai UI on 2026-09-26).
   - Priority: P3
+  - Type: Integration
