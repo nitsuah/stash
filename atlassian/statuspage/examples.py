@@ -20,7 +20,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from client import StatuspageClient, load_env
 
-
 # ---------------------------------------------------------------------------
 # Pages
 # ---------------------------------------------------------------------------
@@ -152,7 +151,7 @@ def create_incident(client: StatuspageClient, name: str, status: str = "investig
         }
     }
     if component_ids:
-        payload["incident"]["components"] = {cid: "major_outage" for cid in component_ids}
+        payload["incident"]["components"] = dict.fromkeys(component_ids, "major_outage")
     r = client.post(f"/v1/pages/{client.page_id}/incidents", payload)
     r.raise_for_status()
     incident = r.json()

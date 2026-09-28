@@ -1,0 +1,138 @@
+- generic [ref=f1e2]:
+  - generic [ref=f1e3]:
+    - link "Skip to content" [ref=f1e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f1e9]:
+      - heading "Navigation Menu" [level=2] [ref=f1e10]
+      - generic [ref=f1e12]:
+        - button "Toggle navigation" [ref=f1e14] [cursor=pointer]
+        - link "Homepage" [ref=f1e18] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f1e21]:
+          - link "Sign in" [ref=f1e22] [cursor=pointer]:
+            - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fnitsuah%2Fstash%2Factions%2Fruns%2F36387363113%2Fjob%2F108815470709
+          - button "Appearance settings" [ref=f1e25] [cursor=pointer]
+  - main [ref=f1e32]:
+    - generic [ref=f1e33]:
+      - generic [ref=f1e34]:
+        - generic [ref=f1e35]:
+          - generic [ref=f1e37]:
+            - link "nitsuah" [ref=f1e41] [cursor=pointer]:
+              - /url: /nitsuah
+            - generic [ref=f1e42]: /
+            - strong [ref=f1e43]:
+              - link "stash" [ref=f1e44] [cursor=pointer]:
+                - /url: /nitsuah/stash
+            - generic [ref=f1e45]: Public
+          - generic [ref=f1e46]:
+            - list:
+              - listitem
+              - listitem [ref=f1e47]:
+                - link "You must be signed in to change notification settings" [ref=f1e48] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fnitsuah%2Fstash
+                  - text: Notifications
+              - listitem [ref=f1e51]:
+                - link "Fork 0" [ref=f1e52] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fnitsuah%2Fstash
+                  - text: Fork
+                  - generic "0" [ref=f1e55]
+              - listitem [ref=f1e56]:
+                - link "You must be signed in to star a repository" [ref=f1e58] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fnitsuah%2Fstash
+                  - text: Star
+                  - generic "0 users starred this repository" [ref=f1e61]: "0"
+        - navigation "Repository" [ref=f1e62]:
+          - list [ref=f1e63]:
+            - listitem [ref=f1e64]:
+              - link "Code" [ref=f1e65] [cursor=pointer]:
+                - /url: /nitsuah/stash
+            - listitem [ref=f1e69]:
+              - link "Issues" [ref=f1e70] [cursor=pointer]:
+                - /url: /nitsuah/stash/issues
+            - listitem [ref=f1e75]:
+              - link "Pull requests 1" [ref=f1e76] [cursor=pointer]:
+                - /url: /nitsuah/stash/pulls
+                - generic [ref=f1e79]: Pull requests
+                - generic "1" [ref=f1e80]
+            - listitem [ref=f1e81]:
+              - link "Actions" [ref=f1e82] [cursor=pointer]:
+                - /url: /nitsuah/stash/actions
+            - listitem [ref=f1e86]:
+              - link "Projects" [ref=f1e87] [cursor=pointer]:
+                - /url: /nitsuah/stash/projects
+            - listitem [ref=f1e91]:
+              - link "Security and quality" [ref=f1e92] [cursor=pointer]:
+                - /url: /nitsuah/stash/security
+            - listitem [ref=f1e96]:
+              - link "Insights" [ref=f1e97] [cursor=pointer]:
+                - /url: /nitsuah/stash/pulse
+      - generic [ref=f1e105]:
+        - generic [ref=f1e108]:
+          - link "CI" [ref=f1e111] [cursor=pointer]:
+            - /url: /nitsuah/stash/actions/workflows/ci.yml
+          - generic [ref=f1e115]:
+            - generic [ref=f1e116]:
+              - img "failed:" [ref=f1e120]
+              - 'heading "ci: add Python linting via ruff in GitHub Actions workflow #231" [level=1] [ref=f1e122]'
+            - link "Sign in to view logs" [ref=f1e126] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fnitsuah%2Fstash%2Factions%2Fruns%2F36387363113%2Fjob%2F108815470709
+        - generic [ref=f1e127]:
+          - navigation "Workflow run" [ref=f1e133]:
+            - list [ref=f1e134]:
+              - listitem [ref=f1e135]:
+                - link "Summary" [ref=f1e136] [cursor=pointer]:
+                  - /url: /nitsuah/stash/actions/runs/36387363113
+              - generic [ref=f1e139]:
+                - heading "All jobs" [level=4] [ref=f1e140]
+                - button "Filter by job status" [ref=f1e141] [cursor=pointer]
+              - listitem [aria-hidden] [ref=f1e144]
+              - listitem:
+                - list
+              - listitem [aria-hidden] [ref=f1e145]
+              - listitem [ref=f1e146]:
+                - heading "Run details" [level=3] [ref=f1e148]
+                - list "Run details" [ref=f1e149]:
+                  - listitem [ref=f1e150]:
+                    - link "Usage" [ref=f1e151] [cursor=pointer]:
+                      - /url: /nitsuah/stash/actions/runs/36387363113/usage
+                  - listitem [ref=f1e154]:
+                    - link "Workflow file" [ref=f1e155] [cursor=pointer]:
+                      - /url: /nitsuah/stash/actions/runs/36387363113/workflow
+          - region "Check run summary" [ref=f1e159]:
+            - generic [ref=f1e160]:
+              - region "Annotations" [ref=f1e162]:
+                - generic [ref=f1e166]:
+                  - button "Open job annotations" [ref=f1e168] [cursor=pointer]
+                  - generic [ref=f1e173]:
+                    - heading "Annotations" [level=2] [ref=f1e174]
+                    - generic [ref=f1e175]: 1 error, 1 warning, and 1 notice
+              - generic [ref=f1e177]:
+                - generic [ref=f1e179]:
+                  - link "Python lint (ruff)" [ref=f1e182] [cursor=pointer]:
+                    - /url: "#logs"
+                  - generic [ref=f1e184]: failed Sep 28, 20261 minute ago in 10s
+                - generic [ref=f1e186]:
+                  - generic [ref=f1e187]:
+                    - group:
+                      - generic "Set up job"
+                  - generic [ref=f1e188]:
+                    - group:
+                      - generic "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+                  - generic [ref=f1e189]:
+                    - group:
+                      - generic "Run actions/setup-python@v5"
+                  - generic [ref=f1e190]:
+                    - group:
+                      - generic "Install ruff"
+                  - generic [ref=f1e191]:
+                    - group:
+                      - generic "Lint Python files"
+                  - generic [ref=f1e192]:
+                    - group:
+                      - generic "Post Run actions/setup-python@v5"
+                  - generic [ref=f1e193]:
+                    - group:
+                      - generic "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+                  - generic [ref=f1e194]:
+                    - group:
+                      - generic "Complete job"

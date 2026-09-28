@@ -26,11 +26,10 @@ import argparse
 import os
 import sys
 from datetime import datetime, timedelta, timezone
-from pprint import pprint
 
-from pymongo import MongoClient, ASCENDING, DESCENDING, TEXT, GEOSPHERE  # type: ignore
-from pymongo.errors import DuplicateKeyError  # type: ignore
 from bson import ObjectId  # type: ignore
+from pymongo import ASCENDING, DESCENDING, TEXT, MongoClient  # type: ignore
+from pymongo.errors import DuplicateKeyError  # type: ignore
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(_SCRIPT_DIR)))
@@ -200,12 +199,15 @@ def create_item(db, owner_id: ObjectId, title: str,
 
 def list_items(db, owner_id: ObjectId | None = None, status: str | None = None,
                tags: list[str] | None = None, limit: int = 20) -> list[dict]:
-    query: dict = {}
-    if owner_id: query["ownerId"] = owner_id
-    if status:   query["status"]  = status
-    if tags:     query["tags"]    = {"$all": tags}
+    filter_query: dict = {}
+    if owner_id:
+        filter_query["ownerId"] = owner_id
+    if status:
+        filter_query["status"] = status
+    if tags:
+        filter_query["tags"] = {"$all": tags}
 
-    items = list(db.items.find(query).sort("createdAt", DESCENDING).limit(limit))
+    items = list(db.items.find(filter_query).sort("createdAt", DESCENDING).limit(limit))
     print(f"\n[Items] {len(items)} returned:")
     for i in items:
         print(f"  {str(i['_id'])[:8]}  [{i['status']:8s}]  {i['title'][:60]}")
@@ -373,10 +375,10 @@ Examples:
             user = db.users.find_one({"email": "demo@example.com"})
             print(f"[User Exists] {user['email']}")
 
-        item1 = create_item(db, user["_id"], "[DEMO] API test item — safe to delete",
+        create_item(db, user["_id"], "[DEMO] API test item — safe to delete",
                             body="Created by database/mongodb/examples.py",
                             tags=["demo", "api-test"], status="active")
-        item2 = create_item(db, user["_id"], "[DEMO] Kubernetes deployment guide",
+        create_item(db, user["_id"], "[DEMO] Kubernetes deployment guide",
                             body="Step by step kubernetes setup", tags=["k8s", "ops"])
 
         text_search(db, "kubernetes deployment")

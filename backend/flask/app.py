@@ -25,16 +25,18 @@ Usage:
 """
 
 import os
-import sys
 from datetime import datetime, timedelta, timezone
 
-from flask import Flask, jsonify, request, g
-from flask_sqlalchemy import SQLAlchemy  # type: ignore
-from flask_jwt_extended import (  # type: ignore
-    JWTManager, create_access_token, jwt_required, get_jwt_identity,
-)
-from marshmallow import Schema, fields, validate, ValidationError  # type: ignore
 import sqlalchemy as sa
+from flask import Blueprint, Flask, jsonify, request
+from flask_jwt_extended import (  # type: ignore
+    JWTManager,
+    create_access_token,
+    get_jwt_identity,
+    jwt_required,
+)
+from flask_sqlalchemy import SQLAlchemy  # type: ignore
+from marshmallow import Schema, ValidationError, fields, validate  # type: ignore
 
 # ---------------------------------------------------------------------------
 # Config
@@ -160,8 +162,6 @@ def error_response(message: str, status: int = 400, details=None) -> tuple:
 # ---------------------------------------------------------------------------
 # Blueprints
 # ---------------------------------------------------------------------------
-
-from flask import Blueprint
 
 auth_bp  = Blueprint("auth",  __name__, url_prefix="/auth")
 users_bp = Blueprint("users", __name__, url_prefix="/users")
@@ -376,10 +376,10 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app  = create_app()
     print(f"Flask API running on http://localhost:{port}")
-    print(f"  POST /auth/login    {{\"email\": \"user@example.com\", \"password\": \"password\"}}")
-    print(f"  GET  /auth/me       (requires Bearer token)")
-    print(f"  GET  /users/        (requires Bearer token)")
-    print(f"  GET  /items/        (requires Bearer token)")
-    print(f"  POST /items/        (requires Bearer token)")
-    print(f"  GET  /health")
+    print("  POST /auth/login    {\"email\": \"user@example.com\", \"password\": \"password\"}")
+    print("  GET  /auth/me       (requires Bearer token)")
+    print("  GET  /users/        (requires Bearer token)")
+    print("  GET  /items/        (requires Bearer token)")
+    print("  POST /items/        (requires Bearer token)")
+    print("  GET  /health")
     app.run(port=port, debug=os.environ.get("FLASK_ENV") == "development")

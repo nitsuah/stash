@@ -7,5 +7,6 @@
   "smart-lookup",
   "smart-context",
   "obsidian-excalidraw-plugin",
-  "obsidian-importer"
+  "obsidian-importer",
+  "obsidian-front-matter-title-plugin"
 ]

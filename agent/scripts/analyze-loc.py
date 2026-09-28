@@ -4,13 +4,12 @@ Lines of Code analysis script for eng-loc skill
 Walks all repos in scope.md, counts lines per file, flags large/small files
 """
 
+import json
 import os
 import re
-import json
 import sys
-from pathlib import Path
 from datetime import datetime
-from collections import defaultdict
+from pathlib import Path
 
 # Import TOML parser (tomllib for Python 3.11+, fallback to tomli if available)
 try:
@@ -145,7 +144,7 @@ def parse_scope(path):
 def count_lines(filepath):
     """Count lines in a file"""
     try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(filepath, encoding='utf-8', errors='ignore') as f:
             return sum(1 for _ in f)
     except Exception:
         return 0
@@ -155,7 +154,7 @@ def scan_large_file(filepath, ext):
     """Secondary scan for large files"""
     findings = []
     try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(filepath, encoding='utf-8', errors='ignore') as f:
             content = f.read()
     except Exception:
         return findings

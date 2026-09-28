@@ -19,10 +19,10 @@ import argparse
 import os
 import sys
 
+from client import AtlassianClient
+
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(_SCRIPT_DIR))
-from client import AtlassianClient, load_env
-
 
 # ---------------------------------------------------------------------------
 # Jira Software / Core

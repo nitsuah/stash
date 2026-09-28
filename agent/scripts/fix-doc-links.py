@@ -111,7 +111,7 @@ def repo_mode(repo):
         def fix(m):
             nonlocal fixed
             target = m.group(2)
-            if re.match(r"^([a-z][a-z0-9+.-]*:|#|<|/)", target, re.I):
+            if re.match(r"^([a-z][a-z0-9+.-]*:|#|<|/)", target, re.IGNORECASE):
                 return m.group(0)
             path, _, anchor = target.partition("#")
             p = posixpath.normpath(posixpath.join(here, unquote(path))).rstrip("/")

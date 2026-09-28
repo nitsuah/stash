@@ -256,7 +256,7 @@ def list_groups(client: OktaClient, limit: int = 20,
     print(f"\n[Groups] {len(groups)} returned:")
     for g in groups:
         p = g.get("profile", {})
-        count = g.get("objectClass", [])
+        _ = g.get("objectClass", [])
         print(f"  {g['id']}  {p.get('name','?'):40s}  {p.get('description','')[:40]}")
     return groups
 
@@ -394,7 +394,7 @@ def list_logs(client: OktaClient, since_minutes: int = 60,
     Common event types: user.session.start, user.authentication.sso,
     user.account.update_password, group.user_membership.add
     """
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
     since = (datetime.now(timezone.utc) - timedelta(minutes=since_minutes)).isoformat()
     params: dict = {"since": since, "limit": limit, "sortOrder": "DESCENDING"}
     if event_type:

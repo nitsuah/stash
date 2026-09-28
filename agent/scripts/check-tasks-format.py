@@ -10,11 +10,9 @@ Reads only origin's default branch, never local HEAD (run `git fetch` first, or 
 report for the PMO audit; --check exits 1 when anything is flagged.
 """
 import argparse
+import importlib.util
 import re
 import sys
-from collections import defaultdict
-
-import importlib.util
 from pathlib import Path
 
 _spec = importlib.util.spec_from_file_location("sotu", Path(__file__).with_name("sotu.py"))
@@ -22,7 +20,7 @@ sotu = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(sotu)
 
 SECTIONS = ("done", "in progress", "todo")
-SKIPPED = re.compile(r"^(?:\s{2,}- |\s*[*+] )\[( |/|x)\]\s+", re.I)
+SKIPPED = re.compile(r"^(?:\s{2,}- |\s*[*+] )\[( |/|x)\]\s+", re.IGNORECASE)
 
 
 class ReadError(Exception):
@@ -75,7 +73,7 @@ def check(repo: dict) -> dict:
         return {"repo": repo["repo"], "missing": True, "why": f"read failed: {exc}"}
     if not text:
         return {"repo": repo["repo"], "missing": True, "why": f"no TASKS.md on {ref}"}
-    headings = {m.group(1).strip().lower() for m in re.finditer(r"^##\s+(.*)", text, re.M)}
+    headings = {m.group(1).strip().lower() for m in re.finditer(r"^##\s+(.*)", text, re.MULTILINE)}
     missing_sections = [s for s in SECTIONS if not any(h.startswith(s) for h in headings)]
     tasks = sotu.parse_tasks(text, repo["repo"], rel)
     no_prio = [t for t in tasks if not t["priority"]]

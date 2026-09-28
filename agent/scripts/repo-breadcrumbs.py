@@ -11,7 +11,10 @@ GitHub and in the Obsidian mirror (stash/agent/repos/<repo>/, which keeps the
 root + docs/ layout). Bare `TASKS.md` would be ambiguous across 17 repos in
 the vault, so every link carries a path prefix.
 """
-import os, re, subprocess, sys
+import os
+import re
+import subprocess
+import sys
 
 CORE = ["FEATURES", "ROADMAP", "TASKS", "CHANGELOG", "METRICS"]
 LABEL = {"FEATURES": "Features", "ROADMAP": "Roadmap", "TASKS": "Tasks",
@@ -39,7 +42,7 @@ def write(p, text, nl):
 
 def title_of(p):
     text, _ = read(p)
-    m = re.search(r"^#\s+(.+)$", text, re.M)
+    m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
     return m.group(1).strip() if m else os.path.splitext(os.path.basename(p))[0]
 
 
@@ -47,13 +50,13 @@ def insert_nav(text, nav):
     # also drop kryptos-style plain-text "Breadcrumb: Home > Docs > X" lines near the top
     raw = text.split("\n")
     lines = []
-    for i, l in enumerate(raw):
-        if NAV_TAG in l or (i < 12 and l.startswith("Breadcrumb:")):
+    for i, line in enumerate(raw):
+        if NAV_TAG in line or (i < 12 and line.startswith("Breadcrumb:")):
             continue
         # a bare ">" spacer we added to join the nav with a following blockquote (MD028)
-        if l.strip() == ">" and i > 0 and NAV_TAG in raw[i - 1]:
+        if line.strip() == ">" and i > 0 and NAV_TAG in raw[i - 1]:
             continue
-        lines.append(l)
+        lines.append(line)
     # collapse a blank line we may have left behind directly under the H1
     start = 0
     if lines and lines[0].strip() == "---":  # frontmatter
@@ -178,9 +181,9 @@ def main(repo_dir, repo_name):
                  "the same set mirrored into the Obsidian vault, so none of them is orphaned.")
         block = "\n".join([IDX_START, "", "## Docs Index", "", scope, ""] + rows + ["", IDX_END])
         if IDX_START in text:
-            text = re.sub(re.escape(IDX_START) + r".*?" + re.escape(IDX_END), lambda m: block, text, flags=re.S)
+            text = re.sub(re.escape(IDX_START) + r".*?" + re.escape(IDX_END), lambda m: block, text, flags=re.DOTALL)
         else:
-            m = re.search(r"^##\s+.*licen[cs]e.*$", text, re.M | re.I)
+            m = re.search(r"^##\s+.*licen[cs]e.*$", text, re.MULTILINE | re.IGNORECASE)
             if m:
                 text = text[:m.start()] + block + "\n\n" + text[m.start():]
             else:

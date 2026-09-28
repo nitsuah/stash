@@ -8,10 +8,8 @@ All service example scripts import from here.
 import base64
 import os
 import sys
-from typing import Any
 
 import requests
-
 
 # ---------------------------------------------------------------------------
 # Env loader

@@ -64,7 +64,7 @@ def collect():
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.lower().endswith(".md"):
                 notes.append(rel)
-            elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.I):  # scripts are knowledge: VAULT-MAP links them
+            elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.IGNORECASE):  # scripts are knowledge: VAULT-MAP links them
                 attachments.append(rel)
     return sorted(notes), sorted(attachments)
 
@@ -93,7 +93,7 @@ def main():
 
     def resolve(src, target):
         t = unquote(target.split("#")[0].split("?")[0]).strip().rstrip("\\")
-        if not t or re.match(r"^[a-z]+:", t, re.I):
+        if not t or re.match(r"^[a-z]+:", t, re.IGNORECASE):
             return None
         cands = []
         here = os.path.dirname(src)
@@ -133,7 +133,7 @@ def main():
             if r and r != n:
                 out_links[n].add(r)
                 in_links[r].add(n)
-            elif r is None and t.split("#")[0].strip() and not re.match(r"^[a-z]+:", t, re.I):
+            elif r is None and t.split("#")[0].strip() and not re.match(r"^[a-z]+:", t, re.IGNORECASE):
                 unresolved[n].add(t.split("#")[0].strip())
 
     under = a.under.replace("\\", "/").strip("/")

@@ -30,8 +30,11 @@ TOP, MIN_SCORE, MAX_LINKS = 3, 0.80, 1
 
 
 def embeddings():
-    """{note path: vector} from the Smart Connections store (later lines win; null = deleted)."""
+    """{note path: vector} from the Smart Connections store (later lines win; null = deleted).
+    Rejects vectors from different embedding models (different dimensions) to avoid
+    incorrect similarity scores from truncated dot products."""
     vecs = {}
+    dim = None
     line_re = re.compile(r'^"smart_sources:([^"]+)":\s*(null|\{.*\}),?\s*$')
     for f in glob.glob(os.path.join(VAULT, ".smart-env", "multi", "*.ajson")):
         for line in open(f, encoding="utf-8", errors="replace"):
@@ -48,6 +51,11 @@ def embeddings():
                 continue
             vec = next((e.get("vec") for e in models.values() if e.get("vec")), None)
             if vec:
+                if dim is None:
+                    dim = len(vec)
+                elif len(vec) != dim:
+                    # Skip vectors from different embedding models
+                    continue
                 norm = math.sqrt(sum(x * x for x in vec)) or 1.0
                 vecs[path] = [x / norm for x in vec]
     return vecs
@@ -66,7 +74,7 @@ native = [n for n in links if not re.match(r"^repos/[^/]+/", n)
 weak = [n for n in native if len(links[n]) <= MAX_LINKS]
 rows = []
 for n in sorted(weak):
-    near = sorted(((sum(a * b for a, b in zip(vecs[n], v)), m) for m, v in vecs.items()
+    near = sorted(((sum(a * b for a, b in zip(vecs[n], v, strict=False)), m) for m, v in vecs.items()
                    if m != n and m not in links[n] and m in links), reverse=True)[:TOP]
     near = [(s, m) for s, m in near if s >= MIN_SCORE]
     if near:
@@ -74,9 +82,9 @@ for n in sorted(weak):
 
 today = dt.date.today().isoformat()
 body = [f"# link-suggestions — {today}", "",
-        f"Weakly connected notes (≤{MAX_LINKS} link) outside the repo mirrors, with the most similar "
+        (f"Weakly connected notes (≤{MAX_LINKS} link) outside the repo mirrors, with the most similar "
         f"notes they don't link to yet (Smart Connections embeddings, cosine ≥ {MIN_SCORE}). "
-        "Suggestions only: add a link where the note actually depends on the other one, and ignore the rest.",
+        "Suggestions only: add a link where the note actually depends on the other one, and ignore the rest."),
         "", f"{len(weak)} weakly connected note(s) checked, {len(rows)} with suggestions.", ""] + (rows or ["None this week."])
 print("\n".join(body))
 if "--write" in sys.argv:

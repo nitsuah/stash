@@ -233,7 +233,7 @@ def get_account_summary() -> dict:
     """IAM: account-level summary and service quotas"""
     iam = boto3.client("iam")
     summary = iam.get_account_summary()["SummaryMap"]
-    print(f"\n[IAM Account Summary]")
+    print("\n[IAM Account Summary]")
     for k in ["Users", "Roles", "Groups", "Policies", "MFADevices",
               "AccountMFAEnabled", "AccessKeysPerUserQuota"]:
         print(f"  {k}: {summary.get(k, '?')}")
@@ -296,7 +296,7 @@ def get_metric_statistics(region: str, namespace: str, metric_name: str,
                            dimensions: list[dict] | None = None,
                            period: int = 300, lookback_seconds: int = 3600) -> list[dict]:
     """CloudWatch: get metric statistics"""
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
     cw = client("cloudwatch", region)
     now = datetime.now(timezone.utc)
     resp = cw.get_metric_statistics(

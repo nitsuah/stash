@@ -20,7 +20,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from client import AtlassianClient, load_env
 
-
 # Confluence REST API lives under /wiki on the same host as Jira
 WIKI = "/wiki/rest/api"
 
@@ -161,7 +160,7 @@ def get_page_labels(client: AtlassianClient, page_id: str) -> list[dict]:
     r = client.get(f"{WIKI}/content/{page_id}/label")
     r.raise_for_status()
     labels = r.json().get("results", [])
-    names = [l["name"] for l in labels]
+    names = [label["name"] for label in labels]
     print(f"\n[Labels on {page_id}] {names or '(none)'}")
     return labels
 
