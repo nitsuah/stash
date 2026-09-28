@@ -86,3 +86,33 @@ jobs:
 
       - name: Lint Python files
         run: ruff check .
+
+  lint-powershell:
+    name: PowerShell lint (PSScriptAnalyzer)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install PSScriptAnalyzer
+        run: pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+
+      - name: Lint PowerShell files
+        run: |
+          pwsh -Command "
+            \$ErrorActionPreference = 'Stop'
+            \$files = Get-ChildItem -Recurse -Filter '*.ps1' -File | Where-Object { \$_.FullName -notmatch '/\.git/' }
+            if (\$files.Count -eq 0) { Write-Host 'No .ps1 files found'; exit 0 }
+            \$results = @()
+            foreach (\$file in \$files) {
+              \$fileResults = Invoke-ScriptAnalyzer -Path \$file.FullName -Severity Error
+              \$results += \$fileResults
+            }
+            if (\$results.Count -gt 0) {
+              \$results | Format-Table -AutoSize | Out-String | Write-Host
+              exit 1
+            }
+            Write-Host 'All PowerShell files pass PSScriptAnalyzer at Error severity'
+          "
