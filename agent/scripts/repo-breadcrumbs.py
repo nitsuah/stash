@@ -11,7 +11,10 @@ GitHub and in the Obsidian mirror (stash/agent/repos/<repo>/, which keeps the
 root + docs/ layout). Bare `TASKS.md` would be ambiguous across 17 repos in
 the vault, so every link carries a path prefix.
 """
-import os, re, subprocess, sys
+import os
+import re
+import subprocess
+import sys
 
 CORE = ["FEATURES", "ROADMAP", "TASKS", "CHANGELOG", "METRICS"]
 LABEL = {"FEATURES": "Features", "ROADMAP": "Roadmap", "TASKS": "Tasks",

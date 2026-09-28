@@ -10,7 +10,6 @@ import json
 import sys
 from pathlib import Path
 from datetime import datetime
-from collections import defaultdict
 
 # Import TOML parser (tomllib for Python 3.11+, fallback to tomli if available)
 try:

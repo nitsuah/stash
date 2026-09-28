@@ -1017,7 +1017,7 @@ def main() -> int:
     os.makedirs(default_logs, exist_ok=True)
     report_dir = args.report_dir or default_logs
 
-    print(f"\nJira Config Validator")
+    print("\nJira Config Validator")
     print(f"Host:    {host}")
     print(f"Project: {project}")
 

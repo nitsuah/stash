@@ -26,9 +26,8 @@ import argparse
 import os
 import sys
 from datetime import datetime, timedelta, timezone
-from pprint import pprint
 
-from pymongo import MongoClient, ASCENDING, DESCENDING, TEXT, GEOSPHERE  # type: ignore
+from pymongo import MongoClient, ASCENDING, DESCENDING, TEXT  # type: ignore
 from pymongo.errors import DuplicateKeyError  # type: ignore
 from bson import ObjectId  # type: ignore
 
@@ -373,10 +372,10 @@ Examples:
             user = db.users.find_one({"email": "demo@example.com"})
             print(f"[User Exists] {user['email']}")
 
-        item1 = create_item(db, user["_id"], "[DEMO] API test item — safe to delete",
+        create_item(db, user["_id"], "[DEMO] API test item — safe to delete",
                             body="Created by database/mongodb/examples.py",
                             tags=["demo", "api-test"], status="active")
-        item2 = create_item(db, user["_id"], "[DEMO] Kubernetes deployment guide",
+        create_item(db, user["_id"], "[DEMO] Kubernetes deployment guide",
                             body="Step by step kubernetes setup", tags=["k8s", "ops"])
 
         text_search(db, "kubernetes deployment")

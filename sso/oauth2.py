@@ -27,12 +27,10 @@ Usage:
 import argparse
 import base64
 import hashlib
-import json
 import os
 import secrets
 import sys
 import urllib.parse
-from typing import Any
 
 import requests
 
@@ -149,7 +147,7 @@ def exchange_code(token_endpoint: str, client_id: str, client_secret: str,
     }, timeout=10)
     r.raise_for_status()
     tokens = r.json()
-    print(f"\n[Tokens Received]")
+    print("\n[Tokens Received]")
     print(f"  token_type:    {tokens.get('token_type')}")
     print(f"  expires_in:    {tokens.get('expires_in')}s")
     print(f"  scope:         {tokens.get('scope')}")
@@ -228,7 +226,7 @@ def get_userinfo(userinfo_endpoint: str, access_token: str) -> dict:
                      timeout=10)
     r.raise_for_status()
     info = r.json()
-    print(f"\n[UserInfo]")
+    print("\n[UserInfo]")
     print(f"  sub:   {info.get('sub')}")
     print(f"  email: {info.get('email')}")
     print(f"  name:  {info.get('name')}")

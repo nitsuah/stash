@@ -93,7 +93,7 @@ def sso_login(start_url: str, region: str) -> str:
         startUrl=start_url,
     )
 
-    print(f"\n[SSO Login] Open in browser and authorize:")
+    print("\n[SSO Login] Open in browser and authorize:")
     print(f"  {auth['verificationUriComplete']}")
     webbrowser.open(auth["verificationUriComplete"])
 
@@ -176,10 +176,10 @@ def get_role_credentials(access_token: str, region: str,
     print(f"\n[Credentials] account={account_id} role={role_name}")
     print(f"  AccessKeyId:     {creds['accessKeyId']}")
     print(f"  Expiration:      {creds['expiration']}")
-    print(f"\n  Export to shell:")
+    print("\n  Export to shell:")
     print(f"  export AWS_ACCESS_KEY_ID={creds['accessKeyId']}")
-    print(f"  export AWS_SECRET_ACCESS_KEY=<redacted>")
-    print(f"  export AWS_SESSION_TOKEN=<redacted>")
+    print("  export AWS_SECRET_ACCESS_KEY=<redacted>")
+    print("  export AWS_SESSION_TOKEN=<redacted>")
     return creds
 
 

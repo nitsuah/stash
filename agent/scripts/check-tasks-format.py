@@ -12,7 +12,6 @@ report for the PMO audit; --check exits 1 when anything is flagged.
 import argparse
 import re
 import sys
-from collections import defaultdict
 
 import importlib.util
 from pathlib import Path

@@ -438,7 +438,7 @@ def main() -> None:
     print(f"{'='*60}")
 
     # ── Read-only ────────────────────────────────────────────────────────────
-    user = get_authenticated_user(client)
+    get_authenticated_user(client)
     list_repos(client)
 
     repo = args.repo or os.environ.get("GITHUB_REPO", "")

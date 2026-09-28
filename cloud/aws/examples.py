@@ -233,7 +233,7 @@ def get_account_summary() -> dict:
     """IAM: account-level summary and service quotas"""
     iam = boto3.client("iam")
     summary = iam.get_account_summary()["SummaryMap"]
-    print(f"\n[IAM Account Summary]")
+    print("\n[IAM Account Summary]")
     for k in ["Users", "Roles", "Groups", "Policies", "MFADevices",
               "AccountMFAEnabled", "AccessKeysPerUserQuota"]:
         print(f"  {k}: {summary.get(k, '?')}")
