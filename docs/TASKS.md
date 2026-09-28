@@ -99,10 +99,11 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 
 ### CI / Quality
 
-- [ ] Add Python linting via `ruff` in a GitHub Actions workflow.
+- [x] Add Python linting via `ruff` in a GitHub Actions workflow.
   - Priority: P2
   - Type: CI
-  - Acceptance: `.github/workflows/lint.yml` runs `ruff check .` on push; no errors on current codebase.
+  - Acceptance: `.github/workflows/ci.yml` runs `ruff check .` on push; no errors on current codebase.
+  - Done 2026-09-28: added `lint-python` job to `.github/workflows/ci.yml` (PR #157).
 
 - [ ] Add PowerShell linting via PSScriptAnalyzer in CI.
   - Priority: P2

@@ -44,10 +44,11 @@ Last Updated: 2026-09-24
 	- Objective: when any script runs with `--dry-run`, emit a structured JSON summary of planned changes (files touched, commands skipped, env vars read) as an artifact for review.
 	- Exit Criteria: at least two high-impact scripts produce structured dry-run output; format documented in `docs/DRY_RUN.md`.
 
-- [ ] **Python linting CI** (Planned)
+- [x] **Python linting CI** (Done 2026-09-28)
 	- Objective: add `ruff` (or `flake8`) to a GitHub Actions workflow to lint all Python examples on push.
 	- Strategic Fit: catches style inconsistencies and import errors in examples before they reach readers.
-	- Exit Criteria: `.github/workflows/lint.yml` runs `ruff check .` on push to `main`; zero violations.
+	- Exit Criteria: `.github/workflows/ci.yml` runs `ruff check .` on push to `main`; zero violations.
+	- Done: added `lint-python` job to `.github/workflows/ci.yml` (PR #157).
 
 - [ ] **PowerShell linting CI** (Planned)
 	- Objective: add PSScriptAnalyzer to CI to validate all `.ps1` scripts on push.
