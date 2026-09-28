@@ -77,9 +77,9 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fff0dcfaf43c3e4e7e9e747b8a9f0b6 # v5.2.0
         with:
-          python-version: "3.x"
+          python-version: "3.11"
 
       - name: Install ruff
         run: pip install ruff
