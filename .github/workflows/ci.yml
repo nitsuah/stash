@@ -116,3 +116,22 @@ jobs:
             }
             Write-Host 'All PowerShell files pass PSScriptAnalyzer at Error severity'
           "
+
+  test-python:
+    name: Python tests (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install pytest responses requests
+
+      - name: Run pytest
+        run: python -m pytest atlassian/jira/test_examples.py -v
