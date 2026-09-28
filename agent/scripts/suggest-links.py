@@ -30,8 +30,11 @@ TOP, MIN_SCORE, MAX_LINKS = 3, 0.80, 1
 
 
 def embeddings():
-    """{note path: vector} from the Smart Connections store (later lines win; null = deleted)."""
+    """{note path: vector} from the Smart Connections store (later lines win; null = deleted).
+    Rejects vectors from different embedding models (different dimensions) to avoid
+    incorrect similarity scores from truncated dot products."""
     vecs = {}
+    dim = None
     line_re = re.compile(r'^"smart_sources:([^"]+)":\s*(null|\{.*\}),?\s*$')
     for f in glob.glob(os.path.join(VAULT, ".smart-env", "multi", "*.ajson")):
         for line in open(f, encoding="utf-8", errors="replace"):
@@ -48,6 +51,11 @@ def embeddings():
                 continue
             vec = next((e.get("vec") for e in models.values() if e.get("vec")), None)
             if vec:
+                if dim is None:
+                    dim = len(vec)
+                elif len(vec) != dim:
+                    # Skip vectors from different embedding models
+                    continue
                 norm = math.sqrt(sum(x * x for x in vec)) or 1.0
                 vecs[path] = [x / norm for x in vec]
     return vecs
