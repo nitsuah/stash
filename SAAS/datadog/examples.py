@@ -19,6 +19,7 @@ import argparse
 import os
 import sys
 import time
+from datetime import datetime, timezone, timedelta
 
 import requests
 
@@ -360,10 +361,10 @@ def post_event(client: DatadogClient, title: str, text: str,
 # Logs (v2)
 # ---------------------------------------------------------------------------
 
+
 def search_logs(client: DatadogClient, query: str = "*",
                 lookback_seconds: int = 900, max_results: int = 10) -> list[dict]:
     """POST /logs/events/search (v2)"""
-    from datetime import datetime, timezone, timedelta
     now = datetime.now(timezone.utc)
     since = now - timedelta(seconds=lookback_seconds)
     payload = {
