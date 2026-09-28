@@ -208,8 +208,8 @@ def list_issues(client: GitHubClient, repo: str, state: str = "open",
     issues = [i for i in r.json() if "pull_request" not in i]  # exclude PRs
     print(f"\n[Issues ({state})] {repo}  {len(issues)} returned:")
     for i in issues:
-        labels = ", ".join(l["name"] for l in i.get("labels", []))
-        print(f"  #{i['number']:5d}  {i['title'][:55]}  [{labels}]")
+        label_names = ", ".join(label["name"] for label in i.get("labels", []))
+        print(f"  #{i['number']:5d}  {i['title'][:55]}  [{label_names}]")
     return issues
 
 
@@ -438,7 +438,7 @@ def main() -> None:
     print(f"{'='*60}")
 
     # ── Read-only ────────────────────────────────────────────────────────────
-    get_authenticated_user(client)
+    _ = get_authenticated_user(client)
     list_repos(client)
 
     repo = args.repo or os.environ.get("GITHUB_REPO", "")

@@ -161,7 +161,7 @@ def get_page_labels(client: AtlassianClient, page_id: str) -> list[dict]:
     r = client.get(f"{WIKI}/content/{page_id}/label")
     r.raise_for_status()
     labels = r.json().get("results", [])
-    names = [l["name"] for l in labels]
+    names = [label["name"] for label in labels]
     print(f"\n[Labels on {page_id}] {names or '(none)'}")
     return labels
 

@@ -160,7 +160,7 @@ def error_response(message: str, status: int = 400, details=None) -> tuple:
 # Blueprints
 # ---------------------------------------------------------------------------
 
-from flask import Blueprint
+from flask import Blueprint  # noqa: E402
 
 auth_bp  = Blueprint("auth",  __name__, url_prefix="/auth")
 users_bp = Blueprint("users", __name__, url_prefix="/users")

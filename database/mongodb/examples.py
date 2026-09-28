@@ -199,12 +199,15 @@ def create_item(db, owner_id: ObjectId, title: str,
 
 def list_items(db, owner_id: ObjectId | None = None, status: str | None = None,
                tags: list[str] | None = None, limit: int = 20) -> list[dict]:
-    query: dict = {}
-    if owner_id: query["ownerId"] = owner_id
-    if status:   query["status"]  = status
-    if tags:     query["tags"]    = {"$all": tags}
+    filter_query: dict = {}
+    if owner_id:
+        filter_query["ownerId"] = owner_id
+    if status:
+        filter_query["status"] = status
+    if tags:
+        filter_query["tags"] = {"$all": tags}
 
-    items = list(db.items.find(query).sort("createdAt", DESCENDING).limit(limit))
+    items = list(db.items.find(filter_query).sort("createdAt", DESCENDING).limit(limit))
     print(f"\n[Items] {len(items)} returned:")
     for i in items:
         print(f"  {str(i['_id'])[:8]}  [{i['status']:8s}]  {i['title'][:60]}")

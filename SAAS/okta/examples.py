@@ -256,7 +256,7 @@ def list_groups(client: OktaClient, limit: int = 20,
     print(f"\n[Groups] {len(groups)} returned:")
     for g in groups:
         p = g.get("profile", {})
-        g.get("objectClass", [])
+        _ = g.get("objectClass", [])
         print(f"  {g['id']}  {p.get('name','?'):40s}  {p.get('description','')[:40]}")
     return groups
 

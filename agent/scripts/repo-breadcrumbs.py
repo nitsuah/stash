@@ -50,13 +50,13 @@ def insert_nav(text, nav):
     # also drop kryptos-style plain-text "Breadcrumb: Home > Docs > X" lines near the top
     raw = text.split("\n")
     lines = []
-    for i, l in enumerate(raw):
-        if NAV_TAG in l or (i < 12 and l.startswith("Breadcrumb:")):
+    for i, line in enumerate(raw):
+        if NAV_TAG in line or (i < 12 and line.startswith("Breadcrumb:")):
             continue
         # a bare ">" spacer we added to join the nav with a following blockquote (MD028)
-        if l.strip() == ">" and i > 0 and NAV_TAG in raw[i - 1]:
+        if line.strip() == ">" and i > 0 and NAV_TAG in raw[i - 1]:
             continue
-        lines.append(l)
+        lines.append(line)
     # collapse a blank line we may have left behind directly under the H1
     start = 0
     if lines and lines[0].strip() == "---":  # frontmatter

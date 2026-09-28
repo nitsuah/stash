@@ -122,7 +122,7 @@ def enrich(doc, text):
             "kind": "repo-doc", "repo": repo}
     m = re.match(r"^---\n(.*?)\n---\n", body, re.S)
     if m:
-        keys = {l.split(":", 1)[0].strip() for l in m.group(1).split("\n") if ":" in l}
+        keys = {line.split(":", 1)[0].strip() for line in m.group(1).split("\n") if ":" in line}
         extra = [f"{k}: {v}" for k, v in ours.items() if k not in keys]
         return f"---\n{m.group(1)}\n" + "".join(e + "\n" for e in extra) + "---\n" + body[m.end():]
     return "---\n" + "".join(f"{k}: {v}\n" for k, v in ours.items()) + "---\n\n" + body

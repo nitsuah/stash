@@ -122,8 +122,8 @@ def set_nav(rel, parts):
     text, nl = read(rel)
     if not parts and NAV not in text:
         return
-    body = [l for l in text.split("\n") if NAV not in l]
-    h1 = next((i for i, l in enumerate(body[:15]) if re.match(r"^#\s", l)), None)
+    body = [line for line in text.split("\n") if NAV not in line]
+    h1 = next((i for i, line in enumerate(body[:15]) if re.match(r"^#\s", line)), None)
     head, rest = (body[:h1 + 1], body[h1 + 1:]) if h1 is not None else ([], body)
     # frontmatter must stay first when there is no H1
     if h1 is None and rest[:1] == ["---"] and "---" in rest[1:]:
@@ -157,7 +157,7 @@ def set_props(rel, props):
     m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
     lines = m.group(1).split("\n") if m and m.group(1) else []
     body = text[m.end():] if m else text
-    kept = [l for l in lines if l.split(":", 1)[0].strip() not in PROPS]
+    kept = [line for line in lines if line.split(":", 1)[0].strip() not in PROPS]
     new = kept + [f"{k}: {props[k]}" for k in PROPS if k in props]
     if not new:
         write(rel, body.lstrip("\n"), nl)

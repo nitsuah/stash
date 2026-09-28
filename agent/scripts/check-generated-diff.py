@@ -39,9 +39,9 @@ def strip(text):
     # the --- fences when nothing else is left in the frontmatter
     m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
     if m:
-        rest = [l for l in m.group(1).split("\n") if l.split(":", 1)[0].strip() not in ("kind", "repo", "date", "aliases")]
-        text = ("---\n" + "\n".join(rest) + "\n---\n" if any(l.strip() for l in rest) else "") + text[m.end():]
-    return "\n".join(l.rstrip() for l in text.split("\n") if l.strip() and "<!-- nav -->" not in l)
+        rest = [line for line in m.group(1).split("\n") if line.split(":", 1)[0].strip() not in ("kind", "repo", "date", "aliases")]
+        text = ("---\n" + "\n".join(rest) + "\n---\n" if any(line.strip() for line in rest) else "") + text[m.end():]
+    return "\n".join(line.rstrip() for line in text.split("\n") if line.strip() and "<!-- nav -->" not in line)
 
 
 base, head = sys.argv[1], sys.argv[2]
