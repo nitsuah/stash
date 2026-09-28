@@ -2,37 +2,35 @@
 
 import os
 import sys
-import json
-
-import pytest
-import responses
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pytest
+import responses
 from client import AtlassianClient
 from examples import (
-    list_projects,
-    get_project,
-    list_issue_types,
-    create_issue,
-    get_issue,
-    update_issue,
-    delete_issue,
     add_comment,
-    search_issues,
-    get_transitions,
-    transition_issue,
-    list_custom_fields,
-    list_users,
-    get_myself,
-    list_service_desks,
-    list_request_types,
-    list_jsm_queues,
     create_customer_request,
-    list_asset_schemas,
+    create_issue,
+    delete_issue,
+    get_issue,
+    get_myself,
+    get_project,
+    get_transitions,
     list_asset_object_types,
-    search_assets,
+    list_asset_schemas,
     list_automation_rules,
+    list_custom_fields,
+    list_issue_types,
+    list_jsm_queues,
+    list_projects,
+    list_request_types,
+    list_service_desks,
+    list_users,
+    search_assets,
+    search_issues,
+    transition_issue,
+    update_issue,
 )
 
 
