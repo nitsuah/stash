@@ -44,3 +44,10 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["agent", "backend", "database", "SAAS", "sso", "projects"]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0",
+    "responses>=0.25",
+    "requests>=2.31",
+]
