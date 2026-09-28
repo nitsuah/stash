@@ -13,10 +13,10 @@ projects = []
 def convert_date(date_str):
     """
     Convert a date string in the format 'MM/YYYY' to a dictionary.
-    
+
     Args:
         date_str (str): A date string in the format 'MM/YYYY'.
-    
+
     Returns:
         dict: A dictionary with keys 'quarter', 'month', and 'year'.
             'quarter' is an integer between 1 and 4.
@@ -31,7 +31,7 @@ def convert_date(date_str):
     }
 
 # Read the CSV data and create JSON objects
-with open('../projects/coinbase.csv', 'r', encoding='utf-8') as csvfile:
+with open('../projects/coinbase.csv', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile)
     next(reader)  # Skip the header row //TODO read attribute mapping from header row
     PROJECT_ID = 1

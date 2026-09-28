@@ -296,7 +296,7 @@ def get_metric_statistics(region: str, namespace: str, metric_name: str,
                            dimensions: list[dict] | None = None,
                            period: int = 300, lookback_seconds: int = 3600) -> list[dict]:
     """CloudWatch: get metric statistics"""
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
     cw = client("cloudwatch", region)
     now = datetime.now(timezone.utc)
     resp = cw.get_metric_statistics(

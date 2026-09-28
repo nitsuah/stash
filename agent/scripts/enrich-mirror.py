@@ -76,7 +76,7 @@ def enrich(doc, text):
 
     def fix(m):
         target = m.group(2)
-        if re.match(r"^([a-z][a-z0-9+.-]*:|#|<)", target, re.I):
+        if re.match(r"^([a-z][a-z0-9+.-]*:|#|<)", target, re.IGNORECASE):
             return m.group(0)
         path, _, anchor = target.partition("#")
         p = posixpath.normpath(unquote(path.lstrip("/")) if path.startswith("/")
@@ -120,7 +120,7 @@ def enrich(doc, text):
     name = posixpath.splitext(posixpath.basename(doc))[0]
     ours = {"up": f'"[[repos/{repo}]]"', "title": json.dumps(f"{repo} · {name}", ensure_ascii=False), "source": url(doc),
             "kind": "repo-doc", "repo": repo}
-    m = re.match(r"^---\n(.*?)\n---\n", body, re.S)
+    m = re.match(r"^---\n(.*?)\n---\n", body, re.DOTALL)
     if m:
         keys = {line.split(":", 1)[0].strip() for line in m.group(1).split("\n") if ":" in line}
         extra = [f"{k}: {v}" for k, v in ours.items() if k not in keys]

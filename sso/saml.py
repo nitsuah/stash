@@ -113,9 +113,9 @@ def parse_idp_metadata(xml: str) -> dict:
 
 def build_authn_request(sp_entity_id: str, acs_url: str, idp_sso_url: str) -> tuple[str, str]:
     """Build a minimal AuthnRequest. Returns (redirect_url, request_id)."""
+    import urllib.parse
     import uuid
     import zlib
-    import urllib.parse
 
     request_id = f"_{uuid.uuid4().hex}"
     from datetime import datetime, timezone
@@ -160,7 +160,7 @@ def parse_saml_response(saml_response_b64: str) -> dict:
     try:
         xml = base64.b64decode(saml_response_b64).decode("utf-8", errors="replace")
     except Exception as e:
-        raise ValueError(f"Failed to decode SAMLResponse: {e}")
+        raise ValueError(f"Failed to decode SAMLResponse: {e}") from e
 
     root = ET.fromstring(xml)
     assertion = root.find(".//saml:Assertion", _NS)

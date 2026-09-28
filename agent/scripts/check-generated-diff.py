@@ -19,7 +19,7 @@ import sys
 
 ROUTINE_PATHS = re.compile(r"^agent/notes/(archive/\d{4}-\d{2}/)?\d{4}-(\d{2}-\d{2}|W\d{2})\.md$|^agent/repos/"
                            r"|^agent/reports/link-suggestions-\d{4}-\d{2}-\d{2}\.md$")
-BLOCK = re.compile(r"\n*<!-- vault-links:start -->.*?<!-- vault-links:end -->\n*", re.S)
+BLOCK = re.compile(r"\n*<!-- vault-links:start -->.*?<!-- vault-links:end -->\n*", re.DOTALL)
 STUB = re.compile(r"^# [^\n]+\nFolder hub for `projects/[^`]+/`\. Add context above the generated block\.$")
 
 
@@ -37,7 +37,7 @@ def strip(text):
     text = BLOCK.sub("\n", text.replace("\r\n", "\n"))
     # kind/repo/date frontmatter keys are build-vault-indexes.py output too: drop them, and
     # the --- fences when nothing else is left in the frontmatter
-    m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
+    m = re.match(r"^---\n(.*?)\n?---\n", text, re.DOTALL)
     if m:
         rest = [line for line in m.group(1).split("\n") if line.split(":", 1)[0].strip() not in ("kind", "repo", "date", "aliases")]
         text = ("---\n" + "\n".join(rest) + "\n---\n" if any(line.strip() for line in rest) else "") + text[m.end():]

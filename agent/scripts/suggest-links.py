@@ -66,7 +66,7 @@ native = [n for n in links if not re.match(r"^repos/[^/]+/", n)
 weak = [n for n in native if len(links[n]) <= MAX_LINKS]
 rows = []
 for n in sorted(weak):
-    near = sorted(((sum(a * b for a, b in zip(vecs[n], v)), m) for m, v in vecs.items()
+    near = sorted(((sum(a * b for a, b in zip(vecs[n], v, strict=False)), m) for m, v in vecs.items()
                    if m != n and m not in links[n] and m in links), reverse=True)[:TOP]
     near = [(s, m) for s, m in near if s >= MIN_SCORE]
     if near:
@@ -74,9 +74,9 @@ for n in sorted(weak):
 
 today = dt.date.today().isoformat()
 body = [f"# link-suggestions — {today}", "",
-        f"Weakly connected notes (≤{MAX_LINKS} link) outside the repo mirrors, with the most similar "
+        (f"Weakly connected notes (≤{MAX_LINKS} link) outside the repo mirrors, with the most similar "
         f"notes they don't link to yet (Smart Connections embeddings, cosine ≥ {MIN_SCORE}). "
-        "Suggestions only: add a link where the note actually depends on the other one, and ignore the rest.",
+        "Suggestions only: add a link where the note actually depends on the other one, and ignore the rest."),
         "", f"{len(weak)} weakly connected note(s) checked, {len(rows)} with suggestions.", ""] + (rows or ["None this week."])
 print("\n".join(body))
 if "--write" in sys.argv:

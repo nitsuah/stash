@@ -19,7 +19,7 @@ import argparse
 import os
 import sys
 import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
 

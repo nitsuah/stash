@@ -42,6 +42,7 @@ import os
 import re
 import sys
 from collections import defaultdict
+from contextlib import suppress
 
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CHECK = "--check" in sys.argv
@@ -108,7 +109,7 @@ def md_files(folder):
 
 
 def link(rel, label=None):
-    target = rel[:-3] if rel.endswith(".md") else rel
+    target = rel.removesuffix(".md")
     return f"[[{target}|{label}]]" if label else f"[[{target}]]"
 
 
@@ -141,7 +142,7 @@ def set_nav(rel, parts):
 def set_block(rel, lines):
     """Replace (or append) the vault-links block at the end of a hub note."""
     text, nl = read(rel)
-    text = re.sub(rf"\n*{re.escape(START)}.*?{re.escape(END)}\n*", "\n", text, flags=re.S).rstrip("\n")
+    text = re.sub(rf"\n*{re.escape(START)}.*?{re.escape(END)}\n*", "\n", text, flags=re.DOTALL).rstrip("\n")
     if lines:
         text += "\n\n" + "\n".join([START] + lines + [END])
     write(rel, text, nl)
@@ -154,7 +155,7 @@ def set_props(rel, props):
     """Set kind/repo/date in a note's frontmatter, leaving every other key alone."""
     props = {k: v for k, v in props.items() if v}
     text, nl = read(rel)
-    m = re.match(r"^---\n(.*?)\n?---\n", text, re.S)
+    m = re.match(r"^---\n(.*?)\n?---\n", text, re.DOTALL)
     lines = m.group(1).split("\n") if m and m.group(1) else []
     body = text[m.end():] if m else text
     kept = [line for line in lines if line.split(":", 1)[0].strip() not in PROPS]
@@ -235,7 +236,7 @@ for hub in hubs:
 
 # tracked = the Tracked table in projects/scope.md (the repo registry every routine reads)
 text, _ = read("projects/scope.md")
-tracked = re.findall(r"^\| ([a-z0-9-]+) \|", text.split("## Tracked", 1)[-1].split("\n## ", 1)[0], re.M)
+tracked = re.findall(r"^\| ([a-z0-9-]+) \|", text.split("## Tracked", 1)[-1].split("\n## ", 1)[0], re.MULTILINE)
 tracked_hubs = sorted({h for h in (repo_hub(r) for r in tracked) if h})
 other_hubs = [h for h in hubs if h not in tracked_hubs]
 
@@ -325,7 +326,7 @@ SKIP_TOPIC = re.compile(r"^(reports/|notes/|templates/|topics/|scripts/|logs/|Ne
 
 def title_of(rel):
     text, _ = read(rel)
-    m = re.search(r"^#\s+(.+)$", text or "", re.M)
+    m = re.search(r"^#\s+(.+)$", text or "", re.MULTILINE)
     return re.sub(r"[\[\]|]", "", m.group(1)).strip() if m else os.path.basename(rel)[:-3]
 
 
@@ -338,14 +339,14 @@ if topic_notes:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.endswith(".md") and not SKIP_TOPIC.search(rel) and f[:-3].lower() not in CORE_DOCS:
                 text, _ = read(rel)
-                heads = " ".join(re.findall(r"^#{1,2}\s+(.+)$", text, re.M)[:6])
+                heads = " ".join(re.findall(r"^#{1,2}\s+(.+)$", text, re.MULTILINE)[:6])
                 candidates.append((rel, (f[:-3].replace("_", " ").replace("-", " ") + " " + heads).lower()))
 for tn in topic_notes:
     text, _ = read(tn)
-    m = re.search(r"^match:\s*'(.*)'\s*$", text, re.M)
+    m = re.search(r"^match:\s*'(.*)'\s*$", text, re.MULTILINE)
     if not m:
         continue
-    rx = re.compile(m.group(1), re.I)
+    rx = re.compile(m.group(1), re.IGNORECASE)
     groups = defaultdict(list)
     for rel, hay in candidates:
         if rx.search(hay):
@@ -374,10 +375,8 @@ stale_hubs = []
 for h in tracked_hubs:
     dates = []
     for d in REVIEWED.findall(read(h)[0] or ""):
-        try:
+        with suppress(ValueError):
             dates.append(dt.date.fromisoformat(d))
-        except ValueError:
-            pass
     if not dates or (dt.date.today() - max(dates)).days > 30:
         stale_hubs.append((h, max(dates).isoformat() if dates else "never"))
 if stale_hubs:
@@ -404,7 +403,7 @@ def script_summary(rel):
     elif rel.endswith(".ps1"):
         m = re.search(r"\.SYNOPSIS\s*\n\s*(.+)", text) or re.search(r"<#\s*\n?\s*(.+)", text)
     else:
-        m = re.search(r"^#(?!!)\s*(.+)", text, re.M)
+        m = re.search(r"^#(?!!)\s*(.+)", text, re.MULTILINE)
     return (m.group(m.lastindex) if m else "").strip().rstrip(".")
 
 

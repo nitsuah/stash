@@ -42,7 +42,7 @@ def write(p, text, nl):
 
 def title_of(p):
     text, _ = read(p)
-    m = re.search(r"^#\s+(.+)$", text, re.M)
+    m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
     return m.group(1).strip() if m else os.path.splitext(os.path.basename(p))[0]
 
 
@@ -181,9 +181,9 @@ def main(repo_dir, repo_name):
                  "the same set mirrored into the Obsidian vault, so none of them is orphaned.")
         block = "\n".join([IDX_START, "", "## Docs Index", "", scope, ""] + rows + ["", IDX_END])
         if IDX_START in text:
-            text = re.sub(re.escape(IDX_START) + r".*?" + re.escape(IDX_END), lambda m: block, text, flags=re.S)
+            text = re.sub(re.escape(IDX_START) + r".*?" + re.escape(IDX_END), lambda m: block, text, flags=re.DOTALL)
         else:
-            m = re.search(r"^##\s+.*licen[cs]e.*$", text, re.M | re.I)
+            m = re.search(r"^##\s+.*licen[cs]e.*$", text, re.MULTILINE | re.IGNORECASE)
             if m:
                 text = text[:m.start()] + block + "\n\n" + text[m.start():]
             else:

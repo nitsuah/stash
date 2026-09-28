@@ -27,9 +27,9 @@ import os
 import sys
 from datetime import datetime, timedelta, timezone
 
-from pymongo import MongoClient, ASCENDING, DESCENDING, TEXT  # type: ignore
-from pymongo.errors import DuplicateKeyError  # type: ignore
 from bson import ObjectId  # type: ignore
+from pymongo import ASCENDING, DESCENDING, TEXT, MongoClient  # type: ignore
+from pymongo.errors import DuplicateKeyError  # type: ignore
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(_SCRIPT_DIR)))

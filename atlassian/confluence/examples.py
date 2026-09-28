@@ -20,7 +20,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from client import AtlassianClient, load_env
 
-
 # Confluence REST API lives under /wiki on the same host as Jira
 WIKI = "/wiki/rest/api"
 

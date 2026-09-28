@@ -40,15 +40,15 @@ TIERS = {
     "II": ["darkmoon", "bb-mcp", "nitsuah-io", "avatar", "deployer", "kryptos"],
 }
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
-HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.I)
-PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b|\bon hold\b|\bblocked\b", re.I)
+HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.IGNORECASE)
+PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b|\bon hold\b|\bblocked\b", re.IGNORECASE)
 GIT_TIMEOUT = 60
 # Portfolio initiatives: work that applies across repos (often filed in stash, e.g. "diagrams and
 # screenshots for app repos"). They are weighted against single-app items in the kickoff queue.
 INITIATIVE = re.compile(r"\b(every|each|all|app|tracked) repos?\b|cross-repo|portfolio|best practice|"
-                        r"README|agent PR|TASKS\.md everywhere|routines?\b|PMO|DAILY|TIRE|CI-generated", re.I)
+                        r"README|agent PR|TASKS\.md everywhere|routines?\b|PMO|DAILY|TIRE|CI-generated", re.IGNORECASE)
 # Initiatives that act on other routines' output (reports, ledger, notes, runs) are candidates for a routine.
-ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger|generator|runs?|checks?|lists?|reads?)\b", re.I)
+ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger|generator|runs?|checks?|lists?|reads?)\b", re.IGNORECASE)
 PRIO_SCORE = {"P0": 100, "P1": 60, "P2": 30, "P3": 10, None: 5}
 
 
@@ -66,7 +66,7 @@ def tracked_repos() -> list[dict]:
         if line.startswith("## "):
             in_table = line.strip() == "## Tracked (active audit/automation scope)"
             continue
-        if not in_table or not line.startswith("| ") or line.startswith("| Repo") or line.startswith("|---"):
+        if not in_table or not line.startswith("| ") or line.startswith(("| Repo", "|---")):
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
         path = re.search(r"`([^`]+)`", cells[1])
@@ -223,7 +223,7 @@ def kickoff_prompt(t: dict, repos: dict) -> str:
 def classify(t: dict) -> dict:
     text = f"{t['title']} {t.get('section') or ''}"
     initiative = (t["repo"] == "stash" and bool(INITIATIVE.search(text))) or bool(
-        re.search(r"\b(every|all|each) repos?\b", t["title"], re.I))
+        re.search(r"\b(every|all|each) repos?\b", t["title"], re.IGNORECASE))
     t["initiative"] = initiative
     t["routine_candidate"] = initiative and bool(ROUTINE_CANDIDATE.search(t["title"]))
     # Initiatives reach every tracked repo, so they get 1.5x; single-app items keep their own priority

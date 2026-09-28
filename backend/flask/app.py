@@ -27,13 +27,16 @@ Usage:
 import os
 from datetime import datetime, timedelta, timezone
 
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy  # type: ignore
-from flask_jwt_extended import (  # type: ignore
-    JWTManager, create_access_token, jwt_required, get_jwt_identity,
-)
-from marshmallow import Schema, fields, validate, ValidationError  # type: ignore
 import sqlalchemy as sa
+from flask import Blueprint, Flask, jsonify, request
+from flask_jwt_extended import (  # type: ignore
+    JWTManager,
+    create_access_token,
+    get_jwt_identity,
+    jwt_required,
+)
+from flask_sqlalchemy import SQLAlchemy  # type: ignore
+from marshmallow import Schema, ValidationError, fields, validate  # type: ignore
 
 # ---------------------------------------------------------------------------
 # Config
@@ -159,8 +162,6 @@ def error_response(message: str, status: int = 400, details=None) -> tuple:
 # ---------------------------------------------------------------------------
 # Blueprints
 # ---------------------------------------------------------------------------
-
-from flask import Blueprint  # noqa: E402
 
 auth_bp  = Blueprint("auth",  __name__, url_prefix="/auth")
 users_bp = Blueprint("users", __name__, url_prefix="/users")
