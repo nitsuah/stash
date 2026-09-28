@@ -65,7 +65,7 @@ jobs:
             range="$BASE..HEAD"
           fi
           echo "Scanning commits: $range"
-          docker run --rm -v "$PWD:/repo" --entrypoint sh ghcr.io/gitleaks/gitleaks:v8.30.1 -c \
+          docker run --rm -v "$PWD:/repo" --entrypoint sh ghcr.io/gitleaks/gitleaks:v8.30.1 -c
             "git config --global --add safe.directory /repo && cd /repo && gitleaks git . --config .gitleaks.toml --log-opts='$range' --redact --no-banner -v"
 
   lint-python:
