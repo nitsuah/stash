@@ -105,15 +105,17 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
   - Acceptance: `.github/workflows/ci.yml` runs `ruff check .` on push; no errors on current codebase.
   - Done 2026-09-28: added `lint-python` job to `.github/workflows/ci.yml` (PR #157).
 
-- [ ] Add PowerShell linting via PSScriptAnalyzer in CI.
+- [x] Add PowerShell linting via PSScriptAnalyzer in CI.
   - Priority: P2
   - Type: CI
   - Acceptance: All `.ps1` files pass `Invoke-ScriptAnalyzer` at `Error` severity on push.
+  - Done 2026-09-28: added `lint-powershell` job to `.github/workflows/ci.yml` (PR #158).
 
-- [ ] Add `pytest` smoke tests for at least one Python example module using `responses` to mock HTTP.
+- [x] Add `pytest` smoke tests for at least one Python example module using `responses` to mock HTTP.
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/jira/examples.py` (most complex, highest-value to test).
+  - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159).
 
 ### Examples
 
