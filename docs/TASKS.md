@@ -22,11 +22,21 @@ Last Updated: 2026-09-28
   - Acceptance: All `.ps1` files pass `Invoke-ScriptAnalyzer` at `Error` severity on push.
   - Done 2026-09-28: added `lint-powershell` job to `.github/workflows/ci.yml` (PR #158).
 
-- [x] Add `pytest` smoke tests for at least one Python example module using `responses` to mock HTTP.
+- [x] Add `pytest` smoke tests for Jira examples using `responses` to mock HTTP.
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/jira/examples.py` (most complex, highest-value to test).
-  - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159).
+  - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159); coverage 84%.
+
+- [ ] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
+  - Priority: P2
+  - Type: Testing
+  - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
+
+- [ ] Expand test coverage to all Python examples (target ≥30% overall).
+  - Priority: P2
+  - Type: Testing
+  - Note: Current overall coverage 37% but skewed by `validate_project.py` (0%); focus on example files.
 
 - [ ] Add pre-commit hooks
   - Priority: P3
@@ -211,6 +221,7 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 
 ## Later
 
-- [ ] Vigil key follow-up: confirm the rotated key works locally (ask Claude to "check vigil"), and add `VIGIL_MCP_KEY` to the cloud environment so daily-brief can read vigil (the setting wasn't findable in the claude.ai UI on 2026-09-26).
+- [x] Vigil key follow-up: confirm the rotated key works locally (ask Claude to "check vigil"), and add `VIGIL_MCP_KEY` to the cloud environment so daily-brief can read vigil (the setting wasn't findable in the claude.ai UI on 2026-09-26).
   - Priority: P3
   - Type: Integration
+  - Done 2026-09-29: completed separately
