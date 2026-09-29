@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-29
 
 > 2027 planning reset (2026-09-24): 2026 Q1–Q2 (planning integrity, docs baseline, security hygiene, open-source
 > sanitization, backend/database/SSO examples, IaC consolidation) and the completed 2026 Q3 items (Jira runbook,
@@ -50,10 +50,25 @@ Last Updated: 2026-09-24
 	- Exit Criteria: `.github/workflows/ci.yml` runs `ruff check .` on push to `main`; zero violations.
 	- Done: added `lint-python` job to `.github/workflows/ci.yml` (PR #157).
 
-- [ ] **PowerShell linting CI** (Planned)
+- [x] **PowerShell linting CI** (Done 2026-09-28)
 	- Objective: add PSScriptAnalyzer to CI to validate all `.ps1` scripts on push.
 	- Strategic Fit: ensures PowerShell scripts follow best practices; catches common mistakes before distribution.
 	- Exit Criteria: CI runs `Invoke-ScriptAnalyzer` on all `.ps1` files with zero warnings at `Error` severity.
+	- Done: added `lint-powershell` job to `.github/workflows/ci.yml` (PR #158).
+
+### Testing
+- [x] **Pytest smoke tests for Jira examples** (Done 2026-09-28)
+	- Objective: introduce `pytest` unit tests for Jira example scripts, using `responses` to mock HTTP calls.
+	- Strategic Fit: 0% test coverage limits confidence in examples; tests prove they work against expected API shapes.
+	- Exit Criteria: `pytest` runs in CI; coverage reaches at least 30% on Jira example file.
+	- Done: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159); local run shows 84% on Jira example file.
+- [ ] **Pytest smoke tests for other Atlassian examples** (Bitbucket, Confluence, Statuspage)
+	- Priority: P2
+	- Type: Testing
+	- Acceptance: Add `test_examples.py` for at least one more Atlassian example module; CI runs tests.
+- [ ] **Add test coverage to Python examples** (ongoing)
+	- Objective: expand from Jira smoke tests to meaningful coverage across all Python example files (target ≥30% on example files).
+	- Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
 
 ### Vault knowledge management (new, prepped 2026-09-24)
 
@@ -69,10 +84,6 @@ Last Updated: 2026-09-24
 	- Strategic Fit: VBA tools are not portable across environments and require specific Microsoft Office licenses; a migration path increases longevity.
 	- Exit Criteria: migration feasibility document for at least one tool; prototype scaffolding if warranted.
 
-- [ ] **Add test coverage to Python examples** (Aspirational)
-	- Objective: introduce `pytest` unit tests for at least the Atlassian and SAAS example scripts, using `unittest.mock` or `responses` to mock HTTP calls.
-	- Strategic Fit: 0% test coverage limits confidence in examples; tests prove they work against expected API shapes.
-	- Exit Criteria: `pytest` runs in CI; coverage reaches at least 30% on Python example files.
 
 - [ ] **Frontend examples** (Planned)
 	- Priority: P2
