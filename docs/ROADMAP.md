@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-28
+Last Updated: 2026-09-29
 
 > 2027 planning reset (2026-09-24): 2026 Q1–Q2 (planning integrity, docs baseline, security hygiene, open-source
 > sanitization, backend/database/SSO examples, IaC consolidation) and the completed 2026 Q3 items (Jira runbook,
