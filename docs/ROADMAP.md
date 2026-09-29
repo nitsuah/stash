@@ -61,14 +61,14 @@ Last Updated: 2026-09-28
 	- Objective: introduce `pytest` unit tests for Jira example scripts, using `responses` to mock HTTP calls.
 	- Strategic Fit: 0% test coverage limits confidence in examples; tests prove they work against expected API shapes.
 	- Exit Criteria: `pytest` runs in CI; coverage reaches at least 30% on Jira example file.
-	- Done: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159); `atlassian/jira/examples.py` coverage is 84%.
+	- Done: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159); local run shows 84% on Jira example file.
 - [ ] **Pytest smoke tests for other Atlassian examples** (Bitbucket, Confluence, Statuspage)
 	- Priority: P2
 	- Type: Testing
 	- Acceptance: Add `test_examples.py` for at least one more Atlassian example module; CI runs tests.
 - [ ] **Add test coverage to Python examples** (ongoing)
-	- Objective: expand from Jira smoke tests to meaningful coverage across all Python example files (target ≥30% overall).
-	- Note: Current overall coverage is 37% but skewed by `validate_project.py` (0%) — focus on example files.
+	- Objective: expand from Jira smoke tests to meaningful coverage across all Python example files (target ≥30% on example files).
+	- Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
 
 ### Vault knowledge management (new, prepped 2026-09-24)
 

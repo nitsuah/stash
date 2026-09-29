@@ -26,17 +26,17 @@ Last Updated: 2026-09-28
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/jira/examples.py` (most complex, highest-value to test).
-  - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159); coverage 84%.
+  - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159).
 
 - [ ] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
 
-- [ ] Expand test coverage to all Python examples (target ≥30% overall).
+- [ ] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
   - Type: Testing
-  - Note: Current overall coverage 37% but skewed by `validate_project.py` (0%); focus on example files.
+  - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
 
 - [ ] Add pre-commit hooks
   - Priority: P3
