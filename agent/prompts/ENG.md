@@ -34,7 +34,7 @@ Follow [[prompts/1FLOW|1FLOW]] for task selection. Use [[prompts/HANDOFF|HANDOFF
 Always use github and make sure you push commits onto a branch that is named after the task you are working on. For example, if you are working on a task called "Implement User Authentication", your branch name should be something like "feature/user-authentication".
 
 - Make sure to run all tests and ensure they pass before pushing any changes.
-- Before your last push, update the tracking docs in the same branch: mark the TASKS.md item done (`- [x]` + `Done <date>: ... (PR #n)`), tick ROADMAP, add a CHANGELOG line, and fix README/FEATURES if they no longer match. The PR isn't done until its diff includes them. See the close-out order in [[AGENT-MAIN]].
+- Before your last push, update the tracking docs in the same branch: mark the TASKS.md item done (`- [x]` + `Done <date>: ...`; cite the PR number only if it's already open), tick ROADMAP, add a CHANGELOG line, and fix README/FEATURES if they no longer match. The PR isn't done until its diff includes them. See the close-out order in [[AGENT-MAIN]].
 - Ensure you have a pull request open before completion or asking the user for final input or completion.
 - Start the service locally using docker with the version of the code being worked on.
 - You can include multiple features or commits in a single pull request, but make sure to clearly describe the changes made in the pull request description.

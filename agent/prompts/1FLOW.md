@@ -52,7 +52,7 @@ You are forbidden from assuming code works without runtime verification. After c
 
 ### Phase 4: Document and Close (same branch, before the last push)
 
-1. Mark each finished item in `TASKS.md` as `- [x]` with `Done <date>: <what> (PR #n)`, replacing its `[In Progress * Agent Loop]` lock. Record partial progress on items you didn't finish and release their lock.
+1. Mark each finished item in `TASKS.md` as `- [x]` with `Done <date>: <what>` (add `PR #n` only if the PR is already open), replacing its `[In Progress * Agent Loop]` lock. Record partial progress on items you didn't finish and release their lock.
 2. Tick or condense the matching `ROADMAP.md` line, add a `CHANGELOG.md` Unreleased line, and update `README.md` / `FEATURES.md` where the change alters what they claim.
 3. Commit the docs with the code, then push and open (or update) the PR, listing the items it closes.
 4. Before merging, confirm `git diff origin/main...HEAD --stat` includes those docs. Don't merge and leave the docs to a later PR or to PMO.
