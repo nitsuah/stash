@@ -26,7 +26,7 @@ repo: fire
 
 - **16 Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`. No stubs: tools with nothing behind them were removed. A test asserts no write tools exist.
 - **Claude Code Integration** — `.mcp.json` at repo root auto-connects the server when Claude Code starts in this directory.
-- **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates the 8 original read-only tools listed in its `EXPECTED_TOOLS` (the five newer tools are covered by unit tests, not the smoke script).
+- **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates all 16 registered read-only tools in `EXPECTED_TOOLS`.
 
 ## Net Worth Tracking
 
@@ -136,6 +136,8 @@ repo: fire
 - **MCP Smoke Test** — `scripts/test-mcp.mjs` exercises the 8 tools in `EXPECTED_TOOLS` end-to-end via the SDK client.
 
 ## Planned
+
+- **Netlify Plaid backend** — Plaid Link, account/position sync, and transaction sync currently remain Express-only; the hosted browser deployment needs Netlify Functions before Plaid can be advertised as live there.
 
 - **Tax Drag Estimation Engine** — Custom federal/state bracket support with capital gains configuration.
 - **PWA Packaging** — Offline access and lightweight installable app.

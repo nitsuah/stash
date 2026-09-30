@@ -6,26 +6,15 @@ kind: repo-doc
 repo: nitsuah-io
 ---
 
-# Social Preview Image Placeholder
+# Social Preview Image
 
-This directory should contain `social-preview.png` (1200x630px) for social media previews.
+`public/og-image.jpg` (1200×630 JPEG) is the site-wide `og:image` / `twitter:image`, wired through `DEFAULT_OG_IMAGE` in `src/lib/seo.ts`. It's a crop of the landing hero from `public/social-preview.png` (a full-page screenshot, also used as the JSON-LD person image and organization logo in `src/lib/schema.ts`).
 
-For now, we have `social-preview.svg` as a placeholder. To create the final PNG:
+The earlier `social-preview.svg` placeholder never existed in `public/`, so every page's `og:image` returned 404. Most social networks ignore SVG previews anyway.
 
-1. Open the SVG file in a design tool (Figma, Canva, Adobe Illustrator)
-2. Export as PNG at 1200x630 resolution
-3. Replace this file with the PNG version
+## Replacing it
 
-## Content Requirements for social-preview.png:
-- Dimensions: 1200x630px (Facebook/Twitter recommended)
-- Background: Dark theme matching site design
-- Text: "Austin J. Hardy - Developer & Researcher"
-- Subtitle: Key technologies or project highlights
-- Website: "nitsuah.io"
-- Style: Professional, clean, readable at small sizes
-
-## Alternative Creation Methods:
-- Use online tools like Canva or Pablo by Buffer
-- Create with code using libraries like Puppeteer or Canvas
-- Design in Figma and export
-- Use AI image generators with proper prompts
+- Keep it 1200×630 and under ~300 KB, as a JPEG or PNG (not SVG).
+- Keep the text readable at small sizes; LinkedIn and Slack render it at about 500px wide.
+- Overwrite `public/og-image.jpg` (the path is referenced in one place, `src/lib/seo.ts`).
+- Blog posts use their own `image` from `src/data/blogs.json` when it's a raster file that exists, and otherwise fall back to this one. `src/__tests__/seo.test.ts` fails if a referenced image is missing.

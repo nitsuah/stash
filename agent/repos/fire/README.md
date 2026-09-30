@@ -6,7 +6,7 @@ kind: repo-doc
 repo: fire
 ---
 
-# 🔥 FIRE Tracker
+# 🔥 fire
 
 > 🧭 **fire** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
 
@@ -16,6 +16,25 @@ repo: fire
 > A self-hosted Financial Independence, Retire Early (FIRE) tracker and API server. Runs locally via Docker. All financial data is stored in `data/db.json` on your machine with optional AES-256-GCM encryption (`SYNC_MASTER_KEY`). Read-only with respect to external financial accounts (no transactions initiated); local CRUD is fully supported. Being productionized toward real-time API-driven sync (eBay, Web3 wallets, Fidelity/Plaid) in PROD Phases 1–4. See [docs/prod-plan.md](docs/prod-plan.md).
 
 ---
+
+## Why fire?
+
+**fire is a local-first FIRE tracker for people who want one place to see the whole picture without handing their financial database to a hosted dashboard.**
+
+- **Your data, your machine** — the primary datastore is local `db.json`, with optional AES-256-GCM encryption at rest.
+- **Read-only integrations** — eBay, Plaid, blockchain providers, market-data providers, and vehicle lookup are used for tracking/sync; fire does not initiate financial transactions. **Drive backup** writes encrypted backups to Google Drive.
+- **Everything counts** — investments, cash, CDs, real estate, vehicles, precious metals, crypto wallets, income, expenses, and side-hustle sales live in one net-worth model.
+- **Ask your LLM** — the built-in MCP server exposes read-only financial tools for Claude/other MCP clients without giving the model trading or write access to external accounts.
+- **Built for investigation, not just a number** — projections, scenario stress tests, diversification signals, tax-loss alerts, rebalancing what-ifs, CD maturities, emergency runway, and side-gig tax tagging turn raw balances into context.
+
+**Try it:** [live browser demo](https://lifefire.netlify.app/) · **Run it locally:** `docker compose up -d` · **Use with Claude:** see [MCP Server](#mcp-server-claude-integration)
+
+---
+
+## Live links
+
+- **Project site:** https://nitsuah.github.io/fire/
+- **Browser demo:** https://lifefire.netlify.app/
 
 ## Features
 
@@ -109,8 +128,9 @@ basic local use — the one exception is `FIRE_API_KEY` (or its explicit
 | `ETHERSCAN_API_KEY` | Ethereum / ERC-20 balance fetching |
 | `BSCSCAN_API_KEY` / `POLYGONSCAN_API_KEY` / `ARBISCAN_API_KEY` / `BASESCAN_API_KEY` | EVM chain balance fetching |
 | `COINGECKO_API_KEY` | Optional; raises CoinGecko rate limit for crypto price lookups |
-| `GDRIVE_SERVICE_ACCOUNT_JSON` | Path to GCP service account JSON for encrypted Drive backup |
-| `GDRIVE_BACKUP_FOLDER_ID` | Optional Drive folder ID (auto-created if blank) |
+| `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` | Google OAuth 2.0 Web application credentials for Drive backup |
+| `GDRIVE_REDIRECT_URI` | Optional OAuth callback override; defaults to `/api/backup/drive/callback` on the local server |
+| `GDRIVE_BACKUP_FOLDER_ID` | Optional Drive folder ID; otherwise `fire-tracker-backups` is created/located automatically |
 | `VEHICLE_VALUE_API_KEY` / `VEHICLE_VALUE_PROVIDER` | Paid vehicle value provider (dataone, marketcheck) |
 | `PLAID_CLIENT_ID` / `PLAID_SECRET` | Plaid credentials for brokerage/bank sync |
 | `PLAID_ENV` | `sandbox` (default) or `production` |
@@ -240,7 +260,7 @@ fire/
 │   ├── playwright.config.js    # real-browser UI regression suite (tests/e2e-ui)
 │   └── eslint.config.mjs
 ├── scripts/
-│   └── test-mcp.mjs            # MCP smoke test (the 8 original tools in EXPECTED_TOOLS)
+│   └── test-mcp.mjs            # MCP smoke test (all 16 read-only tools)
 ├── data/                       # db.json lives here (git-ignored)
 ├── docs/                       # Architecture notes
 ├── .env.example                # Environment variable reference
@@ -277,7 +297,7 @@ The system is being productionized toward real-time, API-driven data in four pha
 |---|---|---|
 | eBay Order API (auto-import sales) | Phase 1 | Live (BYOK) |
 | Web3 wallet tracking (ETH, BTC, SOL, + EVM chains) | Phase 1 | Live (BYOK keys per chain) |
-| Google Drive encrypted backup | Phase 1 | Live (requires `GDRIVE_SERVICE_ACCOUNT_JSON`) |
+| Google Drive encrypted backup | Phase 1 | Implemented self-hosted via Google OAuth; live round-trip verification pending |
 | Vehicle value API (NHTSA VIN free; paid providers via `VEHICLE_VALUE_PROVIDER`) | Phase 1 | Live |
 | Fidelity / Plaid positions + balance sync | Phase 2 | Live (BYOK; sandbox ready) |
 | Stable stock quote API (Alpha Vantage / Polygon.io) | Phase 2 | Live (fallback: Yahoo Finance) |
@@ -311,12 +331,12 @@ Every doc at the repo root (other than this README) and under `docs/` (the files
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
 - [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
 - [METRICS.md](./docs/METRICS.md) — `docs/METRICS.md`
-- [🗺️ FIRE Tracker Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [🗺️ fire Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
 - [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
 - [Backend Sync Architecture](./docs/backend-sync-architecture.md) — `docs/backend-sync-architecture.md`
 - [Integrations Reference](./docs/integrations.md) — `docs/integrations.md`
-- [FIRE Tracker — Privacy Policy & Terms of Use](./docs/privacy-policy.md) — `docs/privacy-policy.md`
-- [PROD Plan — FIRE Tracker Productionization](./docs/prod-plan.md) — `docs/prod-plan.md`
+- [fire — Privacy Policy & Terms of Use](./docs/privacy-policy.md) — `docs/privacy-policy.md`
+- [PROD Plan — fire Productionization](./docs/prod-plan.md) — `docs/prod-plan.md`
 - [Security Hardening Plan](./docs/security-hardening.md) — `docs/security-hardening.md`
 - [Weekly financial check-in prompt (local)](./docs/weekly-checkin-prompt.md) — `docs/weekly-checkin-prompt.md`
 

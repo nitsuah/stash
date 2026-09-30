@@ -48,7 +48,7 @@ Next Review: 2026-10-24
 - [ ] Wire skyview event sink to capture page-view telemetry (privacy-first, no PII).
 
 #### Docs & Quality
-- [ ] Add `docs/API.md` covering wagmi hook surface, chain config, and `/api/*` routes.
+- [x] Add `docs/API.md` covering wagmi hook surface, chain config, and `/api/*` routes. *(shipped 2026-09-28)*
 - [ ] Refresh `METRICS.md` with a `last validated` marker and re-run coverage.
 
 ### Next candidates *(carried from 2026 Q3)*

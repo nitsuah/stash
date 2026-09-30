@@ -8,7 +8,7 @@ repo: fire
 
 # Promo spots
 
-This folder holds reproducible launch videos for FIRE Tracker. Each spot is rendered from the **real app**: `capture.js` boots `app/server.js` against a fictional demo portfolio (`demo-seed.js`) in a throwaway DB, screenshots the real UI, and calls the real MCP server. Those pieces are then animated frame by frame in a browser, scored with synthesized music, and encoded with ffmpeg.
+This folder holds reproducible launch videos for fire. Each spot is rendered from the **real app**: `capture.js` boots `app/server.js` against a fictional demo portfolio (`demo-seed.js`) in a throwaway DB, screenshots the real UI, and calls the real MCP server. Those pieces are then animated frame by frame in a browser, scored with synthesized music, and encoded with ffmpeg.
 
 Everything runs in Docker. It never reads `data/db.json`.
 

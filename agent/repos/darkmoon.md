@@ -5,7 +5,7 @@ repo: darkmoon
 
 # darkmoon
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-09-30
 
 ## Overview
 
@@ -35,6 +35,8 @@ Solo-live 3D browser combat game at darkmoon.dev built with React 19, Three Fibe
 ## Open P0/P1 Tasks
 
 No open P0 items — Docker build, product messaging, and mobile-input stabilization all shipped.
+
+- [ ] **P1 (tagged 2026-09-30)** Ship the first validated multiplayer-capable experience: a shipped client experience driving the existing readiness gate and server-side tag parity (see `docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md` Phase E).
 
 - [ ] **P1** 21st.dev component integration — lobby, scoreboard, game-over, nav
 - [ ] **P1** UI/UX interactivity improvements (hover states, transitions, Lighthouse no-regress)

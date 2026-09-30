@@ -5,7 +5,7 @@ repo: farm-3j
 
 # farm-3j
 
-> Reviewed: 2026-09-23 (no material change since 2026-09-16 PMO audit — see [[pmo-audit-2026-09-16]])
+> Reviewed: 2026-09-30
 
 ## Overview
 
@@ -29,7 +29,9 @@ repo: farm-3j
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-09-25). The old P0 "Complete all Farm RTS MVP milestones" is gone from `docs/TASKS.md` after the 2027 Q1 planning reset. Its unfinished sub-todos now sit, untagged, under "Farm RTS — Round 2 (2027 Q1)": for example "Add buttons to train animal units from Barn", core-helper unit tests (`tileDist`, `tileToSvg`, A* pathfinding) and campaign mode Phase 1.
+- [ ] **P1 (new 2026-09-30)** Save-slot picker UI on the New Game screen (the 3 cloud-backed slots already shipped). Also re-tagged P1 and now done: farmers always render in front of the barn and stay selectable.
+
+Previously (2026-09-25): none open. The old P0 "Complete all Farm RTS MVP milestones" is gone from `docs/TASKS.md` after the 2027 Q1 planning reset. Its unfinished sub-todos now sit, untagged, under "Farm RTS — Round 2 (2027 Q1)": for example "Add buttons to train animal units from Barn", core-helper unit tests (`tileDist`, `tileToSvg`, A* pathfinding) and campaign mode Phase 1.
 
 ## Blockers
 

@@ -10,7 +10,7 @@ repo: games
 
 > 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-27
 
 ## In Progress
 
@@ -37,6 +37,8 @@ handoff describing it as still in-progress was archived to
   - Acceptance Criteria: larger feature initiatives stay sequenced behind the release-path fixes.
 
 - [ ] **[2027-Q1]** Fix game selection UI to allow programmatic and keyboard navigation for accessibility and automated testing.
+  - Priority: P1
+  - Type: Bug
 
 - [ ] **Add unit/E2E tests for Memory Match and Dodge Blocks** — both iframe-hosted games are live and playable but lack unit-level or gameplay-level E2E automated test coverage; the existing Jest suite does not cover the standalone HTML bundles.
   - Priority: P2
@@ -49,6 +51,10 @@ handoff describing it as still in-progress was archived to
 - [ ] **Mobile touch controls for Dodge Blocks** — the game uses only keyboard arrow keys; touch swipe or on-screen buttons are needed for mobile play.
   - Priority: P3
   - Milestone: 2027 Q1
+
+## Done
+
+- _None yet._
 
 ## Audit Notes
 

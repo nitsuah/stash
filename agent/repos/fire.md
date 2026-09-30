@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-09-27
+> Reviewed: 2026-09-30
 
 ## Overview
 
@@ -39,6 +39,10 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 - Portfolio rebalancing suggestions, tax-loss harvesting alerts, income/expense rolling trend, PWA, CD/FIRE-milestone notifications, optional multi-user mode
 
 ## Open P0/P1 Tasks
+
+- [ ] **P0 (new 2026-09-30)** Google Drive backup round-trip verification before rollout: prove encrypt → upload → download → decrypt end-to-end (browser Google connect, Drive only sees ciphertext, wrong-key/corrupt backups fail cleanly) before the UI may report a successful backup. The other two P0s in the new browser/production pass (spot-price API 400s, wallet/ENS aggregate refresh) are already done.
+- [ ] **P1 (new 2026-09-30)** Split `app/routes/sync.js` (942 LOC) into eBay and Plaid route modules and extract the transactions handler (F-20260916-05).
+- [ ] **P1 (new 2026-09-30)** CoinTracker MCP integration for wallet discovery/investigation, behind a provider boundary with fallback to the direct chain providers.
 
 - [ ] **P1 (new 2026-09-26)** Serve Plaid on the Netlify deploy (lifefire.netlify.app). `/api/sync/plaid/*` only exists in Express, so every Plaid call 404s on the static deploy. Approach: follow eBay's PR #130 pattern (v2 Netlify Functions + `netlify.toml` rewrites, Plaid tokens returned to the browser encrypted with `SYNC_MASTER_KEY`). New rule: any `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
 

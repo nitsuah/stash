@@ -5,7 +5,7 @@ repo: games
 
 # games
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-09-30
 
 ## Overview
 
@@ -23,7 +23,7 @@ Browser arcade collection at nitsuah-arcade (Netlify) built with Next.js 16, Thr
 
 ## Open P0/P1 Tasks
 
-None open. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add unit/E2E tests for Memory Match/Dodge Blocks (P2), add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3).
+None open outside parked work. One P1 is parked for **[2027-Q1]** (tagged 2026-09-30): make the game selection UI keyboard- and programmatically navigable for accessibility and automated testing. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add unit/E2E tests for Memory Match/Dodge Blocks (P2), add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3).
 
 ## Blockers
 

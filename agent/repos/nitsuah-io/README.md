@@ -92,7 +92,7 @@ We welcome contributions! See [CONTRIBUTING.md](https://github.com/nitsuah/.gith
 
 ## Run Locally (3 Steps)
 
-Requires Node.js 22+
+Uses the Node.js version pinned in `.nvmrc` (currently 26.10.0; run `nvm use`). CI, Docker, Netlify and the git hooks all run that same version.
 
 ```bash
 # 1. Install dependencies
@@ -230,7 +230,7 @@ npm run wagmi      # Generate Web3 hooks
 
 ### Environment Setup
 
-- Node.js 22+ required
+- Node.js version pinned in `.nvmrc`; `npm run check:node-lockstep` keeps every other pin in sync
 - Uses wagmi CLI for smart contract integration
 - Spline scenes loaded from external CDN
 
@@ -269,6 +269,7 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 
 **`docs/`**
 
+- [API Reference](./docs/API.md) — `docs/API.md`
 - [Project Architecture](./docs/ARCH.md) — `docs/ARCH.md`
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
 - [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
@@ -292,6 +293,6 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 
 **`public/`**
 
-- [Social Preview Image Placeholder](./public/social-preview-placeholder.md) — `public/social-preview-placeholder.md`
+- [Social Preview Image](./public/social-preview-placeholder.md) — `public/social-preview-placeholder.md`
 
 <!-- docs-index:end -->

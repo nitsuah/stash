@@ -1,3 +1,8 @@
+---
+kind: cloud/daily-brief
+date: 2026-09-30
+---
+
 # daily-brief — 2026-09-30
 PRs: 15 open across 7 repos, 2 need attention
 Coverage: user:nitsuah PR search ok, org:Nitsuah-Labs PR search ok, status:failure check ok, review:changes_requested check ok

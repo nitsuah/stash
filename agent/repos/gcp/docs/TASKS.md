@@ -10,7 +10,7 @@ repo: gcp
 
 > 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-27
 
 All completed work is documented in [FEATURES.md](./FEATURES.md) and [CHANGELOG.md](./CHANGELOG.md).
 
@@ -19,3 +19,9 @@ All completed work is documented in [FEATURES.md](./FEATURES.md) and [CHANGELOG.
 ## Todo
 
 - [ ] Evaluate lightweight web UI for credential and folder configuration (2027 Q1 exploratory, see [ROADMAP.md](./ROADMAP.md))
+  - Priority: P3
+  - Type: Feature
+
+## Done
+
+- _None yet._

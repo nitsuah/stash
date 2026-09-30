@@ -74,6 +74,7 @@ WCAG 2.1 AA compliance with comprehensive keyboard navigation and screen reader 
 - **Color Contrast**: Meets WCAG AA standards for text and interactive elements
 - **Focus Management**: Visible focus indicators and logical tab order throughout site
 - **Alt Text**: Descriptive image alternatives for all visual content
+- **Automated audit (2026-09-28)**: every sitemap page crawled on desktop + mobile with axe-core (WCAG 2.1 A/AA + best-practice): zero violations after fixing contrast, landmark, heading-order and scrollable-code-block issues
 
 ### 🏠 Landing Page
 
@@ -138,7 +139,7 @@ Modern development workflow with type safety, code quality tools, and comprehens
 - **Git Hooks**: Optimized pre-commit/pre-push validation with Husky and lint-staged
 - **Environment Config**: Centralized configuration in config/ directory for all build tools
 - **Hot Reload**: Fast refresh for React components with state preservation during edits
-- **Documentation**: Comprehensive guides (ARCH.md, CONTRIBUTING.md, DEMO_REF.md)
+- **Documentation**: Comprehensive guides (ARCH.md, API.md, CONTRIBUTING.md, DEMO_REF.md); `docs/API.md` covers server routes, page metadata, the wagmi config, generated contract hooks, Labs contract addresses and app hooks
 
 ### 🚀 Deployment & CI/CD
 

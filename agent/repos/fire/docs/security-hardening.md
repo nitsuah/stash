@@ -11,15 +11,15 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
-> **Status:** Planning  
-> **Last updated:** 2026-08-12  
+> **Status:** Current hardening reference  
+> **Last updated:** 2026-09-27  
 > **See also:** [docs/prod-plan.md](prod-plan.md)
 
 ---
 
 ## Threat Model
 
-The FIRE Tracker is a locally self-hosted personal finance dashboard. It is **not designed for public internet exposure**. Its threat model is:
+fire is a locally self-hosted personal finance dashboard. It is **not designed for public internet exposure**. Its threat model is:
 
 - **Primary:** Unauthorized local access — shared machine, physical access, or local network exposure via misconfigured Docker port binding
 - **Secondary:** Injected content — malicious CSV files, webhook payloads, or JSONata expressions crafted to extract data or crash the server
@@ -54,19 +54,19 @@ If you intend to expose this server beyond `localhost`, complete all Critical an
 | event delegation pattern | `data-*` attributes for onclick — no inline handler injection | Strong |
 | Yahoo Finance abort | `AbortSignal.timeout(10000)` on all fetch calls | Moderate |
 
-### Gaps
+### Remaining Gaps
 
 | Gap | Impact | Severity |
 |---|---|---|
-| No rate limiting on /api/* | Brute-force API key, DoS | High |
-| SESSION_SECRET fallback to hardcoded string | Session forgery if default used | High |
-| Webhook payload size unlimited | Memory exhaustion via large payload | Medium |
-| Webhook sideGigLedger entries unvalidated | Schema confusion injection | Medium |
+
+| `SESSION_SECRET` still has a development fallback | Session forgery if production is misconfigured | High |
+
+
 | 6 moderate/critical dev dependency vulns | Supply chain (dev only, not shipped) | Low |
-| No npm audit in CI | Vuln regressions undetected | Low |
-| No MCP audit log | No visibility into LLM data access patterns | Low |
+
+
 | JSONata not statically analyzed | Complex expression side effects | Low |
-| No key rotation mechanism | Key compromise requires manual db.json reconstruction | Low |
+
 
 ---
 
@@ -148,6 +148,8 @@ For LAN IP access with a self-signed cert, add the IP to the Caddyfile and pin t
 
 #### H-03: SESSION_SECRET Fail-Fast
 
+**Status: Partial.** Production already rejects an unset secret and the `change_me_in_production` placeholder. The remaining gap is rejecting the explicit `a-very-secret-key` fallback, which is still used by the session middleware.
+
 **Gap:** Server starts with a hardcoded fallback `'a-very-secret-key'` — a warning is logged but the server runs.  
 **Fix:** Fail-fast in production mode.
 
@@ -205,6 +207,8 @@ app.use(
 ---
 
 #### H-06: Webhook sideGigLedger Field Validation
+
+**Status: Partial.** The webhook validates required-key presence for ledger entries, but it does not yet enforce field types/formats. Full schema validation remains open.
 
 **Gap:** Incoming `sideGigLedger` entries from webhooks are merged into state without field-level checks — any shape is accepted.  
 **Fix:** Validate required fields before merging:
