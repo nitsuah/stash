@@ -12,13 +12,36 @@ root="$(git rev-parse --show-toplevel)"
 cd "$root"
 
 # --- 1. secrets -------------------------------------------------------------
+# Fail closed: gitleaks exits 0 ("no leaks found") even when its underlying git
+# call fails, so any ERR line in its output is treated as a failed scan.
+scan_log="$(mktemp)"
+trap 'rm -f "$scan_log"' EXIT
+gitleaks_args=(git --pre-commit --staged --config .gitleaks.toml --redact --no-banner --no-color -v)
+
 if command -v gitleaks >/dev/null 2>&1; then
-  gitleaks git --pre-commit --staged --config .gitleaks.toml --redact --no-banner -v
+  gitleaks "${gitleaks_args[@]}" 2>&1 | tee "$scan_log"
 elif docker info >/dev/null 2>&1; then
-  MSYS_NO_PATHCONV=1 docker run --rm -v "$root:/repo" --entrypoint sh ghcr.io/gitleaks/gitleaks:latest -c \
-    'git config --global --add safe.directory /repo && cd /repo && gitleaks git --pre-commit --staged --config .gitleaks.toml --redact --no-banner -v'
+  # In a linked worktree, .git is a file pointing at a Windows path
+  # (C:/.../.git/worktrees/<name>) that doesn't exist in the container. Mount the
+  # common git dir separately and point GIT_DIR/GIT_WORK_TREE at the mounts.
+  git_dir="$(git rev-parse --absolute-git-dir)"
+  common_dir="$(git rev-parse --path-format=absolute --git-common-dir)"
+  if [ "$git_dir" = "$common_dir" ]; then
+    rel_git_dir="."
+  else
+    rel_git_dir="${git_dir#"$common_dir"/}"
+  fi
+  MSYS_NO_PATHCONV=1 docker run --rm     -v "$root:/repo:ro" -v "$common_dir:/gitcommon:ro"     -e GIT_DIR="/gitcommon/$rel_git_dir" -e GIT_WORK_TREE=/repo     --entrypoint sh ghcr.io/gitleaks/gitleaks:latest -c     'git config --global --add safe.directory "*" && cd /repo &&
+     { git diff --cached --quiet; rc=$?; [ "$rc" -le 1 ] || { echo "ERR git cannot read the staged changes (exit $rc)"; exit 2; }; } &&
+     gitleaks "$@"' sh "${gitleaks_args[@]}" 2>&1 | tee "$scan_log"
 else
   echo "pre-commit: gitleaks and Docker are both unavailable; skipping the local secret scan (CI still runs it)." >&2
+  : > "$scan_log"
+fi
+
+if grep -Eq '(^|[[:space:]])ERR([[:space:]]|$)' "$scan_log"; then
+  echo "pre-commit: the secret scan errored (see ERR lines above); refusing to commit." >&2
+  exit 1
 fi
 
 # --- 2. PII in auto-published folders -----------------------------------------

@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-09-30 — pre-commit secret scan works from worktrees and fails closed
+
+- `.githooks/pre-commit`: from a linked worktree, the Docker gitleaks run couldn't resolve the worktree's `.git` file (a Windows `gitdir:` path), logged `fatal: not a git repository`, scanned 0 bytes and still reported "no leaks found". The hook now mounts the common git dir and sets `GIT_DIR`/`GIT_WORK_TREE`, checks that git can read the staged diff first, and fails the commit on any gitleaks `ERR` line. Tested from a worktree and a main checkout with a dummy token (blocked), clean staging (passes) and a forced git error (blocked).
+- `prompts/TIRE.md`: dropped the note that stash's hook fails from a worktree.
+
 ### 2026-09-30 — close tracked items in the same PR
 
 - `AGENT-MAIN.md`, `ENG.md`, `QA.md` and `1FLOW.md` now spell out the close-out order: code and tests, then TASKS/ROADMAP/CHANGELOG/README updates before the last push, then a pre-merge check that the PR diff includes them. `1FLOW.md` gains the Phase 4 (Document and Close) it was missing since it was written.
