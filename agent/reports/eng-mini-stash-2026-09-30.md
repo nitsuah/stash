@@ -21,7 +21,7 @@ date: 2026-09-30
 | `.githooks/` | Tooling | `core.hooksPath` set to `.githooks` (see pre-commit header) — relative to repo root | **KEEP** |
 | `.github/` | Community health / CI | Must stay root | **KEEP** |
 | `.gitignore` | VCS | Must stay root | **KEEP** |
-| `.gitleaks.toml` | Config | Already invoked with an explicit `--config` flag in both CI (`ci.yml:69`) and `.githooks/pre-commit:16,19`, so a move wouldn't break resolution | **DEFER** — candidate-move to `config/`, but no `config/` directory exists at root yet; creating one for a single file is a broader reorg than this pass should make unilaterally |
+| `.gitleaks.toml` | Config | Invoked with an explicit `--config` flag in both CI (`ci.yml:69`) and `.githooks/pre-commit:16,19`, but both currently hardcode the root path (`--config .gitleaks.toml` / `--config /repo/.gitleaks.toml`) — a move is low-risk but not free: both call sites would need their flag value updated to the new path | **DEFER** — candidate-move to `config/`, but no `config/` directory exists at root yet; creating one for a single file is a broader reorg than this pass should make unilaterally |
 | `.obsidian/` | Tooling | Obsidian vault config — read from vault root, same class as `.git/` | **KEEP** |
 | `.playwright-mcp/` | Generated artifact | Tracked in git (not in `.gitignore`); contains timestamped Playwright MCP page snapshots (`page-2026-09-28T*.yml`) — looks like an accidentally-committed runtime cache, not a misplaced *source* file | **OUT OF SCOPE** — not a move candidate (MINI relocates misplaced files, it doesn't untrack generated output); flagged below for human follow-up |
 | `LICENSE` | Legal | **Decided 2026-09-24: stays at root in every repo** (GitHub only detects a license at root) | **KEEP** |
@@ -65,7 +65,7 @@ None — root read from a clean `--depth 1` clone at `/tmp/mini-scan/stash`.
 
 1. No moves to schedule this run — root files are unchanged since 2026-09-24 aside from new tooling additions (`.gitattributes`, `.githooks/`, `.gitleaks.toml`, `pyproject.toml`), all correctly root-required or deferred.
 2. Human review: should `.playwright-mcp/` be gitignored and untracked? (deletion, out of MINI's scope)
-3. If a `config/` directory is ever created for another reason, revisit `.gitleaks.toml` as a low-risk move (both call sites already use an explicit `--config` flag).
+3. If a `config/` directory is ever created for another reason, revisit `.gitleaks.toml` as a low-risk move — both call sites use an explicit `--config` flag already, but their hardcoded path values (`ci.yml:69`, `.githooks/pre-commit:16,19`) would need updating to the new location as part of that move.
 
 ---
 
