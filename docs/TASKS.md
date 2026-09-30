@@ -37,6 +37,7 @@ Last Updated: 2026-09-29
   - Priority: P2
   - Type: Testing
   - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
+  - Approach: build on `test_examples.py`, going from smoke tests to meaningful coverage.
 
 - [ ] Add pre-commit hooks
   - Priority: P3
@@ -74,12 +75,6 @@ Last Updated: 2026-09-29
   - Priority: P3
   - Type: Examples
   - Candidates: Fortify-on-Demand, ZenGRC, Zylo.
-
-- [ ] Add test coverage to Python examples
-  - Priority: P2
-  - Type: Testing
-  - Acceptance: Expand from smoke tests to meaningful coverage (target ≥30%)
-  - Note: Related to pytest smoke tests — build on test_examples.py
 
 ### Documentation
 
