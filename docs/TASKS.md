@@ -42,21 +42,25 @@ Last Updated: 2026-09-29
   - Priority: P3
   - Type: CI
   - Acceptance: Ruff, PSScriptAnalyzer, shellcheck locally
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add dependabot/renovate
   - Priority: P3
   - Type: CI
   - Acceptance: Auto-update GitHub Actions, Python deps
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add CodeQL / SAST scanning
   - Priority: P3
   - Type: CI
   - Acceptance: GitHub Advanced Security or OSS equivalent
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add changelog automation
   - Priority: P3
   - Type: CI
   - Acceptance: conventional-changelog or similar
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 ### Examples
 
@@ -75,34 +79,30 @@ Last Updated: 2026-09-29
   - Type: Examples
   - Candidates: Fortify-on-Demand, ZenGRC, Zylo.
 
-- [ ] Add test coverage to Python examples
-  - Priority: P2
-  - Type: Testing
-  - Acceptance: Expand from smoke tests to meaningful coverage (target ≥30%)
-  - Note: Related to pytest smoke tests — build on test_examples.py
-
 ### Documentation
 
-- [ ] Write SAAS quickstart doc
-  - Priority: P3
+- [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
+  - Priority: P2
   - Type: Docs
-  - For atlassian/jira SAAS examples
+  - Candidates: `SAAS/okta/examples.py`, `SAAS/servicenow/examples.py`, `SAAS/pagerduty/examples.py`.
+  - Note: restored 2026-09-30; PR #160 had replaced it with a garbled "SAAS quickstart" item.
 
-- [ ] Document VBA examples
-  - Priority: P3
+- [ ] Document the VBA source files inside Remora, Sampler, and VMT more precisely.
+  - Priority: P2
   - Type: Docs
-  - For atlassian/jira/vba
-  - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings companion `USAGE.md` per tool.
+  - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings or a companion `USAGE.md` per tool. (Restored 2026-09-30; PR #160 had pointed it at a nonexistent `atlassian/jira/vba`.)
 
 - [ ] Add architecture diagrams
   - Priority: P3
   - Type: Docs
   - Mermaid/PlantUML in docs/
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add CONTRIBUTING.md
   - Priority: P3
   - Type: Docs
   - Include PR template, issue template links
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 ### Decision Records
 

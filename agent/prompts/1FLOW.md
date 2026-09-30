@@ -46,6 +46,18 @@ You are forbidden from assuming code works without runtime verification. After c
    ```bash
    docker compose build --no-cache
    docker compose up -d
+   ```
+
+2. **Run the tests** in the container and confirm the changed flow works at runtime. Fix and re-run until both pass.
+
+### Phase 4: Document and Close (same branch, before the last push)
+
+1. Mark each finished item in `TASKS.md` as `- [x]` with `Done <date>: <what> (PR #n)`, replacing its `[In Progress * Agent Loop]` lock. Record partial progress on items you didn't finish and release their lock.
+2. Tick or condense the matching `ROADMAP.md` line, add a `CHANGELOG.md` Unreleased line, and update `README.md` / `FEATURES.md` where the change alters what they claim.
+3. Commit the docs with the code, then push and open (or update) the PR, listing the items it closes.
+4. Before merging, confirm `git diff origin/main...HEAD --stat` includes those docs. Don't merge and leave the docs to a later PR or to PMO.
+
+---
 
 ## Quick Summary
 
@@ -87,5 +99,5 @@ You are forbidden from assuming code works without runtime verification. After c
 * Always update handoff artifacts and status in docs.
 * Only one agent owns a branch/PR at a time.
 * Document blockers and improvement ideas as you go.
-* At the end of a cycle, PMO must update TASKS.md/ROADMAP.md to reflect progress and next steps.
+* Every PR marks the items it completes in TASKS.md/ROADMAP.md itself (Phase 4). At the end of a cycle, PMO only re-plans next steps; it isn't the backstop for closing finished work.
 * Once a cycle has been completed move on to the next repo in the list or start a new branch to execute work against if it would not conflict with existing work or drift from necessary improvements (ie: those other changes should be merged first).
