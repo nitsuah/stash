@@ -8,6 +8,12 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-09-30 — close tracked items in the same PR
+
+- `AGENT-MAIN.md`, `ENG.md`, `QA.md` and `1FLOW.md` now spell out the close-out order: code and tests, then TASKS/ROADMAP/CHANGELOG/README updates before the last push, then a pre-merge check that the PR diff includes them. `1FLOW.md` gains the Phase 4 (Document and Close) it was missing since it was written.
+- `PMO.md` step 5 reconciles merged PRs against open items before carrying anything forward.
+- `docs/TASKS.md`: restored two items PR #160 garbled, dropped its duplicate test-coverage item, and flagged its six unsourced additions for review.
+
 ### 2026-09-25 — vault hub links replace flat indexes
 
 - Removed `agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md` and `agent/REPOS-INDEX.md`. `build-vault-indexes.py` now writes prev/next nav lines into reports and dated notes, plus generated *Vault links* blocks in repo and project-folder hubs and a *Vault map* in `AGENT-MAIN.md`. New stub folder hubs: `projects/{CLEANUP,COSTS,LOC,MINI,TIRE,docs}.md`.

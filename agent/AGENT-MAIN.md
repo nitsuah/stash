@@ -52,7 +52,12 @@ This document defines the happy path for running agents autonomously against a r
 
 - Each agent must respect and update handoff artifacts.
 - **Agents must create a new branch before any codebase edits and must open a pull request when work is complete.**
-- **Close the tracked item before merging.** If the work came from a `TASKS.md` / `ROADMAP.md` item (or a findings-ledger row), mark it done in the **same PR** (`- [x]` plus a one-line `Done <date>: ...` note), or note partial progress. Check this before every merge, alongside CI and review comments. Otherwise week-sotu and vigil keep reporting finished work as open.
+- **Close the tracked item in the same PR, in this order** (week-sotu and vigil read TASKS.md from `main`, so an unmarked item keeps showing as open work):
+  1. Finish the code and tests.
+  2. Before the **last** push, update the docs in the same branch: mark the `TASKS.md` item `- [x]` with a one-line `Done <date>: <what>` note (or record partial progress; to cite the PR number, open the PR as a draft first and add it in this commit), tick or condense the matching `ROADMAP.md` line, add a `CHANGELOG.md` Unreleased line, and fix `README.md` / `FEATURES.md` if the change alters what they claim. Findings-ledger rows too.
+  3. Commit and push, then open the PR. Say in its description which items it closes.
+  4. **Pre-merge check**, next to CI and review threads: `git diff origin/main...HEAD --stat` must include the tracking docs whenever the PR completes a tracked item. If it doesn't, add the docs commit before merging. Never merge first and "follow up with a docs PR"; that's how stash#158/#159 and avatar#35 left finished work open (2026-09-30).
+- **A docs-only status PR changes status, nothing else.** When you do have to close items after the fact, touch only the lines for the items you cite (tick, `Done` note, PR link). Don't add, reword, reorder or delete other items, and don't regenerate the file from a template. stash#160 did, and it invented six tasks, garbled two and dropped their originals (2026-09-29).
 - **Never push to a merged PR's branch.** Before pushing a follow-up commit to an existing PR branch, run `gh pr view <branch> --json state -q .state`. If it prints `MERGED` or `CLOSED`, branch again from an up-to-date default branch, cherry-pick the new commits, and open a new PR that links the old one. A push to a merged branch strands the commits (it happened after stash#141).
 - Agents should not proceed to the next step until the previous agent’s outputs are complete and validated.
 - The loop continues until all acceptance criteria are met and no critical issues remain.

@@ -111,6 +111,7 @@ Before auditing, read `stash/agent/reports/findings-ledger.md` (maintained by [[
 	- Check feature completeness vs FEATURES and ROADMAP.
 	- Identify UX friction, reliability issues, security risks, and performance concerns.
 5. Backlog and Roadmap Update
+	- **Reconcile shipped work first.** List the PRs merged since the last audit (`gh pr list --state merged --search "merged:>=<last audit date>"`) and, for each open TASKS/ROADMAP item, check the code on `main` (grep for the function, file or tool it names). Close any item that is already done, citing the PR or commit. Only then carry the rest forward. A planning reset that re-tags open items without this check keeps shipped work open (bb-mcp's "JSON schemas for all tool inputs" was re-tagged 2027-Q1 in #129, though every tool already had one).
 	- Create/update tasks for concrete gaps.
 	- Re-sequence roadmap items based on evidence and impact.
 6. Knowledge Capture
@@ -295,7 +296,7 @@ An audit cycle is complete when:
 - Key docs are validated against actual product behavior.
 - Run/deploy instructions are confirmed or corrected.
 - UI/API critical flows are validated.
-- TASKS and ROADMAP are updated with evidence-backed priorities.
+- TASKS and ROADMAP are updated with evidence-backed priorities, and no open item describes work already merged (step 5's reconcile).
 - stash/agent/repos/<repo>.md is updated with durable operational knowledge.
 - Pull request is opened with complete description, or a fully prepared manual PR package is included when tooling is blocked.
 
