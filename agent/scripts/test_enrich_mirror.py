@@ -35,8 +35,12 @@ def test_source_url_has_no_userinfo(tmp_path, origin):
     assert FAKE_TOKEN not in out and "@github.com" not in out
 
 
-def test_refuses_unnormalizable_userinfo(tmp_path):
-    proc, out = run(tmp_path, f"https://{FAKE_TOKEN}@evil@example.com/demo.git")
+@pytest.mark.parametrize("origin", [
+    f"https://{FAKE_TOKEN}@evil@example.com/demo.git",
+    f"https://github.com?contact={FAKE_TOKEN}@example.com",  # '@' past the authority isn't userinfo
+])
+def test_refuses_unnormalizable_userinfo(tmp_path, origin):
+    proc, out = run(tmp_path, origin)
     assert proc.returncode != 0
     assert FAKE_TOKEN not in proc.stdout + proc.stderr
     assert out == "# Demo\n\nSee [license](LICENSE).\n"
