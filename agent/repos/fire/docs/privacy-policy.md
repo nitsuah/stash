@@ -6,19 +6,19 @@ kind: repo-doc
 repo: fire
 ---
 
-# FIRE Tracker — Privacy Policy & Terms of Use
+# fire — Privacy Policy & Terms of Use
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 **Effective Date:** August 2026  
-**Application:** FIRE Tracker (`lifefire.netlify.app` / self-hosted)  
+**Application:** fire (`lifefire.netlify.app` / self-hosted)  
 **Repository:** [github.com/nitsuah/fire](https://github.com/nitsuah/fire)
 
 ---
 
 ## 1. Overview
 
-FIRE Tracker is a **local-first, privacy-by-design** personal finance tool. It is not a financial product, bank, or registered investment advisor. No financial data you enter is ever transmitted to any remote server operated by this application.
+fire is a **local-first, privacy-by-design** personal finance tool. It is not a financial product, bank, or registered investment advisor. No financial data you enter is ever transmitted to any remote server operated by this application.
 
 ---
 
@@ -84,11 +84,11 @@ When you import a CSV file (Fidelity, Chase, Capital One, or other):
 
 ## 6. MCP Server (Claude / LLM Integration)
 
-FIRE Tracker includes an optional **MCP (Model Context Protocol) server** (`app/mcp-server.mjs`) for integration with AI assistants such as Claude Code and Claude Desktop.
+fire includes an optional **MCP (Model Context Protocol) server** (`app/mcp-server.mjs`) for integration with AI assistants such as Claude Code and Claude Desktop.
 
 **What the MCP server does:**
 
-- Exposes **8 read-only tools** that allow an AI assistant to query your FIRE data (net worth, accounts, CDs, expenses, projections, portfolio positions, and side gig income).
+- Exposes **16 read-only tools** that allow an AI assistant to query your FIRE data (net worth, trends, accounts, CDs, expenses, projections, portfolio positions, side-gig tax data, wallets, risk/diversification analysis, SWR sensitivity, rebalancing simulations, and emergency runway).
 - Runs as a **local stdio process** spawned by your AI assistant client. It does not bind to a network port or expose any HTTP endpoint.
 - Reads from `data/db.json` only — it has no write access by design (no write tools are registered).
 
@@ -104,7 +104,7 @@ FIRE Tracker includes an optional **MCP (Model Context Protocol) server** (`app/
 
 ## 7. Webhook Integration (Optional)
 
-The optional webhook feature allows external services to push data updates into your local FIRE Tracker instance:
+The optional webhook feature allows external services to push data updates into your local fire instance:
 
 - Webhook endpoints are **user-configured** and run on your local server only.
 - Webhook secrets (HMAC keys) are stored in `data/db.json` on your machine.
@@ -124,7 +124,7 @@ The optional webhook feature allows external services to push data updates into 
 
 ## 9. No Financial Advice
 
-FIRE Tracker is a **personal calculation and tracking tool**. Nothing in this application constitutes financial, investment, tax, or legal advice.
+fire is a **personal calculation and tracking tool**. Nothing in this application constitutes financial, investment, tax, or legal advice.
 
 - Projections are mathematical estimates based on inputs you provide. Actual investment returns, inflation, and tax obligations will differ.
 - Safe Withdrawal Rate (SWR) figures are educational references (e.g., the Bengen 4% Rule) and are not personalized recommendations.
@@ -134,13 +134,13 @@ FIRE Tracker is a **personal calculation and tracking tool**. Nothing in this ap
 
 ## 10. Terms of Use
 
-By using FIRE Tracker you agree to the following:
+By using fire you agree to the following:
 
 1. **Personal use only.** This application is intended for individual personal finance tracking. Do not use it to store financial data for other people without their explicit consent.
 2. **No warranty.** This software is provided "as is," without warranty of any kind, express or implied, including but not limited to fitness for a particular purpose or accuracy of financial calculations.
 3. **User responsibility.** You are solely responsible for the accuracy of the data you enter, the security of your device and browser, and any financial decisions made using this tool.
 4. **Open source license.** This application is released under the [MIT License](https://github.com/nitsuah/fire/blob/main/LICENSE). You may inspect, fork, and self-host it freely.
-5. **No liability.** The author(s) of FIRE Tracker shall not be liable for any financial loss, data loss, or damages of any kind arising from use of this application.
+5. **No liability.** The author(s) of fire shall not be liable for any financial loss, data loss, or damages of any kind arising from use of this application.
 
 ---
 
@@ -150,4 +150,4 @@ This document may be updated to reflect changes in application features (e.g., n
 
 ---
 
-*FIRE Tracker is an open-source project. Questions or concerns? Open an issue at [github.com/nitsuah/fire](https://github.com/nitsuah/fire).*
+*fire is an open-source project. Questions or concerns? Open an issue at [github.com/nitsuah/fire](https://github.com/nitsuah/fire).*

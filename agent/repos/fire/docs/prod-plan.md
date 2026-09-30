@@ -7,19 +7,19 @@ repo: fire
 ---
 
 
-# PROD Plan — FIRE Tracker Productionization
+# PROD Plan — fire Productionization
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
-> **Status:** Planning  
-> **Last updated:** 2026-08-12  
+> **Status:** Reference / productionization history  
+> **Last updated:** 2026-09-27  
 > **See also:** [ROADMAP.md](./ROADMAP.md), [TASKS.md](./TASKS.md), [docs/security-hardening.md](security-hardening.md), [docs/integrations.md](integrations.md)
 
 ---
 
 ## Purpose
 
-This document phases the FIRE Tracker from its current offline-first, CSV-import-driven state toward a production-grade personal finance platform on par with Fidelity NetBenefits and Rocket Money — while preserving the local-first, privacy-first, self-hosted architecture.
+This document phases fire from its current offline-first, CSV-import-driven state toward a production-grade personal finance platform on par with Fidelity NetBenefits and Rocket Money — while preserving the local-first, privacy-first, self-hosted architecture.
 
 The system remains **read-only** with respect to financial accounts. It will never initiate transactions, move money, or store unencrypted credentials. All sensitive data stays encrypted on the user's own machine. External connections are minimal and opt-in (BYOK).
 
@@ -45,16 +45,16 @@ The system remains **read-only** with respect to financial accounts. It will nev
 | eBay/Etsy/FB fee calculators | ✅ Live | Manual entry only (no API) |
 | Yahoo Finance live prices | ✅ Live | Crumb-based, 5-min TTL |
 | AES-256-GCM db.json encryption | ✅ Live | Opt-in via SYNC_MASTER_KEY |
-| MCP server (8 read-only tools) | ✅ Live | stdio transport |
+| MCP server (16 read-only tools) | ✅ Live | stdio transport |
 | Webhook sync framework | ✅ Live | JSONata mapping + HMAC |
 | OAuth scaffold | ✅ Live | eBay OAuth + Plaid Link SDK with UI |
-| eBay API integration | ✅ UI Ready | Backend endpoints complete; needs env vars |
-| Web3 wallet tracking | ❌ Planned | PROD Phase 1 |
+| eBay API integration | ✅ Live | Backend endpoints complete; needs env vars |
+| Web3 wallet tracking | ✅ Live | PROD Phase 1 |
 | Vehicle value API | ✅ UI Ready | Estimate overlay styled; needs premium API key |
-| Encrypted cloud backup | ❌ Planned | PROD Phase 1 |
-| Fidelity/Plaid sync | ✅ UI Ready | Backend + Plaid Link SDK complete; needs env vars |
-| Rate limiting | ❌ Planned | PROD Phase 3 |
-| HTTPS | ❌ Planned | PROD Phase 3 |
+| Encrypted cloud backup | 🟡 Implemented | PROD Phase 1 |
+| Fidelity/Plaid sync | 🟡 Live self-hosted | Backend + Plaid Link SDK complete; needs env vars |
+| Rate limiting | ✅ Live | PROD Phase 3 |
+| HTTPS | ✅ Live | PROD Phase 3 |
 | Unified Settings Page | ✅ Live | Notifications, export/import, privacy/terms, danger zone |
 | Milestone Presets | ✅ Live | 5 profiles (Conservative/Standard/Aggressive/Barista/Coast) |
 | Diversification Tips | ✅ Live | Dismissible tiles with curated links |
@@ -66,7 +66,7 @@ The system remains **read-only** with respect to financial accounts. It will nev
 
 ### 1.1 eBay API Connector
 
-The current eBay implementation is a fee calculator only (manual entry). Phase 1 adds automated import of completed sales from the eBay Order API.
+The eBay implementation now includes the fee calculator plus automated import of completed sales from the eBay Order API.
 
 **Auth:** OAuth 2.0 Authorization Code grant via eBay Developer program.
 
@@ -205,7 +205,11 @@ Returns: chain, address (last 8 chars), label, USD balance, last-fetched timesta
 
 **Env vars:**
 ```dotenv
-GDRIVE_SERVICE_ACCOUNT_JSON=./config/gdrive-sa.json
+GDRIVE_CLIENT_ID=
+GDRIVE_CLIENT_SECRET=
+GDRIVE_REDIRECT_URI=
+GDRIVE_BACKUP_FOLDER_ID=
+SYNC_MASTER_KEY=
 ```
 
 ---

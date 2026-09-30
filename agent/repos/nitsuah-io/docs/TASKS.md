@@ -57,10 +57,6 @@ repo: nitsuah-io
   - Context: skyview provides privacy-first event collection; replacing ad-hoc `console.log` with skyview events gives actionable usage data.
   - Acceptance Criteria: page-view events and key CTA clicks are emitted to skyview sink; no PII collected; METRICS.md updated with sample event schema.
 
-- [ ] Add `docs/API.md`.
-  - Context: `docs/ARCH.md` covers architecture, but the wagmi and chain surface lacks focused API documentation.
-  - Acceptance Criteria: `docs/API.md` documents the hook surface, chain config, and any `/api/*` server routes.
-
 
 - [ ] Micro-interaction and animation pass.
   - Context: hover states, scroll-triggered reveals, and page transitions are minimal; competitors use motion to improve perceived quality.

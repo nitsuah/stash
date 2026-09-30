@@ -10,7 +10,7 @@ repo: darkmoon
 
 > 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-27
 
 ## In Progress
 
@@ -52,6 +52,8 @@ see those files rather than a duplicated narrative here._
   - Acceptance Criteria: see `docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md` Phase E "Remaining" section.
 
 - [ ] Ship the first validated multiplayer-capable experience now that the readiness gate and server-side tag parity are both done — remaining work is a shipped client experience driving the existing socket events. See `docs/ROADMAP.md` 2027 Q1.
+  - Priority: P1
+  - Type: Feature
 
 ## Notes
 

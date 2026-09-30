@@ -15,6 +15,8 @@ repo: ats-fill
 
 [![CI](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml)
 
+**🌐 [nitsuah.github.io/ats-fill](https://nitsuah.github.io/ats-fill/)** — landing page with the 21-second demo video.
+
 ---
 
 ## The Problem
@@ -111,15 +113,27 @@ ats-fill/
 
 > The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
 > The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
-> Last refreshed: 2026-09-25 · UI snapshot: v1.0.2 (nav/hamburger overhaul, collapsible Settings + Pipeline columns, Help collapsed-by-default, Interview Prep job-readiness bar)
+> Last refreshed: 2026-09-30 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
 
 ### Main dashboard
 
 ![ats-fill main dashboard](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/main-dashboard.png)
 
+### Toolbar popup
+
+![ats-fill toolbar popup](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/popup.png)
+
 ### Tracker workspace (Pipeline)
 
 ![ats-fill tracker workspace](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/tracker-workspace.png)
+
+Dark mode follows your system theme:
+
+![ats-fill tracker workspace in dark mode](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/tracker-workspace-dark.png)
+
+### Analytics
+
+![ats-fill analytics](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/analytics.png)
 
 ### Profile + Memory
 

@@ -11,7 +11,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
-> **Status:** Planning  
+> **Status:** Reference / current implementation  
 > **Last updated:** 2026-09-26  
 > **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md)
 
@@ -22,7 +22,7 @@ This document describes every planned external integration — what credentials 
 ## eBay API
 
 **Purpose:** Automatically import completed sales into the side gig ledger.  
-**Phase:** PROD Phase 1 (Q1 2027) — **UI Ready** (OAuth status check, authorize/sync endpoints)  
+**Phase:** PROD Phase 1 — **Live** (self-hosted Express + browser-only Netlify Functions)  
 **Auth type:** OAuth 2.0 Authorization Code
 
 ### Setup
@@ -324,13 +324,15 @@ COINGECKO_API_KEY=    # Optional; increases rate limit
 4. Go to **IAM & Admin → Service Accounts** → create a service account
 5. Create and download a JSON key for the service account
 6. In Google Drive, create a folder called `fire-tracker-backups`
-7. Share that folder with the service account email address (Editor role)
-8. Place the JSON key file in `config/gdrive-sa.json` (git-ignored)
+7. Configure the Google OAuth consent screen and authorize the account through `/api/backup/drive/authorize`.
+8. `SYNC_MASTER_KEY` encrypts the stored Drive OAuth token and every backup before upload.
 
 ### Env Vars
 
 ```dotenv
-GDRIVE_SERVICE_ACCOUNT_JSON=./config/gdrive-sa.json   # Path to service account key file
+GDRIVE_CLIENT_ID=                                    # Google OAuth 2.0 Web application client ID
+GDRIVE_CLIENT_SECRET=                                # Google OAuth 2.0 Web application client secret
+GDRIVE_REDIRECT_URI=                                  # Optional; defaults to the local callback URL
 GDRIVE_BACKUP_FOLDER_ID=                              # Optional: Drive folder ID (auto-created if blank)
 ```
 
@@ -457,7 +459,7 @@ VEHICLE_VALUE_PROVIDER=dataone
 | Fidelity CSV (manual) | ✅ Live | None |
 | Chase / CapOne CSV (manual) | ✅ Live | None |
 | eBay fee calculator (manual) | ✅ Live | None |
-| eBay Order API | ❌ Phase 1 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` |
+| eBay Order API | ✅ Live | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `SYNC_MASTER_KEY` |
 | Etherscan (ETH wallets) | ❌ Phase 1 | `ETHERSCAN_API_KEY` |
 | BscScan (BNB wallets) | ❌ Phase 1 | `BSCSCAN_API_KEY` |
 | Polygonscan (MATIC wallets) | ❌ Phase 1 | `POLYGONSCAN_API_KEY` |
@@ -467,11 +469,11 @@ VEHICLE_VALUE_PROVIDER=dataone
 | Blockstream (Bitcoin) | ❌ Phase 1 | None |
 | Solana RPC | ❌ Phase 1 | None |
 | CoinGecko prices | ❌ Phase 1 | None (optional key) |
-| Google Drive backup | ❌ Phase 1 | `GDRIVE_SERVICE_ACCOUNT_JSON` |
+| Google Drive backup | 🟡 Implemented; round-trip verification pending | `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET`, `SYNC_MASTER_KEY` |
 | NHTSA VIN decode | ❌ Phase 1 | None |
 | Vehicle value API | ❌ Phase 1 | `VEHICLE_VALUE_API_KEY` |
-| Plaid (Fidelity/bank sync) | ❌ Phase 2 | `PLAID_CLIENT_ID`, `PLAID_SECRET` |
-| Alpha Vantage / Polygon.io | ❌ Phase 2 | `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` |
+| Plaid (Fidelity/bank sync) | 🟡 Live self-hosted; Netlify pending | `PLAID_CLIENT_ID`, `PLAID_SECRET` |
+| Alpha Vantage / Polygon.io | ✅ Live | `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` |
 
 ---
 

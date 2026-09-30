@@ -10,7 +10,7 @@ repo: avatar
 
 > 🧭 [avatar](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-27
 
 ## Done
 
@@ -21,16 +21,36 @@ _Shipped work lives in [FEATURES](./FEATURES.md) (capabilities) and [CHANGELOG](
 ## Todo
 
 - [ ] Bring `avatar/utils.py::count_images_in_directory` (and `validate_image_count`) in line with the notebook's Pillow-based counting (the notebook's "Step 6.5" dataset-validation cell was added in #22 and switched to Pillow-based counting in #25, see `docs/CHANGELOG.md`, so the notebook and `utils.py` now diverge). Deferred separately because `tests/test_utils.py::test_count_images_with_files` creates fixture images via `.touch()` (empty files Pillow cannot open); a content-based rewrite needs new fixtures (real minimal images, e.g. via `PIL.Image.new(...).save(...)`) before the function itself can change.
+  - Priority: P2
+  - Type: Bug
 - [ ] Commit a hashed lock file (`pip-compile --generate-hashes` or equivalent) for the full Python dependency graph used by `config/requirements.txt` / `Dockerfile` (CWE-829) — flagged as a "heavy lift" by CodeRabbit; needs `pip-tools` added, a generated lock file, and a CI step to install from it.
+  - Priority: P2
+  - Type: CI
 
 - [ ] Add model evaluation step to notebook — compute CLIP similarity (and FID, per ROADMAP 2027 Q1) score between generated samples and training images to quantify output quality.
+  - Priority: P2
+  - Type: Feature
 - [ ] Add `nbconvert` step to CI — execute the notebook headlessly to catch broken cells (guard with `@pytest.mark.notebook` or a separate workflow job).
+  - Priority: P2
+  - Type: CI
 - [ ] Export notebook to `examples/DreamBooth_Stable_Diffusion.html` so users can preview the workflow without running Colab.
+  - Priority: P3
+  - Type: Docs
 - [ ] Document the `build_training_command` utility in README — show how to use it to reproduce the training command locally.
+  - Priority: P3
+  - Type: Docs
 - [ ] Add Gradio or Streamlit inference UI — wrap the trained model in a simple web form for non-technical users.
+  - Priority: P2
+  - Type: Feature
 - [ ] Add a `CONTRIBUTING.md` entry (or link to `nitsuah/.github`) to the local repo root for discoverability. GitHub already serves the org defaults: as of the 2026-09-24 PMO audit, `gh api repos/nitsuah/avatar/community/profile` resolves `contributing`, `code_of_conduct` and `pull_request_template` from `nitsuah/.github`. This item is only about in-repo discoverability, so P3.
+  - Priority: P3
+  - Type: Docs
 - [ ] Scope "user feedback integration" (see `ROADMAP.md` 2027 Q1) — needs a concrete mechanism, data model, and trigger defined before it's actionable; not implemented here per explicit instruction not to guess at scope.
+  - Priority: P3
+  - Type: Docs
 - [ ] Create `run_notebook.sh` helper script:
+  - Priority: P3
+  - Type: Tech debt
 
 ```bash
 #!/usr/bin/env bash

@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-09-27
+> Reviewed: 2026-09-30
 
 ## Overview
 
@@ -40,9 +40,13 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 
 ## Open P0/P1 Tasks
 
+- [ ] **P0 (new 2026-09-30)** Google Drive backup round-trip verification before rollout: prove encrypt → upload → download → decrypt end-to-end (browser Google connect, Drive only sees ciphertext, wrong-key/corrupt backups fail cleanly) before the UI may report a successful backup. The other two P0s in the new browser/production pass (spot-price API 400s, wallet/ENS aggregate refresh) are already done.
+- [ ] **P1 (new 2026-09-30)** Split `app/routes/sync.js` (942 LOC) into eBay and Plaid route modules and extract the transactions handler (F-20260916-05).
+- [ ] **P1 (new 2026-09-30)** CoinTracker MCP integration for wallet discovery/investigation, behind a provider boundary with fallback to the direct chain providers.
+
 - [ ] **P1 (new 2026-09-26)** Serve Plaid on the Netlify deploy (lifefire.netlify.app). `/api/sync/plaid/*` only exists in Express, so every Plaid call 404s on the static deploy. Approach: follow eBay's PR #130 pattern (v2 Netlify Functions + `netlify.toml` rewrites, Plaid tokens returned to the browser encrypted with `SYNC_MASTER_KEY`). New rule: any `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
 
-Otherwise, TASKS.md's only remaining explicitly-prioritized open item is P2: model real eBay marginal fee-bracket tiers in `calculateEbayFeesTotal` instead of a flat rate (flagged by CodeRabbit on PR #103; still open — needs a per-category fee-rule schema, not just the already-fixed $0.30/$0.40 order-fee threshold). The companion P2 item — the branch/function test-coverage gap (previously 68.33% branch vs. 70% target, 75.67% functions vs. 80% target) — closed this cycle: branch 71.04%, functions 84.16%, full suite 381/381 passing. Everything else open in TASKS.md/ROADMAP.md is untagged backlog (PROD Phase 2 `prices-provider.js` tests, PROD Phase 3 penetration-test checklist, Phase 4 items, tax drag engine, PWA).
+- [ ] **P1 (raised from P2, 2026-09-30)** Model real eBay marginal fee-bracket tiers in `calculateEbayFeesTotal` instead of a flat rate (flagged by CodeRabbit on PR #103; still open — needs a per-category fee-rule schema, not just the already-fixed $0.30/$0.40 order-fee threshold). The companion P2 item — the branch/function test-coverage gap (previously 68.33% branch vs. 70% target, 75.67% functions vs. 80% target) — closed this cycle: branch 71.04%, functions 84.16%, full suite 381/381 passing. The rest of the open TASKS.md work is P2 or lower: `prices-provider.js` tests (P2, tech debt), the full penetration-test checklist (P2, security), and PROD Phase 4 items (12-month income/expense trend P2, PWA P2, multi-user mode P3; rebalancing, tax-loss alerts and milestone notifications are partly shipped). The tax drag engine is ROADMAP-only.
 
 ## Blockers
 

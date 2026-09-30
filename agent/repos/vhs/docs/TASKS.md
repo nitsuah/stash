@@ -10,25 +10,41 @@ repo: vhs
 
 > 🧭 [vhs](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-27
+
+## In Progress
+
+- _None yet._
 
 ## Todo
 
 - [ ] **Review `scripts/audit-metadata.js` dry-run output against the real collection before any `--apply`** — PR #55 added the tool (dry-run by default, OMDb comparison, high-confidence-only corrections) but its own test plan left this unchecked: `--apply` was only ever dry-run against local test data because no `OMDB_API_KEY` was configured. Acceptance: a dry run over the ~500-title collection is reviewed by a human, then `--apply` is run (or specific corrections rejected with reasons).
+  - Priority: P2
+  - Type: Tech debt
 - [ ] **Finish PR #55's remaining priorities** — P6 (mobile Easter eggs) and P7 (polish) were marked in progress on that branch when it merged; confirm what shipped and either close them out or re-scope.
+  - Priority: P3 (triage)
+  - Type: Tech debt
 
 ## Ideas
 
 - [ ] Add "randomizer" that auto picks a title from the collection.
+  - Priority: P3
+  - Type: Feature
 - [ ] Add "watch" options in the "trailer" view with buttons to where the movie can be watched (this is a major feature to index and search where videos might be streaming or available online free to watch, tubi or youtube, vimeo, dailymotion, etc)
+  - Priority: P2
+  - Type: Feature
 
 ### Coverage & Testing
 
 - [ ] **True sold-price valuation (eBay Marketplace Insights)** — the shipped valuation uses the Browse API, which returns **active listings (asking prices), not realized sale prices**; asking prices skew high. The Browse API has no supported sold/completed-item filter (an earlier draft sent `soldItemsOnly:true`, which eBay does not honour). Real sold data needs the Marketplace Insights API, which requires a separate eBay application and approval. Until then the source label is `ebay-browse` / `basis: active-asking` and the UI says "asking". When Insights access lands, add a new source label rather than redefining this one. (Feature work, not a testing gap — miscategorized here historically; see `docs/ROADMAP.md` Future ideas.)
+  - Priority: P2
+  - Type: Feature
 
 ### Tech Debt / Cleanup
 
 - [ ] **Delete orphaned `src/modules/routes/jobs.js` and `routes/lookup.js`** — confirmed unused: `server.js` implements `/api/jobs*` and `/api/lookup*` inline and never `require()`s either file (verified 2026-09-02: zero references anywhere in `src/` or `tests/`). Currently excluded from `jest.config.js` `collectCoverageFrom` with a comment rather than deleted, to keep the 2026-09 cleanup PR reviewable. Delete both files in a follow-up, or wire `server.js` to use them instead of the inline duplicates (bigger refactor, same net effect).
+  - Priority: P3
+  - Type: Tech debt
 
 ## P1
 
