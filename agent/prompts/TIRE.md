@@ -113,7 +113,7 @@ Last intake: YYYY-MM-DD
 ## Tips from previous runs
 
 - **Parallel recon, sequential Docker.** Recon subagents can run in parallel; run Docker builds one at a time.
-- **Commit on a branch in the main checkout when the repo is clean; don't use worktrees.** Several repos' hooks break from a worktree (2026-09-24): vigil's husky pre-commit always runs lint-staged on the Windows host; darkmoon's runs on the host from a worktree, otherwise it starts the `darkmoon-solo` container and leaves it running; stash's gitleaks hook runs in Docker against the repo root and fails from a worktree. If the main checkout is dirty or on another branch, that's someone's work in progress: skip the repo.
+- **Commit on a branch in the main checkout when the repo is clean; don't use worktrees.** Several repos' hooks break from a worktree (2026-09-24): vigil's husky pre-commit always runs lint-staged on the Windows host; darkmoon's runs on the host from a worktree, otherwise it starts the `darkmoon-solo` container and leaves it running. (stash's gitleaks hook works from a worktree since 2026-09-30.) If the main checkout is dirty or on another branch, that's someone's work in progress: skip the repo.
 - **Don't `docker stop` containers that hooks start.** The auto-mode classifier blocks it ("Interfere With Workloads"). Name the container (e.g. `darkmoon-solo`) in the report for a human instead.
 - **Pre-commit hooks that modify files:** after black/isort abort a commit, `git add -A` and retry.
 - **Cross-repo `gh`:** always pass `--repo <owner>/<repo>` (and `--head`), because `gh` otherwise infers the repo from the cwd.
