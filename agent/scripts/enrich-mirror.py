@@ -40,7 +40,12 @@ def git(*args):
 
 branch = git("rev-parse", "--abbrev-ref", "origin/HEAD").split("/", 1)[-1] or "main"
 remote = re.sub(r"\.git$", "", git("remote", "get-url", "origin"))
-remote = re.sub(r"^git@github\.com:", "https://github.com/", remote)
+remote = re.sub(r"^(?:git@github\.com:|ssh://git@github\.com/)", "https://github.com/", remote)
+# An https origin can embed a token (https://<token>@github.com/...). stash is public, so
+# strip any userinfo, and refuse to write anything if a credential could still be in the URL.
+remote = re.sub(r"^(https?://)[^/?#@]+@", r"\1", remote)  # userinfo can't span past the authority
+if "@" in remote:
+    sys.exit(f"enrich-mirror.py: refusing {repo}: origin URL still has userinfo after normalization")
 upstream = set(git("ls-tree", "-r", "--name-only", "origin/HEAD").splitlines())
 updirs = {posixpath.dirname(f) for f in upstream}
 for d in list(updirs):
