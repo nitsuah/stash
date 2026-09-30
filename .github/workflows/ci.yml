@@ -134,4 +134,4 @@ jobs:
         run: pip install pytest responses requests
 
       - name: Run pytest
-        run: python -m pytest atlassian/jira/test_examples.py -v
+        run: python -m pytest atlassian/jira/test_examples.py agent/scripts/test_enrich_mirror.py -v
