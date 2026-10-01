@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>stash · One Brain</title>
+  <meta name="description" content="How nitsuah/stash wires Claude agents, scheduled routines and a set of small scripts into one Obsidian vault that links 17 repos across machines, in a public repo that stays clean.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="dot"></span>stash · one brain</a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#routines">Routines</a>
+      <a href="#scripts">Scripts</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#scale">Scale</a>
+      <a href="setup.html">Setup guide</a>
+      <a href="https://github.com/nitsuah/stash">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">nitsuah/stash · agent/</div>
+    <h1>17 repos, 13 routines, <em>one Obsidian brain</em>.</h1>
+    <p class="lede">
+      <code>stash/agent/</code> is an Obsidian vault that sits inside a public git repo. Claude agents write to it
+      on a schedule, a set of small scripts keeps every note linked, and git carries it to every machine.
+      Open the graph on any computer and you see the same picture of every project: daily notes,
+      repo hubs, mirrored docs, audits and reports, all linked from one map.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="setup.html">Set it up yourself →</a>
+      <a class="btn" href="https://github.com/nitsuah/stash/tree/main/agent">Browse the vault on GitHub</a>
+      <a class="btn" href="https://github.com/nitsuah/stash/blob/main/agent/projects/obsidian-vault-guide.md">Read the vault guide</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>17</b><span>tracked repos, one registry</span></div>
+      <div class="stat"><b>13</b><span>routines (8 local, 5 cloud)</span></div>
+      <div class="stat"><b>~520</b><span>linked notes, 0 orphans</span></div>
+      <div class="stat"><b>21</b><span>agent prompts / specs</span></div>
+      <div class="stat"><b>17</b><span>vault scripts</span></div>
+      <div class="stat"><b>7</b><span>layers keeping private data out</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="what">
+  <div class="wrap">
+    <div class="eyebrow">This is a reference, not a product</div>
+    <h2>What this page is</h2>
+    <p class="sub">
+      Nothing here is packaged or versioned for reuse. It's one person's working setup, and it's public so you can read
+      the real thing: prompts, scripts, routine definitions and the CI that guards them. Take the patterns that fit and
+      leave the rest. The <a href="setup.html">setup guide</a> walks through rebuilding it from a fresh clone.
+    </p>
+    <div class="grid g3">
+      <div class="card"><span class="tag">Obsidian</span><h3>The vault is the memory</h3><p>Plain Markdown in git. The app is the viewer: graph, Bases tables, embeddings, templates. No scheduled routine needs the app to be running.</p></div>
+      <div class="card"><span class="tag green">Routines</span><h3>Agents run on a schedule</h3><p>Claude Code scheduled tasks on the desktop plus cloud routines on claude.ai. Each one is a thin wrapper that points at a versioned spec in <code>agent/prompts/</code>.</p></div>
+      <div class="card"><span class="tag warn">Scripts</span><h3>Scripts do the linking</h3><p>Agents only have to name a file correctly. The scripts work out where it hangs in the graph, mirror repo docs, fix links and refuse anything that would leak.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>One loop: repos in, synthesis out, every machine pulls</h2>
+    <p class="sub">
+      Each tracked repo's merged docs flow into the vault. Agents roll them up into hubs and reports, the generator
+      links everything, CI gates the PR, and once it's on <code>main</code> the cloud routines and every other machine
+      see the same brain.
+    </p>
+
+    <div class="diagram" role="img" aria-label="Diagram: tracked repos feed sync scripts, which write the stash/agent vault; the vault goes to GitHub main through a gated PR; cloud routines clone main and write reports back by PR; every machine git-pulls main and opens it in Obsidian.">
+      <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"/></marker>
+        </defs>
+
+        <!-- repos -->
+        <rect class="box" x="20" y="40" width="200" height="150" rx="12"/>
+        <text class="title" x="36" y="68">17 tracked repos</text>
+        <text class="small" x="36" y="92">registry: projects/scope.md</text>
+        <text class="small" x="36" y="112">public → docs mirrored</text>
+        <text class="small" x="36" y="132">private → hub summary only</text>
+        <text class="small" x="36" y="152">read from origin/HEAD,</text>
+        <text class="small" x="36" y="170">never a working tree</text>
+
+        <!-- machines -->
+        <rect class="box" x="20" y="270" width="200" height="150" rx="12"/>
+        <text class="title" x="36" y="298">Your machines</text>
+        <text class="small" x="36" y="322">Obsidian + 10 plugins</text>
+        <text class="small" x="36" y="342">Local REST API → MCP</text>
+        <text class="small" x="36" y="362">Claude Code scheduled tasks</text>
+        <text class="small" x="36" y="382">raw logs stay here</text>
+        <text class="small" x="36" y="402">(gitignored)</text>
+
+        <!-- scripts -->
+        <rect class="box" x="280" y="40" width="210" height="230" rx="12"/>
+        <text class="title" x="296" y="68">Pipeline scripts</text>
+        <text class="mono" x="296" y="96">sync-repos.ps1 -Prune</text>
+        <text class="mono" x="296" y="120">enrich-mirror.py</text>
+        <text class="mono" x="296" y="144">build-vault-indexes.py</text>
+        <text class="mono" x="296" y="168">fix-doc-links.py --vault</text>
+        <text class="mono" x="296" y="192">find-orphans.py --check</text>
+        <text class="mono" x="296" y="216">suggest-links.py</text>
+        <text class="small" x="296" y="246">mirror · enrich · link · verify</text>
+
+        <!-- vault -->
+        <rect class="box vault" x="550" y="40" width="210" height="380" rx="12"/>
+        <text class="title" x="566" y="68">stash/agent (vault)</text>
+        <text class="mono" x="566" y="98">VAULT-MAP.md  ← home</text>
+        <text class="mono" x="566" y="124">notes/    daily + weekly</text>
+        <text class="mono" x="566" y="150">repos/    hubs + mirrors</text>
+        <text class="mono" x="566" y="176">reports/  routine output</text>
+        <text class="mono" x="566" y="202">prompts/  agent specs</text>
+        <text class="mono" x="566" y="228">topics/   cross-repo maps</text>
+        <text class="mono" x="566" y="254">projects/ hand-written</text>
+        <text class="mono" x="566" y="280">routines/ backups</text>
+        <text class="mono" x="566" y="306">templates/ Templater</text>
+        <text class="mono" x="566" y="332">vault-views.base</text>
+        <text class="small" x="566" y="372">every note reachable</text>
+        <text class="small" x="566" y="392">from VAULT-MAP</text>
+
+        <!-- github -->
+        <rect class="box gh" x="820" y="40" width="160" height="190" rx="12"/>
+        <text class="title" x="836" y="68">GitHub main</text>
+        <text class="small" x="836" y="94">CI gates every PR:</text>
+        <text class="mono" x="836" y="116">pii-scan.sh</text>
+        <text class="mono" x="836" y="136">gitleaks</text>
+        <text class="mono" x="836" y="156">vault graph check</text>
+        <text class="mono" x="836" y="176">check-generated-</text>
+        <text class="mono" x="836" y="194">  diff.py (merge)</text>
+
+        <!-- cloud -->
+        <rect class="box" x="820" y="290" width="160" height="130" rx="12"/>
+        <text class="title" x="836" y="318">Cloud routines</text>
+        <text class="small" x="836" y="342">clone main only</text>
+        <text class="small" x="836" y="362">brief · vuln · loc</text>
+        <text class="small" x="836" y="382">mini · obn-import</text>
+        <text class="small" x="836" y="402">report back by PR</text>
+
+        <!-- arrows -->
+        <path class="arrow" d="M220 115 H276"/>
+        <path class="arrow accent" d="M490 150 H546"/>
+        <path class="arrow accent" d="M220 340 H546"/>
+        <text class="small" x="300" y="332">Obsidian app · MCP · local routines</text>
+        <path class="arrow green" d="M760 130 H816"/>
+        <text class="small" x="764" y="120">obn/ PR</text>
+        <path class="arrow green" d="M880 230 V286"/>
+        <text class="small" x="888" y="262">clone</text>
+        <path class="arrow green" d="M820 380 C790 380 790 380 764 380"/>
+        <text class="small" x="766" y="372">PR</text>
+        <path class="arrow" stroke-dasharray="5 5" d="M980 135 H992 V458 H120 V424"/>
+        <text class="small" x="420" y="452">git pull on every machine: same graph, same hubs, same reports everywhere</text>
+      </svg>
+    </div>
+
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card">
+        <h3>Across machines without a sync service</h3>
+        <p>Git is the transport. The vault is plain files, so a second laptop is <code>git clone</code>, open the folder in Obsidian, reinstall plugin binaries. A git clean filter (<code>obsidian-json-clean.py</code>) hides Obsidian's settings churn, so opening the app doesn't make the repo dirty and the daily sync doesn't skip it.</p>
+      </div>
+      <div class="card">
+        <h3>Two fleets, one source of truth</h3>
+        <p>Local routines can use Docker, local clones and private data. Cloud routines clone <code>main</code> and only ever see what's merged. Both read the repo list from <code>projects/scope.md</code> and their behaviour from <code>prompts/*.md</code>, so updating a spec changes what both fleets do.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="routines">
+  <div class="wrap">
+    <div class="eyebrow">The week, automated</div>
+    <h2>Routines and what they leave in the vault</h2>
+    <p class="sub">
+      Every routine is a short wrapper: "read <code>prompts/X.md</code> and follow it". The spec is versioned in the vault,
+      so the routine's behaviour shows up in diffs and PRs. The wrappers are backed up as public-safe copies in
+      <a href="https://github.com/nitsuah/stash/blob/main/agent/routines/routines-backup.md"><code>agent/routines/</code></a>.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Routine</th><th>Where</th><th>When</th><th>Spec</th><th>What lands in the vault</th></tr></thead>
+        <tbody>
+          <tr><td><b>daily-repo-sync</b></td><td><span class="pill local">local</span></td><td>daily</td><td><code>DAILY.md</code></td><td>Pulls every repo, prunes merged worktrees, mirrors docs, rewrites repo hubs, writes the daily note (weekly note Mondays, week review Saturdays), regenerates links, opens the <code>obn/</code> PR. Merges yesterday's PR only if every file is generated</td></tr>
+          <tr><td><b>daily-brief</b></td><td><span class="pill cloud">cloud</span></td><td>weekdays</td><td>routine</td><td><code>reports/cloud/daily-brief/</code>: counts only, never mail or calendar content</td></tr>
+          <tr><td><b>week-sotu</b></td><td><span class="pill local">local</span></td><td>Mon</td><td><code>SOTU.md</code></td><td>State of the Union across every repo's <code>TASKS.md</code>, the findings ledger and routine health; private repos reduced to titles</td></tr>
+          <tr><td><b>week-fin-sum</b></td><td><span class="pill local">local</span></td><td>Mon</td><td>private</td><td><b>Nothing.</b> Session output only, never commits</td></tr>
+          <tr><td><b>week-obn-import</b></td><td><span class="pill cloud">cloud</span></td><td>Wed</td><td>routine</td><td>Vault health check of what's on <code>main</code></td></tr>
+          <tr><td><b>week-eng-mini</b></td><td><span class="pill cloud">cloud</span></td><td>Wed</td><td><code>MINI.md</code></td><td><code>reports/eng-mini-&lt;repo&gt;-&lt;date&gt;</code>, small tasks a cheaper model can take</td></tr>
+          <tr><td><b>ops-catchup</b></td><td><span class="pill local">local</span></td><td>Wed</td><td><code>CATCHUP.md</code></td><td>Reschedules monthlies that deferred on quota (local log only)</td></tr>
+          <tr><td><b>week-vuln</b></td><td><span class="pill cloud">cloud</span></td><td>Thu</td><td>routine</td><td>Dependency and advisory scan, gated on lockfile SHAs; package names and public IDs only</td></tr>
+          <tr><td><b>week-eng-loc</b></td><td><span class="pill cloud">cloud</span></td><td>Thu</td><td><code>LOC.md</code></td><td><code>reports/eng-loc-&lt;repo&gt;-&lt;date&gt;</code>, chained into each repo hub</td></tr>
+          <tr><td><b>monthly-tire-kick</b></td><td><span class="pill local">local</span></td><td>28th</td><td><code>TIRE.md</code></td><td>Patches the week-vuln queue in Docker, findings ledger</td></tr>
+          <tr><td><b>monthly-pmo-audit</b></td><td><span class="pill local">local</span></td><td>1st</td><td><code>PMO.md</code></td><td>Portfolio audit; fixes doc links upstream; keeps ROADMAP/TASKS honest</td></tr>
+          <tr><td><b>monthly-usage-report</b></td><td><span class="pill local">local</span></td><td>1st</td><td><code>USAGE.md</code></td><td>Usage and quota report</td></tr>
+          <tr><td><b>monthly-self-improvement</b></td><td><span class="pill local">local</span></td><td>2nd</td><td><code>RSI.md</code></td><td>Audits the routines themselves and proposes fixes to their prompts</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:16px">Both fleets share one usage quota. Monthlies run a preflight and print <code>DEFERRED:</code> instead of starting when it's tight; <code>ops-catchup</code> picks them up after the weekly reset.</p>
+  </div>
+</section>
+
+<section id="scripts">
+  <div class="wrap">
+    <div class="eyebrow">What the scripts do together</div>
+    <h2>Agents name files; scripts build the graph</h2>
+    <p class="sub">
+      An agent never decides where a note gets linked. It writes <code>reports/eng-loc-kryptos-2026-09-24.md</code>, and the
+      generator works out from the name that it hangs off the <code>kryptos</code> hub, chains to the previous LOC report,
+      gets <code>kind</code>/<code>repo</code>/<code>date</code> properties, and shows up in the right Bases view. Routines don't
+      hand-pick link targets, so a thousand notes stay as navigable as fifty.
+    </p>
+    <div class="grid g3">
+      <div class="card"><span class="tag">mirror</span><h3>sync-repos.ps1</h3><p>Exports every <code>.md</code> from each repo's remote default branch with <code>git archive</code>. Uncommitted, staged and unmerged work can't leak. Skips private repos; <code>-Prune</code> removes a mirror that shouldn't exist.</p></div>
+      <div class="card"><span class="tag">mirror</span><h3>enrich-mirror.py</h3><p>Adds <code>up:</code>/<code>source:</code> frontmatter so each repo becomes a named cluster, rewrites links to unmirrored files as GitHub URLs, escapes stray hashtags, strips credentials from origin URLs, and refuses to write if one survives.</p></div>
+      <div class="card"><span class="tag">link</span><h3>build-vault-indexes.py</h3><p>The generator. Nav lines, hub link blocks, prev/next chains, topic maps, VAULT-MAP, properties, rename aliases, archive moves. Idempotent: a second run changes zero files.</p></div>
+      <div class="card"><span class="tag">link</span><h3>fix-doc-links.py</h3><p>Finds and repairs broken relative links, in the vault or upstream in a repo (the PMO audit runs it, so fixes land in the source).</p></div>
+      <div class="card"><span class="tag">link</span><h3>suggest-links.py</h3><p>Reads Smart Connections' local embeddings and suggests links for weakly connected notes on Mondays. It only suggests; it never writes a link.</p></div>
+      <div class="card"><span class="tag green">verify</span><h3>find-orphans.py --check</h3><p>Fails when a note can't be reached from VAULT-MAP, two notes share a name, or a link is broken outside the mirrors. Runs in CI.</p></div>
+      <div class="card"><span class="tag green">gate</span><h3>check-generated-diff.py</h3><p>The auto-merge gate. A routine PR merges itself only if every changed file is routine-owned: dated notes, mirrors, hubs or generator output. A hand edit always waits for a human.</p></div>
+      <div class="card"><span class="tag warn">guard</span><h3>pii-scan.sh</h3><p>Blocks emails, phone numbers and token formats in reports, notes, projects, prompts, topics, templates and routines. Prints file and line only, so the CI log doesn't become a second copy of a leak.</p></div>
+      <div class="card"><span class="tag warn">guard</span><h3>obsidian-json-clean.py</h3><p>Git clean filter for <code>.obsidian/*.json</code>. Obsidian rewrites its settings on every launch, and this keeps that churn out of diffs.</p></div>
+      <div class="card"><span class="tag">ops</span><h3>bootstrap-stage0.ps1</h3><p>Preflight for the local pipeline: checks Docker, Obsidian and the Local REST API port, and starts what's missing.</p></div>
+      <div class="card"><span class="tag">ops</span><h3>export-routines.py</h3><p>Backs up the local scheduled tasks into <code>agent/routines/</code>, redacting personal context. <code>--check</code> exits 1 when a backup is stale.</p></div>
+      <div class="card"><span class="tag">report</span><h3>sotu.py · analyze-loc · check-tasks-format</h3><p>Data builders behind the weekly SOTU and LOC reports, and a linter that keeps every repo's <code>TASKS.md</code> parseable by <a href="https://github.com/nitsuah/vigil">vigil</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="plugins">
+  <div class="wrap">
+    <div class="eyebrow">Obsidian side</div>
+    <h2>Plugins and what each one is for</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Plugin</th><th>Role in the system</th></tr></thead>
+        <tbody>
+          <tr><td><b>Local REST API</b> + <b>MCP Tools</b></td><td>Expose the vault as an <code>obsidian</code> MCP server on loopback, so interactive Claude sessions can search and edit notes. Loopback only, so no cloud routine can reach it, and no scheduled routine needs it</td></tr>
+          <tr><td><b>Smart Connections</b> / Lookup / Context</td><td>Local embeddings of every note (<code>.smart-env/</code>, gitignored). Semantic search in the app, and the input to <code>suggest-links.py</code></td></tr>
+          <tr><td><b>Templater</b></td><td><code>tpl-note</code> and <code>tpl-decision</code> ask which hub a new note belongs under and write <code>up:</code>, so hand-written notes can't orphan</td></tr>
+          <tr><td><b>Front Matter Title</b></td><td>Graph shows <code>vigil · ROADMAP</code> instead of 17 nodes called <code>ROADMAP</code></td></tr>
+          <tr><td><b>Bases</b> (core)</td><td><code>vault-views.base</code>: live tables of latest reports, notes by repo, repo hubs, built on generator-owned properties</td></tr>
+          <tr><td><b>Nexus</b>, <b>Excalidraw</b>, <b>Importer</b></td><td>Workspace memory, diagrams, imports</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <div class="eyebrow">Semi-public by design</div>
+    <h2>Raw stays local. Synthesis gets committed.</h2>
+    <p class="sub">
+      The vault is public on purpose: cloud routines need to read it, and the roll-ups are worth showing. So protection is
+      layered, and any one layer can fail without a leak. Logs, plugin keys, embeddings, inbox and calendar content,
+      financial data and private repos never leave the machine. What reaches GitHub is written for a public reader:
+      counts, statuses, PR titles, repo-level prose.
+    </p>
+    <div class="layers">
+      <div class="layer"><div><b>Exclusion</b><span><code>.gitignore</code> plus Obsidian's <code>userIgnoreFilters</code>: logs, plugin <code>data.json</code> (API keys), embeddings, workspace state</span></div></div>
+      <div class="layer"><div><b>Source discipline</b><span>Only merged, committed docs of public repos are mirrored, never a working tree, a branch or a private repo</span></div></div>
+      <div class="layer"><div><b>URL hygiene</b><span><code>enrich-mirror.py</code> strips credentials from remote URLs and refuses to write if one survives (tested)</span></div></div>
+      <div class="layer"><div><b>Prompt allow-lists</b><span>Every publishing routine says what its report <i>may</i> contain: counts only, public advisory IDs only, titles only for private repos, or never commit</span></div></div>
+      <div class="layer"><div><b>Merge gates</b><span><code>check-generated-diff.py</code> plus an author/fork filter: routines auto-merge only their own generated files</span></div></div>
+      <div class="layer"><div><b>Pre-commit hook</b><span>gitleaks on staged changes plus <code>pii-scan.sh</code> on staged files</span></div></div>
+      <div class="layer"><div><b>CI</b><span>PII scan, gitleaks over every new commit, vault graph check. A leaky report can't auto-merge</span></div></div>
+    </div>
+    <div class="callout ok" style="margin-top:20px">
+      It gets audited, and the audit is public too. The 2026-09-30 pass found a private repo's docs mirrored into the vault and three email addresses in a project doc. Both were fixed, and each fix became a new rule or layer.
+      <a href="https://github.com/nitsuah/stash/blob/main/agent/projects/obsidian-vault-guide.md#5-keeping-private-data-out-semi-public-by-design">Read the audit →</a>
+    </div>
+    <div class="callout">
+      <strong>Known limits, stated plainly.</strong> Deleting a file doesn't remove it from git history: purging means <code>git filter-repo</code> and a force-push, which is a human call. Binary files aren't scanned. Mirrored docs inherit whatever is in the public upstream repo, so a leak there gets fixed upstream and picked up by the next sync.
+    </div>
+  </div>
+</section>
+
+<section id="scale">
+  <div class="wrap">
+    <div class="eyebrow">Why it scales</div>
+    <h2>Adding a repo is one table row</h2>
+    <div class="grid g2">
+      <div class="card"><h3>One registry</h3><p><code>projects/scope.md</code> lists every tracked repo with its URL and visibility. Every routine, local or cloud, reads it. Add a row and tomorrow's sync mirrors the docs, builds a hub and links it from VAULT-MAP. Mark it <b>private</b> and it gets a summary hub, never a mirror.</p></div>
+      <div class="card"><h3>Names carry the structure</h3><p>Unique, descriptive file names (<code>daily-email-2026-09-25</code>, not <code>2026-09-25</code>) let the generator place every note. No flat INDEX files, no star hubs: every note is a few meaningful hops from VAULT-MAP.</p></div>
+      <div class="card"><h3>Topics cut across repos</h3><p><code>topics/topic-deployment.md</code> declares a <code>match:</code> pattern in its frontmatter and the generator lists matching notes grouped by repo. To add a topic, write one note.</p></div>
+      <div class="card"><h3>Renames don't break links</h3><p>Record "formerly <code>overseer</code>" once in scope.md. The generator maps old report names to the new hub and writes <code>aliases:</code>, so search and old links still resolve.</p></div>
+      <div class="card"><h3>History archives itself</h3><p>Dated notes older than last month move to <code>notes/archive/YYYY-MM/</code>. Links use bare names, so they survive the move.</p></div>
+      <div class="card"><h3>CI holds the line</h3><p>A PR that adds a note no rule can place, duplicates a name or breaks a link fails the vault graph check before it reaches <code>main</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="more">
+  <div class="wrap">
+    <div class="eyebrow">Also in this repo</div>
+    <h2>The rest of the stash</h2>
+    <p class="sub">The vault lives next to 15 years of automation reference material. Same rule: read it, copy what helps.</p>
+    <div class="grid g3">
+      <a class="card" href="https://github.com/nitsuah/stash/tree/main/agent/prompts"><span class="tag">agents</span><h3>Delivery-pipeline prompts</h3><p>PMO → OPS → ENG → QA → Oncall loop, plus MINI, LOC, TEST, CLEANUP, TIRE, SOTU, RSI modules. Usable as system prompts or routine specs.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/blob/main/agent/AGENT-MAIN.md"><span class="tag">process</span><h3>AGENT-MAIN</h3><p>The autonomous delivery flow, including the rules learned the hard way: close tracked work in the same PR, never push to a merged branch.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/tree/main/atlassian"><span class="tag green">APIs</span><h3>Atlassian, SaaS, SSO</h3><p>Jira/Confluence cloud API scripts with a runbook, SaaS ops platform calls, identity and SSO examples.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/tree/main/windows"><span class="tag green">scripts</span><h3>PowerShell and batch</h3><p>Windows admin and developer-productivity scripts.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/tree/main/cloud"><span class="tag green">infra</span><h3>Cloud IaC, backend, database</h3><p>AWS reference IaC, Express and database reference implementations.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/tree/main/projects"><span class="tag warn">history</span><h3>VBA / Access tools</h3><p>Where it started: access-review, sampling and audit tooling that ran compliance programs.</p></a>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <h2>Want your own?</h2>
+    <p class="sub">The setup guide covers the clone, hooks and clean filter, the Obsidian plugins and MCP wiring, writing your own scope registry, and turning prompts into Claude skills, scheduled tasks and cloud routines.</p>
+    <div class="cta"><a class="btn primary" href="setup.html">Open the setup guide →</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>nitsuah/stash · a public reference, not a product · <a href="https://github.com/nitsuah/stash/blob/main/LICENSE">license</a></span>
+    <span><a href="https://github.com/nitsuah/stash/blob/main/agent/VAULT-MAP.md">VAULT-MAP</a> · <a href="https://github.com/nitsuah/stash/blob/main/agent/README.md">vault conventions</a> · <a href="setup.html">setup</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -19,6 +19,11 @@ Notable additions and changes to this repository.
 - Removed `projects/remora/remora.accdb` (it held a former employer's email address). The VBA source and screenshots stay. The other Access DBs and the sampler test PDF were checked and are clean.
 - History still holds removed content. Purging it is a human decision, tracked in `docs/TASKS.md`.
 
+### 2026-10-01 — GitHub Pages overview + setup guide for the agent vault
+
+- New `pages/` static site, deployed by `.github/workflows/pages.yml` (GitHub Actions Pages source). `index.html` is a reference write-up of how the routines, vault scripts and Obsidian plugins keep `agent/` linked across 17 repos and multiple machines, and how the layered privacy model works. `setup.html` is a buildout guide: clone + hooks + clean filter, plugins and the `obsidian` MCP server, the `scope.md` registry, a first manual pipeline run, wrapping `prompts/*.md` as Claude skills, local scheduled tasks vs cloud routines, and adding machines.
+- The folder is `pages/` rather than `site/` because `.gitignore` ignores `/site` (mkdocs boilerplate).
+
 ### 2026-09-30 — Obsidian vault guide, routine backups, public-vault leak fixes
 
 - New `agent/projects/obsidian-vault-guide.md`: vault layout and what is or isn't committed, plugins, the DAILY sync pipeline, both routine fleets, and the layered "raw stays local, synthesis gets committed" privacy model with rules for anything new that writes to the vault.
