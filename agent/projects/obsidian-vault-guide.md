@@ -124,6 +124,7 @@ Fixed in this change:
 - **The private `deployer` repo's docs were mirrored into the public vault** from 2026-09-16 (six files under `repos/deployer/`). They held no credentials, only placeholder env var names, but private-repo content shouldn't be public at all. The mirror is deleted and `sync-repos.ps1` now skips private repos. The `repos/deployer.md` hub (a roll-up) remains.
 - **Three personal email addresses** in `projects/docs/MONEY-MAKERS.md` were replaced with role labels.
 - **`smart-connections/data.json`** was tracked despite the ignore rule. It's untracked now.
+- **gitleaks history scan:** 2 findings, both the already-triaged Jira `clientKey` installation IDs. The allowlist regex never matched them in git mode, which is fixed now, so all 230 commits scan clean.
 - **The PII scan only covered `reports/` and `notes/`.** It now also covers projects, prompts, topics, templates and routines, in both CI and the pre-commit hook.
 
 Still open. These need a human decision:

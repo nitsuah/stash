@@ -16,6 +16,7 @@ Notable additions and changes to this repository.
   - `sync-repos.ps1` skips repos marked private in `scope.md`, and `-Prune` deletes an existing mirror of one. The private `deployer` repo's docs had been mirrored into this public repo since 2026-09-16; that mirror is now removed.
   - Three personal email addresses in `projects/docs/MONEY-MAKERS.md` are replaced with role labels.
   - `agent/.obsidian/plugins/smart-connections/data.json` was tracked despite the ignore rule; it's now untracked.
+  - `.gitleaks.toml`: the Jira `clientKey` allowlist never matched in git mode (gitleaks' match starts at `clientKey"`, without the leading quote), so a full-history scan still reported the two triaged hits. With the fix, all 230 commits scan clean.
   - `pii-scan.sh` (CI) and the pre-commit hook now also cover `agent/projects`, `prompts`, `topics`, `templates` and `routines`, not just reports and notes.
 - History purge and the `remora.accdb` question are left for a human (see TASKS).
 
