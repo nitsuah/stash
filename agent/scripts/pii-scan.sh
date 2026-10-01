@@ -3,8 +3,12 @@ set -euo pipefail
 
 # Blocks personal data and credentials from landing in this PUBLIC repo.
 #
-# By default scans every folder that routines publish to automatically:
-# agent/reports/ (incl. agent/reports/cloud/) and agent/notes/ (daily + weekly notes).
+# By default scans every folder that routines publish to automatically,
+# agent/reports/ (incl. agent/reports/cloud/) and agent/notes/ (daily + weekly notes),
+# plus the hand-written vault folders (projects, prompts, topics, templates) and the
+# routine backups. agent/repos/<repo>/ mirrors are left out: they are verbatim copies
+# of public upstream docs (placeholders like you@example.org are fixed upstream), and
+# private repos are never mirrored (sync-repos.ps1).
 # Fails on:
 #   - email addresses (each address is checked on its own; noreply/bot and
 #     example.* addresses are allowed)
@@ -20,7 +24,7 @@ set -euo pipefail
 if [ "$#" -gt 0 ]; then
   paths=("$@")
 else
-  paths=("agent/reports" "agent/notes")
+  paths=("agent/reports" "agent/notes" "agent/projects" "agent/prompts" "agent/topics" "agent/templates" "agent/routines")
 fi
 
 existing=()

@@ -167,6 +167,27 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Type: Vault
   - Done 2026-09-26: superseded by PMO step 7, which reviews the latest link-suggestions report every cycle, records accepted/ignored counts, and proposes a higher `MIN_SCORE` if they stay noisy.
 
+### Public-vault leak follow-ups (2026-09-30 audit, see `agent/projects/obsidian-vault-guide.md` §5)
+
+- [ ] Decide whether to purge removed private content from git history: the `deployer` mirror (2026-09-16 to 09-30) and three personal email addresses in `agent/projects/docs/MONEY-MAKERS.md`.
+  - Priority: P2
+  - Type: Security / human decision
+  - Acceptance: either a `git filter-repo` purge plus a force-push of `main` (coordinated, after open PRs land), or a one-line "accepted, low sensitivity" note in the guide's audit section.
+
+- [ ] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
+  - Priority: P2
+  - Type: Security / human decision
+  - Acceptance: file removed (and optionally purged), or kept with a note saying why.
+
+- [ ] Remove the third-party email address from kryptos `docs/TASKS.md` upstream (it reaches the vault through the mirror).
+  - Priority: P3
+  - Type: Docs (kryptos)
+  - Acceptance: next sync's `pii-scan.sh agent/repos/kryptos` shows no email hit.
+
+- [ ] Drop the stale "agent/reports/ is gitignored" line from the week-eng-mini and week-eng-loc cloud prompts (reports have been tracked since 2026-09-24), then refresh `agent/routines/routine-cloud-week-eng-*.md`.
+  - Priority: P3
+  - Type: Routine
+
 ### Vault scorecard follow-ups (2026-09-25 review: overall 8.3/10)
 
 Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **routine**: prompt change in `agent/prompts/` or a cloud routine. **stash**: scripts or vault. Items already listed above are referenced, not repeated.
