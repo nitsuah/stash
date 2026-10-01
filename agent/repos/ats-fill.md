@@ -32,6 +32,9 @@ None open (updated 2026-10-01). `docs/TASKS.md` still says there are no open tas
 - OAuth job search personalization — LinkedIn's job-search API is partner-gated, Indeed's public API doesn't personalize; scraping/aggregation remains the current path (see 2027 Q1 above)
 - Google OAuth redirect-URI mismatch unresolved — `launchWebAuthFlow` produces a `chromiumapp.org` redirect incompatible with the documented Desktop-app Google client type; needs a decision on client type/redirect strategy (`lib/oauth.js:55-57`, `background/service-worker.js:344-346`), flagged by CodeRabbit as a functional-correctness issue (P2, not blocking core autofill)
 
+- **Chrome Web Store publishing broken (PMO 2026-10-01):** `chrome-release.yml` fails with `invalid_grant` (refresh token expired or revoked), and the listing still shows 1.0.0 while the `v1.0.2` tag is 1.0.2. A human must rotate the token: P1 in TASKS, [ats-fill#124](https://github.com/nitsuah/ats-fill/pull/124). The "Store listing assets" job also fails with `No tests found` (P2).
+- Check it this way: first set `RUN_ID` (from `gh run list -R nitsuah/ats-fill --workflow chrome-release.yml`) and `LISTING_URL=https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn`. Then run `gh run view "$RUN_ID" -R nitsuah/ats-fill --log-failed`, and for the live version `curl -sL "$LISTING_URL" | grep -o 'Version</div><div[^>]*>[^<]*'`. A green run alone doesn't prove the store updated.
+
 ## Recent Changes (Unreleased)
 
 - Custom user-configured RSS job sources (state workforce boards, internal careers feeds) with per-origin permission requests
