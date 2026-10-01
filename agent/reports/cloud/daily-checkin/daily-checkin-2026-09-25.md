@@ -9,5 +9,5 @@ date: 2026-09-25
 
 - Day: Friday
 - Calendar events today: 0
-- Grounding thought: Recovery isn't linear, and an empty calendar is a legitimate outcome, not something to fill just because you can. Rest counts as productive.
+- Grounding thought: An empty calendar is a legitimate outcome, not something to fill just because you can.
 - Intention: Pick one modest, finishable piece of portfolio work and let that be enough.

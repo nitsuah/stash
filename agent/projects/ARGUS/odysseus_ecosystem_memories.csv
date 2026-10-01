@@ -8,7 +8,7 @@ facts,Core repo - motor-pool,"Multi-service AI ops platform; sister platform to 
 facts,Core repo - stash,"Personal knowledge vault and Obsidian vault; Odysseus's primary external brain; holds Obsidian notes, 15 years of enterprise automation scripts, and MD runbooks/decisions; git-tracked and Obsidian-readable; high priority"
 facts,Core repo - overseer,"Meta-repo intelligence layer that aggregates what needs to happen next across all repos (stalled PRs, vuln fixes, missing docs, ROADMAP/TASKS/FEATURES health); reads workspace MD files directly and can take or delegate action; high priority"
 facts,Repo - fire,"FIRE tracker and API server; Odysseus polls periodically and surfaces numbers in a morning briefing; financial context, low/eventual priority"
-facts,Repo - vhs,"VHS collection index, active dev for girlfriend; Odysseus can curate entries, research valuations, and write back to JSON via shell; one of only 3 repos with a NeonDB; low-medium priority, revisit when active"
+facts,Repo - vhs,"VHS collection index, active dev for a personal collection; Odysseus can curate entries, research valuations, and write back to JSON via shell; one of only 3 repos with a NeonDB; low-medium priority, revisit when active"
 facts,Repo - kryptos,K4 cipher toolkit side project; has a NeonDB for cipher analysis state; cool autonomous sub-agent pattern but low priority
 facts,Repo - bb-mcp,"Blackboard MCP server, part of motor-pool; deprioritized for now; will eventually demonstrate a semi-complex MCP layered on a local/remote LLM inside motor-pool"
 facts,Repo - avatar,"Generative AI model trainer; deprioritized; potential future motor-pool experience (user uploads images, motor-pool runs fine-tune pipeline)"

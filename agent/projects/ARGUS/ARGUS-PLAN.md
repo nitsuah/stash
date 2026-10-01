@@ -15,6 +15,4 @@ Works Cited:
 [[B2B-AGENT.md]]
 [[Authentication-hardening.html]]
 
-[[user_memory_index.csv]]
-[[usermem2.csv]]
 [[odysseus_ecosystem_memories.csv]]

@@ -8,6 +8,16 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-01 — Privacy sweep before sharing the repo
+
+- Ran `pii-scan.sh` over every tracked path (not just its default routine folders), gitleaks over all 239 commits and the working tree (clean), and a manual grep for income, holdings, health, relationship and location details.
+- Removed `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), and reworded one personal detail in `odysseus_ecosystem_memories.csv`.
+- `agent/projects/Career.md` and `Finance.md`: income and health context moved out of the repo to `~/.claude/private/<agent>-context.md`, which the prompts read when it exists.
+- Reworded health-adjacent lines in two `reports/cloud/daily-checkin/` reports.
+- kryptos mirror: a third party's email address was removed upstream (nitsuah/kryptos#237) and in the mirror.
+- Removed accidentally committed `.playwright-mcp/` snapshots and gitignored the folder.
+- History still holds removed content. Purging it is a human decision, tracked in `docs/TASKS.md`.
+
 ### 2026-09-30 — Obsidian vault guide, routine backups, public-vault leak fixes
 
 - New `agent/projects/obsidian-vault-guide.md`: vault layout and what is or isn't committed, plugins, the DAILY sync pipeline, both routine fleets, and the layered "raw stays local, synthesis gets committed" privacy model with rules for anything new that writes to the vault.
