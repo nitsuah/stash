@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>stash · Setup Guide</title>
+  <meta name="description" content="Rebuild the stash agent + Obsidian setup: clone, hooks, vault plugins and MCP, the repo registry, and turning prompts into Claude skills, scheduled tasks and cloud routines.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="dot"></span>stash · one brain</a>
+    <div class="links">
+      <a href="./">Overview</a>
+      <a href="setup.html" aria-current="page">Setup guide</a>
+      <a href="#skills">Skills</a>
+      <a href="#routines">Routines</a>
+      <a href="https://github.com/nitsuah/stash">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Setup · buildout · config</div>
+    <h1>Build your own <em>one brain</em>.</h1>
+    <p class="lede">
+      Getting from a fresh clone to a vault that agents write into on a schedule. Every step points at the real file in
+      <code>nitsuah/stash</code>, so you can read what it does before you copy it. Fork the repo, or take the
+      <code>agent/</code> folder into your own.
+    </p>
+    <div class="toc">
+      <a href="#prereqs">0 · Prerequisites</a>
+      <a href="#clone">1 · Clone and guard</a>
+      <a href="#vault">2 · Open the vault</a>
+      <a href="#mcp">3 · Vault MCP</a>
+      <a href="#scope">4 · Your repo registry</a>
+      <a href="#first-run">5 · First manual run</a>
+      <a href="#skills">6 · Skills</a>
+      <a href="#routines">7 · Routines</a>
+      <a href="#machines">8 · More machines</a>
+      <a href="#checklist">Checklist</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap steps">
+
+    <div class="step" id="prereqs" style="counter-reset: step -1">
+      <h3>Prerequisites</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tool</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td><b>Claude Code</b> (desktop app or CLI)</td><td>Runs the agents, the local scheduled tasks and the skills</td></tr>
+            <tr><td><b>Obsidian</b></td><td>The viewer, plus the plugins that expose the vault to agents</td></tr>
+            <tr><td><b>git</b> + <b>gh</b> (authenticated)</td><td>Transport between machines; routines open and merge PRs with <code>gh</code></td></tr>
+            <tr><td><b>Python 3.11+</b></td><td>The vault scripts (generator, link fixer, gates)</td></tr>
+            <tr><td><b>PowerShell 7</b> (<code>pwsh</code>)</td><td><code>sync-repos.ps1</code> and <code>bootstrap-stage0.ps1</code>. Windows PowerShell 5.1 isn't enough</td></tr>
+            <tr><td><b>Docker Desktop</b></td><td>gitleaks in the pre-commit hook and CI, and the node/npm work the monthly patch routine does</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step" id="clone">
+      <h3>Clone, then switch on the guards</h3>
+      <p>Clone next to the repos you want to track. The scripts assume every repo lives under one folder, e.g. <code>~/code/&lt;repo&gt;</code>.</p>
+<pre><code>git clone https://github.com/&lt;you&gt;/stash ~/code/stash
+cd ~/code/stash
+
+# pre-commit hook: gitleaks + pii-scan.sh on staged files
+git config core.hooksPath .githooks
+
+# keep Obsidian's settings churn out of git (.gitattributes already wires the filter)
+git config filter.obsidian-json.clean "python agent/scripts/obsidian-json-clean.py %f"</code></pre>
+      <div class="callout">
+        <strong>Forking? Make it yours first.</strong> Delete or replace the vault's dated content (<code>notes/</code>, <code>reports/</code>, <code>repos/</code>), then edit <code>projects/scope.md</code> (step 4). The prompts reference the <code>nitsuah</code> account and paths in a few places, so search for <code>nitsuah</code> and <code>C:\Users\</code> and replace them with your own.
+      </div>
+    </div>
+
+    <div class="step" id="vault">
+      <h3>Open <code>agent/</code> as a vault and install the plugins</h3>
+      <p>In Obsidian: <em>Open folder as vault</em> → <code>~/code/stash/agent</code>. The tracked <code>.obsidian/community-plugins.json</code> already lists the plugins, but their binaries are gitignored, so install them once per machine from <em>Settings → Community plugins</em>:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Plugin</th><th>Must-have?</th><th>Config</th></tr></thead>
+          <tbody>
+            <tr><td>Local REST API</td><td>for MCP</td><td>Turn on <em>Enable Non-Encrypted HTTP Server</em> (port 27123, loopback). Copy the API key, but <strong>never commit it</strong>: it lives in <code>plugins/*/data.json</code>, which is gitignored</td></tr>
+            <tr><td>MCP Tools</td><td>for MCP</td><td>Serves <code>/mcp/</code> on the REST API port</td></tr>
+            <tr><td>Templater</td><td>yes</td><td>Template folder: <code>templates</code>. Use <em>Create new note from template</em> for hand-written notes, so they get an <code>up:</code> parent</td></tr>
+            <tr><td>Front Matter Title</td><td>recommended</td><td>Graph and tabs show <code>title:</code> instead of the bare file name</td></tr>
+            <tr><td>Smart Connections (+ Lookup, Context)</td><td>optional</td><td>Builds local embeddings in <code>.smart-env/</code> (gitignored). Needed only for <code>suggest-links.py</code></td></tr>
+            <tr><td>Nexus, Excalidraw, Importer</td><td>optional</td><td>Workspace memory, diagrams, imports</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Start at <code>VAULT-MAP.md</code>. Bookmark it, and open <code>vault-views.base</code> for the live tables.</p>
+      <div class="callout"><strong>New plugin later?</strong> Check its settings file is ignored before you commit: <code>git check-ignore -v agent/.obsidian/plugins/&lt;id&gt;/data.json</code>. An ignore rule doesn't untrack a file that's already committed. If it was ever committed, run <code>git rm --cached</code> on it.</div>
+    </div>
+
+    <div class="step" id="mcp">
+      <h3>Give Claude the vault as an MCP server</h3>
+      <p>For interactive sessions, so you can say "find every note about auth in kryptos" or "add this decision under the vigil hub". Keep the key in an environment variable, not in a file in the repo.</p>
+<pre><code>claude mcp add --transport http --scope user obsidian http://127.0.0.1:27123/mcp/ \
+  --header "Authorization: Bearer $OBSIDIAN_API_KEY"
+claude mcp get obsidian      # expect: Connected (Obsidian must be running)</code></pre>
+      <p>It's loopback only, so cloud routines can't use it, and <strong>no scheduled routine depends on it</strong>: they all read and write the vault as plain files through git. <code>agent/scripts/bootstrap-stage0.ps1</code> checks the port and starts Obsidian when a local session wants it:</p>
+<pre><code>pwsh agent/scripts/bootstrap-stage0.ps1</code></pre>
+    </div>
+
+    <div class="step" id="scope">
+      <h3>Write your repo registry</h3>
+      <p><code>agent/projects/scope.md</code> is the single list every routine reads. Its <strong>Tracked</strong> table drives the mirrors, the hubs and every per-repo report:</p>
+<pre><code>| Repo    | Local path          | GitHub URL                         | Org  | Visibility  |
+|---------|---------------------|------------------------------------|------|-------------|
+| my-app  | `~/code/my-app`     | https://github.com/you/my-app      | you  | public      |
+| billing | `~/code/billing`    | https://github.com/you-org/billing | org  | **private** |</code></pre>
+      <ul>
+        <li><strong>Private</strong> repos get a summary hub, never a doc mirror. Mark them <em>before</em> the next sync.</li>
+        <li><strong>Renamed</strong> a repo? Write "formerly <code>old-name</code>" in the row. The generator adds aliases so old links keep resolving.</li>
+        <li>Forks and utility repos go in the <em>Not tracked</em> table, so routines skip them deliberately rather than by omission.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="first-run">
+      <h3>First manual run</h3>
+      <p>Run the pipeline by hand once before scheduling anything, and read every diff.</p>
+<pre><code>cd ~/code/stash/agent
+
+# 1. mirror merged docs of public repos (dry run first)
+pwsh scripts/sync-repos.ps1 -DryRun
+pwsh scripts/sync-repos.ps1 -Prune
+
+# 2. link everything, fix links, verify the graph
+python scripts/build-vault-indexes.py
+python scripts/fix-doc-links.py --vault --write
+python scripts/find-orphans.py --check     # 0 orphans, 0 duplicate names
+
+# 3. the same checks CI runs
+bash scripts/pii-scan.sh</code></pre>
+      <p>Commit on a branch, open a PR, and let CI (PII scan, gitleaks, vault graph check, ruff, PSScriptAnalyzer) go green. That's the same path every routine takes.</p>
+      <div class="callout ok"><strong>Naming does the linking.</strong> Write <code>reports/&lt;kind&gt;-&lt;repo&gt;-&lt;date&gt;.md</code>, <code>notes/&lt;YYYY-MM-DD&gt;.md</code> or <code>projects/&lt;Folder&gt;/&lt;doc&gt;.md</code> and the generator places it. Anything else gets <code>up: "[[parent]]"</code>. The full table is in <a href="https://github.com/nitsuah/stash/blob/main/agent/README.md#vault-linking-conventions">the vault README</a>.</div>
+    </div>
+
+    <div class="step" id="skills">
+      <h3>Turn prompts into Claude skills</h3>
+      <p>The specs in <code>agent/prompts/</code> work as plain system prompts. Wrapping them as <strong>skills</strong> lets you call them by name (<code>/pmo</code>) or lets Claude pick them up when a request matches the description. A skill is a folder containing <code>SKILL.md</code>:</p>
+      <div class="table-wrap" style="margin-bottom:14px">
+        <table>
+          <thead><tr><th>Scope</th><th>Location</th><th>Use for</th></tr></thead>
+          <tbody>
+            <tr><td>Personal</td><td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>Your own workflows, on every project</td></tr>
+            <tr><td>Project</td><td><code>&lt;repo&gt;/.claude/skills/&lt;name&gt;/SKILL.md</code></td><td>Committed with the repo, so everyone who clones it gets it. vigil and ats-fill ship theirs this way (<code>skills/&lt;name&gt;/SKILL.md</code>)</td></tr>
+            <tr><td>Plugin</td><td>a plugin marketplace</td><td>Bundling skills, agents, hooks and MCP servers to share with a team</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>The pattern used here: keep the skill thin and point it at the versioned spec.</strong> The behaviour then lives in one reviewed file, and the skill, the scheduled task and the cloud routine all run the same thing.</p>
+<pre><code>---
+name: pmo
+description: Monthly portfolio audit. Use when asked to "run the PMO audit",
+  "audit my repos", or "update ROADMAP/TASKS across repos".
+---
+
+Read `~/code/stash/agent/prompts/PMO.md` in full and follow it exactly. It is the
+canonical spec and wins over anything below. If it's missing, stop and say so.
+
+Hard rules:
+- The repo list is the Tracked table in `agent/projects/scope.md`. Don't hardcode one.
+- stash is PUBLIC. Reports may contain counts, statuses, PR titles and public IDs only.
+- Work on a branch and open a PR. Never push to main.</code></pre>
+      <p>Good first skills to wrap:</p>
+      <div class="grid g3">
+        <div class="card"><span class="tag">PMO.md</span><h3>/pmo</h3><p>Audit repos, update ROADMAP/TASKS, fix doc links upstream.</p></div>
+        <div class="card"><span class="tag">AGENT-MAIN.md</span><h3>/deliver</h3><p>Runs the PMO → OPS → ENG → QA loop on one repo's next TASKS item, branch to PR.</p></div>
+        <div class="card"><span class="tag">MINI.md</span><h3>/mini</h3><p>Small, well-scoped tasks for a cheaper model.</p></div>
+        <div class="card"><span class="tag">TIRE.md</span><h3>/tire-kick</h3><p>Evaluate a tool or library, or patch the vuln queue in Docker.</p></div>
+        <div class="card"><span class="tag">LOC.md</span><h3>/loc</h3><p>Lines-of-code report for a repo, chained into its hub.</p></div>
+        <div class="card"><span class="tag">SOTU.md</span><h3>/sotu</h3><p>Weekly state of the union across every repo's TASKS.md.</p></div>
+      </div>
+      <p style="margin-top:14px">Write the <code>description</code> as a list of trigger phrases. That's what Claude matches against when deciding to load a skill. To see what's loaded, ask Claude to list its skills, or type <code>/</code> in a session.</p>
+      <div class="callout"><strong>Pair a skill with an MCP server when it needs live data.</strong> The vigil skill expects <code>mcp__vigil__*</code> tools, and its first step is to check the connection and tell you how to add it if it's missing. Copy that pattern: a skill that guesses when a tool is missing is worse than one that stops.</div>
+    </div>
+
+    <div class="step" id="routines">
+      <h3>Schedule them: local tasks and cloud routines</h3>
+      <p>Pick the fleet by what the job needs to touch:</p>
+      <div class="grid g2" style="margin-bottom:14px">
+        <div class="card"><span class="tag">local · scheduled task</span><h3>Needs your machine</h3><p>Local clones, Docker, private repos, the Obsidian app, anything that must not leave the box. Runs while the machine is awake and the Claude desktop app is open, so a missed run needs a catch-up (here, <code>ops-catchup</code> reschedules them). Lives in <code>~/.claude/scheduled-tasks/&lt;name&gt;/SKILL.md</code>.</p></div>
+        <div class="card"><span class="tag green">cloud · routine</span><h3>Only needs GitHub</h3><p>Runs on schedule with your machine off. Clones <code>main</code> fresh, so it only sees merged work. Create one at claude.ai/code/routines or with <code>/schedule</code> in Claude Code.</p></div>
+      </div>
+      <p><strong>Local scheduled task.</strong> Same thin-wrapper shape as a skill. Ask Claude in the desktop app to "create a scheduled task that runs every day at 7am…", or write the file yourself:</p>
+<pre><code>---
+name: daily-repo-sync
+description: Daily git-pull sweep, doc mirror, repo hubs and daily note, per stash/agent/prompts/DAILY.md
+---
+
+You are running the daily repo-sync routine. Read `~/code/stash/agent/prompts/DAILY.md`
+first; it is the canonical spec and wins over anything below.
+
+- Never force, stash, switch branches or discard local work. A dirty or diverged repo
+  is SKIPPED and logged.
+- Logs go to agent/logs/*.log (gitignored). Commit only by exact path onto
+  obn/daily-note-&lt;date&gt;, then open the PR.
+- End with a one-paragraph summary.</code></pre>
+      <p><strong>Cloud routine.</strong> The prompt has to bootstrap itself, because there's no local state:</p>
+<pre><code>Sync stash: git clone -q https://github.com/&lt;you&gt;/stash ~/stash || true
+            cd ~/stash &amp;&amp; git fetch -q origin main &amp;&amp; git checkout -q -B main origin/main
+Repo list:  the Tracked table in agent/projects/scope.md (GitHub URL column).
+Write ONLY: agent/reports/cloud/&lt;routine&gt;/&lt;routine&gt;-&lt;date&gt;.md
+            on a cloud-report/&lt;routine&gt;-&lt;date&gt; branch, then open a PR.
+stash is PUBLIC: the report may contain counts, statuses and public advisory IDs only.
+No sub-agents, no sleep loops; on a rate-limit error, stop.</code></pre>
+      <p>Keep a public-safe copy of every routine so a machine rebuild or an accidental delete costs nothing:</p>
+<pre><code>python agent/scripts/export-routines.py           # local tasks → agent/routines/
+python agent/scripts/export-routines.py --check   # exit 1 if a backup is stale</code></pre>
+      <div class="callout">
+        <strong>Rules for any routine that writes to the vault</strong> (from the <a href="https://github.com/nitsuah/stash/blob/main/agent/projects/obsidian-vault-guide.md#rules-for-anything-new-that-writes-here">vault guide</a>):
+        decide raw or roll-up first (if you're unsure, it's raw) · give the prompt an <em>allow-list</em> of what the report may contain · publish through a PR that CI gates · a new folder goes into <code>pii-scan.sh</code> and the pre-commit hook · let a routine auto-merge only what <code>check-generated-diff.py</code> calls routine-owned · add a usage preflight to heavy routines so they print <code>DEFERRED:</code> instead of failing halfway.
+      </div>
+    </div>
+
+    <div class="step" id="machines">
+      <h3>Add another machine</h3>
+      <p>Git carries the brain; each machine needs only its own setup:</p>
+<pre><code>git clone https://github.com/&lt;you&gt;/stash ~/code/stash
+git -C ~/code/stash config core.hooksPath .githooks
+git -C ~/code/stash config filter.obsidian-json.clean "python agent/scripts/obsidian-json-clean.py %f"
+# Obsidian: open ~/code/stash/agent, reinstall the community plugins, new REST API key
+# Claude:   claude mcp add ... obsidian (step 3) · copy your personal ~/.claude/skills/
+# Routines: only on the machine that owns them; restore from agent/routines/ backups</code></pre>
+      <ul>
+        <li><strong>Run local routines on one machine only.</strong> DAILY checks whether today's note already exists on <code>main</code> or in an open PR, so a second machine won't write a duplicate, but one owner per routine keeps the logs readable.</li>
+        <li>Other machines just <code>git pull</code>. The graph, hubs, reports and Bases views are identical, because they're all files.</li>
+        <li>Embeddings (<code>.smart-env/</code>) and plugin keys are per machine and never synced.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="checklist">
+      <h3>Done when</h3>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>☐</td><td><code>git config core.hooksPath</code> prints <code>.githooks</code>, and committing a fake email in a report is blocked</td></tr>
+            <tr><td>☐</td><td>Opening Obsidian leaves <code>git status</code> clean</td></tr>
+            <tr><td>☐</td><td><code>claude mcp get obsidian</code> says Connected</td></tr>
+            <tr><td>☐</td><td><code>find-orphans.py --check</code> passes and VAULT-MAP lists every repo in scope.md</td></tr>
+            <tr><td>☐</td><td>No private repo has a folder under <code>agent/repos/</code></td></tr>
+            <tr><td>☐</td><td>One skill runs by name and one routine has opened a green PR</td></tr>
+            <tr><td>☐</td><td><code>export-routines.py --check</code> exits 0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>nitsuah/stash · a public reference, not a product</span>
+    <span><a href="./">Overview</a> · <a href="https://github.com/nitsuah/stash/blob/main/agent/projects/obsidian-vault-guide.md">Vault guide</a> · <a href="https://github.com/nitsuah/stash/blob/main/agent/AGENT-MAIN.md">AGENT-MAIN</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
