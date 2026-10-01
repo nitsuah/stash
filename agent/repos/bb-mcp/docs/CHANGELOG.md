@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
+- Docs: closed the "JSON schemas for all shipped tool inputs" task, which the 2027-Q1 planning reset (#129) had carried forward although every tool already defines an `inputSchema`.
 - `RESTRICTED_TOOLS` (FERPA gate) now includes `list_users`, `get_user`, `list_enrollments`, and `list_audit_logs` by default, on top of the existing instructor tools — these admin-surface tools previously required only role=admin.
 - Dependency bumps: vitest 5.0 (#118), dotenv 18 (#127), plus grouped minor/patch updates (#122, #124, #128).
 - Planning docs reset for 2027 (`pmo-ff`): completed 2026 roadmap items removed (already in FEATURES/CHANGELOG), open items carried into 2027 Q1, breadcrumb navigation + README docs index added.
@@ -52,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Extended the FERPA gate to cover the admin directory/enrollment/audit-log tool surface (see Changed above) — these previously exposed full institutional user PII with only a role check.
 - Tool-output PII scrubbing (see Added above) closes a gap flagged across the 2026-08-22 and 2026-08-28 audits: student/instructor/admin/parent tool *responses* were unscrubbed even though audit-log emission already was.
+- Lockfile-only `npm audit fix` for new transitive advisories that broke the CI audit gate: `brace-expansion` 5.0.9 → 5.0.12 (high, DoS), `ip-address` 10.4.0 → 10.7.2 (moderate, SSRF/subnet-check bypass, via `@modelcontextprotocol/sdk` → `express-rate-limit`), `fast-uri` 3.1.7 → 3.1.8 (moderate).
 
 ## [0.1.0] - 2026-06-08
 

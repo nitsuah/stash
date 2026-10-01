@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - Raised the Python floor to 3.12 (previously aligned to 3.11) across CI (`.github/workflows/ci.yml`), the Dockerfile base image, and `pyproject.toml` ruff/black targets; updated the README's Python version note accordingly. This unblocks Dependabot PR #23 (numpy 2.4.6 -> 2.5.3), which requires Python >=3.12.
 - Documentation audit: corrected inaccuracies in README, FEATURES.md, ROADMAP.md, and TASKS.md to accurately reflect the DreamBooth/Stable Diffusion pipeline.
 - Pinned exact versions in `config/requirements.txt` (previously unpinned), resolved against the Python 3.12 base image.
@@ -35,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `avatar/utils.py::count_images_in_directory` and `validate_image_count` now verify each file with Pillow, like the notebook's Step 6.5 cell, with real-image test fixtures and a corrupt-file test (#35).
 - Added explicit `contents: read` permission to CI build job to resolve GITHUB_TOKEN scope warning (#19).
 - Step 6.5's dataset-count check now opens+verifies each file with Pillow instead
   of filtering by `.jpg`/`.jpeg`/`.png` suffix, matching `DreamBoothDataset`'s

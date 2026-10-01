@@ -16,6 +16,29 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-09-30 — Obsidian vault guide, routine backups, public-vault leak fixes
+
+- New `agent/projects/obsidian-vault-guide.md`: vault layout and what is or isn't committed, plugins, the DAILY sync pipeline, both routine fleets, and the layered "raw stays local, synthesis gets committed" privacy model with rules for anything new that writes to the vault.
+- New `agent/routines/`: public-safe backups of the 8 recurring local scheduled tasks (exported by the new `scripts/export-routines.py`, which redacts personal context and refuses to write anything that matches the PII patterns) and the 5 enabled cloud routines (sanitized snapshots from `RemoteTrigger get`), indexed by `routines-backup.md`.
+- Leak fixes from a full-repo PII scan plus a gitleaks pass over all 230 commits on `main`:
+  - `sync-repos.ps1` skips repos marked private in `scope.md`, and `-Prune` deletes an existing mirror of one. The private `deployer` repo's docs had been mirrored into this public repo since 2026-09-16; that mirror is now removed.
+  - Three personal email addresses in `projects/docs/MONEY-MAKERS.md` are replaced with role labels.
+  - `agent/.obsidian/plugins/smart-connections/data.json` was tracked despite the ignore rule; it's now untracked.
+  - `.gitleaks.toml`: the Jira `clientKey` allowlist never matched in git mode (gitleaks' match starts at `clientKey"`, without the leading quote), so a full-history scan still reported the two triaged hits. With the fix, all 230 commits scan clean.
+  - `pii-scan.sh` (CI) and the pre-commit hook now also cover `agent/projects`, `prompts`, `topics`, `templates` and `routines`, not just reports and notes.
+- History purge and the `remora.accdb` question are left for a human (see TASKS).
+
+### 2026-09-30 — pre-commit secret scan works from worktrees and fails closed
+
+- `.githooks/pre-commit`: from a linked worktree, the Docker gitleaks run couldn't resolve the worktree's `.git` file (a Windows `gitdir:` path), logged `fatal: not a git repository`, scanned 0 bytes and still reported "no leaks found". The hook now mounts the common git dir and sets `GIT_DIR`/`GIT_WORK_TREE`, checks that git can read the staged diff first, and fails the commit on any gitleaks `ERR` line. Tested from a worktree and a main checkout with a dummy token (blocked), clean staging (passes) and a forced git error (blocked).
+- `prompts/TIRE.md`: dropped the note that stash's hook fails from a worktree.
+
+### 2026-09-30 — close tracked items in the same PR
+
+- `AGENT-MAIN.md`, `ENG.md`, `QA.md` and `1FLOW.md` now spell out the close-out order: code and tests, then TASKS/ROADMAP/CHANGELOG/README updates before the last push, then a pre-merge check that the PR diff includes them. `1FLOW.md` gains the Phase 4 (Document and Close) it was missing since it was written.
+- `PMO.md` step 5 reconciles merged PRs against open items before carrying anything forward.
+- `docs/TASKS.md`: restored two items PR #160 garbled, dropped its duplicate test-coverage item, and flagged its six unsourced additions for review.
+
 ### 2026-09-25 — vault hub links replace flat indexes
 
 - Removed `agent/reports/INDEX.md`, `agent/projects/INDEX.md`, `agent/notes/INDEX.md` and `agent/REPOS-INDEX.md`. `build-vault-indexes.py` now writes prev/next nav lines into reports and dated notes, plus generated *Vault links* blocks in repo and project-folder hubs and a *Vault map* in `AGENT-MAIN.md`. New stub folder hubs: `projects/{CLEANUP,COSTS,LOC,MINI,TIRE,docs}.md`.

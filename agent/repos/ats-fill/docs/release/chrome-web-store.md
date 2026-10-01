@@ -67,6 +67,8 @@ Do not put OAuth credentials, refresh tokens, or any other secret in the reposit
 9. The workflow refreshes an OAuth access token and uploads the ZIP using Chrome Web Store API v2.
 10. If the upload is asynchronous, the workflow polls `fetchStatus` for up to two minutes.
 11. The workflow calls `publish`, submitting the release for Chrome Web Store review.
+12. In parallel with publishing, a `store-assets` job rebuilds the listing screenshots, promo tiles and store icon from the tag, validates them against the Store image specs, and attaches `ats-fill-vX.Y.Z-store-assets.zip` to the GitHub Release.
+13. The Store API has no listing-image endpoint, so upload that bundle in the Developer Dashboard's **Store listing** tab. The run summary and [CHROME_WEB_STORE_ASSETS.md](../CHROME_WEB_STORE_ASSETS.md) list which file goes in which slot.
 
 A Store submission may remain under review after the workflow succeeds. A successful API publish call means the package was submitted; it does not guarantee immediate public availability.
 

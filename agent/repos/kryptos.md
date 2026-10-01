@@ -5,7 +5,7 @@ repo: kryptos
 
 # kryptos
 
-> Reviewed: 2026-09-23 (no material change since 2026-09-16 PMO audit — see [[pmo-audit-2026-09-16]])
+> Reviewed: 2026-10-01
 
 ## Overview
 
@@ -32,12 +32,13 @@ Phase 5 (Post-solution, standing, blocked on K4 being solved):
 
 ## Open P0/P1 Tasks
 
-Kryptos's TASKS.md doesn't use P0/P1 labels; below are the only genuinely-open items in `docs/TASKS.md`'s Active section (both blocked on a human, not code):
+None open (updated 2026-10-01). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
 
-- [ ] **Source the Kryptos compass rose's actual measured bearing** — FOIA request to CIA or direct outreach to Elonka Dunin, both drafted and ready to send. Flagged "[You — the only send]" — needs the repo owner to actually send it.
-- [ ] **Ask CIA Public Affairs whether an authorized research visit exists** — outreach draft ready, also flagged "[You — the only send]".
+- **Cryptanalysis frontier, Phase 9 (code):** P2 irregular transpositions + periodic key, P2 length-changing masking; P3 two non-periodic layers, P3 named running-key sources under transposition.
+- **Primary-source sourcing, Phase 8 (needs the owner):** the compass-rose bearing request (FOIA draft + Elonka Dunin email, both written) and the CIA research-visit question are now **P3**, no longer P1. They still need a human to send.
 
-Everything else (Phases 1–8's code work) is done. No open engineering P0/P1s.
+`docs/K4-v2.md` moved to `docs/archive/K4-v2.md`; the mirror pruned the old path.
+
 
 ## Blockers
 

@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Playwright Docker image (`config/Dockerfile.test`, `mcr.microsoft.com/playwright`) was pinned to `v1.62.1-noble` while `@playwright/test` had moved to `1.63.0`; realigned both to `1.63.0` and added Dependabot grouping (npm `@playwright/*` bumps together; Docker image auto-updates ignored) so future upgrades land in lockstep by construction, not convention.
 
 ### Changed
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - `package.json` `engines.node` drops end-of-life Node 20 (`^22.13.0 || >=24`); `check:node-lockstep` now also fails if `.nvmrc` falls outside it.
 - Whole stack moved from Node 22 to Node 26.10.0 in one step, with `.nvmrc` as the single source of truth: unit and E2E Docker images, dev compose, husky hooks, Netlify, and CI (setup-node now reads `.nvmrc`). `config/Dockerfile.test` overlays Node 26 onto the Playwright image, which otherwise ships its own Node 24. CI keeps a temporary `22.x` comparison leg while 26 soaks.
 - Labs contracts' chain config migrated from the shut-down Mumbai testnet to Amoy (`polygonAmoy`, chain id 80002, explorer/OpenSea links, copy) (#519). The contracts themselves still need redeploying to Amoy — tracked in TASKS.md.

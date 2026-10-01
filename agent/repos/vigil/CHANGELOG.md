@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Repo tiers and Claude Code skill
+
+- **Added:** repository tiers. Each repo can be tagged T1 (Critical), T2 (Important), T3 (Standard) or T4 (Low) from a badge next to its type icon, on desktop rows and mobile cards. Stored in a new nullable `repos.tier` column (self-applied by `ensureSchema`), set via `PATCH /api/repos/[name]/update-tier` (write grant required, `null` clears), filterable in the dashboard filter bar including "Untiered".
+- **Added:** MCP `list_repos` accepts a `tier` filter and returns `tier`; `get_repo_health` and `GET /api/context` include it too.
+- **Added:** `skills/vigil/` Claude Code skill (`SKILL.md` + `reference.md`): when to use Vigil, which MCP tool answers which question, triage / cross-repo / close-tracked-work workflows, the doc formats the parsers read, and common failure modes. Install steps in the README.
+- **Docs:** README documents tiers, the skill, and previously undocumented routes (`update-type`, `update-health-profile`, `fix-security`, `improve-doc`, `suggest-*`, `chat`, `tasks`, `roadmap-items`, `settings/ai-key`, `health`, trend). The project page (`site/`) gains tier, chat/AI, and skill sections.
+- **Tests:** `update-tier` route (401, valid tier, clear with null, 400 on unknown, 404 without a grant, 409 on ambiguous name) and `lib/repo-tier` helpers.
+
 ### Project page and launch video
 
 - **Added:** GitHub Pages landing page in `site/` (hero video, real UI captures, MCP tool list, install steps), deployed by `.github/workflows/pages.yml` on pushes to `main` that touch `site/`.
@@ -103,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md` and `AGENTS.md`) now require closing tracked work in the same PR: update `TASKS.md`, `ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Health score weights rebalanced:** Best Practices 30% (was 25%), Security 30% (was 10%), Documentation 15% (was 20%), Testing 15% (was 25%), Community Standards 5% (was 10%), Activity 5% (was 10%) — reflects the primacy of security and engineering hygiene (PR #181)
 - **E2E tests moved to `e2e/`:** `tests/dashboard.spec.ts` → `e2e/dashboard.spec.ts`; `playwright.config.ts` now uses `testDir: './e2e'` (PR #181)
 - **`HealthBreakdown` accessibility:** Native `<button>` replaces `<span role="button">`; `onFocus`/`onBlur` handlers; `aria-describedby` on button and `role="tooltip"` + id on popup; `id` attribute added to popup portal (PR #181)

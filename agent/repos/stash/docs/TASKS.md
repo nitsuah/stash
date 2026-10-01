@@ -45,26 +45,31 @@ Last Updated: 2026-09-29
   - Priority: P2
   - Type: Testing
   - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
+  - Approach: build on `test_examples.py`, going from smoke tests to meaningful coverage.
 
 - [ ] Add pre-commit hooks
   - Priority: P3
   - Type: CI
   - Acceptance: Ruff, PSScriptAnalyzer, shellcheck locally
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add dependabot/renovate
   - Priority: P3
   - Type: CI
   - Acceptance: Auto-update GitHub Actions, Python deps
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add CodeQL / SAST scanning
   - Priority: P3
   - Type: CI
   - Acceptance: GitHub Advanced Security or OSS equivalent
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add changelog automation
   - Priority: P3
   - Type: CI
   - Acceptance: conventional-changelog or similar
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 ### Examples
 
@@ -83,34 +88,30 @@ Last Updated: 2026-09-29
   - Type: Examples
   - Candidates: Fortify-on-Demand, ZenGRC, Zylo.
 
-- [ ] Add test coverage to Python examples
-  - Priority: P2
-  - Type: Testing
-  - Acceptance: Expand from smoke tests to meaningful coverage (target ≥30%)
-  - Note: Related to pytest smoke tests — build on test_examples.py
-
 ### Documentation
 
-- [ ] Write SAAS quickstart doc
-  - Priority: P3
+- [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
+  - Priority: P2
   - Type: Docs
-  - For atlassian/jira SAAS examples
+  - Candidates: `SAAS/okta/examples.py`, `SAAS/servicenow/examples.py`, `SAAS/pagerduty/examples.py`.
+  - Note: restored 2026-09-30; PR #160 had replaced it with a garbled "SAAS quickstart" item.
 
-- [ ] Document VBA examples
-  - Priority: P3
+- [ ] Document the VBA source files inside Remora, Sampler, and VMT more precisely.
+  - Priority: P2
   - Type: Docs
-  - For atlassian/jira/vba
-  - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings companion `USAGE.md` per tool.
+  - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings or a companion `USAGE.md` per tool. (Restored 2026-09-30; PR #160 had pointed it at a nonexistent `atlassian/jira/vba`.)
 
 - [ ] Add architecture diagrams
   - Priority: P3
   - Type: Docs
   - Mermaid/PlantUML in docs/
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add CONTRIBUTING.md
   - Priority: P3
   - Type: Docs
   - Include PR template, issue template links
+  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 ### Decision Records
 
@@ -174,6 +175,27 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P3
   - Type: Vault
   - Done 2026-09-26: superseded by PMO step 7, which reviews the latest link-suggestions report every cycle, records accepted/ignored counts, and proposes a higher `MIN_SCORE` if they stay noisy.
+
+### Public-vault leak follow-ups (2026-09-30 audit, see `agent/projects/obsidian-vault-guide.md` §5)
+
+- [ ] Decide whether to purge removed private content from git history: the `deployer` mirror (2026-09-16 to 09-30) and three personal email addresses in `agent/projects/docs/MONEY-MAKERS.md`.
+  - Priority: P2
+  - Type: Security / human decision
+  - Acceptance: either a `git filter-repo` purge plus a force-push of `main` (coordinated, after open PRs land), or a one-line "accepted, low sensitivity" note in the guide's audit section.
+
+- [ ] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
+  - Priority: P2
+  - Type: Security / human decision
+  - Acceptance: file removed (and optionally purged), or kept with a note saying why.
+
+- [ ] Remove the third-party email address from kryptos `docs/TASKS.md` upstream (it reaches the vault through the mirror).
+  - Priority: P3
+  - Type: Docs (kryptos)
+  - Acceptance: next sync's `pii-scan.sh agent/repos/kryptos` shows no email hit.
+
+- [ ] Drop the stale "agent/reports/ is gitignored" line from the week-eng-mini and week-eng-loc cloud prompts (reports have been tracked since 2026-09-24), then refresh `agent/routines/routine-cloud-week-eng-*.md`.
+  - Priority: P3
+  - Type: Routine
 
 ### Vault scorecard follow-ups (2026-09-25 review: overall 8.3/10)
 

@@ -19,11 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Landing page and README link the Chrome Web Store listing ("Add to Chrome" in the hero, nav, install section and footer); the install section now leads with the store and keeps load-unpacked as the from-source option.
+- Release workflow builds the Store listing set (five screenshots, both promo tiles, and a new spec-compliant 128×128 store icon with 16px transparent padding) from the release tag, validates it, and attaches `ats-fill-vX.Y.Z-store-assets.zip` to the GitHub Release with dashboard upload steps; the Store API has no listing-image endpoint, so that upload stays manual.
+- Feature-tour video pipeline (`video/`, `tests/e2e/feature-video.spec.mjs`, `scripts/build-feature-video.mjs`, Docker `video` target, manual **Feature Tour Video** workflow): renders a per-feature short for each of 7 chapters plus a ~4-minute combined YouTube cut (per-short CTA slides dropped, one intro and one CTA) with chapter timestamps, upload copy and thumbnail, from the real extension and fictional data.
+- Launch video (`site/assets/ats-fill.mp4`) now ends on an "Add to Chrome" Chrome Web Store button (23s, was 21s).
+- Expanded the Claude skill (`skills/ats-fill-job-search`) into a router plus focused references (using ats-fill, search strategy, applications, interviews, offers, resources) with verified primary-source links, and added a Skill section with install steps to the landing page and README.
 - Chrome Web Store listing assets and `.env` placeholders (#96).
 - Deterministic fictional ATS product-flow fixture for E2E/screenshot runs (#80).
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md` and `CLAUDE.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - UI screenshot gallery is now generated in CI from fictional Playwright fixture
   data and published through a single rolling PR, with the README version/date
   metadata refreshed automatically (#77–#79, #82–#95, #97).

@@ -6,7 +6,7 @@ aliases: [auto-apply-plugin]
 
 # auto-apply-plugin
 
-> Reviewed: 2026-09-24
+> Reviewed: 2026-10-01
 
 ## Overview
 
@@ -24,7 +24,8 @@ aliases: [auto-apply-plugin]
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-09-25). After the 2026-09-24/25 "2027 Q1 planning reset" pass, `docs/TASKS.md` says there are no open tasks: every P1-P4 item from the last cycle either shipped or moved to the 2027 ROADMAP. That includes the former deferred P1 for OAuth / sign-in for personalized job search, which is no longer tracked as a P1. The local checkout is back on `main` (clean apart from an untracked `screenshots/fullscreen-tracker.png`). The GitHub repo is now `nitsuah/ats-fill`.
+None open (updated 2026-10-01). `docs/TASKS.md` still says there are no open tasks after the 2027 Q1 planning reset. PR #122 (merged 2026-10-01) added the Chrome Web Store CTA across the site and README, a release workflow that builds the Store listing assets, a YouTube feature-tour video pipeline (`video/`), and expanded the `skills/ats-fill-job-search` Claude skill into a router plus references. PR #123 (bot screenshot refresh) is open. The local `origin` still points at the old `nitsuah/auto-apply-plugin` URL.
+
 
 ## Blockers
 

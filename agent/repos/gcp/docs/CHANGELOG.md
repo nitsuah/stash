@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/<base>...HEAD --stat` against the PR's base branch includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - Updated ROADMAP.md to quarterly format with completion status
 - Updated TASKS.md with proper section structure (Done, In Progress, Todo)
 - Updated METRICS.md with accurate project metrics

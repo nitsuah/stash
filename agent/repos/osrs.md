@@ -5,7 +5,7 @@ repo: osrs
 
 # osrs - Automation bot for game interaction
 
-**Last Validated:** 2026-09-30 | PMO audit - doc-sync validation (no live Docker run this pass)
+**Last Validated:** 2026-10-01 | PMO audit - doc-sync validation (no live Docker run this pass)
 **Repo:** https://github.com/nitsuah/osrs
 **Branch convention:** pmo/osrs/planning-alignment-YYYY-MM-DD
 

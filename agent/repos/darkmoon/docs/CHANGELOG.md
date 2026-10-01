@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - Test coverage raised from ~74% to ~96% lines (#456).
 - Dependency bumps: vitest 5.0 (#441) and grouped minor/patch updates (#444, #450, #453).
 - `CHANGELOG.md` and `FEATURES.md` moved into `docs/` (#460); multiplayer planning docs live under `docs/projects/multi/`.
