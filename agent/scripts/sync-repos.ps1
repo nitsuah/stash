@@ -9,6 +9,8 @@
   Then enrich-mirror.py gives each copy `up:`/`source:` frontmatter and turns links to
   un-mirrored files into GitHub URLs (vault copies only).
   Updates "Last Validated" in each summary .md.
+  Repos marked private in scope.md's Visibility column are never mirrored (stash is
+  public); with -Prune, an existing mirror of a private repo is deleted.
 
 .PARAMETER Repos
   One or more repo names to sync. Defaults to all known repos.
@@ -54,6 +56,7 @@ $Today     = Get-Date -Format 'yyyy-MM-dd'
 $ScopeFile = Join-Path $VaultRoot 'projects\scope.md'
 $AllRepos = @()
 $RepoPaths = @{}
+$Private = @{}
 $inTracked = $false
 foreach ($line in Get-Content -LiteralPath $ScopeFile) {
     if ($line -match '^## ') { $inTracked = $line -match '^## Tracked'; continue }
@@ -64,6 +67,9 @@ foreach ($line in Get-Content -LiteralPath $ScopeFile) {
             $AllRepos += $name
             # Local path column may differ from the repo name (overseer is cloned as code\vigil).
             if ($line -match '^\|[^|]*\|\s*`([^`]+)`') { $RepoPaths[$name] = $Matches[1] }
+            # Visibility is the last column. A private repo's docs must never reach this
+            # public vault: deployer's mirror sat on GitHub from 2026-09-16 to 2026-09-30.
+            if ($line -match '\|\s*\**private\**\s*\|\s*$') { $Private[$name] = $true }
         }
     }
 }
@@ -77,6 +83,15 @@ $TotalHeld   = 0
 foreach ($repo in $TargetRepos) {
     $src  = if ($RepoPaths.ContainsKey($repo)) { $RepoPaths[$repo] } else { "$CodeRoot\$repo" }
     $dest = "$VaultRoot\repos\$repo"
+
+    if ($Private.ContainsKey($repo)) {
+        Write-Host "  [PRIVATE] $repo — not mirrored (scope.md Visibility = private)" -ForegroundColor Yellow
+        if ($Prune -and (Test-Path $dest)) {
+            if (-not $DryRun) { Remove-Item $dest -Recurse -Force }
+            Write-Host "  [prune] $(if ($DryRun){'would remove'}else{'removed'}) existing mirror of private repo $repo" -ForegroundColor DarkYellow
+        }
+        continue
+    }
 
     if (-not (Test-Path $src)) {
         Write-Host "  [SKIP] $repo — source not found at $src" -ForegroundColor Yellow

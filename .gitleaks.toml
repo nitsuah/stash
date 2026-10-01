@@ -25,8 +25,10 @@ paths = [
 [[allowlists]]
 description = "Jira automation exports: clientKey installation identifier, not a secret"
 regexTarget = "match"
+# No leading quote: gitleaks' match for generic-api-key starts at `clientKey"`, so
+# '"clientKey"...' never matched and full-history scans still reported both hits.
 regexes = [
-  '''"clientKey"\s*:\s*"[^"]+"''',
+  '''clientKey"\s*:\s*"[^"]+"''',
 ]
 paths = [
   '''^atlassian/jira/automation/[^/]+\.json$''',

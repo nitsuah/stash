@@ -37,7 +37,7 @@ These avoid the massive, venture-backed enterprise SaaS giants by living "pre-so
 
 * **The Target:** Mid-sized Commercial General Contractors (GCs).  
 * **The Problem:** GCs must ensure every subcontractor has an active Certificate of Insurance (COI) before stepping on site. If a sub's insurance expires and they get hurt, the GC is liable for millions.  
-* **The Vibe Code Execution:** You set up a dedicated email inbox (compliance@gc-name.com). Subs email their ACORD 25 PDF forms. Your script uses a Vision API to extract the expiration dates and policy limits, logs them in a database, and automatically emails the sub 30 days before expiration.  
+* **The Vibe Code Execution:** You set up a dedicated email inbox (e.g. a `compliance@` address on the GC's domain). Subs email their ACORD 25 PDF forms. Your script uses a Vision API to extract the expiration dates and policy limits, logs them in a database, and automatically emails the sub 30 days before expiration.  
 * **Why There's No Competition:** Enterprise platforms like Procore or specialized COI trackers (like Billy or Jones) cost between $5,000 and $20,000 a year. You are offering a dead-simple utility for $3,000 a year.  
 * **The Price:** $250/mo.
 
