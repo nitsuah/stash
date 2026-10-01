@@ -21,8 +21,9 @@ Phase 6 — Physical/Geometric Pivot: ✅ Complete (2026-09-01). 13 of 15 code-e
 
 Phase 7 — Shape-changing transposition + solar-geometry "shadow of the word" hypothesis: ✅ Complete (2026-09-01). World Clock city-list keyword source grown to 130/146 confirmed names; cross-vector consensus scoring built; scheduled overnight sweep runner built. All null.
 
-Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of three sourcing gaps, two are closed (World Clock segment photos, sub-minute Berlin Wall timestamp) — one remains open:
-- [ ] Source the Kryptos compass rose's actual measured bearing (needs FOIA/Elonka Dunin outreach — human action, not code)
+Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of the three original gaps, two are closed (sourcing the ~4 World Clock *segments* with no legible photo, and the sub-minute Berlin Wall timestamp). Still open, all P3 and all needing a person rather than code (per `docs/TASKS.md` after PR #233):
+- [ ] Source the Kryptos compass rose's actual measured bearing (FOIA / Elonka Dunin outreach, drafts ready)
+- [ ] Photograph the Weltzeituhr: 16 of 146 city plates still unread, plus ring order and the wind-rose mosaic's orientation. This blocks Phase 9's per-letter Weltzeituhr lookup keys.
 
 Multiple follow-on external-review passes (2026-09-02/03) closed a real bug (`keystream_validator.K4_CRIBS` off-by-one on EAST/NORTHEAST positions), added `plaintext_evidence`, extended known-plaintext inversion to rectangular grids, tested the CIA-confirmed "read from the back" tableau reading, and ran newly-discovered classical ciphers (Playfair/Four-Square/Bifid/Autokey) and K0 Morse-slab keywords for the first time — all null.
 
