@@ -37,6 +37,8 @@ repo: skyview
 - Marketplace platform SPA is now built and served by the Docker preview image (previously Docker-only previews never included `/app`), matching the Netlify production build.
 - Launch is blocked purely on a data-entry task: real business phone/email, service-area address/geo, and real social profile URLs — no code work remaining for that item (P1).
 
+- PMO 2026-10-01: `netlify/functions/api-bookings.mjs` (375 LOC, the Stripe create/cancel/capture paths) is run by no test: e2e specs stub `/api/bookings` via `page.route`. P2 task to unit-test it before the live-Stripe cutover ([skyview#164](https://github.com/nitsuah/skyview/pull/164)).
+
 ---
 
 ## Open P0/P1 Tasks
