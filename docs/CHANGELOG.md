@@ -16,6 +16,7 @@ Notable additions and changes to this repository.
 - Reworded health-adjacent lines in two `reports/cloud/daily-checkin/` reports.
 - kryptos mirror: a third party's email address was removed upstream (nitsuah/kryptos#237) and in the mirror.
 - Removed accidentally committed `.playwright-mcp/` snapshots and gitignored the folder.
+- Removed `projects/remora/remora.accdb` (it held a former employer's email address). The VBA source and screenshots stay. The other Access DBs and the sampler test PDF were checked and are clean.
 - History still holds removed content. Purging it is a human decision, tracked in `docs/TASKS.md`.
 
 ### 2026-09-30 — Obsidian vault guide, routine backups, public-vault leak fixes

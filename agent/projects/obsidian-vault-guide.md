@@ -144,6 +144,7 @@ Fixed:
 - **Career and CFO prompts** carried an income figure and health context. Both now point at a local file under `~/.claude/private/` that's read if it exists and never committed.
 - **Two daily-checkin reports** had health-adjacent "grounding thoughts"; they were reworded.
 - **kryptos third-party email:** fixed upstream (nitsuah/kryptos#237) and in the mirror.
+- **`projects/remora/remora.accdb`** was removed (it held an employer-domain address). The other binaries (`sampler.accdb`, `VMT.accdb`, a test PDF) were checked for embedded addresses and are clean.
 - **`.playwright-mcp/`** browser snapshots (signed-out GitHub pages, nothing personal) were committed by accident in #157. They're removed and gitignored.
 
 Remaining whole-tree scan hits are placeholders (example email, 555 phone number, an `.env.example` Slack token stub), a test fixture, and a client business's public contact address in the skyview mirror.

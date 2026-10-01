@@ -6,6 +6,8 @@ Remora is an enterprise-grade Privileged Access Management (PAM) solution built 
 
 **Business Value**: Transforms manual access reviews into automated governance workflows, reduces audit preparation time, and ensures continuous compliance with federal security requirements through intelligent artifact linking and automated health checks.
 
+> The Access database itself isn't published (it contained former-employer data). The VBA/SQL modules in `source/` and the screenshots in `assets/` are the reference.
+
 ## Features
 
 - **System Access** - Stores user directory lists for distributed softwares and reports on role based access controls (RBAC) and provisioned access across multiple systems.
