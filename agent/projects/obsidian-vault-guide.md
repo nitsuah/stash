@@ -4,6 +4,8 @@
 
 `stash/agent/` is an Obsidian vault **and** a folder in a **public** GitHub repo (`nitsuah/stash`). This guide covers what the vault holds, what keeps it in sync, which routines write to it, and how private data stays out while the useful roll-ups get committed.
 
+A public overview of this setup, plus a skills and routines setup guide, is published from `pages/` at https://nitsuah.github.io/stash/.
+
 The short version of the privacy model: **raw stays local, synthesis gets committed.** Logs, plugin state, inbox and calendar contents, financial data and private repos never leave the machine. What reaches GitHub is a summary written for a public reader: counts, statuses, PR titles, repo-level prose.
 
 ---
