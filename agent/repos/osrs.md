@@ -41,11 +41,11 @@ repo: osrs
 
 ## Open P0/P1 Tasks
 
-None open at P0/P1 — both open TASKS.md items are P2: (1) give `StuckStateMonitor.recover()` a real corrective action and stop `record_activity()` from resetting stale-frame state on unverified progress (needs live-game verification, deliberately not rushed), and (2) expand skill modules behind stable shared automation primitives.
+None open at P0/P1. TASKS.md has (1) `StuckStateMonitor.recover()` In Progress (P2): #47 shipped the code, adding a `corrective_action` callback (camera re-center in fishing/thieving) and `record_activity(verified=...)`, so only live-game validation remains; (2) expand skill modules behind stable shared automation primitives (P2); (3) bump the `nltk` pin once patched (P3, #39).
 
 ## Priority Focus
 
-1. Give `StuckStateMonitor.recover()` an actual corrective action (camera re-center/pan) instead of only logging + resetting counters — needs live-game verification.
+1. Validate #47's `StuckStateMonitor.recover()` corrective action (camera re-center) in a live game session, confirming stale frames stop resetting on unverified actions. The implementation shipped in #47; only this validation is open.
 2. Expand skill coverage (woodcutting/mining) on top of stable shared primitives, per ROADMAP Q3.
 3. Do a live `docker build && docker run` pass to fully re-confirm the entrypoint/Python-version fixes recorded in TASKS.md (doc-only confirmation so far this cycle).
 
