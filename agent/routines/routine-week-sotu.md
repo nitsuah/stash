@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: week-sotu
 runs: local
-description: Weekly State of the Union: rebuild the Portfolio Checklist artifact from vigil/TASKS.md, the findings ledger and routine health, per stash/agent/prompts/SOTU.md
+description: "Weekly State of the Union: rebuild the Portfolio Checklist artifact from vigil/TASKS.md, the findings ledger and routine health, per stash/agent/prompts/SOTU.md"
 ---
 
 # routine · week-sotu

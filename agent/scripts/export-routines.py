@@ -13,6 +13,7 @@ disk: snapshot those by hand from RemoteTrigger `get` (see routines-backup.md).
 Usage: python agent/scripts/export-routines.py [--check]
   --check  exit 1 if any backup is missing or differs from a fresh export
 """
+import json
 import os
 import re
 import sys
@@ -43,16 +44,29 @@ SECRET = re.compile(r"(ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|gh[osu]
                     r"|AIza[0-9A-Za-z_-]{35}|-----BEGIN [A-Z ]*PRIVATE KEY-----)")
 
 
+def unquote(value):
+    """A YAML-quoted source value back to plain text, so it isn't quoted twice on output."""
+    if len(value) >= 2 and value[0] == value[-1] == '"':
+        try:
+            return json.loads(value)
+        except ValueError:
+            return value[1:-1]
+    if len(value) >= 2 and value[0] == value[-1] == "'":
+        return value[1:-1].replace("''", "'")
+    return value
+
+
 def export(name):
     raw = open(os.path.join(SRC, name, "SKILL.md"), encoding="utf-8").read().replace("\r\n", "\n")
     m = re.match(r"^---\n(.*?)\n---\n", raw, re.DOTALL)
-    desc = re.search(r"^description:\s*(.*)$", m.group(1), re.M).group(1) if m else ""
+    d = re.search(r"^description:\s*(.*?)\s*$", m.group(1), re.M) if m else None
+    desc = unquote(d.group(1)) if d else ""
     body = raw[m.end():] if m else raw
     for pat, repl in REDACTIONS:
         body = pat.sub(repl, body)
         desc = pat.sub(repl, desc)
     head = (f'---\nup: "[[routines-backup]]"\nkind: routine-backup\nroutine: {name}\nruns: local\n'
-            f"description: {desc}\n---\n\n# routine · {name}\n\n"
+            f"description: {json.dumps(desc, ensure_ascii=False)}\n---\n\n# routine · {name}\n\n"
             f"> Backup of `~/.claude/scheduled-tasks/{name}/SKILL.md`, exported by `scripts/export-routines.py`."
             f" Edit the live task (or the prompt it points at), then re-export. Don't edit this copy.\n\n")
     return head + body.strip() + "\n"

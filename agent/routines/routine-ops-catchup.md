@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: ops-catchup
 runs: local
-description: Reset-aware catch-up: after the Wed weekly reset, schedule spaced one-shot re-runs of missed chain-critical routines, per stash/agent/prompts/CATCHUP.md
+description: "Reset-aware catch-up: after the Wed weekly reset, schedule spaced one-shot re-runs of missed chain-critical routines, per stash/agent/prompts/CATCHUP.md"
 ---
 
 # routine · ops-catchup

@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: monthly-tire-kick
 runs: local
-description: Monthly findings fix queue + Docker health check across tracked repos, per stash/agent/prompts/TIRE.md
+description: "Monthly findings fix queue + Docker health check across tracked repos, per stash/agent/prompts/TIRE.md"
 ---
 
 # routine · monthly-tire-kick

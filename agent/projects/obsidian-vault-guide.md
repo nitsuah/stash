@@ -95,7 +95,7 @@ The vault is public on purpose: cloud routines need to read it, and the roll-ups
 
 | Layer | What it stops |
 |---|---|
-| **1. Exclusion**: `.gitignore` plus `app.json` `userIgnoreFilters` | Logs, plugin data and keys, embeddings, workspace state and `.env` never get staged |
+| **1. Exclusion**: `.gitignore` plus `app.json` `userIgnoreFilters` | Logs, plugin data and keys, embeddings, workspace state and `.env` can't be staged by accident while they're untracked. An ignore rule doesn't cover a file that's already tracked (see rule 6 below) |
 | **2. Source discipline**: `sync-repos.ps1` | Only merged, committed docs of **public** repos are mirrored. Never a working tree, a branch, or a private repo |
 | **3. URL hygiene**: `enrich-mirror.py` | Credentials embedded in a remote URL never reach a `source:` link |
 | **4. Prompt rules** in every publishing routine | daily-brief: counts only. week-vuln, TIRE: package names and public advisory IDs only. SOTU: private repos reduced to titles. fin-sum: never commits. USAGE: never scrapes platforms or handles credentials |

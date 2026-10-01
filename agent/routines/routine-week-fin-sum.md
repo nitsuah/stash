@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: week-fin-sum
 runs: local
-description: Weekly financial check-in from live fire-tracker data (CDs, net worth, runway) + current market rates
+description: "Weekly financial check-in from live fire-tracker data (CDs, net worth, runway) + current market rates"
 ---
 
 # routine · week-fin-sum

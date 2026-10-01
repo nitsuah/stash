@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: monthly-pmo-audit
 runs: local
-description: Monthly PMO doc/metrics audit across all owned repos, per stash/agent/prompts/PMO.md
+description: "Monthly PMO doc/metrics audit across all owned repos, per stash/agent/prompts/PMO.md"
 ---
 
 # routine · monthly-pmo-audit

@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: monthly-self-improvement
 runs: local
-description: Monthly self-improvement cycle for the Claude routine stack, full PMO-style auto-PR privileges, per stash/agent/prompts/RSI.md
+description: "Monthly self-improvement cycle for the Claude routine stack, full PMO-style auto-PR privileges, per stash/agent/prompts/RSI.md"
 ---
 
 # routine · monthly-self-improvement

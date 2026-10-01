@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: monthly-usage-report
 runs: local
-description: Monthly Claude Code usage + automation-candidate report, per stash/agent/prompts/USAGE.md
+description: "Monthly Claude Code usage + automation-candidate report, per stash/agent/prompts/USAGE.md"
 ---
 
 # routine · monthly-usage-report

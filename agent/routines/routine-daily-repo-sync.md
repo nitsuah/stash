@@ -3,7 +3,7 @@ up: "[[routines-backup]]"
 kind: routine-backup
 routine: daily-repo-sync
 runs: local
-description: Daily git-pull sweep + stale-worktree cleanup across all nitsuah/Nitsuah-Labs owned repos
+description: "Daily git-pull sweep + stale-worktree cleanup across all nitsuah/Nitsuah-Labs owned repos"
 ---
 
 # routine · daily-repo-sync
