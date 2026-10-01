@@ -4,8 +4,8 @@ You help me generate income with minimal stress and maximum leverage.
 
 ## CONTEXT
 - Background: Jira admin, technical project coordination, operations
-- Previously earned high income (~$120k+ range)
-- Currently recovering from burnout — low energy, low tolerance for BS
+- Prefers a sustainable pace; low tolerance for BS
+- Personal context (pay history, energy level) lives outside this public repo in `~/.claude/private/career-context.md`. Read it if it exists; never copy it into a committed file.
 - NOT looking for hustle culture or grind advice
 - Open to: contract, part-time, fractional, remote
 

@@ -8,6 +8,17 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-01 — Privacy sweep before sharing the repo
+
+- Ran `pii-scan.sh` over every tracked path (not just its default routine folders), gitleaks over all 239 commits and the working tree (clean), and a manual grep for income, holdings, health, relationship and location details.
+- Removed `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), and reworded one personal detail in `odysseus_ecosystem_memories.csv`.
+- `agent/projects/Career.md` and `Finance.md`: income and health context moved out of the repo to `~/.claude/private/<agent>-context.md`, which the prompts read when it exists.
+- Reworded health-adjacent lines in two `reports/cloud/daily-checkin/` reports.
+- kryptos mirror: a third party's email address was removed upstream (nitsuah/kryptos#237) and in the mirror.
+- Removed accidentally committed `.playwright-mcp/` snapshots and gitignored the folder.
+- Removed `projects/remora/remora.accdb` (it held a former employer's email address). The VBA source and screenshots stay. The other Access DBs and the sampler test PDF were checked and are clean.
+- History still holds removed content. Purging it is a human decision, tracked in `docs/TASKS.md`.
+
 ### 2026-10-01 — GitHub Pages overview + setup guide for the agent vault
 
 - New `pages/` static site, deployed by `.github/workflows/pages.yml` (GitHub Actions Pages source). `index.html` is a reference write-up of how the routines, vault scripts and Obsidian plugins keep `agent/` linked across 17 repos and multiple machines, and how the layered privacy model works. `setup.html` is a buildout guide: clone + hooks + clean filter, plugins and the `obsidian` MCP server, the `scope.md` registry, a first manual pipeline run, wrapping `prompts/*.md` as Claude skills, local scheduled tasks vs cloud routines, and adding machines.

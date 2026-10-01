@@ -135,3 +135,20 @@ Still open. These need a human decision:
 - **`projects/remora/remora.accdb`** (a 16 MB Access DB from 2023) contains an employer-domain email address. Binary files aren't scanned. Decide whether the file should be public at all.
 - **`repos/kryptos/docs/TASKS.md`** mirrors a third party's email address from the public kryptos repo. Fix it upstream; the next sync picks up the change.
 - **The eng-mini and eng-loc cloud prompts** still say `agent/reports/` is gitignored. It has been tracked since 2026-09-24. Harmless (`git add -f` still works), but the claim is stale.
+
+### Follow-up sweep, 2026-10-01
+
+The default `pii-scan.sh` scope covers only the routine-written folders, so this pass ran it over **every tracked path** and ran gitleaks over the full history (239 commits on `main`, clean) and the working tree. It also grepped for categories regex can't catch: income, holdings, health, relationships and location.
+
+Fixed:
+
+- **Personal memory exports** `projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (location, vehicles, health and fitness goals) were removed. The Odysseus ecosystem CSV lost one personal detail.
+- **Career and CFO prompts** carried an income figure and health context. Both now point at a local file under `~/.claude/private/` that's read if it exists and never committed.
+- **Two daily-checkin reports** had health-adjacent "grounding thoughts"; they were reworded.
+- **kryptos third-party email:** fixed upstream (nitsuah/kryptos#237) and in the mirror.
+- **`projects/remora/remora.accdb`** was removed (it held an employer-domain address). The other binaries (`sampler.accdb`, `VMT.accdb`, a test PDF) were checked for embedded addresses and are clean.
+- **`.playwright-mcp/`** browser snapshots (signed-out GitHub pages, nothing personal) were committed by accident in #157. They're removed and gitignored.
+
+Remaining whole-tree scan hits are placeholders (example email, 555 phone number, an `.env.example` Slack token stub), a test fixture, and a client business's public contact address in the skyview mirror.
+
+Private context for a prompt goes in `~/.claude/private/<agent>-context.md`, never in the vault.
