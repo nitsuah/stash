@@ -6,7 +6,7 @@ aliases: [overseer]
 
 # vigil
 
-> Reviewed: 2026-09-26
+> Reviewed: 2026-10-01
 
 ## Overview
 
@@ -33,9 +33,10 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-09-26; TASKS.md now also carries two new P3s: the visual-docs rollout and per-user MCP API tokens, and marks the chat-auth email gap 🟡 PARTIAL after the session-identity fix). The root `TASKS.md` reads "P0: None open — P0 hardening shipped in #225/#226" and "P1: None open — see CHANGELOG for the #221–#233 work". The one human-gated P1 from 2026-09-24, renaming the GitHub repo `nitsuah/overseer` to `nitsuah/vigil`, is done: the GitHub repo is `nitsuah/vigil`, and the local clone moved to `C:\Users\ajhar\code\vigil` (clean on `main`). The routines still call it `overseer`; see `agent/projects/scope.md`. The `navbar-v2` checkout and the `pr-229-merge-conflicts` worktree flagged on 2026-09-24 went with the old clone.
+None open (updated 2026-10-01). `TASKS.md` still reads "P0: None open" and "P1: None open". PR #260 (merged 2026-10-01) added repo tiers T1–T4 (`repos.tier`, `PATCH /api/repos/[name]/update-tier`, `tier` filter on MCP `list_repos`) and a `skills/vigil/` Claude Code skill. In P2, chat-driven doc editing is now stages 1–4 complete, the relationship-map foundation is checked off, and a new open P2 asks to grow that map from real evidence.
 
 Still worth tracking (P2, from 2026-09-11): **`session?.user?.email` gates the shared-key AI rate limiter**. A GitHub OAuth profile with no public email skips the budget gate. Re-check it against the current TASKS.md before assuming it's still open.
+
 
 ## Blockers
 

@@ -71,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - Documentation audit pass (2026-08-22): corrected game count (9, not 7), unit test count (482, not 218), coverage (95.41%), and dependency versions across README.md, FEATURES.md, ROADMAP.md, TASKS.md, METRICS.md, docs/API.md
 - **Memory Match**: documented existing vanilla JS card-matching game served via iframe at `/memory-match` (existing route, not a new addition)
 - **Dodge Blocks**: documented existing vanilla JS canvas dodge game served via iframe at `/dodge-blocks` (existing route, not a new addition)

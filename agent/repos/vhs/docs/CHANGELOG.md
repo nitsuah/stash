@@ -21,6 +21,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - Collection middle bar reordered; sign-in moved next to the AI detection button (#57).
 - METRICS: coverage baseline + Docker refreshes (#56, #58, #60).
 - Planning docs reset for 2027 (`pmo-ff`): completed Phases 1 & 3 condensed into FEATURES/CHANGELOG, Phase 2 open work and the triaged CV items carried into 2027 Q1, breadcrumb navigation + README docs index added.

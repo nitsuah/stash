@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; extended `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Feature cards** (homepage) — `<div onClick>` replaced with `<button aria-expanded aria-controls>`; content div always mounted (hidden when collapsed) so `aria-controls` target is always present; animated children still unmount inside to stop timers
 - **`GRUNT_BARN_MELEE_RANGE`** extracted from inline constant to `constants.ts`; `HeroPanel` magic `3` replaced with `HERO_MAX_ITEMS`; `tome_xp` Use button disabled (no handler); `WaveTimer` prop typed as `RefObject` not `MutableRefObject`
 - **Dark-mode footer** — green → black in `SiteLayout`

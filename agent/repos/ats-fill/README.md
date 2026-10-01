@@ -14,8 +14,11 @@ repo: ats-fill
 > No Docker. No server. No subscription. Review before submitting.
 
 [![CI](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Add_to_Chrome-c4411a?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn)
 
-**🌐 [nitsuah.github.io/ats-fill](https://nitsuah.github.io/ats-fill/)** — landing page with the 21-second demo video.
+**🧩 [Add to Chrome](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn)**: install from the Chrome Web Store.
+
+**🌐 [nitsuah.github.io/ats-fill](https://nitsuah.github.io/ats-fill/)** — landing page with the 23-second demo video.
 
 ---
 
@@ -41,12 +44,10 @@ A Chrome extension that:
 
 ## Quick Start (< 5 minutes)
 
-1. Clone this repo (or download as ZIP)
-2. Open `chrome://extensions` → enable **Developer mode**
-3. Click **Load unpacked** → select the repo folder
-4. Click the extension icon → paste your [free Gemini API key](https://aistudio.google.com/app/apikey) and leave the model on **Auto**
-5. Upload your resume (PDF, DOCX, or paste text)
-6. Navigate to a job page → click the icon → **Fill Form**
+1. Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn), or load it unpacked: clone this repo (or download the ZIP), open `chrome://extensions`, enable **Developer mode**, click **Load unpacked** and select the repo folder
+2. Click the extension icon → paste your [free Gemini API key](https://aistudio.google.com/app/apikey) and leave the model on **Auto**
+3. Upload your resume (PDF, DOCX, or paste text)
+4. Navigate to a job page → click the icon → **Fill Form**
 
 ---
 
@@ -236,6 +237,31 @@ Company,Role Title,Status,Date,Employment Type,Remote,Location,Pay Min,Pay Max,S
 ```
 
 ---
+
+## Claude Skill
+
+[`skills/ats-fill-job-search`](./skills/ats-fill-job-search/SKILL.md) is a job-search coach for Claude (or any agent that reads `SKILL.md` files). It pairs the ats-fill workflow with practical advice and keeps final decisions and submission with the candidate. `SKILL.md` routes to focused references that load only when needed:
+
+| Reference | Covers |
+| --- | --- |
+| [using-ats-fill.md](./skills/ats-fill-job-search/references/using-ats-fill.md) | Setup, form fill, job search, pipeline, analytics, Interview Prep, privacy, a weekly rhythm |
+| [search-strategy.md](./skills/ats-fill-job-search/references/search-strategy.md) | Targeting, channels, JD triage, networking, outreach templates, weekly metrics |
+| [applications.md](./skills/ats-fill-job-search/references/applications.md) | Resumes, the truth about "ATS optimization", cover letters, application questions |
+| [interviews.md](./skills/ats-fill-job-search/references/interviews.md) | Prep sheet, STAR story bank, technical and system design, questions to ask, thank-yous |
+| [offers.md](./skills/ats-fill-job-search/references/offers.md) | Pay research, negotiation scripts, comparing offers, rejections |
+| [resources.md](./skills/ats-fill-job-search/references/resources.md) | Curated, primary-source links (O*NET, BLS, CareerOneStop, EEOC, FTC and more) |
+
+**Install**
+
+```bash
+npx skills add nitsuah/ats-fill --skill ats-fill-job-search -g
+```
+
+Or copy `skills/ats-fill-job-search/` into `~/.claude/skills/` (Claude Code) or a project's `.claude/skills/`. In the Claude apps, zip the folder, go to **Customize → Skills → + → Create skill → Upload a skill**, upload the ZIP, then toggle the skill on (skills need **Code execution and file creation** enabled). Then ask things like *"Is this role a fit for me?"*, *"Prep me for tomorrow's system design interview"* or *"Help me negotiate this offer."*
+
+## Feature tour video
+
+A longer walkthrough for YouTube is generated from the real extension and fictional demo data: one short per feature plus a combined cut with chapters. See [video/README.md](./video/README.md).
 
 ## Tech Stack
 

@@ -5,7 +5,7 @@ repo: kryptos
 
 # kryptos
 
-> Reviewed: 2026-09-23 (no material change since 2026-09-16 PMO audit — see [[pmo-audit-2026-09-16]])
+> Reviewed: 2026-10-01
 
 ## Overview
 
@@ -21,8 +21,9 @@ Phase 6 — Physical/Geometric Pivot: ✅ Complete (2026-09-01). 13 of 15 code-e
 
 Phase 7 — Shape-changing transposition + solar-geometry "shadow of the word" hypothesis: ✅ Complete (2026-09-01). World Clock city-list keyword source grown to 130/146 confirmed names; cross-vector consensus scoring built; scheduled overnight sweep runner built. All null.
 
-Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of three sourcing gaps, two are closed (World Clock segment photos, sub-minute Berlin Wall timestamp) — one remains open:
-- [ ] Source the Kryptos compass rose's actual measured bearing (needs FOIA/Elonka Dunin outreach — human action, not code)
+Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of the three original gaps, two are closed (sourcing the ~4 World Clock *segments* with no legible photo, and the sub-minute Berlin Wall timestamp). Still open, all P3 and all needing a person rather than code (per `docs/TASKS.md` after PR #233):
+- [ ] Source the Kryptos compass rose's actual measured bearing (FOIA / Elonka Dunin outreach, drafts ready)
+- [ ] Photograph the Weltzeituhr: 16 of 146 city plates still unread, plus ring order and the wind-rose mosaic's orientation. This blocks Phase 9's per-letter Weltzeituhr lookup keys.
 
 Multiple follow-on external-review passes (2026-09-02/03) closed a real bug (`keystream_validator.K4_CRIBS` off-by-one on EAST/NORTHEAST positions), added `plaintext_evidence`, extended known-plaintext inversion to rectangular grids, tested the CIA-confirmed "read from the back" tableau reading, and ran newly-discovered classical ciphers (Playfair/Four-Square/Bifid/Autokey) and K0 Morse-slab keywords for the first time — all null.
 
@@ -32,12 +33,13 @@ Phase 5 (Post-solution, standing, blocked on K4 being solved):
 
 ## Open P0/P1 Tasks
 
-Kryptos's TASKS.md doesn't use P0/P1 labels; below are the only genuinely-open items in `docs/TASKS.md`'s Active section (both blocked on a human, not code):
+None open (updated 2026-10-01). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
 
-- [ ] **Source the Kryptos compass rose's actual measured bearing** — FOIA request to CIA or direct outreach to Elonka Dunin, both drafted and ready to send. Flagged "[You — the only send]" — needs the repo owner to actually send it.
-- [ ] **Ask CIA Public Affairs whether an authorized research visit exists** — outreach draft ready, also flagged "[You — the only send]".
+- **Cryptanalysis frontier, Phase 9 (code):** P2 irregular transpositions + periodic key, P2 length-changing masking; P3 two non-periodic layers, P3 named running-key sources under transposition.
+- **Primary-source sourcing, Phase 8 (needs the owner):** the compass-rose bearing request (FOIA draft + Elonka Dunin email, both written) and the CIA research-visit question are now **P3**, no longer P1. They still need a human to send.
 
-Everything else (Phases 1–8's code work) is done. No open engineering P0/P1s.
+`docs/K4-v2.md` moved to `docs/archive/K4-v2.md`; the mirror pruned the old path.
+
 
 ## Blockers
 
