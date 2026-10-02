@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: avatar — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/avatar|avatar]] <!-- nav --> (first eng-mini audit of this repo)
+> 🧭 [[repos/avatar|avatar]] <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `5cccd02` "docs: require closing tracked work in the same PR (#37)", `git log -1 --format=%ci` 2026-09-30T17:53:42-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/avatar`.
 

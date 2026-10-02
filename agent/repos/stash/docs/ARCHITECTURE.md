@@ -71,7 +71,7 @@ stash/
 | `windows/pwsh/` | PowerShell 5.1+ | `.\script.ps1` |
 | `windows/bat/` | CMD | `script.bat` |
 | `agent/` | Claude.ai / Anthropic SDK | Paste `.md` as system prompt |
-| `projects/remora/` | Microsoft Access + VBA | Open `.accdb` |
+| `projects/remora/` | Microsoft Access + VBA | Source + screenshots only (database not published) |
 | `projects/sampler/` | Microsoft Access + Adobe Acrobat | Open `.accdb` |
 | `projects/vmt/` | Microsoft Access + VBA | Open `.accdb` |
 

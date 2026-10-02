@@ -17,6 +17,87 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10 — Multichain crypto account value
+
+#### Added
+- **Multichain value for ENS/0x crypto accounts.** ⟳ Refresh now totals native coins plus priced ERC-20 tokens across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche (`app/lib/multichain-balance.js`). It uses keyless Blockscout explorers and publicnode.com RPCs, and filters spam tokens: unpriced, flagged as scam, few holders, or absurd values. The row shows a per-chain breakdown, plus ⚠ when a chain couldn't be read. The ENS lookup card uses the same source, with top tokens per chain. Previously only mainnet ETH counted.
+
+#### Changed
+- The hosted `fire-api` no longer imports `web3-prices`/`config/chains.json` for the ENS lookup (and `netlify.toml` no longer bundles the file). Etherscan-family keys are now used only by the server-side wallet tracker.
+
+#### Docs
+- Brought every doc up to date: the README architecture tree (route split, CoinTracker, multichain, Netlify functions) and integrations; integrations.md (multichain section); privacy policy (lookup services); FEATURES; TASKS/ROADMAP status; METRICS coverage; and `copilot-instructions.md` (it claimed SQLite/Postgres; the app uses `db.json`).
+
+### 2026-10 — CoinTracker wallet sync (#139)
+
+#### Fixed (follow-up)
+- ENS/address crypto refresh failed with `ETH RPC error: Internal error`: the retired `cloudflare-eth.com` gateway was replaced with `ethereum-rpc.publicnode.com` (override with `ETH_RPC_URL`), the same default the ENS resolver uses.
+- **Hosted site: gold/silver and crypto refresh were broken.** `fire-api` imported the `ethers`-based ENS resolver, which Netlify's function bundle doesn't ship, so the whole function crashed (`Cannot find module 'ethers'`), metals included. It now resolves ENS with the dependency-free resolver in `crypto-balance.js`. Crypto account ⟳ Refresh works on the hosted site through a new stateless `POST /api/accounts/refresh-crypto`. The hosted metal refresh no longer throws on an undefined variable, and both refreshes now save the new value in browser-only mode.
+- The first live connect logged in, but CoinTracker's MCP server rejected the token. The authorize request now asks Auth0 for an MCP-audience token (`audience`, configurable with `COINTRACKER_AUDIENCE`). A 401 now shows the rejected token's shape (format, `aud`, `scope`) in the card, and CoinTracker's own login errors are passed through instead of a generic `access_denied`.
+
+#### Added
+- **CoinTracker connector (optional).** Settings → CoinTracker Wallets connects through OAuth 2.1 + PKCE (dynamic client registration, `mcp:read offline_access`) and reads wallet balances from CoinTracker's read-only MCP server. CoinTracker offers no REST API or personal token. The same `/api/sync/cointracker/*` routes run on Express and as a Netlify Function, and neither stores anything: the token is sealed with `SYNC_MASTER_KEY` and kept in the browser.
+- Each CoinTracker wallet becomes a Crypto account, tagged "CoinTracker" with its sync time and per-asset holdings, so the dashboard shows the multichain total and each wallet's value. Balances refresh automatically on load when they are more than 6 hours old.
+- **Dedupe, with CoinTracker as the source of truth:** a manual crypto account with the same address or ENS is adopted (it keeps its name and APY and takes CoinTracker's value) and is restored on disconnect. Ticker-only or address-less manual entries are listed as possible duplicates. Wallets can be excluded, and partial syncs never remove wallets. The MCP server's net worth no longer double-counts tracked wallets that CoinTracker also reports.
+- "Inspect CoinTracker tools" lists CoinTracker's MCP tools (no portfolio data) and the one used for balances. `COINTRACKER_BALANCE_TOOL` pins it.
+
+### 2026-10 — Chaos mode, customizable layout, fire-coach skill
+
+#### Added (follow-up)
+- **Section layouts:** every tab is now a board of sections. Each section has a column layout (1, 2, 2 wide-left, 2 wide-right, 3, 3 wide-center, 4) and its cells stack cards. A card alone in a section spans the full width, and the fixed per-tab grids (such as the locked Growth Settings column) are gone. Customize mode is a drag-and-drop builder with highlighted targets, a drop placeholder and "New section" gaps.
+- **Chaos sequences:** parent care → funeral → inheritance or inherited house; wedding → child → daycare ends; job loss → new job. Follow-ups show "after …" in tooltips and chips.
+- **More good events:** inherited house (sell, move in or rent out), refinance, car loan paid off, roommate/house hack, settlement payout, family gift. The catalog now has 37 events.
+- **Costs that outrun inflation:** rent (+1%/yr), child costs (+1%), elder care (+3%), insurance after a claim (+2%), and medical and vet bills (+2%/yr) escalate in the real-terms projection. Descriptions quote the inflation setting.
+- **🛡️ Mitigations** in Insights: tick coverage you have (pet insurance, HSA/low-OOP plan, disability, dental, umbrella, water-backup, gap, credit freeze, safe-harbor withholding, emergency fund). Chaos shrinks the covered hits and charges the premiums every year. Each card shows what it saves and costs in the current simulated life.
+- `promo/chaos-24s` (renamed from `chaos-22s`) adds a Mitigate scene and uses chaos seed 23, which includes a funeral → inherited house sequence.
+
+#### Changed (follow-up)
+- Promotions are a signing bump or 5–6 years of extra savings rather than a permanent raise, since wages are flat in real terms.
+- Merged the strict CSP (#150): the Chaos/🎲 buttons use `data-csp-click-action`, and chip colors and layout previews are set via the CSSOM. A new browser test asserts no CSP violations.
+
+#### Fixed (follow-up)
+- Same-year chain follow-ups, and follow-ups of top-up events, were dropped; they now run in year order.
+- On phones, 3- and 4-column sections now collapse to one column (a CSS specificity bug left them at two).
+- The widget picker traps Tab, keeps focus on the row you acted on and returns focus to its opener. Malformed saved layouts are rejected or sanitized before use.
+- Landing page: zoomed images toggle actual size with Enter/Space, and the picker screenshot keeps its position when made zoomable.
+- Bear / Base / Bull: after the strict-CSP change (#150) the click delegation passed the offset as a string, so "8" + "0" projected an 80% return. The offset is now coerced to a number, with a browser test.
+
+#### Added
+- **🌪️ Chaos mode:** a toggle next to Bear/Bull on Projections and on the Dashboard growth chart rolls seeded, realistic life events onto the projection. There are 30 events in 8 categories, each with a life-average probability, an age window, a lifetime cap, a repeat gap and 2–3 predefined outcomes. The app shows ▲/▼ category-colored markers, a dashed "Without chaos" line, event details in the chart tooltip, an event-chip timeline that follows the 1Y–All window, and 🎲 reroll. The chart's FIRE-crossing markers, the Milestone Predictions estimates (marked 🌪️) and the run-out age all follow the chaos path. The toggle and seed are saved in localStorage (`app/lib/chaos-events.js`, 20 unit tests, plus a browser test that the engine with no events reproduces the app's projection exactly).
+- **How chaos changes net worth:** one-time costs and gains land in the year they happen and then compound (or fail to) with the rest of the portfolio. Recurring costs and income change the yearly savings, or the yearly withdrawal once retired, for their duration. A job loss costs the lost months of savings plus real spending; the FIRE number's tax padding is left out, since there's no paycheck to tax. Paycheck events (job loss, pay cut, bonus, RSUs) are skipped when Expenses → gross income is under $5k.
+- **Customizable layout:** clicking a card title collapses it on every tab. ✎ Customize adds pointer drag (mouse and touch) and ↑/↓ reorder, and Dashboard cards can move between columns. ＋ Add widget pins any card from another tab to the Dashboard and leaves a "Move back here" placeholder; ✕ removes Dashboard cards and ↺ Reset restores a tab. Saved in localStorage (`app/lib/layout-manager.js`).
+- **fire-coach Claude skill** (`skills/fire-coach/`): `SKILL.md` maps questions to MCP tools, with a FIRE financial playbook and an app guide as references. `skills/README.md` covers installation.
+- **Landing page:** new Chaos mode and "Make it yours" sections, the `chaos-24s` demo video, and the skill in the Claude section. The nav adds "Chaos", and the Plaid footnote reflects the Netlify Functions from #146. Screenshots are larger (wider page, wider image column), and every screenshot and the Chaos video open full size on tap or click; tapping again shows actual pixels.
+- **Promo:** `promo/chaos-24s` spot. `capture.js` now also shoots the chaos chart, tooltip, phone and Customize/picker views, using shared price mocks and chaos seed 60.
+- 8 Playwright tests for chaos and layout (`tests/e2e-ui/chaos-and-layout.spec.js`).
+
+#### Changed
+- Card titles are focusable and show a collapse chevron; they keep their heading role.
+- After you arrange the Dashboard by hand, wide screens (≥1400px) keep the two columns instead of the fixed three-column grid.
+- Service worker cache is bumped to `fire-tracker-v4` and precaches the two new scripts.
+
+### 2026-09 — Drive backup, privacy and security doc accuracy (PR #149)
+
+#### Fixed
+- Google Drive setup docs describe the OAuth client flow the code actually uses (no service-account mode) and list `SYNC_MASTER_KEY` as required.
+- Privacy policy discloses the opt-in encrypted Drive backup under self-hosted mode (`drive.file` scope, encrypted token in `data/tokens-gdrive.json`), lists the Google endpoints it calls, and explains how to delete it.
+- `security-hardening.md` Remaining Gaps is one well-formed table again, with H-01, H-03, H-05, H-06, H-07, H-12 and H-13 and their status.
+- TASKS/METRICS/CHANGELOG no longer imply CI enforces coverage codebase-wide: the thresholds apply only to the 8 files in `coverage.include`.
+
+### 2026-09 — Split sync routes, Plaid on the Netlify deploy (PR #146)
+
+#### Added
+- **Plaid routes on the Netlify deploy:** `netlify/functions/plaid.mjs` serves Link, exchange, accounts, positions and transactions at the same `/api/sync/plaid/*` paths. No access tokens are stored on the server. The browser holds an AES-256-GCM token (rolling 180-day expiry) that also carries the transaction cursor.
+- Hosted Plaid needs `PLAID_HOSTED_ACCESS_KEY` outside the sandbox and a 64-hex `SYNC_MASTER_KEY`. It checks both before calling Plaid.
+
+#### Changed
+- `app/routes/sync.js` is split into `app/routes/ebay.js` and `app/routes/plaid.js`, and the token file helpers are in `app/lib/token-store.js`. Route paths are unchanged.
+- Plaid accounts and positions record `plaidItemId`. A partial sync replaces only the items that synced, and responses report `syncedItemIds` and a `warning`.
+
+#### Fixed
+- `/plaid/positions` no longer wipes saved positions when every item fails, and Plaid rows saved before item ids existed are replaced instead of duplicated.
+- `/plaid/status` reports `lastUpdated` again, and token saves no longer collide on a shared temp file.
+
 ### 2026-09 — eBay on the Netlify deploy (PR #130)
 
 #### Added
@@ -94,7 +175,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 2026-09 — Coverage gate + docs reset
 
 #### Fixed
-- Branch coverage restored above the 70% threshold (74.85%, 484 tests via `tests/unit/finance-calcs-branches.test.mjs`) and CI now runs `npm run test:coverage`, so the threshold is actually enforced (#118, #119).
+- Branch coverage restored above the 70% threshold (74.85%, 484 tests via `tests/unit/finance-calcs-branches.test.mjs`) and CI now runs `npm run test:coverage`, so the threshold fails the build for the 8 files in `coverage.include` (not the whole codebase) (#118, #119).
 - Docker `test` image can write coverage output (`chown node:node /app`) (#119).
 
 #### Changed
@@ -180,6 +261,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; added `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Projection drawdown** — portfolio now withdraws `annualExpenses` per year after retirement age instead of continuing to accumulate; both `projections.js` (browser) and `finance-calcs.js` (server/MCP) updated.
 - **db.js atomic writes** — `writeState` serialises to a `.tmp` file then `fs.renameSync` to prevent corrupt state on mid-write failure.
 - **db.js `readState`** — distinguishes missing file (returns `defaultState()`) from corrupt/unreadable file (throws, propagating to Express error handler).

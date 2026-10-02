@@ -7,7 +7,7 @@ date: 2026-09-30
 
 # eng-mini: stash — 2026-09-30 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/stash|stash]] · ← [[reports/eng-mini-stash-2026-09-24|2026-09-24]] <!-- nav -->
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-mini-stash-2026-09-24|2026-09-24]] · [[reports/eng-mini-stash-2026-10-01|2026-10-01]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently active tracked repo (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-09-30T14:11:11Z, HEAD `01a9707` "docs(agents): close tracked items in the same PR, before the last push (#168)"). Root audited from a throwaway clone at `/tmp/mini-scan/stash` (kept separate from this session's own `/home/user/stash` working checkout, which is mid-branch for this same report PR).
 

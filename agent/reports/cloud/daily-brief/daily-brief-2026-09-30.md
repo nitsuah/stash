@@ -4,6 +4,9 @@ date: 2026-09-30
 ---
 
 # daily-brief — 2026-09-30
+
+> 🧭 [[reports/cloud/daily-brief/daily-brief-2026-10-01|2026-10-01]] → <!-- nav -->
+
 PRs: 16 open across 7 repos, 1 needs attention
 Coverage: user:nitsuah PR search ok, org:Nitsuah-Labs PR search ok, status:failure check ok (both scopes), review:changes_requested check ok
 

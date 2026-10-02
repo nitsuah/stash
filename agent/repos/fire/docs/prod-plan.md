@@ -161,6 +161,7 @@ Adding a new EVM chain requires only a new entry in `config/chains.json` — no 
 
 **Balance calculation:**
 - EVM chains: native balance + ERC-20 token balances (Etherscan `tokenbalance` endpoint)
+  - _Status 2026-10-01: crypto accounts and the ENS lookup now use a keyless multichain path instead (Blockscout + publicnode RPCs, 7 EVM chains, priced tokens). See [integrations.md](integrations.md#multichain-wallet-value-keyless). The Etherscan-family keys remain for the server-side wallet tracker._
 - Prices: CoinGecko free API (`/api/v3/simple/price`) for native token USD value
 - Token USD value = `balance × price`; aggregated per wallet
 - Wallet totals roll into net worth under "Crypto Wallets" (replaces manual Crypto accounts)
@@ -193,8 +194,7 @@ Returns: chain, address (last 8 chars), label, USD balance, last-fetched timesta
 **Goal:** automated encrypted backup of db.json to the user's personal Google Drive.
 
 **Auth options:**
-1. **Service account** (recommended for self-hosted): create a GCP service account, share the Drive folder with the service account email, set `GDRIVE_SERVICE_ACCOUNT_JSON` to the path of the JSON key file
-2. **User OAuth**: `/api/backup/drive/authorize` → Google OAuth flow → encrypted token storage
+**User OAuth** (the only supported mode): set `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET`, then `/api/backup/drive/authorize` → Google OAuth flow → token stored encrypted with `SYNC_MASTER_KEY`. A service-account mode was considered but never implemented.
 
 **Critical:** db.json is encrypted with AES-256-GCM using `SYNC_MASTER_KEY` **before** upload, regardless of whether local encryption is enabled. Google cannot decrypt the backup.
 

@@ -23,8 +23,11 @@ updated: 2026-09-28
 
 The Sep 28 browser/hosted deployment pass closed the eBay Hub UX, hosted metals routing, and hosted ENS routing in PR #138. The remaining integration work is now tracked as explicit Q1 close-out work rather than treating a JSON-safe fallback as a completed provider integration.
 
-- [ ] Serve the complete Plaid Link → exchange → accounts → positions → transactions workflow on `lifefire.netlify.app`
-- [ ] Split `app/routes/sync.js` into focused eBay, Plaid, transaction, and webhook/template route modules while preserving existing contracts (F-20260916-05)
+- [~] Serve the complete Plaid Link → exchange → accounts → positions → transactions workflow on `lifefire.netlify.app` _(the Function shipped in #146; a live Link run is pending)_
+- [~] Split `app/routes/sync.js` into focused eBay, Plaid, transaction, and webhook/template route modules while preserving existing contracts (F-20260916-05) _(eBay/Plaid split in #146; the shared Plaid module is pending)_
+- [x] Hosted gold/silver, crypto and ENS refreshes work on `lifefire.netlify.app` (#154, #155)
+- [x] Crypto accounts: keyless multichain value (native + tokens, 7 EVM chains)
+- [~] CoinTracker wallets via read-only MCP (#153, #154). Implemented; blocked until CoinTracker enables MCP early access for the account. An export-file fallback is tracked in TASKS
 - [ ] Complete Google Drive browser-first OAuth + real upload/download/decrypt verification before rollout
 
 ## 2027 Q1 — PROD Phase 1 Close-out + Carried Items 🧪

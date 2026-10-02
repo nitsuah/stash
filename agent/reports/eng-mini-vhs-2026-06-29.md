@@ -6,7 +6,7 @@ date: 2026-06-29
 
 # eng-mini: vhs — 2026-06-29 (DRY RUN)
 
-> 🧭 [[repos/vhs|vhs]] <!-- nav -->
+> 🧭 [[repos/vhs|vhs]] · [[reports/eng-mini-vhs-2026-10-02|2026-10-02]] → <!-- nav -->
 
 > First run for this repo — report only, no moves executed. Set `DRY_RUN=false` in `config/eng-mini.toml` to enable execution.
 
