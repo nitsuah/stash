@@ -8,6 +8,8 @@ repo: ats-fill
 
 # Chrome Web Store assets
 
+> 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
 The listing images are generated from the deterministic Playwright fixture
 (`tests/e2e/store-assets.spec.mjs`) and checked against the
 [Chrome Web Store image specs](https://developer.chrome.com/docs/webstore/images)

@@ -114,7 +114,7 @@ ats-fill/
 
 > The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
 > The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
-> Last refreshed: 2026-09-30 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
+> Last refreshed: 2026-10-01 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
 
 ### Main dashboard
 
@@ -346,9 +346,12 @@ pip install pre-commit && pre-commit install && pre-commit install --hook-type p
 
 ## Docs Index
 
-Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
 
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Chrome Web Store assets](./docs/CHROME_WEB_STORE_ASSETS.md) — `docs/CHROME_WEB_STORE_ASSETS.md`
 - [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
 - [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
 - [ats-fill — Terms, Privacy & Security](./docs/PRIVACY.md) — `docs/PRIVACY.md`
@@ -359,6 +362,27 @@ Every doc at the repo root (other than this README) and under `docs/` (the files
 
 - [Chrome Web Store release setup](./docs/release/chrome-web-store.md) — `docs/release/chrome-web-store.md`
 - [Release process](./docs/release/release-process.md) — `docs/release/release-process.md`
+
+**`repo root`**
+
+- [ats-fill agent notes](./CLAUDE.md) — `CLAUDE.md`
+
+**`skills/ats-fill-job-search/`**
+
+- [ats-fill job-search coach](./skills/ats-fill-job-search/SKILL.md) — `skills/ats-fill-job-search/SKILL.md`
+
+**`skills/ats-fill-job-search/references/`**
+
+- [Resumes, cover letters and application answers](./skills/ats-fill-job-search/references/applications.md) — `skills/ats-fill-job-search/references/applications.md`
+- [Interviews](./skills/ats-fill-job-search/references/interviews.md) — `skills/ats-fill-job-search/references/interviews.md`
+- [Offers, negotiation and setbacks](./skills/ats-fill-job-search/references/offers.md) — `skills/ats-fill-job-search/references/offers.md`
+- [Resources](./skills/ats-fill-job-search/references/resources.md) — `skills/ats-fill-job-search/references/resources.md`
+- [Search strategy, networking and outreach](./skills/ats-fill-job-search/references/search-strategy.md) — `skills/ats-fill-job-search/references/search-strategy.md`
+- [Using ats-fill effectively](./skills/ats-fill-job-search/references/using-ats-fill.md) — `skills/ats-fill-job-search/references/using-ats-fill.md`
+
+**`video/`**
+
+- [Feature tour video](./video/README.md) — `video/README.md`
 
 <!-- docs-index:end -->
 

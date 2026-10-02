@@ -10,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-09-28
+updated: 2026-10-01
 
 ---
 
@@ -38,18 +38,34 @@ These items came from the current browser/production pass. **P0** items are corr
   - Priority: P1. Hosted browser deployment must support the same Plaid Link → exchange → accounts → positions → transactions workflow as Express; a JSON-safe 404/status stub is not sufficient.
   - Scope: split Plaid from app/routes/sync.js, extract transport-agnostic Plaid operations, expose the required Netlify Functions/rewrites, preserve encrypted browser/local-first token handling, and keep Express behavior unchanged.
   - Acceptance Criteria: Link, public-token exchange, account/position refresh, and transaction sync all work on lifefire.netlify.app; each hosted function has unit coverage; browser smoke coverage exercises the hosted routes; no /api/sync/plaid/* request can fall through to an HTML Netlify 404.
+  - Progress 2026-09-30 (PR #146): `netlify/functions/plaid.mjs` serves all `/api/sync/plaid/*` routes, with unit coverage and the toml routing test; status is verified on the deploy preview. Remaining: a live Link → sync run on lifefire.netlify.app (set `PLAID_HOSTED_ACCESS_KEY` if `PLAID_ENV` isn't sandbox) and browser smoke coverage.
+  - Rule going forward (from the PR #111 follow-up, merged here on 2026-10-01): any new `/api/*` route the SPA calls needs a Netlify Function, or a documented browser-only fallback, in the same PR.
+  - `docs/integrations.md` already documents the hosted function (`netlify.toml` rewrite, browser-held AES-256-GCM token, `PLAID_HOSTED_ACCESS_KEY`). The privacy-policy update from the same follow-up still needs checking.
 
 - [ ] **Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)**
   - Priority: P1. The route grew with the eBay/Plaid work and should be decomposed before another integration lands.
   - Scope: separate eBay and Plaid route modules, extract the Plaid transactions handler, keep webhook/template routes isolated, and move shared provider logic into transport-agnostic modules where practical.
   - Findings ledger: F-20260916-05 · BV 5 · TC 3 · RR 5 · size 3.
   - Acceptance Criteria: existing Express route paths and response contracts remain unchanged; Plaid and eBay tests pass; transaction pagination/cursor semantics remain unchanged; hosted Netlify Plaid functions can reuse the extracted Plaid operations without importing the Express router.
+  - Progress 2026-09-30 (PR #146): split into `app/routes/ebay.js` and `app/routes/plaid.js`, with token helpers in `app/lib/token-store.js`. Paths and cursor semantics are unchanged, and the tests pass. Accounts/positions responses gained `syncedItemIds`/`warning`. Remaining: the hosted function still duplicates the Plaid operations instead of sharing a transport-agnostic module.
 
-- [ ] **CoinTracker MCP integration for wallet discovery/investigation**
+- [ ] **CoinTracker MCP integration for wallet discovery/investigation** _(blocked on CoinTracker: the test account isn't enrolled in MCP early access)_
   - Priority: P1.
   - Goal: reduce manual wallet tracking and avoid unnecessary direct API calls by using CoinTracker's MCP integration where users already have wallet/activity data available.
   - Scope: define a provider boundary rather than coupling wallet UI directly to CoinTracker; use CoinTracker for discovery/investigation/history where appropriate, retain fire's normalized wallet/account model and aggregate USD value, and fall back to existing direct chain providers when CoinTracker is unavailable or incomplete.
   - Acceptance Criteria: provider capabilities and data ownership are documented; duplicate calls are avoided; users can see provider/source and last-refresh state; no private keys or signing capability are ever requested; existing direct-chain tracking remains functional.
+  - Progress 2026-10-01 (#139): the connector runs on Express and Netlify. CoinTracker has no REST API or read token, so it uses OAuth 2.1 + PKCE with dynamic client registration and reads balances over the read-only MCP. Balances merge into Crypto accounts with CoinTracker as the source of truth (address/ENS adoption, a possible-duplicate list, exclusions, partial-sync safety). Added the Settings card and source tags, 42 unit tests, and docs in `docs/integrations.md`. Remaining: connect a real CoinTracker account (MCP is paid/early access), confirm the balance tool and payload shape with "Inspect CoinTracker tools", then tighten the normalizer and close this item.
+  - 2026-10-01 live test: the OAuth redirect and login work, but the MCP server answered `401 invalid_token` for the issued token. The follow-up sends an Auth0 `audience` and reports the token shape on a 401. Retest on its deploy preview. Retest result: the token is now correct (MCP audience), but `permissions: []`. The test account isn't enrolled in CoinTracker MCP early access, so this item is blocked on CoinTracker enabling it.
+
+- [x] **Multichain crypto account value (ENS/0x)**
+  - Done 2026-10-01: ⟳ Refresh on an ENS/0x crypto account totals native coins and priced tokens across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche via keyless Blockscout/publicnode lookups (`app/lib/multichain-balance.js`), with a per-chain breakdown and a partial-result warning. The ENS lookup card uses the same source. It replaced the Ethereum-only ETH balance (`nitsuah.eth`: ~$29 ETH-only → ~$445 including PIXL and Base tokens).
+
+- [x] **Restore hosted gold/silver and crypto refreshes**
+  - Done 2026-10-01 (#154, #155): `fire-api` crashed on Netlify (`Cannot find module 'ethers'`), which took down metals too; crypto ⟳ Refresh had no hosted route; the hosted metal refresh threw on an undefined variable; and the retired `cloudflare-eth.com` RPC broke ENS refresh. All fixed and verified against the live site.
+
+- [ ] **CoinTracker export-file fallback when MCP isn't available**
+  - Priority: P2. CoinTracker has no public REST API, and its OAuth only offers `mcp:read`/`mcp:write`, so there is no same-login fallback. Exchange balances (not on-chain) could instead come from CoinTracker's holdings/portfolio export, imported in the CoinTracker card when MCP reports `cointracker_no_access`, using the same merge/dedupe rules. On-chain wallets are already covered by the multichain lookup.
+  - Blocked on: a sample export file to confirm the column format.
 
 - [x] **Move eBay connector into the Side Hustle Hub**
   - Completed in PR #138: eBay is now a compact Side Hustle Hub integration with connection state and manual/automatic sync controls.
@@ -64,6 +80,24 @@ These items came from the current browser/production pass. **P0** items are corr
   - Priority: P1.
   - Scope: style `Tag all`, tax-tag selects, and item-cost inputs using the existing CSS tokens/components rather than browser/default white controls.
   - Acceptance Criteria: controls match dark/glass theme in desktop and mobile, retain accessible focus/contrast states, and have Playwright coverage at the Side Hustle Hub viewport sizes.
+
+### Chaos mode, layout customization, Claude skill — Oct 1, 2026
+
+- [x] **Chaos button for random life events on the projection graph**
+  - Shipped: 🌪️ Chaos next to Bear/Bull and on the Dashboard chart; 30 events in 8 categories with life-average odds, age windows and predefined outcome buckets; ▲/▼ markers with hover/tap details on Dashboard and Projections (desktop + mobile); density follows the 1Y/5Y/10Y/All window; seeded with 🎲 reroll.
+- [x] **Rearrange and collapse cards on every tab; Dashboard widgets from other tabs; persisted across sessions**
+  - Shipped: click-to-collapse titles, ✎ Customize (drag + ↑/↓), ＋ Add widget / ✕ remove on the Dashboard, ↺ Reset; saved in localStorage like the growth-chart size.
+- [x] **"SKILL" section: FIRE advice + how to use the app, ready to add as a Claude skill**
+  - Shipped: `skills/fire-coach/` (SKILL.md, financial playbook, app guide) and `skills/README.md` install steps.
+- [x] **Update the GitHub page for Chaos mode and missing feature details**
+  - Shipped: landing page Chaos + "Make it yours" sections with the `chaos-24s` video, the skill in the Claude section, the Plaid footnote updated; README/FEATURES updated.
+
+- [x] **Section layouts: a single card fills its row; per-row column layouts (2/3/4, wide-left/right/center) with a Datadog-style builder**
+  - Shipped: section board on every tab, fixed per-tab grids removed, builder canvas with highlighted drop targets and "New section" gaps, phone single-column.
+- [x] **Chaos realism: more good events, sensible sequencing, costs that outrun inflation, flat wages**
+  - Shipped: follow-up chains (parent care → funeral → inheritance/house, wedding → child → daycare ends, job loss → new job), 7 new positive events, real-terms escalation linked to the inflation setting, promotions as bumps or 5–6 years of extra savings.
+- [x] **🛡️ Mitigation tips that offset chaos events (e.g. pet insurance)**
+  - Shipped: 10 mitigations in Insights → Portfolio Insights that shrink covered hits and charge premiums in the chaos projection, with per-life saves vs. costs.
 
 ### P1 — GitHub README / promo parity
 
@@ -111,11 +145,6 @@ for shipped capabilities. Its follow-up items are below._
 
 ### Follow-ups from PR #111 — Sep 2026
 
-- [ ] Serve Plaid on the Netlify deploy (lifefire.netlify.app)
-  - Priority: P1. Plaid Link, positions, accounts and transactions (`/api/sync/plaid/*`) only exist in Express, so on the static Netlify deploy every call returns 404, even though the Plaid env vars are set there.
-  - Approach: follow eBay's pattern from PR #130: v2 Netlify Functions plus `netlify.toml` rewrites, with logic shared with Express via a transport-agnostic module. Plaid access tokens go back to the browser encrypted with `SYNC_MASTER_KEY` instead of being stored server-side, and status and the toggle are computed client-side in browser-only mode.
-  - Acceptance Criteria: Link → exchange → accounts/positions/transactions works on the live site; unit tests for each Function; privacy policy and `docs/integrations.md` updated.
-  - Rule going forward: any new `/api/*` route the SPA calls needs a Netlify Function (or a documented browser-only fallback) in the same PR.
 - [ ] Stop exposing browser helpers as classic-script globals (`app/lib/fetch-utils.js` `fetchJson`, and the rest of `app/lib/**`)
   - Priority: P3 (maintainability) — deferred from PR #111 review (CodeRabbit, `fetch-utils.js` thread).
   - Context: the SPA loads ~40 plain `<script>` files that share one global scope, so any helper is a cross-file global by design. Fixing just `fetchJson` would mean converting every consumer to `import`; doing it properly means moving the frontend to ES modules with a bundler (or native `type="module"`) as one migration.
@@ -176,7 +205,7 @@ See [security-hardening.md](./security-hardening.md) for full remediation detail
   - Type: Security
   - Not attempted as part of this pass — flagging for a follow-up task.
 
-_Coverage: branch coverage is back above the 70% threshold (74.85%, 484 tests, #119) and CI now enforces it via `npm run test:coverage`; see `docs/METRICS.md`. Re-run the metrics snapshot after this documentation/test pass._
+_Coverage: 84.31% stmts / 77.16% branch / 84.66% funcs / 84.97% lines (715 tests, 2026-10-01). CI runs `npm run test:coverage`, but its thresholds apply only to the 8 files in `coverage.include` (`app/server.js` plus 7 `app/lib` calculation/aggregation modules). Routes, managers, `gdrive-backup.js`, Netlify Functions and the browser app are not measured, so CI does not enforce coverage for them. See `docs/METRICS.md`. _
 
 ---
 

@@ -7,7 +7,7 @@ date: 2026-09-30
 
 # eng-mini: farm-3j — 2026-09-30 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/farm-3j|farm-3j]] <!-- nav -->
+> 🧭 [[repos/farm-3j|farm-3j]] · [[reports/eng-mini-farm-3j-2026-10-02|2026-10-02]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #2 most recently active tracked repo (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-09-30T14:04:37Z, HEAD `eeaa755` "chore(deps): bump typescript-eslint from 8.70.0 to 8.70.1 (#364)"). Root audited from a throwaway clone at `/tmp/mini-scan/farm-3j`. First eng-mini report for this repo — no prior report to diff against.
 

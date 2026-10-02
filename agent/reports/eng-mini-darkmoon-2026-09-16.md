@@ -6,7 +6,7 @@ date: 2026-09-16
 
 # eng-mini: darkmoon — 2026-09-16 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-09-01|2026-09-01]] <!-- nav -->
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-09-01|2026-09-01]] · [[reports/eng-mini-darkmoon-2026-10-02|2026-10-02]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 3 most recently updated in-scope repos (last commit 2026-09-16T04:54:16-04:00: "metrics: refresh darkmoon coverage (2026-09-11) (#447)"). Note: the top 3 repos by `updated_at` (skyview, fire, darkmoon) all show the same automated `metrics: refresh coverage` bot commit within seconds of each other — this reflects a scheduled metrics job, not necessarily the most recent human development activity. Repo discovery used GitHub code search (`user:nitsuah`, sort=updated) since the unscoped `/users/{user}/repos` REST endpoint is blocked by this session's git proxy for repos outside its attached set.
 >

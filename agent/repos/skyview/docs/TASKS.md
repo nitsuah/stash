@@ -11,7 +11,7 @@ repo: skyview
 
 > 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-10-01
 
 > **Delivery split:** public FE covers the marketing site and funnel. `/admin` is a separate CMS surface. Secure client portal/download auth is a separate backend workstream.
 
@@ -41,6 +41,13 @@ Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
   - Done 2026-09-27: production Neon DB migrated through 006 (incl. `bookings_no_operator_overlap`); all 8 env vars set in Netlify, incl. the Stripe webhook (`/api/stripe-webhooks`: `payment_intent.payment_failed`, `account.updated`) and `PORTAL_SALT`.
   - Remaining: switch the production `STRIPE_SECRET_KEY` (and the webhook secret) to live mode once the Stripe account is set up, then one real end-to-end pass: register as operator -> set availability -> register as client -> post a job -> book -> operator accepts.
   - Note: `netlify dev:exec` can't migrate production, because the CLI only sees masked values for secret env vars. Run `db:migrate` with the connection string from the Neon console instead.; one real end-to-end pass: register as operator -> set availability -> register as client -> post a job -> book -> operator accepts.
+
+- [ ] Unit-test `netlify/functions/api-bookings.mjs`, then split Stripe billing out of the routing (F-20260916-06).
+  - Priority: P2
+  - Type: Tech Debt · Confidence: High
+  - Problem: the handler is 375 lines. It handles routing, booking state transitions (create, confirm, decline, complete) and the Stripe PaymentIntent create, cancel and capture calls, plus `payoutAndInvoice`. No unit test under `tests/unit/` imports it, and the e2e specs stub `/api/bookings` with `page.route` (`scheduling.spec.ts:129`, `:257`), so no test runs the handler at all. The money paths (capture before job update, cancel on decline) are what the live-Stripe cutover above depends on.
+  - Acceptance Criteria: unit tests mock `sql` and `stripe` and cover create, confirm, decline (PaymentIntent cancel) and complete (capture, then job update), plus a Stripe failure on each Stripe-calling path (create, decline, complete). Confirm makes no Stripe call. After that, billing moves to a module such as `utils/booking-billing.js` with the route contracts unchanged, and the tests still pass.
+  - Dependencies: none. Doing this before the live-Stripe switch lowers the cutover risk.
 
 - [ ] Set up the email sending domain (DNS + Resend verification), then prove password reset in production.
   - Priority: P2

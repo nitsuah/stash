@@ -7,7 +7,7 @@ date: 2026-09-30
 
 # eng-mini: bb-mcp — 2026-09-30 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/bb-mcp|bb-mcp]] <!-- nav -->
+> 🧭 [[repos/bb-mcp|bb-mcp]] · [[reports/eng-mini-bb-mcp-2026-10-02|2026-10-02]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #3 most recently active tracked repo (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-09-30T14:02:59Z). Root audited from a throwaway clone at `/tmp/mini-scan/bb-mcp`. First eng-mini report for this repo — no prior report to diff against.
 

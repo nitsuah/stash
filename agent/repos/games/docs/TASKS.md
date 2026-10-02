@@ -10,7 +10,7 @@ repo: games
 
 > 🧭 [games](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-27
+Last Updated: 2026-10-01
 
 ## In Progress
 
@@ -29,6 +29,12 @@ initialization`) that once blocked Docker loads is also resolved — Docker-firs
 validation now succeeds locally and in CI (see Audit Notes below); the old
 handoff describing it as still in-progress was archived to
 `docs/archive/INSTRUCTIONS.md`._
+
+- [ ] Revisit the eslint 10 bump (#333, closed-unmerged #331) once `eslint-plugin-react` supports it.
+  - Priority: P3
+  - Type: Tech Debt · Confidence: High
+  - Problem: `npm ci` fails with ERESOLVE because `eslint-plugin-react@7.37.5`, the latest release, peers on `eslint@^3 … ^9.7`. Re-checked 2026-10-01 with `npm view`: still 7.37.5, still no eslint 10 in the peer range. The issue was open but not tracked here.
+  - Acceptance Criteria: once a plugin release accepts eslint 10, bump eslint, `npm run lint` passes in Docker, and #333 is closed.
 
 - [ ] Re-scope expansion work after platform issues are fixed.
   - Priority: P2

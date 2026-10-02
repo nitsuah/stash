@@ -12,7 +12,7 @@ repo: fire
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
 > **Status:** Reference / current implementation  
-> **Last updated:** 2026-09-26  
+> **Last updated:** 2026-10-01  
 > **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md)
 
 This document describes every planned external integration — what credentials are needed, what data is fetched, and what setup is required.
@@ -154,6 +154,95 @@ Revenue is item sales plus shipping paid by the buyer; expenses are total
 selling costs plus shipping labels you bought. Rows are keyed by eBay item ID
 plus the report's date range: re-uploading a report is skipped, and a later
 report whose range contains an earlier one replaces those rows.
+
+## CoinTracker (Wallet Discovery & Balances)
+
+**Purpose:** Pull every wallet and exchange account the user already tracks in CoinTracker, with current USD balances, so they don't have to add each address and chain by hand.
+**Status:** Implemented and optional. Live-tested 2026-10-01: login works, but the MCP server needs `mcp:read`, which CoinTracker grants only to accounts enrolled in MCP early access (see "Token audience" below).
+**Auth type:** OAuth 2.1 Authorization Code + PKCE, public client, dynamic client registration
+
+### What CoinTracker offers
+
+CoinTracker has **no public REST API and no personal read token**. Its only programmatic surface is the remote MCP server at `https://mcp.cointracker.com/mcp`, which accepts only OAuth bearer tokens. Its metadata (`/.well-known/oauth-protected-resource`) names the Auth0 tenant `https://login.cointracker.com/` and the scopes `mcp:read`/`mcp:write`. The tenant supports dynamic client registration (`/oidc/register`), PKCE `S256`, public clients (`token_endpoint_auth_method: none`), refresh tokens (`offline_access`) and revocation. CoinTracker describes MCP as read-only and, as of 2026-10, in early access for paid plans. A `403` from the MCP server is reported as "CoinTracker MCP may require a paid plan or early access".
+
+The Cloudflare layer in front of CoinTracker rejects the default Node/undici user agent with `403`, so every server-side request sends `User-Agent: fire-tracker/…`. The MCP endpoint has no CORS, so the browser can't call it directly and the server brokers every call.
+
+### Flow (identical on Express and Netlify)
+
+| Path | What it does |
+|---|---|
+| `GET /api/sync/cointracker/authorize` | Registers a public client (or uses `COINTRACKER_CLIENT_ID`), creates the PKCE verifier and `state`, stores them in a 10-minute **encrypted** HttpOnly cookie, and redirects to CoinTracker |
+| `GET /api/sync/cointracker/callback` | Checks `state`, exchanges the code with the verifier, seals `{access, refresh, expiry, client_id}` with `SYNC_MASTER_KEY`, and returns it to the SPA at `/#cointracker-connected=…`. Only the tab that started the connect accepts it |
+| `POST /api/sync/cointracker/sync` | Body `{token}`. Refreshes the token when it has expired (or once after a `401`), calls the MCP balance tool, and returns normalized `wallets`, plus a new `token` if it refreshed |
+| `POST /api/sync/cointracker/inspect` | Body `{token}`. Returns the MCP tool catalog (names, descriptions, argument names; no portfolio data) and which tool is used for balances |
+| `POST /api/sync/cointracker/disconnect` | Body `{token}`. Revokes the refresh token (best effort) |
+
+Express serves these from `app/routes/cointracker.js`, and the Netlify deploy from `netlify/functions/cointracker.mjs`. Both wrap `app/lib/cointracker-handlers.js` and `app/lib/cointracker-connector.js` (OAuth, a minimal Streamable-HTTP MCP client, and the normalizer). **Nothing is stored server-side** in either runtime. The browser keeps the sealed token in `localStorage` (`fire_cointracker_token`, outside `fire_tracker_state`, so JSON backups never carry it). Rotating `SYNC_MASTER_KEY` disconnects every browser.
+
+The callback is exempt from the Express `FIRE_API_KEY` gate, because it is a browser redirect from CoinTracker (like the Drive callback). The encrypted state/PKCE cookie is its trust boundary.
+
+### What's fetched and how it's used
+
+- **Read:** wallets and accounts with name, chain(s), public addresses or ENS, current USD value, and per-asset holdings (symbol, quantity, USD value).
+- **Never read:** transactions, cost basis, P&L, tax lots or reports. That stays in CoinTracker. fire never requests `mcp:write`, private keys or signing.
+- Each wallet becomes one `customAccounts` row: `type: 'Crypto'`, `source: 'cointracker'`, `cointracker: {providerId, kind, chains, addresses, holdings, syncedAt}`. The dashboard's crypto total is the sum of these rows, and each row holds one wallet's value. The account table tags them **CoinTracker**, with the sync time in the tooltip.
+
+### Dedupe (CoinTracker is the source of truth)
+
+The logic is in `app/lib/cointracker-merge.js`, which is pure and unit-tested:
+
+- A manual Crypto account whose identifier (address or ENS, case-insensitive) matches a CoinTracker wallet address is **adopted**. It keeps its id, name and APY, takes CoinTracker's value, and its manual `value`/`identifier`/`quantity` move to `manualSnapshot`. Disconnecting restores it exactly.
+- Manual Crypto rows with no address, or with a ticker that CoinTracker also holds, are listed as **possible duplicates** in the card. They are never changed automatically.
+- A wallet missing from a **partial** sync (nothing recognized, or an empty result) is kept, and so is one CoinTracker still lists but returned without a USD value this time. A wallet is removed only after a complete sync without it.
+- All CoinTracker calls from the browser run one at a time across tabs (Web Locks), and every server request has a 15-second timeout. Auth0 rotates refresh tokens, so two parallel refreshes of the same token would break the connection. A token refreshed before a failure is still returned to the browser.
+- Excluding a wallet in the card, or deleting its row, adds its id to `state.coinTrackerExcluded`, and later syncs skip it.
+- When a wallet in `/api/wallets` has an address that CoinTracker reports, the MCP server's `get_net_worth` doesn't count it a second time, and `get_wallets` flags it `coveredByCoinTracker`.
+
+Direct-chain tracking (Etherscan and the others below) is unchanged and still works without CoinTracker.
+
+### Token audience
+
+The first live connect (2026-10-01) logged in fine, but the MCP server rejected the token (`401 invalid_token`), even after a refresh. Auth0 issues a JWT for an API only when the authorize request names it as `audience`; otherwise it returns an opaque token for `/userinfo`. The connector now sends `audience` (default: the MCP URL) alongside `resource`. If the MCP server still rejects the token, the card shows the token's shape (`jwt`/`opaque`, `aud`, `scope`; never the token itself). If CoinTracker's login rejects the audience, its error is passed through to the card. Use `COINTRACKER_AUDIENCE` to try another value, or `none` to omit it.
+
+Live result (2026-10-01): with `audience`, Auth0 issues a correct MCP-audience JWT, but `permissions: []` and the scope has no `mcp:read`. CoinTracker's Auth0 RBAC grants `mcp:read` only to accounts enrolled in MCP early access. The card now reports this as "Your CoinTracker account doesn't have MCP access yet" (`cointracker_no_access`). Once CoinTracker enables the account, connect again; no code change is needed.
+
+### Tool selection (provisional)
+
+CoinTracker doesn't publish its MCP tool catalog, so the connector picks the balance tool by name and description. The tool must be about wallets or accounts **and** balances or holdings, take no required arguments, and not be about transactions, tax, gains or history. The output is read from `structuredContent` or JSON text, and normalized defensively (common key spellings for name, address, chain, USD value and holdings). After connecting a real account, use **Inspect CoinTracker tools** in the card. If the connector picks the wrong tool, pin the right one with `COINTRACKER_BALANCE_TOOL`.
+
+### Env vars
+
+```dotenv
+SYNC_MASTER_KEY=              # required: seals the token and the OAuth cookie
+COINTRACKER_CLIENT_ID=        # optional: pre-registered public client; otherwise dynamic registration on each connect
+COINTRACKER_REDIRECT_URI=     # optional: defaults to <request origin>/api/sync/cointracker/callback
+COINTRACKER_BALANCE_TOOL=     # optional: exact MCP tool name to read balances from
+COINTRACKER_AUDIENCE=         # optional: Auth0 audience (default: the MCP URL); `none` omits it
+```
+
+---
+
+## Multichain Wallet Value (keyless)
+
+**Purpose:** Value an ENS name or 0x address as one USD total across chains: native coins plus ERC-20 tokens. Used by the crypto account ⟳ Refresh and the ENS lookup card.
+**Status:** Live on Express and Netlify (`app/lib/multichain-balance.js`)
+**Auth type:** None. No API keys, no registration.
+
+| Chains | Source | What's read |
+|---|---|---|
+| Ethereum, Base, Optimism, Arbitrum One, Polygon | Blockscout public API v2 (`eth.blockscout.com`, `base.blockscout.com`, `explorer.optimism.io`, `arbitrum.blockscout.com`, `polygon.blockscout.com`) | `GET /api/v2/addresses/{addr}` (native balance + USD rate) and `/token-balances` (every token, with USD rate) |
+| BNB Smart Chain, Avalanche | publicnode.com RPCs (`eth_getBalance`) + Yahoo Finance `BNB-USD`/`AVAX-USD` | Native balance only |
+
+- ENS names are resolved with `ensdata.net` (`crypto-balance.js`). The hosted function doesn't use the `ethers` resolver, which Netlify's bundle doesn't ship.
+- **Spam filter:** a token counts only if it is ERC-20, Blockscout prices it, it isn't flagged `scam`, it has at least 50 holders, and it's worth at most $10M in this wallet (a guard against fake prices on illiquid tokens).
+- **Partial results:** each chain is fetched on its own with a 10 s timeout. A failed chain comes back `ok: false` with a warning, the rest still count, and the result is marked `partial` (shown as ⚠ on the row and in the ENS card). The lookup fails only if every chain fails.
+- **What's stored:** the account's `value` (the total), `chainBreakdown` (chains holding ≥ $0.01, largest first, top 3 tokens each) and `valuePartial`. Full token lists are not stored.
+- **Endpoints:** `POST /api/accounts/:id/refresh-crypto` (Express) and the stateless `POST /api/accounts/refresh-crypto` `{identifier, quantity}` (Netlify `fire-api`; the browser saves the result). Both runtimes also serve `GET /api/wallets/ens/:name`.
+- **Not covered:** NFTs, DeFi positions (LP/staking), chains outside the seven above, and tokens Blockscout doesn't price. CoinTracker (above) covers those once MCP access is enabled.
+
+The Etherscan-family keys below are still used by the server-side **wallet tracker** (`/api/wallets`, `app/lib/web3-prices.js`), not by crypto accounts.
+
+---
 
 ## Etherscan (Ethereum Wallet Balances)
 
@@ -314,16 +403,16 @@ COINGECKO_API_KEY=    # Optional; increases rate limit
 
 **Purpose:** Store an AES-256-GCM encrypted copy of db.json in the user's personal Google Drive.  
 **Phase:** PROD Phase 1  
-**Auth type:** Service account JSON key (recommended) or user OAuth
+**Auth type:** User OAuth 2.0 (the only mode the code supports; there is no service-account option)
 
-### Setup (Service Account — Recommended)
+### Setup (Google OAuth)
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
 2. Create a project (or use existing)
 3. Enable the **Google Drive API**
-4. Go to **IAM & Admin → Service Accounts** → create a service account
-5. Create and download a JSON key for the service account
-6. In Google Drive, create a folder called `fire-tracker-backups`
+4. Go to **APIs & Services → Credentials** → create an **OAuth client ID** of type *Web application*
+5. Add the redirect URI `http://localhost:3001/api/backup/drive/callback` (or your `GDRIVE_REDIRECT_URI`) and copy the client ID and secret
+6. Optionally create a Drive folder and put its ID in `GDRIVE_BACKUP_FOLDER_ID`; otherwise `fire-tracker-backups` is created automatically
 7. Configure the Google OAuth consent screen and authorize the account through `/api/backup/drive/authorize`.
 8. `SYNC_MASTER_KEY` encrypts the stored Drive OAuth token and every backup before upload.
 
@@ -334,6 +423,7 @@ GDRIVE_CLIENT_ID=                                    # Google OAuth 2.0 Web appl
 GDRIVE_CLIENT_SECRET=                                # Google OAuth 2.0 Web application client secret
 GDRIVE_REDIRECT_URI=                                  # Optional; defaults to the local callback URL
 GDRIVE_BACKUP_FOLDER_ID=                              # Optional: Drive folder ID (auto-created if blank)
+SYNC_MASTER_KEY=                                      # Required: 64 hex chars (openssl rand -hex 32); encrypts backups and the Drive token
 ```
 
 ### Security Note
@@ -389,6 +479,23 @@ Fidelity's support via Plaid depends on Plaid's institution coverage and Fidelit
 - ✅ Plaid Link SDK embedded in Settings page (`initPlaidLink()`)
 - ✅ Connection status check (`checkPlaidConnection()`)
 - ⏳ Requires `PLAID_CLIENT_ID`, `PLAID_SECRET`, `SYNC_MASTER_KEY` environment variables to function
+
+### Browser-only deploy (Netlify Function)
+
+`netlify.toml` rewrites every `/api/sync/plaid/*` path to `netlify/functions/plaid.mjs`. That rule comes before the generic `/api/*` fallback.
+
+- No access token is stored on the server. The function returns the linked items to the browser in an AES-256-GCM token, sealed with a key derived from `SYNC_MASTER_KEY`. The browser keeps it in `localStorage` (`fire_plaid_hosted_token`). The token also carries the transaction cursor.
+- The token has a rolling 180-day expiry that renews on every call.
+- If the token is expired or can't be read, the function returns `401 {"code":"INVALID_TOKEN"}`. The browser then clears the token so the user can link again. A new link doesn't need the old token to be readable.
+- Accounts, positions and transactions return `syncedItemIds`, `failedItems` (`{ itemId, code }`, where `code` is Plaid's `error_code`) and a `warning` when the sync is partial. The browser merges data only for the items that synced.
+
+The site is public, so the function is locked with an owner key:
+
+| Variable | Value |
+|---|---|
+| `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV` | As for Express |
+| `SYNC_MASTER_KEY` | 64 hex characters. The function returns 503 before calling Plaid if it is missing or malformed. |
+| `PLAID_HOSTED_ACCESS_KEY` | Required whenever `PLAID_ENV` is not `sandbox`. Every request must send it in the `x-fire-plaid-access` header. The browser asks for the key once and stores it in `localStorage`. Without it, anyone could link Items, which are billed per Item, on this deploy's Plaid credentials. |
 
 ---
 

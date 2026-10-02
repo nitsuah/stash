@@ -10,7 +10,7 @@ repo: darkmoon
 
 > 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-27
+Last Updated: 2026-10-01
 
 ## In Progress
 
@@ -45,6 +45,8 @@ see those files rather than a duplicated narrative here._
   - Priority: P2
   - Problem: older refactor tasks no longer match the codebase hotspots.
   - Acceptance Criteria: only current, high-value refactors remain and each one ties back to reliability, testability, or performance.
+  - Baseline 2026-10-01 (PMO audit, `wc -l` over non-test `src/**/*.ts(x)` on `main`): `pages/Solo/components/ShootingGallery.tsx` 657, `pages/Solo.tsx` 651, `pages/Solo/components/Bots.tsx` 629, `components/characters/useBotAI.ts` 594, `characters/player/PlayerWeapon.tsx` 546, `characters/player/PlayerMovement.tsx` 538.
+  - First candidate (findings ledger F-20260916-04): split `useBotAI.ts` into perception, movement and combat hooks. It's the lowest-risk start, because `src/__tests__/useBotAI.test.ts` and `useBotAI.unit.test.tsx` already pin its behavior. Done when the three hooks exist, `useBotAI` composes them, and both test files pass unchanged.
 
 - [ ] **[Phase E remaining] Over-the-shoulder aim camera + combat music** — remaining Phase E items after PR #391 landed most of the polish pass.
   - Priority: P2

@@ -44,6 +44,11 @@ Requirements: Docker Desktop running, plus network access for Google Fonts and t
 
 Workflow: change something, then check it with `--stills` at the times that matter. When it looks right, do a full render.
 
+## Spots
+
+- **`brag-22s`**: the launch spot (landing-page hero, `site/assets/fire-tracker.mp4`).
+- **`chaos-24s`**: 🌪️ Chaos mode and the customizable layout (`site/assets/chaos.mp4`). Callout positions come from the real chart (`chaos.json`, written by `capture.js` with `CHAOS_SEED`), and slots are set in `spot.json` → `chaos.pops`.
+
 ## New spots
 
 Copy `brag-22s/` to a new folder, such as `promo/tour-45s/`. Adjust `spot.json` and `compose.html`, and pick features from **[features.md](features.md)**. That ledger lists every claim we can make, the line we use for it, how to show it, and which spots already use it. Add the new spot to its "Used in" column.

@@ -11,6 +11,7 @@ repo: vhs
 > 🧭 **vhs** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
 
 [![CI](https://github.com/nitsuah/vhs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/vhs/actions/workflows/ci.yml)
+[![Pages](https://github.com/nitsuah/vhs/actions/workflows/pages.yml/badge.svg)](https://nitsuah.github.io/vhs/)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9cf148ef-31d4-4edc-9862-a72a4ca6e0ff/deploy-status)](https://app.netlify.com/projects/vhsbox/deploys)
 
 A personal tool to catalog a VHS collection — capturing what each tape is, what it might be worth, and building a record you can actually use (sell, store, share). Backed by PostgreSQL, served by Express, containerized with Docker.
@@ -69,6 +70,7 @@ A personal tool to catalog a VHS collection — capturing what each tape is, wha
 - **Playwright E2E Tests** — full coverage of all major features and modals
 - **Jest Unit Tests** — server-side logic; 8 test files, ≥ 85% whole-tree line coverage (`src/server.js` + `src/modules/**`)
 - **CI** — Hadolint, Shellcheck, HTMLHint, ESLint, `node --check` syntax, dep-install check, Jest unit tests, Docker build smoke test
+- **Project Site** — GitHub Pages landing page with a launch video, served from `site/` at [nitsuah.github.io/vhs](https://nitsuah.github.io/vhs/)
 - **Netlify Serverless** — Express app also deployable as a Netlify Function (`netlify/functions/server.js`, `serverless-http`)
 
 ---
@@ -129,10 +131,15 @@ Mobile browsers block camera access on plain HTTP. The app auto-generates a self
 
 1. Set `HOST_IP=<your LAN IP>` in `.env` (e.g. `HOST_IP=192.168.1.171`)
 2. Start the app: `docker compose -f config/docker-compose.yml up -d --build`
-3. On your phone, open: `http://192.168.1.171:8080/ca.crt`
-4. **Android:** tap the downloaded file → Install → name it "VHS Scanner" → OK
-   **iOS:** tap Allow → Settings → General → VPN & Device Management → trust it
-5. Use `https://192.168.1.171:8443` on your phone — camera will work
+3. On the host, print the CA's SHA-256 fingerprint and keep it handy:
+   ```bash
+   docker compose -f config/docker-compose.yml exec web openssl x509 -in /app/certs/ca.crt -noout -fingerprint -sha256
+   ```
+4. On your phone, open: `http://192.168.1.171:8080/api/ca-cert`
+5. **Verify before trusting.** The download is plain HTTP, so anyone on the same network could swap the file. Open the downloaded certificate's details on the phone and check that its SHA-256 fingerprint matches step 3 exactly. If it doesn't match, delete it and don't install it.
+6. **Android:** tap the downloaded file → Install → name it "VHS Scanner" → OK
+   **iOS:** tap Allow → Settings → General → VPN & Device Management → check the fingerprint under More Details → trust it
+7. Use `https://192.168.1.171:8443` on your phone — camera will work
 
 **If your IP changes:**
 
