@@ -101,6 +101,8 @@ A searchable reference to every artifact in this repository, organized by catego
 
 **Overview site:** [nitsuah.github.io/stash](https://nitsuah.github.io/stash/) explains how the routines, vault scripts and Obsidian plugins keep one linked vault across many repos and machines. It also has a [setup guide](https://nitsuah.github.io/stash/setup.html) for skills and routines. Source: [`pages/`](pages/).
 
+<img src="pages/assets/vault-graph.gif" width="800" alt="Animated Obsidian graph of the agent/ vault: one cluster per tracked repo, linked by reports, notes and prompts">
+
 | Artifact | What It Does | Technology | When To Use | Requirements |
 |----------|-------------|-----------|-------------|-------------|
 | [agent/projects/Finance.md](agent/projects/Finance.md) | CFO agent — tracks finances, runway, CDs; generates weekly financial summaries | Claude system prompt | Weekly financial review; runway calculations | Claude.ai or Anthropic SDK |

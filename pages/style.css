@@ -138,6 +138,15 @@ td code { white-space: nowrap; }
 .diagram .arrow.green { stroke: var(--accent-2); }
 .diagram marker path { fill: var(--muted); }
 
+/* vault graph animation (pages/assets/vault-graph.*, rendered dark in both themes) */
+.graph { margin: 0 0 24px; background: #131217; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.graph img { display: block; width: 100%; height: auto; }
+.graph figcaption { display: grid; gap: 6px; padding: 12px 16px; font-size: 13.5px; color: #a7a3b3; border-top: 1px solid #2f2c39; }
+.graph figcaption a { color: #a98bff; }
+.graph figcaption code { background: #24222c; color: #ecebf0; }
+.graph .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font: 12px var(--mono); }
+.graph .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px; }
+
 /* layered list */
 .layers { counter-reset: layer; display: grid; gap: 10px; }
 .layer { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
