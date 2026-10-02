@@ -103,6 +103,8 @@ A searchable reference to every artifact in this repository, organized by catego
 
 <img src="pages/assets/vault-graph.gif" width="800" alt="Animated Obsidian graph of the agent/ vault: one cluster per tracked repo, linked by reports, notes and prompts">
 
+[▶ 20-second overview video](https://nitsuah.github.io/stash/assets/stash-brag.mp4): the graph settling, repo clusters, and the `.obsidian` config behind it.
+
 | Artifact | What It Does | Technology | When To Use | Requirements |
 |----------|-------------|-----------|-------------|-------------|
 | [agent/projects/Finance.md](agent/projects/Finance.md) | CFO agent — tracks finances, runway, CDs; generates weekly financial summaries | Claude system prompt | Weekly financial review; runway calculations | Claude.ai or Anthropic SDK |
