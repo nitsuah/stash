@@ -138,6 +138,12 @@ td code { white-space: nowrap; }
 .diagram .arrow.green { stroke: var(--accent-2); }
 .diagram marker path { fill: var(--muted); }
 
+/* hero video (pages/assets/stash-brag.*) */
+.video { margin: 28px 0 0; background: #131217; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.video video { display: block; width: 100%; height: auto; background: #131217; }
+.video figcaption { padding: 10px 16px; font-size: 13.5px; color: #a7a3b3; border-top: 1px solid #2f2c39; }
+.video figcaption code { background: #24222c; color: #ecebf0; }
+
 /* vault graph animation (pages/assets/vault-graph.*, rendered dark in both themes) */
 .graph { margin: 0 0 24px; background: #131217; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .graph img { display: block; width: 100%; height: auto; }
