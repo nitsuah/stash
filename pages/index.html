@@ -48,7 +48,7 @@
       <div class="stat"><b>13</b><span>routines (8 local, 5 cloud)</span></div>
       <div class="stat"><b>~520</b><span>linked notes, 0 orphans</span></div>
       <div class="stat"><b>21</b><span>agent prompts / specs</span></div>
-      <div class="stat"><b>17</b><span>vault scripts</span></div>
+      <div class="stat"><b>18</b><span>vault scripts</span></div>
       <div class="stat"><b>7</b><span>layers keeping private data out</span></div>
     </div>
   </div>
@@ -82,6 +82,27 @@
       links everything, CI gates the PR, and once it's on <code>main</code> the cloud routines and every other machine
       see the same brain.
     </p>
+
+    <figure class="graph">
+      <picture>
+        <source srcset="assets/vault-graph.webp" type="image/webp">
+        <img src="assets/vault-graph.gif" width="1200" height="676" loading="lazy"
+             alt="Animated Obsidian graph of the stash/agent vault: about 580 nodes settling into one cluster per tracked repo, each around a bright repo hub, with reports, notes and prompts linking the clusters together.">
+      </picture>
+      <figcaption>
+        <span class="legend">
+          <span><i style="--c:#ecebf0"></i>repo hubs</span>
+          <span><i style="--c:#a98bff"></i>mirrored docs</span>
+          <span><i style="--c:#3fc79f"></i>reports</span>
+          <span><i style="--c:#f0975c"></i>daily notes</span>
+          <span><i style="--c:#5fb3ff"></i>projects &amp; topics</span>
+          <span><i style="--c:#ff7eb6"></i>prompts &amp; routines</span>
+        </span>
+        <span>The vault's own graph, rendered from <code>agent/</code> by
+          <a href="https://github.com/nitsuah/stash/blob/main/agent/scripts/vault-graph-gif.ps1"><code>vault-graph-gif.ps1</code></a>
+          with its <code>.obsidian/graph.json</code> forces.</span>
+      </figcaption>
+    </figure>
 
     <div class="diagram" role="img" aria-label="Diagram: tracked repos feed sync scripts, which write the stash/agent vault; the vault goes to GitHub main through a gated PR; cloud routines clone main and write reports back by PR; every machine git-pulls main and opens it in Obsidian.">
       <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
@@ -236,6 +257,7 @@
       <div class="card"><span class="tag warn">guard</span><h3>obsidian-json-clean.py</h3><p>Git clean filter for <code>.obsidian/*.json</code>. Obsidian rewrites its settings on every launch, and this keeps that churn out of diffs.</p></div>
       <div class="card"><span class="tag">ops</span><h3>bootstrap-stage0.ps1</h3><p>Preflight for the local pipeline: checks Docker, Obsidian and the Local REST API port, and starts what's missing.</p></div>
       <div class="card"><span class="tag">ops</span><h3>export-routines.py</h3><p>Backs up the local scheduled tasks into <code>agent/routines/</code>, redacting personal context. <code>--check</code> exits 1 when a backup is stale.</p></div>
+      <div class="card"><span class="tag">show</span><h3>vault-graph-gif.ps1</h3><p>Renders the graph above: scans the vault, runs a force layout with the vault's own Graph View settings and encodes a looping GIF/WebP in a throwaway Docker container. Adapted from <a href="https://github.com/U-L-M-S/obsidian-graph-gif">obsidian-graph-gif</a> (MIT).</p></div>
       <div class="card"><span class="tag">report</span><h3>sotu.py · analyze-loc · check-tasks-format</h3><p>Data builders behind the weekly SOTU and LOC reports, and a linter that keeps every repo's <code>TASKS.md</code> parseable by <a href="https://github.com/nitsuah/vigil">vigil</a>.</p></div>
     </div>
   </div>
