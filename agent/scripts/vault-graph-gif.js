@@ -64,12 +64,13 @@ const ZOOM       = 1.0;
 
 // Graph View "Forces" sliders normalized to 0..1 (repel is stored 0..20,
 // linkDistance 30..500 px); lerped onto d3-force parameters in runSimulation().
-const FORCES = GRAPH_CFG ? {
-  center:       GRAPH_CFG.centerStrength,
-  repel:        GRAPH_CFG.repelStrength / 20,
-  link:         GRAPH_CFG.linkStrength,
-  linkDistance: (GRAPH_CFG.linkDistance - 30) / 470,
-} : { center: 0.5, repel: 0.5, link: 0.8, linkDistance: 0 };
+// Each field falls back on its own, so a partial graph.json can't yield NaN.
+const FORCES = {
+  center:       GRAPH_CFG?.centerStrength ?? 0.5,
+  repel:        (GRAPH_CFG?.repelStrength ?? 10) / 20,
+  link:         GRAPH_CFG?.linkStrength ?? 0.8,
+  linkDistance: ((GRAPH_CFG?.linkDistance ?? 30) - 30) / 470,
+};
 
 // Excluded files: plain prefixes ("logs/") or /regex/ entries ("/\.txt$/").
 const IGNORE_FILTERS = (APP_CFG?.userIgnoreFilters ?? []).map(f => {
