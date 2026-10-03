@@ -35,7 +35,7 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 None open (updated 2026-10-01). `TASKS.md` still reads "P0: None open" and "P1: None open". PR #260 (merged 2026-10-01) added repo tiers T1–T4 (`repos.tier`, `PATCH /api/repos/[name]/update-tier`, `tier` filter on MCP `list_repos`) and a `skills/vigil/` Claude Code skill. In P2, chat-driven doc editing is now stages 1–4 complete, the relationship-map foundation is checked off, and a new open P2 asks to grow that map from real evidence.
 
-Still worth tracking (P2, from 2026-09-11): **`session?.user?.email` gates the shared-key AI rate limiter**. A GitHub OAuth profile with no public email skips the budget gate. Re-check it against the current TASKS.md before assuming it's still open.
+**Resolved (2026-09-28):** `session?.user?.email` gate on the shared-key rate limiter was a bypass — GitHub OAuth profiles with no public email skipped the budget entirely. Fixed by threading `session.userId` (stable GitHub numeric id) as the primary rate-limiter identity with email as fallback. See TASKS.md item "Give every authenticated session a stable rate-limiter identity" ✅.
 
 
 ## Blockers

@@ -33,3 +33,8 @@ files rather than a duplicated narrative here.
   - Priority: P2
   - Problem: new skill work depends on more reliable shared movement and interaction primitives.
   - Acceptance Criteria: new skills reuse common primitives and ship with module-level tests.
+
+- [ ] Bump the `nltk` pin once patched upstream.
+  - Priority: P3
+  - Context: `nltk==3.10.3` has an unpatched vulnerability (#39); pip-audit runs with `continue-on-error: true` until a fix ships ([osrs#50](https://github.com/nitsuah/osrs/pull/50)).
+  - Acceptance Criteria: update `pyproject.toml` and `requirements.txt` to a patched `nltk` version; CI `pip-audit` passes without `continue-on-error`.

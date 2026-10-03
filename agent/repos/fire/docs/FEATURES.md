@@ -34,6 +34,8 @@ repo: fire
 - **Custom Accounts** — Manual entry with value, APY, and account type (Cash, Savings, Crypto, Precious Metal, Brokerage, Real Estate, Other); full CRUD via REST API with server-side validation.
 - **Precious Metals** — Gold/Silver by troy oz valued at live spot (metals.dev or free Yahoo futures fallback) with a Refresh button.
 - **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier; refresh resolves live value; wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
+  - **Native balance only (no priced tokens):** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native coin balance only; USD value requires an optional price provider key.
+  - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens with live USD pricing via Etherscan/equivalent APIs (optional API keys per chain).
 - **Fidelity CSV Import** — Parses Fidelity brokerage position exports; aggregates symbols, quantities, and cash; deduplicates settled cash from P&L.
 - **Chase / Capital One CSV Import** — Parses credit card statement debits and auto-categorizes spending into monthly cash flow.
 - **Spending Upload** — Expenses-tab CSV upload with auto-categorization, editable merchant-keyword mapping, and per-transaction delete.

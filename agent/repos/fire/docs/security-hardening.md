@@ -333,9 +333,9 @@ This is defense-in-depth — properly named accounts ("Fidelity Brokerage") are 
 
 ---
 
-#### H-13: Resolve Dev Dependency Vulnerabilities
+#### H-13: Resolve Dev Dependency Vulnerabilities (Audit: 2026-09-24)
 
-6 moderate/critical vulnerabilities exist in dev deps. Dev deps are not shipped in the Docker image (they are not in the production `node_modules` layer). However, running `npm audit fix` for dev deps reduces noise and prevents tooling from being a vector.
+6 moderate/critical vulnerabilities exist in dev deps (dev-only, not shipped in the Docker image's production `node_modules` layer). Running `npm audit fix` for dev deps reduces noise and prevents tooling from being a vector.
 
 Run:
 ```bash

@@ -20,11 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 2026-09 — eBay on the Netlify deploy (PR #130)
 
 #### Added
+
 - **eBay routes on lifefire.netlify.app:** Marketplace Account Deletion, Connect (authorize/callback) and Sync are served by Netlify Functions at the same `/api/sync/ebay/*` paths the Express server uses. The deletion endpoint is live, and eBay accepted it on 2026-09-26.
 - Browser-only eBay mode keeps only an encrypted token blob in `localStorage`. The server stores nothing.
 - If eBay access is revoked (`invalid_grant`), the token and the API-synced ledger rows are removed and the user is told. Uploaded report rows and manual entries are kept.
 
 #### Changed
+
 - The deletion and sync logic lives in `app/lib/ebay-handlers.js`, which both Express and the Functions use.
 
 #### Fixed (PR #132)

@@ -35,7 +35,7 @@ repo: osrs
 - Health/recovery work landed this cycle: `bot/health.py` `StuckStateMonitor` (stale OCR frames, capture failures, idle time) and `bot/checkpoint.py` `CheckpointLogger` (periodic structured state log + failure-summary dump), both fully tested.
 - A real correctness gap was found and fixed in review (2026-09-09): OCR failures and legitimately-empty chat were both collapsing to the same `record_frame("")` call, which reset the stuck-state counter on every call — a persistent Tesseract failure could never trip recovery. Now routed through an explicit `ocr_ok` flag.
 
-- PMO 2026-10-01: `StuckStateMonitor.recover()` corrective action shipped in #47. It's In Progress until a live-game session validates it, which automation can't do. `nltk==3.10.3` is still unpatched upstream (#39); pip-audit runs with `continue-on-error: true` until a fix ships ([osrs#50](https://github.com/nitsuah/osrs/pull/50)).
+- PMO 2026-10-01: `StuckStateMonitor.recover()` corrective action shipped in #47. It's In Progress until a live-game session validates it, which automation can't do. `nltk==3.10.3` is still unpatched upstream (#39); pip-audit runs with `continue-on-error: true` until a fix ships ([osrs#50](https://github.com/nitsuah/osrs/pull/50)). TASKS.md now tracks the nltk pin bump as a P3 item (see below).
 
 ---
 
