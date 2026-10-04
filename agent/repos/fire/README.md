@@ -202,7 +202,7 @@ docker compose exec fire node scripts/test-mcp.mjs
 ## Data & Privacy
 
 - All financial data is stored in `data/db.json` inside the project directory (Docker volume-mounted).
-- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Plaid (brokerage/bank positions), blockchain APIs (wallet balances — Etherscan, BscScan, Blockstream, etc.), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance / Alpha Vantage / Polygon). All are opt-in with user-provided credentials.
+- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Plaid (brokerage/bank positions), blockchain APIs (wallet balances — Etherscan, BscScan, Blockstream, etc.), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance / Alpha Vantage / Polygon). All are opt-in, and require user-provided credentials only where the provider issues them — ENS (via publicnode.com) and Blockscout need no API key, and neither does Yahoo Finance.
 - Optionally encrypt `db.json` at rest with `SYNC_MASTER_KEY` (AES-256-GCM).
 - Export/restore a full JSON backup any time from the dashboard.
 
@@ -291,7 +291,7 @@ docker run --rm fire-playwright-e2e
 
 ## Planned Integrations
 
-The system is being productionized toward real-time, API-driven data in four phases. All planned connections are opt-in with user-provided credentials and read-only with respect to external accounts.
+The system is being productionized toward real-time, API-driven data in four phases. All planned connections are opt-in, need user-provided credentials only where the provider issues them, and are read-only with respect to external accounts.
 
 | Integration | Phase | Status |
 |---|---|---|
