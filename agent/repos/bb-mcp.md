@@ -41,7 +41,6 @@ None open. TASKS.md's P1 section is empty — all P1 work (API wrapper, OAuth2, 
 
 Notable open P2 items (not P0/P1, listed for context):
 - [ ] Bind `caller_identity` to real end-user authentication instead of trusting the client's claim (flagged by CodeRabbit on PR #115; needs a design decision, e.g. requiring a verified SSO/Blackboard identity token)
-- [ ] Add JSON schemas for all shipped tool inputs
 
 ## Blockers
 
