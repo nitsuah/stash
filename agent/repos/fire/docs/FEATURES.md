@@ -34,6 +34,8 @@ repo: fire
 - **Custom Accounts** — Manual entry with value, APY, and account type (Cash, Savings, Crypto, Precious Metal, Brokerage, Real Estate, Other); full CRUD via REST API with server-side validation.
 - **Precious Metals** — Gold/Silver by troy oz valued at live spot (metals.dev or free Yahoo futures fallback) with a Refresh button.
 - **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier; refresh resolves live value; wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
+  - **Native balance only (no priced tokens):** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native coin balance only; USD value requires an optional price provider key.
+  - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens priced through `prices-provider.js` (Yahoo Finance by default, Polygon.io when `POLYGON_API_KEY` is set). The per-chain explorer APIs (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, Routescan) are **not** Phase 1 — see `integrations.md`.
 - **Fidelity CSV Import** — Parses Fidelity brokerage position exports; aggregates symbols, quantities, and cash; deduplicates settled cash from P&L.
 - **Chase / Capital One CSV Import** — Parses credit card statement debits and auto-categorizes spending into monthly cash flow.
 - **Spending Upload** — Expenses-tab CSV upload with auto-categorization, editable merchant-keyword mapping, and per-transaction delete.
@@ -137,7 +139,7 @@ repo: fire
 
 ## Planned
 
-- **Netlify Plaid backend** — Plaid Link, account/position sync, and transaction sync currently remain Express-only; the hosted browser deployment needs Netlify Functions before Plaid can be advertised as live there.
+- **Netlify Plaid backend** — Plaid Link, account/position sync, and transaction sync are served on the hosted deploy by `netlify/functions/plaid.mjs` via the `/api/sync/plaid/*` rewrites (PR #146), with unit coverage and a `netlify.toml` routing test. Express behavior is unchanged. Still outstanding on the `Serve Plaid on the Netlify deploy` task: a live Link → sync run against lifefire.netlify.app and browser smoke coverage.
 
 - **Tax Drag Estimation Engine** — Custom federal/state bracket support with capital gains configuration.
 - **PWA Packaging** — Offline access and lightweight installable app.

@@ -22,9 +22,11 @@ These items came from the current browser/production pass. **P0** items are corr
 
 - [x] **Fix gold/silver spot-price API 400/non-JSON failures**
   - Completed in PR #138: hosted Netlify routing reaches the metals handler; Yahoo fallback uses browser-like headers plus query1/query2 fallback; non-JSON upstream failures become structured JSON errors.
+  - Done 2026-09-28: PR #138 merged
 
 - [x] **Fix wallet/ENS refresh and return aggregate cross-chain USD value**
   - Completed in PR #138: hosted ENS resolution fans out across supported EVM chains, aggregates successful USD values, and returns JSON-safe errors while preserving partial results.
+  - Done 2026-09-28: PR #138 merged
 
 - [ ] **Google Drive backup round-trip verification before rollout**
   - Priority: P0. Backup is financial data and must not be considered production-safe until encryption, upload, download, and decryption have been proven end-to-end.

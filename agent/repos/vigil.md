@@ -35,7 +35,7 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 None open (updated 2026-10-01). `TASKS.md` still reads "P0: None open" and "P1: None open". PR #260 (merged 2026-10-01) added repo tiers T1–T4 (`repos.tier`, `PATCH /api/repos/[name]/update-tier`, `tier` filter on MCP `list_repos`) and a `skills/vigil/` Claude Code skill. In P2, chat-driven doc editing is now stages 1–4 complete, the relationship-map foundation is checked off, and a new open P2 asks to grow that map from real evidence.
 
-Still worth tracking (P2, from 2026-09-11): **`session?.user?.email` gates the shared-key AI rate limiter**. A GitHub OAuth profile with no public email skips the budget gate. Re-check it against the current TASKS.md before assuming it's still open.
+**Resolved (2026-09-28):** `session?.user?.email` gate on the shared-key rate limiter was a bypass — GitHub OAuth profiles with no public email skipped the budget entirely. Fixed by threading `session.userId` (stable GitHub numeric id) as the primary rate-limiter identity with email as fallback. See TASKS.md item "Give every authenticated session a stable rate-limiter identity" ✅.
 
 
 ## Blockers
@@ -51,7 +51,7 @@ None hard-blocking.
 - **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via agent-board's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)
 - **Portfolio Intelligence batch (PR #204):** chat-driven doc-edit proposals (propose → diff card → apply via existing PR flow), cross-repo dependency graph, token-density + comment-to-code ratio metrics, `docs/db-scaling-assessment.md`, velocity/health-score trending via `repo_snapshots`
 - **v2 Launch (PR #200):** sync button force-refreshes all filtered repos (not just new ones), maintenance-mode badge (90+ days no commits), velocity score (0-100)
-- Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap (see Open P2s above) remains the most notable one still open.
+- Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap was the most notable remaining one and shipped in PR #254 (2026-09-28) — see Resolved above.
 
 ## Verified Runbook (PMO 2026-09-24)
 

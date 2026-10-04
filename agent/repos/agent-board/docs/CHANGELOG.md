@@ -85,7 +85,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `config/docker-compose.yml` mixed two incompatible relative-path conventions
   (build contexts resolved from the compose file's own directory; `env_file`/volume
   entries assumed `--project-directory .`), so the README's own Quick Start command
-  failed every build. All paths now resolve consistently from `config/`.
+  failed every build. All paths now resolve consistently from `config/`; the
+  Quick Start commands in the README have been updated to run compose from the
+  `config/` directory without `--project-directory`.
 - `scripts/setup-docker-stack.ps1` cd'd into a `motor-pool` directory that doesn't
   exist for anyone who cloned this repo under its real name.
 

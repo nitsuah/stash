@@ -39,30 +39,30 @@ Captured from the local Docker stack at `http://localhost:3000`.
 
 ### Dashboard Overview
 
-![agent-board dashboard overview](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/dashboard-overview.png)
+![agent-board dashboard overview](https://github.com/nitsuah/motor-pool/blob/master/docs/screenshots/dashboard-overview.png)
 
 ### Metrics View
 
-![agent-board metrics panel](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/metrics-panel.png)
+![agent-board metrics panel](https://github.com/nitsuah/motor-pool/blob/master/docs/screenshots/metrics-panel.png)
 
 ### System Management
 
-![agent-board system management panel](https://github.com/nitsuah/agent-board/blob/master/docs/screenshots/system-panel.png)
+![agent-board system management panel](https://github.com/nitsuah/motor-pool/blob/master/docs/screenshots/system-panel.png)
 
 ## Quick Start
 
 Minimal stack (dashboard + Ollama + DB — fits a 16 GB host):
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\agent-board
-docker compose -f config/docker-compose.yml --project-directory . up -d
+cd C:\Users\$env:USERNAME\code\agent-board\config
+docker compose -f docker-compose.yml up -d
 ```
 
 or for GPU:
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\agent-board
-docker compose -f config/docker-compose.yml -f config/docker-compose.gpu.yml up -d
+cd C:\Users\$env:USERNAME\code\agent-board\config
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 ```
 
 Open [http://localhost:3000](http://localhost:3000) — that's it.
@@ -72,16 +72,16 @@ Add opt-in profiles as needed:
 ```powershell
 # Distributed tracing (Jaeger UI at :16686)
 $env:OTEL_ENABLED='true'
-docker compose -f config/docker-compose.yml --project-directory . --profile observability up -d jaeger
+docker compose -f docker-compose.yml --profile observability up -d jaeger
 
 # Blackboard MCP
-docker compose -f config/docker-compose.yml --project-directory . --profile bb-mcp up -d bb-mcp
+docker compose -f docker-compose.yml --profile bb-mcp up -d bb-mcp
 
 # MCP tool servers (Content Studio / Website Agent)
-docker compose -f config/docker-compose.yml --project-directory . --profile tools up -d tool-content-gen tool-website
+docker compose -f docker-compose.yml --profile tools up -d tool-content-gen tool-website
 
 # NemoClaw safety sandbox
-docker compose -f config/docker-compose.yml --project-directory . --profile sandbox up -d nemoclaw
+docker compose -f docker-compose.yml --profile sandbox up -d nemoclaw
 ```
 
 Default endpoints (minimal stack):

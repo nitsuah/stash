@@ -31,9 +31,11 @@ _None open — see CHANGELOG for the #221–#233 work._
   - Context: the per-repo chat panel (PR #196) only answered questions before this branch — it rebuilt context and replied, but couldn't act.
   - Acceptance Criteria: broken into stages — (1) chat can propose a specific, diffable edit to one doc file and show it inline before applying; (2) accepting the proposal opens a PR via the existing fix-doc PR flow rather than writing directly; (3) the chat can check an item off in TASKS.md or move it to FEATURES.md when the user confirms it's shipped, referencing the same parser the dashboard already uses so state never diverges from what's rendered elsewhere; (4) before calling `createPrForFile`, the caller-supplied target path must be validated against the approved doc list (TASKS.md/ROADMAP.md/FEATURES.md, matching the existing `TARGET_PATHS` mapping) — never pass a chat-supplied path straight through unchecked.
   - Status: ✅ ALL STAGES (1)–(4) COMPLETE — `parseTaskOperationProposal` in `lib/repo-chat.ts` extracts fenced ` ```proposal``` ` JSON for task operations (check_off, move_to_features, move_to_roadmap, update_status, add_task); `RepoChatPanel` renders task proposals as inline cards with Apply/Dismiss; Apply calls new `POST /api/repos/[name]/tasks` which fetches TASKS.md, applies the operation using `parseTasks`/`serializeTasks`, creates PR via `createPrForFile`, and for cross-file moves also updates FEATURES.md/ROADMAP.md in additional PRs; all validated against `TARGET_PATHS`.
+  - Done 2026-09-25: All four stages shipped via PRs #234–#237.
 
 - [x] Ship the cross-repo relationship map foundation: `repo_relationships`, `/api/relationships`, `get_relationships` / `propose_relationship` MCP tools, PMO map.
   - Priority: P2
+  - Done 2026-09-25: Foundation shipped in PR #238.
 
 - [ ] Grow the cross-repo relationship map from real evidence.
   - Priority: P2
@@ -48,6 +50,7 @@ _None open — see CHANGELOG for the #221–#233 work._
   - Context: flagged by CodeRabbit on PR #204 (2026-09-09) — `GET /api/repo-details/[name]/trend` matches `repos.name`, which is ambiguous if two tracked repos across different owners share a short name. `repo.full_name` is already available at every call site (`RepoTableRow.tsx`, `MobileRepoCard.tsx`) but isn't threaded through `ExpandableRow` -> `RepositoryStatsSectionStatic` -> the trend fetch URL. Deferred rather than rushed since it touches three component layers.
   - Acceptance Criteria: the trend route (and its callers) key on `full_name` or `repo_id`, not the bare `name` column; add a regression test with two same-named repos under different owners.
   - Status: ✅ COMPLETE (2026-09-28) — `app/api/repo-details/[name]/trend/route.ts` accepts `fullName` query param; `components/repo-details/RepositoryStatsSectionStatic.tsx` extracts `full_name` from `repoUrl` and passes it. Shipped in PR #253.
+  - Done 2026-09-28: PR #253 merged.
 
 ### DB & backend scaling
 
@@ -55,7 +58,8 @@ _None open — see CHANGELOG for the #221–#233 work._
   - Priority: P2
   - Context: flagged by CodeRabbit on PR #211 (2026-09-11) — the entire shared-key reservation block in `app/api/repos/[name]/chat/route.ts` is gated on `session?.user?.email`. GitHub's OAuth profile can return a null email (an account with no public/verified email), in which case that gate is skipped entirely and the request proceeds through `generateAIContent` with **no shared-key rate limiting or budget at all** — a full bypass, not just a narrow edge case. Confirmed this gate predates PR #211 (the original process-local-`Map` code had the identical `if (session?.user?.email)` condition), so it's a pre-existing gap PR #211 didn't introduce — not fixed inline because it touches `auth.ts`/session-shape internals (does NextAuth's JWT session reliably expose a stable non-email id like `token.sub` on `session.user`? not currently wired up) and deserves its own scoped change + tests rather than a rushed edit alongside an already-large rate-limiter PR.
   - Status: ✅ COMPLETE (2026-09-28) — `session.userId` is now the stable GitHub numeric id captured at sign-in (`lib/auth-session.ts`). Updated `app/api/repos/[name]/chat/route.ts`, `app/api/settings/ai-key/route.ts`, `app/api/agent/tasks/route.ts` to use `session.userId` as primary identifier with email as fallback. Route test for authenticated session with no email passes (22 tests in `repo-chat-api.test.ts`).
-  - Acceptance Criteria: every authenticated session has a stable identifier available to the rate limiter (email when present, falling back to a stable provider id such as GitHub's numeric user id otherwise) — no authenticated session can reach `generateAIContent` without being subject to either the shared-key budget or an explicit BYOK exemption. Add a route test covering an authenticated session with no email.
+  - Acceptance Criteria: every authenticated session has a stable identifier available to the rate limiter — `session.userId` (GitHub's numeric id) as primary, with email as fallback — so no authenticated session can reach `generateAIContent` without being subject to either the shared-key budget or an explicit user-provided-credentials exemption. Route test covering an authenticated session with no email.
+  - Done 2026-09-28: PR #254 merged.
 
 ### P3 - Exploratory
 
