@@ -22,7 +22,7 @@ Standalone Model Context Protocol server wrapping the Blackboard Learn REST API 
 - [x] RBAC enforcement, audit logging, PII scrubbing (audit logs + tool outputs), per-role rate limiting, FERPA gate coverage extended to the admin directory surface
 - [~] Webhook subscription CRUD shipped; inbound event ingestion not started (2027)
 - [x] MCP Inspector stdio validation — passed (2026-09-11): `node dist/index.js --stdio` vs. the official MCP Inspector CLI, 0 errors across all 40 tools (`tools/list`); `tools/call` spot-checked end-to-end against `list_courses`. Repeatable via `npm run inspect` / `make docker-inspect`.
-- [x] JSON schemas for all shipped tool inputs — **done (confirmed 2026-09-30)**: all 41 tools in `src/manifest.ts` define JSON Schema `inputSchema`, served by `tools/list` and `GET /manifest`.
+- [x] JSON schemas for all shipped tool inputs — **done (confirmed 2026-10-03)**: all 40 tools registered in `src/index.ts` (`TOOL_REGISTRATIONS`) define a JSON Schema `inputSchema`. The schema objects live in `src/tools/*.ts`; the MCP SDK serves them over `tools/list`, and `src/manifest.ts` exposes the same set via `GET /manifest`. bb-mcp#136 removed this line from the repo's own ROADMAP.md as shipped, so it is tracked here only.
 - [ ] Analytics/Product Owner tools — not started, depends on event pipeline (2027)
 
 **2026 Q3 — Enterprise Follow-On: mostly complete**
