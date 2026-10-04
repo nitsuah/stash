@@ -300,7 +300,7 @@ The system is being productionized toward real-time, API-driven data in four pha
 | Google Drive encrypted backup | Phase 1 | Implemented self-hosted via Google OAuth; live round-trip verification pending |
 | Vehicle value API (NHTSA VIN free; paid providers via `VEHICLE_VALUE_PROVIDER`) | Phase 1 | Live |
 | Fidelity / Plaid positions + balance sync | Phase 2 | Live (user-provided credentials; sandbox ready) |
-| Plaid on Netlify (hosted) | Phase 2 | **Hosted only** — Netlify Functions serve Plaid endpoints at `/api/sync/plaid/*` (see [docs/integrations.md](docs/integrations.md#plaid-on-netlify)) |
+| Plaid on Netlify (hosted) | Phase 2 | **Hosted only** — endpoints route to `netlify/functions/plaid.mjs` at `/api/sync/plaid/*` (see [docs/integrations.md](docs/integrations.md#browser-only-deploy-netlify-function)); unit- and route-tested, live Link → sync run against the hosted deploy still pending |
 | Stable stock quote API (Alpha Vantage / Polygon.io) | Phase 2 | Live (fallback: Yahoo Finance) |
 | Rate limiting (300/min general, 30/min sync) | Phase 3 | Live |
 | Security headers (CSP, X-Frame-Options, Referrer-Policy) | Phase 3 | Live |
