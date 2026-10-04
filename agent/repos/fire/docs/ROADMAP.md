@@ -43,7 +43,7 @@ Goal: real-time read-only position and balance sync from major brokerages and ba
 
 ### Real-Time Price Improvements
 - [ ] Unit tests for `app/lib/prices-provider.js` (Alpha Vantage / Polygon / fallback paths)
-- [ ] **Native balance vs priced tokens per chain:** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native balance only; Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — priced tokens supported
+- [x] **Native balance vs priced tokens per chain:** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native balance only; Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — priced tokens supported via `prices-provider.js` (Yahoo/Polygon), not the per-chain explorer APIs, which remain unbuilt (`integrations.md`). Done 2026-10-03.
 
 ### Car Values
 - [ ] KBB API requires Cox Automotive partner agreement

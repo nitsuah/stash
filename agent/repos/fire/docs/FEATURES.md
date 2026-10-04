@@ -35,7 +35,7 @@ repo: fire
 - **Precious Metals** — Gold/Silver by troy oz valued at live spot (metals.dev or free Yahoo futures fallback) with a Refresh button.
 - **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier; refresh resolves live value; wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
   - **Native balance only (no priced tokens):** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native coin balance only; USD value requires an optional price provider key.
-  - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens with live USD pricing via Etherscan/equivalent APIs (optional API keys per chain).
+  - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens priced through `prices-provider.js` (Yahoo Finance by default, Polygon.io when `POLYGON_API_KEY` is set). The per-chain explorer APIs (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, Routescan) are **not** Phase 1 — see `integrations.md`.
 - **Fidelity CSV Import** — Parses Fidelity brokerage position exports; aggregates symbols, quantities, and cash; deduplicates settled cash from P&L.
 - **Chase / Capital One CSV Import** — Parses credit card statement debits and auto-categorizes spending into monthly cash flow.
 - **Spending Upload** — Expenses-tab CSV upload with auto-categorization, editable merchant-keyword mapping, and per-transaction delete.

@@ -51,7 +51,7 @@ None hard-blocking.
 - **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via agent-board's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)
 - **Portfolio Intelligence batch (PR #204):** chat-driven doc-edit proposals (propose → diff card → apply via existing PR flow), cross-repo dependency graph, token-density + comment-to-code ratio metrics, `docs/db-scaling-assessment.md`, velocity/health-score trending via `repo_snapshots`
 - **v2 Launch (PR #200):** sync button force-refreshes all filtered repos (not just new ones), maintenance-mode badge (90+ days no commits), velocity score (0-100)
-- Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap (see Open P2s above) remains the most notable one still open.
+- Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap was the most notable remaining one and shipped in PR #254 (2026-09-28) — see Resolved above.
 
 ## Verified Runbook (PMO 2026-09-24)
 
