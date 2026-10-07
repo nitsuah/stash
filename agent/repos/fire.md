@@ -66,7 +66,7 @@ None documented.
 - Security: XSS `escHtml()` applied across all table renderers; CSRF `oauthState` consumed immediately post-verification; webhook HMAC requires `req.rawBody`; session cookies now `httpOnly`/`sameSite: lax` with a startup warning on weak/missing `SESSION_SECRET`.
 - Hardening: atomic `db.json` writes (tmp file + rename), corrupt-vs-missing-file distinction in `readState`, Express global error handler, JSONata webhook mapping validated + time-boxed at 5s, Yahoo Finance fetches timeout at 10s.
 - Fixed: `DELETE /api/accounts/:id` returned 444 instead of 404 for a missing account.
-- Test suite grew past the 251-test/16-file baseline with new Plaid transaction-sync tests and targeted coverage-gap tests added this cycle (381/381 passing per the latest TASKS.md note); coverage now clears all four thresholds — statements 86.01%, lines 85.6%, branch 71.04%, functions 84.16% (branch/functions up from 68.33%/75.67%; METRICS.md itself hasn't been re-run since 2026-08-28, so its table still shows the old numbers).
+- Test suite grew past the 251-test/16-file baseline with new Plaid transaction-sync tests and targeted coverage-gap tests. METRICS.md (Docker run, 2026-10-01): 715 Vitest tests (59 files) plus 67 Playwright tests, all passing; coverage 84.31% statements, 84.97% lines, 77.16% branch, 84.66% functions. Thresholds are met for the measured scope only (the 8 files in `coverage.include`; routes, managers, Netlify Functions and the browser app are unmeasured).
 
 ## Verified Runbook (PMO 2026-09-24)
 
