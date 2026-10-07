@@ -27,7 +27,7 @@ repo: fire
 - **Ask your LLM** — the built-in MCP server exposes read-only financial tools for Claude/other MCP clients without giving the model trading or write access to external accounts.
 - **Built for investigation, not just a number** — projections, scenario stress tests, diversification signals, tax-loss alerts, rebalancing what-ifs, CD maturities, emergency runway, and side-gig tax tagging turn raw balances into context.
 
-**Try it:** [live browser demo](https://lifefire.netlify.app/) · **Run it locally:** `docker compose up -d` · **Use with Claude:** see [MCP Server](#mcp-server-claude-integration)
+**Try it:** [live browser demo](https://lifefire.netlify.app/) · **Run it locally:** `docker compose up -d` · **Use with Claude:** see [MCP Server](#mcp-server-claude-integration) and the [fire-coach skill](skills/README.md)
 
 ---
 
@@ -41,21 +41,24 @@ repo: fire
 - **Net Worth Dashboard** — real-time tracking of accounts, CDs, real estate, vehicles, precious metals, and investments; on wide screens Retirement Growth Path, an interactive drill-down Asset Allocation chart, and Cash & Fixed Income share the top row (the growth chart has a full-width expander)
 - **Responsive shell** — hamburger nav drawer on phones, a single minimalist FIRE/net-worth summary bar (breakdown, income and spend on hover/tap) at narrow widths, and a pinned alerts bell
 - **Retirement Projections** — SWR curves (3 – 4%), bull/bear scenarios, cash-first portfolio drawdown after retirement age, growth presets (Conservative / Standard / Aggressive / Early Retiree) and milestone presets in one panel
+- **🌪️ Chaos mode** — one toggle (next to Bear/Bull, and on the Dashboard chart) rolls realistic life events onto your projection: gallbladder surgery, a cat's cancer, a child, an inherited house, a refinance, a job loss, an unexpected windfall… 37 events in 8 categories with life-average odds, age windows, predefined outcomes and follow-ups (a parent's care → funeral → inheritance). Costs that outrun inflation (rent, child and elder care, medical bills) escalate; 🛡️ mitigations like pet insurance shrink the hits they cover and charge their premiums. ▲/▼ markers with hover/tap details, a dashed "without chaos" line and 🎲 reroll. See [Chaos mode](#chaos-mode)
+- **Customizable layout** — every tab is made of sections with a chosen column layout (1–4 columns, wide-left/right/center); a card alone in a section spans the full width. **✎ Customize** gives a drag-and-drop builder canvas with highlighted drop targets, click a title to collapse, and on the Dashboard **＋ Add widget** pins any card from another tab. Saved across sessions. See [Customizable layout](#customizable-layout)
 - **Insights** — portfolio insight tiles (diversification, emergency fund, savings rate, CD maturities, SWR, crypto share), tax-loss harvesting alerts, and a portfolio rebalancing tool
 - **Investment P&L Table** — sortable, color-coded, allocation filter with pie chart, risk concentration badges
 - **CD Ladder Visualizer** — timeline of upcoming maturities with yield overlays
 - **Side Hustle Tracker** — income logs, built-in eBay/Etsy/Facebook fee calculators, an eBay sales-report CSV upload (deduplicated against earlier imports), and rotating, dismissible side-hustle ideas with guide/video links
 - **CSV Imports** — one unified add form (Import CSV is the default option) for Fidelity positions, Chase and Capital One statements, and eBay sales reports, plus Expenses-tab spending upload with auto-categorization (all processed locally)
 - **Precious metals** — Gold/Silver account type valued by weight × live spot (metals.dev with a free Yahoo futures fallback)
-- **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier; wallet tracking appears under the form when Type = Cryptocurrency
+- **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins plus priced tokens across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche, with no API keys, and shows the per-chain breakdown under the row. A ticker account is valued as quantity × live price. Wallet tracking appears under the form when Type = Cryptocurrency
 - **REST API** — full CRUD for accounts, CDs, wallets, vehicles, sync templates, state; `FIRE_API_KEY` header auth required by default (opt out with `FIRE_AUTH_DISABLED=true` for local-only use); `FIRE_ADMIN_KEY`-gated key-rotation endpoint
 - **MCP Server** — 16 read-only tools for Claude/LLM integration via `app/mcp-server.mjs`
 - **Yahoo Finance prices** — live portfolio valuation with crumb-based auth, stale-data fallback, and SSE (`GET /api/prices/stream`) for live push; configurable via `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` as stable alternatives
 - **Webhook sync framework** — JSON data-mapped templates for automated data ingestion (full CRUD + live receiver at `POST /api/sync/webhook/:templateId`)
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
 - **Plaid integration** — link-token flow, position/account sync, and transaction sync with auto-categorization into Expenses (`POST /api/sync/plaid/*`); manual CSV import is disabled while Plaid sync is active. Connector controls live in Settings
+- **CoinTracker wallets (optional)** — connect CoinTracker (OAuth, read-only MCP) to import all wallets and exchange accounts with current balances. It becomes the source of truth for matching manual crypto entries. See [docs/integrations.md](docs/integrations.md#cointracker-wallet-discovery--balances)
 - **Web3 wallet tracking** — full wallet CRUD (`/api/wallets`) with on-chain balance refresh; supports ETH/EVM, BTC, SOL, BNB, Polygon, Arbitrum, Base, Avalanche
-- **Google Drive encrypted backup** — `POST /api/backup/drive`, `GET /api/backup/drive/list`, `POST /api/backup/drive/restore` (requires `GDRIVE_SERVICE_ACCOUNT_JSON` + `SYNC_MASTER_KEY`)
+- **Google Drive encrypted backup** — `POST /api/backup/drive`, `GET /api/backup/drive/list`, `POST /api/backup/drive/restore` (requires `GDRIVE_CLIENT_ID` + `GDRIVE_CLIENT_SECRET` for Google OAuth, and a 64-hex `SYNC_MASTER_KEY`)
 - **Vehicle VIN decode & value refresh** — NHTSA VIN decode (`GET /api/vehicles/vin/:vin`) and value refresh (`POST /api/vehicles/:id/refresh-value`)
 - **Rate limiting** — 300 req/min general, 30 req/min on sync routes (via `express-rate-limit`)
 - **Security headers** — CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy applied on every response; CDN scripts pinned with SRI
@@ -192,6 +195,8 @@ Connect Claude Code to your live financial data. The project ships a `.mcp.json`
 
 `simulate_rebalance` is a what-if: it reports allocation and diversification score before/after moving money between asset classes, and never trades or saves anything.
 
+**Claude skill:** [`skills/fire-coach`](skills/README.md) makes Claude a FIRE coach for this app. It maps questions to the right MCP tools, applies a FIRE playbook (the 4% rule, savings rate, order of operations, taxes, sequence risk, what to do when income stops) and points to the exact tab and button. Install it with `mkdir -p ~/.claude/skills && cp -r skills/fire-coach ~/.claude/skills/`.
+
 Smoke-test locally:
 ```bash
 docker compose exec fire node scripts/test-mcp.mjs
@@ -199,10 +204,53 @@ docker compose exec fire node scripts/test-mcp.mjs
 
 ---
 
+## Chaos mode
+
+![Retirement growth path with Chaos mode on](https://github.com/nitsuah/fire/blob/main/site/assets/proj-chaos.webp)
+
+Every projection is a smooth line; life isn't. **🌪️ Chaos** applies a seeded timeline of 37 kinds of life events to the base path. The plain path stays on the chart as a dashed "Without chaos" line.
+
+| Category | Examples | Typical impact |
+| --- | --- | --- |
+| Health | gallbladder surgery, ER visit, dental emergency, serious illness, knee/hip replacement | $1.2k – $14k one-time, rising ~2%/yr above inflation the later it happens; serious illness can add months of lost income |
+| Pets | cat cancer, dog emergency surgery | $1.5k – $10k one-time (vet bills rise ~2%/yr above inflation) |
+| Family | wedding, child birth, daycare ending, divorce, aging parent care, unpaid family loan, funeral, inheritance, **inherited house**, family gift | child −$8k to −$16k/yr for 18 years; divorce −20–35% of net worth; inheritance +$15k – $200k; inherited house: sell (+$220k), move in (+$15k/yr) or rent it out (+$11k/yr) |
+| Career | job loss, new job/promotion, bonus, side hustle takes off, pay cut, RSUs | 2–10 months of income lost; a promotion is a signing bump or extra savings for 5–6 years (wages are flat in real terms) |
+| Housing | roof/HVAC, water damage, rent hike / forced move, **refinance**, **roommate / house hack** | $2.5k – $35k one-time; rent +$3k – $6k/yr; refinance +$2.4k – $4.8k/yr for 15 years; roommate +$7k – $12k/yr |
+| Auto | accident, major repair, replacement car, **car loan paid off** | $1k – $30k; a paid-off loan frees $4k – $5k/yr for a few years |
+| Windfall | surprise tax refund, sold a collection, lottery/crypto, **settlement or claim payout** | +$400 – $40k |
+| Legal & money | identity theft, surprise tax bill, lawsuit | $500 – $30k |
+
+- **Sequences:** some events trigger follow-ups. Aging-parent care can lead to a funeral, and a funeral to an inheritance or an inherited house. A wedding can lead to a child; a child leads to daycare ending a few years later; a job loss is usually followed by a new job. Follow-ups show "after …" in the tooltip and the event list.
+- Each event has a **life-average yearly probability** and an **age window**: weddings and kids skew young, joint replacements older, and career events stop at retirement. Randomness only picks which event happens, when, and which of its predefined outcomes applies.
+- Density follows the window: at least 1 event in the first year and 3 in every 5 years, about 0.75 a year over a lifetime, with at most 2 in any one year.
+- **How it moves net worth** (all in today's dollars, like the chart):
+  - One-time costs and gains hit in the year they happen, then compound with the rest of the portfolio.
+  - Recurring ones change yearly savings before retirement, or yearly withdrawals after it, for their duration.
+  - Costs that rise with inflation are already flat in today's dollars. Those that have historically outrun it climb on top of that: rent +1%/yr, child costs +1%, elder care +3%, insurance after a claim +2%. Descriptions quote your inflation setting, e.g. "rising ~3.5%/yr: inflation + 1%".
+  - A job loss costs the lost months of savings plus real spending. Paycheck events (job loss, pay cut, bonus, RSUs) are skipped if Expenses → gross income is under $5k.
+  - Milestone Predictions switch to the chaos path and are marked 🌪️.
+- **🛡️ Mitigations** (Insights → Portfolio Insights): pet insurance, a low out-of-pocket plan or HSA, disability insurance, dental, an umbrella policy, water-backup coverage, gap insurance, a credit freeze, safe-harbor withholding and a 6-month emergency fund.
+  - Tick what you have. Chaos then shrinks the hits each one covers (pet insurance cuts vet bills ~80%) and charges its yearly premium.
+  - Each card shows what it saves and costs in your current simulated life. Insurance usually costs more than it pays out on average; its job is capping the big hits.
+- Hover or tap the line for the events nearest that age, what led to them and their dollar impact. The chips under the chart list every event in the 1Y/5Y/10Y/15Y/All window (the Dashboard folds them under "details").
+- The timeline is seeded, so it doesn't change on reload or when you switch windows; **🎲** rerolls. The toggle, seed and mitigations are saved in the browser. Engine and tests: [`app/lib/chaos-events.js`](app/lib/chaos-events.js), [`tests/unit/chaos-events.test.mjs`](tests/unit/chaos-events.test.mjs).
+
+## Customizable layout
+
+Every tab is a set of **sections**. Each section picks a column layout: full width, 2 equal, 2 wide-left, 2 wide-right, 3 equal, 3 wide-center or 4. Each column stacks cards. A card alone in its section spans the full width, so there are no fixed per-tab widths. On narrower screens sections drop to two columns, and on phones to one.
+
+- Click any card title to collapse it.
+- **✎ Customize** turns the tab into a builder canvas: a dotted grid with outlined sections and a layout picker for each one. Drag a card's ⠿ handle (mouse or finger) and the target cell lights up, with a pulsing placeholder where it will land. Drop it on a "＋ New section" gap to give it its own row. ↑/↓ moves a card without dragging; sections have ↑/↓ and 🗑.
+- On the Dashboard, **＋ Add widget** pins any card from another tab, leaving a "Move back here" link on its home tab. **✕** removes cards you don't use. **↺ Reset** restores a tab.
+- Everything is saved in the browser and survives reloads.
+
+---
+
 ## Data & Privacy
 
 - All financial data is stored in `data/db.json` inside the project directory (Docker volume-mounted).
-- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Plaid (brokerage/bank positions), blockchain APIs (wallet balances — Etherscan, BscScan, Blockstream, etc.), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance / Alpha Vantage / Polygon). Each integration is opt-in independently of the others; beyond being enabled, an integration needs user-provided credentials only where its provider issues them — ENS (via publicnode.com) and Blockscout need no API key, and neither does Yahoo Finance.
+- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Plaid (brokerage/bank positions), blockchain lookups (crypto account refresh: ENS via ensdata.net, balances via Blockscout and publicnode.com RPCs — these two need no API key; the wallet tracker: Etherscan, BscScan, Blockstream, etc., which do), CoinTracker (read-only wallet balances), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance needs none; Alpha Vantage / Polygon need keys). Each integration is opt-in independently of the others; beyond being enabled, an integration needs user-provided credentials only where its provider issues them.
 - Optionally encrypt `db.json` at rest with `SYNC_MASTER_KEY` (AES-256-GCM).
 - Export/restore a full JSON backup any time from the dashboard.
 
@@ -228,7 +276,12 @@ fire/
 │   │   ├── prices-provider.js  # Price provider abstraction (Yahoo / Alpha Vantage / Polygon)
 │   │   ├── webhook-integration.js # Webhook payload handler
 │   │   ├── ebay-connector.js   # eBay Order API OAuth + order fetch
-│   │   ├── web3-prices.js      # On-chain balance fetch (ETH, BTC, SOL, EVM chains)
+│   │   ├── cointracker-connector.js # CoinTracker OAuth (PKCE + DCR) + read-only MCP client
+│   │   ├── cointracker-handlers.js  # CoinTracker routes, shared by Express + Netlify
+│   │   ├── cointracker-merge.js     # Folds CoinTracker wallets into accounts (dedupe, browser + Node)
+│   │   ├── crypto-balance.js   # Crypto account value: ticker × price, or ENS/0x multichain total
+│   │   ├── multichain-balance.js # Keyless multichain total (Blockscout + publicnode RPCs)
+│   │   ├── web3-prices.js      # Wallet-tracker balance fetch (ETH, BTC, SOL, EVM chains; BYOK keys)
 │   │   ├── gdrive-backup.js    # Google Drive encrypted backup/restore
 │   │   ├── vehicle-api.js      # NHTSA VIN decode + vehicle value estimate
 │   │   ├── csv-import.js       # Fidelity / Chase / CapOne CSV parsing (also routes eBay reports)
@@ -252,7 +305,14 @@ fire/
 │       ├── vehicles.js         # GET /api/vehicles/vin/:vin, POST /api/vehicles/:id/refresh-value
 │       ├── (accounts.js also)  # POST /api/accounts/:id/refresh-crypto, /refresh-metal
 │       ├── backup.js           # POST /api/backup/drive, GET /api/backup/drive/list, POST /api/backup/drive/restore
-│       └── sync.js             # Webhook templates CRUD, POST /api/sync/webhook/:templateId, eBay OAuth, Plaid
+│       ├── sync.js             # Webhook templates CRUD, POST /api/sync/webhook/:templateId; mounts the three below
+│       ├── ebay.js             # /api/sync/ebay/* (OAuth, sync, marketplace deletion)
+│       ├── plaid.js            # /api/sync/plaid/*
+│       └── cointracker.js      # /api/sync/cointracker/* (authorize, callback, sync, inspect, disconnect)
+├── netlify/
+│   ├── functions/              # Hosted (lifefire.netlify.app) API: fire-api (metals, ENS lookup, crypto refresh),
+│   │                           #   ebay-*, plaid, cointracker — same handlers as the Express routes
+│   └── lib/http.mjs            # Shared Function helpers
 ├── config/
 │   ├── docker-compose.yml      # fire + Caddy (HTTPS)
 │   ├── Dockerfile              # node:22-alpine
@@ -297,6 +357,8 @@ The system is being productionized toward real-time, API-driven data in four pha
 |---|---|---|
 | eBay Order API (auto-import sales) | Phase 1 | Live (user-provided credentials) |
 | Web3 wallet tracking (ETH, BTC, SOL, + EVM chains) | Phase 1 | Live (user-provided keys per chain) |
+| Crypto account multichain value (ENS/0x, 7 EVM chains, tokens) | Phase 1 | Live (keyless: Blockscout + public RPCs) |
+| CoinTracker wallets (read-only MCP) | Phase 1 | Implemented; blocked until CoinTracker enables MCP early access for the account |
 | Google Drive encrypted backup | Phase 1 | Implemented self-hosted via Google OAuth; live round-trip verification pending |
 | Vehicle value API (NHTSA VIN free; paid providers via `VEHICLE_VALUE_PROVIDER`) | Phase 1 | Live |
 | Fidelity / Plaid positions + balance sync | Phase 2 | Live (user-provided credentials; sandbox ready) |
@@ -327,7 +389,9 @@ See [docs/prod-plan.md](docs/prod-plan.md) for the full productionization roadma
 
 ## Docs Index
 
-Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
 
 - [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
 - [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
@@ -345,6 +409,18 @@ Every doc at the repo root (other than this README) and under `docs/` (the files
 
 - [fire-feedback](./docs/archive/fire-feedback.md) — `docs/archive/fire-feedback.md`
 - [fire-plan](./docs/archive/fire-plan.md) — `docs/archive/fire-plan.md`
+
+**`promo/`**
+
+- [Promo spots](./promo/README.md) — `promo/README.md`
+
+**`promo/brag-22s/`**
+
+- [brag-22s — storyboard](./promo/brag-22s/storyboard.md) — `promo/brag-22s/storyboard.md`
+
+**`promo/`**
+
+- [Promo feature ledger](./promo/features.md) — `promo/features.md`
 
 **`skills/`**
 

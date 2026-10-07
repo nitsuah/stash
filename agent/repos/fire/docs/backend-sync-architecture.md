@@ -76,7 +76,8 @@ The webhook receiver is fully implemented and in production use.
 | Provider | Purpose | Auth Type | Token Storage |
 | --- | --- | --- | --- |
 | eBay Order API | Completed sales → sideGigLedger | OAuth 2.0 + refresh token | `data/tokens.json` (encrypted) |
-| Etherscan | ETH + ERC-20 wallet balances | API key | env var only |
+| Etherscan | ETH + ERC-20 wallet balances (server-side wallet tracker) | API key | env var only |
+| Blockscout + publicnode RPCs | Crypto account / ENS multichain value (native + tokens) | None (keyless) | n/a |
 | BscScan | BNB + BEP-20 wallet balances | API key | env var only |
 | Polygonscan | MATIC + ERC-20 balances | API key | env var only |
 | Arbiscan | ARB + ERC-20 balances | API key | env var only |

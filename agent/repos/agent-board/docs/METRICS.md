@@ -6,11 +6,11 @@ kind: repo-doc
 repo: agent-board
 ---
 
-# Project Metrics: agent-board
+# Project Metrics: motor-pool
 
-> 🧭 [agent-board](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
+> 🧭 [motor-pool](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · **Metrics** <!-- nav -->
 
-This document tracks the health, performance, and quality metrics of the `agent-board` project.
+This document tracks the health, performance, and quality metrics of the `motor-pool` project.
 
 ## Core Metrics
 

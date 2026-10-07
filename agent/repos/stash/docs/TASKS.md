@@ -182,16 +182,24 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P2
   - Type: Security / human decision
   - Acceptance: either a `git filter-repo` purge plus a force-push of `main` (coordinated, after open PRs land), or a one-line "accepted, low sensitivity" note in the guide's audit section.
+  - 2026-10-01 sweep added to the same decision: `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), the pre-redaction personal context in `agent/projects/Career.md` / `Finance.md`, and the kryptos mirror's third-party address.
 
-- [ ] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
+- [x] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
+  - Done 2026-10-01: removed in nitsuah/stash#179 (owner decision). Still in history; covered by the history-purge item above. `sampler.accdb`, `VMT.accdb` and `sampler/setup/test.pdf` were checked for embedded addresses and are clean.
   - Priority: P2
   - Type: Security / human decision
   - Acceptance: file removed (and optionally purged), or kept with a note saying why.
 
-- [ ] Remove the third-party email address from kryptos `docs/TASKS.md` upstream (it reaches the vault through the mirror).
+- [x] Remove the third-party email address from kryptos `docs/TASKS.md` upstream (it reaches the vault through the mirror).
+  - Done 2026-10-01: nitsuah/kryptos#237 upstream; vault mirror updated to match in the 2026-10-01 privacy sweep.
   - Priority: P3
   - Type: Docs (kryptos)
   - Acceptance: next sync's `pii-scan.sh agent/repos/kryptos` shows no email hit.
+
+- [ ] Decide whether `projects/resume/source/personal.json` keeps its named `references` (family members and former colleagues, each with a quote) and whether the resume JSON keeps a city. Neither trips a scanner, but both are third-party or location details.
+  - Priority: P3
+  - Type: Privacy / human decision
+  - Acceptance: names replaced with roles (or kept with a note that the people agreed), city kept or reduced to state/country.
 
 - [ ] Drop the stale "agent/reports/ is gitignored" line from the week-eng-mini and week-eng-loc cloud prompts (reports have been tracked since 2026-09-24), then refresh `agent/routines/routine-cloud-week-eng-*.md`.
   - Priority: P3

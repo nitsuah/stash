@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-01
+
+- **Added — GitHub Pages showcase:** `showcase/` is a static project page (launch reel, how-it-works flow, gallery, feature overview) deployed by `.github/workflows/pages.yml` on pushes to `main` that touch `showcase/**`. Includes a 21-second launch video (`showcase/media/skyview-launch.mp4`) built from the real site hero and platform UI.
+
 ### 2026-09-26
 
 - **Verified — production auth/env:** `DATABASE_URL`, `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`, `JWT_SECRET`, `RESEND_API_KEY` and `STRIPE_SECRET_KEY` are set in Netlify for all deploy contexts, and a real "Continue with Google" sign-in works on production, so the Google redirect URI is registered. The Resend sender domain and the password-reset email moved to a new task, blocked on the DNS/domain decision.

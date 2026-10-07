@@ -38,17 +38,24 @@ Capture assets live in `promo/out/capture/crops/` after a run. Anything marked *
 | 22 | Expenses + auto-categorization | "Where the money actually goes." | `tab-expenses.png` | README · CSV Imports (Expenses) | |
 | 23 | Live prices over SSE | "Prices update while you watch." | "Live · Today +$…" badge on `dash.png` | README · Yahoo Finance prices | site |
 | 24 | AES-256-GCM encryption at rest | "Encrypted at rest." | Text/stat card | README · SYNC_MASTER_KEY | site |
-| 25 | Encrypted Google Drive backup | "Backed up, still encrypted." | Text | README · Google Drive encrypted backup | *(needs live round-trip verification)* |
+| 25 | Encrypted Google Drive backup | "Backed up, still encrypted." | Text | README · Google Drive encrypted backup | site (states the round trip is still a rollout gate) |
 | 26 | Security defaults (API key, loopback, Caddy HTTPS, CSP/SRI, rate limits) | "Locked down by default." | Text/stat card | README · Security headers, HTTPS | site |
 | 27 | Read-only to real accounts | "Never moves a cent." | Stat "0 transactions ever initiated" | README intro | site |
 | 28 | Responsive mobile layout | "Pocket-sized." | *(needs capture)* 390px viewport | README · Responsive shell | |
 | 29 | Browser-only live demo | "Try it live." | `lifefire.netlify.app` (outro, large) | netlify.toml, README | brag-22s, site |
 | 30 | REST API | "Everything's an endpoint." | Text / curl snippet | README · REST API | |
 | 31 | PWA packaging | "Install fire." | *(future capture)* install prompt / offline shell | docs/FEATURES.md · Planned | |
+| 32 | 🌪️ Chaos mode (seeded life events on the projection) | "Every retirement plan assumes nothing goes wrong." | `proj-calm.png` → `proj-chaos.png` with a cursor click on Chaos; callouts placed from `chaos.json` | FEATURES · Chaos Mode | chaos-24s, site |
+| 33 | Chaos hover details + net effect | "Hover any marker. See what happened, what led to it, and what it cost." | `proj-tooltip.png` zoom + net effect from `chaos.json` | FEATURES · Chaos Mode | chaos-24s |
+| 34 | Chaos on the phone + event list | "Dashboard. Projections. Your phone." | `phone-dash.png` in a phone frame + `chaos-chips.png` | FEATURES · Chaos Mode | chaos-24s |
+| 35 | Section layouts + Dashboard widgets | "Make it yours. Collapse, reorder, pin any card." | `dash-edit.png` + `picker.png`, cursor on Add | FEATURES · Customizable Layout | chaos-24s, site |
+| 36 | 🛡️ Mitigations (pet insurance, HSA, umbrella…) | "Mitigate the hits." | `mitigations.png` zoom + the dog-surgery cost with/without pet insurance | FEATURES · Chaos Mode | chaos-24s, site |
+| 37 | Life-event sequences (parent care → funeral → inherited house) | "See what led to it." | Tooltip "after ⚱️ Family funeral costs" in `proj-tooltip.png` | FEATURES · Chaos Mode | chaos-24s |
 
 ## Spots
 
 | Spot | Length | Features used | Folder |
 |---|---|---|---|
 | brag-22s | 22s, 16:9 | 1–6 | `promo/brag-22s/` |
-| site (landing page) | n/a | 2, 4–7, 11, 15, 17, 18, 23–27, 29 | `site/` |
+| site (landing page) | n/a | 2, 4–7, 11, 15, 17, 18, 23–27, 29, 32, 35, 36 | `site/` |
+| chaos-24s | 24s, 16:9 | 3, 29, 32–37 | `promo/chaos-24s/` |

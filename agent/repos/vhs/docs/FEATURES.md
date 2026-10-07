@@ -20,6 +20,8 @@ Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 - `[shipped]` **Zoom Slider** — adjustable zoom for photo capture
 - `[shipped]` **Hamburger Drawer** — collapsible mobile menu; closes on backdrop click or Escape
 
+- `[shipped]` **Project Site** — GitHub Pages landing page + launch video (`site/`, `.github/workflows/pages.yml`)
+
 ## Auth & Sharing
 
 - `[shipped]` **Google OAuth** — optional sign-in; leave `GOOGLE_CLIENT_ID` blank for single-user mode

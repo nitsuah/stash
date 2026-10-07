@@ -15,6 +15,7 @@ repo: skyview
 **Last Updated:** 2026-08-22 (documentation audit)
 
 ## What's New
+- GitHub Pages project showcase with launch reel (2026-10-01)
 - Documentation audit and accuracy pass (2026-08-22)
 - Marketplace platform backend added: Netlify Functions, Neon DB, Stripe Connect, React SPA at /app (2026-06-08)
 - Motion polish, browser monitoring, and conversion reporting baseline (2026-04-06)
@@ -26,6 +27,7 @@ See [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.
 
 ## 🔗 Quick Links
 - [Live Site](https://skyviewd.netlify.app) / [Custom Domain](https://skyview.nitsuah.io)
+- [Project Showcase](https://nitsuah.github.io/skyview/) (GitHub Pages, with a 21s launch reel; source in `showcase/`)
 - [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
 - [Owner Guide](docs/OWNER_GUIDE.md)
 - [Getting Started](docs/GETTING_STARTED.md)

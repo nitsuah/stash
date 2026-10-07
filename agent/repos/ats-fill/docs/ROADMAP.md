@@ -1,5 +1,5 @@
 ---
-updated: 2026-09-24
+updated: 2026-10-01
 up: "[[repos/ats-fill]]"
 title: "ats-fill · ROADMAP"
 source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/ROADMAP.md
@@ -11,7 +11,7 @@ repo: ats-fill
 
 > 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
-> 2027 planning reset (2026-09-24): all 2026 quarters (Q1–Q4) were fully shipped and have been removed from this file — see [FEATURES](./FEATURES.md) and [CHANGELOG](./CHANGELOG.md) (released as v1.0.1/v1.0.2 on the Chrome Web Store).
+> 2027 planning reset (2026-09-24): all 2026 quarters (Q1–Q4) were implemented and tagged, and have been removed from this file — see [FEATURES](./FEATURES.md) and [CHANGELOG](./CHANGELOG.md) (tagged v1.0.1/v1.0.2). As of 2026-10-01 the public Chrome Web Store listing shows 1.0.0. Separately, the last two store release runs failed with an expired or revoked OAuth refresh token. Whether 1.0.2 is in store review is unknown. See TASKS P1.
 
 ## 2027 Q1 (Planned)
 
