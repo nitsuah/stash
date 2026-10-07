@@ -6,7 +6,7 @@
 
 ## Scope
 
-Canonical repo list: `agent/projects/scope.md`'s "Tracked" table. The list below is a cached copy kept in sync manually — if you notice it's drifted from scope.md, trust scope.md and fix this line: `agent-board`, `auto-apply-plugin`, `avatar`, `bb-mcp`, `darkmoon`, `deployer`, `farm-3j`, `fire`, `games`, `gcp`, `kryptos`, `nitsuah-io`, `osrs`, `overseer`, `skyview`, `stash`, `vhs` — override with an explicit repo list when invoked for a subset.
+Repo list: read the "Tracked" table in `agent/projects/scope.md` live at run time, using its repo names, local paths and GitHub URLs. There's no cached copy here. One drifted twice (`auto-apply-plugin`/`overseer` renames, then `agent-board` → `motor-pool`), so it was removed on 2026-10-07. Override with an explicit repo list when invoked for a subset.
 
 ## Steps (per repo)
 

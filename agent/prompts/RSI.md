@@ -14,7 +14,7 @@ Keep the Claude Code routine stack healthy and improving month over month, using
 2. This month's `stash/agent/reports/pmo-audit-<YYYY-MM-DD>.md` (produced by [[PMO]]).
 3. `mcp__scheduled-tasks__list_scheduled_tasks` + `list_task_runs` for every task — live current state, not the reports' snapshot.
 4. `daily-git-sync.log` and `stale-worktrees.log` tails.
-5. `agent/projects/scope.md` — the canonical repo registry (added 2026-09-16). Cross-check it against `gh repo list nitsuah` / `gh repo list Nitsuah-Labs` each cycle: flag any repo that appeared/disappeared/changed visibility since scope.md was last touched, and flag any of `DAILY.md`/`PMO.md`/`METRICS.md`/the `monthly-pmo-audit` scheduled-task wrapper whose cached inline repo list has drifted from scope.md's Tracked table (they're meant to be synced manually until every routine reads scope.md live — see below).
+5. `agent/projects/scope.md` — the canonical repo registry (added 2026-09-16). Cross-check it against `gh repo list nitsuah` / `gh repo list Nitsuah-Labs` each cycle: flag any repo that appeared/disappeared/changed visibility since scope.md was last touched, and flag any prompt or scheduled-task wrapper that has grown an inline repo list again. Since 2026-10-07 none should carry one: every routine reads scope.md live (see below).
 6. Any `stash/agent/reports/routine-run-findings-<YYYY-MM-DD>.md` from this cycle. Manual catch-up and debug sessions write cited findings there. Example, 2026-09-24: serialize quota use, read-only cloud routines escalate to push access, the obn weekly pair is disconnected, daily-repo-sync never commits its stash writes. Treat each item as evidence to verify, not as a pre-approved change.
 7. `stash/agent/reports/findings-ledger.md` and the latest `tire-kick-<date>.md` (from [[TIRE]], run on the 28th). Its **Aging** section is your loop-health metric. An item open more than 21 days, or with `Seen` of 3 or more, means a routine isn't closing the loop: work out which routine should have acted (TIRE for `quick`, PMO for `pmo`) and fix that routine. Items classed `routine` are yours to fix directly.
 8. This month's `stash/agent/reports/sotu/sotu-*.md` (from [[SOTU]]). Its **Portfolio initiatives** section flags *routine candidates*: cross-repo work that acts on other routines' output. A candidate listed in 3 or more weekly reports without progress is evidence for a new routine, or for an addition to an existing routine's spec. Propose it in the RSI report with the SOTU weeks as evidence. Don't create it unattended.
@@ -23,14 +23,14 @@ Keep the Claude Code routine stack healthy and improving month over month, using
 
 Before making changes, understand the full input/output graph. Verify it's still accurate each cycle — routines get added, and this map goes stale exactly like everything else in this stack.
 
-**Substrate:** `agent/projects/scope.md` is the one file everything else should key off for "which repos are in scope." `LOC.md`, `MINI.md`, and three cloud routines (`stale-worktrees`, `vuln-patcher`, `gh-overseer`) already read it live (fixed 2026-09-16). `DAILY.md`, `METRICS.md`, and the `monthly-pmo-audit` scheduled-task wrapper still carry a manually-synced cached copy of the same list instead of reading scope.md live — that's real drift risk, and a good candidate for RSI to actually close out in a future cycle (replace the cached list with a live read) rather than just re-verifying the cache matches by hand every month.
+**Substrate:** `agent/projects/scope.md` is the one file everything else should key off for "which repos are in scope." `LOC.md`, `MINI.md`, and three cloud routines (`stale-worktrees`, `vuln-patcher`, `gh-overseer`) already read it live (fixed 2026-09-16). `DAILY.md`, `METRICS.md` and the `monthly-pmo-audit` wrapper dropped their cached copies on 2026-10-07 and now read it live too. The caches had drifted twice: the `auto-apply-plugin`/`overseer` renames, then `agent-board` → `motor-pool`.
 
 **Stage 1 (sync) →Stage 2 (audit) → Stage 3 (notes/reports) → Stage 4 (report/govern)** — see the 2026-09-16 audit artifact for the full pipeline diagram. Concretely, per routine:
 
 | Routine | Reads | Writes |
 |---|---|---|
-| `daily-repo-sync` (local, runs [[DAILY]]) | scope.md (cached), each tracked repo's git state | `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log`, `obn-review.log`, `agent/repos/**`, `agent/notes/<date>.md` + Mon/Sat `agent/notes/<YYYY>-W<ww>.md` (PR, auto-merges the *previous* day's note once reviewed) |
-| `monthly-pmo-audit` (local, runs [[PMO]]) | scope.md (cached), each tracked repo's docs | per-repo TASKS/ROADMAP/METRICS.md (PR), `agent/repos/<repo>.md`, `pmo-audit-<date>.md` |
+| `daily-repo-sync` (local, runs [[DAILY]]) | scope.md (live), each tracked repo's git state | `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log`, `obn-review.log`, `agent/repos/**`, `agent/notes/<date>.md` + Mon/Sat `agent/notes/<YYYY>-W<ww>.md` (PR, auto-merges the *previous* day's note once reviewed) |
+| `monthly-pmo-audit` (local, runs [[PMO]]) | scope.md (live), each tracked repo's docs | per-repo TASKS/ROADMAP/METRICS.md (PR), `agent/repos/<repo>.md`, `pmo-audit-<date>.md` |
 | ~~`week-metrics` (cloud)~~ | — | **Disabled 2026-09-26.** Coverage refresh moved into [[TIRE]] §4b (needs Docker) |
 | `week-eng-loc` (cloud, **Thu 17:00 UTC** since 2026-09-26, runs `LOC.md`) | scope.md (live); `git clone --depth 1` only; skips repos whose HEAD matches the last report's `HEAD:` line (2026-09-25) | `agent/reports/eng-loc-<repo>-<date>.md` (PR) |
 | `week-eng-mini` (cloud, Wed 18:00 UTC since 2026-09-24, runs `MINI.md`) | scope.md (live); `git clone --depth 1` only; same HEAD-SHA gate (2026-09-25) | `agent/reports/eng-mini-<repo>-<date>.md` (PR) |
@@ -42,7 +42,8 @@ Before making changes, understand the full input/output graph. Verify it's still
 | `ops-catchup` (local, Wed 07:45 ET, runs [[CATCHUP]]) | `get_usage`, critical tasks' runs | spaced one-shot catch-up tasks, `ops-catchup.log` |
 | ~~`sun-stale-worktrees` / `week-vigil-check` / `daily-checkin` / `daily-email` / `daily-pr-review`~~ | — | **Disabled 2026-09-26** (see [[routine-audit-2026-09-26]]) |
 | `import-memory` (cloud) | `agent/notes`, `agent/reports`, `agent/prompts`, `agent/repos`, `agent/jobs` | advisory report only |
-| [[USAGE]] (local) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` |
+| [[USAGE]] (local, `monthly-usage-report`, 1st 14:00) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` (own PR from a worktree since 2026-10-07; it was left uncommitted before) |
+| `week-fin-sum` (local, Mon 08:30) | fire MCP, `fire/docs/weekly-checkin-prompt.md` | transcript only; read-only, never commits (personal finance stays out of public stash) |
 | `monthly-tire-kick` (local, runs [[TIRE]], 28th) | every report in `agent/reports/**` since last intake, daily notes' `## Notes` (`agent/notes/`), scope.md (live) | `findings-ledger.md`, `tire-kick-<date>.md` (stash PR, self-merge on green), `tire/<repo>/*` fix PRs (≤5/run) |
 | RSI itself | inputs 1-7 above | routine prompts, memory files, `rsi-changes.log`, `rsi-report-<month>.md`, product-repo PRs |
 

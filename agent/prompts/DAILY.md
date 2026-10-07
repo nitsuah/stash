@@ -186,7 +186,7 @@ For each repo in the list below, at the **Local path** given for it in `agent/pr
 3. If dirty (uncommitted changes) or on a non-default branch: **skip, do not stash, do not switch branches.** Log `SKIPPED_DIRTY` or `SKIPPED_BRANCH` with a one-line reason. This is someone's in-progress work — never touch it automatically.
 4. If the pull would not fast-forward (diverged history): skip and log `SKIPPED_DIVERGED` — this needs a human to resolve, not automation.
 
-Canonical repo list: `agent/projects/scope.md`'s "Tracked" table. The list below is a cached copy kept in sync manually — if you notice it's drifted from scope.md, trust scope.md and fix this line: `agent-board`, `ats-fill`, `avatar`, `bb-mcp`, `darkmoon`, `deployer`, `farm-3j`, `fire`, `games`, `gcp`, `kryptos`, `nitsuah-io`, `osrs`, `vigil`, `skyview`, `stash`, `vhs`.
+Repo list: read the "Tracked" table in `agent/projects/scope.md` live at run time. There's no cached copy here; it was removed on 2026-10-07 after drifting through the `agent-board` → `motor-pool` rename.
 
 Log to `stash/agent/logs/daily-git-sync.log`, appending a new dated section in the same `| repo | result | commits | note |` table format as prior runs — don't overwrite history.
 
