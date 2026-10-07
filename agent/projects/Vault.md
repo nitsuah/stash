@@ -41,7 +41,7 @@ Round 2 (names, mirrors, links):
 - Now 423/424 reachable, VAULT-MAP is the only star hub (51 links)
 
 Still open:
-- Remaining ghost links: `motor-pool` references in agent-board archive docs (wikilinks upstream), missing ARGUS attachments (png/csv), `darkmoon/docs/projects/conkers/TECH_DEBT.md` → `TODO.md`, and the in-progress `projects/KB/agent-board-overview.md`
+- Remaining ghost links: missing ARGUS attachments (png/csv), `darkmoon/docs/projects/conkers/TECH_DEBT.md` → `TODO.md`. (The `motor-pool` links in the old agent-board archive docs resolve now: the repo was renamed to motor-pool in 2026-10 and its hub, mirror and `projects/KB/motor-pool-overview.md` moved with it.)
 - Graph labels are file names. To show `title:` instead, install the *Front Matter Title* community plugin (human decision)
 
 #### Later ideas

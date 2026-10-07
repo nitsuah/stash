@@ -33,7 +33,7 @@
 
 .EXAMPLE
   .\sync-repos.ps1
-  .\sync-repos.ps1 -Repos overseer, nitsuah-io
+  .\sync-repos.ps1 -Repos vigil, nitsuah-io
   .\sync-repos.ps1 -DryRun
   .\sync-repos.ps1 -Prune -DryRun
 #>
@@ -65,7 +65,7 @@ foreach ($line in Get-Content -LiteralPath $ScopeFile) {
         $name = $Matches[1]
         if ($name -ne 'Repo' -and $name -notmatch '^-+$') {
             $AllRepos += $name
-            # Local path column may differ from the repo name (overseer is cloned as code\vigil).
+            # Local path column may differ from the repo name (motor-pool is still cloned as code\agent-board).
             if ($line -match '^\|[^|]*\|\s*`([^`]+)`') { $RepoPaths[$name] = $Matches[1] }
             # Visibility is the last column. A private repo's docs must never reach this
             # public vault: deployer's mirror sat on GitHub from 2026-09-16 to 2026-09-30.

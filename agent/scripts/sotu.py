@@ -36,7 +36,7 @@ VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://ghoverseer.netlify.app/api/
 
 # Display grouping only. Repos not listed land in tier III.
 TIERS = {
-    "I": ["vigil", "fire", "skyview", "ats-fill", "agent-board"],
+    "I": ["vigil", "fire", "skyview", "ats-fill", "motor-pool"],
     "II": ["darkmoon", "bb-mcp", "nitsuah-io", "avatar", "deployer", "kryptos"],
 }
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
@@ -207,7 +207,7 @@ def ledger_items() -> list[dict]:
         c = [x.strip() for x in line.strip("|").split("|")]
         if len(c) < 10 or c[8] not in ("open", "pr-open", "blocked"):
             continue
-        items.append({"id": c[0], "first_seen": c[1], "seen": int(c[3] or 1), "repo": c[5],
+        items.append({"id": c[0], "first_seen": c[1], "seen": int(c[3]) if c[3].isdigit() else 1, "repo": c[5],
                       "finding": c[6], "class": c[7], "status": c[8], "link": c[9]})
     return items
 

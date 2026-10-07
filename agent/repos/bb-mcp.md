@@ -9,7 +9,7 @@ repo: bb-mcp
 
 ## Overview
 
-Standalone Model Context Protocol server wrapping the Blackboard Learn REST API — TypeScript, HTTP Streamable + stdio transports, 40 tools across student/instructor/admin/parent/webhook-subscription roles, plus grade write-back. OAuth2 PKCE auth, RBAC + FERPA gating, per-role rate limiting, structured audit logging, and Prometheus metrics. Consumed by agent-board and other MCP clients; runs standalone via hardened Docker Compose.
+Standalone Model Context Protocol server wrapping the Blackboard Learn REST API — TypeScript, HTTP Streamable + stdio transports, 40 tools across student/instructor/admin/parent/webhook-subscription roles, plus grade write-back. OAuth2 PKCE auth, RBAC + FERPA gating, per-role rate limiting, structured audit logging, and Prometheus metrics. Consumed by motor-pool (formerly agent-board) and other MCP clients; runs standalone via hardened Docker Compose.
 
 ## Current Goals / Roadmap Focus
 

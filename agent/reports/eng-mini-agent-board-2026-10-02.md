@@ -1,13 +1,13 @@
 ---
 HEAD: 08ce4b7462987146bb498e4cb61f7b6e46cf9af3
 kind: eng-mini
-repo: agent-board
+repo: motor-pool
 date: 2026-10-02
 ---
 
 # eng-mini: agent-board — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/agent-board|agent-board]] <!-- nav -->
+> 🧭 [[repos/motor-pool|agent-board]] <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request, covering the remaining `scope.md` Tracked repos not audited in the 2026-10-01 scheduled run (which covered `fire`, `kryptos`, `stash`). HEAD `08ce4b7` "docs: require closing tracked work in the same PR (#86)", `git log -1 --format=%ci` 2026-09-30T15:39:26-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/agent-board`.
 

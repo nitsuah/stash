@@ -1,10 +1,10 @@
 ---
 kind: eng-loc
-repo: agent-board
+repo: motor-pool
 date: 2026-06-28
 ---
 
-> 🧭 [[repos/agent-board|agent-board]] · ← [[reports/eng-loc-agent-board-2026-06-25|2026-06-25]] · [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] → <!-- nav -->
+> 🧭 [[repos/motor-pool|agent-board]] · ← [[reports/eng-loc-agent-board-2026-06-25|2026-06-25]] · [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] → <!-- nav -->
 
 ## motor-pool LOC Report (2026-06-28)
 ### Refactor Candidates (>500 lines)

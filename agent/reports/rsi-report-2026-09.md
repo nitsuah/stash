@@ -4,6 +4,8 @@ kind: rsi-report
 
 # RSI report — 2026-09
 
+> 🧭 [[reports/rsi-report-2026-10|2026-10]] → <!-- nav -->
+
 This is the first run of the `monthly-self-improvement` scheduled task. It was kicked off manually on 2026-09-24 (ET), ahead of the 2026-10-02 fire, with the user's kickoff context in `routine-run-findings-2026-09-24.md` addendum 3. Spec: [[RSI]]. Every prompt, routine and memory edit is logged in `agent/logs/rsi-changes.log`, which is local-only because `*.log` is gitignored.
 
 Quota posture: the weekly window was about 72% used and extra usage was maxed, so this cycle did prompt and config fixes only. It did no product-repo work.

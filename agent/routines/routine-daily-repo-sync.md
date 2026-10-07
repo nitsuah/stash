@@ -14,7 +14,7 @@ You are running the daily repo-sync routine defined in `C:\Users\ajhar\code\stas
 
 Only if DAILY.md is missing or unreadable, fall back to the repo-sync steps below and skip the note steps entirely.
 
-Repos (all local at `C:\Users\ajhar\code\<repo>`): agent-board, auto-apply-plugin, avatar, bb-mcp, darkmoon, deployer, farm-3j, fire, games, gcp, kryptos, nitsuah-io, osrs, overseer, skyview, stash, vhs.
+Repos: the "Tracked" table in `C:\Users\ajhar\code\stash\agent\projects\scope.md`, read live (repo names, local paths, GitHub URLs). The cached list that used to be here drifted through three renames (`auto-apply-plugin` → ats-fill, `overseer` → vigil, `agent-board` → motor-pool) and was removed on 2026-10-07.
 
 For each repo:
 1. Run `git -C <path> status --short --branch`.
