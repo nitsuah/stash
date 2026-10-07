@@ -5,6 +5,8 @@ date: 2026-09-30
 
 # obn-import — 2026-09-30
 
+> 🧭 [[reports/cloud/obn-import/obn-import-2026-10-07|2026-10-07]] → <!-- nav -->
+
 First run of this checker: eng-loc reporting is overdue (14d, cadence 9d) and cloud/week-vuln has never been produced; everything else is within cadence.
 
 ## 1. Stale notes

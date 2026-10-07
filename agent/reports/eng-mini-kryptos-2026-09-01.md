@@ -6,7 +6,7 @@ date: 2026-09-01
 
 # eng-mini: kryptos — 2026-09-01 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/kryptos|kryptos]] <!-- nav -->
+> 🧭 [[repos/kryptos|kryptos]] · [[reports/eng-mini-kryptos-2026-10-01|2026-10-01]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as one of the 2–3 most recently pushed in-scope repos (last commit 2026-09-01T01:58:35-04:00).
 

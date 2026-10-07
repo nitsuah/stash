@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: ats-fill — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/ats-fill|ats-fill]] <!-- nav --> (first eng-mini audit of this repo)
+> 🧭 [[repos/ats-fill|ats-fill]] · [[reports/eng-mini-ats-fill-2026-10-07|2026-10-07]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `8bfaecd` "docs: refresh UI screenshots (#123)", `git log -1 --format=%ci` 2026-10-01T16:14:29-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/ats-fill`.
 

@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: vigil — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/vigil|vigil]] <!-- nav --> (first eng-mini audit of this repo; the Overseer app itself)
+> 🧭 [[repos/vigil|vigil]] <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `e4701d8` "docs(pmo): add Done section the TASKS parser expects; fold 4 checked items (refs #261) (#262)", `git log -1 --format=%ci` 2026-10-01T13:09:07-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/vigil`. This is the busiest root of all 16 repos audited across both 2026-10-01 and 2026-10-02 runs — see Out-of-Scope Observations for the findings a non-destructive pass can't act on directly.
 
