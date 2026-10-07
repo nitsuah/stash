@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · MCP_SETUP"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MCP_SETUP.md
 kind: repo-doc

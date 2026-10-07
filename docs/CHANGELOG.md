@@ -8,6 +8,15 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-07 — agent-board → motor-pool, and the last stranded vault edits
+
+- `nitsuah/agent-board` was renamed to `nitsuah/motor-pool` upstream. `scope.md`'s Tracked row now says motor-pool (`formerly \`agent-board\``, local clone still at `code\agent-board`), and the gap note that called motor-pool missing is resolved. Supersedes stash#187.
+- Vault: the hub, mirror and KB overview moved to `repos/motor-pool*` and `projects/KB/motor-pool-overview.md`; mirror wikilinks were repointed (0 unresolved links). Old `eng-loc`/`eng-mini` reports keep their `agent-board` filenames as records and map to the new hub via the `formerly` alias.
+- `sotu.py`: motor-pool in tier I; a malformed ledger "Seen" cell no longer crashes the build.
+- Routine wrappers `routine-daily-repo-sync.md` and `routine-monthly-pmo-audit.md` dropped their cached repo lists (they still said `auto-apply-plugin`, `overseer`, `agent-board`) and read `scope.md` live. `MINI.md` and `sync-repos.ps1` say vigil instead of overseer.
+- Findings ledger: fixed two rows whose Last seen date sat in the Seen column; closed F-20261007-02 (rename), -03 (`.github` is already in the Not tracked table), -04 (recovered `notes/2026-10-02.md` from closed stash#184) and -05 (dirty main checkout).
+- W41 SOTU report and data; Obsidian plugin manifest bumps (nexus 5.19.1, Excalidraw 2.28.1, Local REST API 5.3.1) and graph arrows on.
+
 ### 2026-10-02 — Animated vault graph on the Pages site
 
 - New `agent/scripts/vault-graph-gif.js` + `vault-graph-gif.ps1`: renders the `agent/` vault's link graph as a looping GIF/WebP (plus a PNG poster and a node-count JSON) into `pages/assets/`. Adapted from [U-L-M-S/obsidian-graph-gif](https://github.com/U-L-M-S/obsidian-graph-gif) (MIT): reads forces and filters from `agent/.obsidian/graph.json` and Excluded files (incl. `/regex/` entries) from `app.json`, keys notes by path so the 17 mirrors' README/ROADMAP/TASKS stay separate nodes like in Obsidian, colors nodes by vault folder, and uses the Pages dark palette. The `.ps1` runs it in a throwaway `node:22-bookworm-slim` container with ffmpeg, so nothing is installed on the host; the output is deterministic.

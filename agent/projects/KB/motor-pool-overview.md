@@ -4,7 +4,7 @@ description: Central synthesis document for the motor-pool application.
 metadata:
   type: project
 kind: overview
-repo: agent-board
+repo: motor-pool
 ---
 
 # motor-pool Overview
@@ -13,7 +13,7 @@ motor-pool is a local-first control room designed for managing multi-model AI wo
 
 ## Core Pillars
 
-- **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via the [[repos/agent-board/docs/API.md|agent-board API]].
+- **Safety Rails**: Built-in input classification, prompt-injection checks, and output sanitization via the [[repos/motor-pool/docs/API.md|motor-pool API]].
 - **Experience-Aware Sessions**: Persistent sessions with context, role metadata, and message history, tailored to different experience modes (e.g., Research, Developer).
 - **Live Observability**: Real-time observability using Metrics dashboards, WebSocket streaming, and OpenTelemetry traces (with Jaeger).
 
@@ -28,4 +28,4 @@ motor-pool is a local-first control room designed for managing multi-model AI wo
 - **Source Code**: motor-pool README
 - **Architecture**: System Architecture
 - **Roadmap**: Roadmap and Future Goals
-- **Safety Strategy**: [[repos/agent-board/docs/archive/AI_STACK_STRATEGY|AI Stack Strategy]]
+- **Safety Strategy**: [[repos/motor-pool/docs/archive/AI_STACK_STRATEGY|AI Stack Strategy]]

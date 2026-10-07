@@ -157,10 +157,10 @@ README.md stays root-only (deploy badges live there).
 | `.pylintrc` | root OR `config/.pylintrc` |
 | `.lighthouserc*` | already matched by substring — no change needed |
 
-### Status display — how overseer shows multi-location
-When a file is found in `docs/` rather than root, overseer should report it as **healthy** (not a downgrade). The `details` JSONB should record `foundAt` (the actual path) so the UI can optionally show the non-standard location as an informational note rather than a warning.
+### Status display — how vigil (formerly overseer) shows multi-location
+When a file is found in `docs/` rather than root, vigil should report it as **healthy** (not a downgrade). The `details` JSONB should record `foundAt` (the actual path) so the UI can optionally show the non-standard location as an informational note rather than a warning.
 
 ### Community standards — org .github fallback already in place
 CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, FUNDING, Issue Templates, PR Templates are already sourced from the org `.github` repo when missing from the project repo. FLOW-TASKS (`/.github/prompts/flow-tasks.md`) and HANDOFF (`/.github/prompts/handoff.md`) are detected but not yet org-fallback eligible — repo-local only.
 
-See `stash/agent/prompts/OVERSEER.md` for the agent prompt to implement these changes in overseer's codebase.
+See `stash/agent/prompts/OVERSEER.md` for the agent prompt to implement these changes in vigil's codebase.

@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · site-sections"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/site-sections.md
 kind: repo-doc

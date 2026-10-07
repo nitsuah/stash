@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · service-packages"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/service-packages.md
 kind: repo-doc

@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · TASKS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/TASKS.md
 kind: repo-doc

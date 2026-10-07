@@ -14,7 +14,7 @@ description: "Monthly PMO doc/metrics audit across all owned repos, per stash/ag
 
 You are running the monthly PMO audit cycle. Read `C:\Users\ajhar\code\stash\agent\prompts\PMO.md` in full and follow it exactly — it is the canonical, detailed spec (scope of review, evidence standard, PR governance, deliverable format, definition of done). Do not skip reading it; it has specific rules about never committing directly to default branches, always opening a PR per repo/theme, and never fabricating metrics.
 
-Repos to audit this cycle: the "Tracked" table in `C:\Users\ajhar\code\stash\agent\projects\scope.md` (paths, GitHub URLs, and org already resolved there — nitsuah vs Nitsuah-Labs). Skip stash itself — it's the vault this prompt lives in, not a product repo to audit. As of 2026-09-16 that's: agent-board, auto-apply-plugin, avatar, bb-mcp, darkmoon, deployer, farm-3j, fire, games, gcp, kryptos, nitsuah-io, osrs, overseer, skyview, vhs — but scope.md is the source of truth if this list and that file ever disagree.
+Repos to audit this cycle: the "Tracked" table in `C:\Users\ajhar\code\stash\agent\projects\scope.md` (paths, GitHub URLs, and org already resolved there — nitsuah vs Nitsuah-Labs). Skip stash itself — it's the vault this prompt lives in, not a product repo to audit. Read it live; don't keep a copy here (the old cached list drifted through the ats-fill, vigil and motor-pool renames).
 
 Before starting, check each repo's local git status — if a repo is dirty or not on its default branch, skip auditing it this cycle and note that in your report rather than disturbing someone's in-progress work. If it's clean, `git pull --ff-only` first so you're auditing current `main`.
 

@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · HANDOFF-bb-mcp-opt-in-20260403"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/HANDOFF-bb-mcp-opt-in-20260403.md
 kind: repo-doc

@@ -12,7 +12,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 
 | Repo | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|
-| agent-board | `C:\Users\ajhar\code\agent-board` | https://github.com/nitsuah/agent-board | nitsuah | public |
+| motor-pool | `C:\Users\ajhar\code\agent-board` (formerly `agent-board`; the local clone keeps the old folder name; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | ats-fill | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | avatar | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
 | bb-mcp | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
@@ -49,5 +49,5 @@ Exist on GitHub, cloned or not, but out of scope for PMO/metrics/LOC/MINI automa
 
 ## Known gaps / notes
 
-- **`motor-pool`** was in the old version of this file and referenced in `PMO.md`'s audit history (2026-03-27) as an active repo, but does not exist under either `nitsuah` or `Nitsuah-Labs` on GitHub as of 2026-09-16. Renamed, merged into another repo (`agent-board`? `bb-mcp`?), or deleted — unconfirmed. Don't re-add it to the tracked table until someone confirms what happened to it.
+- **`motor-pool`**: the 2026-09-16 version of this note said it didn't exist. It does now. `nitsuah/agent-board` was renamed to `nitsuah/motor-pool` upstream in 2026-10 (the old URL redirects), and the Tracked table, vault hub and mirror use the new name. Older reports and notes keep `agent-board` in their filenames as records; `build-vault-indexes.py` maps them to the motor-pool hub through the `formerly` note in the table.
 - The 17 tracked repos above match exactly what `DAILY.md`'s local repo-sync list already used — this file and that list should never drift apart. If you edit one, edit both, or better, replace `DAILY.md`'s inline list with a pointer here (not yet done as of 2026-09-16, since not every routine has been switched over to read this file at runtime yet — see [[RSI]] for follow-up).

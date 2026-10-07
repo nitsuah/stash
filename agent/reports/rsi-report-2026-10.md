@@ -4,6 +4,8 @@ kind: rsi-report
 
 # RSI report — 2026-10
 
+> 🧭 ← [[reports/rsi-report-2026-09|2026-09]] <!-- nav -->
+
 This is a catch-up run of `monthly-self-improvement`. The 10-02 run was DEFERRED with the weekly window at 99%. `ops-catchup` scheduled this one for 2026-10-07 16:30 ET, after the reset. Usage at the start: weekly 6%, 5-hour 36%. Spec: [[RSI]]. Every prompt, wrapper and memory edit is logged first in `agent/logs/rsi-changes.log`, which is local-only.
 
 ## Inputs read

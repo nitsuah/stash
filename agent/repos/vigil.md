@@ -10,7 +10,7 @@ aliases: [overseer]
 
 ## Overview
 
-Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.nitsuah.io. Enforces documentation standards (ROADMAP, TASKS, METRICS, FEATURES), provides AI-powered repo summaries (Gemini/OpenAI/Anthropic failover), one-click PR creation for missing docs, health scoring, an MCP server (7 tools) + LLM context endpoint, PMO mode with a chat-driven doc-edit panel, and an agent task queue with a working dispatch bridge into agent-board. Next.js 16 + Neon Postgres + Netlify Functions + NextAuth GitHub OAuth.
+Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.nitsuah.io. Enforces documentation standards (ROADMAP, TASKS, METRICS, FEATURES), provides AI-powered repo summaries (Gemini/OpenAI/Anthropic failover), one-click PR creation for missing docs, health scoring, an MCP server (7 tools) + LLM context endpoint, PMO mode with a chat-driven doc-edit panel, and an agent task queue with a working dispatch bridge into motor-pool (formerly agent-board). Next.js 16 + Neon Postgres + Netlify Functions + NextAuth GitHub OAuth.
 
 ## Current Goals / Roadmap Focus
 
@@ -48,7 +48,7 @@ None hard-blocking.
 - **Rebrand "Overseer" → "Vigil" (done):** shipped via PR #221 (merged 2026-09-18; auth-required repo chat, metered by session identity), then the GitHub repo was renamed `nitsuah/overseer` → `nitsuah/vigil` and the local clone moved to `codeigil`.
 - **Shared-key rate limiter moved to a Neon-backed store** — replaces a process-local `Map` that reset per cold-started serverless instance (each instance effectively got its own budget); now a `shared_key_rate_limits` table with atomic upsert-based fixed-window counting
 - **Reserve-before-fallback rate-limit fix (CWE-770)** — a configured-but-failing personal AI key used to fall through to the shared key *after* the spend already happened; the limiter now reserves a slot before the call and only releases it on success, closing the budget-bypass window
-- **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via agent-board's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)
+- **Agent dispatch bridge shipped** — `motorPoolBridge.dispatch()` creates a session via motor-pool's API, delivers the queued task, and writes status/result back onto the task; falls back to simulated execution if the runtime is unreachable (PR #159, hardened PR #204)
 - **Portfolio Intelligence batch (PR #204):** chat-driven doc-edit proposals (propose → diff card → apply via existing PR flow), cross-repo dependency graph, token-density + comment-to-code ratio metrics, `docs/db-scaling-assessment.md`, velocity/health-score trending via `repo_snapshots`
 - **v2 Launch (PR #200):** sync button force-refreshes all filtered repos (not just new ones), maintenance-mode badge (90+ days no commits), velocity score (0-100)
 - Several CodeRabbit-flagged follow-ups from PR #204 (2026-09-09)/PR #211 (2026-09-10/11) have since shipped per `TASKS.md` (2026-09-10): durable agent-task receipts, `reviewThreads`/`refs` GraphQL pagination (plus a PR #216 correctness follow-up), and mobile-card a11y restructuring. The `session?.user?.email` rate-limiter gap was the most notable remaining one and shipped in PR #254 (2026-09-28) — see Resolved above.

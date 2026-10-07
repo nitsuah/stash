@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · neo4js-memory-palace-notes"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/neo4js-memory-palace-notes.md
 kind: repo-doc

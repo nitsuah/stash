@@ -1,5 +1,5 @@
 ---
-up: "[[repos/agent-board]]"
+up: "[[repos/motor-pool]]"
 title: "agent-board · README-orchestration"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/README-orchestration.md
 kind: repo-doc
