@@ -28,7 +28,7 @@
    - Then `Artifact publish` with that `url`, `file_path` = `agent/scripts/sotu-page.html`, and `files` = `{"sotu-data.json": "agent/reports/sotu/sotu-data.json"}`.
    - Leave the icon alone.
 8. **Save.** Commit only `agent/reports/sotu/sotu-<week>.md`, `sotu-data.json` and (if step 5 changed it) `priorities.json`, on a branch `sotu/<week>` cut from `origin/main` (`git switch -c sotu/<week> origin/main` in the clean checkout).
-   - Use the step 2 answer. If stash was dirty or off main **before** Build, skip the commit and say so; the artifact is the main output. Otherwise the only expected changes are the two generated files. Commit exactly those paths, and if anything else changed, skip the commit.
+   - Use the step 2 answer. If stash was dirty or off main **before** Build, don't skip the commit. Instead run `git worktree add .claude/worktrees/sotu-<week> -b sotu/<week> origin/main`, copy in the generated files (and `priorities.json` if step 5 changed it), commit there, and remove the worktree once pushed. The pre-commit hook works from a worktree since stash#171 (changed 2026-10-07: skipping left `sotu-2026-W41.md` untracked in the main checkout). Otherwise the only expected changes are the two generated files. Commit exactly those paths, and if anything else changed, skip the commit.
    - Push and open a PR. It's a machine-generated report, like TIRE's, so run `gh pr merge --squash --auto --delete-branch` and let it land when CI is green. If the merge is refused, leave the PR open and say so.
 9. **Output.** One line: the artifact link, the counts line, and the focus note's first sentence. Then end the run. Don't take follow-up work in this session; start a new one.
 

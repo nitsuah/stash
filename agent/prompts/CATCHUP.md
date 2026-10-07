@@ -18,7 +18,7 @@ Only these routines get caught up. Everything else, including the daily cloud br
 | 4 | `monthly-self-improvement` | no successful run since the last 2nd |
 | 5 | `week-sotu` | no successful run since the last Monday |
 
-A run counts as **not successful** if its status is `failed`, or its summary starts with `DEFERRED` or `INCOMPLETE`. `daily-repo-sync` is never caught up: the next morning's run covers the sync, and a missed day's note isn't worth the burn.
+A run counts as **not successful** if its status is `failed`, or its summary starts with `DEFERRED` or `INCOMPLETE`. It also doesn't count if its output never reached GitHub. After `git fetch`, check `origin/main` (or an open PR branch) for the dated file: `tire-kick-<date>.md`, `pmo-audit-<date>.md`, `usage-report-<YYYY-MM>.md`, `rsi-report-<YYYY-MM>.md` or `sotu/sotu-<week>.md`. If the file is missing, log `output not landed` and treat the run as missed. (Added 2026-10-07: the 9/30 tire-kick catch-up "succeeded", but its ledger and report sat in a scratchpad for a week, and this routine logged it as ok.) `daily-repo-sync` is never caught up: the next morning's run covers the sync, and a missed day's note isn't worth the burn.
 
 ## Steps
 
