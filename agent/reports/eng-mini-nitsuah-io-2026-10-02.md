@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: nitsuah-io — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/nitsuah-io|nitsuah-io]] <!-- nav --> (first eng-mini audit of this repo; `Nitsuah-Labs/nitsuah-io`)
+> 🧭 [[repos/nitsuah-io|nitsuah-io]] <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `cda1100` "docs: require closing tracked work in the same PR (#541)", `git log -1 --format=%ci` 2026-09-30T19:39:06+00:00. Root audited from a throwaway `--depth 1` clone at `/home/user/nitsuah-io`.
 

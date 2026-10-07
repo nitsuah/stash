@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: gcp — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/gcp|gcp]] <!-- nav --> (first eng-mini audit of this repo)
+> 🧭 [[repos/gcp|gcp]] <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `fc137a3` "docs: require closing tracked work in the same PR (#73)", `git log -1 --format=%ci` 2026-09-30T19:45:47+00:00. Root audited from a throwaway `--depth 1` clone at `/home/user/gcp`.
 

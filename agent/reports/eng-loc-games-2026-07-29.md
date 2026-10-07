@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — games (2026-07-29)
 
-> 🧭 [[repos/games|games]] · ← [[reports/eng-loc-games-2026-07-04|2026-07-04]] <!-- nav -->
+> 🧭 [[repos/games|games]] · ← [[reports/eng-loc-games-2026-07-04|2026-07-04]] · [[reports/eng-loc-games-2026-10-01|2026-10-01]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

@@ -7,7 +7,7 @@ date: 2026-10-01
 
 # eng-mini: fire — 2026-10-01 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-09-24|2026-09-24]] <!-- nav -->
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-09-24|2026-09-24]] · [[reports/eng-mini-fire-2026-10-07|2026-10-07]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-01T18:58:11-04:00, HEAD `6266b3f` "fix(crypto): replace retired cloudflare-eth RPC with publicnode (#155)"). Root audited from a throwaway clone at `/home/user/fire`.
 

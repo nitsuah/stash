@@ -7,6 +7,8 @@ date: 2026-10-01
 
 # ENG LOC Report — osrs (2026-10-01)
 
+> 🧭 [[repos/osrs|osrs]] <!-- nav -->
+
 **Mode**: `--report` (dry run, no refactoring performed)
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

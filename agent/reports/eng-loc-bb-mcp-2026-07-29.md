@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — bb-mcp (2026-07-29)
 
-> 🧭 [[repos/bb-mcp|bb-mcp]] <!-- nav -->
+> 🧭 [[repos/bb-mcp|bb-mcp]] · [[reports/eng-loc-bb-mcp-2026-10-01|2026-10-01]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`
