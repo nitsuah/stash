@@ -16,6 +16,28 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-02 — Animated vault graph on the Pages site
+
+- New `agent/scripts/vault-graph-gif.js` + `vault-graph-gif.ps1`: renders the `agent/` vault's link graph as a looping GIF/WebP (plus a PNG poster and a node-count JSON) into `pages/assets/`. Adapted from [U-L-M-S/obsidian-graph-gif](https://github.com/U-L-M-S/obsidian-graph-gif) (MIT): reads forces and filters from `agent/.obsidian/graph.json` and Excluded files (incl. `/regex/` entries) from `app.json`, keys notes by path so the 17 mirrors' README/ROADMAP/TASKS stay separate nodes like in Obsidian, colors nodes by vault folder, and uses the Pages dark palette. The `.ps1` runs it in a throwaway `node:22-bookworm-slim` container with ffmpeg, so nothing is installed on the host; the output is deterministic.
+- `pages/index.html`: the animation now opens the "How it works" section, with a folder-color legend; new `vault-graph-gif.ps1` card under Scripts; script count 17 → 18.
+- `pages/index.html` hero: 20-second overview video (`pages/assets/stash-brag.mp4`, 3.8 MB, poster `stash-brag.jpg`, `preload="none"` asks the browser not to preload the video data; the 88 KB poster still loads with the page) made with /brag-slim from the same graph simulation; linked from the README.
+
+### 2026-10-01 — Privacy sweep before sharing the repo
+
+- Ran `pii-scan.sh` over every tracked path (not just its default routine folders), gitleaks over all 239 commits and the working tree (clean), and a manual grep for income, holdings, health, relationship and location details.
+- Removed `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), and reworded one personal detail in `odysseus_ecosystem_memories.csv`.
+- `agent/projects/Career.md` and `Finance.md`: income and health context moved out of the repo to `~/.claude/private/<agent>-context.md`, which the prompts read when it exists.
+- Reworded health-adjacent lines in two `reports/cloud/daily-checkin/` reports.
+- kryptos mirror: a third party's email address was removed upstream (nitsuah/kryptos#237) and in the mirror.
+- Removed accidentally committed `.playwright-mcp/` snapshots and gitignored the folder.
+- Removed `projects/remora/remora.accdb` (it held a former employer's email address). The VBA source and screenshots stay. The other Access DBs and the sampler test PDF were checked and are clean.
+- History still holds removed content. Purging it is a human decision, tracked in `docs/TASKS.md`.
+
+### 2026-10-01 — GitHub Pages overview + setup guide for the agent vault
+
+- New `pages/` static site, deployed by `.github/workflows/pages.yml` (GitHub Actions Pages source). `index.html` is a reference write-up of how the routines, vault scripts and Obsidian plugins keep `agent/` linked across 17 repos and multiple machines, and how the layered privacy model works. `setup.html` is a buildout guide: clone + hooks + clean filter, plugins and the `obsidian` MCP server, the `scope.md` registry, a first manual pipeline run, wrapping `prompts/*.md` as Claude skills, local scheduled tasks vs cloud routines, and adding machines.
+- The folder is `pages/` rather than `site/` because `.gitignore` ignores `/site` (mkdocs boilerplate).
+
 ### 2026-09-30 — Obsidian vault guide, routine backups, public-vault leak fixes
 
 - New `agent/projects/obsidian-vault-guide.md`: vault layout and what is or isn't committed, plugins, the DAILY sync pipeline, both routine fleets, and the layered "raw stays local, synthesis gets committed" privacy model with rules for anything new that writes to the vault.

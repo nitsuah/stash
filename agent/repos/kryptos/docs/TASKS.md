@@ -10,7 +10,7 @@ repo: kryptos
 
 > 🧭 [kryptos](../README.md) · [Index](./INDEX.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-30
+Last Updated: 2026-10-01
 
 ---
 
@@ -41,7 +41,7 @@ right tier (see `docs/GOVERN.md`).
   - Priority: P3
   - Type: Code
 - [ ] **Hill 6×6+ with partial blocks** — combine with a transposition hypothesis or use partial crib blocks.
-  - Priority: P4
+  - Priority: P3
   - Type: Code
 - [ ] **Per-letter Weltzeituhr lookup keys** — blocked on the photographs below.
   - Priority: P3
@@ -56,7 +56,7 @@ right tier (see `docs/GOVERN.md`).
   - Priority: P3
   - Type: Code + policy
 - [ ] **Re-score stored candidates** — anything in `candidates` ranked before 2026-09-28 used the placeholder n-gram tables.
-  - Priority: P4
+  - Priority: P3
   - Type: Code
 
 ### Primary-source sourcing — needs you (Phase 8)
@@ -106,7 +106,7 @@ right tier (see `docs/GOVERN.md`).
   - Priority: P2
   - Type: Research (physical)
 - [ ] **Check Sanborn's quotes against the primary pages** — `docs/sources/SANBORN_QUOTES.md` gives each quote a confidence tier; several source pages blocked automated fetches. A manual read of those pages would firm up the "masking" and "not a math solution" statements the open fronts lean on.
-  - Priority: P4
+  - Priority: P3
   - Type: Research
 
 ---

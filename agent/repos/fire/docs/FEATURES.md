@@ -27,15 +27,17 @@ repo: fire
 - **16 Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`. No stubs: tools with nothing behind them were removed. A test asserts no write tools exist.
 - **Claude Code Integration** — `.mcp.json` at repo root auto-connects the server when Claude Code starts in this directory.
 - **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates all 16 registered read-only tools in `EXPECTED_TOOLS`.
+- **fire-coach Claude Skill** — `skills/fire-coach/` (SKILL.md + a FIRE financial playbook + an app guide) makes Claude a FIRE coach: it maps questions to the MCP tools, applies the playbook (4% rule, savings rate, order of operations, taxes, sequence risk, income-gap plan) and points to the exact tab/card/button. Install steps in `skills/README.md`.
 
 ## Net Worth Tracking
 
 - **Unified Add Form** — Import CSV (default), Account/Asset, CD, Real Estate and Vehicle in one card.
 - **Custom Accounts** — Manual entry with value, APY, and account type (Cash, Savings, Crypto, Precious Metal, Brokerage, Real Estate, Other); full CRUD via REST API with server-side validation.
 - **Precious Metals** — Gold/Silver by troy oz valued at live spot (metals.dev or free Yahoo futures fallback) with a Refresh button.
-- **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier; refresh resolves live value; wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
+- **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins and priced tokens (spam filtered) across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche, keyless, on both the self-hosted and hosted deploys. A per-chain breakdown appears under the row, and a ⚠ when a chain couldn't be read. Ticker accounts are valued as quantity × live price. The wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
   - **Native balance only (no priced tokens):** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native coin balance only; USD value requires an optional price provider key.
   - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens priced through `prices-provider.js` (Yahoo Finance by default, Polygon.io when `POLYGON_API_KEY` is set). The per-chain explorer APIs (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, Routescan) are **not** Phase 1 — see `integrations.md`.
+- **CoinTracker Wallets (optional)** — Connect CoinTracker in Settings (OAuth, read-only) to import every wallet and exchange account with its current USD balance and per-asset holdings. CoinTracker is the source of truth: a matching manual crypto account is replaced while connected and restored on disconnect, and unmatched ones are flagged as possible duplicates. Rows are tagged "CoinTracker" with their sync time. P&L and tax stay in CoinTracker.
 - **Fidelity CSV Import** — Parses Fidelity brokerage position exports; aggregates symbols, quantities, and cash; deduplicates settled cash from P&L.
 - **Chase / Capital One CSV Import** — Parses credit card statement debits and auto-categorizes spending into monthly cash flow.
 - **Spending Upload** — Expenses-tab CSV upload with auto-categorization, editable merchant-keyword mapping, and per-transaction delete.
@@ -64,6 +66,17 @@ repo: fire
 - **Chart Line Toggles** — Toggle NW, 75%/100%/125% FIRE goals, Coast FIRE, and US Median benchmark independently.
 - **CD Maturity Markers** — Overlaid on the retirement growth chart to show liquidity events.
 - **Multi-Scenario FIRE Comparison** — Side-by-side comparison of FIRE dates across varying salary bumps, market downturns, and inflation spikes.
+- **🌪️ Chaos Mode** — A toggle next to Bear/Bull (Projections) and on the Dashboard growth chart that rolls seeded, realistic life events onto the net worth path. There are 37 events in 8 categories (health, pets, family, career, housing, auto, windfalls, legal/money). Each has a life-average yearly probability, an age window, a lifetime cap, a repeat gap and 2–3 predefined outcomes (e.g. gallbladder surgery $2.5k / $6k / $14k).
+  - **Sequences:** follow-up chains such as parent care → funeral → inheritance or inherited house, wedding → child → daycare ends, and job loss → new job. Same-year follow-ups are handled too.
+  - **Good events:** an inherited house (sell, move in, or rent it out), refinance, car loan paid off, roommate/house hack, settlement payout and family gift, alongside bonuses, RSUs, a side hustle and windfalls.
+  - **Accounting, in today's dollars:**
+    - Lump sums land in their year and compound with the portfolio. Recurring flows change savings, or retirement withdrawals, for their duration.
+    - Costs that outrun inflation escalate on top of it: rent +1%/yr, child costs +1%, elder care +3%, insurance after a claim +2%, and medical and vet bills +2%/yr the later they happen. Descriptions quote the inflation setting.
+    - Wages are flat in real terms, so a promotion is a signing bump or 5–6 years of extra savings.
+    - Job loss costs lost savings plus real spending. Paycheck events are skipped when gross income is under $5k.
+  - **🛡️ Mitigations** (Insights): pet insurance, low-OOP plan/HSA, disability, dental, umbrella, water-backup, gap, credit freeze, safe-harbor withholding and an emergency fund. Ticked ones shrink the covered hits and charge their premiums every year, and each card shows saves vs. costs for the current simulated life.
+  - **UI:** ▲/▼ markers colored by category, a dashed "without chaos" line, tooltip details including "after …" causes, an event-chip timeline that follows the 1Y–All window (≥1 event in year one, ≥3 per 5 years), 🌪️ chaos-aware Milestone Predictions and 🎲 reroll.
+  - Seed, toggle and mitigations persist per browser (`app/lib/chaos-events.js`, unit-tested, plus a browser test that no-event chaos equals the base projection).
 - **Money Run-Out Detection** — Tracks depletion age year-by-year for base, bull, and bear scenarios when portfolio reaches zero; portfolios that survive the full projection span are flagged accordingly.
 
 ## CD & Fixed Income
@@ -110,7 +123,11 @@ repo: fire
 - **Financial Overview Tab** — Unified Accounts + CDs & Fixed Income tab with Monthly Cash Flow section (income vs. expenses, savings rate, annual surplus/deficit).
 - **Mobile-Responsive Layout** — Adaptive layout for tablet and phone viewports.
 - **Metric Tooltips** — Inline explanation indicators for SWR, FIRE number, Coast FIRE, etc.
-- **Settings Page** — Projection defaults, notifications, eBay/Plaid connectors and sync toggles, privacy/terms, data management, Google Drive backup and danger zone, with colour-coded groups.
+- **Settings Page** — Projection defaults, notifications, eBay/Plaid/CoinTracker connectors and sync toggles, privacy/terms, data management, Google Drive backup and danger zone, with colour-coded groups.
+- **Customizable Layout (sections)** — Every tab is a board of sections. Each section picks a column layout (1, 2, 2 wide-left, 2 wide-right, 3, 3 wide-center, 4), and its cells stack cards. Empty cells collapse outside Customize mode, so a card alone in a section spans the full width; the old fixed per-tab grids are gone. Sections drop to 2 columns on narrow boards and to 1 on phones, using container queries.
+  - **✎ Customize** is a builder canvas: dotted grid, outlined sections with a layout picker and ↑/↓/🗑, a highlighted target cell, a pulsing drop placeholder, a floating drag chip (mouse and touch), and "＋ New section" drop gaps. Cards also move with ↑/↓.
+  - Click a title to collapse a card. Dashboard ＋ Add widget pins cards from other tabs (keyboard-trapped picker that restores focus), ✕ removes cards, ↺ Reset restores a tab.
+  - Persisted per browser (`fire_layout_v2`, migrating v1) in `app/lib/layout-manager.js`. CSP-safe: no inline handlers or style attributes.
 - **Milestone Preset Selector** — 5 financial profiles (Conservative, Standard, Aggressive, Barista FIRE, Coast FIRE) with dynamic targets based on user's income/net worth.
 
 ## Integrations (UI Ready)
@@ -133,8 +150,8 @@ repo: fire
 
 ## Testing
 
-- **Vitest Suite** — 484 unit and integration tests; coverage tracked via `@vitest/coverage-v8`.
-- **Playwright UI Suite** — 50 real-browser regression tests (layout, navigation, drill-down, imports, presets, responsive behaviour) run in a pinned Docker image.
+- **Vitest Suite** — 715 unit and integration tests; coverage tracked via `@vitest/coverage-v8`.
+- **Playwright UI Suite** — 67 real-browser regression tests (layout, navigation, drill-down, imports, presets, responsive behaviour) run in a pinned Docker image.
 - **MCP Smoke Test** — `scripts/test-mcp.mjs` exercises the 8 tools in `EXPECTED_TOOLS` end-to-end via the SDK client.
 
 ## Planned
