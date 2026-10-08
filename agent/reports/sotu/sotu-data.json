@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-07T23:06+00:00",
+  "generated_at": "2026-10-08T17:14+00:00",
   "source": "local TASKS.md",
   "missing_tasks_file": [],
   "stale_refs": [],
   "counts": {
     "P0": 1,
-    "P1": 28,
+    "P1": 29,
     "P2": 56,
     "P3": 84,
     "none": 0
@@ -281,8 +281,23 @@
     {
       "tier": "I",
       "repo": "fire",
+      "title": "Marketplace hookups beyond eBay (Etsy, Mercari, Poshmark, FB Marketplace)",
+      "ref": "docs/TASKS.md:105",
+      "priority": "P1",
+      "status": "todo",
+      "owner": null,
+      "section": "Narrated brags + money-maker skills — Oct 7, 2026",
+      "criteria": "each connector has hosted Netlify parity (or a documented browser-only fallback), unit tests for parsing/dedupe, a Settings/Side Hustle Hub connection state, and docs in `docs/integrations.md`; the `reseller-autopilot` skill and the `hustle-60s` promo are updated to match.",
+      "parked": false,
+      "initiative": false,
+      "routine_candidate": false,
+      "score": 65.0
+    },
+    {
+      "tier": "I",
+      "repo": "fire",
       "title": "README feature-parity and product-story refresh",
-      "ref": "docs/TASKS.md:98",
+      "ref": "docs/TASKS.md:112",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -297,7 +312,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Promo ledger audit",
-      "ref": "docs/TASKS.md:105",
+      "ref": "docs/TASKS.md:119",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -312,7 +327,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Feature-discovery pass for the GitHub landing page",
-      "ref": "docs/TASKS.md:112",
+      "ref": "docs/TASKS.md:127",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -327,7 +342,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Add provider-contract tests for all price/balance integrations",
-      "ref": "docs/TASKS.md:120",
+      "ref": "docs/TASKS.md:135",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -342,7 +357,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Add sync-health state to the Side Hustle Hub",
-      "ref": "docs/TASKS.md:124",
+      "ref": "docs/TASKS.md:139",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -357,7 +372,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Model real eBay fee brackets in `calculateEbayFeesTotal` (`app/lib/side-gig.js`), not just a flat rate + order fee.",
-      "ref": "docs/TASKS.md:151",
+      "ref": "docs/TASKS.md:166",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -387,7 +402,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Write tests for `app/lib/prices-provider.js` (Alpha Vantage + Polygon paths)",
-      "ref": "docs/TASKS.md:169",
+      "ref": "docs/TASKS.md:184",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -402,7 +417,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Run full penetration testing checklist from docs/security-hardening.md",
-      "ref": "docs/TASKS.md:179",
+      "ref": "docs/TASKS.md:194",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -417,7 +432,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Income vs. expense 12-month rolling trend view",
-      "ref": "docs/TASKS.md:210",
+      "ref": "docs/TASKS.md:225",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -432,7 +447,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "PWA: `manifest.json` + service worker for installable offline mode",
-      "ref": "docs/TASKS.md:213",
+      "ref": "docs/TASKS.md:228",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -447,7 +462,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Stop exposing browser helpers as classic-script globals (`app/lib/fetch-utils.js` `fetchJson`, and the rest of `app/lib/`)",
-      "ref": "docs/TASKS.md:142",
+      "ref": "docs/TASKS.md:157",
       "priority": "P3",
       "status": "todo",
       "owner": null,
@@ -462,7 +477,7 @@
       "tier": "I",
       "repo": "fire",
       "title": "Optional multi-user mode (separate encrypted db.json per user, HTTP Basic auth gate)",
-      "ref": "docs/TASKS.md:217",
+      "ref": "docs/TASKS.md:232",
       "priority": "P3",
       "status": "todo",
       "owner": null,
@@ -2828,104 +2843,104 @@
   ],
   "routines": [
     {
-      "name": "week-sotu",
-      "last_run": "2026-10-07",
-      "status": "running",
-      "next_run": "2026-10-12",
-      "note": "this run (late fire Wed); prior 2026-10-01 succeeded"
-    },
-    {
-      "name": "week-fin-sum",
-      "last_run": "2026-10-07",
-      "status": "running",
-      "next_run": "2026-10-12",
-      "note": "late fire Wed, concurrent with sotu"
-    },
-    {
       "name": "daily-repo-sync",
-      "last_run": "2026-10-07",
-      "status": "running",
-      "next_run": "2026-10-08",
-      "note": "late fire 20:07Z"
-    },
-    {
-      "name": "ops-catchup",
-      "last_run": "2026-09-30",
+      "last_run": "2026-10-08",
       "status": "succeeded",
-      "next_run": "2026-10-14",
-      "note": "no run 2026-10-07"
-    },
-    {
-      "name": "monthly-tire-kick",
-      "last_run": "2026-09-28",
-      "status": "failed",
-      "next_run": "2026-10-28",
-      "note": "spend limit; catch-up 2026-09-30 succeeded"
+      "next_run": "2026-10-09T11:06Z",
+      "note": "local"
     },
     {
       "name": "monthly-pmo-audit",
       "last_run": "2026-10-01",
       "status": "succeeded",
-      "next_run": "2026-11-01",
-      "note": ""
+      "next_run": "2026-11-01T13:02Z",
+      "note": "local"
     },
     {
       "name": "monthly-usage-report",
       "last_run": "2026-10-01",
       "status": "succeeded",
-      "next_run": "2026-11-01",
-      "note": ""
+      "next_run": "2026-11-01T19:07Z",
+      "note": "local"
     },
     {
-      "name": "monthly-self-improvement",
+      "name": "monthly-routine-rsi",
       "last_run": "2026-10-02",
-      "status": "succeeded",
-      "next_run": "2026-11-02",
-      "note": "13s run"
+      "status": "deferred",
+      "next_run": "2026-11-02T13:20Z",
+      "note": "local; deferred at weekly 99%; 10-07 catch-up failed on session limit"
     },
     {
-      "name": "⚡ daily-brief",
+      "name": "week-fin-sum",
       "last_run": "2026-10-07",
       "status": "succeeded",
-      "next_run": "2026-10-08",
-      "note": "cloud"
+      "next_run": "2026-10-12T12:33Z",
+      "note": "local"
     },
     {
-      "name": "⚡ week-obn-import",
+      "name": "monthly-tire-kick",
+      "last_run": "2026-09-30",
+      "status": "succeeded",
+      "next_run": "2026-10-28T12:07Z",
+      "note": "local; via 09-30 catch-up"
+    },
+    {
+      "name": "week-sotu",
+      "last_run": "2026-10-08",
+      "status": "running",
+      "next_run": "2026-10-12T12:10Z",
+      "note": "local; manual redo"
+    },
+    {
+      "name": "ops-catchup",
       "last_run": "2026-10-07",
       "status": "succeeded",
-      "next_run": "2026-10-14",
+      "next_run": "2026-10-14T11:51Z",
+      "note": "local"
+    },
+    {
+      "name": "daily-brief",
+      "last_run": "2026-10-08",
+      "status": "succeeded",
+      "next_run": "2026-10-09T13:12Z",
       "note": "cloud"
     },
     {
-      "name": "⚡ week-eng-mini",
+      "name": "week-obn-import",
       "last_run": "2026-10-07",
       "status": "succeeded",
-      "next_run": "2026-10-14",
+      "next_run": "2026-10-14T10:13Z",
       "note": "cloud"
     },
     {
-      "name": "⚡ week-vuln",
-      "last_run": "2026-10-01",
+      "name": "week-eng-mini",
+      "last_run": "2026-10-07",
       "status": "succeeded",
-      "next_run": "2026-10-08",
+      "next_run": "2026-10-14T18:03Z",
       "note": "cloud"
     },
     {
-      "name": "⚡ week-eng-loc",
-      "last_run": "2026-10-01",
+      "name": "week-vuln",
+      "last_run": "2026-10-08",
       "status": "succeeded",
-      "next_run": "2026-10-08",
+      "next_run": "2026-10-15T15:00Z",
+      "note": "cloud"
+    },
+    {
+      "name": "week-eng-loc",
+      "last_run": "2026-10-08",
+      "status": "succeeded",
+      "next_run": "2026-10-15T17:01Z",
       "note": "cloud"
     }
   ],
   "quota": {
-    "weekly": 2,
-    "five_hour": 5,
-    "weekly_resets": "2026-10-14T04:59Z"
+    "weekly": 47,
+    "five_hour": 30,
+    "weekly_resets": "2026-10-14T05:00Z"
   },
   "priorities": {
-    "updated": "2026-09-30",
+    "updated": "2026-10-08",
     "method": "WSJF = (business value + time criticality + risk reduction) / job size, each on a 1-13 scale. Curated by hand; week-sotu drops finished items (SOTU.md step 5).",
     "initiatives": [
       {
@@ -2946,32 +2961,14 @@
     "top5": [
       {
         "rank": 1,
-        "wsjf": 5.8,
-        "repo": "skyview",
-        "title": "Add coverage to netlify/functions/api-bookings.mjs, then split billing from routing (F-20260916-06)",
-        "ref": "findings-ledger F-20260916-06",
-        "match": null,
-        "why": "The payments path is untested and goes live with the Stripe switch. BV 8 · TC 8 · RR 13 / size 5."
-      },
-      {
-        "rank": 2,
         "wsjf": 4.8,
         "repo": "nitsuah-io",
         "title": "Replace placeholder-heavy and duplicate demo/project assets on the portfolio site",
         "ref": "nitsuah-io docs/TASKS.md (two P1s)",
         "match": "Replace placeholder-heavy",
         "why": "It's the portfolio a hiring manager sees first. BV 13 · TC 8 · RR 3 / size 5."
-      },
-      {
-        "rank": 3,
-        "wsjf": 4.3,
-        "repo": "fire",
-        "title": "Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)",
-        "ref": "findings-ledger F-20260916-05",
-        "match": null,
-        "why": "It grew with the eBay/Plaid work; cheapest to split before the next integration. BV 5 · TC 3 · RR 5 / size 3."
       }
     ]
   },
-  "focus": "Since W40 the routine fleet recovered: all five cloud routines and the monthly runs succeeded (tire-kick via its 09-30 catch-up), weekly quota is at 2%, and the stranded September outputs (usage report, TIRE run, ledger, nav links) finally landed in stash#195-#198. What most needs you is the product-repo housekeeping in Needs you (stale remote branches, open dependabot PRs on farm-3j, games and deployer, vigil's checkout parked on a merged branch), plus vigil's API, which still returns 404 for a second week, so this build again fell back to TASKS.md. Start fire's P0 (Google Drive backup round-trip verification) next: it has topped the queue for two weeks, blocks the backup rollout, and already has written acceptance criteria. agent-board now appears under its new name, motor-pool."
+  "focus": "This redo checked the WSJF list against the repos: two of its three items are finished and have been dropped (skyview's api-bookings coverage and billing split in skyview#175, fire's sync.js split in fire#146; fire's TASKS.md checkbox for it is stale), so nitsuah-io's placeholder assets are now #1 and four slots are free for you to fill. Since Monday, ats-fill's Chrome Web Store token rotation joined the kickoff queue, and monthly-routine-rsi is the only routine behind: it deferred at 99% weekly on 10-02 and its 10-07 catch-up hit the session limit. What most needs you is still the repo housekeeping in Needs you (stale branches, open dependabot PRs, vigil's parked checkout), plus vigil's API, which returned 404 for a third week. Start fire's P0, Google Drive backup round-trip verification, next: it has topped the queue for three weeks and gates the backup rollout."
 }
