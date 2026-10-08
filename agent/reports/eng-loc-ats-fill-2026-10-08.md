@@ -1,11 +1,11 @@
-# LOC Report — ats-fill
-HEAD: f56bb1ab28cc47b1d7ea30310bdae1794c91979c
-
 ---
 kind: eng-loc
 repo: ats-fill
 date: 2026-10-08
 ---
+
+# LOC Report — ats-fill
+HEAD: f56bb1ab28cc47b1d7ea30310bdae1794c91979c
 
 > 🧭 [[repos/ats-fill|ats-fill]] · ← [[reports/eng-loc-auto-apply-plugin-2026-09-01|2026-09-01]] <!-- nav -->
 
@@ -22,7 +22,7 @@ Canaries: 0/0 (no canary file tracked in this repo)
 ## Inventory Summary
 - Tracked source files (post-exclusion, docs excluded): 134
 
-## Top LOC Files (all tracked files, unfiltered by type, docs excluded)
+## Top LOC Files (remaining source files, docs excluded)
 
 | # | File | LOC | Lang | Role |
 |---|------|-----|------|------|

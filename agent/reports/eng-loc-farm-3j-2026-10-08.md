@@ -1,11 +1,11 @@
-# LOC Report — farm-3j
-HEAD: 7d508d2fdc9f34608980aaca8c39a622fcf1e4d9
-
 ---
 kind: eng-loc
 repo: farm-3j
 date: 2026-10-08
 ---
+
+# LOC Report — farm-3j
+HEAD: 7d508d2fdc9f34608980aaca8c39a622fcf1e4d9
 
 > 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-07-29|2026-07-29]] <!-- nav -->
 
@@ -42,7 +42,7 @@ But the complexity didn't go away — it moved. The new #1 hotspot, `components/
 ## Risk Rank & Rationale
 
 1. **`components/rts/hooks/ai/tickWorkers.ts` — Critical**
-   3,061 lines as a single exported function with no internal function boundaries at all. This is the most severe structural signal possible under LOC.md's rules: not "mixed concerns across functions" but **one function doing everything** for worker AI — pathing, task assignment, resource gathering, state transitions, presumably all inlined. Test coverage exists (`tickFunctions.test.ts`, `domainHooks.test.ts` both reference it), which gives a safety net for extraction, but the function itself needs to be broken into named sub-steps before it can be safely modified further. **Top priority for next `--refactor` cycle.**
+   3,061 lines as a single exported function with no internal function boundaries at all. This is a severe structural signal: not "mixed concerns across functions" but **one function doing everything** for worker AI — pathing, task assignment, resource gathering, state transitions, presumably all inlined. Test coverage exists (`tickFunctions.test.ts`, `domainHooks.test.ts` both reference it), which gives a safety net for extraction, but the function itself needs to be broken into named sub-steps before it can be safely modified further. **Top priority for next `--refactor` cycle.**
 
 2. **`components/rts/hooks/useRTSHandlers.tsx` — Critical**
    1,970 lines; the actual hook (`useRTSHandlers`, line 215 to EOF) is ~1,755 lines. Everything above it (formation modes, shop items, context types) is config/types, so the risk is concentrated in one hook function almost as large as `tickWorkers`. Same severity class as #1.
