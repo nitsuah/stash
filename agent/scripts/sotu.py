@@ -32,7 +32,7 @@ STASH = Path(__file__).resolve().parents[2]
 SCOPE = STASH / "agent" / "projects" / "scope.md"
 LEDGER = STASH / "agent" / "reports" / "findings-ledger.md"
 OUT_DIR = STASH / "agent" / "reports" / "sotu"
-VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://ghoverseer.netlify.app/api/mcp")
+VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://gh-vigil.netlify.app/api/mcp")
 
 # Display grouping only. Repos not listed land in tier III.
 TIERS = {
