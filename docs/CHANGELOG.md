@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-07 — Visual showcase
+
+- **Added:** Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and records the existing launch video(s); feature-to-video and screenshot links are still empty and get filled in on the next `/promo` run; the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos).
+
 ### 2026-10-07 — agent-board → motor-pool, and the last stranded vault edits
 
 - `nitsuah/agent-board` was renamed to `nitsuah/motor-pool` upstream. `scope.md`'s Tracked row now says motor-pool (`formerly \`agent-board\``, local clone still at `code\agent-board`), and the gap note that called motor-pool missing is resolved. Supersedes stash#187.

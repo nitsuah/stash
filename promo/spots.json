@@ -1,0 +1,194 @@
+{
+  "product": "stash",
+  "live": null,
+  "page": "https://nitsuah.github.io/stash/",
+  "pagesDir": "pages",
+  "features": [
+    {
+      "id": "flask-python",
+      "title": "Flask (Python)",
+      "category": "Backend API Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "express-node-js",
+      "title": "Express (Node.js)",
+      "category": "Backend API Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "postgresql",
+      "title": "PostgreSQL",
+      "category": "Database Schema Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "mongodb",
+      "title": "MongoDB",
+      "category": "Database Schema Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "oauth-2-0-oidc",
+      "title": "OAuth 2.0 / OIDC",
+      "category": "SSO / Identity Management Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "saml-2-0",
+      "title": "SAML 2.0",
+      "category": "SSO / Identity Management Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "aws-sso-iam-identity-center",
+      "title": "AWS SSO / IAM Identity Center",
+      "category": "SSO / Identity Management Examples",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "9router",
+      "title": "9router",
+      "category": "AI Agent System",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "eng-loc-skill",
+      "title": "eng-loc skill",
+      "category": "AI Agent System",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "eng-mini-skill",
+      "title": "eng-mini skill",
+      "category": "AI Agent System",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "repo-docs-sync",
+      "title": "Repo docs sync",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "vault-hub-links",
+      "title": "Vault hub links",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "mirror-enrichment",
+      "title": "Mirror enrichment",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "doc-link-fixer",
+      "title": "Doc link fixer",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "routine-owned-diff-gate",
+      "title": "Routine-owned diff gate",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "orphan-finder",
+      "title": "Orphan finder",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "jira-runbook",
+      "title": "Jira runbook",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "per-directory-readmes",
+      "title": "Per-directory READMEs",
+      "category": "Vault Tooling",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "remora",
+      "title": "Remora",
+      "category": "Projects",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "sampler",
+      "title": "Sampler",
+      "category": "Projects",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "vmt",
+      "title": "VMT",
+      "category": "Projects",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "pfa",
+      "title": "PFA",
+      "category": "Projects",
+      "screenshots": [],
+      "spots": []
+    },
+    {
+      "id": "auto",
+      "title": "Auto",
+      "category": "Projects",
+      "screenshots": [],
+      "spots": []
+    }
+  ],
+  "spots": [
+    {
+      "id": "brag-20s",
+      "seconds": 20,
+      "format": "landscape",
+      "tool": "brag (one-off, source not kept)",
+      "features": [],
+      "published": "pages/assets/stash-brag.mp4",
+      "rendered": "2026-10-02"
+    }
+  ],
+  "reels": [
+    {
+      "id": "hero",
+      "spots": [
+        "brag-20s"
+      ],
+      "published": "pages/assets/stash-brag.mp4"
+    }
+  ],
+  "brand": {
+    "source": null,
+    "derived": [],
+    "manual": []
+  }
+}
