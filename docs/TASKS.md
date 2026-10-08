@@ -174,7 +174,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P2
   - Type: Security / human decision
   - Acceptance: either a `git filter-repo` purge plus a force-push of `main` (coordinated, after open PRs land), or a one-line "accepted, low sensitivity" note in the guide's audit section.
-  - 2026-10-01 sweep added to the same decision: `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), the pre-redaction personal context in `agent/projects/Career.md` / `Finance.md`, and the kryptos mirror's third-party address.
+  - 2026-10-01 sweep added to the same decision: `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), the pre-redaction personal context in `agent/projects/Career.md` / `Finance.md`, the reworded personal detail in `odysseus_ecosystem_memories.csv`, the health-adjacent lines reworded in two `reports/cloud/daily-checkin/` reports, `projects/remora/remora.accdb`, and the kryptos mirror's third-party address. Earlier versions of all of these remain in history.
 
 - [x] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
   - Done 2026-10-01: removed in nitsuah/stash#179 (owner decision). Still in history; covered by the history-purge item above. `sampler.accdb`, `VMT.accdb` and `sampler/setup/test.pdf` were checked for embedded addresses and are clean.
