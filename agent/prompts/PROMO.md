@@ -69,4 +69,4 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 - **Promote:**
   - Skill + STANDARD (done, nitsuah/.github PR): feature spots share no intro or outro and run their natural length, the hero is one continuous cut, a checklist item for a cross-spot frame grid, and the /brag brief no longer defaults to `--duration 21`.
   - vigil: `extraScenes` lets the base composition carry scenes its own cut doesn't play; `reel.sh` handles a one-spot reel; a corner wordmark for spots that open on a feature.
-  - Candidate rule (first sighting): if a spot plan has fewer distinct scenes than spots × 2, add a scene (capture more of the app) before rendering instead of sharing one.
+  - Candidate rule (first sighting): if any feature spot has fewer than two scenes of its own (not shared with another spot), add a scene for it (capture more of the app) before rendering instead of sharing or stretching one.
