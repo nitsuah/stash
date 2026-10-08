@@ -87,5 +87,9 @@ Rebalancing** card.
 self-employment tax and quarterly estimates (playbook), and tagging rows in
 **Side Hustle Hub → Side Gig Ledger**.
 
+For pricing and listing items, hand off to the **reseller-autopilot** skill. For
+picking a new low-touch income stream, hand off to **passive-income-lab** (if
+installed).
+
 **"How do I…" in the app.** Answer from the app guide with the exact tab,
 card and button names.

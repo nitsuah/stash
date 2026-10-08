@@ -12,10 +12,16 @@ repo: vhs
 
 All notable changes to this project are documented here.
 
-## [Unreleased] — 2026-09-11 → 2026-09-24
+## [Unreleased] — 2026-09-11 → 2026-10-07
+
+### Changed
+
+- Launch-video sources moved from `docs/brag/` to `promo/brag-20s/` (the showcase standard keeps spot sources in `promo/<spot>/`); README commands and `promo/spots.json` point at the new folder.
 
 ### Added
 
+- Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and links the existing launch video(s) to the features they show (screenshot links get filled in as screenshot CI lands); the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos).
+- **Launch video v2 + landing page refresh**: new 1080p 20s `site/brag.mp4` (shelf cold open that zooms into the Capture view → three five-spine snaps → AI review with ✓ All → collection table with Export menu → StacksUp outro), UI shown large enough to read, synthesized in-key soundtrack. The FBI-warning cold open and the page's FBI band are gone; the band is replaced by a shelf-of-spines strip. Video sources now live in `docs/brag/` (composition, frame capture, audio synth, rebuild steps) instead of gitignored `brag-output*/`. Supersedes #67 and #68.
 - **GitHub Pages landing site** (`site/`, deployed by `.github/workflows/pages.yml` on pushes to `main` that touch `site/**`): one-page tour of VHS Box with an embedded 20s launch video (FBI-warning cold open → capture → AI review → collection), how-it-works, shipped features, easter eggs, and Docker quickstart. `brag-output*/` build output is gitignored.
 - **Collection UX overhaul + local AI discovery + metadata audit tool** (#55): Collections → Stacks default view, unified multi-select, sortable/resizable columns, Add Photo + crop fixes, Ollama auto-probe and "Find Local AI" for OpenAI-compatible backends, `scripts/audit-metadata.js` (dry-run by default).
 - `tmdbLookup` test coverage; coverage thresholds restored (#59). CI and Netlify deploy badges in README (#61).

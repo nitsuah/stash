@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · README"
+title: "motor-pool · README"
 source: https://github.com/nitsuah/agent-board/blob/master/README.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # motor-pool — Local AI Ops Cockpit

@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · MODEL_LOADING_AUDIT"
+title: "motor-pool · MODEL_LOADING_AUDIT"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MODEL_LOADING_AUDIT.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Ollama Model Loading Performance Audit

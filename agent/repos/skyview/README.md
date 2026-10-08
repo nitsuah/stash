@@ -91,7 +91,7 @@ See **[🚀 Deployment Guide](docs/DEPLOYMENT_GUIDE.md)** for Netlify deployment
 - **CMS**: Decap CMS (git-based content management).
 - **Testing**:
   - **E2E**: Playwright (`npx playwright test --config config/playwright.config.ts`)
-  - **Unit**: Vitest (`npx vitest run --config config/vitest.config.ts`)
+  - **Unit**: Vitest (`npx vitest run --config config/vitest.config.ts`) — both run in CI on every PR to `main`
 - **Netlify**: Hosting, Forms, and Identity.
 
 ## 🎯 Features

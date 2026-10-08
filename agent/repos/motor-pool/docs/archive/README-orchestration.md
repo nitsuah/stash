@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · README-orchestration"
+title: "motor-pool · README-orchestration"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/README-orchestration.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Agent Ecosystem - Local Development Stack

@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · HANDOFF-bb-mcp-opt-in-20260403"
+title: "motor-pool · HANDOFF-bb-mcp-opt-in-20260403"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/HANDOFF-bb-mcp-opt-in-20260403.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Delivery Pipeline Handoff

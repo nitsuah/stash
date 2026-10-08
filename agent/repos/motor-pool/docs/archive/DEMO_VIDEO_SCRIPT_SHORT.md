@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · DEMO_VIDEO_SCRIPT_SHORT"
+title: "motor-pool · DEMO_VIDEO_SCRIPT_SHORT"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_SCRIPT_SHORT.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # motor-pool Short Demo Script (60-75s)

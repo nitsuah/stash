@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · HANDOFF-service-discovery-system-panel-20260403"
+title: "motor-pool · HANDOFF-service-discovery-system-panel-20260403"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/HANDOFF-service-discovery-system-panel-20260403.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Delivery Pipeline Handoff

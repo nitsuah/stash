@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · MIGRATION"
+title: "motor-pool · MIGRATION"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MIGRATION.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Migration Notes

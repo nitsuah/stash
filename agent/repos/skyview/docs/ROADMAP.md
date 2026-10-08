@@ -28,6 +28,7 @@ Next Review: 2026-10-24
 - [ ] **Bring the marketplace backend live in production.** The site's booking CTAs now depend on it. The database and Netlify env setup are done; what's left is switching Stripe to live mode, then one real end-to-end pass (operator availability → client job → booking → accept). See TASKS.md.
   - [x] Production Neon migrated through 006, incl. `bookings_no_operator_overlap` (2026-09-27)
   - [x] All 8 env vars set in Netlify, incl. the Stripe webhook (`/api/stripe-webhooks`) and `PORTAL_SALT` (2026-09-27)
+  - [x] Booking payment paths (create/decline/complete) unit-tested and billing split into `utils/booking-billing.js` (2026-10-07, F-20260916-06)
   - [ ] Switch production Stripe keys (and the webhook secret) to live mode
   - [ ] One real end-to-end booking pass
 - [ ] **Production verification of auth + OAuth.** The `/api/auth/google` 404 is fixed and regression-tested, but a real Google sign-in, real reset email, and the Netlify env vars were never verified live. See TASKS.md "Verify production auth/env end-to-end".

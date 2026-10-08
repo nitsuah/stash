@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · pitch-structure"
+title: "motor-pool · pitch-structure"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/pitch-structure.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Pitch Deck Structure (Claude generates fresh HTML for each client)
