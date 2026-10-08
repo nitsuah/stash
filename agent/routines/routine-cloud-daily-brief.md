@@ -45,7 +45,7 @@ SECTION 3: PULL REQUESTS (GitHub MCP search)
 
 SECTION 4: OPEN WORK (vigil, used as a cache of every repo's TASKS.md)
 1. If $VIGIL_MCP_KEY is empty, write 'Open work: vigil key not set' and skip this section.
-2. Otherwise make ONE call: `curl -sf --max-time 30 -H "Authorization: Bearer $VIGIL_MCP_KEY" https://ghoverseer.netlify.app/api/context` and read its `open_work` block (the P0/P1 slice). Never print the key or echo the header.
+2. Otherwise make ONE call: `curl -sf --max-time 30 -H "Authorization: Bearer $VIGIL_MCP_KEY" https://gh-vigil.netlify.app/api/context` and read its `open_work` block (the P0/P1 slice). Never print the key or echo the header.
 3. List P0s, one line each: repo, title. Put P0s, and items marked as owned by the user, in NEEDS YOU. For P1s give a count per repo, and name only items that are new since the latest daily-brief report. Skip titles tagged with a future quarter like [2027-Q1].
 4. If the call fails, write 'Open work: vigil unavailable (<HTTP status or error>)'. Don't retry, and don't fall back to reading repos.
 5. In the saved report (C below), include only 'Open work: P0 x, P1 y across z repos' (counts only, no titles).
