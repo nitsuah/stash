@@ -34,7 +34,7 @@ When given a list of repos (e.g. from `scope.md`):
 
 ### Phase 0 — Inventory (both modes)
 - Run `git ls-files` in each repo to get only tracked files.
-- Exclude: `*.lock`, `*-lock.json`, `*.min.*`, `dist/`, `build/`, `vendor/`, `node_modules/`, `__pycache__/`, `*.pyc`, `*.map`, `*.d.ts`, binary assets (images, fonts, video, PDFs, .accdb).
+- Exclude: `*.lock`, `*-lock.json`, `*.min.*`, `dist/`, `build/`, `vendor/`, `node_modules/`, `__pycache__/`, `*.pyc`, `*.map`, `*.d.ts`, binary assets (images, fonts, video, PDFs, .accdb), docs (`*.md`, `*.mdx`, `*.html` that is a doc/report rather than app markup) — this agent targets code complexity, not doc bloat; a repo's doc/data volume is out of scope.
 - Count lines on remaining source files; sort descending.
 
 ### Phase 1 — Hotspot Analysis (both modes)
