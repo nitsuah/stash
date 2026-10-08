@@ -45,6 +45,7 @@ Use as system prompts in Claude.ai or load via the Anthropic SDK.
 | TEST     | [prompts/TEST.md](prompts/TEST.md)       | Test strategy and coverage prompt                                 |
 | LOC      | [prompts/LOC.md](prompts/LOC.md)         | LOC analysis automation for the delivery pipeline                 |
 | TIRE     | [prompts/TIRE.md](prompts/TIRE.md)       | Tire-kick evaluation prompt for new tools/libraries               |
+| PROMO    | [prompts/PROMO.md](prompts/PROMO.md)     | /promo skill RSI log: per-run findings and the rules they became  |
 
 ---
 
