@@ -10,6 +10,13 @@ Last Updated: 2026-09-29
 
 ### CI / Quality
 
+- [ ] Repoint SOTU and DAILY at vigil's renamed host once vigil covers every tracked repo.
+  - Priority: P1
+  - Type: Routines
+  - `sotu.py` (`VIGIL_URL` default) and `agent/prompts/DAILY.md` still call `ghoverseer.netlify.app/api/mcp`, which now 404s. The app lives at `gh-vigil.netlify.app`, where `/api/mcp` answers 401 without a key, so recent SOTU runs have fallen back to local TASKS.md ("vigil unavailable (HTTP 404)").
+  - Blocker found 2026-10-08: with the URL fixed, vigil's `get_open_tasks` returned 118 tasks across 11 repos, against 172 tasks across 17 repos from TASKS.md. It is missing avatar, bb-mcp, deployer, gcp, osrs and stash, so switching now would drop stash's portfolio initiatives from SOTU.
+  - Acceptance: vigil returns every repo in scope.md's Tracked table; then both URLs move to `gh-vigil.netlify.app` and a SOTU build reports `source vigil` with the same repo set as the TASKS.md fallback.
+
 - [x] Add Python linting via `ruff` in a GitHub Actions workflow.
   - Priority: P2
   - Type: CI

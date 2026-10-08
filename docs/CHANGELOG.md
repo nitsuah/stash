@@ -8,6 +8,12 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-08 — Findings ledger: W41 Needs-you cleanup
+
+- Closed F-20260930-04, -05, -09, -12 and -13 after checking them against the live repos: the stale branches are gone, the farm-3j, games and deployer dependabot PRs are merged, and vigil's checkout is back on `main`. SOTU's Needs-you list drops from 6 items to 1.
+- F-20260930-03 stays open: cloud daily-brief still can't reach `gh-vigil.netlify.app` (`connect_rejected` 10-05..10-08).
+- New P1 task: `sotu.py` and `DAILY.md` point at vigil's old `ghoverseer` host (404). Not repointed yet, because vigil currently covers 11 of the 17 tracked repos.
+
 ### 2026-10-07 — Visual showcase
 
 - **Added:** Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and records the existing launch video(s); feature-to-video and screenshot links are still empty and get filled in on the next `/promo` run; the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos).
