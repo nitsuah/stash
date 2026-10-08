@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · METRICS"
+title: "motor-pool · METRICS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/METRICS.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Project Metrics: motor-pool

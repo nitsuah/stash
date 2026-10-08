@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · DEPLOYMENT"
+title: "motor-pool · DEPLOYMENT"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/DEPLOYMENT.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Production Deployment Guide

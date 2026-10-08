@@ -10,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-10-01
+updated: 2026-10-07
 
 ---
 
@@ -101,6 +101,20 @@ These items came from the current browser/production pass. **P0** items are corr
 - [x] **🛡️ Mitigation tips that offset chaos events (e.g. pet insurance)**
   - Shipped: 10 mitigations in Insights → Portfolio Insights that shrink covered hits and charge premiums in the chaos projection, with per-life saves vs. costs.
 
+### Narrated brags + money-maker skills — Oct 7, 2026
+
+- [x] **Narrate every brag; 30s–1min+ spots that cover every feature**
+  - Shipped: offline Kokoro TTS narration in the promo pipeline (`promo/narrate.py`, music ducked under the voice, `captions.srt` per spot); `brag-22s` and `chaos-24s` are now narrated; seven narrated tours built from a shared data-driven composer (`promo/tour/`): `tour-85s`, `plan-65s`, `chaos-60s`, `insights-60s`, `hustle-60s`, `connect-55s`, `yours-60s`. `promo/features.md` maps every feature to a spot. The landing page has a new full-tour section (`site/assets/tour.mp4`), and its hero and Chaos videos are narrated.
+  - Also fixed: promo capture failed outside a checkout with `data/` and `node_modules/` (worktrees).
+- [x] **Fix: Etsy and FB Marketplace fee calculators never opened**
+  - Their panels start hidden by a CSS class, and the tab switch cleared only the inline style. Playwright coverage added (`tests/e2e-ui/side-hustle.spec.js`).
+- [x] **Money-maker SKILLS: low-touch ("AFK") income**
+  - Shipped: `skills/reseller-autopilot/` (comps-based pricing, eBay/Etsy/Mercari/Poshmark/FB net-after-fees, listing templates, cross-listing, weekly routine, tax check via MCP) and `skills/passive-income-lab/` (8 low-touch streams with realistic ranges and red flags, runway-first rules, income → FIRE-date math, 30-day launch plans). fire-coach hands off to both.
+- [ ] **Marketplace hookups beyond eBay (Etsy, Mercari, Poshmark, FB Marketplace)**
+  - Priority: P1. Next worktree.
+  - Scope: an Etsy Open API v3 OAuth (PKCE) receipts sync into the Side Gig Ledger, with the same dedupe, tax-tag and cost-basis model as eBay; CSV/report import for platforms with no seller API (Mercari, Poshmark, FB Marketplace); Mercari and Poshmark fee calculators next to eBay/Etsy/FB.
+  - Acceptance Criteria: each connector has hosted Netlify parity (or a documented browser-only fallback), unit tests for parsing/dedupe, a Settings/Side Hustle Hub connection state, and docs in `docs/integrations.md`; the `reseller-autopilot` skill and the `hustle-60s` promo are updated to match.
+
 ### P1 — GitHub README / promo parity
 
 - [ ] **README feature-parity and product-story refresh**
@@ -116,6 +130,7 @@ These items came from the current browser/production pass. **P0** items are corr
   - Add capture targets for tax tagging, automatic eBay sync, Google OAuth backup/linking, wallet aggregate value, vehicle valuation, notification/alert UX, and the Side Hustle Hub connector.
   - Reconcile chain count/source-of-truth claims across README, FEATURES, promo, and `config/chains.json`.
   - Acceptance Criteria: promo claims map one-to-one to README/FEATURES capabilities and no promo asset claims behavior that the product does not currently provide.
+  - Progress 2026-10-07: `promo/capture-tour.js` now captures tax tagging (seeded ledger), eBay sync, the crypto/ENS form, vehicles, alerts, Drive and every Side Hustle Hub card; `promo/features.md` lists 46 rows with the spots that use each. Remaining: Google OAuth backup/linking and notification UX in a spot (gated/unused), a depleting-seed capture for money run-out, and the chain-count reconcile.
 
 - [ ] **Feature-discovery pass for the GitHub landing page**
   - Priority: P1.

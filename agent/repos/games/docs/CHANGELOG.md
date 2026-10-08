@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Showcase (2026-10)
+
+- README gains a screenshot gallery (home plus eight games), using the September `screenshots/` set and the existing Memory Match image in `docs/screenshots/`.
+- Removed `docs/screenshots/asteroid-landscape-after-fullscreen-changes.png`, a byte-identical copy of `asteroid-landscape.png`.
+
 ### Maintenance (2026-09)
 
 - Tank Battle logic extracted to tested `lib/tank/tankLogic.js`; coverage restored above the 75% threshold and `test:ci` now runs `--coverage` so CI enforces it (#341, #342).

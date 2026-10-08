@@ -120,18 +120,6 @@ Optimized for speed with modern build tools and delivery techniques.
 
 Modern development workflow with type safety, code quality tools, and comprehensive documentation.
 
----
-
-## 🚀 Planned & Upcoming
-
-### 🧠 AI/ML & Market Trends
-- **AI Chat Widget**: bb-mcp-powered portfolio Q&A with streaming and persistent toggle
-- **On-chain Resume**: EAS verifiable credentials page for wallet-based skill attestations
-- **Bento Grid Layout**: 2026 design trend for Projects and Skills
-- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and agent-board (formerly motor-pool)
-- **PWA & Offline Support**: Installable, offline-ready portfolio with push notifications
-- **Showcase Page**: User-submitted demos and real-world use cases
-
 - **TypeScript**: Full type coverage with strict mode for compile-time error detection
 - **ESLint + Prettier**: Automated code formatting and linting with consistent style enforcement
 - **Wagmi CLI**: Auto-generated Web3 hooks from contract ABIs with full TypeScript types
@@ -170,6 +158,15 @@ Proactive security measures with automated vulnerability scanning and best pract
 ## Planned Capabilities
 
 > Features planned for 2026 Q2–Q4. Not yet shipped. Overseer agents execute against these blocks.
+
+### 🧠 AI/ML & Market Trends
+
+- **AI Chat Widget**: bb-mcp-powered portfolio Q&A with streaming and persistent toggle
+- **On-chain Resume**: EAS verifiable credentials page for wallet-based skill attestations
+- **Bento Grid Layout**: 2026 design trend for Projects and Skills
+- **Live Cross-Repo Widgets**: Real-time stats from kryptos, skyview analytics, and agent-board (formerly motor-pool)
+- **PWA & Offline Support**: Installable, offline-ready portfolio with push notifications
+- **Showcase Page**: User-submitted demos and real-world use cases
 
 ### 🤖 AI Integration (bb-mcp)
 

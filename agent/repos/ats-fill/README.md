@@ -114,7 +114,7 @@ ats-fill/
 
 > The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
 > The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
-> Last refreshed: 2026-10-04 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
+> Last refreshed: 2026-10-08 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
 
 ### Main dashboard
 
@@ -261,7 +261,7 @@ Or copy `skills/ats-fill-job-search/` into `~/.claude/skills/` (Claude Code) or 
 
 ## Feature tour video
 
-A longer walkthrough for YouTube is generated from the real extension and fictional demo data: one short per feature plus a combined cut with chapters. See [video/README.md](./video/README.md).
+A longer walkthrough for YouTube is generated from the real extension and fictional demo data: one short per feature plus a narrated combined cut with chapters, rendered in 4K (2160p) for YouTube. A 1080p cut plays in the [feature tour](https://nitsuah.github.io/ats-fill/#tour) section of the landing page. See [video/README.md](./video/README.md).
 
 ## Tech Stack
 

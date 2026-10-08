@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · REORGANIZATION_SUMMARY"
+title: "motor-pool · REORGANIZATION_SUMMARY"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/REORGANIZATION_SUMMARY.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Reorganization Summary

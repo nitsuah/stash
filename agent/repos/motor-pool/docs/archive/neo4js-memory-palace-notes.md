@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · neo4js-memory-palace-notes"
+title: "motor-pool · neo4js-memory-palace-notes"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/neo4js-memory-palace-notes.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # 3D Memory Palace — Design Notes (raw)

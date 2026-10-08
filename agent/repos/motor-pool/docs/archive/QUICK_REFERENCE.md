@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · QUICK_REFERENCE"
+title: "motor-pool · QUICK_REFERENCE"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/QUICK_REFERENCE.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Quick Reference Guide

@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · ROADMAP"
+title: "motor-pool · ROADMAP"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/ROADMAP.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # ROADMAP

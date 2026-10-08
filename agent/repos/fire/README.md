@@ -197,6 +197,8 @@ Connect Claude Code to your live financial data. The project ships a `.mcp.json`
 
 **Claude skill:** [`skills/fire-coach`](skills/README.md) makes Claude a FIRE coach for this app. It maps questions to the right MCP tools, applies a FIRE playbook (the 4% rule, savings rate, order of operations, taxes, sequence risk, what to do when income stops) and points to the exact tab and button. Install it with `mkdir -p ~/.claude/skills && cp -r skills/fire-coach ~/.claude/skills/`.
 
+**Money-maker skills:** [`skills/reseller-autopilot`](skills/README.md#reseller-autopilot) prices items and drafts listings, with net-after-fees on eBay, Etsy, Mercari, Poshmark and FB Marketplace and runs a weekly low-touch selling routine. [`skills/passive-income-lab`](skills/README.md#passive-income-lab) sizes low-touch income streams against your runway and shows how far each moves your FIRE date.
+
 Smoke-test locally:
 ```bash
 docker compose exec fire node scripts/test-mcp.mjs
@@ -428,5 +430,11 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 - [fire-coach Skill Definition](./skills/fire-coach/SKILL.md) — `skills/fire-coach/SKILL.md`
 - [fire-coach App Guide](./skills/fire-coach/references/app-guide.md) — `skills/fire-coach/references/app-guide.md`
 - [fire-coach Financial Playbook](./skills/fire-coach/references/financial-playbook.md) — `skills/fire-coach/references/financial-playbook.md`
+- [reseller-autopilot Skill Definition](./skills/reseller-autopilot/SKILL.md) — `skills/reseller-autopilot/SKILL.md`
+- [reseller-autopilot Platform Fees](./skills/reseller-autopilot/references/platform-fees.md) — `skills/reseller-autopilot/references/platform-fees.md`
+- [reseller-autopilot Listing Playbook](./skills/reseller-autopilot/references/listing-playbook.md) — `skills/reseller-autopilot/references/listing-playbook.md`
+- [passive-income-lab Skill Definition](./skills/passive-income-lab/SKILL.md) — `skills/passive-income-lab/SKILL.md`
+- [passive-income-lab Streams](./skills/passive-income-lab/references/streams.md) — `skills/passive-income-lab/references/streams.md`
+- [passive-income-lab FIRE Math](./skills/passive-income-lab/references/fire-math.md) — `skills/passive-income-lab/references/fire-math.md`
 
 <!-- docs-index:end -->

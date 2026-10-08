@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · service-packages"
+title: "motor-pool · service-packages"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/service-packages.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Service Packages Reference

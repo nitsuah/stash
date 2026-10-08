@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-08
+
+- **Changed — Playwright CI install hardened:** `playwright.yml` installs only Chromium (the only project in `config/playwright.config.ts`) instead of all three browsers, caches `~/.cache/ms-playwright` per Playwright version, caps each install attempt at 4 minutes with up to 3 retries, and lowers the job timeout from 60 to 30 minutes. On 2026-10-07 an apt mirror stall in `playwright install --with-deps` hung the stripe 23 PR's run for the full hour. Also `npm install` → `npm ci` with npm caching.
+
+### 2026-10-07 — Visual showcase
+
+- **Added:** Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and records the existing launch video(s); feature-to-video and screenshot links are still empty and get filled in on the next `/promo` run; the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos). `og:image` is now an absolute URL so link previews unfurl.
+
+### 2026-10-07
+
+- **Added — unit tests in CI:** `.github/workflows/unit-tests.yml` runs `npm run test:unit` (Vitest) on Node 22 for every PR and push to `main`. Until now only Playwright (`test`) and the Docker smoke ran in CI, so unit tests, including the booking/billing suite, ran only locally.
+- **Added — booking payment tests (F-20260916-06):** `tests/unit/api-bookings.test.js` runs the `/api/bookings` handler with `sql`, auth, email, scheduling and Stripe mocked (40 tests). It covers create (validation, verified operator, availability, double-booking gate, overlap constraint, PaymentIntent create, rollback + 502 on Stripe failure), confirm (no Stripe call), decline (PaymentIntent cancel; a cancel failure stays non-fatal) and complete (capture before the job update, `disputed` on capture failure, Connect transfer + invoice, `payout_status` `failed` on payout/invoice errors), plus the no-Stripe mode.
+- **Changed — billing split out of `api-bookings.mjs`:** fee split, PaymentIntent authorize/release/capture and `payoutAndInvoice` moved to `netlify/functions/utils/booking-billing.js`; the handler (375 → 292 lines) keeps routing and booking/job state transitions. Route contracts are unchanged and the same tests pass before and after.
+
 ### 2026-10-01
 
 - **Added — GitHub Pages showcase:** `showcase/` is a static project page (launch reel, how-it-works flow, gallery, feature overview) deployed by `.github/workflows/pages.yml` on pushes to `main` that touch `showcase/**`. Includes a 21-second launch video (`showcase/media/skyview-launch.mp4`) built from the real site hero and platform UI.

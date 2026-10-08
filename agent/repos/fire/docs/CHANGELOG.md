@@ -17,6 +17,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10 — Narrated promo spots + money-maker skills
+
+#### Added
+
+- **Narrated promo videos.** The promo pipeline now voices every spot with Kokoro-82M (offline, Apache-2.0) and ducks the music under the voice. It also writes `captions.srt`. `brag-22s` and `chaos-24s` are narrated, and seven new narrated tours (57–83s) cover every feature: `tour-85s`, `plan-65s`, `chaos-60s`, `insights-60s`, `hustle-60s`, `connect-55s` and `yours-60s`. They're built from a data-driven composer (`promo/tour/`) whose scene timing follows the narration.
+- **Landing page: "Everything fire does, in 85 seconds."** A new section plays the narrated tour (`site/assets/tour.mp4`, 720p, on demand). The hero and Chaos videos are republished with narration (the hero's "Tap for sound" now plays the voice-over).
+- **Claude skills for low-touch income.** `skills/reseller-autopilot` handles pricing from sold comps, net after fees on eBay, Etsy, Mercari, Poshmark and FB Marketplace, listings, cross-listing, a weekly routine and an MCP tax check. `skills/passive-income-lab` covers eight AFK income streams with realistic ranges, runway-first rules, the income → FIRE-number math and 30-day launch plans.
+
+#### Fixed
+
+- The Side Hustle Hub's **Etsy and FB Marketplace fee calculators** never appeared when their tab was clicked, because a CSS class kept them hidden. Covered by a new Playwright spec.
+- Promo capture failed in a fresh checkout or worktree (`/repo/data` on a read-only mount; ESM couldn't find `node_modules`).
+
+#### Changed
+
+- The promo demo seed tags its side-gig sales (three resales and one personal item) and has one position below cost basis, so the tax summary and tax-loss harvesting cards show real numbers.
+
+### 2026-10-07 — Visual showcase
+
+- **Added:** Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and links the existing launch video(s) to the features they show (screenshot links get filled in as screenshot CI lands); the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos). `<html data-no-expand="images">` keeps the page's own lightbox for images, so the kit only adds the video buttons.
+
 ### 2026-10 — Multichain crypto account value
 
 #### Added

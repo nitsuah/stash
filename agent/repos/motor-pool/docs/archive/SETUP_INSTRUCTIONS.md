@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · SETUP_INSTRUCTIONS"
+title: "motor-pool · SETUP_INSTRUCTIONS"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/SETUP_INSTRUCTIONS.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Setup Instructions

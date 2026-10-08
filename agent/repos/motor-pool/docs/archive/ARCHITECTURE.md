@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · ARCHITECTURE"
+title: "motor-pool · ARCHITECTURE"
 source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/ARCHITECTURE.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Architecture Overview

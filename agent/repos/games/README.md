@@ -101,6 +101,14 @@ repo: games
 - **Rendering**: Standalone sandboxed vanilla JS + HTML Canvas game (not a React/Three.js game like the others), embedded via iframe
 - **Goal**: Survive as long as possible and maximize score
 
+## 📸 Screenshots
+
+| | | |
+|---|---|---|
+| <img src="screenshots/home.png" alt="Home" width="280"><br>Home | <img src="screenshots/asteroid-game.png" alt="Asteroid" width="280"><br>Asteroid | <img src="screenshots/tank-game.png" alt="Tank Commander" width="280"><br>Tank Commander |
+| <img src="screenshots/breakout-game.png" alt="Breakout" width="280"><br>Breakout | <img src="screenshots/flappy-game.png" alt="Flappy Bird" width="280"><br>Flappy Bird | <img src="screenshots/pong-game.png" alt="Pong" width="280"><br>Pong |
+| <img src="screenshots/snake-game.png" alt="Snake" width="280"><br>Snake | <img src="screenshots/invaders-game.png" alt="Space Invaders" width="280"><br>Space Invaders | <img src="docs/screenshots/memory-match-gameplay-screenshot.png" alt="Memory Match" width="280"><br>Memory Match |
+
 ## 🛠️ Development
 
 ### Quick Start

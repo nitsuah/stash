@@ -1,9 +1,9 @@
 ---
 up: "[[repos/motor-pool]]"
-title: "agent-board · site-sections"
+title: "motor-pool · site-sections"
 source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/site-sections.md
 kind: repo-doc
-repo: agent-board
+repo: motor-pool
 ---
 
 # Website Section Guide by Industry
