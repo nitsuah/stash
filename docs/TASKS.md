@@ -68,7 +68,7 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
 - [x] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
   - Type: Testing
-  - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
+  - Note (historical, 2026-09): example-file coverage was 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
   - Approach: build on `test_examples.py`, going from smoke tests to meaningful coverage.
   - Done 2026-10-09: measured with the `test-python` CI file list (65 passed) in Docker (`python:3.11`, `pytest-cov`): `atlassian/jira/examples.py` 84%, `atlassian/bitbucket/examples.py` 82%, `atlassian/confluence/examples.py` 72%, `atlassian/statuspage/examples.py` 80%. All four are above 30%; combined 505/629 statements (80%).
 
