@@ -22,6 +22,7 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Done 2026-10-09: `pages/journeys.html`, `journeys-19s`, compose-only `promo/build.sh`.
 - [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
   - Priority: P2
+  - Progress 2026-10-09: review pass filed vigil#275–#279 and #281; 6 journeys, 12 baselines, soak 54/54 in nitsuah/vigil#282. Remaining: merge it (after nitsuah/.github#21 if you want the updated rules first), one `workflow_dispatch` run, then fold `e2e.yml` failures into the reporter.
 - [ ] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
   - Priority: P2
   - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.
