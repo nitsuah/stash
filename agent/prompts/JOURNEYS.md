@@ -58,6 +58,9 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - **Wait for `networkidle` after load, and let debounced saves settle in teardown.** Otherwise one journey's late save lands after the next journey reseeds.
 - **`has:` is scoped inside the outer locator.** Use `hasText` for "the card that contains X".
 - **A seed written through the app's API may be filtered.** fire's `POST /api/state` drops server-owned `netWorthHistory` (fire#174). Check that the seed you think you loaded is what renders.
+- **Use `maxDiffPixels: 1000`, not a ratio.** A 1% ratio (~13k px) let fire's renamed demo wallet (6,029 px) through. Exact zero failed on ~650 px of canvas emoji noise. Measure the noise with `--repeat-each` first.
+- **Canvas text is drawn once.** Labels drawn before web fonts load keep the fallback font. Wait for `document.fonts.ready`, then `chart.update('none')`, after load and after each tab switch.
+- **Journeys are the screenshot CI too.** `step(..., { docs: '<feature id>' })` + `npm run capture:screenshots` writes `docs/screenshots/<id>.png`; a `visual-docs.yml` PRs them. Don't build a second screenshot suite.
 - **Known bugs live in baselines until fixed.** The fix PR updates them, and the PNG diff in that PR is the before/after.
 
 ## Run log

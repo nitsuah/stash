@@ -20,6 +20,12 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 
 ## Run log
 
+### 2026-10-09 · fire · refresh (same PR as the journeys pilot, fire#176)
+- Ran: vigil audit → `apply` (+3 features), cull 38/95 to `none` (57 visible, 43 with a visual), 13 docs screenshots from the journeys, re-capture + re-render of the 3 published spots via `promo/build.sh` (brag-22s 22.0 s, chaos-24s 24.0 s, tour-85s 83 s), published.
+- Checklist misses: the demo seed showed a real person's ENS wallet (`vitalik.eth`, fire#175), and the API seed silently dropped the year of net-worth history (fire#174). Both fixed in the PR. The hero's MCP frame disagreed with its dashboard frame (288,278 vs $287,897.50; 13 vs ~12 yrs): filed fire#178, not edited around.
+- Friction: no screenshot CI. Rather than a second Playwright suite, the journeys emit `docs/screenshots/<id>.png` (`step({ docs })`). Six unpublished spots run 55–65 s; splitting them needs vigil's reusable composition ported first (fire TASKS, P2). FEATURES.md over-reports at 40% culled; trims proposed in TASKS.
+- Promote: done in nitsuah/.github#19: SKILL.md (journeys as screenshot CI; "numbers agree across scenes" and "seed renders" checks), journeys/STANDARD.md (`docs` option). Copied to `~/.claude/skills/promo/`.
+
 ### 2026-10-08 · vigil · refresh (full: cull, screenshots, spots, reel, vert, publish, brand)
 
 - **Ran:**
