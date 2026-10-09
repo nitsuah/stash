@@ -38,10 +38,11 @@ Last Updated: 2026-09-29
   - Candidates: `atlassian/jira/examples.py` (most complex, highest-value to test).
   - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159).
 
-- [ ] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
+- [x] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
+  - Done 2026-10-09: added `test_bitbucket_examples.py`, `test_confluence_examples.py` and `test_statuspage_examples.py` (mocked with `responses`) and listed them in the `test-python` job of `.github/workflows/ci.yml`.
 
 - [ ] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
@@ -92,11 +93,12 @@ Last Updated: 2026-09-29
 
 ### Documentation
 
-- [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
+- [x] Add usage examples to each SaaS script header (one-liner for most common operation).
   - Priority: P2
   - Type: Docs
   - Candidates: `SAAS/okta/examples.py`, `SAAS/servicenow/examples.py`, `SAAS/pagerduty/examples.py`.
   - Note: restored 2026-09-30; PR #160 had replaced it with a garbled "SAAS quickstart" item.
+  - Done 2026-10-09: added a `# Quick start` one-liner to the `Usage:` block of all six `SAAS/*/examples.py` headers (datadog, github, okta, pagerduty, servicenow, slack); comments only.
 
 - [ ] Document the VBA source files inside Remora, Sampler, and VMT more precisely.
   - Priority: P2
