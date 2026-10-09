@@ -51,6 +51,7 @@ All examples follow a consistent pattern: read-only by default, `--demo-write` f
 - **9router** — local/remote AI gateway config; OpenAI-compatible REST for chat, image, TTS, embeddings, web search, and web fetch; device-specific tool and model setup documented
 - **eng-loc skill** — LOC analysis automation integrated into agent delivery pipeline
 - **eng-mini skill** — lightweight engineering task runner for low-cost model delegation
+- **Journeys** — the low-inference "AI user" loop: a one-time AI review pass files evidence-backed issues, then deterministic nightly Playwright journeys file, dedup and auto-close `bot:journey` issues with no AI (`agent/prompts/JOURNEYS.md`, `/journeys` skill, harness in nitsuah/.github). Overview page: [journeys.html](https://nitsuah.github.io/stash/journeys.html) with a 19 s spot.
 
 ## Vault Tooling
 

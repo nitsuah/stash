@@ -21,6 +21,14 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 
 ## Run log
 
+### 2026-10-09 · stash · spot (journeys-19s, additive; first repo with no frontend)
+- Ran: `journeys-19s` (19.0 s, −14 LUFS, web cut 1.1 MB) with a new compose-only `promo/build.sh` (Chromium frames from `compose.html`, numpy synth, ffmpeg) in Docker; a new `pages/journeys.html` linked from the existing page (2 added lines in index.html, nothing replaced); spots.json gained a feature, a spot and a reel. Checked at 375 px: no horizontal scroll, all media and local links load.
+- Checklist misses: readability. The first 18 s cut showed the terminal summary for ~1.4 s and the "plain code on a cron" line for ~1 s. Fixed by faster terminal ticks and +1 s on the lifecycle scene (now 19 s). The contact sheet caught it; the stills alone did not.
+- Friction: with no app to capture, /brag would have rebuilt UI. Composing real artifacts (issue titles, journey names, another repo's docs screenshots) was faster and more honest. `preview_start` picked up a launch.json from the parent folder, so the page was served with a throwaway nginx container instead.
+- Promote:
+  - Skill (nitsuah/.github skills/promo): a "No frontend?" note: compose real artifacts (issues, terminal output, CLI/MCP responses, screenshots from the repos the tool serves) with stash's `promo/build.sh` as the template; additive pages go in a new file plus nav and card links, never edits to the existing hero.
+  - Candidate rule (first sighting): check read time per text block on the contact sheet (≈0.3 s per word, fully settled), not just whether it's on screen.
+
 ### 2026-10-09 · fire · refresh (same PR as the journeys pilot, fire#176)
 - Ran: vigil audit → `apply` (+3 features), cull 38/95 to `none` (57 visible, 43 with a visual), 13 docs screenshots from the journeys, re-capture + re-render of the 3 published spots via `promo/build.sh` (brag-22s 22.0 s, chaos-24s 24.0 s, tour-85s 83 s), published.
 - Checklist misses: the demo seed showed a real person's ENS wallet (`vitalik.eth`, fire#175), and the API seed silently dropped the year of net-worth history (fire#174). Both fixed in the PR. The hero's MCP frame disagreed with its dashboard frame (288,278 vs $287,897.50; 13 vs ~12 yrs): filed fire#178, not edited around.

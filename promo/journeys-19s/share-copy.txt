@@ -1,0 +1,1 @@
+QA before you have users: an AI used fire once like a new user and filed 11 issues, each with a cause. Now a Playwright bot walks 7 journeys every night for 0 tokens, files its own bugs, dedups them, and closes them after 3 green nights. /journeys → https://nitsuah.github.io/stash/journeys.html

@@ -1,0 +1,13 @@
+{
+  "title": "stash · journeys — 19s spot",
+  "duration": 19,
+  "fps": 30,
+  "poster": 2.4,
+  "scenes": [
+    ["title", 0, 3],
+    ["review", 3, 7.5],
+    ["nightly", 7.5, 12],
+    ["lifecycle", 12, 16.5],
+    ["outro", 16.5, 19]
+  ]
+}

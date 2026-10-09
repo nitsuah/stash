@@ -8,6 +8,12 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-09 — Journeys page and promo spot (additive)
+
+- **Added:** `pages/journeys.html`, a second Pages page for the journeys QA loop (review pass, nightly journeys, issue lifecycle, how to adopt), linked from the main page's nav and "Also in this repo" grid. The one-brain page, its hero video and the vault graph are unchanged.
+- **Added:** `journeys-19s` spot (`pages/assets/journeys-19s.mp4`, poster `.jpg`) built from real artifacts: fire's review-pass issues, its journey names and its demo-seed screenshots. Source in `promo/journeys-19s/`; `promo/build.sh` + `render.js` + `Dockerfile` render any compose-only spot in Docker (stash has no app to capture).
+- `promo/spots.json`: new `journeys` feature, the spot, and a `journeys-page` reel. The existing `brag-20s` spot and `hero` reel are untouched. FEATURES lists Journeys under AI Agent System.
+
 ### 2026-10-09 — Journeys: the low-inference "AI user" loop
 
 - **Added:** `agent/prompts/JOURNEYS.md`: the web-repo inventory, rollout order, the three prompts where AI is used (review pass, write journeys, fix), settled rules, and the run and metrics logs. The harness lives in nitsuah/.github `journeys/` (#19); fire is the pilot.

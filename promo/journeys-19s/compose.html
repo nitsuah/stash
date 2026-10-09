@@ -1,0 +1,201 @@
+<!doctype html>
+<!-- stash · journeys, 19 s. Every frame is window.render(t). Real artifacts only:
+     fire's demo-seed screenshots, its review-pass issue titles and its journey names. -->
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=block">
+<style>
+  :root { --bg:#131217; --surface:#1b1a21; --surface-2:#23212b; --text:#ecebf0; --muted:#a7a3b3; --border:#2f2c39;
+          --accent:#a98bff; --accent-soft:#2a2340; --green:#3fc79f; --green-soft:#17322b; --warn:#f0975c; --red:#ff6b6b; }
+  * { box-sizing:border-box; margin:0; }
+  html, body { width:1920px; height:1080px; overflow:hidden; background:var(--bg); color:var(--text);
+               font-family:Inter, sans-serif; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  #glow { position:absolute; inset:0; background:radial-gradient(1200px 700px at 78% 18%, #2a234055, transparent 70%),
+          radial-gradient(900px 600px at 10% 100%, #17322b66, transparent 70%); }
+  #mark { position:absolute; left:96px; top:72px; font:700 34px Inter; display:flex; align-items:center; gap:16px; z-index:5; }
+  #mark .dot { width:22px; height:22px; border-radius:6px; background:var(--accent); box-shadow:0 0 24px #a98bff88; }
+  #mark .sub { color:var(--muted); font-weight:600; }
+  .scene { position:absolute; inset:0; opacity:0; }
+  .eyebrow { font:600 26px 'JetBrains Mono'; color:var(--accent); letter-spacing:.02em; }
+  h1 { font:800 112px/1.02 Inter; letter-spacing:-.035em; }
+  h2 { font:800 64px/1.08 Inter; letter-spacing:-.025em; }
+  .muted { color:var(--muted); }
+  .chip { display:inline-block; font:600 20px 'JetBrains Mono'; padding:5px 12px; border-radius:999px; margin-right:8px; }
+  .c-v { background:var(--accent-soft); color:var(--accent); }
+  .c-g { background:var(--green-soft); color:var(--green); }
+  .c-r { background:#3a1d22; color:#ff8e8e; }
+  .c-o { background:#3a2519; color:var(--warn); }
+
+  /* title */
+  #title .wrap { position:absolute; left:96px; top:330px; }
+  #title .lede { font:500 42px/1.35 Inter; color:var(--muted); margin-top:36px; max-width:1300px; }
+  #title .lede b { color:var(--text); font-weight:700; }
+
+  /* review */
+  .head { position:absolute; left:96px; top:170px; }
+  .head h2 { margin-top:14px; }
+  .browser { position:absolute; left:96px; top:400px; width:1000px; border-radius:16px; overflow:hidden;
+             border:1px solid var(--border); background:var(--surface); box-shadow:0 30px 80px #0008; }
+  .browser .bar { height:44px; display:flex; align-items:center; gap:10px; padding:0 18px; background:var(--surface-2); }
+  .browser .bar i { width:13px; height:13px; border-radius:50%; background:#3a3746; display:block; }
+  .browser .bar span { margin-left:16px; font:400 18px 'JetBrains Mono'; color:var(--muted); }
+  .browser img { display:block; width:100%; }
+  .scan { position:absolute; left:0; right:0; height:120px; background:linear-gradient(180deg, transparent, #a98bff30 70%, #a98bffcc 100%);
+          border-bottom:2px solid var(--accent); }
+  #issues { position:absolute; left:1150px; top:400px; width:674px; }
+  .issue { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 24px; margin-bottom:16px; }
+  .issue .t { font:600 25px/1.3 Inter; }
+  .issue .t .n { color:var(--green); font-family:'JetBrains Mono'; margin-right:10px; }
+  .issue .l { margin-top:12px; }
+  #issue-count { font:700 30px Inter; margin-top:10px; }
+  #issue-count b { color:var(--accent); }
+
+  /* nightly */
+  .term { position:absolute; left:96px; top:400px; width:1180px; height:470px; border-radius:16px; background:#0d0c11;
+          border:1px solid var(--border); padding:30px 36px; font:400 25px/1.6 'JetBrains Mono'; box-shadow:0 30px 80px #0008; }
+  .term .cmd { color:var(--muted); }
+  .term .ok { color:var(--green); }
+  .term .sum { margin-top:14px; color:var(--text); font-weight:600; }
+  .term .line { opacity:0; white-space:nowrap; }
+  .phone { position:absolute; left:1420px; top:370px; width:290px; border-radius:36px; overflow:hidden; border:10px solid #2a2833;
+           box-shadow:0 30px 80px #0009; }
+  .phone img { display:block; width:100%; }
+  .cron { position:absolute; left:1365px; top:1030px; font:600 22px 'JetBrains Mono'; color:var(--muted); }
+
+  /* lifecycle */
+  #flow { position:absolute; left:96px; top:430px; display:flex; gap:22px; align-items:stretch; }
+  .node { width:322px; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:26px 26px 24px; opacity:.18; }
+  .node .k { font:600 20px 'JetBrains Mono'; color:var(--muted); }
+  .node .v { font:700 31px/1.25 Inter; margin-top:12px; }
+  .node .d { font:400 22px/1.4 Inter; color:var(--muted); margin-top:12px; }
+  .node.on { border-color:var(--accent); }
+  .node.done { border-color:var(--green); background:linear-gradient(180deg, #17322b, var(--surface)); }
+  .dots { margin-top:14px; display:flex; gap:10px; }
+  .dots i { width:26px; height:26px; border-radius:50%; border:2px solid var(--green); display:block; }
+  .dots i.f { background:var(--green); }
+  .zero { position:absolute; left:96px; top:760px; font:600 30px Inter; color:var(--muted); }
+  .zero b { color:var(--text); }
+
+  /* outro */
+  #outro .wrap { position:absolute; left:0; right:0; top:330px; text-align:center; }
+  #outro .cmd { font:600 150px 'JetBrains Mono'; color:var(--accent); letter-spacing:-.03em; }
+  #outro .line { font:700 52px Inter; margin-top:24px; }
+  #outro .url { font:500 34px 'JetBrains Mono'; color:var(--muted); margin-top:44px; }
+</style>
+</head>
+<body>
+<div id="glow"></div>
+<div id="mark"><span class="dot"></span>stash <span class="sub">· journeys</span></div>
+
+<section class="scene" id="title">
+  <div class="wrap">
+    <div class="eyebrow">synthetic users · nightly · 0 tokens</div>
+    <h1 style="margin-top:22px">QA before you<br>have users.</h1>
+    <p class="lede">An AI uses your app <b>once</b>. A bot uses it <b>every night</b>.</p>
+  </div>
+</section>
+
+<section class="scene" id="review">
+  <div class="head"><div class="eyebrow">1 · the review pass</div><h2>An AI uses it once, like a new user.</h2></div>
+  <div class="browser"><div class="bar"><i></i><i></i><i></i><span>fire · demo seed · 1440×900 + 390×844</span></div>
+    <div style="position:relative"><img src="../../pages/assets/journeys-insights.png" alt=""><div class="scan" id="scan"></div></div></div>
+  <div id="issues">
+    <div class="issue"><div class="t"><span class="n">#169</span>"Equities are 74% of NW" disagrees with Asset Allocation's 72.6%</div>
+      <div class="l"><span class="chip c-r">bug</span><span class="chip c-v">bot:review</span><span class="chip c-o">area:app</span></div></div>
+    <div class="issue"><div class="t"><span class="n">#167</span>Asset Allocation legend clips its labels</div>
+      <div class="l"><span class="chip c-r">bug</span><span class="chip c-v">bot:review</span><span class="chip c-o">area:app</span></div></div>
+    <div class="issue"><div class="t"><span class="n">#175</span>Demo seed shows a real person's wallet</div>
+      <div class="l"><span class="chip c-r">bug</span><span class="chip c-v">bot:review</span><span class="chip c-o">area:promo</span></div></div>
+    <div class="issue"><div class="t"><span class="n">#178</span>MCP summary disagrees with the dashboard</div>
+      <div class="l"><span class="chip c-r">bug</span><span class="chip c-v">bot:review</span><span class="chip c-o">area:mcp</span></div></div>
+    <div id="issue-count"><b>11 issues</b> · one per defect · each with a cause</div>
+  </div>
+</section>
+
+<section class="scene" id="nightly">
+  <div class="head"><div class="eyebrow">2 · nightly journeys</div><h2>Then a bot walks the happy paths. Every night.</h2></div>
+  <div class="term" id="term">
+    <div class="line cmd">$ npm run test:journeys</div>
+    <div class="line"><span class="ok">✓</span> first visit: accept the privacy terms and see my net worth</div>
+    <div class="line"><span class="ok">✓</span> investor reviews positions and every holding</div>
+    <div class="line"><span class="ok">✓</span> planner stress-tests the retirement date</div>
+    <div class="line"><span class="ok">✓</span> reseller prices an eBay sale and logs it</div>
+    <div class="line"><span class="ok">✓</span> saver trims the budget and the spend rate drops</div>
+    <div class="line"><span class="ok">✓</span> investor reads and dismisses portfolio insights</div>
+    <div class="line"><span class="ok">✓</span> phone user opens the menu and checks side income</div>
+    <div class="line sum">7 passed · 19 visual baselines · <span class="ok">0 tokens</span></div>
+  </div>
+  <div class="phone"><img src="../../pages/assets/journeys-phone.png" alt=""></div>
+  <div class="cron">cron 07:17 UTC · Docker</div>
+</section>
+
+<section class="scene" id="lifecycle">
+  <div class="head"><div class="eyebrow">3 · no AI in the loop</div><h2>Bugs file, dedup and close themselves.</h2></div>
+  <div id="flow">
+    <div class="node"><div class="k">night 1</div><div class="v">A step fails</div><div class="d">screenshot diff or wrong total</div></div>
+    <div class="node"><div class="k">reporter</div><div class="v">Issue opened</div><div class="d"><span class="chip c-v">bot:journey</span> + screenshots</div></div>
+    <div class="node"><div class="k">night 2</div><div class="v">Same fingerprint</div><div class="d">updated, never duplicated</div></div>
+    <div class="node"><div class="k">fix PR</div><div class="v">Refs #N</div><div class="d">not "Fixes": the bot verifies</div></div>
+    <div class="node" id="close"><div class="k">nights 3–5</div><div class="v">Auto-closed ✓</div><div class="dots"><i></i><i></i><i></i></div></div>
+  </div>
+  <div class="zero">Filing, dedup, verification, BUGS.md, metrics: <b>plain code on a cron</b>.</div>
+</section>
+
+<section class="scene" id="outro">
+  <div class="wrap">
+    <div class="cmd">/journeys</div>
+    <div class="line">AI writes it once. Code runs it every night.</div>
+    <div class="url">nitsuah.github.io/stash/journeys.html</div>
+  </div>
+</section>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const ease = (x) => { x = clamp(x); return 1 - Math.pow(1 - x, 3); };
+const ramp = (t, a, d) => ease((t - a) / d);           // 0→1 over [a, a+d]
+// Scenes: in over 0.35 s (rise), out over 0.25 s before the cut. Title starts settled at frame 0.
+const SCENES = [['title', 0, 3], ['review', 3, 7.5], ['nightly', 7.5, 12], ['lifecycle', 12, 16.5], ['outro', 16.5, 19]];
+function show(id, a, b, t) {
+  const el = $('#' + id);
+  const inn = a === 0 ? 1 : ramp(t, a, 0.35);
+  const out = b >= 19 ? 1 : 1 - ramp(t, b - 0.25, 0.25);
+  const o = t < a || t >= b ? 0 : Math.min(inn, out);
+  el.style.opacity = o;
+  el.style.transform = `translateY(${(1 - inn) * 30}px)`;
+  return t - a;
+}
+function rise(el, p) { el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * 24}px)`; }
+
+window.render = (t) => {
+  for (const [id, a, b] of SCENES) show(id, a, b, t);
+
+  // review: scan sweeps the screenshot, issues land one by one
+  const r = t - 3;
+  $('#scan').style.top = `${-120 + ((r * 260) % 800)}px`;
+  $$('#issues .issue').forEach((el, i) => rise(el, ramp(r, 0.5 + i * 0.45, 0.35)));
+  rise($('#issue-count'), ramp(r, 2.5, 0.35));
+
+  // nightly: terminal lines type in
+  const n = t - 7.5;
+  $$('#term .line').forEach((el, i) => { el.style.opacity = ramp(n, 0.3 + i * 0.25, 0.15); });
+
+  // lifecycle: nodes light up left to right, green dots fill
+  const l = t - 12;
+  $$('#flow .node').forEach((el, i) => {
+    const p = ramp(l, 0.3 + i * 0.45, 0.25);
+    el.style.opacity = 0.18 + 0.82 * p;
+    el.classList.toggle('on', p > 0.5 && i < 4);
+  });
+  const dots = $$('#close .dots i');
+  dots.forEach((d, i) => d.classList.toggle('f', l > 2.25 + i * 0.25));
+  $('#close').classList.toggle('done', l > 2.8);
+  rise($('.zero'), ramp(l, 2.2, 0.35));
+};
+window.render(0);
+</script>
+</body>
+</html>
