@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-09 — Journeys: the low-inference "AI user" loop
+
+- **Added:** `agent/prompts/JOURNEYS.md`: the web-repo inventory, rollout order, the three prompts where AI is used (review pass, write journeys, fix), settled rules, and the run and metrics logs. The harness lives in nitsuah/.github `journeys/` (#19); fire is the pilot.
+- **Changed:** 1FLOW Phase 1 takes open `bot:journey` issues before backlog and fixes them with `Refs #N`, so the nightly closes them after 3 green runs. RSI adds input 9: monthly journey metrics, appended to JOURNEYS.md.
+
 ### 2026-10-08 — Findings ledger: W41 Needs-you cleanup
 
 - Closed F-20260930-04, -05, -09, -12 and -13 after checking them against the live repos: the stale branches are gone, the farm-3j, games and deployer dependabot PRs are merged, and vigil's checkout is back on `main`. SOTU's Needs-you list drops from 6 items to 1.

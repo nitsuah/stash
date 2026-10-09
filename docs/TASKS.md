@@ -2,11 +2,32 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-29
+Last Updated: 2026-10-09
 
 ## In Progress
 
 ## Todo
+
+### Journeys rollout (low-inference "AI user" loop)
+
+Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.github/blob/main/journeys/STANDARD.md). Playbook, inventory and logs: [agent/prompts/JOURNEYS.md](../agent/prompts/JOURNEYS.md). One repo per PR, in this order.
+
+- [x] Shared harness: reporter, metrics, reusable workflow, templates, STANDARD.
+  - Done 2026-10-09: nitsuah/.github#19.
+- [x] Wire the loop into routines: 1FLOW takes `bot:journey` issues first (`Refs #N`, nightly closes them); RSI runs `metrics.mjs` monthly into JOURNEYS.md.
+  - Done 2026-10-09: agent/prompts/1FLOW.md, RSI.md, JOURNEYS.md.
+- [ ] Pilot: fire. Review pass, journeys, nightly caller.
+  - Priority: P1
+  - Progress 2026-10-09: review pass filed fire#166–#175; 7 journeys, 19 baselines, soak 70/70; PR open on fire. Remaining: merge it after nitsuah/.github#19, then one `workflow_dispatch` run to create `bot/journeys` and confirm the reporter in Actions.
+- [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
+  - Priority: P2
+- [ ] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
+  - Priority: P2
+  - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.
+- [ ] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
+  - Priority: P3
+- [ ] First monthly metrics row (RSI, 2026-11-02): flaky rate, reopen rate, time-to-fix, coverage.
+  - Priority: P2
 
 ### CI / Quality
 
