@@ -1,20 +1,20 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "method": "WSJF = (business value + time criticality + risk reduction) / job size, each on a 1-13 scale. Curated by hand; week-sotu drops finished items (SOTU.md step 5).",
   "initiatives": [
     {
       "rank": 1,
       "title": "CI-generated diagrams and Playwright screenshots, committed to each repo and embedded in its README, built into vigil as a best-practice check and reusable CI recipe",
-      "repo": "stash",
-      "ref": "docs/TASKS.md (Diagrams and screenshots)",
-      "why": "Next after the vigil UI; portfolio polish for every app repo, which matters for the job search."
+      "repo": "vigil",
+      "ref": "vigil epic (to be filed; was stash TASKS / priorities.json)",
+      "why": "Next after the vigil UI; portfolio polish for every app repo, which matters for the job search. Moving to vigil 2026-10-09: the visual-docs checks, scoring and fix buttons live there."
     },
     {
       "rank": 2,
       "title": "Portfolio showcase: a GitHub Pages site plus a short \"brag\" launch video for each product that already has screenshots/Playwright coverage. Start with vigil, vhs (explain what it is), skyview and nitsuah-io; hold ats-fill until its UI scrub.",
-      "repo": "portfolio",
-      "ref": "priorities.json (no TASKS item)",
-      "why": "Turns finished work into something a hiring manager can see in 30 seconds. The /brag skill can make the videos from each repo's code."
+      "repo": "vigil",
+      "ref": "vigil epic (to be filed; was stash TASKS / priorities.json)",
+      "why": "Turns finished work into something a hiring manager can see in 30 seconds. The /brag skill can make the videos from each repo's code. Moving to vigil 2026-10-09 as part of the same visual-docs epic."
     }
   ],
   "top5": [
