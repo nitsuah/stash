@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Render a stash promo spot end to end in Docker.
 #
-#   promo/build.sh journeys-18s                     # frames → audio → mp4, poster, web cut
-#   promo/build.sh journeys-18s --stills 1.5,5,9,15 # a few frames only, for review
-#   promo/build.sh journeys-18s --audio             # re-synth audio + remux
-#   promo/build.sh journeys-18s --publish           # also copy the web cut + poster to pages/assets/
+#   promo/build.sh journeys-19s                     # frames → audio → mp4, poster, web cut
+#   promo/build.sh journeys-19s --stills 1.5,5,9,15 # a few frames only, for review
+#   promo/build.sh journeys-19s --audio             # re-synth audio + remux
+#   promo/build.sh journeys-19s --publish           # also copy the web cut + poster to pages/assets/
 #
 # Each spot is promo/<spot>/{spot.json, compose.html, synth.py, share-copy.txt}.
 # compose.html exposes window.render(t) (a pure function of time). Output goes
@@ -16,7 +16,8 @@ REPO="$(pwd -W 2>/dev/null || pwd)"   # Windows path under Git Bash
 SPOT=""; MODE="full"; TIMES=""; PUBLISH=0
 while [ $# -gt 0 ]; do
   case "$1" in
-    --stills) MODE="stills"; TIMES="$2"; shift 2 ;;
+    --stills) [ $# -ge 2 ] || { echo "--stills needs a time list, e.g. 1.5,5"; exit 1; }
+      MODE="stills"; TIMES="$2"; shift 2 ;;
     --audio) MODE="audio"; shift ;;
     --publish) PUBLISH=1; shift ;;
     -*) echo "unknown option $1"; exit 1 ;;
@@ -39,9 +40,9 @@ fi
 
 run sh -c "
 set -e
+[ -d $W/frames ] || { echo 'no frames yet; run without --audio first'; exit 1; }
 python3 $D/synth.py $D/spot.json $W/audio-raw.wav
 ffmpeg -hide_banner -loglevel error -y -i $W/audio-raw.wav -af loudnorm=I=-14:TP=-1.5:LRA=11:linear=true -ar 44100 $W/audio.wav
-[ -d $W/frames ] || { echo 'no frames yet; run without --audio first'; exit 1; }
 FPS=\$(node -p \"require('$D/spot.json').fps || 30\")
 P=\$(node -p \"const s=require('$D/spot.json'); String(Math.round(s.poster*(s.fps||30))).padStart(4,'0')\")
 # The poster frame doubles as frame 0 so every thumbnail shows it; replaced,
