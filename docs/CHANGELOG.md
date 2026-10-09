@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-09 — Atlassian smoke tests and SaaS header one-liners
+
+- **Added:** `pytest` + `responses` smoke tests for the Bitbucket, Confluence and Statuspage examples (`atlassian/*/test_*_examples.py`), now run by the `test-python` CI job alongside the Jira tests. Mocked HTTP only, example.com-style placeholders, no credentials.
+- Each `SAAS/*/examples.py` header gained a one-line `Quick start` example in its `Usage:` block. Comments only, no behavior change.
+
 ### 2026-10-09 — SOTU keeps every repo when vigil is reachable
 
 - `sotu.py`: after stash#210 repointed vigil to `gh-vigil.netlify.app`, vigil answered but covered 11 of 17 tracked repos. Repos vigil skips are now filled from their own TASKS.md (source line: `vigil + local TASKS.md (...)`), and `**` markup is stripped from vigil titles. W41 report regenerated: 174 tasks across all tracked repos.

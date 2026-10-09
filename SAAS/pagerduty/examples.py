@@ -7,6 +7,9 @@ Auth:  PAGERDUTY_API_KEY      (REST API — account/team API key)
 Docs:  https://developer.pagerduty.com/api-reference/
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/pagerduty/examples.py
+
     # Read-only demo:
     python SAAS/pagerduty/examples.py
 

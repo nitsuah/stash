@@ -7,6 +7,9 @@ Auth:  SLACK_BOT_TOKEN   (xoxb-... Bot User OAuth Token)
 Docs:  https://api.slack.com/methods
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/slack/examples.py --channel CHANNEL_ID
+
     # Read-only demo:
     python SAAS/slack/examples.py
 

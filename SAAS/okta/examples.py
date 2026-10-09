@@ -7,6 +7,9 @@ Auth:  OKTA_DOMAIN     (e.g. your-org.okta.com)
 Docs:  https://developer.okta.com/docs/reference/core-okta-api/
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/okta/examples.py --search 'profile.department eq "Eng"'
+
     # Read-only demo:
     python SAAS/okta/examples.py
 

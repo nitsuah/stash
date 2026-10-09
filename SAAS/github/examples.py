@@ -6,6 +6,9 @@ Auth:  GITHUB_TOKEN  (Personal Access Token or GitHub App token)
 Docs:  https://docs.github.com/en/rest
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/github/examples.py --repo owner/repo
+
     # Read-only demo:
     python SAAS/github/examples.py
 
