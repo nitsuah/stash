@@ -189,7 +189,7 @@ def vigil_tasks(repos: list[dict]) -> list[dict] | None:
     out = []
     for t in rollup.get("tasks", []):
         repo = names.get((t.get("full_name") or "").lower(), t.get("repo"))
-        out.append({"repo": repo, "title": t["title"], "ref": "TASKS.md",
+        out.append({"repo": repo, "title": t["title"].replace("**", ""), "ref": "TASKS.md",
                     "priority": t.get("priority"), "status": t.get("status"),
                     "owner": t.get("owner"), "section": t.get("section"), "criteria": None,
                     # vigil's rollup has no sub-bullets, so honor its own flag and the title/status text
@@ -255,6 +255,16 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dic
     if tasks is None:
         tasks, missing = local_tasks(repos)
         source = "local TASKS.md"
+    else:
+        # vigil doesn't index every tracked repo; fill the gaps from TASKS.md so none silently drop out.
+        covered = {t["repo"] for t in tasks}
+        gaps = [r for r in repos if r["repo"] not in covered]
+        if gaps:
+            extra, missing = local_tasks(gaps)
+            tasks += extra
+            filled = sorted({t["repo"] for t in extra})
+            if filled:
+                source = f"vigil + local TASKS.md ({', '.join(filled)})"
     tasks = [classify(public_view(t, private)) for t in tasks]
     tasks.sort(key=lambda t: (PRIO_RANK.get(t["priority"], 4), t["status"] != "in-progress", t["repo"]))
     ledger = ledger_items()

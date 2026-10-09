@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-09 — SOTU keeps every repo when vigil is reachable
+
+- `sotu.py`: after stash#210 repointed vigil to `gh-vigil.netlify.app`, vigil answered but covered 11 of 17 tracked repos. Repos vigil skips are now filled from their own TASKS.md (source line: `vigil + local TASKS.md (...)`), and `**` markup is stripped from vigil titles. W41 report regenerated: 174 tasks across all tracked repos.
+
 ### 2026-10-08 — Findings ledger: W41 Needs-you cleanup
 
 - Closed F-20260930-04, -05, -09, -12 and -13 after checking them against the live repos: the stale branches are gone, the farm-3j, games and deployer dependabot PRs are merged, and vigil's checkout is back on `main`. SOTU's Needs-you list drops from 6 items to 1.
