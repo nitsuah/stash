@@ -13,6 +13,10 @@ Notable additions and changes to this repository.
 - **Added:** `agent/prompts/JOURNEYS.md`: the web-repo inventory, rollout order, the three prompts where AI is used (review pass, write journeys, fix), settled rules, and the run and metrics logs. The harness lives in nitsuah/.github `journeys/` (#19); fire is the pilot.
 - **Changed:** 1FLOW Phase 1 takes open `bot:journey` issues before backlog and fixes them with `Refs #N`, so the nightly closes them after 3 green runs. RSI adds input 9: monthly journey metrics, appended to JOURNEYS.md.
 
+### 2026-10-09 — Example-file coverage target met
+
+- **Changed:** Measured coverage of the Atlassian `examples.py` files with the `test-python` CI test list: Jira 84%, Bitbucket 82%, Statuspage 80%, Confluence 72% (all above the 30% target; 80% combined). Closes the P2 TASKS item. No test or code changes.
+
 ### 2026-10-09 — Atlassian smoke tests and SaaS header one-liners
 
 - **Added:** `pytest` + `responses` smoke tests for the Bitbucket, Confluence and Statuspage examples (`atlassian/*/test_*_examples.py`), now run by the `test-python` CI job alongside the Jira tests. Mocked HTTP only, example.com-style placeholders, no credentials.
