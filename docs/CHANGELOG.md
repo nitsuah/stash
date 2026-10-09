@@ -13,6 +13,15 @@ Notable additions and changes to this repository.
 - **Added:** `agent/prompts/JOURNEYS.md`: the web-repo inventory, rollout order, the three prompts where AI is used (review pass, write journeys, fix), settled rules, and the run and metrics logs. The harness lives in nitsuah/.github `journeys/` (#19); fire is the pilot.
 - **Changed:** 1FLOW Phase 1 takes open `bot:journey` issues before backlog and fixes them with `Refs #N`, so the nightly closes them after 3 green runs. RSI adds input 9: monthly journey metrics, appended to JOURNEYS.md.
 
+### 2026-10-09 — Atlassian smoke tests and SaaS header one-liners
+
+- **Added:** `pytest` + `responses` smoke tests for the Bitbucket, Confluence and Statuspage examples (`atlassian/*/test_*_examples.py`), now run by the `test-python` CI job alongside the Jira tests. Mocked HTTP only, example.com-style placeholders, no credentials.
+- Each `SAAS/*/examples.py` header gained a one-line `Quick start` example in its `Usage:` block. Comments only, no behavior change.
+
+### 2026-10-09 — SOTU keeps every repo when vigil is reachable
+
+- `sotu.py`: after stash#210 repointed vigil to `gh-vigil.netlify.app`, vigil answered but covered 11 of 17 tracked repos. Repos vigil skips are now filled from their own TASKS.md (source line: `vigil + local TASKS.md (...)`), and `**` markup is stripped from vigil titles. W41 report regenerated: 174 tasks across all tracked repos.
+
 ### 2026-10-08 — Findings ledger: W41 Needs-you cleanup
 
 - Closed F-20260930-04, -05, -09, -12 and -13 after checking them against the live repos: the stale branches are gone, the farm-3j, games and deployer dependabot PRs are merged, and vigil's checkout is back on `main`. SOTU's Needs-you list drops from 6 items to 1.

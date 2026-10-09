@@ -17,6 +17,7 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
   Propose FEATURES.md trims in the PR and let the user confirm. Never delete lines in a promo PR. Report coverage as visuals over *visual* features.
 - **One composition, many cuts**: a new spot is a `spot.json` with `"base"` and a scene list, not a copied compose/synth.
 - **Narration**: Kokoro (`hyperframes tts`) runs only in an image with Python `kokoro-onnx`. The voice sets scene lengths, and the wavs are committed.
+- **Feature spots share no intro or outro** (2026-10-08, vigil, user-reported): each spot shows only its own scenes, with the wordmark from frame 0, an outro of 3 s or less and its natural length (12–21 s). The shared hook, reveal and full outro play once, in a single continuous hero cut, never in spots concatenated end to end. Check it with a same-timestamp frame grid across the spots.
 
 ## Run log
 
@@ -65,3 +66,13 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
   - vigil TASKS P3: visual-docs shots for the 21 uncovered visual features.
   - fire (next run): port `base` spots + `reel.sh` + the frame-count check before cutting spots. Read this entry first.
   - Candidate rule (needs a second sighting): "verify every encode's frame count". The skill checklist has it implicitly via duration ±2 s, but the truncated file's duration (19.4 s) was still within ±2 s of 21 s. Consider tightening to an exact frame count.
+
+### 2026-10-08 (later) · vigil · spot · re-cut after user review
+
+- **Ran:** `health-17s`, `work-16s`, `ai-14s` (new `chat` scene captured from the real app) and `hero-37s` (one cut), all via vigil's `promo/build.sh`, about 20 min of rendering. They replace the three 21 s spots and the 62 s concatenated reel. Kept the vertical, renamed `health-17s-vert`.
+- **Checklist misses:** none of the checks caught the actual problem. Every 21 s spot opened on the same 3 s hook and 4 s reveal and closed on the same 3 s outro: 10 of 21 s identical. The page's spots gallery read as the full video three times, and the 62 s reel played the intro and outro three times. The user caught it on the live page. Each spot passed its own checklist; nothing compared the spots with each other.
+- **Friction:** fitting 21 s forced a shared preamble onto thin content (6 scenes for 3 spots). The AI spot had only one scene of its own and borrowed `connect` from the work spot. Adding a real scene (the chat panel, seeded thread, no AI call) beat stretching or reusing one.
+- **Promote:**
+  - Skill + STANDARD (done, nitsuah/.github PR): feature spots share no intro or outro and run their natural length, the hero is one continuous cut, a checklist item for a cross-spot frame grid, and the /brag brief no longer defaults to `--duration 21`.
+  - vigil: `extraScenes` lets the base composition carry scenes its own cut doesn't play; `reel.sh` handles a one-spot reel; a corner wordmark for spots that open on a feature.
+  - Candidate rule (first sighting): if any feature spot has fewer than two scenes of its own (not shared with another spot), add a scene for it (capture more of the app) before rendering instead of sharing or stretching one.

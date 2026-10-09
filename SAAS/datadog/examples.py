@@ -8,6 +8,9 @@ Auth:  DATADOG_API_KEY  (Datadog → Organization Settings → API Keys)
 Docs:  https://docs.datadoghq.com/api/latest/
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/datadog/examples.py
+
     # Read-only demo:
     python SAAS/datadog/examples.py
 

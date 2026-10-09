@@ -8,6 +8,9 @@ Auth:  SERVICENOW_INSTANCE  (e.g. dev12345.service-now.com)
 Docs:  https://developer.servicenow.com/dev.do#!/reference/api/latest/rest/
 
 Usage:
+    # Quick start (most common operation, read-only):
+    python SAAS/servicenow/examples.py
+
     # Read-only demo:
     python SAAS/servicenow/examples.py
 
