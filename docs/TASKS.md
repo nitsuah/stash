@@ -65,11 +65,12 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
   - Done 2026-10-09: added `test_bitbucket_examples.py`, `test_confluence_examples.py` and `test_statuspage_examples.py` (mocked with `responses`) and listed them in the `test-python` job of `.github/workflows/ci.yml`.
 
-- [ ] Expand test coverage to Python example files (target ≥30% on example files).
+- [x] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
   - Type: Testing
   - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
   - Approach: build on `test_examples.py`, going from smoke tests to meaningful coverage.
+  - Done 2026-10-09: measured with the `test-python` CI file list (65 passed) in Docker (`python:3.11`, `pytest-cov`): `atlassian/jira/examples.py` 84%, `atlassian/bitbucket/examples.py` 82%, `atlassian/confluence/examples.py` 72%, `atlassian/statuspage/examples.py` 80%. All four are above 30%; combined 505/629 statements (80%).
 
 - [ ] Add pre-commit hooks
   - Priority: P3
