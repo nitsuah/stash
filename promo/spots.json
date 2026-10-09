@@ -75,6 +75,17 @@
       "spots": []
     },
     {
+      "id": "journeys",
+      "title": "Journeys",
+      "category": "AI Agent System",
+      "screenshots": [
+        "pages/assets/journeys-insights.png"
+      ],
+      "spots": [
+        "journeys-19s"
+      ]
+    },
+    {
       "id": "repo-docs-sync",
       "title": "Repo docs sync",
       "category": "Vault Tooling",
@@ -175,6 +186,17 @@
       "features": [],
       "published": "pages/assets/stash-brag.mp4",
       "rendered": "2026-10-02"
+    },
+    {
+      "id": "journeys-19s",
+      "seconds": 19,
+      "format": "landscape",
+      "tool": "promo/build.sh (compose.html + synth.py, Docker)",
+      "features": [
+        "journeys"
+      ],
+      "published": "pages/assets/journeys-19s.mp4",
+      "rendered": "2026-10-09"
     }
   ],
   "reels": [
@@ -184,6 +206,13 @@
         "brag-20s"
       ],
       "published": "pages/assets/stash-brag.mp4"
+    },
+    {
+      "id": "journeys-page",
+      "spots": [
+        "journeys-19s"
+      ],
+      "published": "pages/assets/journeys-19s.mp4"
     }
   ],
   "brand": {

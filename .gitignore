@@ -194,3 +194,4 @@ agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
 
 # Playwright MCP page snapshots (browser session dumps)
 .playwright-mcp/
+promo/out/

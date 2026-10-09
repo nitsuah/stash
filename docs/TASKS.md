@@ -16,11 +16,13 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Done 2026-10-09: nitsuah/.github#19.
 - [x] Wire the loop into routines: 1FLOW takes `bot:journey` issues first (`Refs #N`, nightly closes them); RSI runs `metrics.mjs` monthly into JOURNEYS.md.
   - Done 2026-10-09: agent/prompts/1FLOW.md, RSI.md, JOURNEYS.md.
-- [ ] Pilot: fire. Review pass, journeys, nightly caller.
-  - Priority: P1
-  - Progress 2026-10-09: review pass filed fire#166–#175; 7 journeys, 19 baselines, soak 70/70; PR open on fire. Remaining: merge it after nitsuah/.github#19, then one `workflow_dispatch` run to create `bot/journeys` and confirm the reporter in Actions.
+- [x] Pilot: fire. Review pass, journeys, nightly caller.
+  - Done 2026-10-09: review pass filed fire#166–#175 and #178; fire#176 (7 journeys, 19 baselines) merged after nitsuah/.github#19; the first `workflow_dispatch` run passed and created `bot/journeys`. visual-docs needs "Allow GitHub Actions to create and approve pull requests" in fire's Actions settings.
+- [x] Promo: a journeys page and spot on stash Pages, added next to the one-brain page without changing it.
+  - Done 2026-10-09: `pages/journeys.html`, `journeys-19s`, compose-only `promo/build.sh`.
 - [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
   - Priority: P2
+  - Progress 2026-10-09: review pass filed vigil#275–#279 and #281; 6 journeys, 12 baselines, soak 54/54 in nitsuah/vigil#282. Remaining: merge it (after nitsuah/.github#21 if you want the updated rules first), one `workflow_dispatch` run, then fold `e2e.yml` failures into the reporter.
 - [ ] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
   - Priority: P2
   - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.

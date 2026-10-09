@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>stash · journeys</title>
+  <meta name="description" content="QA before you have users: an AI uses the app once and files the bugs, then a deterministic Playwright bot walks the happy paths every night for zero tokens and files, dedups and closes its own issues.">
+  <meta property="og:title" content="stash · journeys: QA before you have users">
+  <meta property="og:description" content="An AI uses your app once. A bot uses it every night, for 0 tokens.">
+  <meta property="og:image" content="https://nitsuah.github.io/stash/assets/journeys-19s.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+<!-- Showcase kit: click-to-expand images, fullscreen button on videos. Spec: https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md -->
+<script src="https://cdn.jsdelivr.net/gh/nitsuah/.github@main/showcase/expand.js" defer></script>
+  <style>
+    /* page-local: screenshots in a dark frame, 2-up at most */
+    .shot { margin: 0; background: #131217; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot figcaption { padding: 10px 16px; font-size: 13.5px; color: #a7a3b3; border-top: 1px solid #2f2c39; }
+    .shot figcaption code { background: #24222c; color: #ecebf0; }
+    .shots { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 16px; }
+    .layer .ai { font: 600 11px/1 var(--mono); padding: 3px 6px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+    .layer .ai.once { background: var(--accent-soft); color: var(--accent); }
+    .layer .ai.zero { background: var(--accent-2-soft); color: var(--accent-2); }
+    .card .num { font: 600 13px var(--mono); color: var(--accent-2); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="dot"></span>stash · journeys</a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#review">Review pass</a>
+      <a href="#nightly">Nightly</a>
+      <a href="#lifecycle">Lifecycle</a>
+      <a href="#adopt">Adopt it</a>
+      <a href="./">One brain ↩</a>
+      <a href="https://github.com/nitsuah/stash">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">nitsuah/stash · agent/prompts/JOURNEYS.md</div>
+    <h1>QA before you have <em>users</em>.</h1>
+    <p class="lede">
+      An AI uses the app once, like a new user, and files every defect it can prove. Then it writes the happy paths
+      down as Playwright journeys, and from there a plain script walks them every night: no model, no tokens.
+      Failures become issues, repeats update the same issue, and fixes are verified by the bot, not by whoever merged them.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/nitsuah/.github/blob/main/journeys/STANDARD.md">Read the standard →</a>
+      <a class="btn" href="https://github.com/nitsuah/stash/blob/main/agent/prompts/JOURNEYS.md">Playbook and run log</a>
+      <a class="btn" href="https://github.com/nitsuah/.github/blob/main/skills/journeys/SKILL.md">The <code>/journeys</code> skill</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>11</b><span>issues from one review pass on fire</span></div>
+      <div class="stat"><b>7</b><span>journeys, written once</span></div>
+      <div class="stat"><b>19</b><span>visual baselines, Linux/Docker</span></div>
+      <div class="stat"><b>0</b><span>tokens per nightly run</span></div>
+      <div class="stat"><b>3</b><span>green nights before auto-close</span></div>
+    </div>
+
+    <figure class="video">
+      <video controls playsinline preload="none" poster="assets/journeys-19s.jpg" width="1920" height="1080">
+        <source src="assets/journeys-19s.mp4" type="video/mp4">
+        <a href="assets/journeys-19s.mp4">Watch the 19-second overview (MP4)</a>
+      </video>
+      <figcaption>19 seconds: the review pass on fire, the nightly run, and an issue's life from first failure to auto-close.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>AI at two points. Code everywhere else.</h2>
+    <p class="sub">
+      Think of an OSRS essence-mining bot: deterministic, repeatable, close to free. The bot that uses the product every
+      night is a Playwright script on a cron. AI writes it, and AI fixes what it finds. Everything between is GitHub Actions.
+    </p>
+    <div class="layers">
+      <div class="layer"><div><b>Review pass <span class="ai once">AI · once</span></b><span>An agent tours the app, Pages site and promo at 1440×900 and 390×844 on the demo seed, reads every screenshot, and files one <code>bot:review</code> issue per defect it can back with a <code>file:line</code> cause or two reproductions.</span></div></div>
+      <div class="layer"><div><b>Write the journeys <span class="ai once">AI · once per feature</span></b><span>Each confirmed happy path becomes <code>tests/journeys/*.spec.js</code>: 2–4 <code>step()</code>s in the user's words, real seeded numbers in the assertions, and a screenshot baseline after every step.</span></div></div>
+      <div class="layer"><div><b>Nightly run <span class="ai zero">0 tokens</span></b><span>A reusable workflow runs the journeys in the Playwright Docker image: fictional seed, mocked prices, frozen clock, chart animations off.</span></div></div>
+      <div class="layer"><div><b>Reporter <span class="ai zero">0 tokens</span></b><span><code>reporter.mjs</code> fingerprints each failure, opens or updates a <code>bot:journey</code> issue with pinned screenshots, rebuilds <code>BUGS.md</code>, and appends the night to <code>metrics/&lt;month&gt;.jsonl</code>.</span></div></div>
+      <div class="layer"><div><b>Fix <span class="ai once">AI · once per bug</span></b><span>Delivery routines take <code>bot:journey</code> issues before other backlog and open a PR that says <code>Refs #N</code>, never <code>Fixes</code>. The bot decides when it's fixed.</span></div></div>
+      <div class="layer"><div><b>Monthly RSI <span class="ai zero">0 tokens</span> + one short read</b><span><code>metrics.mjs</code> prints flaky rate, reopen rate, time-to-fix and feature coverage. One AI pass turns outliers into rules.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="review">
+  <div class="wrap">
+    <div class="eyebrow">Step 1 · the review pass</div>
+    <h2>One pass on fire, eleven issues, each with a cause</h2>
+    <p class="sub">
+      <a href="https://github.com/nitsuah/fire">fire</a> is the pilot: a local-first net-worth tracker with an MCP server.
+      The pass ran a scripted tour, not a click-through, and filed only what it could prove. A few of them:
+    </p>
+    <div class="grid g3">
+      <a class="card" href="https://github.com/nitsuah/fire/issues/169"><span class="tag warn">wrong number</span><h3><span class="num">#169</span> Insights says 74% equities; Asset Allocation says 72.6%</h3><p>The Insights figure counted crypto as equity. The issue carried the arithmetic and the line in <code>dashboard.js</code>.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/issues/178"><span class="tag warn">wrong number</span><h3><span class="num">#178</span> The MCP summary disagrees with the dashboard</h3><p>Claude's <code>fire_status_summary</code> reported a different net worth and years-to-FIRE than the screen did.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/issues/175"><span class="tag warn">promo</span><h3><span class="num">#175</span> The demo seed used a real person's wallet</h3><p>Found in the promo video, not the app. The fix swaps in an unregistered placeholder name.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/issues/174"><span class="tag warn">promo</span><h3><span class="num">#174</span> The seed's 365-day history was dropped</h3><p>Captures showed an empty trend chart because the API seed stripped a server-owned field.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/issues/167"><span class="tag">layout</span><h3><span class="num">#167</span> The allocation legend clips its labels</h3><p>Still visible in the nightly baselines until it's fixed. That's on purpose.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/issues/173"><span class="tag">phone</span><h3><span class="num">#173</span> The ledger's add-sale row is unusable at 390 px</h3><p>Only shows up at phone width, which is why the tour runs at two viewports.</p></a>
+    </div>
+    <figure class="shot" style="margin-top:16px">
+      <img src="assets/journeys-insights.png" alt="fire's Insights tab on the fictional demo seed: net worth $287,897.50 and four portfolio insight tiles" width="1280" height="720" loading="lazy">
+      <figcaption>The Insights tab on the fictional demo seed, written by the nightly journey <code>investor reads and dismisses portfolio insights</code>.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="nightly">
+  <div class="wrap">
+    <div class="eyebrow">Step 2 · nightly journeys</div>
+    <h2>A journey is one thing a user wants done</h2>
+    <p class="sub">
+      Named in the user's words, tagged with the feature ids from <code>promo/spots.json</code> (so coverage counts itself),
+      and asserted on numbers a user would notice. This is fire's, abridged:
+    </p>
+<pre><code>test('reseller prices an eBay sale and logs it',
+    { tag: ['@feature:fee-calculator', '@feature:income-logs'] }, async ({ page }) =&gt; {
+  await step(page, 'open Side Hustle Hub', async () =&gt; {
+    await openApp(page);
+    await openTab(page, 'sidegig');
+  });
+  await step(page, 'price an eBay sale', async () =&gt; {
+    await page.fill('#ebay-price', '100');
+    await page.fill('#ebay-cost', '30');
+    await page.fill('#ebay-shipping-actual', '8.50');
+    await expect(page.locator('#ebay-res-profit')).toHaveText('$45.50');
+  }, { docs: 'fee-calculator' });   // also writes docs/screenshots/fee-calculator.png
+});</code></pre>
+    <p class="sub" style="margin-top:20px">
+      Every <code>step()</code> ends in a screenshot baseline with a fixed tolerance of 1,000 px: above the ~650 px of canvas
+      font noise, and far below the 6,029 px a renamed wallet produced (a 1% ratio let that through). The same steps write
+      the docs screenshots, so the README images can't go stale either.
+    </p>
+    <div class="shots">
+      <figure class="shot"><img src="assets/journeys-fee.png" alt="fire's eBay fee calculator showing a $45.50 profit on a $100 sale" width="1280" height="720" loading="lazy"><figcaption><code>price an eBay sale</code>: the $45.50 is asserted, not just pictured.</figcaption></figure>
+      <figure class="shot"><img src="assets/journeys-phone.png" alt="fire at 390 by 844 phone width with the retirement chart and asset allocation" width="390" height="844" loading="lazy" style="max-height:520px; width:auto; margin:0 auto"><figcaption>The phone journey runs at 390×844 on its own.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="lifecycle">
+  <div class="wrap">
+    <div class="eyebrow">Step 3 · no AI in the loop</div>
+    <h2>Bugs file, dedup and close themselves</h2>
+    <p class="sub">
+      The fingerprint is <code>repo | spec | journey | failing step | error class</code>. The error class is coarse
+      (<code>expect:toHaveText</code>, <code>visual-diff</code>, <code>timeout:locator.click</code>) so the same bug on a
+      different night lands on the same issue.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>When</th><th>The reporter</th></tr></thead>
+        <tbody>
+          <tr><td>New fingerprint</td><td>Opens a <code>bot:journey</code> issue: the step, the error, actual/diff/expected screenshots pinned to a commit, the repro command, the trace. At most 5 new per night.</td></tr>
+          <tr><td>Same fingerprint, issue open</td><td>Updates last seen and the occurrence count in the body. No comment, no noise.</td></tr>
+          <tr><td>Same fingerprint, issue closed</td><td>Reopens it and counts the reopen.</td></tr>
+          <tr><td>Journey passes</td><td>Counts a green night. At 3 in a row, closes the issue with a link to the run. This is the fix verification.</td></tr>
+          <tr><td>Failed, then passed on retry</td><td>No issue. Counted as flaky in the metrics.</td></tr>
+          <tr><td>No report at all</td><td>One <code>(harness)</code> issue, which closes when journeys run again.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok">Every night it also rebuilds <code>BUGS.md</code> on the <code>bot/journeys</code> branch from the open <code>bot:journey</code> and <code>bot:review</code> issues, grouped by <code>area:</code> label. Nobody writes it by hand.</div>
+  </div>
+</section>
+
+<section id="adopt">
+  <div class="wrap">
+    <div class="eyebrow">Use it</div>
+    <h2>Three ways in</h2>
+    <div class="grid g3">
+      <a class="card" href="https://github.com/nitsuah/.github/blob/main/skills/journeys/SKILL.md"><span class="tag">Claude skill</span><h3>/journeys &lt;repo&gt; review</h3><p>Modes: <code>review</code>, <code>adopt</code>, <code>add &lt;feature&gt;</code>, <code>fix &lt;issue&gt;</code>, <code>status</code>. Each AI mode runs once and ends with a run-log entry.</p></a>
+      <a class="card" href="https://github.com/nitsuah/.github/tree/main/journeys"><span class="tag green">harness</span><h3>nitsuah/.github journeys/</h3><p>Reporter, metrics, reusable workflow and templates. No dependencies beyond Node 18. A repo adopts it with one caller workflow.</p></a>
+      <a class="card" href="https://github.com/nitsuah/fire/tree/main/tests/journeys"><span class="tag warn">reference</span><h3>fire tests/journeys/</h3><p>The pilot: a seeded fixture, mocked prices, a frozen clock, seven journeys, and the visual-docs workflow that reuses them.</p></a>
+    </div>
+    <p class="sub" style="margin-top:24px">
+      Rollout, one repo per PR: fire (pilot) → vigil → ats-fill → nitsuah-io → skyview. The order and what's left live in
+      <a href="https://github.com/nitsuah/stash/blob/main/docs/TASKS.md">TASKS.md</a>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>nitsuah/stash · a public reference, not a product · <a href="https://github.com/nitsuah/stash/blob/main/LICENSE">license</a></span>
+    <span><a href="./">one brain</a> · <a href="setup.html">setup</a> · <a href="https://github.com/nitsuah/stash/blob/main/agent/prompts/JOURNEYS.md">JOURNEYS.md</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

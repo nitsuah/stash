@@ -99,7 +99,7 @@ A searchable reference to every artifact in this repository, organized by catego
 
 ### AI Agent System
 
-**Overview site:** [nitsuah.github.io/stash](https://nitsuah.github.io/stash/) explains how the routines, vault scripts and Obsidian plugins keep one linked vault across many repos and machines. It also has a [setup guide](https://nitsuah.github.io/stash/setup.html) for skills and routines. Source: [`pages/`](pages/).
+**Overview site:** [nitsuah.github.io/stash](https://nitsuah.github.io/stash/) explains how the routines, vault scripts and Obsidian plugins keep one linked vault across many repos and machines. It also has a [setup guide](https://nitsuah.github.io/stash/setup.html) for skills and routines. Source: [`pages/`](pages/). A second page, [journeys](https://nitsuah.github.io/stash/journeys.html), shows the QA loop that tests the web repos before they have users.
 
 <img src="pages/assets/vault-graph.gif" width="800" alt="Animated Obsidian graph of the agent/ vault: one cluster per tracked repo, linked by reports, notes and prompts">
 

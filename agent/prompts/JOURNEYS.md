@@ -23,7 +23,7 @@ What already drives each web repo, which this loop reuses rather than duplicates
 | Repo | Playwright today | Promo / showcase | Nightly | Journeys status |
 |---|---|---|---|---|
 | fire | `config/playwright.config.js`, `tests/e2e-ui` (4 specs) + supertest `tests/e2e` | spots, `promo/build.sh`, demo seed | — | ✅ **pilot**: 7 journeys, 19 baselines, coverage 23/92 (before /promo culling) |
-| vigil | `playwright.config.ts`, `e2e/`, `visual-docs.yml` | spots, showcase CLI | `e2e.yml`, `smoke.yml` | next: reuse the visual-docs mocks and frozen clock |
+| vigil | `playwright.config.ts`, `e2e/`, `visual-docs.yml` | spots, showcase CLI | `e2e.yml`, `smoke.yml` | adopted in vigil#282: 6 journeys, `maxDiffPixels: 20` |
 | ats-fill | `config/playwright.config.mjs`, `tests/e2e` | spots, `feature-video.yml` | `playwright-nightly.yml` (artifacts only) | replace the nightly with the journeys caller |
 | nitsuah-io | `config/playwright.config.ts`, `tests/e2e` | spots | `playwright-nightly.yml` (artifacts only) | replace the nightly. Nitsuah-Labs org: confirm Actions can call a nitsuah/ reusable workflow (public, so it should). |
 | skyview | `config/playwright.config.ts` | spots | `playwright.yml` | after nitsuah-io |
@@ -71,6 +71,13 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - Review pass: scripted Playwright tour (7 tabs × 2 widths, console, network, overflow) + live Pages check (links, media, 375px). Filed fire#166–#175 (8 app, 2 promo). Highlights: Insights' equity % counts crypto (74% vs 72.6%, `dashboard.js:646`); single-stock warning fires on VTI; the promo seed's 365-day history is silently dropped; the demo seed shows `vitalik.eth`. The Pages site was clean.
 - Journeys: 7 (first visit, holdings, projections, side hustle, budget, insights, phone), 19 step baselines, coverage 23/92 (spots.json not yet culled). Soak: 70/70 after the Chart.js fix.
 - Cost: one session. The steady-state loop costs 0 tokens per night.
+
+### 2026-10-09 · vigil · review + adopt (nitsuah/vigil#282)
+
+- Ran: scripted tour (dashboard, details, chat, PMO, signed-out, login, 404 × 1440/390) on the visual-docs mocks + Pages site + live app. Filed vigil#275–#279 and #281 (`bot:review`; #278 and #281 fixed in the PR). 6 journeys, 12 baselines, soak 54/54 ×2, sensitivity proven (one letter = 66 px fails).
+- Found: the Tasks card's sort ends in `.reverse()` and shows P3 while hiding P2 (#275, P1); the details prefetch is cancelled for good when `repos` changes inside ~240 ms (#281, found by the soak, not the tour); the trend mock never matched after #253 added `?fullName=` (#278).
+- Friction: `networkidle` resolves at once after the first idle, so baselines flipped with the prefetch; a 1000 px tolerance let a one-letter change through on a DOM-only app; exact-name locators break when a sort arrow joins the button name. Each soak pass takes ~1.2 min in Docker on Windows.
+- Promote: nitsuah/.github#21 (tolerance from measured noise, canvas ~1000 / DOM ~20; `settle()` counts in-flight `/api/` requests). A soak that flips between runs is worth reading as a product race before you widen a timeout.
 
 ## Metrics log
 
