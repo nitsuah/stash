@@ -5,9 +5,11 @@ date: 2026-10-08
 ---
 
 # LOC Report — ats-fill
+
+> 🧭 [[repos/ats-fill|ats-fill]] <!-- nav -->
+
 HEAD: f56bb1ab28cc47b1d7ea30310bdae1794c91979c
 
-> 🧭 [[repos/ats-fill|ats-fill]] · ← [[reports/eng-loc-auto-apply-plugin-2026-09-01|2026-09-01]] <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

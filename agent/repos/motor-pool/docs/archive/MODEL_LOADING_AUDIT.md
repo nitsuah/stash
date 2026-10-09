@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · MODEL_LOADING_AUDIT"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/MODEL_LOADING_AUDIT.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/MODEL_LOADING_AUDIT.md
 kind: repo-doc
 repo: motor-pool
 ---

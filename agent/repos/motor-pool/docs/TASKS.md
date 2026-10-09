@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · TASKS"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/TASKS.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/TASKS.md
 kind: repo-doc
 repo: motor-pool
 ---

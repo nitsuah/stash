@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · CLAUDE"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/CLAUDE.md
+source: https://github.com/nitsuah/ats-fill/blob/main/CLAUDE.md
 kind: repo-doc
 repo: ats-fill
 ---

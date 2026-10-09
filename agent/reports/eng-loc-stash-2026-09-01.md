@@ -6,7 +6,7 @@ date: 2026-09-01
 
 # LOC Report — stash
 
-> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-07-04|2026-07-04]] <!-- nav -->
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-07-04|2026-07-04]] · [[reports/eng-loc-stash-2026-10-08|2026-10-08]] → <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-01

@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — farm-3j (2026-07-29)
 
-> 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-07-04|2026-07-04]] <!-- nav -->
+> 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-07-04|2026-07-04]] · [[reports/eng-loc-farm-3j-2026-10-08|2026-10-08]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

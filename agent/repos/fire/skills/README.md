@@ -73,8 +73,9 @@ Just this project:
 mkdir -p .claude/skills && cp -r skills/fire-coach skills/reseller-autopilot skills/passive-income-lab .claude/skills/
 ```
 
-Claude.ai / Claude Desktop: zip each skill folder and upload it under
-**Settings → Capabilities → Skills**.
+Claude.ai / Claude Desktop: turn on **Settings → Capabilities → Code execution and file
+creation**, then zip each skill folder and upload it under **Customize → Skills** (**+** →
+**Create skill** → **Upload a skill**).
 
 **Live data (the `fire-tracker` MCP server)** depends on the client:
 

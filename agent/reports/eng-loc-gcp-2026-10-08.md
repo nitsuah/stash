@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: gcp
+date: 2026-10-08
+---
+
 # LOC Report — gcp
+
+> 🧭 [[repos/gcp|gcp]] · ← [[reports/eng-loc-gcp-2026-07-29|2026-07-29]] <!-- nav -->
+
 HEAD: c58f7290134b154bb234fdbfef8c7a73e08b0d8f
 
 ---
@@ -7,7 +16,6 @@ repo: gcp
 date: 2026-10-08
 ---
 
-> 🧭 [[repos/gcp|gcp]] · ← [[reports/eng-loc-gcp-2026-07-29|2026-07-29]] <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

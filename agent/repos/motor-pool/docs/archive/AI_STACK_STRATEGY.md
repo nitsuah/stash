@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · AI_STACK_STRATEGY"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/AI_STACK_STRATEGY.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/AI_STACK_STRATEGY.md
 kind: repo-doc
 repo: motor-pool
 ---

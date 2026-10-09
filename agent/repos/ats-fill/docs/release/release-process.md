@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · release-process"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/release/release-process.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/release/release-process.md
 kind: repo-doc
 repo: ats-fill
 ---

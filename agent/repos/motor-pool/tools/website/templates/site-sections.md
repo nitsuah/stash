@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · site-sections"
-source: https://github.com/nitsuah/agent-board/blob/master/tools/website/templates/site-sections.md
+source: https://github.com/nitsuah/motor-pool/blob/master/tools/website/templates/site-sections.md
 kind: repo-doc
 repo: motor-pool
 ---

@@ -40,9 +40,13 @@ one tappable summary bar.
 - **Manual:** the same form's Account/Asset, CD, Real Estate and Vehicle
   options. Gold/silver are valued by weight × live spot price. For crypto,
   enter an ENS name, 0x address or ticker (with a quantity). ⟳ Refresh on an
-  ENS/0x account totals coins and tokens across 7 EVM chains and shows the
-  per-chain split. CoinTracker (Settings) can import every wallet once its
-  MCP access is enabled.
+  ENS/0x account totals coins and priced tokens on Ethereum, Base, Optimism,
+  Arbitrum and Polygon, plus native BNB and AVAX balances, and shows the
+  per-chain split. CoinTracker (Settings) can import every wallet, but its MCP
+  is paid early access. For an account that isn't enrolled, sign-in completes,
+  but the first sync fails (401), the stored connection is dropped and no
+  wallets import. Once CoinTracker enables MCP access, reconnect in Settings
+  and sync again.
 - **Synced (self-hosted, opt-in):** Plaid (Settings), eBay (Side Hustle Hub →
   eBay Sales Sync), wallets (Crypto Wallets).
 - **Google Drive Backup (Settings → Data Management):** self-hosted only — encrypts db.json with `SYNC_MASTER_KEY` before uploading to your personal Drive; the hosted demo does not offer this.

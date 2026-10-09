@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · API"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/API.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/API.md
 kind: repo-doc
 repo: motor-pool
 ---
@@ -479,7 +479,7 @@ GET /api/tracing/status
 }
 ```
 
-Enable tracing with `OTEL_ENABLED=true` and `--profile observability` — see [.env.example](https://github.com/nitsuah/agent-board/blob/master/.env.example).
+Enable tracing with `OTEL_ENABLED=true` and `--profile observability` — see [.env.example](https://github.com/nitsuah/motor-pool/blob/master/.env.example).
 
 ---
 

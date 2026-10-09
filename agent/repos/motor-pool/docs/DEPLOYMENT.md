@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · DEPLOYMENT"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/DEPLOYMENT.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/DEPLOYMENT.md
 kind: repo-doc
 repo: motor-pool
 ---

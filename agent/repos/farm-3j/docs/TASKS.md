@@ -36,7 +36,8 @@ files rather than a duplicated narrative here._
 - [ ] Profile render loop at 30+ units on 25×25 map; investigate canvas/OffscreenCanvas fallback for mobile
   - Priority: P2
   - Type: Tech debt
-- [ ] Add unit tests for core helpers: `tileDist`, `tileToSvg`, A\* pathfinding (damage formulas ✅ covered by towerHelpers/spawnHelpers tests)
+- [x] Add unit tests for core helpers: `tileDist`, `tileToSvg`, A\* pathfinding (damage formulas ✅ covered by towerHelpers/spawnHelpers tests)
+  - Done 2026-10-09: `map.test.ts` / `pathfinding.test.ts` already covered the basics; `components/rts/game/__tests__/coreHelpers.test.ts` adds exact-value, grid-boundary, path-contiguity/optimality and no-path cases
   - Priority: P2
   - Type: Tech debt
 

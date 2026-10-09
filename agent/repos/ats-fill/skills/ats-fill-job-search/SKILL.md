@@ -3,7 +3,7 @@ name: ats-fill-job-search
 description: Job-search coach paired with the ats-fill Chrome extension. Use when helping someone find and choose roles, read a job description, tailor a resume or application answers, network or ask for referrals, prepare for behavioral, technical or system-design interviews, follow up, evaluate or negotiate an offer, track applications, or get more out of ats-fill (profile, form fill, job search, pipeline, analytics, interview prep).
 up: "[[repos/ats-fill]]"
 title: "ats-fill · SKILL"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/skills/ats-fill-job-search/SKILL.md
+source: https://github.com/nitsuah/ats-fill/blob/main/skills/ats-fill-job-search/SKILL.md
 kind: repo-doc
 repo: ats-fill
 ---

@@ -33,5 +33,6 @@ All numbers and events are real app output for the fictional demo portfolio (`pr
 | 7 Outro | 21.0–24.0 | 🔥 fire · "Plan for the life you'll actually live." · chips `github.com/nitsuah/fire` and `docker compose up fire` · TRY IT LIVE **lifefire.netlify.app** |
 
 ## Revisions
+
 - **v1 (chaos-22s):** seed 60, 22s, no mitigations.
 - **v2 (chaos-24s):** seed 23 for a funeral → inherited house sequence; adds the Mitigate scene; tooltip and callouts follow the new events; the phone shot shows the one-column fix.

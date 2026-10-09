@@ -12,7 +12,7 @@ repo: fire
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 >
 > **Status:** Reference / current implementation  
-> **Last updated:** 2026-10-01  
+> **Last updated:** 2026-10-08  
 > **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md)
 
 This document describes every planned external integration — what credentials are needed, what data is fetched, and what setup is required.
@@ -154,6 +154,88 @@ Revenue is item sales plus shipping paid by the buyer; expenses are total
 selling costs plus shipping labels you bought. Rows are keyed by eBay item ID
 plus the report's date range: re-uploading a report is skipped, and a later
 report whose range contains an earlier one replaces those rows.
+
+## Etsy Open API v3
+
+**Purpose:** Import paid Etsy orders (shop receipts) into the Side Gig Ledger.  
+**Phase:** Live (self-hosted Express + browser-only Netlify Function)  
+**Auth type:** OAuth 2.0 Authorization Code with PKCE (S256)  
+**Scopes:** `transactions_r shops_r` (read-only)
+
+### Setup
+
+1. Register an app at [etsy.com/developers](https://www.etsy.com/developers/your-apps) and wait for it to be approved for personal access.
+2. Add the callback URL as an allowed redirect: `https://<your-host>/api/sync/etsy/callback` (self-hosted, e.g. `http://localhost:3001/api/sync/etsy/callback`) or `https://lifefire.netlify.app/api/sync/etsy/callback`.
+3. Copy the **keystring** (and the **shared secret** if your app has one).
+
+### Env Vars
+
+```dotenv
+ETSY_CLIENT_ID=       # App keystring (public client id; PKCE, no secret in the token exchange)
+ETSY_SHARED_SECRET=   # Optional. When set, API calls send x-api-key: keystring:shared_secret
+ETSY_REDIRECT_URI=    # Optional. Defaults to <request origin>/api/sync/etsy/callback
+SYNC_MASTER_KEY=      # 64 hex chars — seals the PKCE cookie and encrypts the tokens
+```
+
+### Flow
+
+| Path | Self-hosted (`app/routes/etsy.js`) | Browser-only (`netlify/functions/etsy.mjs`) |
+|---|---|---|
+| `GET /api/sync/etsy/authorize` | Redirects to `https://www.etsy.com/oauth/connect` with a PKCE challenge; state + verifier ride in a sealed, 10-minute HttpOnly cookie (`etsy_oauth`, path `/api/sync/etsy`) | Same |
+| `GET /api/sync/etsy/callback` | Checks state, exchanges the code with the verifier, saves the tokens to `tokens-etsy.json` (AES-256-GCM via `app/lib/token-store.js`, like eBay), returns to `/#etsy-connected=stored`. Exempt from the API-key gate; the sealed cookie is its trust boundary | Same exchange; returns the tokens **sealed with `SYNC_MASTER_KEY`** in the fragment (`/#etsy-connected=<blob>`). The browser keeps the blob under `fire_tracker_etsy_token` (not in `fire_tracker_state` or its backups) and can't read it |
+| `POST /api/sync/etsy/sync` | Pulls receipts, merges new ones into the server ledger, records the last sync | Body `{tokens, since?}`; returns `entries` (+ a resealed blob when tokens rotated or the shop id was looked up). The SPA merges them into `localStorage` |
+| `GET /api/sync/etsy/status`, `POST /api/sync/etsy/toggle`, `POST /api/sync/etsy/disconnect` | Server routes | **Browser-only fallback:** computed/stored in the browser (`app/lib/etsy-sync.js`); the Function answers `404` for these |
+
+The SPA only accepts an `#etsy-connected=` / `#etsy-error=` result when this tab started the connect (a `sessionStorage` marker), like eBay and CoinTracker.
+
+### What's Fetched
+
+- `GET /v3/application/users/me` once, for the `shop_id` (stored with the tokens).
+- `GET /v3/application/shops/{shop_id}/receipts?was_paid=true&sort_on=created&sort_order=asc` (100 per page, at most 10 pages per sync). Later syncs pass `min_created` = last sync − 7 days; dedupe drops the overlap. A sync that hits the 10-page cap reports `truncated` and stores a resume point (the newest receipt it read, `resumeFrom` in the token store or `fire_tracker_etsy_resume_from` in the browser); the next sync starts there, so a large backlog is read across several syncs instead of being skipped.
+- A 401 from the API after a successful refresh (e.g. a wrong keystring/shared secret) returns `etsy_unauthorized` and keeps the connection, the refreshed tokens and the synced rows; only `invalid_grant` (`etsy_revoked`) or an unreadable blob (`etsy_token_invalid`) drops them.
+- Access tokens last an hour and are refreshed ahead of expiry or once on a 401; Etsy rotates refresh tokens, so a refreshed grant is always saved (or handed back to the browser) even when the sync then fails.
+
+### Ledger mapping
+
+| Ledger field | Source |
+|---|---|
+| `id` | `etsy-<receipt_id>` (stable upstream id; dedupe key). `etsyReceiptId` keeps the raw id |
+| `date` | `create_timestamp` (UTC date) |
+| `desc` | First transaction title, plus `(+N more)` for multi-item orders |
+| `category` | `Etsy` |
+| `revenue` | `grandtotal − total_tax_cost − total_vat_cost − refunds` (sales tax Etsy collects and remits is not income) |
+| `expenses` | **Estimated** from Etsy's US fee schedule: $0.20 listing × quantity + 6.5% of revenue + (3% of grandtotal + $0.25) processing. Flagged `feesEstimated: true`; receipts carry no fee data, and the exact figures (Etsy Ads, Offsite Ads, currency conversion) are on the shop's monthly statement |
+| `basisType` | Left unset for the user to tag (bought to resell / personal / gift / free) |
+
+Canceled, unpaid and fully refunded receipts are skipped; partial refunds reduce revenue.
+
+### Revocation and disconnect
+
+- A refresh rejected with `invalid_grant` returns `401 {"code":"etsy_revoked"}`. The tokens and the rows the receipts sync created (`id` exactly `etsy-<receiptId>`) are deleted, on the server or in the browser. Manually logged Etsy sales are kept.
+- **Disconnect** forgets the tokens only; synced sales stay in the ledger (they are the user's records, with any tax tags and costs).
+- Rotating `SYNC_MASTER_KEY` disconnects browser-only users (`etsy_token_invalid`); they reconnect.
+
+### UI
+
+Side Hustle Hub → **Etsy Sales Sync** card, and Settings → **Marketplace Connections**: connected/disconnected state, last sync, Sync Now, Disconnect and an on/off toggle (`etsySyncEnabled`).
+
+## Mercari, Poshmark and FB Marketplace (CSV import)
+
+None of these has a public seller API, so sales come in through the Side Gig Ledger's **Upload sales report (CSV)** button (the same button as the eBay Seller Hub report). The file type is detected from its header row; parsing lives in `app/lib/marketplace-reports.js` (pure functions shared by the browser and Vitest). Nothing leaves the browser, so this works identically on the self-hosted and the browser-only deploy.
+
+None of these exports is documented, so every column is matched through a list of aliases (exact header first, then prefix) and a file is only accepted when its required columns are found. **Assumed columns:**
+
+| Platform | Detected by | Columns read (first alias shown) | Revenue / expenses |
+|---|---|---|---|
+| **Mercari** (Sales history export, mercari.com → Account → Sales → Download) | a header containing `Mercari`, or `Net Seller Proceeds` | `Item Id`, `Item Title`, `Sold Date`, `Item Price`*, `Buyer Shipping Fee`, `Seller Shipping Fee`, `Mercari Selling Fee`, `Payment Processing Fee Charged To Seller`, `Shipping Adjustment Fee`, `Penalty Fee`, `Net Seller Proceeds`, `Order Status`, `Canceled Date` | revenue = item price + buyer shipping; expenses = the fee/label columns, else revenue − net proceeds, else 10% (flagged estimated) |
+| **Poshmark** (Sales report, Account → My Sales Report) | a header containing `Poshmark`, or `Net Earnings` with an `Order …` column | `Order Id`, `Listing Title`, `Order Date`, `Order Price`*, `Poshmark Fee`, `Seller Shipping Discount`, `Upgraded Shipping Label Fee`, `Net Earnings`, `Order Status` | revenue = order price; expenses = fee column + discounts, else price − net earnings, else $2.95 / 20% (flagged estimated) |
+| **FB Marketplace** (no export; fill in [`app/templates/fb-marketplace-sales.csv`](../app/templates/fb-marketplace-sales.csv), linked as **FB CSV template**) | `Date`, `Item` and `Sale Price` columns | `Date`*, `Item`*, `Sale Price`*, `Shipping Charged`, `FB Fees`, `Shipping Cost`, `Item Cost`, `Tax Tag`, `Order ID` | revenue = sale price + shipping charged; expenses = FB fees + shipping cost; `Item Cost` → cost basis; `Tax Tag` (`business`/`personal`/`gift`/`free`) → tax tag |
+
+\* required. Rows whose status mentions canceled/refunded/returned (or with a Mercari canceled date) are skipped. Mercari and Poshmark rows are left untagged for the user.
+
+**Dedupe.** Rows are keyed `mercari-<Item Id>`, `poshmark-<Order Id>`, `fb-<Order ID>`. A row with no id gets `<platform>-csv-<hash of date|title|revenue>-<n>`, where `n` counts identical rows within the file, so re-uploading the same export maps every row to the same id. Rows already in the ledger are skipped, which keeps any tax tag or cost entered on them.
+
+If an export doesn't import, its headers differ from the assumptions above: open an issue with the header row (no sales data needed).
 
 ## CoinTracker (Wallet Discovery & Balances)
 

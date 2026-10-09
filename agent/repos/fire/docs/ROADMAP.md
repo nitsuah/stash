@@ -35,6 +35,8 @@ The Sep 28 browser/hosted deployment pass closed the eBay Hub UX, hosted metals 
 PROD Phase 1 (real-time data connectors: eBay API, Web3 wallets across 8 registered chains, vehicle value, encrypted Drive backup) is shipped; these are what's left, plus open 2026 Q4 items.
 
 - [ ] Model real eBay marginal fee brackets per category (needs per-category cap/tier data) *(PROD Phase 1)*
+- [x] Marketplace hookups beyond eBay: Etsy OAuth (PKCE) receipts sync with hosted parity, Mercari/Poshmark/FB Marketplace CSV import, Mercari/Poshmark fee calculators *(PROD Phase 1)*
+- [ ] Etsy exact fees from the payment-account ledger (replaces the fee-schedule estimate) and a live run against a real shop *(PROD Phase 1)*
 - [ ] Tax drag estimation engine (custom federal/state brackets, capital gains) *(carried from 2026 Q4; side-gig tax tagging #120 is a first input)*
 - [ ] Lightweight PWA packaging *(carried from 2026 Q4; the installable/offline PWA in Phase 4 builds on this)*
 
@@ -71,7 +73,7 @@ Goal: match Fidelity NetBenefits + Rocket Money from a tracking standpoint while
 - [ ] PWA — installable, offline-capable
 - [~] Notification system — in-app alerts bell and browser-notification settings shipped; push/outbound delivery pending
 - [ ] Optional multi-user mode (separate encrypted db.json per user, auth-gated)
-- [ ] **Unified sync-health widget** — one settings panel showing last-sync time, status, and a manual "sync now" per connector (eBay, Plaid, each wallet chain, Drive backup), instead of a separate last-sync indicator per integration.
+- [ ] **Unified sync-health widget** — one settings panel showing last-sync time, status, and a manual "sync now" per connector (eBay, Etsy, Plaid, each wallet chain, Drive backup), instead of a separate last-sync indicator per integration.
 - [ ] **Outbound webhook / notification hook** — the webhook framework (`app/lib/webhook-integration.js`) is inbound-only today. A scheduled outbound POST of a net-worth/FIRE-progress snapshot to a user-supplied webhook URL (Discord, Slack, ntfy) would reuse the existing HMAC + JSONata infrastructure in reverse and is a natural pairing with the planned CD-maturity notification system.
 
 ## Ideas — not yet scheduled

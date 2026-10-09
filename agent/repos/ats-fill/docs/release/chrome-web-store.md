@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · chrome-web-store"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/release/chrome-web-store.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/release/chrome-web-store.md
 kind: repo-doc
 repo: ats-fill
 ---

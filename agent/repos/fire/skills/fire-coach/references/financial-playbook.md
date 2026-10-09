@@ -92,7 +92,9 @@ every year: look up the current figures instead of quoting from memory.
   can be withdrawn anytime. A **Roth conversion ladder** makes each conversion
   penalty-free after 5 years. The **Rule of 55** applies to a 401(k) from an
   employer you leave in or after the year you turn 55. **72(t)/SEPP** allows
-  substantially equal periodic payments. HSA receipts can be reimbursed any time.
+  substantially equal periodic payments. HSA receipts can be reimbursed any time later, but only for qualified
+  expenses incurred after the HSA was opened that weren't reimbursed elsewhere
+  or deducted.
 - **Side-hustle income:** self-employment tax is ~15.3% on 92.35% of net
   earnings, on top of income tax. A return is generally required once net
   self-employment earnings reach $400. Pay **quarterly estimates**; the

@@ -22,7 +22,7 @@ repo: fire
 **fire is a local-first FIRE tracker for people who want one place to see the whole picture without handing their financial database to a hosted dashboard.**
 
 - **Your data, your machine** — the primary datastore is local `db.json`, with optional AES-256-GCM encryption at rest.
-- **Read-only integrations** — eBay, Plaid, blockchain providers, market-data providers, and vehicle lookup are used for tracking/sync; fire does not initiate financial transactions. **Drive backup** writes encrypted backups to Google Drive.
+- **Read-only integrations** — eBay, Etsy, Plaid, blockchain providers, market-data providers, and vehicle lookup are used for tracking/sync; fire does not initiate financial transactions. **Drive backup** writes encrypted backups to Google Drive.
 - **Everything counts** — investments, cash, CDs, real estate, vehicles, precious metals, crypto wallets, income, expenses, and side-hustle sales live in one net-worth model.
 - **Ask your LLM** — the built-in MCP server exposes read-only financial tools for Claude/other MCP clients without giving the model trading or write access to external accounts.
 - **Built for investigation, not just a number** — projections, scenario stress tests, diversification signals, tax-loss alerts, rebalancing what-ifs, CD maturities, emergency runway, and side-gig tax tagging turn raw balances into context.
@@ -46,15 +46,16 @@ repo: fire
 - **Insights** — portfolio insight tiles (diversification, emergency fund, savings rate, CD maturities, SWR, crypto share), tax-loss harvesting alerts, and a portfolio rebalancing tool
 - **Investment P&L Table** — sortable, color-coded, allocation filter with pie chart, risk concentration badges
 - **CD Ladder Visualizer** — timeline of upcoming maturities with yield overlays
-- **Side Hustle Tracker** — income logs, built-in eBay/Etsy/Facebook fee calculators, an eBay sales-report CSV upload (deduplicated against earlier imports), and rotating, dismissible side-hustle ideas with guide/video links
+- **Side Hustle Tracker** — income logs, built-in eBay/Etsy/FB Marketplace/Mercari/Poshmark fee calculators, one sales-report CSV upload for eBay Seller Hub, Mercari, Poshmark and an FB Marketplace template (deduplicated against earlier imports), and rotating, dismissible side-hustle ideas with guide/video links
 - **CSV Imports** — one unified add form (Import CSV is the default option) for Fidelity positions, Chase and Capital One statements, and eBay sales reports, plus Expenses-tab spending upload with auto-categorization (all processed locally)
 - **Precious metals** — Gold/Silver account type valued by weight × live spot (metals.dev with a free Yahoo futures fallback)
-- **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins plus priced tokens across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche, with no API keys, and shows the per-chain breakdown under the row. A ticker account is valued as quantity × live price. Wallet tracking appears under the form when Type = Cryptocurrency
+- **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins plus priced tokens across Ethereum, Base, Optimism, Arbitrum and Polygon, plus native BNB and AVAX balances on BNB Chain and Avalanche (native only, no tokens), with no API keys, and shows the per-chain breakdown under the row. A ticker account is valued as quantity × live price. Wallet tracking appears under the form when Type = Cryptocurrency
 - **REST API** — full CRUD for accounts, CDs, wallets, vehicles, sync templates, state; `FIRE_API_KEY` header auth required by default (opt out with `FIRE_AUTH_DISABLED=true` for local-only use); `FIRE_ADMIN_KEY`-gated key-rotation endpoint
 - **MCP Server** — 16 read-only tools for Claude/LLM integration via `app/mcp-server.mjs`
 - **Yahoo Finance prices** — live portfolio valuation with crumb-based auth, stale-data fallback, and SSE (`GET /api/prices/stream`) for live push; configurable via `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` as stable alternatives
 - **Webhook sync framework** — JSON data-mapped templates for automated data ingestion (full CRUD + live receiver at `POST /api/sync/webhook/:templateId`)
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
+- **Etsy Order Sync** — Etsy Open API v3 OAuth with PKCE (read-only `transactions_r shops_r`): **Connect Etsy** in the Side Hustle Hub (or Settings → Marketplace Connections) pulls paid shop receipts into the ledger, deduplicated by receipt ID, with fees estimated from Etsy's schedule and tax tags left for you. Works self-hosted and on the hosted deploy (see [docs/integrations.md](docs/integrations.md#etsy-open-api-v3))
 - **Plaid integration** — link-token flow, position/account sync, and transaction sync with auto-categorization into Expenses (`POST /api/sync/plaid/*`); manual CSV import is disabled while Plaid sync is active. Connector controls live in Settings
 - **CoinTracker wallets (optional)** — connect CoinTracker (OAuth, read-only MCP) to import all wallets and exchange accounts with current balances. It becomes the source of truth for matching manual crypto entries. See [docs/integrations.md](docs/integrations.md#cointracker-wallet-discovery--balances)
 - **Web3 wallet tracking** — full wallet CRUD (`/api/wallets`) with on-chain balance refresh; supports ETH/EVM, BTC, SOL, BNB, Polygon, Arbitrum, Base, Avalanche
@@ -124,6 +125,7 @@ basic local use — the one exception is `FIRE_API_KEY` (or its explicit
 | `SESSION_SECRET` | Secret for signing session cookies (random string; server exits in production if unset) |
 | `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | eBay Developer app credentials for Order API sync |
 | `EBAY_ENVIRONMENT` | `sandbox` (default) or `production` |
+| `ETSY_CLIENT_ID` | Etsy app keystring for receipts sync (with `SYNC_MASTER_KEY`). Optional: `ETSY_SHARED_SECRET` (sent as `x-api-key: keystring:secret`) and `ETSY_REDIRECT_URI` (defaults to `<origin>/api/sync/etsy/callback`) |
 | `EBAY_REDIRECT_URI` | OAuth `redirect_uri` sent to eBay. For a real eBay app this is your RuName. The default is derived from the incoming request (host + protocol, honouring the reverse proxy). **Required on Netlify** |
 | `EBAY_VERIFICATION_TOKEN` | 32–80 char token you also register in the eBay Developer Portal for Marketplace Account Deletion notifications |
 | `EBAY_NOTIFICATION_ENDPOINT_URL` | Public HTTPS URL of `/api/sync/ebay/marketplace-account-deletion` exactly as registered with eBay (used in the challenge hash). On Netlify: `https://lifefire.netlify.app/api/sync/ebay/marketplace-account-deletion`. The eBay variables also apply to the Netlify Functions deploy; see [docs/integrations.md](docs/integrations.md#browser-only-deploy-netlify-functions) |
@@ -252,7 +254,7 @@ Every tab is a set of **sections**. Each section picks a column layout: full wid
 ## Data & Privacy
 
 - All financial data is stored in `data/db.json` inside the project directory (Docker volume-mounted).
-- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Plaid (brokerage/bank positions), blockchain lookups (crypto account refresh: ENS via ensdata.net, balances via Blockscout and publicnode.com RPCs — these two need no API key; the wallet tracker: Etherscan, BscScan, Blockstream, etc., which do), CoinTracker (read-only wallet balances), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance needs none; Alpha Vantage / Polygon need keys). Each integration is opt-in independently of the others; beyond being enabled, an integration needs user-provided credentials only where its provider issues them.
+- External network calls occur only when you explicitly enable integrations: eBay OAuth (order sync), Etsy OAuth (receipts sync), Plaid (brokerage/bank positions), blockchain lookups (crypto account refresh: ENS via ensdata.net, balances via Blockscout and publicnode.com RPCs — these two need no API key; the wallet tracker: Etherscan, BscScan, Blockstream, etc., which do), CoinTracker (read-only wallet balances), Google Drive backup, vehicle VIN lookup (NHTSA), and price providers (Yahoo Finance needs none; Alpha Vantage / Polygon need keys). Each integration is opt-in independently of the others; beyond being enabled, an integration needs user-provided credentials only where its provider issues them.
 - Optionally encrypt `db.json` at rest with `SYNC_MASTER_KEY` (AES-256-GCM).
 - Export/restore a full JSON backup any time from the dashboard.
 
@@ -278,6 +280,10 @@ fire/
 │   │   ├── prices-provider.js  # Price provider abstraction (Yahoo / Alpha Vantage / Polygon)
 │   │   ├── webhook-integration.js # Webhook payload handler
 │   │   ├── ebay-connector.js   # eBay Order API OAuth + order fetch
+│   │   ├── etsy-connector.js   # Etsy Open API v3 OAuth (PKCE) + receipts → ledger rows
+│   │   ├── etsy-handlers.js    # Etsy OAuth handlers, shared by Express + Netlify
+│   │   ├── etsy-sync.js        # Etsy connection cards (browser)
+│   │   ├── marketplace-reports.js # Mercari / Poshmark / FB CSV parsers + dedupe merge (browser + Node)
 │   │   ├── cointracker-connector.js # CoinTracker OAuth (PKCE + DCR) + read-only MCP client
 │   │   ├── cointracker-handlers.js  # CoinTracker routes, shared by Express + Netlify
 │   │   ├── cointracker-merge.js     # Folds CoinTracker wallets into accounts (dedupe, browser + Node)
@@ -307,13 +313,14 @@ fire/
 │       ├── vehicles.js         # GET /api/vehicles/vin/:vin, POST /api/vehicles/:id/refresh-value
 │       ├── (accounts.js also)  # POST /api/accounts/:id/refresh-crypto, /refresh-metal
 │       ├── backup.js           # POST /api/backup/drive, GET /api/backup/drive/list, POST /api/backup/drive/restore
-│       ├── sync.js             # Webhook templates CRUD, POST /api/sync/webhook/:templateId; mounts the three below
+│       ├── sync.js             # Webhook templates CRUD, POST /api/sync/webhook/:templateId; mounts the four below
 │       ├── ebay.js             # /api/sync/ebay/* (OAuth, sync, marketplace deletion)
+│       ├── etsy.js             # /api/sync/etsy/* (authorize, callback, status, toggle, sync, disconnect)
 │       ├── plaid.js            # /api/sync/plaid/*
 │       └── cointracker.js      # /api/sync/cointracker/* (authorize, callback, sync, inspect, disconnect)
 ├── netlify/
 │   ├── functions/              # Hosted (lifefire.netlify.app) API: fire-api (metals, ENS lookup, crypto refresh),
-│   │                           #   ebay-*, plaid, cointracker — same handlers as the Express routes
+│   │                           #   ebay-*, etsy, cointracker share the Express handlers; plaid still duplicates them
 │   └── lib/http.mjs            # Shared Function helpers
 ├── config/
 │   ├── docker-compose.yml      # fire + Caddy (HTTPS)
@@ -358,6 +365,8 @@ The system is being productionized toward real-time, API-driven data in four pha
 | Integration | Phase | Status |
 |---|---|---|
 | eBay Order API (auto-import sales) | Phase 1 | Live (user-provided credentials) |
+| Etsy Open API v3 receipts (OAuth PKCE, self-hosted + hosted) | Phase 1 | Implemented (user-provided keystring); unit/route-tested against a mocked Etsy, live shop run pending |
+| Mercari / Poshmark / FB Marketplace sales CSV import | Phase 1 | Live (browser-side; assumed export columns documented in [docs/integrations.md](docs/integrations.md#mercari-poshmark-and-fb-marketplace-csv-import)) |
 | Web3 wallet tracking (ETH, BTC, SOL, + EVM chains) | Phase 1 | Live (user-provided keys per chain) |
 | Crypto account multichain value (ENS/0x, 7 EVM chains, tokens) | Phase 1 | Live (keyless: Blockscout + public RPCs) |
 | CoinTracker wallets (read-only MCP) | Phase 1 | Implemented; blocked until CoinTracker enables MCP early access for the account |
@@ -419,6 +428,10 @@ Every committed Markdown doc in this repo (other than this README, `.github/` an
 **`promo/brag-22s/`**
 
 - [brag-22s — storyboard](./promo/brag-22s/storyboard.md) — `promo/brag-22s/storyboard.md`
+
+**`promo/chaos-24s/`**
+
+- [chaos-24s — storyboard](./promo/chaos-24s/storyboard.md) — `promo/chaos-24s/storyboard.md`
 
 **`promo/`**
 

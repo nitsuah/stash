@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · DEMO_VIDEO_SCRIPT_SHORT"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_SCRIPT_SHORT.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/DEMO_VIDEO_SCRIPT_SHORT.md
 kind: repo-doc
 repo: motor-pool
 ---

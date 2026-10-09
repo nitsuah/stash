@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · README"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/README.md
+source: https://github.com/nitsuah/ats-fill/blob/main/README.md
 kind: repo-doc
 repo: ats-fill
 ---
@@ -118,43 +118,43 @@ ats-fill/
 
 ### Main dashboard
 
-![ats-fill main dashboard](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/main-dashboard.png)
+![ats-fill main dashboard](https://github.com/nitsuah/ats-fill/blob/main/screenshots/main-dashboard.png)
 
 ### Toolbar popup
 
-![ats-fill toolbar popup](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/popup.png)
+![ats-fill toolbar popup](https://github.com/nitsuah/ats-fill/blob/main/screenshots/popup.png)
 
 ### Tracker workspace (Pipeline)
 
-![ats-fill tracker workspace](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/tracker-workspace.png)
+![ats-fill tracker workspace](https://github.com/nitsuah/ats-fill/blob/main/screenshots/tracker-workspace.png)
 
 Dark mode follows your system theme:
 
-![ats-fill tracker workspace in dark mode](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/tracker-workspace-dark.png)
+![ats-fill tracker workspace in dark mode](https://github.com/nitsuah/ats-fill/blob/main/screenshots/tracker-workspace-dark.png)
 
 ### Analytics
 
-![ats-fill analytics](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/analytics.png)
+![ats-fill analytics](https://github.com/nitsuah/ats-fill/blob/main/screenshots/analytics.png)
 
 ### Profile + Memory
 
-![ats-fill profile and memory](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/profile-memory.png)
+![ats-fill profile and memory](https://github.com/nitsuah/ats-fill/blob/main/screenshots/profile-memory.png)
 
 ### Job Search
 
-![ats-fill job search panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/job-search.png)
+![ats-fill job search panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/job-search.png)
 
 ### Settings
 
-![ats-fill settings panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/ai-settings.png)
+![ats-fill settings panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/ai-settings.png)
 
 ### Help & Privacy
 
-![ats-fill help and privacy panel](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/help-privacy.png)
+![ats-fill help and privacy panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/help-privacy.png)
 
 ### Interview Prep
 
-![ats-fill interview prep](https://github.com/nitsuah/auto-apply-plugin/blob/main/screenshots/interview-prep.png)
+![ats-fill interview prep](https://github.com/nitsuah/ats-fill/blob/main/screenshots/interview-prep.png)
 
 ---
 

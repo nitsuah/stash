@@ -24,7 +24,7 @@ see those files rather than a duplicated narrative here._
 
 ## Todo
 
-- [ ] Revisit the eslint 10 bump (issue #446, closed-unmerged PR #445) once `eslint-plugin-jsx-a11y` supports it. (P3 · Tech Debt · Confidence: High) Blocked externally: as of the 2026-09-24 PMO audit, `npm view eslint-plugin-jsx-a11y peerDependencies` still caps `eslint` at `^9`. Acceptance Criteria: when a jsx-a11y release allows eslint 10, bump both, `npm run lint` passes in Docker, and #446 is closed.
+- [ ] Revisit the eslint 10 bump (issue #446, closed-unmerged PR #445) once `eslint-plugin-jsx-a11y` supports it. (P3 · Tech Debt · Confidence: High) Blocked externally: as of the 2026-09-24 PMO audit, `npm view eslint-plugin-jsx-a11y peerDependencies` still caps `eslint` at `^9`. Acceptance Criteria: when a jsx-a11y release allows eslint 10, remove the `eslint` semver-major `ignore` rule from `.github/dependabot.yml`, bump both, `npm run lint` passes in Docker, and #446 is closed. Canonical tracker: nitsuah/vigil#212.
 
 - [ ] **[2027-Q1] 21st.dev component integration pass** — replace or augment key game site UI surfaces (lobby, scoreboard, game-over, nav) with 21st.dev components to improve visual quality and interactivity.
   - Priority: P1

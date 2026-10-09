@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · README-orchestration"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/README-orchestration.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/README-orchestration.md
 kind: repo-doc
 repo: motor-pool
 ---

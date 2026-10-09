@@ -28,8 +28,8 @@ Capture assets live in `promo/out/capture/crops/` after a run (`card-*.png` per-
 | 12 | Tax-loss harvesting alerts | "Harvest your losses." | `card-tlh.png` (SCHD is seeded below cost basis) | README · Insights | insights-60s |
 | 13 | Rebalancing tool | "Set a target mix, get the trades." | `card-rebalance-trades.png` (after Recalculate) | README · Insights | insights-60s |
 | 14 | CD ladder + maturity markers | "Every CD, on the timeline." | CD markers zoomed on `proj-base.png`; `card-cash.png`; `card-cd-ladder.png` | README · CD Ladder Visualizer | plan-65s, connect-55s |
-| 15 | Side Hustle Hub + fee calculators | "Know your margin before you list." | `card-fee-ebay/etsy/fb.png` | README · Side Hustle Tracker | site, tour-85s, hustle-60s |
-| 16 | eBay OAuth order sync | "Sales import themselves." | `card-ebay-sync.png` | README · eBay Order Sync | hustle-60s |
+| 15 | Side Hustle Hub + fee calculators | "Know your margin before you list." | `card-fee-ebay/etsy/fb/mercari/poshmark.png` | README · Side Hustle Tracker | site, tour-85s, hustle-60s |
+| 16 | eBay + Etsy OAuth order sync; Mercari/Poshmark/FB CSV import | "Sales import themselves." | `card-ebay-sync.png` → `card-etsy-sync.png` | README · eBay Order Sync, Etsy Order Sync | hustle-60s |
 | 17 | CSV imports (Fidelity, Chase, Capital One, eBay) | "Drop in a CSV. Parsed locally." | `card-add-csv.png` | README · CSV Imports | site, connect-55s |
 | 18 | Plaid sync | "Or link it." | `card-plaid.png` | README · Plaid integration | site, connect-55s |
 | 19 | Web3 wallets, keyless multichain value | "Paste an ENS name." | `hrow-4.png` (vitalik.eth); `card-add-account.png` (Crypto + ENS identifier) | README · Crypto, Web3 wallet tracking | brag-22s, tour-85s, connect-55s |

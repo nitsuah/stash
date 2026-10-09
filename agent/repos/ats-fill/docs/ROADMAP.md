@@ -2,7 +2,7 @@
 updated: 2026-10-01
 up: "[[repos/ats-fill]]"
 title: "ats-fill · ROADMAP"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/ROADMAP.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/ROADMAP.md
 kind: repo-doc
 repo: ats-fill
 ---
