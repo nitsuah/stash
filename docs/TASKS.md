@@ -10,12 +10,15 @@ Last Updated: 2026-09-29
 
 ### CI / Quality
 
-- [ ] Repoint SOTU and DAILY at vigil's renamed host once vigil covers every tracked repo.
+- [x] Repoint SOTU and DAILY at vigil's renamed host without losing repos.
   - Priority: P1
   - Type: Routines
-  - `sotu.py` (`VIGIL_URL` default) and `agent/prompts/DAILY.md` still call `ghoverseer.netlify.app/api/mcp`, which now 404s. The app lives at `gh-vigil.netlify.app`, where `/api/mcp` answers 401 without a key, so recent SOTU runs have fallen back to local TASKS.md ("vigil unavailable (HTTP 404)").
-  - Blocker found 2026-10-08: with the URL fixed, vigil's `get_open_tasks` returned 118 tasks across 11 repos, against 172 tasks across 17 repos from TASKS.md. It is missing avatar, bb-mcp, deployer, gcp, osrs and stash, so switching now would drop stash's portfolio initiatives from SOTU.
-  - Acceptance: vigil returns every repo in scope.md's Tracked table; then both URLs move to `gh-vigil.netlify.app` and a SOTU build reports `source vigil` with the same repo set as the TASKS.md fallback.
+  - Done 2026-10-09: stash#210 moved every reference to `gh-vigil.netlify.app`. vigil's `get_open_tasks` returns only 11 of the 17 tracked repos (no avatar, bb-mcp, deployer, gcp, osrs or stash), so `sotu.py` now fills any repo vigil skips from that repo's TASKS.md, and the report's source line names the filled repos. vigil titles lose their `**` markup.
+
+- [ ] vigil's open-task rollup should cover every repo in scope.md's Tracked table and carry line refs + acceptance criteria.
+  - Priority: P2
+  - Type: Integration
+  - Today it skips 6 tracked repos and returns `TASKS.md` with no line number or sub-bullets, so SOTU kickoff prompts from vigil lose their acceptance criteria. Fix belongs in nitsuah/vigil; once it lands, SOTU's gap fill becomes a no-op.
 
 - [x] Add Python linting via `ruff` in a GitHub Actions workflow.
   - Priority: P2
