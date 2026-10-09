@@ -24,7 +24,7 @@ while [ $# -gt 0 ]; do
     *) SPOT="$1"; shift ;;
   esac
 done
-[ -n "$SPOT" ] && [ -f "promo/$SPOT/spot.json" ] || { echo "usage: promo/build.sh <spot> [--stills t,t|--audio] [--publish]"; exit 1; }
+[[ "$SPOT" =~ ^[a-z0-9][a-z0-9-]*$ ]] && [ -f "promo/$SPOT/spot.json" ] || { echo "usage: promo/build.sh <spot> [--stills t,t|--audio] [--publish]"; exit 1; }
 
 docker info >/dev/null 2>&1 || { echo "Docker Desktop isn't running."; exit 1; }
 docker build -q -f promo/Dockerfile -t stash-promo promo >/dev/null
@@ -38,25 +38,28 @@ if [ "$MODE" = stills ]; then
 fi
 [ "$MODE" = full ] && run node /repo/promo/render.js "$SPOT"
 
-run sh -c "
+# The inner script is single-quoted and gets its paths as arguments, so the
+# outer shell never re-parses them.
+run sh -c '
 set -e
-[ -d $W/frames ] || { echo 'no frames yet; run without --audio first'; exit 1; }
-python3 $D/synth.py $D/spot.json $W/audio-raw.wav
-ffmpeg -hide_banner -loglevel error -y -i $W/audio-raw.wav -af loudnorm=I=-14:TP=-1.5:LRA=11:linear=true -ar 44100 $W/audio.wav
-FPS=\$(node -p \"require('$D/spot.json').fps || 30\")
-P=\$(node -p \"const s=require('$D/spot.json'); String(Math.round(s.poster*(s.fps||30))).padStart(4,'0')\")
+W="$1"; D="$2"; SPOT="$3"
+[ -d "$W/frames" ] || { echo "no frames yet; run without --audio first"; exit 1; }
+python3 "$D/synth.py" "$D/spot.json" "$W/audio-raw.wav"
+ffmpeg -hide_banner -loglevel error -y -i "$W/audio-raw.wav" -af loudnorm=I=-14:TP=-1.5:LRA=11:linear=true -ar 44100 "$W/audio.wav"
+FPS=$(node -p "require(process.argv[1]).fps || 30" "$D/spot.json")
+P=$(node -p "const s=require(process.argv[1]); String(Math.round(s.poster*(s.fps||30))).padStart(4,\"0\")" "$D/spot.json")
 # The poster frame doubles as frame 0 so every thumbnail shows it; replaced,
 # not added, so duration and audio sync stay the same.
-[ -f $W/frames/f0000.orig.png ] || cp $W/frames/f0000.png $W/frames/f0000.orig.png
-cp $W/frames/f\$P.png $W/frames/f0000.png
-ffmpeg -hide_banner -loglevel error -y -framerate \$FPS -i $W/frames/f%04d.png -i $W/audio.wav \
+[ -f "$W/frames/f0000.orig.png" ] || cp "$W/frames/f0000.png" "$W/frames/f0000.orig.png"
+cp "$W/frames/f$P.png" "$W/frames/f0000.png"
+ffmpeg -hide_banner -loglevel error -y -framerate "$FPS" -i "$W/frames/f%04d.png" -i "$W/audio.wav" \
   -c:v libx264 -preset slow -crf 17 -pix_fmt yuv420p -profile:v high -movflags +faststart \
-  -c:a aac -b:a 192k -shortest $W/$SPOT.mp4
-ffmpeg -hide_banner -loglevel error -y -i $W/frames/f\$P.png -q:v 2 $W/$SPOT.jpg
-ffmpeg -hide_banner -loglevel error -y -i $W/$SPOT.mp4 -c:v libx264 -preset slow -crf 27 \
-  -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 128k $W/$SPOT-web.mp4
-cp $D/share-copy.txt $W/share-copy.txt
-"
+  -c:a aac -b:a 192k -shortest "$W/$SPOT.mp4"
+ffmpeg -hide_banner -loglevel error -y -i "$W/frames/f$P.png" -q:v 2 "$W/$SPOT.jpg"
+ffmpeg -hide_banner -loglevel error -y -i "$W/$SPOT.mp4" -c:v libx264 -preset slow -crf 27 \
+  -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 128k "$W/$SPOT-web.mp4"
+cp "$D/share-copy.txt" "$W/share-copy.txt"
+' sh "$W" "$D" "$SPOT"
 echo "done → promo/out/$SPOT/$SPOT.mp4"
 
 if [ "$PUBLISH" = 1 ]; then
