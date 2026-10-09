@@ -27,6 +27,7 @@ Execute the following four-stage loop continuously. Do not exit the loop until t
 
 ### Phase 1: Task Selection & Locking
 
+* **First, open `bot:journey` issues** (`gh issue list -l bot:journey --state open`). The nightly journey run files them with no AI: each one names the journey, the failing step, the error, screenshots and a Docker repro command. They are confirmed regressions in a user path, so they come before backlog. Claim one by self-assigning it. Reproduce with its repro command, fix it, regenerate journey baselines in Docker if the UI changed, and open the PR with **`Refs #N`, not `Fixes #N`**: the nightly closes the issue after 3 green runs, which is the verification. `bot:review` issues are ordinary backlog and close with `Fixes #N`. Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.github/blob/main/journeys/STANDARD.md), [[JOURNEYS]].
 * Scan `TASKS.md` and `ROADMAP.md` for items marked as `Todo`, `Backlog`, or `Open`.
 * Select the maximum number of items that are **conceptually related** or **architecturally safe** to implement together without introducing circular dependencies or risking breaking changes.
 * Immediately update `TASKS.md` to mark these items as `[In Progress  * Agent Loop]` and commit this change. This signals to neighbor agents that these tasks are locked.

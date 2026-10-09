@@ -66,9 +66,11 @@ Before making changes, understand the full input/output graph. Verify it's still
 
 **Still disallowed even under the broadened scope:** touching credentials, secrets, `.env` files, or account/billing settings; disabling or deleting a routine (local or cloud) without flagging it in the report first and getting the user to confirm (same as the human-in-the-loop cleanup done in the 2026-09-16 audit — RSI can propose a cut, not execute one silently, given how much personal/job-search context lives in the cloud routine fleet); cloud routines cannot be deleted via API at all (per the `schedule` skill, only claude.ai/code/routines can delete one) — RSI can disable (`enabled:false`) or update, and must tell the user which ones it thinks should be deleted there.
 
+9. Journey metrics for last month, generated with no AI. From a `nitsuah/.github` checkout, run `GITHUB_TOKEN=$(gh auth token) node journeys/metrics.mjs --repos <every repo in [[JOURNEYS]] § Inventory with a nightly> --month <YYYY-MM> --append agent/prompts/JOURNEYS.md`. Fill the tokens column from the usage report. Act on outliers: flaky rate above 5% means a journey needs a settle/mask fix; a reopen rate above 20% means fixes aren't holding, so tighten [[1FLOW]]'s `bot:journey` rule; coverage flat for two months means the next repo in the rollout is stalled.
+
 ## Steps
 
-1. Read Inputs 1-5, and re-verify the Artifacts & cycles map above is still accurate (routines get added/removed — if it's drifted, fix the map in this same file before moving on).
+1. Read Inputs 1-5 and 9, and re-verify the Artifacts & cycles map above is still accurate (routines get added/removed — if it's drifted, fix the map in this same file before moving on).
 2. Diagnose: for each task/skill with a failure pattern, a stale/dead state, a scope.md/cached-list mismatch, or a proposal in the usage report's "automation candidates," decide a concrete fix.
 3. Apply fixes per the rules above, logging every change as you go.
 4. Write `stash/agent/reports/rsi-report-<YYYY-MM>.md`: what changed and why (with evidence), PRs opened (with links), scheduled-task/memory edits made, and anything considered but declined, with the reason.

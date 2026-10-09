@@ -57,6 +57,9 @@ Last Updated: 2026-09-29
 	- Done: added `lint-powershell` job to `.github/workflows/ci.yml` (PR #158).
 
 ### Testing
+- [ ] **Nightly "AI user" journeys across web repos** (pilot fire 2026-10-09; see TASKS § Journeys rollout)
+	- Objective: deterministic Playwright journeys run nightly with no AI. They file deduplicated `bot:journey` issues, fixes are verified by later green runs, and metrics feed RSI.
+	- Exit Criteria: fire, vigil, ats-fill, nitsuah-io and skyview each have a green nightly and a BUGS.md on `bot/journeys`; flaky rate under 5%.
 - [x] **Pytest smoke tests for Jira examples** (Done 2026-09-28)
 	- Objective: introduce `pytest` unit tests for Jira example scripts, using `responses` to mock HTTP calls.
 	- Strategic Fit: 0% test coverage limits confidence in examples; tests prove they work against expected API shapes.
