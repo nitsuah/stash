@@ -5,8 +5,9 @@
 import json
 import sys
 import wave
+
 import numpy as np
-from scipy.signal import butter, sosfilt, fftconvolve
+from scipy.signal import butter, fftconvolve, sosfilt
 
 SPOT = json.load(open(sys.argv[1]))
 OUT = sys.argv[2]
@@ -79,11 +80,9 @@ for b in np.arange(0, end_drums, BEAT):
     place(drums, hat(), b + 0.25, 0.05)
 
 sfx = np.zeros(N)
-blip = lambda m, g: (tone(hz(m), 0.18, 28, 2), g)
 # review: 4 issues land, then the count
 for i in range(4):
-    s, g = blip(81 + [0, 2, 4, 7][i], 0.08)
-    place(sfx, s, 3 + 0.5 + i * 0.45, g)
+    place(sfx, tone(hz(81 + [0, 2, 4, 7][i]), 0.18, 28, 2), 3 + 0.5 + i * 0.45, 0.08)
 place(sfx, tone(hz(86), 0.4, 10), 3 + 2.5, 0.08)
 # nightly: soft key ticks per terminal line
 for i in range(9):
