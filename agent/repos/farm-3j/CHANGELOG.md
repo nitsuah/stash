@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Unit tests for core helpers (`tileDist`, `tileToSvg`, A* pathfinding): exact values, grid corners, contiguous/optimal paths, no-path fallback (`components/rts/game/__tests__/coreHelpers.test.ts`).
+
 ### Security
 
 - Bumped `sharp` to 0.35.4 to patch the libheif RCE (GHSA-rgj7-g3m4-5g8c) (#341).

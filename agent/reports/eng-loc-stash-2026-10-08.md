@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: stash
+date: 2026-10-08
+---
+
 # LOC Report — stash
+
+> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-09-01|2026-09-01]] <!-- nav -->
+
 HEAD: 6921cdd105b7819aab23b0e981c7fdbd5daf47fb
 
 ---
@@ -7,7 +16,6 @@ repo: stash
 date: 2026-10-08
 ---
 
-> 🧭 [[repos/stash|stash]] · ← [[reports/eng-loc-stash-2026-09-01|2026-09-01]] <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

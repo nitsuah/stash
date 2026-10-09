@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · HANDOFF-service-discovery-system-panel-20260403"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/HANDOFF-service-discovery-system-panel-20260403.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/HANDOFF-service-discovery-system-panel-20260403.md
 kind: repo-doc
 repo: motor-pool
 ---

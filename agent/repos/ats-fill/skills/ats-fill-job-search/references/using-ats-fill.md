@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · using-ats-fill"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/skills/ats-fill-job-search/references/using-ats-fill.md
+source: https://github.com/nitsuah/ats-fill/blob/main/skills/ats-fill-job-search/references/using-ats-fill.md
 kind: repo-doc
 repo: ats-fill
 ---

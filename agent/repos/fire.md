@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-10-08
+> Reviewed: 2026-10-09
 
 ## Overview
 
@@ -40,18 +40,16 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 
 ## Open P0/P1 Tasks
 
-_Refreshed 2026-10-07 against the mirrored `docs/TASKS.md` (updated 2026-10-01)._
+_Refreshed 2026-10-09 against the mirrored `docs/TASKS.md` (updated 2026-10-08)._
 
 - [ ] **P0** Google Drive backup round-trip verification before rollout: prove encrypt → upload → download → decrypt end-to-end (Drive only sees ciphertext, wrong-key/corrupt backups fail cleanly) before the UI may report a successful backup.
 - [ ] **P1** Serve Plaid on the Netlify deploy (lifefire.netlify.app). Progress 2026-09-30 (PR #146): `netlify/functions/plaid.mjs` serves all `/api/sync/plaid/*` routes with unit coverage. Remaining: a live Link → sync run on the hosted site and browser smoke coverage. Rule: any new `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
-- [ ] **P1** Split `app/routes/sync.js` (F-20260916-05). Progress 2026-09-30 (PR #146): split into `app/routes/ebay.js` / `app/routes/plaid.js` with `app/lib/token-store.js`. Remaining: the hosted function still duplicates the Plaid operations instead of sharing a transport-agnostic module.
 - [ ] **P1, blocked on CoinTracker** CoinTracker MCP integration (#139 shipped the OAuth 2.1 + PKCE connector, merge rules and 42 tests). The issued token has `permissions: []` because the test account isn't enrolled in CoinTracker MCP early access. A P2 export-file fallback is queued, blocked on a sample export.
 - [ ] **P1** Browser/production-pass items: eBay connection completion as a toast + automatic sync; Side Gig Ledger form controls themed; provider-contract tests for every price/balance integration (HTML-instead-of-JSON failures); sync-health state in the Side Hustle Hub.
 - [ ] **P1** Docs/promo: README feature-parity refresh, promo ledger audit, feature-discovery pass for the GitHub landing page.
-- [ ] **P1 (next worktree, added 2026-10-07)** Marketplace hookups beyond eBay: Etsy Open API v3 OAuth (PKCE) receipts sync into the Side Gig Ledger with eBay's dedupe/tax-tag/cost-basis model; CSV/report import for Mercari, Poshmark and FB Marketplace; Mercari/Poshmark fee calculators. Needs hosted Netlify parity (or a documented browser-only fallback), parse/dedupe unit tests, a Settings/Side Hustle Hub connection state, and updates to `reseller-autopilot` and the `hustle-60s` promo.
 - [ ] **P1** Model real eBay fee brackets in `calculateEbayFeesTotal` (per-category fee-rule schema; CodeRabbit on PR #103).
 
-Shipped 2026-10-07: offline Kokoro TTS narration for the promo spots plus seven narrated feature tours (`promo/tour/`), and two new Claude skills, `skills/reseller-autopilot/` and `skills/passive-income-lab/` (fire-coach hands off to both). Shipped 2026-10-01: multichain ENS/0x crypto valuation across 7 chains, hosted gold/silver + crypto refresh restored (#154, #155), Chaos mode with follow-up chains and mitigations, per-tab section layouts, and the `skills/fire-coach/` Claude skill. Remaining open work below P1: `prices-provider.js` tests, pen-test checklist, classic-script globals cleanup, PROD Phase 4 (trend view, PWA, multi-user).
+Shipped 2026-10-08: Marketplace hookups beyond eBay (P1 closed): Etsy PKCE receipts sync with a Netlify function, browser-side Mercari/Poshmark/FB CSV import, Mercari/Poshmark calculator tabs; follow-ups are P2 (exact Etsy fees from ledger entries, verify Mercari/Poshmark headers against real exports) plus an Etsy live run once an app keystring is approved. The `sync.js` split P1 is now marked done (fire#146); its leftover, sharing Plaid operations between Express and the Netlify function, is a P2. Done 2026-10-09: `prices-provider.js` tests (26). Shipped 2026-10-07: offline Kokoro TTS narration for the promo spots plus seven narrated feature tours (`promo/tour/`), and two new Claude skills, `skills/reseller-autopilot/` and `skills/passive-income-lab/` (fire-coach hands off to both). Shipped 2026-10-01: multichain ENS/0x crypto valuation across 7 chains, hosted gold/silver + crypto refresh restored (#154, #155), Chaos mode with follow-up chains and mitigations, per-tab section layouts, and the `skills/fire-coach/` Claude skill. Remaining open work below P1: pen-test checklist, classic-script globals cleanup, PROD Phase 4 (trend view, PWA, multi-user).
 
 ## Blockers
 

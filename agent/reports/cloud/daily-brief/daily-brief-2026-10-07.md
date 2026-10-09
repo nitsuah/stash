@@ -5,7 +5,7 @@ date: 2026-10-07
 
 # daily-brief — 2026-10-07
 
-> 🧭 ← [[reports/cloud/daily-brief/daily-brief-2026-10-06|2026-10-06]] <!-- nav -->
+> 🧭 ← [[reports/cloud/daily-brief/daily-brief-2026-10-06|2026-10-06]] · [[reports/cloud/daily-brief/daily-brief-2026-10-08|2026-10-08]] → <!-- nav -->
 
 PRs: unchanged since 2026-10-06
 Coverage: user:nitsuah PR search ok, org:Nitsuah-Labs PR search ok; PR set (55 open, 15 repos) and updated_at timestamps identical to 2026-10-06, so per-PR review and failing-check/changes-requested checks were skipped per the changed-since gate.

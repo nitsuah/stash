@@ -10,13 +10,44 @@ repo: stash
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-29
+Last Updated: 2026-10-09
 
 ## In Progress
 
 ## Todo
 
+### Journeys rollout (low-inference "AI user" loop)
+
+Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.github/blob/main/journeys/STANDARD.md). Playbook, inventory and logs: [agent/prompts/JOURNEYS.md](https://github.com/nitsuah/stash/blob/main/agent/prompts/JOURNEYS.md). One repo per PR, in this order.
+
+- [x] Shared harness: reporter, metrics, reusable workflow, templates, STANDARD.
+  - Done 2026-10-09: nitsuah/.github#19.
+- [x] Wire the loop into routines: 1FLOW takes `bot:journey` issues first (`Refs #N`, nightly closes them); RSI runs `metrics.mjs` monthly into JOURNEYS.md.
+  - Done 2026-10-09: agent/prompts/1FLOW.md, RSI.md, JOURNEYS.md.
+- [ ] Pilot: fire. Review pass, journeys, nightly caller.
+  - Priority: P1
+  - Progress 2026-10-09: review pass filed fire#166–#175; 7 journeys, 19 baselines, soak 70/70; PR open on fire. Remaining: merge it after nitsuah/.github#19, then one `workflow_dispatch` run to create `bot/journeys` and confirm the reporter in Actions.
+- [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
+  - Priority: P2
+- [ ] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
+  - Priority: P2
+  - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.
+- [ ] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
+  - Priority: P3
+- [ ] First monthly metrics row (RSI, 2026-11-02): flaky rate, reopen rate, time-to-fix, coverage.
+  - Priority: P2
+
 ### CI / Quality
+
+- [x] Repoint SOTU and DAILY at vigil's renamed host without losing repos.
+  - Priority: P1
+  - Type: Routines
+  - Done 2026-10-09: stash#210 moved every reference to `gh-vigil.netlify.app`. vigil's `get_open_tasks` returns only 11 of the 17 tracked repos (no avatar, bb-mcp, deployer, gcp, osrs or stash), so `sotu.py` now fills any repo vigil skips from that repo's TASKS.md, and the report's source line names the filled repos. vigil titles lose their `**` markup.
+
+- [ ] vigil's open-task rollup should cover every repo in scope.md's Tracked table and carry line refs + acceptance criteria.
+  - Priority: P2
+  - Type: Integration
+  - Today it skips 6 tracked repos and returns `TASKS.md` with no line number or sub-bullets, so SOTU kickoff prompts from vigil lose their acceptance criteria. Fix belongs in nitsuah/vigil; once it lands, SOTU's gap fill becomes a no-op.
 
 - [x] Add Python linting via `ruff` in a GitHub Actions workflow.
   - Priority: P2
@@ -36,10 +67,11 @@ Last Updated: 2026-09-29
   - Candidates: `atlassian/jira/examples.py` (most complex, highest-value to test).
   - Done 2026-09-28: added `test-python` job to `.github/workflows/ci.yml` with `atlassian/jira/test_examples.py` (PR #159).
 
-- [ ] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
+- [x] Add `pytest` smoke tests for other Atlassian examples (Bitbucket, Confluence, Statuspage) using `responses` to mock HTTP.
   - Priority: P2
   - Type: Testing
   - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
+  - Done 2026-10-09: added `test_bitbucket_examples.py`, `test_confluence_examples.py` and `test_statuspage_examples.py` (mocked with `responses`) and listed them in the `test-python` job of `.github/workflows/ci.yml`.
 
 - [ ] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
@@ -90,11 +122,12 @@ Last Updated: 2026-09-29
 
 ### Documentation
 
-- [ ] Add usage examples to each SaaS script header (one-liner for most common operation).
+- [x] Add usage examples to each SaaS script header (one-liner for most common operation).
   - Priority: P2
   - Type: Docs
   - Candidates: `SAAS/okta/examples.py`, `SAAS/servicenow/examples.py`, `SAAS/pagerduty/examples.py`.
   - Note: restored 2026-09-30; PR #160 had replaced it with a garbled "SAAS quickstart" item.
+  - Done 2026-10-09: added a `# Quick start` one-liner to the `Usage:` block of all six `SAAS/*/examples.py` headers (datadog, github, okta, pagerduty, servicenow, slack); comments only.
 
 - [ ] Document the VBA source files inside Remora, Sampler, and VMT more precisely.
   - Priority: P2
@@ -150,7 +183,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
 - [x] Cross-repo task rollup: tracked in vigil (MCP tool / `/api/context` over each repo's TASKS.md), not in the vault. Connect vigil's MCP to Claude Code once it lands, and drop the daily note's hand-built "Tasks" section in favor of it.
   - Priority: P2
   - Type: Integration
-  - Done 2026-09-26: the vigil MCP (HTTP, ghoverseer.netlify.app/api/mcp) is connected to local Claude Code and verified; DAILY `## Tasks` now reads `get_open_tasks`. Cloud routines can call the same endpoint once `VIGIL_MCP_KEY` is set in the cloud environment.
+  - Done 2026-09-26: the vigil MCP (HTTP, gh-vigil.netlify.app/api/mcp) is connected to local Claude Code and verified; DAILY `## Tasks` now reads `get_open_tasks`. Cloud routines can call the same endpoint once `VIGIL_MCP_KEY` is set in the cloud environment.
 
 - [ ] Tune topic hubs after a few weeks: review `agent/topics/topic-*.md` matches for noise or misses, and consider seeding new topics from Smart Connections clusters (`suggest-links.py` already reads the embeddings).
   - Priority: P3
@@ -182,7 +215,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Priority: P2
   - Type: Security / human decision
   - Acceptance: either a `git filter-repo` purge plus a force-push of `main` (coordinated, after open PRs land), or a one-line "accepted, low sensitivity" note in the guide's audit section.
-  - 2026-10-01 sweep added to the same decision: `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), the pre-redaction personal context in `agent/projects/Career.md` / `Finance.md`, and the kryptos mirror's third-party address.
+  - 2026-10-01 sweep added to the same decision: `agent/projects/ARGUS/user_memory_index.csv` and `usermem2.csv` (personal memory exports), the pre-redaction personal context in `agent/projects/Career.md` / `Finance.md`, the reworded personal detail in `odysseus_ecosystem_memories.csv`, the health-adjacent lines reworded in two `reports/cloud/daily-checkin/` reports, `projects/remora/remora.accdb`, and the kryptos mirror's third-party address. Earlier versions of all of these remain in history.
 
 - [x] Decide whether `projects/remora/remora.accdb` (16 MB Access DB from 2023, holds an employer-domain email address; binary files aren't PII-scanned) should stay public.
   - Done 2026-10-01: removed in nitsuah/stash#179 (owner decision). Still in history; covered by the history-purge item above. `sampler.accdb`, `VMT.accdb` and `sampler/setup/test.pdf` were checked for embedded addresses and are clean.

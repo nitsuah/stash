@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · ARCHITECTURE"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/ARCHITECTURE.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/ARCHITECTURE.md
 kind: repo-doc
 repo: motor-pool
 ---

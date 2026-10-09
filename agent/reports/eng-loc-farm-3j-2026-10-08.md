@@ -5,9 +5,11 @@ date: 2026-10-08
 ---
 
 # LOC Report — farm-3j
-HEAD: 7d508d2fdc9f34608980aaca8c39a622fcf1e4d9
 
 > 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-loc-farm-3j-2026-07-29|2026-07-29]] <!-- nav -->
+
+HEAD: 7d508d2fdc9f34608980aaca8c39a622fcf1e4d9
+
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

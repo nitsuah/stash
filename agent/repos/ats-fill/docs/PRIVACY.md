@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · PRIVACY"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/PRIVACY.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/PRIVACY.md
 kind: repo-doc
 repo: ats-fill
 ---
@@ -58,7 +58,7 @@ By accepting consent in the extension, you agree to the following:
 5. **Acceptable use.** Do not use the extension to submit fraudulent or
    misleading applications, or to violate the terms of any job board or ATS.
 6. **Open source.** The extension is distributed under the license in this
-   repository ([`LICENSE`](https://github.com/nitsuah/auto-apply-plugin/blob/main/LICENSE)); that license governs the software itself.
+   repository ([`LICENSE`](https://github.com/nitsuah/ats-fill/blob/main/LICENSE)); that license governs the software itself.
 
 ---
 

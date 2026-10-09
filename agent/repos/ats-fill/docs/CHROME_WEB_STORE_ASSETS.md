@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · CHROME_WEB_STORE_ASSETS"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/CHROME_WEB_STORE_ASSETS.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/CHROME_WEB_STORE_ASSETS.md
 kind: repo-doc
 repo: ats-fill
 ---

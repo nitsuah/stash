@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Maintenance (2026-10)
+
+- Dependabot ignores eslint major-version bumps in `/app` until `eslint-plugin-react` supports eslint 10, so it stops opening an eslint 10 PR that fails `npm ci` with ERESOLVE (#333).
+
 ### Showcase (2026-10)
 
 - README gains a screenshot gallery (home plus eight games), using the September `screenshots/` set and the existing Memory Match image in `docs/screenshots/`.

@@ -1,7 +1,7 @@
 ---
 up: "[[repos/ats-fill]]"
 title: "ats-fill · FEATURES"
-source: https://github.com/nitsuah/auto-apply-plugin/blob/main/docs/FEATURES.md
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/FEATURES.md
 kind: repo-doc
 repo: ats-fill
 ---

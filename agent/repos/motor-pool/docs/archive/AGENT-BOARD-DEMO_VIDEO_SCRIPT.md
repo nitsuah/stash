@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · AGENT-BOARD-DEMO_VIDEO_SCRIPT"
-source: https://github.com/nitsuah/agent-board/blob/master/docs/archive/AGENT-BOARD-DEMO_VIDEO_SCRIPT.md
+source: https://github.com/nitsuah/motor-pool/blob/master/docs/archive/AGENT-BOARD-DEMO_VIDEO_SCRIPT.md
 kind: repo-doc
 repo: motor-pool
 ---
@@ -126,4 +126,4 @@ Voiceover:
 
 ## Related
 - [[repos/motor-pool/docs/DEMO_VIDEO_SCRIPT_SHORT|DEMO_VIDEO_SCRIPT_SHORT]] — 60-75s short-form version for social
-- Caption files: [DEMO_VIDEO_120S.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_120S.srt) · [DEMO_VIDEO_60S.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_60S.srt) · [DEMO_VIDEO_60S_MOBILE.srt](https://github.com/nitsuah/agent-board/blob/master/docs/archive/DEMO_VIDEO_60S_MOBILE.srt)
+- Caption files: [DEMO_VIDEO_120S.srt](https://github.com/nitsuah/motor-pool/blob/master/docs/archive/DEMO_VIDEO_120S.srt) · [DEMO_VIDEO_60S.srt](https://github.com/nitsuah/motor-pool/blob/master/docs/archive/DEMO_VIDEO_60S.srt) · [DEMO_VIDEO_60S_MOBILE.srt](https://github.com/nitsuah/motor-pool/blob/master/docs/archive/DEMO_VIDEO_60S_MOBILE.srt)

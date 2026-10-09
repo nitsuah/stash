@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — gcp (2026-07-29)
 
-> 🧭 [[repos/gcp|gcp]] <!-- nav -->
+> 🧭 [[repos/gcp|gcp]] · [[reports/eng-loc-gcp-2026-10-08|2026-10-08]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

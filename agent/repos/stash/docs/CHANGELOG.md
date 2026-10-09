@@ -16,6 +16,26 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-09 — Journeys: the low-inference "AI user" loop
+
+- **Added:** `agent/prompts/JOURNEYS.md`: the web-repo inventory, rollout order, the three prompts where AI is used (review pass, write journeys, fix), settled rules, and the run and metrics logs. The harness lives in nitsuah/.github `journeys/` (#19); fire is the pilot.
+- **Changed:** 1FLOW Phase 1 takes open `bot:journey` issues before backlog and fixes them with `Refs #N`, so the nightly closes them after 3 green runs. RSI adds input 9: monthly journey metrics, appended to JOURNEYS.md.
+
+### 2026-10-09 — Atlassian smoke tests and SaaS header one-liners
+
+- **Added:** `pytest` + `responses` smoke tests for the Bitbucket, Confluence and Statuspage examples (`atlassian/*/test_*_examples.py`), now run by the `test-python` CI job alongside the Jira tests. Mocked HTTP only, example.com-style placeholders, no credentials.
+- Each `SAAS/*/examples.py` header gained a one-line `Quick start` example in its `Usage:` block. Comments only, no behavior change.
+
+### 2026-10-09 — SOTU keeps every repo when vigil is reachable
+
+- `sotu.py`: after stash#210 repointed vigil to `gh-vigil.netlify.app`, vigil answered but covered 11 of 17 tracked repos. Repos vigil skips are now filled from their own TASKS.md (source line: `vigil + local TASKS.md (...)`), and `**` markup is stripped from vigil titles. W41 report regenerated: 174 tasks across all tracked repos.
+
+### 2026-10-08 — Findings ledger: W41 Needs-you cleanup
+
+- Closed F-20260930-04, -05, -09, -12 and -13 after checking them against the live repos: the stale branches are gone, the farm-3j, games and deployer dependabot PRs are merged, and vigil's checkout is back on `main`. SOTU's Needs-you list drops from 6 items to 1.
+- F-20260930-03 stays open: cloud daily-brief still can't reach `gh-vigil.netlify.app` (`connect_rejected` 10-05..10-08).
+- New P1 task: `sotu.py` and `DAILY.md` point at vigil's old `ghoverseer` host (404). Not repointed yet, because vigil currently covers 11 of the 17 tracked repos.
+
 ### 2026-10-07 — Visual showcase
 
 - **Added:** Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and records the existing launch video(s); feature-to-video and screenshot links are still empty and get filled in on the next `/promo` run; the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos).

@@ -138,7 +138,7 @@ Mobile browsers block camera access on plain HTTP. The app auto-generates a self
 4. On your phone, open: `http://192.168.1.171:8080/api/ca-cert`
 5. **Verify before trusting.** The download is plain HTTP, so anyone on the same network could swap the file. Open the downloaded certificate's details on the phone and check that its SHA-256 fingerprint matches step 3 exactly. If it doesn't match, delete it and don't install it.
 6. **Android:** tap the downloaded file → Install → name it "VHS Scanner" → OK
-   **iOS:** tap Allow → Settings → General → VPN & Device Management → check the fingerprint under More Details → trust it
+   **iOS:** tap Allow → Settings → General → VPN & Device Management → check the fingerprint under More Details → Install. Then turn on full trust: Settings → General → About → Certificate Trust Settings → enable the VHS Scanner certificate. Without this second step, iOS doesn't trust the CA for HTTPS.
 7. Use `https://192.168.1.171:8443` on your phone — camera will work
 
 **If your IP changes:**

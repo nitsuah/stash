@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: nitsuah-io
+date: 2026-10-08
+---
+
 # LOC Report — nitsuah-io
+
+> 🧭 [[repos/nitsuah-io|nitsuah-io]] · ← [[reports/eng-loc-nitsuah-io-2026-07-29|2026-07-29]] <!-- nav -->
+
 HEAD: ad5e92b9370ff31dc50f5ef3e7ee75070770b156
 
 ---
@@ -7,7 +16,6 @@ repo: nitsuah-io
 date: 2026-10-08
 ---
 
-> 🧭 [[repos/nitsuah-io|nitsuah-io]] · ← [[reports/eng-loc-nitsuah-io-2026-07-29|2026-07-29]] <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

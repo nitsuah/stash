@@ -28,7 +28,9 @@ routine that runs with as little attention as possible. Three sources:
   range and tell the user exactly which search to run.
 - **Read-only.** fire never posts listings or moves money. You write the text;
   the user posts it. Sales reach fire through **Side Hustle Hub → eBay Sales
-  Sync**, the Seller Hub report upload, or a ledger row they add.
+  Sync** or **Etsy Sales Sync** (read-only OAuth), the ledger's **Upload sales
+  report (CSV)** button (eBay Seller Hub report, Mercari sales history, Poshmark
+  sales report, or the FB Marketplace template), or a ledger row they add.
 - **Honest about effort.** "AFK" means batched and low-touch, not zero work.
   Photos, packing and shipping take most of the time; say so.
 - **Taxes are part of profit.** Resale profit is taxable, and a personal item
@@ -81,9 +83,14 @@ untagged rows and rows that need a cost basis. Then say where to fix them:
 
 ## In the fire app
 
-- **Side Hustle Hub → Platform Fee Calculator** handles eBay, Etsy and FB
-  Marketplace, and **Log Sale** adds the row to the ledger.
-- **eBay Sales Sync** connects eBay once, and completed orders import themselves.
+- **Side Hustle Hub → Platform Fee Calculator** handles eBay, Etsy, FB
+  Marketplace, Mercari and Poshmark, and **Log Sale** adds the row to the ledger.
+- **eBay Sales Sync** and **Etsy Sales Sync** connect once, and orders import
+  themselves (Etsy fees are estimated from its fee schedule, so say so).
+- Mercari, Poshmark and FB Marketplace have no seller API: tell the user to
+  download the sales export (Mercari, Poshmark) or fill in the **FB CSV
+  template**, then use **Upload sales report (CSV)**. Re-uploading is safe;
+  duplicates are skipped.
 - **Side Gig Ledger** holds tax tags (bought to resell, personal, gift, free),
   item cost and duplicate-skipping, and it feeds income and projections.
 - Side income raises the savings rate, which moves the FIRE date. Show that

@@ -1,7 +1,7 @@
 ---
 up: "[[repos/motor-pool]]"
 title: "motor-pool · README"
-source: https://github.com/nitsuah/agent-board/blob/master/README.md
+source: https://github.com/nitsuah/motor-pool/blob/master/README.md
 kind: repo-doc
 repo: motor-pool
 ---
@@ -54,14 +54,14 @@ Captured from the local Docker stack at `http://localhost:3000`.
 Minimal stack (dashboard + Ollama + DB — fits a 16 GB host):
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\agent-board\config
+cd motor-pool\config   # from the folder that holds your clone (see docs/DEPLOYMENT.md)
 docker compose -f docker-compose.yml up -d
 ```
 
 or for GPU:
 
 ```powershell
-cd C:\Users\$env:USERNAME\code\agent-board\config
+cd motor-pool\config   # from the folder that holds your clone (see docs/DEPLOYMENT.md)
 docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 ```
 

@@ -5,9 +5,11 @@ date: 2026-10-08
 ---
 
 # LOC Report — motor-pool
+
+> 🧭 [[repos/motor-pool|motor-pool]] <!-- nav -->
+
 HEAD: 42cb1f47749b054551b50d2cd833680ac3f07ce0
 
-> 🧭 [[repos/motor-pool|motor-pool]] · ← [[reports/eng-loc-agent-board-2026-07-29|2026-07-29]] <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-10-08

@@ -10,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-10-07
+updated: 2026-10-08
 
 ---
 
@@ -44,12 +44,13 @@ These items came from the current browser/production pass. **P0** items are corr
   - Rule going forward (from the PR #111 follow-up, merged here on 2026-10-01): any new `/api/*` route the SPA calls needs a Netlify Function, or a documented browser-only fallback, in the same PR.
   - `docs/integrations.md` already documents the hosted function (`netlify.toml` rewrite, browser-held AES-256-GCM token, `PLAID_HOSTED_ACCESS_KEY`). The privacy-policy update from the same follow-up still needs checking.
 
-- [ ] **Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)**
-  - Priority: P1. The route grew with the eBay/Plaid work and should be decomposed before another integration lands.
-  - Scope: separate eBay and Plaid route modules, extract the Plaid transactions handler, keep webhook/template routes isolated, and move shared provider logic into transport-agnostic modules where practical.
+- [x] **Split app/routes/sync.js (942 LOC): separate eBay and Plaid routes, extract the transactions handler (F-20260916-05)**
+  - Done 2026-09-30 in fire#146: split into `app/routes/ebay.js` and `app/routes/plaid.js`, with token helpers in `app/lib/token-store.js`; `app/routes/sync.js` is now ~300 LOC. Paths and cursor semantics are unchanged and the tests pass. Accounts/positions responses gained `syncedItemIds`/`warning`.
   - Findings ledger: F-20260916-05 · BV 5 · TC 3 · RR 5 · size 3.
-  - Acceptance Criteria: existing Express route paths and response contracts remain unchanged; Plaid and eBay tests pass; transaction pagination/cursor semantics remain unchanged; hosted Netlify Plaid functions can reuse the extracted Plaid operations without importing the Express router.
-  - Progress 2026-09-30 (PR #146): split into `app/routes/ebay.js` and `app/routes/plaid.js`, with token helpers in `app/lib/token-store.js`. Paths and cursor semantics are unchanged, and the tests pass. Accounts/positions responses gained `syncedItemIds`/`warning`. Remaining: the hosted function still duplicates the Plaid operations instead of sharing a transport-agnostic module.
+
+- [ ] **Share Plaid operations between Express and the hosted Netlify function**
+  - Priority: P2. Left over from the sync.js split (F-20260916-05, fire#146): `netlify/functions/plaid.mjs` still duplicates the Plaid operations instead of importing a transport-agnostic module.
+  - Acceptance Criteria: Express and Netlify share one Plaid operations module with no Express router import; existing route contracts and unit tests stay unchanged.
 
 - [ ] **CoinTracker MCP integration for wallet discovery/investigation** _(blocked on CoinTracker: the test account isn't enrolled in MCP early access)_
   - Priority: P1.
@@ -60,7 +61,7 @@ These items came from the current browser/production pass. **P0** items are corr
   - 2026-10-01 live test: the OAuth redirect and login work, but the MCP server answered `401 invalid_token` for the issued token. The follow-up sends an Auth0 `audience` and reports the token shape on a 401. Retest on its deploy preview. Retest result: the token is now correct (MCP audience), but `permissions: []`. The test account isn't enrolled in CoinTracker MCP early access, so this item is blocked on CoinTracker enabling it.
 
 - [x] **Multichain crypto account value (ENS/0x)**
-  - Done 2026-10-01: ⟳ Refresh on an ENS/0x crypto account totals native coins and priced tokens across Ethereum, Base, Optimism, Arbitrum, Polygon, BNB Chain and Avalanche via keyless Blockscout/publicnode lookups (`app/lib/multichain-balance.js`), with a per-chain breakdown and a partial-result warning. The ENS lookup card uses the same source. It replaced the Ethereum-only ETH balance (`nitsuah.eth`: ~$29 ETH-only → ~$445 including PIXL and Base tokens).
+  - Done 2026-10-01: ⟳ Refresh on an ENS/0x crypto account totals native coins and priced tokens across Ethereum, Base, Optimism, Arbitrum and Polygon, plus native BNB and AVAX balances on BNB Chain and Avalanche (native only, no tokens) via keyless Blockscout/publicnode lookups (`app/lib/multichain-balance.js`), with a per-chain breakdown and a partial-result warning. The ENS lookup card uses the same source. It replaced the Ethereum-only ETH balance (`nitsuah.eth`: ~$29 ETH-only → ~$445 including PIXL and Base tokens).
 
 - [x] **Restore hosted gold/silver and crypto refreshes**
   - Done 2026-10-01 (#154, #155): `fire-api` crashed on Netlify (`Cannot find module 'ethers'`), which took down metals too; crypto ⟳ Refresh had no hosted route; the hosted metal refresh threw on an undefined variable; and the retired `cloudflare-eth.com` RPC broke ENS refresh. All fixed and verified against the live site.
@@ -110,10 +111,19 @@ These items came from the current browser/production pass. **P0** items are corr
   - Their panels start hidden by a CSS class, and the tab switch cleared only the inline style. Playwright coverage added (`tests/e2e-ui/side-hustle.spec.js`).
 - [x] **Money-maker SKILLS: low-touch ("AFK") income**
   - Shipped: `skills/reseller-autopilot/` (comps-based pricing, eBay/Etsy/Mercari/Poshmark/FB net-after-fees, listing templates, cross-listing, weekly routine, tax check via MCP) and `skills/passive-income-lab/` (8 low-touch streams with realistic ranges and red flags, runway-first rules, income → FIRE-date math, 30-day launch plans). fire-coach hands off to both.
-- [ ] **Marketplace hookups beyond eBay (Etsy, Mercari, Poshmark, FB Marketplace)**
-  - Priority: P1. Next worktree.
+- [x] **Marketplace hookups beyond eBay (Etsy, Mercari, Poshmark, FB Marketplace)**
+  - Priority: P1.
   - Scope: an Etsy Open API v3 OAuth (PKCE) receipts sync into the Side Gig Ledger, with the same dedupe, tax-tag and cost-basis model as eBay; CSV/report import for platforms with no seller API (Mercari, Poshmark, FB Marketplace); Mercari and Poshmark fee calculators next to eBay/Etsy/FB.
   - Acceptance Criteria: each connector has hosted Netlify parity (or a documented browser-only fallback), unit tests for parsing/dedupe, a Settings/Side Hustle Hub connection state, and docs in `docs/integrations.md`; the `reseller-autopilot` skill and the `hustle-60s` promo are updated to match.
+  - Shipped 2026-10-08: Etsy PKCE receipts sync (`app/lib/etsy-connector.js`, `etsy-handlers.js`, `app/routes/etsy.js`, `netlify/functions/etsy.mjs`, `app/lib/etsy-sync.js`), browser-side Mercari/Poshmark/FB CSV import (`app/lib/marketplace-reports.js`, fixtures in `tests/unit/fixtures/marketplaces/`), Mercari/Poshmark calculator tabs, cards in Side Hustle Hub + Settings, docs, skill and promo.
+- [ ] **Etsy: exact fees instead of estimates**
+  - Priority: P2.
+  - Receipts carry no fee data, so synced rows use Etsy's published schedule (`feesEstimated: true`). Reading the shop's payment-account ledger entries (`/shops/{id}/payment-account/ledger-entries`, also `transactions_r`) and matching them to receipts would give real transaction, processing, Etsy Ads and Offsite Ads fees.
+  - Acceptance Criteria: synced rows carry actual fees when the ledger entries can be matched, fall back to the estimate otherwise, and the flag says which.
+- [ ] **Verify Mercari/Poshmark export headers against real files**
+  - Priority: P2.
+  - The parsers use assumed column names with aliases (`docs/integrations.md`). Confirm against a current Mercari sales history and Poshmark sales report download, add any missing aliases and replace the fixtures with anonymized real headers.
+- [ ] **Etsy live run against a real shop** (self-hosted and lifefire.netlify.app) once an Etsy app keystring is approved; record the result in `docs/integrations.md`.
 
 ### P1 — GitHub README / promo parity
 
@@ -189,7 +199,8 @@ test confirms the disabled Fidelity CSV drop-zone is actually inert while
 Plaid sync is active (only the underlying status the gate reads is covered).
 
 ### Real-Time Price Improvements
-- [ ] Write tests for `app/lib/prices-provider.js` (Alpha Vantage + Polygon paths)
+- [x] Write tests for `app/lib/prices-provider.js` (Alpha Vantage + Polygon paths)
+  - Done 2026-10-09: `tests/unit/prices-provider.test.mjs` (26 tests, all HTTP mocked) covers provider selection, Alpha Vantage and Polygon success paths, 429/HTTP-error/empty/malformed responses, Yahoo fallback, crumb refresh and `fetchYahooChart`.
   - Priority: P2
   - Type: Tech debt
 
