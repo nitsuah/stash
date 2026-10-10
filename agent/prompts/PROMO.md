@@ -84,3 +84,35 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
   - Skill + STANDARD (done, nitsuah/.github PR): feature spots share no intro or outro and run their natural length, the hero is one continuous cut, a checklist item for a cross-spot frame grid, and the /brag brief no longer defaults to `--duration 21`.
   - vigil: `extraScenes` lets the base composition carry scenes its own cut doesn't play; `reel.sh` handles a one-spot reel; a corner wordmark for spots that open on a feature.
   - Candidate rule (first sighting): if any feature spot has fewer than two scenes of its own (not shared with another spot), add a scene for it (capture more of the app) before rendering instead of sharing or stretching one.
+
+### 2026-10-10 · skyview · refresh
+
+- **Ran:** audit → visual-docs CI recipe (14 screenshots, 2 diagrams) → spots.json cull and links → Pages rebuild → brand record. No video rendered: the only spot is the 2026-10-01 `launch-21s` one-off. Audit went from 0/24 linked to 22/24 (11 of 13 visible features; 11 `none`). PR nitsuah/skyview#183.
+- **Checklist misses (existing `launch-21s`):** the outro URL `skyview.nitsuah.io` no longer resolves, and the Pages site had five links to it. Nothing in the audit resolves `live`, `page` or the links on the page. The spot's source was never committed (`brag-output/` is gitignored), so the fix is a full re-render, logged as a TASK.
+- **Friction:**
+  - The screenshot suite found two product bugs that unit tests miss: campaign personalization targets a selector the page doesn't have, and the dashboard's export buttons have no CSS. Both are FEATURES.md claims, so writing a capture per feature id doubles as a "does this feature render" check.
+  - Plain `page.screenshot` was not byte-stable: glow and text-shadow differ by one colour level between runs, which would churn the bot PR. `toHaveScreenshot` with `snapshotPathTemplate` pointing at `docs/screenshots/{arg}{ext}`, `updateSnapshots: 'changed'` and `maxDiffPixelRatio: 0.002` fixed it (three identical runs).
+  - `stray-brag-output` fired although `brag-output/` is gitignored and untracked: the audit checks the folder on disk, and a worktree mount has no git history to check against.
+  - Pages only uploads `showcase/`, while screenshots live in `docs/screenshots`. Copying them in `pages.yml` at deploy time (and triggering on `docs/screenshots/**`) avoids committing every PNG twice.
+  - A `pre` inside a `1fr` grid column caused horizontal scroll at 375 px; the in-app browser pane reported no overflow because its emulated width was 545. Measured with Playwright at a real 375 px instead.
+  - `cd ~/code/vigil && docker compose …` from the skill leaves the shell in vigil; the next relative command ran against the wrong repo.
+- **Promote:**
+  - vigil `showcase audit`: skip `stray-brag-output` when `.gitignore` covers `brag-output/`; add a `dead-link` check that resolves `live`, `page` and the Pages site's outbound hosts.
+  - vigil `docs/VISUAL_DOCS.md` and the workflow template: recommend the `toHaveScreenshot` + `snapshotPathTemplate` pattern, and the deploy-time copy into the Pages folder.
+  - Skill: run the audit in a subshell (`(cd ~/code/vigil && …)`); add "check 375 px with a real viewport, not the pane" to the Pages checks.
+  - Candidate rule (first sighting): a FEATURES.md entry whose capture can't be made because the feature doesn't render is a product bug: file it and leave the feature as a gap, don't mark it `none`.
+
+### 2026-10-10 (later) · skyview · spot + reel + publish
+
+- **Ran:** `site-14s`, `book-18s`, `portal-12s` and `hero-30s` (one continuous cut) via a new `promo/build.sh`, ported from stash (compose-only) with a `base` spot. About 8 min of rendering for 74 s of video. Published to `showcase/media/`; they replace `launch-21s`. Same PR, nitsuah/skyview#183.
+- **Checklist misses:** none on the renders (exact frame counts, frame grid clean, outro URL current). Not done: nobody listened to the audio.
+- **Friction:**
+  - First render ran at under 1 frame/s: eleven full-size screenshot layers at opacity 0 were still composited every frame. Setting hidden layers to `display: none` in `render(t)` brought it to about 3 frames/s.
+  - A background `for spot in …; do build.sh` loop kept going after its container was killed and re-rendered into `promo/out/` while a second render was encoding. The published `hero-30s` came from a mixed frame set; a re-encode from the final frames differed and replaced it. The frame-count check did not catch this.
+  - `render.js` with `require` fails in a repo whose package.json has `"type": "module"`; renamed to `.cjs`.
+  - Camera and ring positions are hand-read fractions of each screenshot, so a layout change silently misaligns a highlight.
+- **Promote:**
+  - stash/vigil `promo/` templates: ship `render.cjs` / `spot-config.cjs`, and the `display: none` rule for inactive layers.
+  - `build.sh` in all three repos: take a lock (`promo/out/<spot>/.lock`) so two renders of one spot cannot overlap.
+  - Skill: "kill the shell loop, not just the container" when aborting a render; add "listen to each spot once" to the double-check list.
+  - Candidate rule (first sighting): have the visual-docs suite write element bounding boxes next to each screenshot (`<id>.regions.json`) so compositions read highlight positions instead of hard-coding them.
