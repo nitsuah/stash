@@ -131,7 +131,7 @@ footer{font:11px var(--mono);color:var(--faint);border-top:1px solid var(--rule)
         const isPick=d.pick&&d.pick.repo===r.repo&&d.pick.column===c.key;
         const tip=r.next&&r.next.column===c.key?` title="${esc(r.next.hint)}"`:"";
         return `<td${isPick?' class="pickcell"':""}${tip}><span class="c ${st}">${esc(x.label)}</span></td>`;}).join("");
-      html+=`<tr><td class="repo">${esc(r.repo)}<small>${esc(r.full_name)}</small></td><td class="score">${esc(r.score)}%<div class="bar"><i style="width:${Number(r.score)||0}%"></i></div></td>${cells}</tr>`;
+      html+=`<tr><td class="repo">${esc(r.repo)}<small>${esc(r.full_name)}</small></td><td class="score">${r.found===false?"no clone":`${esc(r.score)}%<div class="bar"><i style="width:${Number(r.score)||0}%"></i></div>`}</td>${cells}</tr>`;
     }
     $("grid").querySelector("tbody").innerHTML=html;
   }

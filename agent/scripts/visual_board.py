@@ -41,25 +41,45 @@ COLUMNS = [
 ]
 
 
-def run(*cmd: str) -> tuple[int, str]:
-    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
-    return r.returncode, r.stdout
+TIMEOUT = 60  # seconds per git/gh call, so one stalled remote can't hang the daily run
+
+
+def run(*cmd: str) -> tuple[int, str, str]:
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=TIMEOUT)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return 1, "", str(exc)
+    return r.returncode, r.stdout, r.stderr
 
 
 def git(path: str, *args: str) -> str:
-    code, out = run("git", "-C", path, *args)
+    code, out, _ = run("git", "-C", path, *args)
     return out if code == 0 else ""
 
 
-def gh(path: str, query: str) -> str | None:
-    code, out = run("gh", "api", path, "-q", query)
-    return out.strip() if code == 0 else None
+def gh(path: str, query: str) -> tuple[str, str | None]:
+    """('ok', value) | ('absent', None) for a 404 | ('error', None) when the call itself failed."""
+    code, out, err = run("gh", "api", path, "-q", query)
+    if code == 0:
+        return "ok", out.strip()
+    return ("absent" if "404" in err else "error"), None
 
 
-def fix_hint(col: str, repo: dict) -> str:
+def default_ref(path: str) -> str:
+    """origin's default branch; when origin/HEAD isn't set locally, the first of main/master that exists."""
+    ref = git(path, "symbolic-ref", "--short", "refs/remotes/origin/HEAD").strip()
+    if ref:
+        return ref
+    for cand in ("origin/main", "origin/master"):
+        if git(path, "rev-parse", "--verify", "--quiet", cand).strip():
+            return cand
+    return ""
+
+
+def fix_hint(col: str, repo: dict, token_perm: str = "read") -> str:
     path, full = repo["path"], repo["full_name"]
     return {
-        "actions_pr": f"gh api -X PUT repos/{full}/actions/permissions/workflow -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true",
+        "actions_pr": f"gh api -X PUT repos/{full}/actions/permissions/workflow -f default_workflow_permissions={token_perm} -F can_approve_pull_request_reviews=true",
         "spots": f"Run /promo in {path} (first run: builds promo/spots.json from FEATURES.md)",
         "screenshots": f"Run /promo in {path} and add its screenshot CI workflow, so screenshots regenerate and get committed",
         "pages": f"Run /promo in {path} to set up the GitHub Pages site",
@@ -76,10 +96,15 @@ def fix_hint(col: str, repo: dict) -> str:
 def scan(repo: dict, fetch: bool) -> dict:
     p = repo["path"]
     if fetch:
-        run("git", "-C", p, "fetch", "-q", "origin")
-    ref = git(p, "symbolic-ref", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
-    files = git(p, "ls-tree", "-r", "--name-only", ref).splitlines()
-    found = bool(files)
+        run("git", "-C", p, "fetch", "-q", "origin")  # a failed or timed-out fetch scans the last fetched state
+    ref = default_ref(p)
+    files = git(p, "ls-tree", "-r", "--name-only", ref).splitlines() if ref else []
+    if not files:
+        # No clone or no readable default branch: report it, but keep it out of the score and the pick.
+        return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
+                "path": p, "found": False, "score": None, "next": None,
+                "cells": {k: {"status": "na", "label": "no clone"} for k, _ in COLUMNS}}
+    found = True
 
     spots_raw = git(p, "show", f"{ref}:promo/spots.json")
     s = {}
@@ -103,14 +128,19 @@ def scan(repo: dict, fetch: bool) -> dict:
     shot_ci = "screenshot" in wftext
     diag_ci = bool(re.search(r"mermaid|mmdc|excalidraw|diagram", wftext))
     journeys = "journey" in wftext or any("journeys" in f for f in files)
-    pages = gh(f"repos/{repo['full_name']}/pages", ".html_url")
-    approve = gh(f"repos/{repo['full_name']}/actions/permissions/workflow", ".can_approve_pull_request_reviews")
+    pages_state, _ = gh(f"repos/{repo['full_name']}/pages", ".html_url")
+    perm_state, perm = gh(f"repos/{repo['full_name']}/actions/permissions/workflow",
+                          r'"\(.default_workflow_permissions) \(.can_approve_pull_request_reviews)"')
+    token_perm, approve = (perm.split() + ["", ""])[:2] if perm else ("read", "")
 
     def cell(status: str, label: str) -> dict:
         return {"status": status, "label": label}
 
     c = {}
-    c["actions_pr"] = cell("ok", "on") if approve == "true" else cell("missing", "off" if approve else "unknown")
+    if perm_state != "ok":
+        c["actions_pr"] = cell("na", "unknown")
+    else:
+        c["actions_pr"] = cell("ok", "on") if approve == "true" else cell("missing", "off")
     c["spots"] = cell("ok", f"{s['features']} features") if s else cell("missing", "none")
     if shot_ci and shots:
         c["screenshots"] = cell("ok", f"CI · {len(shots)}")
@@ -120,7 +150,7 @@ def scan(repo: dict, fetch: bool) -> dict:
         c["screenshots"] = cell("partial", "CI, none committed")
     else:
         c["screenshots"] = cell("missing", "none")
-    c["pages"] = cell("ok", "deployed") if pages else cell("missing", "none")
+    c["pages"] = {"ok": cell("ok", "deployed"), "absent": cell("missing", "none")}.get(pages_state, cell("na", "unknown"))
     if s and s["visual"]:
         ratio = s["linked"] / s["visual"]
         st = "ok" if ratio >= 0.8 else "partial" if s["linked"] else "missing"
@@ -148,29 +178,32 @@ def scan(repo: dict, fetch: bool) -> dict:
     nxt = next((k for k, _ in COLUMNS if c[k]["status"] in ("missing", "partial")), None)
     return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
             "path": p, "found": found, "score": score, "cells": c,
-            "next": {"column": nxt, "hint": fix_hint(nxt, repo)} if nxt else None}
+            "token_perm": token_perm or "read",
+            "next": {"column": nxt, "hint": fix_hint(nxt, repo, token_perm or "read")} if nxt else None}
 
 
 def build(fetch: bool) -> dict:
     rows = [scan(r, fetch) for r in sotu.tracked_repos() if not r["private"]]
     order = {"I": 0, "II": 1, "III": 2}
-    rows.sort(key=lambda r: (order.get(r["tier"], 3), -r["score"], r["repo"]))
+    rows.sort(key=lambda r: (order.get(r["tier"], 3), -(r["score"] or 0), r["repo"]))
+    live = [r for r in rows if r["found"]]
     # Today's pick: the first gap in the highest tier, in column order, so fixes walk the board predictably.
     pick = None
     for col, _ in COLUMNS:
-        for r in rows:
+        for r in live:
             if r["tier"] == "I" and r["cells"][col]["status"] in ("missing", "partial"):
-                pick = {"repo": r["repo"], "column": col, "hint": fix_hint(col, r)}
+                pick = {"repo": r["repo"], "column": col, "hint": fix_hint(col, r, r["token_perm"])}
                 break
         if pick:
             break
     if not pick:
-        pick = next(({"repo": r["repo"], **r["next"]} for r in rows if r["next"]), None)
+        pick = next(({"repo": r["repo"], **r["next"]} for r in live if r["next"]), None)
     totals = {k: sum(1 for r in rows if r["cells"][k]["status"] == "ok") for k, _ in COLUMNS}
     return {"generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
             "columns": [{"key": k, "label": label} for k, label in COLUMNS],
             "rows": rows, "pick": pick, "totals": totals,
-            "portfolio_score": round(sum(r["score"] for r in rows) / len(rows)) if rows else 0}
+            "scored_repos": len(live),
+            "portfolio_score": round(sum(r["score"] for r in live) / len(live)) if live else 0}
 
 
 def main() -> int:
