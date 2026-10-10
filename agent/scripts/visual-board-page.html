@@ -1,0 +1,141 @@
+<title>nitsuah - showcase Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a contact sheet. One "today" frame up top, then a repo × check matrix grouped by tier, totals as a strip under the headings. */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --ink:#16202A; --muted:#5B6773; --faint:#8D98A3; --rule:#D5DCE2;
+  --accent:#2F5FD0; --accent-soft:#E4ECFB;
+  --ok:#1F7A4D; --ok-soft:#DFF1E7; --part:#A15C00; --part-soft:#FBEBD3; --miss:#B4372E; --miss-soft:#F8E1DE;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F151B; --surface:#161E26; --ink:#E7ECF1; --muted:#A2AEBA; --faint:#6E7B87; --rule:#26313B;
+  --accent:#7FA3F5; --accent-soft:#1A2740;
+  --ok:#5CC18E; --ok-soft:#11291D; --part:#E2A24B; --part-soft:#2E2210; --miss:#EE7F75; --miss-soft:#331917; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151B; --surface:#161E26; --ink:#E7ECF1; --muted:#A2AEBA; --faint:#6E7B87; --rule:#26313B;
+  --accent:#7FA3F5; --accent-soft:#1A2740;
+  --ok:#5CC18E; --ok-soft:#11291D; --part:#E2A24B; --part-soft:#2E2210; --miss:#EE7F75; --miss-soft:#331917; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);margin:0;padding-inline:16px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;display:grid;gap:28px}
+h1,h2{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;line-height:1.05}
+h2{font-size:1.15rem;font-weight:700}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font:12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{color:var(--ink);font-weight:500}
+.lede{max-width:66ch;color:var(--muted);margin:10px 0 0}
+.today{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px;display:grid;gap:10px;box-shadow:inset 4px 0 0 var(--accent)}
+.today .what{font-family:var(--display);font-size:1.3rem;font-weight:700}
+.today .what span{color:var(--accent)}
+.cmd{display:flex;gap:8px;align-items:flex-start;background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+.cmd code{font:13px/1.5 var(--mono);overflow-wrap:anywhere;flex:1;min-width:0}
+button.cp{font:500 12px var(--mono);border:1px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:6px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+button.cp:hover,button.cp:focus-visible{background:var(--accent);color:var(--surface);outline:none}
+.note{font-size:13px;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.tot{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:8px 10px}
+.tot .k{font:11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.tot .v{font:500 15px var(--mono);font-variant-numeric:tabular-nums}
+.bar{height:4px;background:var(--rule);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:1040px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-top:1px solid var(--rule);text-align:left;vertical-align:middle}
+thead th{border-top:0;font:500 10.5px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--bg);position:sticky;top:0}
+tr.tier td{background:var(--bg);font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+td.repo{font-family:var(--display);font-weight:700;white-space:nowrap}
+td.repo small{display:block;font:11px var(--mono);color:var(--faint);font-weight:400}
+.score{font:500 12px var(--mono);white-space:nowrap}
+.score .bar{width:64px}
+.c{display:inline-flex;align-items:center;gap:6px;font:12px var(--mono);white-space:nowrap;padding:2px 7px;border-radius:5px}
+.c::before{content:"";width:9px;height:9px;border-radius:50%;flex:none}
+.c.ok{background:var(--ok-soft);color:var(--ok)} .c.ok::before{background:var(--ok)}
+.c.partial{background:var(--part-soft);color:var(--part)} .c.partial::before{background:linear-gradient(90deg,var(--part) 50%,transparent 50%);box-shadow:inset 0 0 0 1.5px var(--part)}
+.c.missing{background:var(--miss-soft);color:var(--miss)} .c.missing::before{box-shadow:inset 0 0 0 1.5px var(--miss)}
+.c.na{color:var(--faint)} .c.na::before{display:none}
+td.pickcell{outline:2px solid var(--accent);outline-offset:-3px;border-radius:6px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;color:var(--muted)}
+.how{display:grid;gap:8px;max-width:72ch;color:var(--muted);font-size:14px}
+.how b{color:var(--ink)}
+footer{font:11px var(--mono);color:var(--faint);border-top:1px solid var(--rule);padding-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">nitsuah labs · showcase readiness</p>
+    <h1>Showcase Board</h1>
+    <div class="meta" id="meta"><span>Loading the latest scan…</span></div>
+    <p class="lede">How ready each public repo is to show a hiring manager: screenshots, diagrams, feature spots, Pages and the rest. Fix one cell a day; the daily scan moves the pick forward.</p>
+  </header>
+
+  <section class="today" id="today" aria-labelledby="today-h" hidden>
+    <p class="eyebrow" id="today-h" style="margin:0">Today's pick</p>
+    <div class="what" id="today-what"></div>
+    <div class="cmd"><code id="today-cmd"></code><button class="cp" type="button" id="today-copy">Copy</button></div>
+    <p class="note" id="today-note"></p>
+  </section>
+
+  <section aria-labelledby="tot-h" style="display:grid;gap:10px">
+    <h2 id="tot-h">Coverage by check</h2>
+    <div class="strip" id="totals"></div>
+  </section>
+
+  <section aria-labelledby="grid-h" style="display:grid;gap:10px">
+    <h2 id="grid-h">Repos</h2>
+    <div class="legend"><span class="c ok">done</span><span class="c partial">partial</span><span class="c missing">missing</span><span class="c na">— not applicable</span></div>
+    <div class="tablewrap"><table id="grid"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="how" aria-labelledby="how-h">
+    <h2 id="how-h" style="color:var(--ink)">How the board is scored</h2>
+    <p><b>Actions PRs</b> is the repo setting that lets workflows open pull requests; screenshot and diagram CI need it. <b>Promo manifest</b> is <code>promo/spots.json</code>. <b>Screenshots</b> and <b>Diagrams</b> are done when CI regenerates them and partial when they're only committed. <b>Features linked</b> counts the features with something to show that appear in a spot or screenshot (80% counts as done). <b>Spots published</b> compares published spots with all spots.</p>
+    <p>Each repo's score counts done as 1 and partial as ½. Today's pick is the first gap among tier I repos, walking the columns left to right, so the cheapest unblocking fix comes first.</p>
+  </section>
+
+  <footer id="foot">Generated by agent/scripts/visual_board.py in stash; refreshed by the daily-repo-sync routine. Private repos are left out.</footer>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const STATUS=new Set(["ok","partial","missing","na"]);
+  function copy(btn,text){
+    const done=ok=>{btn.textContent=ok?"Copied":"Select it";setTimeout(()=>btn.textContent="Copy",1500);};
+    try{navigator.clipboard.writeText(text).then(()=>done(true),()=>{select(btn);done(false);});}catch(_){select(btn);done(false);}
+  }
+  function select(btn){const code=btn.previousElementSibling;const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r);}
+  function render(d){
+    const cols=d.columns||[], rows=d.rows||[], n=rows.length;
+    $("meta").innerHTML=`<span>scanned <b>${esc((d.generated_at||"").replace("T"," "))}</b></span><span>repos <b>${n}</b></span><span>portfolio <b>${esc(d.portfolio_score)}%</b></span>`;
+    const label=Object.fromEntries(cols.map(c=>[c.key,c.label]));
+    if(d.pick){
+      $("today").hidden=false;
+      $("today-what").innerHTML=`${esc(d.pick.repo)} · <span>${esc(label[d.pick.column]||d.pick.column)}</span>`;
+      $("today-cmd").textContent=d.pick.hint;
+      $("today-note").textContent=d.pick.hint.startsWith("gh api")?"A one-line settings change. Run it in a terminal, and tomorrow's scan picks the next gap.":"Paste this into a session in that repo. Tomorrow's scan picks the next gap once it lands on the default branch.";
+      $("today-copy").onclick=e=>copy(e.currentTarget,d.pick.hint);
+    }
+    $("totals").innerHTML=cols.map(c=>{const v=(d.totals||{})[c.key]||0;return `<div class="tot"><div class="k">${esc(c.label)}</div><div class="v">${v}/${n}</div><div class="bar"><i style="width:${n?Math.round(100*v/n):0}%"></i></div></div>`;}).join("");
+    $("grid").querySelector("thead").innerHTML=`<tr><th>Repo</th><th>Score</th>${cols.map(c=>`<th>${esc(c.label)}</th>`).join("")}</tr>`;
+    let html="",tier=null;
+    for(const r of rows){
+      if(r.tier!==tier){tier=r.tier;html+=`<tr class="tier"><td colspan="${cols.length+2}">Tier ${esc(tier)}</td></tr>`;}
+      const cells=cols.map(c=>{const x=(r.cells||{})[c.key]||{status:"na",label:"—"};const st=STATUS.has(x.status)?x.status:"na";
+        const isPick=d.pick&&d.pick.repo===r.repo&&d.pick.column===c.key;
+        const tip=r.next&&r.next.column===c.key?` title="${esc(r.next.hint)}"`:"";
+        return `<td${isPick?' class="pickcell"':""}${tip}><span class="c ${st}">${esc(x.label)}</span></td>`;}).join("");
+      html+=`<tr><td class="repo">${esc(r.repo)}<small>${esc(r.full_name)}</small></td><td class="score">${r.found===false?"no clone":`${esc(r.score)}%<div class="bar"><i style="width:${Number(r.score)||0}%"></i></div>`}</td>${cells}</tr>`;
+    }
+    $("grid").querySelector("tbody").innerHTML=html;
+  }
+  fetch("visual-board.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}).then(render)
+    .catch(e=>{$("meta").innerHTML=`<span>The scan data didn't load (${esc(e.message)}). The daily-repo-sync routine republishes it.</span>`;});
+})();
+</script>
