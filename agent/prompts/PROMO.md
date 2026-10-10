@@ -101,3 +101,18 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
   - vigil `docs/VISUAL_DOCS.md` and the workflow template: recommend the `toHaveScreenshot` + `snapshotPathTemplate` pattern, and the deploy-time copy into the Pages folder.
   - Skill: run the audit in a subshell (`(cd ~/code/vigil && …)`); add "check 375 px with a real viewport, not the pane" to the Pages checks.
   - Candidate rule (first sighting): a FEATURES.md entry whose capture can't be made because the feature doesn't render is a product bug: file it and leave the feature as a gap, don't mark it `none`.
+
+### 2026-10-10 (later) · skyview · spot + reel + publish
+
+- **Ran:** `site-14s`, `book-18s`, `portal-12s` and `hero-30s` (one continuous cut) via a new `promo/build.sh`, ported from stash (compose-only) with a `base` spot. About 8 min of rendering for 74 s of video. Published to `showcase/media/`; they replace `launch-21s`. Same PR, nitsuah/skyview#183.
+- **Checklist misses:** none on the renders (exact frame counts, frame grid clean, outro URL current). Not done: nobody listened to the audio.
+- **Friction:**
+  - First render ran at under 1 frame/s: eleven full-size screenshot layers at opacity 0 were still composited every frame. Setting hidden layers to `display: none` in `render(t)` brought it to about 3 frames/s.
+  - A background `for spot in …; do build.sh` loop kept going after its container was killed and re-rendered into `promo/out/` while a second render was encoding. The published `hero-30s` came from a mixed frame set; a re-encode from the final frames differed and replaced it. The frame-count check did not catch this.
+  - `render.js` with `require` fails in a repo whose package.json has `"type": "module"`; renamed to `.cjs`.
+  - Camera and ring positions are hand-read fractions of each screenshot, so a layout change silently misaligns a highlight.
+- **Promote:**
+  - stash/vigil `promo/` templates: ship `render.cjs` / `spot-config.cjs`, and the `display: none` rule for inactive layers.
+  - `build.sh` in all three repos: take a lock (`promo/out/<spot>/.lock`) so two renders of one spot cannot overlap.
+  - Skill: "kill the shell loop, not just the container" when aborting a render; add "listen to each spot once" to the double-check list.
+  - Candidate rule (first sighting): have the visual-docs suite write element bounding boxes next to each screenshot (`<id>.regions.json`) so compositions read highlight positions instead of hard-coding them.
