@@ -1,9 +1,11 @@
 ---
-kind: sotu-light-work
 week: 2026-W41
+kind: sotu
 ---
 
 # Light work — 2026-W41
+
+> 🧭 [[reports/sotu/sotu-2026-W39|undated]] → <!-- nav -->
 
 Small, well-scoped tasks pulled from the [[sotu-2026-W41]] open-work list, for cheaper models (Sonnet/Haiku) while the weekly quota is low. Each repo has one paste-ready prompt that batches its tasks into a single branch and PR. Agents open the PR and stop; merging stays with a human or the next Opus session.
 

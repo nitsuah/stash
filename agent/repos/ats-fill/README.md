@@ -114,7 +114,7 @@ ats-fill/
 
 > The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
 > The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
-> Last refreshed: 2026-10-08 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
+> Last refreshed: 2026-10-09 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
 
 ### Main dashboard
 

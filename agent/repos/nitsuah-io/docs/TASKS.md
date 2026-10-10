@@ -45,6 +45,10 @@ repo: nitsuah-io
 
 ### P2 - Medium
 
+- [ ] Re-enable ESLint as a required CI check once `eslint-config-next` and `typescript-eslint` support TypeScript 7.
+  - Context: the repo is on TS 7, and both packages fail against it, so `npm run lint` can't run. CI's ESLint step is replaced by a visible "skipped" warning instead of a step that fails with `continue-on-error`. We stay on TS 7 rather than aliasing `typescript` to TS 6 (decided 2026-10-09). The flat-config migration is ready in draft #557 (drop its `package.json` TypeScript alias when reviving it).
+  - Acceptance Criteria: once a dependency bump adds TS 7 support, revive #557 without the alias; `npm run lint` runs on TS 7; the 103 pre-existing errors are fixed or explicitly disabled per rule; the CI step runs `npm run lint` as a required check with no `continue-on-error`.
+
 - [ ] Add a wallet and MetaMask local testing path.
   - Context: wallet E2E coverage is still skipped instead of being explicitly gated.
   - Acceptance Criteria: at least one local wallet flow is testable without a live wallet; the test is intentionally gated for Nightly.
