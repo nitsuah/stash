@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-10 — Showcase board
+
+- **Added:** `agent/scripts/visual_board.py` scans every public tracked repo (promo manifest, screenshots, diagrams, spots, feature links, reels, vertical, brand, Pages, journeys, and the "Actions can create PRs" setting), scores each repo and picks one gap to fix today. `agent/scripts/visual-board-page.html` renders it as the [showcase board](https://claude.ai/artifact/8Atj9Y7d5SqiCFM79idAHp) artifact. `DAILY.md` gains a "Showcase board" step so daily-repo-sync refreshes it and notes the pick.
+- **Fixed:** `scope.md` pointed motor-pool at `code\agent-board`, which no longer exists; the clone is `code\motor-pool` (default branch `master`).
+
 ### 2026-10-09 — Journeys page and promo spot (additive)
 
 - **Added:** `pages/journeys.html`, a second Pages page for the journeys QA loop (review pass, nightly journeys, issue lifecycle, how to adopt), linked from the main page's nav and "Also in this repo" grid. The one-brain page, its hero video and the vault graph are unchanged.

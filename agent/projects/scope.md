@@ -12,7 +12,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 
 | Repo | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|
-| motor-pool | `C:\Users\ajhar\code\agent-board` (formerly `agent-board`; the local clone keeps the old folder name; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| motor-pool | `C:\Users\ajhar\code\motor-pool` (formerly `agent-board`; clone moved to `code\motor-pool` by 2026-10-09, default branch `master`; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | ats-fill | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
 | avatar | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
 | bb-mcp | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |

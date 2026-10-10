@@ -200,6 +200,16 @@ For each repo with local git worktrees (`git worktree list`):
 
 Log to `stash/agent/logs/stale-worktrees.log` in the same format as prior runs.
 
+## Showcase board
+
+Added 2026-10-10. After the repo sync (so the clones are current), refresh the showcase board: per-repo promo and visual-docs readiness, with one fix to make today.
+
+1. `python C:\Users\ajhar\code\stash\agent\scripts\visual_board.py`. It reads every public tracked repo's default branch plus two GitHub settings, and writes `agent/reports/visual/visual-board.json` (gitignored; don't commit it). One line of output: repo count, portfolio score, today's pick.
+2. Publish to the existing artifact https://claude.ai/artifact/8Atj9Y7d5SqiCFM79idAHp: `Artifact read` it first, then `Artifact publish` with that `url`, `file_path` = `agent/scripts/visual-board-page.html` and `files` = `{"visual-board.json": "agent/reports/visual/visual-board.json"}`. Never create a new artifact. If the read shows the page itself was edited there (a different title or copy), don't overwrite it: skip the publish and say so in the run summary.
+3. Add one line to the daily note's `## Tasks` section: `Showcase: portfolio <n>% · today's pick: <repo> / <check>`. Don't do the pick in this session; it's the day's small task for a person or a separate agent.
+
+If the script fails, log the error in the run summary and carry on. The board is not part of the INCOMPLETE check below.
+
 ## Before you finish: prove the run did something
 
 Added 2026-09-24. The 2026-09-03 run was recorded as "succeeded" after 10 seconds, which is too short to have synced 17 repos, and nothing flagged it. Before ending, check that today's run left evidence:

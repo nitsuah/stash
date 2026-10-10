@@ -183,6 +183,8 @@ agent/.obsidian/workspace.json
 # Report outputs are tracked so cloud routines can read them (2026-09-24).
 # Only stray background-task dumps stay local.
 agent/reports/*.txt
+# Showcase board scan output: regenerated daily and published to the artifact, not committed
+agent/reports/visual/
 
 # Live junctions to other repos (machine-local, recreated by setup-new-machine.ps1)
 # agent/repos/*/
