@@ -47,9 +47,10 @@ handoff describing it as still in-progress was archived to
   - Priority: P1
   - Type: Bug
 
-- [ ] **Add unit/E2E tests for Memory Match and Dodge Blocks** — both iframe-hosted games are live and playable but lack unit-level or gameplay-level E2E automated test coverage; the existing Jest suite does not cover the standalone HTML bundles.
+- [x] **Add unit/E2E tests for Memory Match and Dodge Blocks** — both iframe-hosted games are live and playable but lack unit-level or gameplay-level E2E automated test coverage; the existing Jest suite does not cover the standalone HTML bundles.
   - Priority: P2
   - Milestone: 2027 Q1
+  - Done 2026-10-09: Playwright E2E specs `app/e2e/memory-match.spec.js` and `app/e2e/dodge-blocks.spec.js` (8 tests) load the standalone game pages and exercise card flipping and player movement; they run in the existing CI `test:e2e` step. No unit tests: the game scripts have no exports, so pure logic is not importable without refactoring.
 
 - [ ] **Add high-score persistence to Memory Match** — the current implementation shows a win alert but does not persist a best-time or move-count score to localStorage.
   - Priority: P3

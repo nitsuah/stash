@@ -5,7 +5,7 @@ repo: kryptos
 
 # kryptos
 
-> Reviewed: 2026-10-01
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -33,10 +33,12 @@ Phase 5 (Post-solution, standing, blocked on K4 being solved):
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-10-01). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
+None open (re-checked 2026-10-10 against `docs/TASKS.md`, updated 2026-10-09). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
 
 - **Cryptanalysis frontier, Phase 9 (code):** P2 irregular transpositions + periodic key, P2 length-changing masking; P3 two non-periodic layers, P3 named running-key sources under transposition.
 - **Primary-source sourcing, Phase 8 (needs the owner):** the compass-rose bearing request (FOIA draft + Elonka Dunin email, both written) and the CIA research-visit question are now **P3**, no longer P1. They still need a human to send.
+
+**2026-10-09 update:** "Per-letter Weltzeituhr lookup keys" is no longer blocked. A provisional 2017 top/bottom face transcription is in `kryptos.k4.world_clock_faces_2017`, and the photograph task became "source the pre-1997 faces and physical orientation" (the clock was renovated in 1997, so the 1990 city names are not established). A long clue-derived columnar frontier (widths 15–26, exact crib-gated) was added; three new analysis docs are mirrored (`K4_KEYED_COLUMNAR_FRONTIER`, `K4_OPEN5_FRONTIER`, `K4_WORLD_CLOCK_FACE_TRANSCRIPTION`).
 
 `docs/K4-v2.md` moved to `docs/archive/K4-v2.md`; the mirror pruned the old path.
 
