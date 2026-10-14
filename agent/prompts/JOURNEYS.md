@@ -80,6 +80,7 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - Promote: nitsuah/.github#21 (tolerance from measured noise, canvas ~1000 / DOM ~20; `settle()` counts in-flight `/api/` requests). A soak that flips between runs is worth reading as a product race before you widen a timeout.
 
 ### 2026-10-14 · vhs · review + adopt (via /promo fix journeys)
+
 - Ran: scripted tour (collect/review/capture × 1440/390) on a new in-browser API mock (`promo/demo-mocks.js`) + static server, no Postgres/Ollama. Filed vhs#77, #78, #79 (`bot:review`). 4 journeys, 13 baselines, soak 36/36 at 0 px, `maxDiffPixels: 20`, one letter = 137 px. In nitsuah/vhs#80.
 - Found: ✓ All confirms land in memory but the Collection stays stale until a re-render (#79, found by a flaky count, not the tour); tape count/value/stats chips silently lost in a refactor that writes to a missing `#count` (#77); phone toolbar wrap (#78).
 - Friction: a 1-in-50 `Math.random` easter-egg toast flaked a 0 px soak (5.8k px) once in ~30 runs; fixed by seeding `Math.random` in the fixture. Jest's `**/tests/**/*.spec.js` would have run the journeys; had to add an ignore.
