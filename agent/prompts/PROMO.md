@@ -116,3 +116,9 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
   - `build.sh` in all three repos: take a lock (`promo/out/<spot>/.lock`) so two renders of one spot cannot overlap.
   - Skill: "kill the shell loop, not just the container" when aborting a render; add "listen to each spot once" to the double-check list.
   - Candidate rule (first sighting): have the visual-docs suite write element bounding boxes next to each screenshot (`<id>.regions.json`) so compositions read highlight positions instead of hard-coding them.
+
+### 2026-10-14 · vhs · fix screenshots,diagrams,journeys,vertical
+- Ran: journeys (4 journeys / 13 baselines) → journey-tagged screenshots (11) + `visual-docs.yml`; 3 Mermaid diagrams; `vert brag-20s` → `brag-20s-vert` (1080×1920, 20.0 s, −18.6 LUFS, Kokoro VO, web cut 1.8 MB), published to a new Pages section. One PR, nitsuah/vhs#80. Locked `brag-20s` and `site/brag.*` byte-identical; the spot was read-only (iframe of its `composition.html`, `audio.py` run for the music bed).
+- Checklist misses: first poster (18.5 s, inherited from brag-20s) caught the last caption half-lit; moved to 19.6 s. VO line 2 ran 4.3 s into line 3; shortened the line and re-timed from measured `dur`. Nobody listened to the final mix (loudness only).
+- Friction: `fix vertical` alone would have turned `videos` 1/1 → 1/2 (unpublished spot), so the Pages slot isn't optional. A vertical over a locked spot can't use `--format vertical` re-renders; the vigil shell (iframe + captions) works but had to be served over http for same-origin. The tts image needed scipy added for `audio.py`/`mix.py`.
+- Promote: skill — `vertical` cell = render **and publish** (else `videos` regresses); ship vigil's `promo/tts` + vertical shell as a `nitsuah/.github/showcase/vert/` template that takes a locked base spot. visual_board: the `vertical` cell could require `published`.
