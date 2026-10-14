@@ -23,7 +23,7 @@ Phase 7 — Shape-changing transposition + solar-geometry "shadow of the word" h
 
 Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of the three original gaps, two are closed (sourcing the ~4 World Clock *segments* with no legible photo, and the sub-minute Berlin Wall timestamp). Still open, all P3 and all needing a person rather than code (per `docs/TASKS.md` after PR #233):
 - [ ] Source the Kryptos compass rose's actual measured bearing (FOIA / Elonka Dunin outreach, drafts ready)
-- [ ] Photograph the Weltzeituhr: 16 of 146 city plates still unread, plus ring order and the wind-rose mosaic's orientation. This blocks Phase 9's per-letter Weltzeituhr lookup keys.
+- [ ] Source the Weltzeituhr's pre-1997 faces and physical orientation (renamed 2026-10-09). Provisional candidate testing of Phase 9's per-letter lookup keys can now proceed on the 2017 transcription (`kryptos.k4.world_clock_faces_2017`). Validation against the 1990 clock state and its orientation stays open; kryptos#251–#253 sourced the first pre-1997 photo leads.
 
 Multiple follow-on external-review passes (2026-09-02/03) closed a real bug (`keystream_validator.K4_CRIBS` off-by-one on EAST/NORTHEAST positions), added `plaintext_evidence`, extended known-plaintext inversion to rectangular grids, tested the CIA-confirmed "read from the back" tableau reading, and ran newly-discovered classical ciphers (Playfair/Four-Square/Bifid/Autokey) and K0 Morse-slab keywords for the first time — all null.
 
