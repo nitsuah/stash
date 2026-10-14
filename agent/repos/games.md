@@ -5,7 +5,7 @@ repo: games
 
 # games
 
-> Reviewed: 2026-09-30
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -17,13 +17,13 @@ Browser arcade collection at nitsuah-arcade (Netlify) built with Next.js 16, Thr
 
 **2026 Q2** ✅ Completed — per `docs/ROADMAP.md`/`docs/TASKS.md` (2026-08-28). Performance/asset-loading audit, mobile responsiveness + touch input, accessibility audit, and UX verification pass all shipped.
 
-**2026 Q3 (planned):** fix game-selection UI for keyboard/programmatic navigation; add unit/E2E test coverage for Memory Match and Dodge Blocks (iframe-hosted standalone games, not covered by the Jest suite); add high-score persistence to Memory Match (currently just a win alert); add mobile touch controls to Dodge Blocks (keyboard-only today); evaluate further game work only once these are closed.
+**2026 Q3 (planned):** fix game-selection UI for keyboard/programmatic navigation; add high-score persistence to Memory Match (currently just a win alert); add mobile touch controls to Dodge Blocks (keyboard-only today); evaluate further game work only once these are closed.
 
 **2026 Q4 (exploratory):** per-game achievement system (localStorage, no backend); federated leaderboard (Netlify Function/Cloudflare Worker, offline fallback); shared touch-control component (new idea, 2026-08-28) — a reusable on-screen d-pad/button component rather than a one-off for Dodge Blocks. Not started.
 
 ## Open P0/P1 Tasks
 
-None open outside parked work. One P1 is parked for **[2027-Q1]** (tagged 2026-09-30): make the game selection UI keyboard- and programmatically navigable for accessibility and automated testing. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add unit/E2E tests for Memory Match/Dodge Blocks (P2), add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3).
+None open outside parked work. One P1 is parked for **[2027-Q1]** (tagged 2026-09-30): make the game selection UI keyboard- and programmatically navigable for accessibility and automated testing. The two former P1 items — performance/asset-optimization audit and mobile responsiveness/touch input — are complete per `docs/TASKS.md` (2026-08-28), along with the P2 accessibility and UX verification passes. Remaining open items are P2/P3 or untagged: fix game-selection keyboard nav, add high-score persistence to Memory Match (P3), add mobile touch controls to Dodge Blocks (P3). The Memory Match/Dodge Blocks E2E tests (P2) closed 2026-10-09.
 
 ## Blockers
 
@@ -31,6 +31,7 @@ None. The previously-flagged **[BLOCKED]** global client-side `ReferenceError` p
 
 ## Recent Changes (Unreleased)
 
+- **2026-10-09:** the P2 "tests for Memory Match and Dodge Blocks" closed with Playwright E2E specs (`app/e2e/memory-match.spec.js`, `app/e2e/dodge-blocks.spec.js`, 8 tests) in the existing CI `test:e2e` step. No unit tests: the game scripts have no exports.
 - **Two new games**: Memory Match (`/memory-match`) and Dodge Blocks (`/dodge-blocks`) — standalone HTML5 games embedded via sandboxed iframe, bringing the collection from 7 to 9 games; documented across README.md, FEATURES.md, ARCHITECTURE.md, API.md (which hadn't been updated when these originally shipped).
 - Unit test suite grown to 482 passing tests (from 218 at the 1.0.0 tag).
 - Arcade cabinet (`ArcadeLayout`) fixes: no longer clips its neon hood/title or joystick/buttons/coin-slot console on tablet/mobile portrait; non-fullscreen pages now scroll instead of clipping; fixed a mobile `width: 100vw` overflow bug, a mobile breakpoint that grew the title instead of shrinking it, and a missing sub-768px breakpoint on the 3x3 game grid; two-line game titles no longer get clipped.

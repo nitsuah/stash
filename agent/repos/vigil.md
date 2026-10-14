@@ -6,7 +6,7 @@ aliases: [overseer]
 
 # vigil
 
-> Reviewed: 2026-10-01
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -33,7 +33,18 @@ Meta-repository intelligence layer and GitHub portfolio dashboard at overseer.ni
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-10-01). `TASKS.md` still reads "P0: None open" and "P1: None open". PR #260 (merged 2026-10-01) added repo tiers T1–T4 (`repos.tier`, `PATCH /api/repos/[name]/update-tier`, `tier` filter on MCP `list_repos`) and a `skills/vigil/` Claude Code skill. In P2, chat-driven doc editing is now stages 1–4 complete, the relationship-map foundation is checked off, and a new open P2 asks to grow that map from real evidence.
+_Refreshed 2026-10-10 against the mirrored `TASKS.md` (updated 2026-10-09). No P0. A new P1 epic, "Visual best practices" (moved here from stash SOTU 2026-W41), shipped its first four items on 2026-10-09: `visual_docs` is now scored, plus the `actions_pr_permission` check, an informational `journeys` practice and `visual_setup` in `/api/context`. Open P1s:_
+
+- [ ] **P1** Journeys in vigil beyond detection: read `bot/journeys` metrics and open `bot:journey`/`bot:review` counts onto repo details with a PMO rollup, an owner-only "Run journeys now", an "Enable nightly journeys" scaffold PR, agent-queued review/adopt/fix runs. Then promote `journeys` out of `INFORMATIONAL_PRACTICES`.
+- [ ] **P1** Showcase audit: features no journey covers, plus "features linked" on the dashboard (CLI-only today).
+- [ ] **P1** Diagrams-only recipe job for repos with no UI (Excalidraw export, no screenshot plumbing).
+- [ ] **P1** Showcase rollout: Pages + one `/brag` spot each for vhs, skyview and nitsuah-io (vigil done; ats-fill held). User-run; turn Actions PRs on for vigil, fire and motor-pool first.
+- [ ] **P1** Follow-ups outside vigil: stash `sotu.py` reads `visual_setup`; nitsuah/.github adds the Actions PR setting to `/promo`'s first-run checklist.
+- [ ] **P1** Tasks card shows the lowest-priority group first and hides the rest (#275, from the journeys review pass; `TasksSection.tsx` sorts then calls `.reverse()`).
+
+P2 from the same review pass: #276, #277, #279; fold the visual-docs screenshots into the journeys. The old P3 "roll the visual-docs recipe out, then score it" is closed by the epic.
+
+Earlier (2026-10-01): PR #260 (merged 2026-10-01) added repo tiers T1–T4 (`repos.tier`, `PATCH /api/repos/[name]/update-tier`, `tier` filter on MCP `list_repos`) and a `skills/vigil/` Claude Code skill. In P2, chat-driven doc editing is now stages 1–4 complete, the relationship-map foundation is checked off, and a new open P2 asks to grow that map from real evidence.
 
 **Resolved (2026-09-28):** `session?.user?.email` gate on the shared-key rate limiter was a bypass — GitHub OAuth profiles with no public email skipped the budget entirely. Fixed by threading `session.userId` (stable GitHub numeric id) as the primary rate-limiter identity with email as fallback. See TASKS.md item "Give every authenticated session a stable rate-limiter identity" ✅.
 

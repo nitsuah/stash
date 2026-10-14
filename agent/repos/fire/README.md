@@ -354,7 +354,12 @@ docker compose exec fire npm run lint
 # Real-browser UI tests (Playwright, in Docker)
 docker build -f config/Dockerfile.playwright -t fire-playwright-e2e .
 docker run --rm fire-playwright-e2e
+
+# Nightly user journeys (visual baselines; see tests/journeys/README.md)
+docker run --rm -e CI=true fire-playwright-e2e npm run test:journeys
 ```
+
+The journeys also run every night in GitHub Actions. A failure opens a deduplicated `bot:journey` issue with screenshots, and the issue closes itself after three green nights. Open bot issues are listed in [BUGS.md](https://github.com/nitsuah/fire/blob/bot/journeys/BUGS.md).
 
 ---
 

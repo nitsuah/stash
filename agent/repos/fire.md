@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-10-09
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -40,7 +40,9 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 
 ## Open P0/P1 Tasks
 
-_Refreshed 2026-10-09 against the mirrored `docs/TASKS.md` (updated 2026-10-08)._
+_Refreshed 2026-10-10 against the mirrored `docs/TASKS.md` (new "Nightly journeys + review-pass findings" section, 2026-10-09)._
+
+- [ ] **P1 (new 2026-10-09)** Fix the journeys review-pass findings (label `bot:review`): #169 insights equity % counts crypto, #170 single-stock warning fires on broad ETFs (wrong advice), #178 MCP `fire_status_summary` disagrees with the dashboard. P2 findings: #166, #167, #168, #171, #172, #173. A fix may change a journey baseline; regenerate it in Docker in the same PR.
 
 - [ ] **P0** Google Drive backup round-trip verification before rollout: prove encrypt → upload → download → decrypt end-to-end (Drive only sees ciphertext, wrong-key/corrupt backups fail cleanly) before the UI may report a successful backup.
 - [ ] **P1** Serve Plaid on the Netlify deploy (lifefire.netlify.app). Progress 2026-09-30 (PR #146): `netlify/functions/plaid.mjs` serves all `/api/sync/plaid/*` routes with unit coverage. Remaining: a live Link → sync run on the hosted site and browser smoke coverage. Rule: any new `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
@@ -48,6 +50,8 @@ _Refreshed 2026-10-09 against the mirrored `docs/TASKS.md` (updated 2026-10-08).
 - [ ] **P1** Browser/production-pass items: eBay connection completion as a toast + automatic sync; Side Gig Ledger form controls themed; provider-contract tests for every price/balance integration (HTML-instead-of-JSON failures); sync-health state in the Side Hustle Hub.
 - [ ] **P1** Docs/promo: README feature-parity refresh, promo ledger audit, feature-discovery pass for the GitHub landing page.
 - [ ] **P1** Model real eBay fee brackets in `calculateEbayFeesTotal` (per-category fee-rule schema; CodeRabbit on PR #103).
+
+Shipped 2026-10-09: nightly "AI user" journeys pilot (fire#176: 7 journeys, 19 baselines, nightly caller on the shared nitsuah/.github harness) and the /promo refresh (spots.json culled, 38 of 95 marked `"visual": "none"`; 13 docs screenshots from the journeys; promo findings #174/#175 fixed). New P2s: split the 55–85 s spots into ~21 s feature spots plus a hero cut, and journey coverage (23 of 92 spots.json features tagged). New P3 needing owner sign-off: confirm the FEATURES.md trims.
 
 Shipped 2026-10-08: Marketplace hookups beyond eBay (P1 closed): Etsy PKCE receipts sync with a Netlify function, browser-side Mercari/Poshmark/FB CSV import, Mercari/Poshmark calculator tabs; follow-ups are P2 (exact Etsy fees from ledger entries, verify Mercari/Poshmark headers against real exports) plus an Etsy live run once an app keystring is approved. The `sync.js` split P1 is now marked done (fire#146); its leftover, sharing Plaid operations between Express and the Netlify function, is a P2. Done 2026-10-09: `prices-provider.js` tests (26). Shipped 2026-10-07: offline Kokoro TTS narration for the promo spots plus seven narrated feature tours (`promo/tour/`), and two new Claude skills, `skills/reseller-autopilot/` and `skills/passive-income-lab/` (fire-coach hands off to both). Shipped 2026-10-01: multichain ENS/0x crypto valuation across 7 chains, hosted gold/silver + crypto refresh restored (#154, #155), Chaos mode with follow-up chains and mitigations, per-tab section layouts, and the `skills/fire-coach/` Claude skill. Remaining open work below P1: pen-test checklist, classic-script globals cleanup, PROD Phase 4 (trend view, PWA, multi-user).
 

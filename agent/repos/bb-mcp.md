@@ -5,7 +5,7 @@ repo: bb-mcp
 
 # bb-mcp PMO Runbook
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-10-14
 
 ## Overview
 
@@ -41,6 +41,8 @@ None open. TASKS.md's P1 section is empty — all P1 work (API wrapper, OAuth2, 
 
 Notable open P2 items (not P0/P1, listed for context):
 - [ ] Bind `caller_identity` to real end-user authentication instead of trusting the client's claim (flagged by CodeRabbit on PR #115; needs a design decision, e.g. requiring a verified SSO/Blackboard identity token)
+
+**Shipped 2026-10-12:** promo spot `bb-mcp-21s` with branding, legal disclaimers and an updated landing page (bb-mcp#144), then a 4K cut with an infographic scene (bb-mcp#145; storyboard mirrored at `promo/bb-mcp-21s/storyboard.md`).
 
 ## Blockers
 

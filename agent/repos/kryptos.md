@@ -5,7 +5,7 @@ repo: kryptos
 
 # kryptos
 
-> Reviewed: 2026-10-01
+> Reviewed: 2026-10-14
 
 ## Overview
 
@@ -23,7 +23,7 @@ Phase 7 — Shape-changing transposition + solar-geometry "shadow of the word" h
 
 Phase 8 — Primary-source sourcing (active, opened 2026-09-01): of the three original gaps, two are closed (sourcing the ~4 World Clock *segments* with no legible photo, and the sub-minute Berlin Wall timestamp). Still open, all P3 and all needing a person rather than code (per `docs/TASKS.md` after PR #233):
 - [ ] Source the Kryptos compass rose's actual measured bearing (FOIA / Elonka Dunin outreach, drafts ready)
-- [ ] Photograph the Weltzeituhr: 16 of 146 city plates still unread, plus ring order and the wind-rose mosaic's orientation. This blocks Phase 9's per-letter Weltzeituhr lookup keys.
+- [ ] Source the Weltzeituhr's pre-1997 faces and physical orientation (renamed 2026-10-09). Provisional candidate testing of Phase 9's per-letter lookup keys can now proceed on the 2017 transcription (`kryptos.k4.world_clock_faces_2017`). Validation against the 1990 clock state and its orientation stays open; kryptos#251–#253 sourced the first pre-1997 photo leads.
 
 Multiple follow-on external-review passes (2026-09-02/03) closed a real bug (`keystream_validator.K4_CRIBS` off-by-one on EAST/NORTHEAST positions), added `plaintext_evidence`, extended known-plaintext inversion to rectangular grids, tested the CIA-confirmed "read from the back" tableau reading, and ran newly-discovered classical ciphers (Playfair/Four-Square/Bifid/Autokey) and K0 Morse-slab keywords for the first time — all null.
 
@@ -33,10 +33,14 @@ Phase 5 (Post-solution, standing, blocked on K4 being solved):
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-10-01). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
+None open (re-checked 2026-10-10 against `docs/TASKS.md`, updated 2026-10-09). After PR #233 (single-page "Ghost in the Shell" dashboard, docs refresh, merged 2026-10-01) `docs/TASKS.md` has two queues and no P0/P1:
 
 - **Cryptanalysis frontier, Phase 9 (code):** P2 irregular transpositions + periodic key, P2 length-changing masking; P3 two non-periodic layers, P3 named running-key sources under transposition.
 - **Primary-source sourcing, Phase 8 (needs the owner):** the compass-rose bearing request (FOIA draft + Elonka Dunin email, both written) and the CIA research-visit question are now **P3**, no longer P1. They still need a human to send.
+
+**2026-10-09 update:** "Per-letter Weltzeituhr lookup keys" is no longer blocked. A provisional 2017 top/bottom face transcription is in `kryptos.k4.world_clock_faces_2017`, and the photograph task became "source the pre-1997 faces and physical orientation" (the clock was renovated in 1997, so the 1990 city names are not established). A long clue-derived columnar frontier (widths 15–26, exact crib-gated) was added; three new analysis docs are mirrored (`K4_KEYED_COLUMNAR_FRONTIER`, `K4_OPEN5_FRONTIER`, `K4_WORLD_CLOCK_FACE_TRANSCRIPTION`).
+
+**2026-10-11 to 10-14 update:** kryptos#251–#253 added `docs/analysis/K4_HISTORICAL_WORLD_CLOCK_PHOTOS.md`, sourced pre-1997 Weltzeituhr photo leads (Thomas Gade, June 1990; Jörg Blobelt, 1970) toward a historically correct face model for the "BERLIN CLOCK" clue. They are research leads only: no complete 1990 transcription and no cipher result yet. Still no P0/P1.
 
 `docs/K4-v2.md` moved to `docs/archive/K4-v2.md`; the mirror pruned the old path.
 
