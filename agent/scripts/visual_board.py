@@ -137,7 +137,11 @@ def scan(repo: dict, fetch: bool) -> dict:
         return {"status": status, "label": label}
 
     c = {}
-    if perm_state != "ok":
+    # Same rule as vigil's actions_pr_permission: the setting only matters once a visual-docs workflow exists.
+    visual_wf = shot_ci or diag_ci or any("visual-docs" in f for f in wf)
+    if not visual_wf:
+        c["actions_pr"] = cell("na", "no visual CI")
+    elif perm_state != "ok":
         c["actions_pr"] = cell("na", "unknown")
     else:
         c["actions_pr"] = cell("ok", "on") if approve == "true" else cell("missing", "off")

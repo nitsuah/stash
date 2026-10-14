@@ -11,6 +11,8 @@ Notable additions and changes to this repository.
 ### 2026-10-14 — Repo tiers
 
 - **Changed:** `sotu.py` tiers, shared by SOTU and the showcase board. vhs and stash move up to tier I. avatar and kryptos drop to tier III, alongside farm-3j, games, gcp and osrs. The showcase board's daily pick only walks tier I, so vhs and stash gaps now get picked.
+- **Fixed:** the showcase board's `actions_pr` cell is `na` unless the repo has a visual-docs workflow, matching vigil's `actions_pr_permission` rule (CodeRabbit on stash#226).
+- **Fixed:** `build-vault-indexes.py` labels ISO-week reports (`sotu-2026-W41`) by week in prev/next nav instead of `undated` (CodeRabbit on stash#226). Regenerated nav included.
 
 ### 2026-10-10 — Showcase board
 
