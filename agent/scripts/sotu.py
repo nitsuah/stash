@@ -36,8 +36,8 @@ VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://gh-vigil.netlify.app/api/mc
 
 # Display grouping only. Repos not listed land in tier III.
 TIERS = {
-    "I": ["vigil", "fire", "skyview", "ats-fill", "motor-pool"],
-    "II": ["darkmoon", "bb-mcp", "nitsuah-io", "avatar", "deployer", "kryptos"],
+    "I": ["vigil", "fire", "skyview", "ats-fill", "motor-pool", "vhs", "stash"],
+    "II": ["darkmoon", "bb-mcp", "nitsuah-io", "deployer"],
 }
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
 HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.IGNORECASE)

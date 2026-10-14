@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-14 — Repo tiers
+
+- **Changed:** `sotu.py` tiers, shared by SOTU and the showcase board. vhs and stash move up to tier I. avatar and kryptos drop to tier III, alongside farm-3j, games, gcp and osrs. The showcase board's daily pick only walks tier I, so vhs and stash gaps now get picked.
+
 ### 2026-10-10 — Showcase board
 
 - **Added:** `agent/scripts/visual_board.py` scans every public tracked repo (promo manifest, screenshots, diagrams, spots, feature links, reels, vertical, brand, Pages, journeys, and the "Actions can create PRs" setting), scores each repo and picks one gap to fix today. `agent/scripts/visual-board-page.html` renders it as the [showcase board](https://claude.ai/artifact/8Atj9Y7d5SqiCFM79idAHp) artifact. `DAILY.md` gains a "Showcase board" step so daily-repo-sync refreshes it and notes the pick.
