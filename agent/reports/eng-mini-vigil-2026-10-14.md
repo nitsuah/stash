@@ -8,7 +8,7 @@ date: 2026-10-14
 # eng-mini: vigil — 2026-10-14 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/vigil|vigil]] · ← [[reports/eng-mini-vigil-2026-10-02|2026-10-02]] <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Selected as the #3 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-14T04:56:06-04:00, HEAD `8f9c396` "build(deps): bump the minor-and-patch group across 1 directory with 14 updates (#280)"). Root audited from a throwaway clone at `/home/user/vigil`.
 
 ## Root Audit — vigil/
@@ -21,7 +21,7 @@ date: 2026-10-14
 | `.env.example` | Config template | Root-required | **KEEP** |
 | `.github/` | CI | Must stay root | **KEEP** |
 | `.gitignore` | VCS | Must stay root | **KEEP** |
-| `.husky/` | Tooling | `package.json`'s `"prepare": "husky || true"` sets `core.hooksPath` to `.husky` | **KEEP** |
+| `.husky/` | Tooling | `package.json`'s `"prepare": "husky \|\| true"` sets `core.hooksPath` to `.husky` | **KEEP** |
 | `.nvmrc` | Tooling | nvm reads this from cwd by convention | **KEEP** |
 | `.prettierignore` / `.prettierrc.json` | Config | Prettier resolves by walking upward from the edited file; a `config/` subdir isn't in that path | **KEEP** |
 | `.vscode/` | Editor config | Committed intentionally — a directory, not a loose root file | **NO ACTION** |
