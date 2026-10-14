@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added an attributed, provisional 2017 top/bottom Weltzeituhr face transcription with ordered-label helpers and tests. Unknown faces remain unknown, confirmed blanks remain blank, and documentation explicitly separates the 2017 snapshot from the unresolved 1990 state. See `docs/analysis/K4_WORLD_CLOCK_FACE_TRANSCRIPTION.md`.
+- Removed the duplicate first-letter lookup transform from the Open5 stream defaults so the same candidate stream is not counted twice.
+- Bounded keyed-columnar frontier for long World Clock city-derived keywords and city+K1/K2-key combinations (widths 15–26), with exact crib constraints, both layer orders, underconstraint reporting, and a planted positive-control test. See `docs/analysis/K4_KEYED_COLUMNAR_FRONTIER.md`.
+- Added `kryptos.k4.open5_frontier` for bounded edit-gap crib alignment, Hill 6×6–10 partial-block coverage, ordered per-letter label streams, and named scalar bearing seeds.
+- Added planted functional tests and `docs/analysis/K4_OPEN5_FRONTIER.md`.
+- These additions do not eliminate the five open families; global masking/transposition search and physical clock/bearing evidence remain open.
+
 ### Changed
 
 - Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; extended `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
@@ -297,3 +306,4 @@ For detailed phase planning and technical documentation, see:
 
 - [ROADMAP.md](./ROADMAP.md) - Current roadmap and phase objectives
 - [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md) (nitsuah org default) - Active workflow, standards, and quickstart guidance
+

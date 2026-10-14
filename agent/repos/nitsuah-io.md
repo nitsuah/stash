@@ -5,7 +5,7 @@ repo: nitsuah-io
 
 # nitsuah-io
 
-> Reviewed: 2026-09-27
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -39,7 +39,7 @@ Sister-repo integration priority: bb-mcp → kryptos → skyview → motor-pool 
 
 ## Open P0/P1 Tasks
 
-Re-checked against `docs/TASKS.md` 2026-09-27. The Playwright Docker/npm lockstep item was promoted to P0 and shipped (Dockerfile.test `v1.63.0-noble`, `scripts/check-playwright-lockstep.js` in `precheck:docker` and CI, grouped Dependabot rules). Still open:
+Re-checked against `docs/TASKS.md` 2026-09-27. The Playwright Docker/npm lockstep item was promoted to P0 and shipped (Dockerfile.test `v1.63.0-noble`, `scripts/check-playwright-lockstep.js` in `precheck:docker` and CI, grouped Dependabot rules). Re-checked 2026-10-10: the P1 list is unchanged. One new P2 (2026-10-09): re-enable ESLint as a required CI check once `eslint-config-next` and `typescript-eslint` support TypeScript 7; the repo stays on TS 7 and CI shows a visible "skipped" warning meanwhile (#557 holds the flat-config migration). Still open:
 
 - [ ] **P1** Replace placeholder-heavy client demo assets
 - [ ] **P1** Replace duplicate project and crypto page assets

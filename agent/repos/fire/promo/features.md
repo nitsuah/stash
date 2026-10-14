@@ -32,7 +32,7 @@ Capture assets live in `promo/out/capture/crops/` after a run (`card-*.png` per-
 | 16 | eBay + Etsy OAuth order sync; Mercari/Poshmark/FB CSV import | "Sales import themselves." | `card-ebay-sync.png` → `card-etsy-sync.png` | README · eBay Order Sync, Etsy Order Sync | hustle-60s |
 | 17 | CSV imports (Fidelity, Chase, Capital One, eBay) | "Drop in a CSV. Parsed locally." | `card-add-csv.png` | README · CSV Imports | site, connect-55s |
 | 18 | Plaid sync | "Or link it." | `card-plaid.png` | README · Plaid integration | site, connect-55s |
-| 19 | Web3 wallets, keyless multichain value | "Paste an ENS name." | `hrow-4.png` (vitalik.eth); `card-add-account.png` (Crypto + ENS identifier) | README · Crypto, Web3 wallet tracking | brag-22s, tour-85s, connect-55s |
+| 19 | Web3 wallets, keyless multichain value | "Paste an ENS name." | `hrow-4.png` (fire-demo-wallet.eth); `card-add-account.png` (Crypto + ENS identifier) | README · Crypto, Web3 wallet tracking | brag-22s, tour-85s, connect-55s |
 | 20 | Gold/silver at live spot | "Gold at today's spot." | `hrow-5.png`, `card-other-assets.png` | README · Precious metals | tour-85s, connect-55s |
 | 21 | Vehicles (value, loan, depreciation; VIN stored) | "Cars at what they're worth." | `card-other-assets.png`, `card-add-vehicle.png` (VIN field). The form stores the VIN; decoding is server-side | README · Vehicle VIN decode | connect-55s |
 | 22 | Expenses + auto-categorization | "Statements are categorized automatically." | `card-budget.png`, `card-spending.png` | README · CSV Imports (Expenses) | insights-60s, connect-55s (voice) |

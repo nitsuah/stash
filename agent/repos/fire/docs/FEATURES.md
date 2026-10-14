@@ -156,6 +156,7 @@ repo: fire
 
 - **Vitest Suite** — 715 unit and integration tests; coverage tracked via `@vitest/coverage-v8`.
 - **Playwright UI Suite** — 69 real-browser regression tests (layout, navigation, drill-down, imports, presets, fee calculator tabs, responsive behaviour) run in a pinned Docker image.
+- **Nightly Journeys** — 7 Playwright "AI user" journeys in `tests/journeys` (first visit, holdings, projections, side hustle, budget, insights, phone) run nightly in Docker against the demo seed, with a visual baseline per step. Failures become deduplicated `bot:journey` issues with screenshots, with no AI involved; an issue closes itself after 3 green nights. Open bot issues: [BUGS.md](https://github.com/nitsuah/fire/blob/bot/journeys/BUGS.md).
 - **MCP Smoke Test** — `scripts/test-mcp.mjs` exercises the 8 tools in `EXPECTED_TOOLS` end-to-end via the SDK client.
 
 ## Planned

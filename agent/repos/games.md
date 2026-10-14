@@ -5,7 +5,7 @@ repo: games
 
 # games
 
-> Reviewed: 2026-09-30
+> Reviewed: 2026-10-10
 
 ## Overview
 
@@ -31,6 +31,7 @@ None. The previously-flagged **[BLOCKED]** global client-side `ReferenceError` p
 
 ## Recent Changes (Unreleased)
 
+- **2026-10-09:** the P2 "tests for Memory Match and Dodge Blocks" closed with Playwright E2E specs (`app/e2e/memory-match.spec.js`, `app/e2e/dodge-blocks.spec.js`, 8 tests) in the existing CI `test:e2e` step. No unit tests: the game scripts have no exports.
 - **Two new games**: Memory Match (`/memory-match`) and Dodge Blocks (`/dodge-blocks`) — standalone HTML5 games embedded via sandboxed iframe, bringing the collection from 7 to 9 games; documented across README.md, FEATURES.md, ARCHITECTURE.md, API.md (which hadn't been updated when these originally shipped).
 - Unit test suite grown to 482 passing tests (from 218 at the 1.0.0 tag).
 - Arcade cabinet (`ArcadeLayout`) fixes: no longer clips its neon hood/title or joystick/buttons/coin-slot console on tablet/mobile portrait; non-fullscreen pages now scroll instead of clipping; fixed a mobile `width: 100vw` overflow bug, a mobile breakpoint that grew the title instead of shrinking it, and a missing sub-768px breakpoint on the 3x3 game grid; two-line game titles no longer get clipped.

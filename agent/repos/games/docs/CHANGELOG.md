@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Maintenance (2026-10)
 
 - Dependabot ignores eslint major-version bumps in `/app` until `eslint-plugin-react` supports eslint 10, so it stops opening an eslint 10 PR that fails `npm ci` with ERESOLVE (#333).
+- Added Playwright E2E specs for the standalone Memory Match and Dodge Blocks games (`app/e2e/memory-match.spec.js`, `app/e2e/dodge-blocks.spec.js`): board render, matching and mismatched card flips, restart, player movement, wall clamping.
 
 ### Showcase (2026-10)
 
