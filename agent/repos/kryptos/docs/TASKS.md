@@ -10,7 +10,7 @@ repo: kryptos
 
 > 🧭 [kryptos](../README.md) · [Index](./INDEX.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-01
+Last Updated: 2026-10-09
 
 ---
 
@@ -40,12 +40,12 @@ right tier (see `docs/GOVERN.md`).
 - [ ] **Named running-key sources under transposition** — the K1–K3 ciphertexts, the K0 Morse text and the Cyrillic Projector as running keys after a columnar or geometric transposition.
   - Priority: P3
   - Type: Code
-- [ ] **Hill 6×6+ with partial blocks** — combine with a transposition hypothesis or use partial crib blocks.
+- [ ] **Hill 6×6+ with partial blocks** — partial-block coverage diagnostics now exist for sizes 6–10; combine with a named transposition and modular equation solver to test matrices.
   - Priority: P3
   - Type: Code
-- [ ] **Per-letter Weltzeituhr lookup keys** — blocked on the photographs below.
+- [ ] **Per-letter Weltzeituhr lookup keys** — a provisional 2017 top/bottom transcription is now available in `kryptos.k4.world_clock_faces_2017`; test only explicitly declared traversals with exact cribs and shuffled controls. Pre-1997 order remains unverified.
   - Priority: P3
-  - Type: Code (blocked)
+  - Type: Code
 
 ### Platform
 
@@ -102,7 +102,7 @@ right tier (see `docs/GOVERN.md`).
   > [Your name and contact information]
   - Priority: P3
   - Type: Research
-- [ ] **Photograph the Weltzeituhr** — close-ups of every face of the city ring (16 of 146 city plates are still unread; `kryptos.k4.world_clock_cities`), the International Date Line plate, and the wind-rose mosaic from above with a straight edge in frame so its orientation can be measured. This is the only input that blocks the per-letter lookup keys in Phase 9 (a city, time zone or hour per letter). Anyone in Berlin with a phone can do it in about 30 minutes; Wikimedia Commons photos already cover most plates but not the ring order or the mosaic orientation.
+- [ ] **Source the Weltzeituhr's pre-1997 faces and physical orientation** — the 2017 top/bottom transcription is now captured as provisional data in `kryptos.k4.world_clock_faces_2017`, but the clock was renovated in 1997 and the 1990 city names/zone assignments are not established. Find pre-1997 photos (look for LENINGRAD, ALMA ATA and BRATISLAVA), complete the physical ring order, and document the relevant orientation. The wind-rose mosaic's bearing is also still unmeasured.
   - Priority: P2
   - Type: Research (physical)
 - [ ] **Check Sanborn's quotes against the primary pages** — `docs/sources/SANBORN_QUOTES.md` gives each quote a confidence tier; several source pages blocked automated fetches. A manual read of those pages would firm up the "masking" and "not a math solution" statements the open fronts lean on.
@@ -113,6 +113,7 @@ right tier (see `docs/GOVERN.md`).
 
 ## Done
 
+- **2026-10-09 — Long clue-derived columnar frontier.** Added an exact crib-gated test of conventional column orders derived from transcribed World Clock city labels and city+K1/K2-key combinations at widths 15–26. Tests both layer orders, periods 1–22, three alphabet seeds and five substitution families; a planted control verifies the checker. This is a bounded null/coverage expansion, not closure of the broader irregular-transposition or per-letter-clock-key tasks. See `docs/analysis/K4_KEYED_COLUMNAR_FRONTIER.md`.
 - **2026-09-30 — Single-page dashboard.** Tabs replaced by one fixed-height screen: five modules (K4, Ledger, Attacks, Lab, System) on a ring, each fitting the viewport without page scrolling; a drawing of the Weltzeituhr replaces the Mengenlehreuhr lamp clock; paper-and-lavender styling instead of teal screens; ledger and job history now have UI (`docs/reference/DASHBOARD.md`).
 - **2026-09-30 — Docs pass.** README rewritten around where K4 stands; ROADMAP, TASKS, INDEX, FEATURES, METRICS, GOVERN and the analysis docs brought up to date; the unbuilt Akira spec archived.
 - **2026-09-28 — Frontier checks (P22)** in `kryptos.k4.frontier_checks`: recurrence keys, periodic key + arbitrary mixed alphabet, dial keys, bearing routes and Hill 4×4 eliminated; wide columnar widths 10–14 by exact search; running keys from any English text and Hill 5×5 statistical; the full-plaintext reconstruction fits no tested family.

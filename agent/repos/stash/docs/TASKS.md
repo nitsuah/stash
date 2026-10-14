@@ -24,11 +24,13 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Done 2026-10-09: nitsuah/.github#19.
 - [x] Wire the loop into routines: 1FLOW takes `bot:journey` issues first (`Refs #N`, nightly closes them); RSI runs `metrics.mjs` monthly into JOURNEYS.md.
   - Done 2026-10-09: agent/prompts/1FLOW.md, RSI.md, JOURNEYS.md.
-- [ ] Pilot: fire. Review pass, journeys, nightly caller.
-  - Priority: P1
-  - Progress 2026-10-09: review pass filed fire#166–#175; 7 journeys, 19 baselines, soak 70/70; PR open on fire. Remaining: merge it after nitsuah/.github#19, then one `workflow_dispatch` run to create `bot/journeys` and confirm the reporter in Actions.
+- [x] Pilot: fire. Review pass, journeys, nightly caller.
+  - Done 2026-10-09: review pass filed fire#166–#175 and #178; fire#176 (7 journeys, 19 baselines) merged after nitsuah/.github#19; the first `workflow_dispatch` run passed and created `bot/journeys`. visual-docs needs "Allow GitHub Actions to create and approve pull requests" in fire's Actions settings.
+- [x] Promo: a journeys page and spot on stash Pages, added next to the one-brain page without changing it.
+  - Done 2026-10-09: `pages/journeys.html`, `journeys-19s`, compose-only `promo/build.sh`.
 - [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
   - Priority: P2
+  - Progress 2026-10-09: review pass filed vigil#275–#279 and #281; 6 journeys, 12 baselines, soak 54/54 in nitsuah/vigil#282. Remaining: merge it (after nitsuah/.github#21 if you want the updated rules first), one `workflow_dispatch` run, then fold `e2e.yml` failures into the reporter.
 - [ ] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
   - Priority: P2
   - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.
@@ -73,11 +75,12 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Candidates: `atlassian/bitbucket/examples.py`, `atlassian/confluence/examples.py`, `atlassian/statuspage/examples.py`.
   - Done 2026-10-09: added `test_bitbucket_examples.py`, `test_confluence_examples.py` and `test_statuspage_examples.py` (mocked with `responses`) and listed them in the `test-python` job of `.github/workflows/ci.yml`.
 
-- [ ] Expand test coverage to Python example files (target ≥30% on example files).
+- [x] Expand test coverage to Python example files (target ≥30% on example files).
   - Priority: P2
   - Type: Testing
-  - Note: Current example-file coverage is 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
+  - Note (historical, 2026-09): example-file coverage was 84% (Jira only); Bitbucket, Confluence, Statuspage examples untested. Overall coverage 37% skewed by `validate_project.py` (0%).
   - Approach: build on `test_examples.py`, going from smoke tests to meaningful coverage.
+  - Done 2026-10-09: measured with the `test-python` CI file list (65 passed) in Docker (`python:3.11`, `pytest-cov`): `atlassian/jira/examples.py` 84%, `atlassian/bitbucket/examples.py` 82%, `atlassian/confluence/examples.py` 72%, `atlassian/statuspage/examples.py` 80%. All four are above 30%; combined 505/629 statements (80%).
 
 - [ ] Add pre-commit hooks
   - Priority: P3

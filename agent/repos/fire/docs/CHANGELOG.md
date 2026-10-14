@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-09 — Price provider fallback fix
+
+#### Fixed
+
+- `app/lib/prices-provider.js`: an unknown `PRICE_PROVIDER` value ran Yahoo and then retried Yahoo for the symbols it missed, because the missing-symbol fallback only skipped the literal `'yahoo'`. The fallback now skips whenever Yahoo was the provider that ran, so each price fetch makes one Yahoo request. `tests/unit/prices-provider.test.mjs` asserts the single request.
+
+### 2026-10-09 — Nightly "AI user" journeys + review pass
+
+- **Added:** `tests/journeys/`: 7 Playwright journeys over the demo seed with mocked prices, a frozen clock and Chart.js animation off, and one visual baseline per step (19). `npm run test:journeys`, `config/playwright.journeys.config.js`, and `.github/workflows/journeys.yml`, which runs nightly through the shared nitsuah/.github harness: failures become fingerprint-deduplicated `bot:journey` issues, and BUGS.md and metrics live on the `bot/journeys` branch. Soak: 70/70 green.
+- **Changed:** the promo price mocks moved to `promo/demo-mocks.js`, shared by `capture.js` and the journeys.
+- **/promo refresh:** spots.json culled to 57 user-visible features, 43 of them with a visual. The journeys now also write `docs/screenshots/<feature-id>.png` (`npm run capture:screenshots`; `visual-docs.yml` PRs them). Published spots were re-captured. Fixed #174 (the seed's net-worth history was dropped, so captures showed an empty trend) and #175 (the demo wallet was `vitalik.eth`, now the unregistered `fire-demo-wallet.eth`; the ENS placeholder is `name.eth`).
+- **Review pass:** one AI pass over the app, the Pages site and the promo materials filed #166–#175 (`bot:review`).
+
 ### 2026-10-09 — prices-provider tests
 
 #### Added
