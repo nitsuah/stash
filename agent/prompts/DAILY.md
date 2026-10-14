@@ -48,8 +48,8 @@ If either check hits, **don't** create a second note or PR. Do Repo sync and Sta
      ```
      (Run it from the stash repo root.) If it exits 1, **don't merge**. Name the PR and the first path it prints in today's `## Notes` for a human. (Retroactive check: old note PR #92 carried 17 unrelated files, including `agent/.obsidian/` config, and was merged. This gate would have held it.)
    - If it's still a draft, mark it ready: `gh pr ready <PR>`.
-   - If CI is green (or no CI is configured) and there are no unresolved review comments, merge: `gh pr merge <PR> --squash --delete-branch`.
-   - If CI is red or there's an unresolved review comment, leave it open and name it in today's `## Notes` instead of merging.
+   - If CI is green (or no CI is configured), merge: `gh pr merge <PR> --squash --delete-branch`. **Don't wait for CodeRabbit or hold a note PR over review comments.** Austin, 2026-10-14: stash PRs are notes, and #226 sat 4 days on CHANGES_REQUESTED. If a stale CodeRabbit review is the only thing blocking, add `--admin`. List any open threads in today's `## Notes`. A real bug in a stash script gets a follow-up PR; doc drift in a mirror gets fixed in the upstream repo.
+   - If CI is red, leave it open and name it in today's `## Notes` instead of merging.
 
    (Gate verified 2026-09-24 against every stash PR: 10 note PRs qualify. #88, #89 and #100 are never candidates, and the path check flags #92. The path regex was changed the same day when notes moved from `Daily Notes/`/`Weekly Notes/` to flat `agent/notes/`; re-verified against note, repo, `eng-loc-notes.md`, subfolder and old-folder paths.)
 3. `git -C C:\Users\<user>\code\stash checkout main` and `git pull --ff-only`, so the steps below read the merged notes. `main` should be clean here, because yesterday's end-of-run sweep committed everything. If it isn't, log it and continue without pulling.
