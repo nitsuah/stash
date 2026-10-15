@@ -24,7 +24,7 @@ repo: skyview
 ## Stack
 
 - Static HTML/CSS/JavaScript site with modular scripts
-- Netlify deployment model + Decap CMS admin flow
+- Netlify deployment; gallery content edited directly in `assets/gallery.json` (Decap CMS `/admin` login removed 2026-10-14, skyview#188)
 - Playwright E2E and Vitest unit test setup
 
 ---
