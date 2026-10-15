@@ -132,7 +132,7 @@ def scan(repo: dict, fetch: bool) -> dict:
     if s.get("frontend") is False and s.get("pages_dir"):
         shots += [f for f in files if f.startswith(s["pages_dir"] + "/") and f not in shots
                   and re.search(r"\.(png|webp|gif|svg)$", f, re.I)
-                  and not re.search(r"logo|favicon|icon|og-image|apple-touch", f, re.I)]
+                  and not re.search(r"logo|favicon|icon|og-image|apple-touch|diagrams?/", f, re.I)]
     diags = [f for f in files if re.search(r"\.(mmd|excalidraw|drawio)$|diagrams?/.*\.(svg|png)$", f, re.I)]
     shot_ci = "screenshot" in wftext
     diag_ci = bool(re.search(r"mermaid|mmdc|excalidraw|diagram", wftext))
