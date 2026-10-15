@@ -186,3 +186,31 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 - **Promote:**
   - Done in .github#26: check claims against the code (copy, share copy and captured UI); run `git status` after a render; vertical frame checks (no clipping, no dead third); the manual publish path including `spots[]`.
   - Next: T2 (nitsuah-io, bb-mcp, darkmoon). `fix screenshots` per T1 repo, working through the "Capture for promo" TASKS lines, is what turns the remaining `linked` cells green.
+
+### 2026-10-15 · T2 · nitsuah-io + bb-mcp · fix (only the board's missing cells)
+- **Ran:** two waves of Sonnet agents, each calling `/promo <repo> fix <cells>` through the Skill tool with only the missing cells. darkmoon and T3 were skipped by the owner's choice.
+  - Wave A:
+    - nitsuah-io#570: 33 full-page screenshots (19 pages, 9 phone, 5 states), 2 diagrams, and 8 journeys replacing `playwright-nightly`. Linked 1/77 → 17/21, with 56 culled as `none`.
+    - bb-mcp#148: generated visuals drawn with resvg (no browser), 2 diagrams. Linked 0/39 → 38/39.
+  - Wave B, serial:
+    - bb-mcp#153: API-only journeys (`request` fixture plus `webServer`) and a Pages journey, plus `bb-mcp-21s-vert` (23 s, narrated, claims re-derived from the code).
+    - nitsuah-io#573: `site-tour-vert` (29 s, stacked on #570).
+  - Board: bb-mcp went 50% → 73% after #148; journeys and vertical turn green when #153 merges.
+- **Checklist misses that review caught:**
+  - nitsuah-io's first screenshots had the fixed footer painted over content, and the home page was cut at 900 px by a `100vh` grid with overflow hidden. Fixed in the capture fixture.
+  - The real-site version of that home-page cut is nitsuah-io#572.
+  - CodeRabbit raised 5 findings on bb-mcp#153: overlapping captions, sheet.sh dropping stills, external links on PRs, path containment, and range handling. All fixed.
+  - CodeRabbit raised 3 on bb-mcp#148: concurrency, persisted credentials, and a CI guard for resvg. All fixed.
+- **Bugs found and filed:** nitsuah-io #565–#569 and #572; bb-mcp #149–#152. The old bb-mcp landscape spot claims 34 tools, invents CLI verbs, and ends on an `npm i -g` that installs someone else's package.
+- **Friction:**
+  - Copilot's quota ran out, and the org's required Copilot review blocks merging nitsuah-io#570. That needs the owner (admin merge or the quota reset).
+  - A stacked PR gets no CI, because the workflows only trigger on PRs to main.
+  - nitsuah-io's husky hook runs `git add -A`, which breaks per-cell commits.
+  - Two usage-limit interruptions mid-agent; both resumed with `SendMessage`.
+- **Promote:** done in nitsuah/.github#28.
+  - Full-page captures.
+  - resvg visuals.
+  - Inherited claims and `npm view`.
+  - Vertical bounds script and phone-size text.
+  - API-only journeys.
+  - Caller image flavour (noble vs jammy) and the source paths in the PR trigger.
