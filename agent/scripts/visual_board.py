@@ -116,6 +116,7 @@ def scan(repo: dict, fetch: bool) -> dict:
             s = {"features": len(feats), "visual": len(visual),
                  "pages_dir": (d.get("pagesDir") or "").strip("/"), "frontend": d.get("frontend", True),
                  "linked": sum(1 for f in visual if f.get("spots") or f.get("screenshots")),
+                 "unlinked": [f.get("id") for f in visual if not (f.get("spots") or f.get("screenshots"))],
                  "spots": len(sp), "published": sum(1 for x in sp if x.get("published")),
                  "reels": len(d.get("reels") or []), "brand": bool(d.get("brand")),
                  "vertical": sum(1 for x in sp if x.get("format") in ("vertical", "portrait"))}
@@ -190,6 +191,7 @@ def scan(repo: dict, fetch: bool) -> dict:
     nxt = next((k for k, _ in COLUMNS if c[k]["status"] in ("missing", "partial")), None)
     return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
             "path": p, "found": found, "score": score, "cells": c,
+            "unlinked": s.get("unlinked", []),  # visible features with nothing linked: the linked pass works this list
             "token_perm": token_perm or "read",
             "next": {"column": nxt, "hint": fix_hint(nxt, repo, token_perm or "read")} if nxt else None}
 
