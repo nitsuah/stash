@@ -34,11 +34,12 @@ When given a list of repos (e.g. from `scope.md`):
 
 ### Phase 0 — Inventory (both modes)
 - Run `git ls-files` in each repo to get only tracked files.
-- Exclude: `*.lock`, `*-lock.json`, `*.min.*`, `dist/`, `build/`, `vendor/`, `node_modules/`, `__pycache__/`, `*.pyc`, `*.map`, `*.d.ts`, binary assets (images, fonts, video, PDFs, .accdb), docs (`*.md`, `*.mdx`, `*.html` that is a doc/report rather than app markup) — this agent targets code complexity, not doc bloat; a repo's doc/data volume is out of scope.
+- Exclude: `*.lock`, `*-lock.json`, `*.min.*`, `dist/`, `build/`, `vendor/`, `node_modules/`, `__pycache__/`, `*.pyc`, `*.map`, `*.d.ts`, binary assets (images, fonts, video, PDFs, .accdb), docs (`*.md`, `*.mdx`, `*.html` that is a doc/report rather than app markup), data/generated files (`*.json` that is data/config rather than parsed application logic, and any `*.html`/other output a build script writes rather than a human) — this agent targets code complexity, not doc or data bloat; a repo's doc/data volume is out of scope.
+- **Scanning `stash` specifically**: also exclude `agent/repos/**` (read-only vault mirrors of *other* repos' docs, kept for the Obsidian graph — already excluded by the `*.md` rule above, but the directory itself is never stash's own code regardless of extension) and `agent/notes/**`/`agent/reports/**` (agent-generated working notes, not source). Stash is the vault, not a product repo — its only legitimate hotspot candidates live in `cloud/`, `scripts/`, or similar actual code directories.
 - Count lines on remaining source files; sort descending.
 
 ### Phase 1 — Hotspot Analysis (both modes)
-- Report the top 10 largest source files per repo with LOC counts.
+- Report the top 10 largest source files per repo with LOC counts — **code files only** (see CSS and tests below for what doesn't belong in this ranked list).
 - For each file, identify the complexity signals present:
   - Mixed concerns (routing + business logic + state + UI in one file)
   - Functions or methods over ~80 lines
@@ -47,6 +48,8 @@ When given a list of repos (e.g. from `scope.md`):
   - High churn in git history (many authors, frequent edits)
 - Never flag a file as problematic by size alone — require at least one structural rationale.
 - Mark uncertain assumptions clearly (e.g. "assumed: no test coverage — not confirmed").
+- **CSS**: never give a CSS file a ranked slot in the Top 10, no matter its size — it's a style/maintainability smell, not a complexity risk (see Guardrails). If a repo's largest files are mostly CSS, note the single largest one line ("CSS: `styles/style.css` 2,014 lines — style smell, not a refactor target, see Guardrails") below the table instead of inside it.
+- **Test files**: don't give an individual test file a ranked slot by default either — note total test LOC in the Inventory Summary instead. The one exception: a single test file so large it's plausibly its own context-budget problem (rule of thumb: over ~1,500 lines, or large enough that reading it to understand one test burns a disproportionate amount of context) — call that out explicitly as a test-file hotspot, separate from the code Top 10, with the specific concern (e.g. "worth splitting so an agent reading it for one failing case doesn't have to load all of it").
 
 ### Phase 2 — Refactor Strategy (`--refactor` only)
 - Propose phased modularization with the smallest safe extraction first.
@@ -112,7 +115,7 @@ Files the scan **must** flag on every run and that we will never fix. They prove
 3. **Refactor opportunities by phase** — one paragraph per file, naming the extraction cut.
 4. **Validation plan** per phase — what passes locally before a PR goes up.
 5. **Repo-by-repo summary table** — repo, top concern, priority, notes.
-6. **Ordered next-cycle targets** — the 5–10 highest-ROI files across all repos.
+6. **Ordered next-cycle targets** — the 5–10 highest-ROI files across all repos, **tier-weighted**: pull each repo's Tier from `agent/projects/scope.md`'s Tracked table (T1 first, then T2, T3, T4; a repo with no tier recorded — see scope.md's note on which 8 aren't yet registered in vigil — ranks alongside T2/T3, not last and not first) before ordering by risk/LOC within a tier. A Critical file in a T3 repo (e.g. stash) does not outrank a High file in a T1 repo (e.g. fire, ats-fill, vigil, motor-pool) — note explicitly when tier reordered what raw risk/LOC would have suggested.
 
 When used as a handoff into `--refactor`:
 - State the problem and evidence for each target.

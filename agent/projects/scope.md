@@ -10,27 +10,31 @@
 
 These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`eng-loc`/`eng-mini`/`stale-worktrees`/`vuln-patcher`/`gh-overseer` routines operate on.
 
-| Repo | Local path | GitHub URL | Org | Visibility |
-|---|---|---|---|---|
-| motor-pool | `C:\Users\ajhar\code\motor-pool` (formerly `agent-board`; clone moved to `code\motor-pool` by 2026-10-09, default branch `master`; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
-| ats-fill | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
-| avatar | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
-| bb-mcp | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
-| darkmoon | `C:\Users\ajhar\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |
-| deployer | `C:\Users\ajhar\code\deployer` | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |
-| farm-3j | `C:\Users\ajhar\code\farm-3j` | https://github.com/nitsuah/farm-3j | nitsuah | public |
-| fire | `C:\Users\ajhar\code\fire` | https://github.com/nitsuah/fire | nitsuah | public |
-| games | `C:\Users\ajhar\code\games` | https://github.com/nitsuah/games | nitsuah | public |
-| gcp | `C:\Users\ajhar\code\gcp` | https://github.com/nitsuah/gcp | nitsuah | public |
-| kryptos | `C:\Users\ajhar\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
-| nitsuah-io | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
-| osrs | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
-| vigil | `C:\Users\ajhar\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
-| skyview | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
-| stash | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
-| vhs | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
+**Tier column**: pulled from vigil's live `repos.tier` (`GET https://gh-vigil.netlify.app/api/context` with `$VIGIL_MCP_KEY`, same call `routine-cloud-daily-brief.md` already makes) on 2026-10-15. It's user-assigned in vigil, never auto-detected, so it drifts out of date here — re-pull before trusting it for a prioritization call more than a few weeks old. `—` means the repo isn't registered in vigil yet (no tier to read), not that it's unimportant. T1 Critical, T2 Important, T3 Standard, T4 Low (see vigil's README for the full rubric).
+
+| Repo | Tier | Local path | GitHub URL | Org | Visibility |
+|---|---|---|---|---|---|
+| motor-pool | T1 | `C:\Users\ajhar\code\motor-pool` (formerly `agent-board`; clone moved to `code\motor-pool` by 2026-10-09, default branch `master`; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| ats-fill | T1 | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| avatar | — | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
+| bb-mcp | T2 | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
+| darkmoon | — | `C:\Users\ajhar\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |
+| deployer | — | `C:\Users\ajhar\code\deployer` | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |
+| farm-3j | — | `C:\Users\ajhar\code\farm-3j` | https://github.com/nitsuah/farm-3j | nitsuah | public |
+| fire | T1 | `C:\Users\ajhar\code\fire` | https://github.com/nitsuah/fire | nitsuah | public |
+| games | — | `C:\Users\ajhar\code\games` | https://github.com/nitsuah/games | nitsuah | public |
+| gcp | — | `C:\Users\ajhar\code\gcp` | https://github.com/nitsuah/gcp | nitsuah | public |
+| kryptos | — | `C:\Users\ajhar\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
+| nitsuah-io | T3 | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
+| osrs | — | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
+| vigil | T1 | `C:\Users\ajhar\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
+| skyview | T2 | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
+| stash | T3 | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
+| vhs | T2 | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
 
 `stash` is the vault these prompts live in — audited for metrics/docs by the routines above, but skipped by name in `PMO.md`'s repo loop ("it's the vault, not a product repo").
+
+8 of the 17 (avatar, darkmoon, deployer, farm-3j, games, gcp, kryptos, osrs) aren't registered in vigil, so they have no tier yet — that's a gap worth closing if tier-weighted prioritization (see `LOC.md`) is going to cover the whole portfolio rather than just the 9 repos vigil already knows about.
 
 ## Not tracked — forks and utility repos
 
