@@ -9,10 +9,12 @@ Note: shallow clone — churn/author history is **not available**; marked "assum
 Changed-since gate: prior report `eng-loc-kryptos-2026-09-01.md` recorded `a7b6927f89c3d0cfaa512044c0e12c445b91b813`; current HEAD differs, so this repo was reanalyzed.
 
 ## Inventory Summary
-- Tracked source files (post-exclusion, code extensions only): 428 (up from 452 noted 2026-09-01 — likely exclusion-rule differences rather than file deletion; not confirmed)
+- Tracked source files (post-exclusion, code extensions only): 428 (down from 452 noted 2026-09-01 — likely exclusion-rule differences rather than file deletion; not confirmed)
 - Total LOC counted: 63,424 (up from 62,122 on 2026-09-01)
 
 ## Top 10 LOC Files
+
+Code files only — test files excluded per `LOC.md` Phase 1. One test file in this repo is close to the ~1,500-line standalone-callout bar; see note below the table.
 
 | # | File | LOC | Lang | Role | vs 2026-09-01 |
 |---|------|-----|------|------|----------------|
@@ -25,11 +27,11 @@ Changed-since gate: prior report `eng-loc-kryptos-2026-09-01.md` recorded `a7b69
 | 7 | `src/kryptos/agents/ops_director.py` | 650 | Python | Agent/ops orchestration | New entrant |
 | 8 | `src/kryptos/k4/vigenere_key_recovery.py` | 610 | Python | Vigenère key-recovery solver | New entrant |
 | 9 | `src/kryptos/autonomous_coordinator.py` | 606 | Python | Autonomous run coordinator | New entrant |
-| 10 | `tests/functional/test_k4_hypotheses.py` | 591 | Python | Test suite | New entrant |
-| 11 | `src/kryptos/pipeline/attack_generator.py` | 579 | Python | Attack-pipeline generation | New entrant |
-| 12 | `src/kryptos/k4/hypothesis_ledger.py` | 566 | Python | Hypothesis tracking ledger | New entrant |
+| 10 | `src/kryptos/pipeline/attack_generator.py` | 579 | Python | Attack-pipeline generation | New entrant |
 
-Note: `src/kryptos/api/k4_attack_routes.py` (801 LOC, #3 on 2026-09-01) and `frontend/src/theme.css` (683 LOC, #5 on 2026-09-01, CSS — out of scope per guardrails) have dropped out of the top 12; not confirmed whether reduced or just outpaced by growth elsewhere.
+Test file: `tests/functional/test_k4_hypotheses.py` (591 lines) would have ranked #10 above but is a test suite, under the ~1,500-line bar for a standalone callout.
+
+Note: `src/kryptos/api/k4_attack_routes.py` (801 LOC, #3 on 2026-09-01) and `frontend/src/theme.css` (683 LOC, #5 on 2026-09-01, CSS — out of scope per guardrails) have dropped out of the top 10; not confirmed whether reduced or just outpaced by growth elsewhere.
 
 ## Risk Rank and Rationale
 
@@ -41,7 +43,6 @@ Note: `src/kryptos/api/k4_attack_routes.py` (801 LOC, #3 on 2026-09-01) and `fro
 | `src/kryptos/k4/crib_constraints.py` | Medium-High | Companion engine to `frontier_checks.py` (same docstring cross-references it); likely multiple constraint-family implementations bundled together, same extraction pattern as `frontier_checks.py`. Assumed: not confirmed by direct read this run. |
 | `src/kryptos/cli/main.py` | Medium | 27 function definitions — CLI dispatch commonly mixes argument parsing with command logic. Carried forward as a known concern; size dropped since 2026-09-01. |
 | `src/kryptos/agents/ops_director.py`, `autonomous_coordinator.py` | Medium | New entrants this run — orchestration/coordination code, plausible mixed concerns (state + dispatch + logging) typical of "director"/"coordinator" naming. Assumed: not confirmed without a full read. |
-| `tests/functional/test_k4_hypotheses.py` | **Low** | Single clear concern (tests) — not a refactor target. |
 
 Test coverage: repo has `tests/` and `scripts/testing/` directories; `test_k4_hypotheses.py` present for the hypotheses module specifically. Coverage for `frontier_checks.py` and `crib_constraints.py` specifically is **assumed: not confirmed** — no `test_frontier_checks.py` or `test_crib_constraints.py` found in this scan.
 
@@ -64,8 +65,16 @@ Canaries: N/A (canary list only applies to the `stash` repo; not scanned this ru
 |------|-------------|----------|-------|
 | kryptos | `src/kryptos/k4/frontier_checks.py` — 8 cipher-family checks bundled in one new 1,131-line module | High | New since 2026-09-01; docstring already documents independent check families, making extraction low-ambiguity |
 
-## Ordered Next-Cycle Targets (this repo)
-1. `src/kryptos/k4/frontier_checks.py` (1,131 LOC) — High, extract `hill_exhaustive` first
-2. `src/kryptos/k4/crib_constraints.py` (877 LOC) — Medium-High, needs direct read before a phase plan
-3. `src/kryptos/agents/ops_director.py` (650 LOC) — Medium, confirm concerns (new entrant)
-4. `src/kryptos/autonomous_coordinator.py` (606 LOC) — Medium, confirm concerns (new entrant)
+## Ordered Next-Cycle Targets (cross-repo, tier-weighted)
+
+Shared across this run's three reports (vigil, vhs, kryptos) — see each report's own Repo Summary for per-repo context. Tier from `agent/projects/scope.md`: vigil = T1, vhs = T2, kryptos = untiered (not yet registered in vigil; ranks alongside T2/T3 per `LOC.md`).
+
+1. `app/api/mcp/route.ts` (vigil, T1, 893 LOC) — High, extract tool handlers
+2. `lib/sync.ts` (vigil, T1, 707 LOC) — High, extract fallback cache
+3. `components/dashboard/RepoTableRow.tsx` (vigil, T1, 699 LOC) — High, extract derived-data hook, needs manual QC
+4. `src/kryptos/k4/frontier_checks.py` (kryptos, untiered, 1,131 LOC) — High, extract `hill_exhaustive` first
+5. `public/js/ui.js` (vhs, T2, 896 LOC) — High, extract CSV/bulk-action helpers
+6. `src/server.js` (vhs, T2, 761 LOC) — High, extract route groups into `./modules/routes/*`
+7. `src/kryptos/k4/crib_constraints.py` (kryptos, untiered, 877 LOC) — Medium-High, needs direct read before a phase plan
+
+Tier reordered what raw LOC would have suggested: `frontier_checks.py` (1,131 LOC, the largest file in this run) would rank #1 by size alone, but vigil's three T1 findings are weighted ahead of it despite being smaller, since vigil is a T1 (Critical/production) repo and kryptos isn't yet tiered.

@@ -14,20 +14,20 @@ Prior report: `eng-loc-vhs-2026-07-29.md` (no recorded HEAD sha in that report t
 
 ## Top 10 LOC Files
 
+Code files only — test files excluded per `LOC.md` Phase 1 (none in this repo are over the ~1,500-line standalone-callout bar; largest is `tests/coverage-boost.test.js` at 612 lines).
+
 | # | File | LOC | Lang | Role |
 |---|------|-----|------|------|
 | 1 | `public/js/ui.js` | 896 | JavaScript | Front-end UI module (tabs, table, bulk actions) |
 | 2 | `src/server.js` | 761 | JavaScript | Express server (routes, auth, migrations, proxy) |
-| 3 | `tests/coverage-boost.test.js` | 612 | JavaScript | Test suite |
-| 4 | `public/js/camera.js` | 527 | JavaScript | Barcode/camera capture module |
-| 5 | `tests/server.test.js` | 511 | JavaScript | Test suite |
-| 6 | `tests/test-omdb-enhancements.spec.js` | 499 | JavaScript | Test suite |
-| 7 | `tests/ebay-valuation.test.js` | 445 | JavaScript | Test suite |
-| 8 | `public/js/utils.js` | 403 | JavaScript | Shared front-end utilities |
-| 9 | `tests_playwright/collection-features.spec.js` | 379 | JavaScript | E2E test suite |
-| 10 | `public/js/review.js` | 321 | JavaScript | Review panel module |
-| 11 | `public/js/ai.js` | 306 | JavaScript | AI metadata lookup module |
-| 12 | `scripts/audit-metadata.js` | 290 | JavaScript | Metadata audit script |
+| 3 | `public/js/camera.js` | 527 | JavaScript | Barcode/camera capture module |
+| 4 | `public/js/utils.js` | 403 | JavaScript | Shared front-end utilities |
+| 5 | `public/js/review.js` | 321 | JavaScript | Review panel module |
+| 6 | `public/js/ai.js` | 306 | JavaScript | AI metadata lookup module |
+| 7 | `scripts/audit-metadata.js` | 290 | JavaScript | Metadata audit script |
+| 8 | `public/js/capture.js` | 275 | JavaScript | Capture-flow module |
+| 9 | `public/js/auth.js` | 237 | JavaScript | Client-side auth module |
+| 10 | `src/modules/omdb.js` | 230 | JavaScript | OMDB metadata lookup module |
 
 ## Risk Rank and Rationale
 
@@ -35,7 +35,6 @@ Prior report: `eng-loc-vhs-2026-07-29.md` (no recorded HEAD sha in that report t
 |------|------|-----------|
 | `public/js/ui.js` | **High** | Imports from 9 other modules (inventory, db, utils, review, state, camera, ai, table-ux, auth) and mixes tab navigation, CSV export, table rendering, and bulk actions in one file — 18 top-level function/handler boundaries. Mixed concerns per Phase 1 criteria. |
 | `src/server.js` | **High** | 35 route-handler registrations (`app.get/post/put/delete/patch`) in a single file alongside auth, migrations, cert setup, and a proxy middleware import. Classic "routing + business logic" mix, though route bodies may delegate to `./modules/*` (not confirmed without a full read). |
-| `tests/*.test.js`, `tests_playwright/*.spec.js` | **Low** | Single clear concern (tests). Not refactor targets — size reflects test breadth. |
 | `public/js/camera.js` | Medium | Barcode/camera capture — plausibly single-concern (hardware/interaction logic) but large enough to warrant a check for mixed UI+capture-logic. Assumed: not confirmed without full read. |
 | `public/js/utils.js` | Low-Medium | "Utils" files often accrete unrelated helpers over time; 403 lines is borderline — worth a pass to check for cohesion, but not flagged as urgent. |
 | `public/js/review.js` / `public/js/ai.js` | Low | Under the 500-line historical threshold used by this repo's own prior reports; included here for context, not flagged. |
@@ -61,8 +60,16 @@ Canaries: N/A (canary list only applies to the `stash` repo; not scanned this ru
 |------|-------------|----------|-------|
 | vhs | `public/js/ui.js` and `src/server.js` — mixed-concern front-end module and route file | High | Existing `./modules/*` pattern in `server.js` makes route extraction low-risk |
 
-## Ordered Next-Cycle Targets (this repo)
-1. `public/js/ui.js` (896 LOC) — High, extract CSV/bulk-action helpers
-2. `src/server.js` (761 LOC) — High, extract route groups into `./modules/routes/*`
-3. `public/js/camera.js` (527 LOC) — Medium, confirm concerns before planning a cut
-4. `public/js/utils.js` (403 LOC) — Low-Medium, cohesion pass
+## Ordered Next-Cycle Targets (cross-repo, tier-weighted)
+
+Shared across this run's three reports (vigil, vhs, kryptos) — see each report's own Repo Summary for per-repo context. Tier from `agent/projects/scope.md`: vigil = T1, vhs = T2, kryptos = untiered (not yet registered in vigil; ranks alongside T2/T3 per `LOC.md`).
+
+1. `app/api/mcp/route.ts` (vigil, T1, 893 LOC) — High, extract tool handlers
+2. `lib/sync.ts` (vigil, T1, 707 LOC) — High, extract fallback cache
+3. `components/dashboard/RepoTableRow.tsx` (vigil, T1, 699 LOC) — High, extract derived-data hook, needs manual QC
+4. `src/kryptos/k4/frontier_checks.py` (kryptos, untiered, 1,131 LOC) — High, extract `hill_exhaustive` first
+5. `public/js/ui.js` (vhs, T2, 896 LOC) — High, extract CSV/bulk-action helpers
+6. `src/server.js` (vhs, T2, 761 LOC) — High, extract route groups into `./modules/routes/*`
+7. `src/kryptos/k4/crib_constraints.py` (kryptos, untiered, 877 LOC) — Medium-High, needs direct read before a phase plan
+
+Tier reordered what raw LOC would have suggested: `frontier_checks.py` (1,131 LOC, the largest file in this run) would rank #1 by size alone, but vigil's three T1 findings are weighted ahead of it despite being smaller, since vigil is a T1 (Critical/production) repo and kryptos isn't yet tiered.
