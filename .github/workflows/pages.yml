@@ -34,7 +34,10 @@ jobs:
         run: |
           mkdir -p pages/assets pages/assets/diagrams
           cp docs/screenshots/vault-graph.* pages/assets/
-          cp docs/diagrams/*.svg pages/assets/diagrams/ 2>/dev/null || true
+          # the first SVGs arrive in a later visual-docs bot PR; until then there is nothing to copy
+          if compgen -G "docs/diagrams/*.svg" > /dev/null; then
+            cp docs/diagrams/*.svg pages/assets/diagrams/
+          fi
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
