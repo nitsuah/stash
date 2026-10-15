@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-15 — Vertical short
+
+- **Added:** `journeys-19s-vert`, a 19 s 1080×1920 narrated cut of the journeys spot with burned-in captions, published to `pages/assets/`. Narration is Kokoro TTS through vigil's `vigil-promo-tts` image (`promo/tts/narrate.sh`, `mix.py`); the voice lines are committed in `promo/journeys-19s-vert/vo/`. `promo/build.sh` reuses another spot's `synth.py` via `"synth"` and mixes narration for spots with `"narration"`; `render.js` exposes the spot config to the page as `window.SPOT`.
+
 ### 2026-10-14 — Visual docs CI
 
 - **Added:** `.github/workflows/visual-docs.yml` regenerates the vault graph (`docs/screenshots/vault-graph.*`, from `agent/scripts/vault-graph-gif.js`; no labels are drawn, so no note titles appear) and renders `docs/diagrams/*.mmd` (routine pipeline, showcase loop, vault-graph render) to SVG, rewrites the README block and opens a `bot/visual-docs` PR. Runs on pushes to the prompt/routine/project/topic sources, weekly, and on demand. `scripts/visual-docs-readme.mjs` is vigil's, limited to PNG screenshots.

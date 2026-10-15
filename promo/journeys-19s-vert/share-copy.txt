@@ -1,0 +1,1 @@
+QA before you have users: an AI uses your app once like a new user and files each defect with a cause, then a Playwright bot walks the journeys every night for 0 tokens, dedups its own bugs and closes them after green nights. /journeys https://nitsuah.github.io/stash/journeys.html

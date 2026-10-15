@@ -233,6 +233,17 @@
       ],
       "published": "pages/assets/journeys-19s.mp4",
       "rendered": "2026-10-09"
+    },
+    {
+      "id": "journeys-19s-vert",
+      "seconds": 19,
+      "format": "vertical",
+      "tool": "promo/build.sh (compose.html, journeys-19s synth + Kokoro narration via promo/tts, Docker)",
+      "features": [
+        "journeys"
+      ],
+      "published": "pages/assets/journeys-19s-vert.mp4",
+      "rendered": "2026-10-15"
     }
   ],
   "reels": [
