@@ -122,3 +122,45 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 - Checklist misses: first poster (18.5 s, inherited from brag-20s) caught the last caption half-lit; moved to 19.6 s. VO line 2 ran 4.3 s into line 3; shortened the line and re-timed from measured `dur`. Nobody listened to the final mix (loudness only).
 - Friction: `fix vertical` alone would have turned `videos` 1/1 → 1/2 (unpublished spot), so the Pages slot isn't optional. A vertical over a locked spot can't use `--format vertical` re-renders; the vigil shell (iframe + captions) works but had to be served over http for same-origin. The tts image needed scipy added for `audio.py`/`mix.py`.
 - Promote: skill — `vertical` cell = render **and publish** (else `videos` regresses); ship vigil's `promo/tts` + vertical shell as a `nitsuah/.github/showcase/vert/` template that takes a locked base spot. visual_board: the `vertical` cell could require `published`.
+
+### 2026-10-14 · T1 wave 1 · fix diagrams,linked (+ stash screenshots) · 6 repos in parallel
+- **Ran:** a coordinator (Opus) briefed one cheaper-model agent per repo (sonnet: fire, ats-fill, motor-pool, stash; haiku: vhs + vigil), with no local renders and CI as the check. About 130-150k subagent tokens and 4-7 min per repo. PRs: fire#197, ats-fill#141, motor-pool#95, stash#236, vhs#83, vigil#290.
+  - **Diagrams (fire, ats-fill, motor-pool, stash):** 2-3 Mermaid sources each, read from the code. Render step added to the existing visual-docs/screenshot workflow. First SVGs committed.
+  - **Linked:**
+
+    | Repo | Before | After |
+    |---|---|---|
+    | fire | 43/57 | 48/54 |
+    | ats-fill | 0/50 | 30/40 |
+    | motor-pool | 0/47 | 16/25 |
+    | stash | 1/24 | 8/10 |
+    | vhs | 6/47 | 14/40 |
+    | vigil | 38/59 | 38/58 |
+
+    Every repo now has a "needs capture" list of visible features no capture shows.
+  - **stash, the first no-frontend repo:** the vault-graph generator moved into `docs/screenshots` behind a `visual-docs.yml` that opens a bot PR. `"frontend": false`. Two infographic generators proposed (routine timeline, prompt card grid).
+- **Checklist misses:**
+  - Two of six PRs failed CI on first push, both from copied files. motor-pool: the committed SVGs had no trailing newline, so pre-commit `end-of-file-fixer` failed. fire: vigil's `visual-docs-readme.mjs` didn't match fire's prettier. The coordinator fixed both, plus the motor-pool workflow, so the bot PRs won't repeat it.
+  - stash's diagrams were never render-tested locally.
+- **Friction:**
+  - All three diagram agents spent 2+ tries validating Mermaid locally. The answer was `MSYS_NO_PATHCONV=1` plus `pwd -W` with `minlag/mermaid-cli:11.4.2`; no puppeteer JSON is needed.
+  - vigil's template hard-codes `main`, and its README script duplicates an existing hand-written gallery.
+  - The brief gave no `unlinked` list, so every agent re-derived it.
+  - The brief also left out the CHANGELOG path, the CRLF warning (no Python or jq on the host), and the motor-pool folder (the coordinator's memory still said agent-board).
+  - No rule covered partial image matches, linking unpublished spots, mirroring a spot's `features[]` into `spots[]`, or culling tests, a11y claims or agent config.
+  - The 80% target can't be reached in a links-only pass on any repo with few screenshots. That is expected, and it means the next step is captures.
+  - stash: a push trigger on `agent/**/*.md` would have opened a render PR for every routine note. The agent narrowed it and added a weekly cron.
+- **Promote:**
+  - Done, skill + STANDARD (nitsuah/.github PR):
+    - `"frontend": false` and a generated-visuals table for repos without a UI.
+    - A board-detector table, so agents can predict the after state.
+    - An ordered linking rule with a Needs capture list and a TASKS.md capture-backlog line.
+    - The Mermaid one-liner, the SVG newline rule, and the copied-script formatter rule.
+    - Cull-list additions (tests, a11y, agent config).
+    - Wave rules: what the brief must name, and RSI entries returned to the coordinator.
+  - Done, `visual_board.py` (this PR):
+    - Generated visuals in `pagesDir` count as screenshots for `frontend: false` repos.
+    - Each row carries `unlinked`.
+    - The diagram and screenshot hints point at real recipes.
+  - vigil TASK: a branch placeholder in `templates/.github/workflows/visual-docs.yml`; a `--diagrams-only` / `SCREENSHOT_EXTS` option in `visual-docs-readme.mjs`; a trailing newline after `mmdc`; the Windows one-liner in `VISUAL_DOCS.md`; and an audit check that a spot's `features[]` and each feature's `spots[]` agree.
+  - Next wave: `fix screenshots` per repo, working through the `Capture for promo:` TASKS lines, is what moves `linked` to ok.

@@ -81,11 +81,11 @@ def fix_hint(col: str, repo: dict, token_perm: str = "read") -> str:
     return {
         "actions_pr": f"gh api -X PUT repos/{full}/actions/permissions/workflow -f default_workflow_permissions={token_perm} -F can_approve_pull_request_reviews=true",
         "spots": f"Run /promo in {path} (first run: builds promo/spots.json from FEATURES.md)",
-        "screenshots": f"Run /promo in {path} and add its screenshot CI workflow, so screenshots regenerate and get committed",
+        "screenshots": f"Run /promo in {path} fix screenshots: add its screenshot CI workflow, so screenshots regenerate and get committed (no frontend: a CI script that generates its visuals)",
         "pages": f"Run /promo in {path} to set up the GitHub Pages site",
         "linked": f"Run /promo in {path}: link the visual features in promo/spots.json to spots or screenshots",
         "videos": f"Run /promo in {path}: render and publish the remaining spots",
-        "diagrams": f"Add a Mermaid architecture diagram to {path} with a CI render step (recipe pending in vigil's visual-docs epic)",
+        "diagrams": f"Run /promo in {path} fix diagrams: Mermaid sources in docs/diagrams/ plus a CI render step (vigil docs/VISUAL_DOCS.md; vhs is the template)",
         "brand": f"Run /promo in {path}: brand step (logo, favicon, colors)",
         "reels": f"Run /promo in {path}: combine the spots into a hero reel",
         "journeys": f"Run /journeys in {path}",
@@ -114,7 +114,9 @@ def scan(repo: dict, fetch: bool) -> dict:
             feats, sp = d.get("features", []), d.get("spots", [])
             visual = [f for f in feats if f.get("visual") != "none"]
             s = {"features": len(feats), "visual": len(visual),
+                 "pages_dir": (d.get("pagesDir") or "").strip("/"), "frontend": d.get("frontend", True),
                  "linked": sum(1 for f in visual if f.get("spots") or f.get("screenshots")),
+                 "unlinked": [f.get("id") for f in visual if not (f.get("spots") or f.get("screenshots"))],
                  "spots": len(sp), "published": sum(1 for x in sp if x.get("published")),
                  "reels": len(d.get("reels") or []), "brand": bool(d.get("brand")),
                  "vertical": sum(1 for x in sp if x.get("format") in ("vertical", "portrait"))}
@@ -123,7 +125,14 @@ def scan(repo: dict, fetch: bool) -> dict:
 
     wf = [f for f in files if f.startswith(".github/workflows/")]
     wftext = " ".join(git(p, "show", f"{ref}:{f}") for f in wf).lower()
-    shots = [f for f in files if re.search(r"(screenshots?|gallery)/.*\.(png|jpe?g|webp)$", f, re.I)]
+    shots = [f for f in files if re.search(r"(screenshots?|gallery)/.*\.(png|jpe?g|webp|gif)$", f, re.I)]
+    # A repo with no UI to screenshot (spots.json "frontend": false) shows generated visuals instead:
+    # graph animations, infographics, CLI/MCP captures. Count the stills and GIFs in its Pages folder,
+    # skipping video posters (<spot>.jpg) and brand files.
+    if s.get("frontend") is False and s.get("pages_dir"):
+        shots += [f for f in files if f.startswith(s["pages_dir"] + "/") and f not in shots
+                  and re.search(r"\.(png|webp|gif|svg)$", f, re.I)
+                  and not re.search(r"logo|favicon|icon|og-image|apple-touch|diagrams?/", f, re.I)]
     diags = [f for f in files if re.search(r"\.(mmd|excalidraw|drawio)$|diagrams?/.*\.(svg|png)$", f, re.I)]
     shot_ci = "screenshot" in wftext
     diag_ci = bool(re.search(r"mermaid|mmdc|excalidraw|diagram", wftext))
@@ -182,6 +191,7 @@ def scan(repo: dict, fetch: bool) -> dict:
     nxt = next((k for k, _ in COLUMNS if c[k]["status"] in ("missing", "partial")), None)
     return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
             "path": p, "found": found, "score": score, "cells": c,
+            "unlinked": s.get("unlinked", []),  # visible features with nothing linked: the linked pass works this list
             "token_perm": token_perm or "read",
             "next": {"column": nxt, "hint": fix_hint(nxt, repo, token_perm or "read")} if nxt else None}
 
