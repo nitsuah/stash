@@ -7,7 +7,7 @@ date: 2026-10-01
 
 # eng-mini: kryptos — 2026-10-01 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-mini-kryptos-2026-09-01|2026-09-01]] <!-- nav -->
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-mini-kryptos-2026-09-01|2026-09-01]] · [[reports/eng-mini-kryptos-2026-10-14|2026-10-14]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #2 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-01T18:01:08-04:00, HEAD `7097287` "docs(tasks): drop a third party's email address from the outreach draft (#237)"). Root audited from a throwaway clone at `/home/user/kryptos`.
 

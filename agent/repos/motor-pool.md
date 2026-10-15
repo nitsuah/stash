@@ -6,7 +6,7 @@ aliases: [agent-board]
 
 # motor-pool
 
-> Reviewed: 2026-10-07
+> Reviewed: 2026-10-15
 
 > **Renamed from `agent-board`** in 2026-10 (`nitsuah/agent-board` redirects to `nitsuah/motor-pool`). The local clone is still at `code\agent-board`; reports from before the rename keep the old name in their filenames.
 
@@ -38,19 +38,16 @@ Local-first AI ops cockpit — chat surface, safety rails, and live observabilit
 
 ## Open P0/P1 Tasks
 
-- [ ] **P2** GPU-oriented model portfolio after CUDA enabled
-- [ ] **P2** Document model lifecycle and resource management APIs
-- [ ] **P2** Document production deployment path
-- [ ] **P2** MCP container manager (Playwright, Jira/Confluence, bb-mcp on demand)
-- [ ] **P2** bb-mcp streaming UI (SSE, typing indicator)
-- [ ] **P2** Multi-persona Blackboard agent selector
-- [ ] **P2** Blackboard agent demo mode
-- [ ] **P2** Replace Docker socket mount in content-gen with MPT sidecar (security issue)
-- [ ] **P2** Expand test coverage to ≥20 tests for core agent flows
+New P1 track as of 2026-10-14 (`docs/TASKS.md`, build plan [[repos/motor-pool/docs/IMPS-PLAN|IMPS-PLAN]]): **Imps**, the safe async-agent runner. Each PR updates the list.
 
-**No open P0/P1 items** (rechecked 2026-10-07; today's TASKS.md diff is only the nav rename). As of `docs/TASKS.md` after the 2026-09-23 `fix/nits` docs pass (PR #78): coverage (≥80%), CI unit-test gate + lcov upload, and the coverage baseline are all complete and condensed into CHANGELOG/ROADMAP 2027 Q1. The former "P1 PERFORMANCE turbovec" line no longer appears as a P1 in TASKS.md. (The list above is P2 backlog, kept for context.)
+- [ ] **P1** Principals & API tokens: `principals`/`api_tokens` tables, bootstrap superadmin, `requireAuth` on exec/worktree/admin/imps routes, per-principal WebSocket event filtering
+- [ ] **P1** Durable job queue: `jobs`/`job_events` in Postgres, claim/lease/heartbeat/reaper/cancel with fencing, `/api/imps` CRUD
+- [ ] **P1** Imp runner: `imp-runner` + DinD sidecar, `claude -p` via 9router, time/cost limits, pre-push gate, runner-side push and PR
+- [ ] **P1** Imps panel + `/imp` skill: list/detail/live tail/cancel; one-call dispatch from Claude Code
 
-Completed P1: Docker optimization pass (minimal stack = agent-db + ollama + dashboard; nemoclaw/jaeger gated); API docs rewrite; coverage/CI gate work.
+P2 backlog (context): journeys review-pass defects #96/#97 (phone top bar, unstyled session-name button), GPU model portfolio, deployment-path docs, MCP container manager, bb-mcp streaming UI/persona selector/demo mode (2027-Q2), content-gen Docker-socket replacement. Also new 10-14: `docs/RUST-REWRITE-ASSESSMENT.md`.
+
+Earlier P1s (coverage ≥80%, CI unit-test gate + lcov, Docker optimization, API docs) are complete.
 
 ## Blockers
 

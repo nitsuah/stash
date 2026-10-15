@@ -11,9 +11,9 @@ repo: skyview
 
 > 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
-**Last Updated:** 2026-10-07
+**Last Updated:** 2026-10-14
 
-> **Delivery split:** public FE covers the marketing site and funnel. `/admin` is a separate CMS surface. Secure client portal/download auth is a separate backend workstream.
+> **Delivery split:** public FE covers the marketing site and funnel. Secure client portal/download auth is a separate backend workstream.
 
 ## Done
 
@@ -27,9 +27,25 @@ Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
 - [ ] Complete the launch checklist with verified production identity data.
   - Priority: P1
   - Blocker: config plumbing is done (see Done above) — this is now purely a data-entry task blocked on the business owner supplying real values. Specifically still needed: **real business phone number**, **real business email** (confirm if `contact@skyviewdynamics.com` is real or a placeholder), **service-area city/region** (or full street address) for `contact.address` in `config.js`, **approximate service-area GPS coordinates** for `contact.geo`, and **real social profile URLs** for `contact.social` (facebook/twitter/instagram/youtube — currently generic homepage URLs, not the business's actual profiles).
-  - Acceptance Criteria: production identity fields populated in `config.js`; no placeholder values remain in the rendered page or schema.org JSON-LD; `/admin` invite-only; separation documented.
+  - Acceptance Criteria: production identity fields populated in `config.js`; no placeholder values remain in the rendered page or schema.org JSON-LD.
 
 ## Todo
+
+- [ ] Fix the two defects from the journeys review pass.
+  - Priority: P2
+  - #189: signed-in platform pages are 630px wide at 390px (`platform/src/styles/app.css:272-277`, sidebar nav row doesn't wrap), so "Sign out" is cut off.
+  - #190: `pages/privacy.html:318` loads `scripts/main.js` without `type="module"`, so it throws and nothing initialises.
+  - Acceptance Criteria: both fixed; the affected journey baselines regenerated in Docker.
+
+- [ ] Fix the two features the screenshot suite found broken on the real page.
+  - Priority: P2
+  - Campaign personalization never applies: `scripts/campaign.js` targets `.hero-subline, [data-campaign-subline]`, but `index.html`'s hero uses `.hero-subtitle` (the unit test builds its own `.hero-subline` markup, so it passes). Decide whether organic visitors keep the authored subtitle before wiring it up.
+  - The dashboard's CSV / JSON buttons and funnel drop-off rows have no CSS (`.conversion-dashboard__export`, `__actions`, `__funnel*`): the buttons render dark-on-dark.
+  - Acceptance Criteria: both render correctly; add `campaign-personalization` and `csv-json-export` captures to `tests/visual-docs/screenshots.spec.ts` and link them in `promo/spots.json`.
+
+- [ ] Trim `docs/FEATURES.md` to what users can see or do.
+  - Priority: P3
+  - 11 of 24 entries have nothing to show (`"visual": "none"` in `promo/spots.json`). "Netlify Forms" is no longer true (the contact form was removed 2026-09-19); "Calendly Removed" is a changelog entry, not a feature.
 
 - [ ] Build a real per-client storage backend for the client portal.
   - Priority: P2

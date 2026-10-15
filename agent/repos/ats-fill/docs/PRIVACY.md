@@ -10,8 +10,8 @@ repo: ats-fill
 
 > 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-**Document version:** 1.2
-**Last updated:** September 23, 2026
+**Document version:** 1.3
+**Last updated:** October 14, 2026
 **Applies to:** the ats-fill browser extension ("the extension") in this repository.
 
 This is the canonical, public statement of the extension's Terms of Use (EULA),
@@ -96,6 +96,15 @@ Data leaves your device **only** when *you* trigger an optional network action:
 Without a Gemini key, autofill still works fully using deterministic, on-device
 logic and sends nothing anywhere. Each request sends only what is needed to
 fulfill that request.
+
+### Optional AI assistant access
+Off by default. When you turn on **Settings → AI assistant access**, ats-fill
+checks about once a minute with a small helper program you installed on your
+own computer (`ats-fill setup`), and applies tracker changes your AI assistant
+queued there: adding or updating applications, never deleting them. The helper
+only moves files inside `~/.ats-fill/bridge/` on your computer. Nothing goes
+online, and the helper can't see your profile, keys, other extension data or
+any website. Turn the setting off, or run `ats-fill uninstall-helper`, to stop.
 
 ### Sensitive / demographic data
 Race, gender, veteran, and disability fields are **opt-in**, stored locally

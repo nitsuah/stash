@@ -22,7 +22,7 @@ Last Updated: 2026-09-24
 ### Committed *(carried from 2026 Q3)*
 
 - [ ] Fix game selection UI for keyboard/programmatic navigation (accessibility + automated testing).
-- [ ] Add unit/E2E test coverage for Memory Match and Dodge Blocks (iframe-hosted standalone games; not covered by the existing Jest suite).
+- [x] Add unit/E2E test coverage for Memory Match and Dodge Blocks (iframe-hosted standalone games; not covered by the existing Jest suite).
 - [ ] Add high-score persistence to Memory Match (currently shows a win alert but doesn't save best time/moves to localStorage).
 - [ ] Add mobile touch controls to Dodge Blocks (keyboard-only today), built as the shared touch-control component below rather than a one-off.
 - [ ] **Shared touch-control component** — a single reusable on-screen d-pad/button component; Dodge Blocks is the first consumer, any future mobile game the second. *(moved up from 2026 Q4 exploratory — Dodge Blocks depends on it)*

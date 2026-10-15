@@ -52,6 +52,24 @@ The integration logic lives here, not in the client. Tools like agent-board, Cla
           (your instance or sandbox)
 ```
 
+### Diagrams and generated visuals
+
+bb-mcp has no web UI, so these are generated from the real tool manifest, RBAC policy and `docs/diagrams/*.mmd` by the [visual-docs workflow](https://github.com/nitsuah/bb-mcp/blob/main/.github/workflows/visual-docs.yml).
+
+<!-- diagrams:start -->
+![Architecture](https://github.com/nitsuah/bb-mcp/blob/main/docs/diagrams/architecture.svg)
+
+![Tool call flow](https://github.com/nitsuah/bb-mcp/blob/main/docs/diagrams/tool-call-flow.svg)
+<!-- diagrams:end -->
+
+<!-- screenshots:start -->
+![Tool catalog](https://github.com/nitsuah/bb-mcp/blob/main/docs/screenshots/standardized-tool-schema.png)
+
+![RBAC matrix](https://github.com/nitsuah/bb-mcp/blob/main/docs/screenshots/rbac-middleware.png)
+
+![A get_my_grades call as a chat turn](https://github.com/nitsuah/bb-mcp/blob/main/docs/screenshots/getmygrades.png)
+<!-- screenshots:end -->
+
 ---
 
 ## Quick start

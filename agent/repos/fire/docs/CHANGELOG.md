@@ -17,6 +17,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-14 — Vertical short (showcase board)
+
+- **Added:** `brag-22s-vert`, a narrated 9:16 cut of the hero spot (22 s, 1080x1920, burned-in captions from the narration), published to `site/assets/brag-22s-vert.mp4`. `promo/render.js` reads `size` from `spot.json`; `promo/pipeline.sh` accepts `"synth": "<spot>"` so a spot can reuse another spot's music. The six 55–65 s tour spots stay unpublished (see TASKS: split them first).
+
+### 2026-10-14 — Diagrams and feature links (showcase board)
+
+#### Added
+
+- `docs/diagrams/architecture.mmd` (app, API, sync routes, hourly timers, MCP server, db.json) and `docs/diagrams/projection-dataflow.mmd` (one db.json feeding the browser projection and the MCP tools). `visual-docs.yml` renders them to SVG with mermaid-cli and rewrites the README's `visual-docs` block via `scripts/visual-docs-readme.mjs`.
+- `promo/spots.json`: five more features linked to a spot or screenshot; three non-visual features marked `"visual": "none"`.
+
+### 2026-10-14 — CoinTracker connected accounts
+
+#### Fixed
+
+- CoinTracker still synced "0 wallets" after #192. The structure outline from that PR showed the real payload: `get_connected_accounts` returns `connected_accounts[]`, and each account's fiat value is in `balance`/`calculated_balance` strings, keyed by `connected_account_handle`. The parser didn't search `connected_accounts`, and it read `balance` only as a coin quantity, so no account passed the wallet check. `app/lib/cointracker-connector.js` now reads that shape:
+  - each account becomes one row (`balance`, falling back to `calculated_balance`), keyed by the handle and typed by `connected_account_type`;
+  - accounts flagged `values_unavailable` are kept as they were, not set to $0;
+  - truncated lists are treated as partial;
+  - a non-USD base currency updates nothing: every account is skipped (rows kept) and the sync is partial, because fire has no FX conversion;
+  - the tool's maximum `limit` is requested when it publishes one;
+  - currency strings like `"688.65 USD"` parse.
+  - On holding rows, `balance` still means quantity.
+- `tests/unit/server-ratelimit-flag.test.mjs` (from #194) sent 8 × 301 requests and started a server per request, so under full-suite load it timed out and slowed other server tests. It now uses one listener per case. A single 301-request burst proves the 429, and the other cases check the limiter's `RateLimit-*` headers with one request, which cuts the file from up to 40 s to about 2.5 s.
+
+#### Added
+
+- 6 tests in `tests/unit/cointracker-connector.test.mjs`, using a fixture that mirrors the live `get_connected_accounts` structure with made-up values. They cover reading accounts, `values_unavailable`, truncation, non-USD, `balance` on holdings, and the `limit` argument.
+
+### 2026-10-14 — e2e rate-limit flake
+
+#### Fixed
+
+- The e2e-ui job on #192 failed `data-integrity.spec.js` › "live price refresh" at its seed `POST /api/state`, and then passed on rerun. Cause, measured with a per-minute request counter on the e2e server: the suite sends more than 225 `/api` requests per minute even at the slower local pace, and about 600 per minute at CI speed. The general limit is 300 per minute per client, so late tests got 429s. `config/playwright.config.js` now sets `FIRE_RATE_LIMIT_DISABLED=true` for its own server, and the journeys config inherits it. `app/server.js` honours the flag only when `NODE_ENV` is explicitly `test` or `development` (the Playwright server sets `NODE_ENV=test`). If `NODE_ENV` is unset, misspelled or `production`, the server keeps its limits, and it logs a warning either way. A failed seed now prints the response status and body.
+
+#### Added
+
+- `tests/unit/server-ratelimit-flag.test.mjs`: the limiter still returns 429 after 301 requests when the flag is unset, when it's set to anything other than `true`, and when `NODE_ENV` is unset, `production`, misspelled or `staging`. With the flag set and `NODE_ENV` `test` or `development`, all 301 requests succeed.
+
+### 2026-10-14 — `.env.example` matches the code
+
+#### Changed
+
+- `.env.example`: documents `FIRE_ADMIN_KEY` (required in production for key rotation) and adds the optional Etsy block (`ETSY_CLIENT_ID`, `ETSY_SHARED_SECRET`, `ETSY_REDIRECT_URI`). Removes `SECRET_KEY` and `DATABASE_URL`, which nothing in `app/`, `netlify/`, `scripts/` or `config/` reads.
+
+### 2026-10-14 — CoinTracker asset-level portfolios
+
+#### Fixed
+
+- CoinTracker sync on the hosted deploy reported "0 wallets · CoinTracker returned no wallets or accounts fire could recognize" for an account holding ETH, POL, AVAX, BTC and PIXL. `app/lib/cointracker-connector.js` now reads holdings by asset (an array of asset rows, or an object keyed by ticker) as one **CoinTracker portfolio** account, using the reported total or the sum of USD values. Asset rows are no longer mistaken for wallets. More USD-value key spellings are recognized.
+
+#### Added
+
+- When CoinTracker's response still can't be read, the sync returns `payloadShape`: the structure with every value replaced by its type and address-like keys masked. The CoinTracker card shows it in a collapsible block so it can be shared. 6 new tests in `tests/unit/cointracker-connector.test.mjs`, including one that checks no amounts, labels, addresses or strings leak into the outline.
+
+### 2026-10-14 — Drive backup errors explain themselves
+
+#### Fixed
+
+- On the hosted deploy, a failed Drive call showed only "Drive list failed. Try again later.", and Netlify's function logs don't keep the detail. `app/lib/gdrive-backup.js` now builds every Drive error from Google's response body: the status, Google's message, and its reason code (for example, "Google Drive API has not been used in project … or it is disabled" / `accessNotConfigured`). `netlify/functions/gdrive-backup.mjs` returns that message plus a `reason` field, so the Settings panel shows it. Errors that don't come from Drive keep the generic text. Covered by a new test in `tests/unit/netlify-gdrive-backup.test.mjs`.
+
+### 2026-10-14 — Google Drive backup on the hosted deploy
+
+#### Fixed
+
+- On lifefire.netlify.app, Connect / Back up / Restore for Google Drive returned `{"error":"This API endpoint is not available in the hosted browser deployment."}` because no function served `/api/backup/drive/*`. New `netlify/functions/gdrive-backup.mjs` serves status, authorize, callback, back up, list and restore. Two new `netlify.toml` rewrites (`/api/backup/drive` and `/api/backup/drive/*`) are placed before the catch-all.
+
+#### Changed
+
+- `app/lib/gdrive-backup.js`: split into store-free primitives (`requestTokens`, `refreshTokens`, `uploadBackupWithToken`, `listBackupsWithToken`, `downloadBackupWithToken`, plus the existing AES-256-GCM helpers) that the hosted function reuses. The Express wrappers keep the encrypted token file and behave as before. `db.js` is now loaded lazily.
+- `app/lib/managers/gdrive-backup.js`: on the hosted deploy, the Settings panel keeps a sealed token blob in its own localStorage key and sends it with each call. It backs up the browser's state, applies a restored state locally, and drops the blob when the grant is revoked or unreadable. `/#gdrive-connected=` results are only accepted from a connect that this tab started.
+
+#### Added
+
+- `tests/unit/netlify-gdrive-backup.test.mjs` (19 tests, Google HTTP mocked): authorize redirect, callback to a sealed blob, ciphertext-only upload, token refresh and reseal, list, restore round trip, wrong-key and corrupted backups (`422`, JSON), dead grants (`401`, JSON), and Drive outages (JSON). `tests/unit/netlify-api.test.mjs` asserts the new rewrites come before the `/api/*` catch-all.
+- Docs: hosted setup in `docs/integrations.md` and `.env.example`. Manual step: add `https://lifefire.netlify.app/api/backup/drive/callback` to the GCP OAuth client's redirect URIs.
+
+### 2026-10-14 — Price freshness: server-side re-price + stale flags
+
+#### Fixed
+
+- **Prices stopped refreshing after 2026-09-26.** Positions and metals were re-priced only by `app/lib/prices.js` in an open dashboard tab, and the server's hourly net-worth snapshot just copied the stored values forward. With no tab open, every snapshot from 09-26 to 10-14 read exactly $1,040,480.27. The server now fetches quotes before each hourly snapshot (`app/lib/server-reprice.js`: Alpha Vantage/Polygon when configured, otherwise Yahoo's crumb-free chart endpoint; gold/silver via `metals-prices.js`). It applies them through the same merge rules as `PATCH /api/state/live-values`, which moved to `app/lib/live-values.js`. A dry run against the live DB priced 14/14 tickers and both metals.
+
+#### Added
+
+- `app/lib/data-freshness.js`: `dataFreshness` on the MCP `fire_status_summary`, `get_net_worth` and `get_portfolio`. It reports oldest/newest price, `daysStale`, `stale` (more than 3 days), last import, `positionsWithoutPriceSource` (e.g. the Vanguard CIT CUSIPs 92202V344/92202V476, which have no ticker) and vehicle valuation age. `get_portfolio` positions carry `priceUpdatedAt`.
+- `netWorthHistory` entries record `pricesAsOf` and `stale`. `get_net_worth_trend` returns both per point (`null` on older snapshots) and a `stalePoints` count.
+- `docs/weekly-checkin-prompt.md`: the check-in opens with "Prices are N days old" when `daysStale` > 3 and lists positions with no price source. The fire-coach skill follows the same rule.
+
 ### 2026-10-09 — Price provider fallback fix
 
 #### Fixed

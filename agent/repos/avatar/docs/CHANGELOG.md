@@ -35,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README "Copy Colab file" link now opens this repo's own notebook instead of the archived buildspace `diffusers` fork.
 - Planning docs reset for 2027 (`pmo-ff`): completed roadmap items condensed into FEATURES, open 2026 items carried into 2027 Q1, breadcrumb navigation + README docs index added.
 
+### Removed
+
+- `.env.example` trimmed to the one variable that is actually read (`JUPYTER_TOKEN`, via `config/docker-compose.yml`). Dropped the unused `AUTH_SECRET`, `PASSWORD_SALT`, `API_KEY`, `ENVIRONMENT`, `PORT`, and commented-out `DATABASE_URL`, `OTHER_API_URL`, `MAX_UPLOAD_SIZE` entries, plus the generic "AGENT INSTRUCTIONS" header.
+
 ### Fixed
 
 - `avatar/utils.py::count_images_in_directory` and `validate_image_count` now verify each file with Pillow, like the notebook's Step 6.5 cell, with real-image test fixtures and a corrupt-file test (#35).

@@ -16,6 +16,22 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-15 — Vertical short
+
+- **Added:** `journeys-19s-vert`, a 19 s 1080×1920 narrated cut of the journeys spot with burned-in captions, published to `pages/assets/`. Narration is Kokoro TTS through vigil's `vigil-promo-tts` image (`promo/tts/narrate.sh`, `mix.py`); the voice lines are committed in `promo/journeys-19s-vert/vo/`. `promo/build.sh` reuses another spot's `synth.py` via `"synth"` and mixes narration for spots with `"narration"`; `render.js` exposes the spot config to the page as `window.SPOT`.
+
+### 2026-10-14 — Visual docs CI
+
+- **Added:** `.github/workflows/visual-docs.yml` regenerates the vault graph (`docs/screenshots/vault-graph.*`, from `agent/scripts/vault-graph-gif.js`; no labels are drawn, so no note titles appear) and renders `docs/diagrams/*.mmd` (routine pipeline, showcase loop, vault-graph render) to SVG, rewrites the README block and opens a `bot/visual-docs` PR. Runs on pushes to the prompt/routine/project/topic sources, weekly, and on demand. `scripts/visual-docs-readme.mjs` is vigil's, limited to PNG screenshots.
+- **Changed:** the vault graph moved from `pages/assets/` to `docs/screenshots/` so it is committed once; `pages.yml` copies it (and the diagram SVGs) into the Pages artifact at deploy time and now also triggers on `docs/screenshots/**` and `docs/diagrams/**`. `vault-graph-gif.{js,ps1}` write to `docs/screenshots/`.
+- **Changed:** `promo/spots.json` gains `"frontend": false`, links Vault Tooling and Projects features to their captures and marks code-reference features `"visual": "none"`.
+
+### 2026-10-14 — Repo tiers
+
+- **Changed:** `sotu.py` tiers, shared by SOTU and the showcase board. vhs and stash move up to tier I. avatar and kryptos drop to tier III, alongside farm-3j, games, gcp and osrs. The showcase board's daily pick only walks tier I, so vhs and stash gaps now get picked.
+- **Fixed:** the showcase board's `actions_pr` cell is `na` unless the repo has a visual-docs workflow, matching vigil's `actions_pr_permission` rule (CodeRabbit on stash#226).
+- **Fixed:** `build-vault-indexes.py` labels ISO-week reports (`sotu-2026-W41`) by week in prev/next nav instead of `undated` (CodeRabbit on stash#226). Regenerated nav included.
+
 ### 2026-10-10 — Showcase board
 
 - **Added:** `agent/scripts/visual_board.py` scans every public tracked repo (promo manifest, screenshots, diagrams, spots, feature links, reels, vertical, brand, Pages, journeys, and the "Actions can create PRs" setting), scores each repo and picks one gap to fix today. `agent/scripts/visual-board-page.html` renders it as the [showcase board](https://claude.ai/artifact/8Atj9Y7d5SqiCFM79idAHp) artifact. `DAILY.md` gains a "Showcase board" step so daily-repo-sync refreshes it and notes the pick.

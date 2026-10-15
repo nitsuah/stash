@@ -5,7 +5,7 @@ repo: vhs
 
 # vhs
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-10-15
 
 ## Overview
 
@@ -23,18 +23,14 @@ Personal VHS collection indexer — catalogs a VHS tape collection with AI-assis
 
 ## Open P0/P1 Tasks
 
-No P0 tasks. Open P1 items (TASKS.md P1 section):
+No P0 tasks. `docs/TASKS.md` was rewritten 2026-10-14 around the journeys review pass:
 
-- [ ] **P1** GPU performance optimization for AI scanning — infra hook (`web-gpu` Compose profile) exists; remaining work needs real GPU hardware — deferred to 2027
-- [ ] **P1** Multi-tape detection (OpenCV) — real computer-vision work, not tractable in a docs/hardening pass — deferred to 2027
-- [x] Multi-photo batch support — already substantially shipped (native multi-select, staged queue, per-item progress); remaining gap is cosmetic
+- [ ] **P1** Confirmed review tapes don't appear in the Collection until it re-renders (vhs#79): `setActiveTab()` never calls `renderInv()`; restore the 19-card check in `tests/journeys/review.spec.js` after the fix
+- [ ] **P2** Tape count, value total and stats chips gone (vhs#77); phone toolbar wraps Export (vhs#78)
+- [ ] **P2** Review `scripts/audit-metadata.js` dry-run output before any `--apply` (from PR #55)
+- [ ] **P3** Confirm what shipped of PR #55's P6/P7
 
-Other genuinely open items (no formal priority in TASKS.md, but worth tracking):
-- [ ] True sold-price valuation via eBay Marketplace Insights API (Coverage & Testing section — feature work, needs a separate eBay API application)
-- [ ] Tech debt: delete orphaned `src/modules/routes/jobs.js` / `routes/lookup.js` (confirmed unused, zero references)
-- [ ] **P2** Auto-crop tape thumbnails — deferred to 2027 (depends on multi-tape detection)
-
-Closed since last review (both fixed 2026-09-11, per `docs/TASKS.md`): the `/api/logs/stream` vs `/api/logs` path mismatch (client now opens `/api/logs`, matching the server's SSE route) and the dead mobile export menu wiring (missing `#hbr-drawer` markup added so the already-written handlers/CSS have elements to bind to).
+The earlier P1s (GPU tuning, OpenCV multi-tape detection) are no longer in TASKS.md; they live in ROADMAP's 2027 section. Sold-price valuation via eBay Marketplace Insights is still externally blocked.
 
 ## Blockers
 

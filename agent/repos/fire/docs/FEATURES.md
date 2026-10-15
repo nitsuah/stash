@@ -25,6 +25,7 @@ repo: fire
 ## MCP Server
 
 - **16 Read-Only Tools** — `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`. No stubs: tools with nothing behind them were removed. A test asserts no write tools exist.
+- **Data Freshness** — `fire_status_summary`, `get_net_worth` and `get_portfolio` return `dataFreshness`: oldest/newest price timestamp, `daysStale` (stale after 3 days), last CSV import, positions with no price source and vehicle valuation age. Each net-worth snapshot records `pricesAsOf`/`stale`, and `get_net_worth_trend` counts `stalePoints`.
 - **Claude Code Integration** — `.mcp.json` at repo root auto-connects the server when Claude Code starts in this directory.
 - **Smoke Test** — `scripts/test-mcp.mjs` runs the full MCP handshake and validates all 16 registered read-only tools in `EXPECTED_TOOLS`.
 - **fire-coach Claude Skill** — `skills/fire-coach/` (SKILL.md + a FIRE financial playbook + an app guide) makes Claude a FIRE coach: it maps questions to the MCP tools, applies the playbook (4% rule, savings rate, order of operations, taxes, sequence risk, income-gap plan) and points to the exact tab/card/button. Install steps in `skills/README.md`.
@@ -39,7 +40,7 @@ repo: fire
 - **Crypto Accounts** — ENS name, 0x address or ticker accepted in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins and priced tokens (spam filtered) across Ethereum, Base, Optimism, Arbitrum and Polygon, plus native BNB and AVAX balances on BNB Chain and Avalanche (native only, no tokens), keyless, on both the self-hosted and hosted deploys. A per-chain breakdown appears under the row, and a ⚠ when a chain couldn't be read. Ticker accounts are valued as quantity × live price. The wallet tracker (multi-chain balances) appears under the form for Type = Cryptocurrency.
   - **Native balance only (no priced tokens):** Bitcoin, Solana, Tron, Litecoin, Dogecoin, Bitcoin Cash — native coin balance only; USD value requires an optional price provider key.
   - **Priced tokens supported:** Ethereum, Polygon, Arbitrum, Optimism, Base, BSC, Avalanche, Fantom — ERC-20/BEP-20/ARC-20 tokens priced through `prices-provider.js` (Yahoo Finance by default, Polygon.io when `POLYGON_API_KEY` is set). The per-chain explorer APIs (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, Routescan) are **not** Phase 1 — see `integrations.md`.
-- **CoinTracker Wallets (optional)** — Connect CoinTracker in Settings (OAuth, read-only) to import every wallet and exchange account with its current USD balance and per-asset holdings. CoinTracker is the source of truth: a matching manual crypto account is replaced while connected and restored on disconnect, and unmatched ones are flagged as possible duplicates. Rows are tagged "CoinTracker" with their sync time. P&L and tax stay in CoinTracker.
+- **CoinTracker Wallets (optional)** — Connect CoinTracker in Settings (OAuth, read-only) to import every wallet and exchange account with its current USD balance and per-asset holdings. CoinTracker is the source of truth: a matching manual crypto account is replaced while connected and restored on disconnect, and unmatched ones are flagged as possible duplicates. Rows are tagged "CoinTracker" with their sync time. If CoinTracker reports holdings by asset rather than by wallet, they become one "CoinTracker portfolio" account. If its response can't be read, the card shows a value-free outline of its structure to share for a fix. P&L and tax stay in CoinTracker.
 - **Fidelity CSV Import** — Parses Fidelity brokerage position exports; aggregates symbols, quantities, and cash; deduplicates settled cash from P&L.
 - **Chase / Capital One CSV Import** — Parses credit card statement debits and auto-categorizes spending into monthly cash flow.
 - **Spending Upload** — Expenses-tab CSV upload with auto-categorization, editable merchant-keyword mapping, and per-transaction delete.
@@ -101,6 +102,7 @@ repo: fire
 ## Prices
 
 - **Yahoo Finance Integration** — Live portfolio valuation via crumb-based auth with stale-data fallback; `AbortSignal.timeout(10 s)` on all fetch calls.
+- **Server-Side Re-Price** — The server re-prices imported positions and gold/silver accounts hourly, before each net-worth snapshot, so prices stay current with no dashboard tab open (`app/lib/server-reprice.js`). CUSIP-only holdings such as 401k collective trusts have no quote source and update only on CSV import.
 - **Crumb Validation** — Rejects empty, HTML, or oversized responses before caching.
 - **Price Cache** — Per-symbol freshness tracking; stale entries refetched on next request.
 
@@ -161,6 +163,7 @@ repo: fire
 
 ## Planned
 
+- **Netlify Google Drive backup** — `netlify/functions/gdrive-backup.mjs` serves `/api/backup/drive` and `/api/backup/drive/*` on the hosted deploy. The OAuth tokens are sealed with `SYNC_MASTER_KEY` and held by the browser; the browser's state is encrypted with AES-256-GCM before upload, and restore hands back the decrypted state. Unit-tested against a mocked Drive, including the round trip and wrong-key/corrupted backups. A live round trip is still pending (see the P0 task).
 - **Netlify Plaid backend** — Plaid Link, account/position sync, and transaction sync are served on the hosted deploy by `netlify/functions/plaid.mjs` via the `/api/sync/plaid/*` rewrites (PR #146), with unit coverage and a `netlify.toml` routing test. Express behavior is unchanged. Still outstanding on the `Serve Plaid on the Netlify deploy` task: a live Link → sync run against lifefire.netlify.app and browser smoke coverage.
 
 - **Tax Drag Estimation Engine** — Custom federal/state bracket support with capital gains configuration.

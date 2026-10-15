@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- `apps/server.js` no longer falls back to a hard-coded token-encryption key: `ENCRYPTION_KEY` is required and the server exits at startup if it is missing (demo mode, with no OAuth credentials, uses a clearly marked dev-only key). Tokens encrypted with the old default key cannot be read with a new key, so linked accounts must be re-authorized. Demo mode now stores its mock tokens in `data/tokens.demo.json`, leaving `data/tokens.json` untouched.
+
 ### 2026-09 — Hardening & coverage
 
 - `gcp/gcp_setup.py` covered by `tests/test_gcp_setup.py` (51 tests, `subprocess` mocked): the module went from 0% to 99%, and total coverage from 70% to 99% (#67, #68).

@@ -16,10 +16,10 @@ ats-fill uses the Chrome Web Store API v2 with the documented OAuth 2.0 credenti
 
 1. Create/select a Google Cloud project.
 2. Enable the **Chrome Web Store API**.
-3. Configure the OAuth consent screen.
+3. Configure the OAuth consent screen, then set its **Publishing status to "In production"** (Google Auth Platform → Audience). While it says "Testing", Google expires refresh tokens after **7 days**, and every release after that fails with `invalid_grant`. A personal app using only the Chrome Web Store scope can stay unverified.
 4. Create an OAuth client ID using **Web application** as the application type.
 5. Add `https://developers.google.com/oauthplayground` as an authorized redirect URI.
-6. Use OAuth 2.0 Playground with the Chrome Web Store scope `https://www.googleapis.com/auth/chromewebstore` to authorize the Google account that owns the Chrome Web Store item and obtain a refresh token.
+6. In OAuth 2.0 Playground, open the gear icon and tick **Use your own OAuth credentials**, entering this client's ID and secret. Then authorize the Chrome Web Store scope `https://www.googleapis.com/auth/chromewebstore` with the Google account that owns the Store item, and exchange the code for a refresh token. A token minted with the Playground's built-in client won't work with this client's ID/secret.
 7. Copy the publisher ID from the Chrome Web Store Developer Dashboard.
 8. Record the extension ID after the first Store item exists.
 
@@ -71,6 +71,17 @@ Do not put OAuth credentials, refresh tokens, or any other secret in the reposit
 13. The Store API has no listing-image endpoint, so upload that bundle in the Developer Dashboard's **Store listing** tab. The run summary and [CHROME_WEB_STORE_ASSETS.md](../CHROME_WEB_STORE_ASSETS.md) list which file goes in which slot.
 
 A Store submission may remain under review after the workflow succeeds. A successful API publish call means the package was submitted; it does not guarantee immediate public availability.
+
+## Token health and rotation
+
+The **Chrome Web Store token check** workflow (`.github/workflows/cws-token-check.yml`) runs every Monday and on demand. It only refreshes an access token, and fails if the credentials stopped working, so a dead token shows up before release day. Regular use also keeps the token from lapsing for inactivity.
+
+If it, or a release, fails with `invalid_grant`:
+
+1. Confirm the consent screen's publishing status is **In production** (step 3 above). If it was "Testing", that's the cause.
+2. Mint a new refresh token as in step 6.
+3. Save it: `gh secret set CWS_REFRESH_TOKEN --env production --repo nitsuah/ats-fill`. The workflow reads the `production` environment's secrets.
+4. Run **Chrome Web Store token check**, then re-run the release.
 
 ## Rollback
 

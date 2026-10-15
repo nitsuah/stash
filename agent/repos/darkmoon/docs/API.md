@@ -52,6 +52,27 @@ returns `503`.
 Service status summary: `service`, `status`, `connections`, `activePlayers`,
 `activeGames`, `uptimeSeconds`, `timestamp`.
 
+### Wallet sign-in
+
+Multiplayer requires a wallet session. Any injected browser wallet works (EIP-6963
+wallets and `window.ethereum`). When the client build sets
+`VITE_WALLETCONNECT_PROJECT_ID`, phone wallets are also offered via WalletConnect
+(QR code). Without that variable, the option is hidden.
+
+1. `POST /auth/nonce` → `{ nonce, message }`. The nonce is single-use and expires
+   after 5 minutes.
+2. The wallet signs `message` with `personal_sign`.
+3. `POST /auth/verify` with `{ address, message, signature }` → `{ address, token }`
+   (`401 { "error": "<reason>" }` on failure). Reasons include `unknown_nonce`,
+   `expired_nonce`, `invalid_message` and `bad_signature`.
+
+The `token` expires after 12 hours. It is sent in the Socket.io handshake as
+`auth: { token }`. Sockets without a valid token are refused with the error
+`wallet_auth_required`.
+
+Tokens are signed with `WALLET_AUTH_SECRET`. If that variable is unset, the server
+generates a random key at startup, so sessions reset on restart.
+
 ## CORS
 
 One allow-list, configured via `ALLOWED_ORIGINS`, guards both the HTTP app and

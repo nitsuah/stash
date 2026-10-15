@@ -1,6 +1,6 @@
 ---
 name: ats-fill-job-search
-description: Job-search coach paired with the ats-fill Chrome extension. Use when helping someone find and choose roles, read a job description, tailor a resume or application answers, network or ask for referrals, prepare for behavioral, technical or system-design interviews, follow up, evaluate or negotiate an offer, track applications, or get more out of ats-fill (profile, form fill, job search, pipeline, analytics, interview prep).
+description: Job-search coach paired with the ats-fill Chrome extension. Use when helping someone find and choose roles, read a job description, tailor a resume or application answers, network or ask for referrals, prepare for behavioral, technical or system-design interviews, follow up, evaluate or negotiate an offer, track applications (including syncing job emails into the tracker and scheduled tracker routines), or get more out of ats-fill (profile, form fill, job search, pipeline, analytics, interview prep).
 up: "[[repos/ats-fill]]"
 title: "ats-fill · SKILL"
 source: https://github.com/nitsuah/ats-fill/blob/main/skills/ats-fill-job-search/SKILL.md
@@ -36,6 +36,7 @@ Load only what the conversation needs:
 | Any interview: screens, behavioral/STAR, technical, system design, panels, follow-up | [references/interviews.md](references/interviews.md) |
 | Offers, negotiation, comparing offers, rejections, staying motivated | [references/offers.md](references/offers.md) |
 | Links to authoritative tools, data and further reading | [references/resources.md](references/resources.md) |
+| Reading or updating the tracker from a terminal, syncing job emails into it, daily/weekly routines | [references/automation.md](references/automation.md) |
 
 ## Non-negotiables
 

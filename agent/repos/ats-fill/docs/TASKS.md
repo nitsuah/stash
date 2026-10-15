@@ -17,6 +17,11 @@ _None._
 
 ## Todo
 
+- [ ] Fix the home masthead at phone width (journeys review, #142).
+  - Priority: P2
+  - Problem: at 390px the standalone home masthead (`popup/popup.css:894-902`) keeps its two-column grid, so the intro text is squeezed to one word per line and the stats bar overlaps it.
+  - Acceptance Criteria: the masthead stacks under ~640px; the `see-the-home-screen-on-a-phone` journey baseline is regenerated in Docker.
+
 - [ ] Rotate the Chrome Web Store OAuth refresh token and re-run the release.
   - Priority: P1
   - Type: Bug · Confidence: High
@@ -24,12 +29,21 @@ _None._
   - Why: store users have 1.0.2, but the next release can't be published by the workflow until the token is rotated.
   - Acceptance Criteria: a new refresh token is stored in the production environment secret `CWS_REFRESH_TOKEN`; a `chrome-release.yml` run publishes successfully; the listing's version matches the latest tag (or the item is in review, with the dashboard status noted here).
   - Dependencies: needs the store owner's Google account (a human step; an agent can't do it).
+  - Progress 2026-10-14 (stays open until a release publishes): root cause found. `CWS_REFRESH_TOKEN` was set 2026-09-23 22:42 UTC. A run at 09-30 22:15 still authenticated (it failed only on "item is in review"), and every run from 10-01 04:41 got `invalid_grant`: the token died at 7 days, which is Google's limit for refresh tokens of a consent screen in "Testing". Rotating alone would fail again in a week, so set the consent screen to "In production" first, then mint the token with "Use your own OAuth credentials" in OAuth Playground (steps in `docs/release/chrome-web-store.md` → Token health and rotation). The publish script now explains `invalid_grant`, and a weekly **Chrome Web Store token check** workflow catches a dead token before release day.
 - [/] Fix the release workflow's "Store listing assets" job ("No tests found").
   - Priority: P2
   - Type: Bug · Confidence: Medium
   - Problem: in run #18 (2026-10-08) and the runs before it, the job ran `npx playwright test --config config/playwright.config.mjs tests/e2e/store-assets.spec.mjs` and exited 1 with `Error: No tests found`, though `tests/e2e/store-assets.spec.mjs` exists and `testDir` is `./../tests/e2e`. The root cause hasn't been investigated yet.
   - Acceptance Criteria: the job generates and validates the store assets on a `workflow_dispatch` run.
   - Progress 2026-10-09 (stays open until the acceptance run): root cause was not the Playwright config. `workflow_dispatch` re-ran the job on tag `v1.0.2`, which predates the listing-asset spec and validator (added in #112), so `tests/e2e/store-assets.spec.mjs` did not exist in that checkout. The job now checks the tag for the tooling and skips with a notice when absent; tags cut from this point on generate the assets. Verified in Docker: spec passes on current main (8 assets), and fails with "No tests found" on a `v1.0.2` export. Publish failures stay expected until the CWS refresh token is rotated (separate P1). Close this once a `workflow_dispatch` run on the first tag cut after this fix generates and validates the assets.
+- [ ] Rework how releases reach the Chrome Web Store so they stop queuing behind review.
+  - Priority: P2
+  - Type: Improvement · Confidence: Medium
+  - Problem: every publish goes through Chrome Web Store review, and the project merges often, so releases queue up behind an item still in review (v1.0.3 is in review as of 2026-10-14). Each tag triggers a publish attempt, so a new version can't ship until the pending one clears.
+  - Options to evaluate: (a) batch releases on a schedule (e.g. weekly); (b) keep tagging and GitHub Releases on every version, but publish to the Store only from a separate `workflow_dispatch`; (c) skip the publish step while an item is already pending review (the CWS API v2 item status can show this). Pick one or a combination, and note the trade-off between release freshness and review backlog.
+  - Related: the `production` environment only allows protected branches, so tag-push runs may be refused (a dispatch from `main` works); `cws-token-check.yml` checks the refresh token weekly.
+  - Acceptance Criteria: a decision recorded here (or in `docs/release/chrome-web-store.md`); the release workflow publishes at most one pending review at a time, or only on the chosen schedule; a dispatch from `main` ships a release end to end without a review collision.
+  - Found in the 2026-10-14 cross-repo auth audit.
 
 _Other planned work is in `docs/ROADMAP.md` 2027 Q1: OAuth/sign-in for personalized job search (blocked on
 a partner API), ID.me identity import, analytics-informed apply suggestions, and the response-time accuracy follow-up._

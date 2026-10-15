@@ -17,6 +17,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-14 — Nightly journeys
+
+- **Added — `tests/journeys/` and `.github/workflows/journeys.yml`:** 9 journeys (landing hero to gallery, phone layout, conversion dashboard, portal expiry and lockout, marketplace dashboard and operators, post a job, book an operator, operator availability) with 15 visual baselines, tagged with the feature ids in `promo/spots.json`. Backend-free (mocked `/api`, frozen clock, fictional demo data). The nightly caller uses the shared `nitsuah/.github` harness, so failures become deduplicated `bot:journey` issues with no AI. `npm run test:journeys`; the existing e2e config ignores `tests/journeys`.
+- **Found:** the one-time review pass filed #189 (platform pages scroll sideways at phone width) and #190 (privacy page loads `main.js` as a classic script).
+
+### 2026-10-14 — Promo spots published
+
+- **Added — showcase videos:** published `site-14s`, `portal-12s` and the `hero-30s` hero cut to `showcase/media/`, plus a new narrated 9:16 short `hero-30s-vert` (29.8 s, Kokoro voice, burned-in captions). `promo/pipeline.sh` mixes a spot's `vo/*.wav` over the music; `promo/tts/` holds the narration script (reuses vigil's `vigil-promo-tts` image).
+
+### 2026-10-14 — Removed dead Netlify Identity / Decap CMS login
+
+- **Removed — `/admin` CMS login:** Netlify Identity is not enabled on the site (`/.netlify/identity/settings` returns 404), so the Decap CMS `/admin` login could never work. Removed `admin/` (Decap config and UI), the Identity widget script in `index.html`, the unused `adminCMS` flag in `config.js`, the `/admin/*` CSP block in `netlify.toml`, and `https://identity.netlify.com` from the remaining CSP. Gallery content stays in `assets/gallery.json` and is edited directly.
+- **Removed — CMS docs and capture:** `docs/CMS_GUIDE.md`, the Decap screenshot and its visual-docs capture; README, setup, deployment, owner and asset docs no longer describe Identity or Decap.
+- **Unchanged:** Google sign-in and JWT auth in `netlify/functions` are untouched. `robots.txt` still disallows `/admin/` so the SPA fallback page is not indexed there.
+
+### 2026-10-10 — Visual docs
+
+- **Added — screenshots and diagrams from CI:** `.github/workflows/visual-docs.yml` runs a backend-free Playwright suite (`tests/visual-docs/`, `config/playwright.visual-docs.config.ts`: mocked `/api`, frozen clock, fictional demo data) and renders `docs/diagrams/*.mmd`, then opens a `bot/visual-docs` PR. 14 screenshots in `docs/screenshots/`, named after the feature ids in `promo/spots.json`, plus `architecture` and `booking-flow` diagrams. Screenshots are written through `toHaveScreenshot` with a small tolerance, so a file changes only when the UI does. The README has a generated "Screenshots & diagrams" block (`scripts/visual-docs-readme.mjs`).
+- **Changed — Pages showcase:** one short page about the booking flow: post a job with where and when, pilots whose coverage radius includes it see it, book a time they are free. The 18 s `book-18s` spot is the hero video and three CI screenshots illustrate the steps; Twitter/`og:video` tags and links back to README, Features, Roadmap and Changelog. `pages.yml` copies `docs/screenshots` and `docs/diagrams` into the site at deploy time and redeploys when they change. The old gallery stills and launch reel are removed from `showcase/media/`.
+- **Fixed — Pages links:** the showcase linked to `skyview.nitsuah.io`, which no longer resolves; its links now go to `https://skyviewd.netlify.app`.
+- **Added — promo spots:** `promo/build.sh <spot>` renders a spot in Docker from one composition (`promo/hero-30s/compose.html`) built on the CI screenshots. Three feature spots (`site-14s`, `book-18s`, `portal-12s`) and one 30 s hero cut replace the 21 s launch reel, whose outro pointed at the dead domain and whose source was never committed. Only `book-18s` is on the page; the others stay renderable. See `promo/README.md`.
+- **Changed — `promo/spots.json`:** 11 of the 13 user-visible features have screenshots; 11 entries are marked `"visual": "none"` (headers, tooling, removed or gated features) with a note each; each spot lists the features it shows.
+
 ### 2026-10-08
 
 - **Changed — Playwright CI install hardened:** `playwright.yml` installs only Chromium (the only project in `config/playwright.config.ts`) instead of all three browsers, caches `~/.cache/ms-playwright` per Playwright version, caps each install attempt at 4 minutes with up to 3 retries, and lowers the job timeout from 60 to 30 minutes. On 2026-10-07 an apt mirror stall in `playwright install --with-deps` hung the stripe 23 PR's run for the full hour. Also `npm install` → `npm ci` with npm caching.

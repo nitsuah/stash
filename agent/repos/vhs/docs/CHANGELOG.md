@@ -16,11 +16,18 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Google sign-in no longer requests `access_type=offline`: the app never stores a refresh token (sign-in only, scopes `openid email profile`), so the flag was unused. `.env.example` now documents the Google auth, JWT, legacy-owner, and external API (TMDb, OMDb, eBay) variables.
+
 - README phone-camera setup: the iOS steps now include turning on full trust (Settings → General → About → Certificate Trust Settings); installing the profile alone doesn't make iOS trust the local CA for HTTPS.
 - Launch-video sources moved from `docs/brag/` to `promo/brag-20s/` (the showcase standard keeps spot sources in `promo/<spot>/`); README commands and `promo/spots.json` point at the new folder.
 
 ### Added
 
+- Showcase board: `promo/spots.json` links 8 more visible features to their existing screenshots (`docs/screenshots/<feature-id>.png`) and marks 7 non-visual entries `visual: none` (TLS plumbing, the Pages site, env-var migration, the For-Sale CSV variant, Jest, Playwright and CI). Linked 6/47 → 14/40; the remaining visible gaps need captures.
+- **Nightly journeys** (`tests/journeys/`, `.github/workflows/journeys.yml`): four journeys (browse and search the shelf, open a tape and the export menu, confirm AI review cards, phone menu) against a fictional demo collection (`promo/demo-seed.js`, the launch video's tapes) with every API call mocked (`promo/demo-mocks.js`), a frozen clock and a seeded `Math.random`. Soaked 36/36 runs at 0 px noise; `maxDiffPixels: 20` (one changed letter is 137 px). The one-time review pass filed #77, #78 and #79.
+- **Visual docs CI** (`.github/workflows/visual-docs.yml`): the journeys write `docs/screenshots/<feature-id>.png` (11 features), `docs/diagrams/` holds architecture, capture-flow and job-lifecycle Mermaid sources, and the README's visual-docs block embeds both. Changes arrive as a `bot/visual-docs` PR.
+- **Vertical short `brag-20s-vert`** (1080×1920, 20 s, narrated with burned-in captions) for Shorts/Reels/TikTok, built by `promo/brag-20s-vert/build.sh` around the locked `brag-20s` (read-only); published as `site/brag-vert.mp4` in a new "20-second short" section of the Pages site.
+- The launch video `brag-20s` (also the hero reel) is **locked** in `promo/spots.json`. `/promo` never re-renders or replaces it. The new `showcase-locked` check fails any PR that changes its sources, `site/brag.mp4` or its poster.
 - Visual showcase ([standard](https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md)): `promo/spots.json` lists every shipped FEATURES.md entry and links the existing launch video(s) to the features they show (screenshot links get filled in as screenshot CI lands); the Pages site loads the shared expand kit (click-to-expand images, fullscreen button on videos).
 - **Launch video v2 + landing page refresh**: new 1080p 20s `site/brag.mp4` (shelf cold open that zooms into the Capture view → three five-spine snaps → AI review with ✓ All → collection table with Export menu → StacksUp outro), UI shown large enough to read, synthesized in-key soundtrack. The FBI-warning cold open and the page's FBI band are gone; the band is replaced by a shelf-of-spines strip. Video sources now live in `docs/brag/` (composition, frame capture, audio synth, rebuild steps) instead of gitignored `brag-output*/`. Supersedes #67 and #68.
 - **GitHub Pages landing site** (`site/`, deployed by `.github/workflows/pages.yml` on pushes to `main` that touch `site/**`): one-page tour of VHS Box with an embedded 20s launch video (FBI-warning cold open → capture → AI review → collection), how-it-works, shipped features, easter eggs, and Docker quickstart. `brag-output*/` build output is gitignored.

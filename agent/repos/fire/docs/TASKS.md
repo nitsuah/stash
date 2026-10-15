@@ -10,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-10-08
+updated: 2026-10-14
 
 ---
 
@@ -33,6 +33,16 @@ These items came from the current browser/production pass. **P0** items are corr
   - Scope: browser-first Google login/connect flow; link the Drive account before exposing backup actions; encrypt locally/server-side with the existing AES-256-GCM design; add an explicit test fixture that uploads an encrypted backup, downloads it, decrypts it, and byte/structure-compares the restored payload.
   - Acceptance Criteria: Google OAuth connect works from the browser; Drive only receives ciphertext; a fresh restore succeeds against a real or deterministic mocked Drive round trip; corrupted/wrong-key backups fail cleanly; UI cannot report a successful backup until the round-trip verification succeeds.
   - Rollout gate: do not change the README/marketing copy to imply backup safety beyond the tested guarantees until this passes.
+  - Progress 2026-10-14: on lifefire.netlify.app the Drive button returned the fire-api catch-all 404 ("not available in the hosted browser deployment"). `netlify/functions/gdrive-backup.mjs` now serves every `/api/backup/drive*` route on the hosted deploy. Tokens are sealed in the browser as Etsy's are; the browser sends its state and applies the restored state. The Drive and crypto code is shared with Express through store-free helpers in `app/lib/gdrive-backup.js`. `tests/unit/netlify-gdrive-backup.test.mjs` covers the following against a deterministic mocked Drive: authorize, callback to a sealed blob, ciphertext-only upload, list, and restore round trip (structure-compared). It also checks that wrong-key and corrupted backups and dead or unreadable grants fail with JSON. The toml routing test covers the new rewrites.
+    - Remaining (needs the user): ~~add the hosted redirect URI and do a live round trip on lifefire.netlify.app~~ (done 2026-10-14, see below); a live round trip on self-hosted is still open.
+    - Remaining (code): the UI still reports success after the upload, not after a verified round trip.
+    - 2026-10-14, first live run on lifefire.netlify.app: the OAuth connect worked once the Google account was added as a test user. Listing backups then failed with only "Drive list failed. Try again later." Drive errors now carry Google's own message and reason code (for example `accessNotConfigured` when the Drive API is disabled for the project), both in the panel and in the Express responses.
+    - 2026-10-14, live round trip **verified on lifefire.netlify.app**: once the Drive API was enabled in the GCP project, connect → Backup Now → Restore worked end to end. Follow-up (with the CoinTracker/web3 account work): after a restore, trigger the account refreshes (price/crypto/CoinTracker) so restored rows don't show stale values until the next scheduled refresh.
+
+- [x] **Prices and net-worth history went stale with no dashboard tab open**
+  - Found by the 2026-10-14 weekly check-in: `priceUpdatedAt` stuck at 2026-09-26, the Vanguard CITs never re-priced, and 8 snapshots all equal to $1,040,480.27.
+  - Done 2026-10-14: the server re-prices hourly before each snapshot; MCP tools report `dataFreshness`; snapshots record `pricesAsOf`/`stale`; the weekly check-in prints "prices are N days old" when N > 3.
+  - Follow-up: the CIT CUSIPs still update only on a CSV import. Pricing them needs a fund-NAV source, or a Plaid holdings sync for the 401k.
 
 ### P1 — Integration & workflow improvements
 
@@ -59,6 +69,8 @@ These items came from the current browser/production pass. **P0** items are corr
   - Acceptance Criteria: provider capabilities and data ownership are documented; duplicate calls are avoided; users can see provider/source and last-refresh state; no private keys or signing capability are ever requested; existing direct-chain tracking remains functional.
   - Progress 2026-10-01 (#139): the connector runs on Express and Netlify. CoinTracker has no REST API or read token, so it uses OAuth 2.1 + PKCE with dynamic client registration and reads balances over the read-only MCP. Balances merge into Crypto accounts with CoinTracker as the source of truth (address/ENS adoption, a possible-duplicate list, exclusions, partial-sync safety). Added the Settings card and source tags, 42 unit tests, and docs in `docs/integrations.md`. Remaining: connect a real CoinTracker account (MCP is paid/early access), confirm the balance tool and payload shape with "Inspect CoinTracker tools", then tighten the normalizer and close this item.
   - 2026-10-01 live test: the OAuth redirect and login work, but the MCP server answered `401 invalid_token` for the issued token. The follow-up sends an Auth0 `audience` and reports the token shape on a 401. Retest on its deploy preview. Retest result: the token is now correct (MCP audience), but `permissions: []`. The test account isn't enrolled in CoinTracker MCP early access, so this item is blocked on CoinTracker enabling it.
+  - 2026-10-14 live run on lifefire.netlify.app: MCP access now works and sync succeeds, but it reported "0 wallets · ⚠ CoinTracker returned no wallets or accounts fire could recognize". The account holds ETH, POL, AVAX, BTC and PIXL. The normalizer now also reads an asset-level portfolio (an array of asset rows, or holdings keyed by ticker) as one "CoinTracker portfolio" account. It no longer treats asset rows as wallets. When nothing is readable, the card shows the response's structure (field names and types only; values and address-like keys are stripped) so the parser can be fixed from it. Remaining: re-sync live; if it is still unreadable, share that outline and the Inspect output, then tighten the normalizer.
+  - 2026-10-14 second live run: the structure outline showed the real payload. The balance tool is `get_connected_accounts`, which returns `connected_accounts[]` with `name`, `connected_account_handle`, `connected_account_type`, and the fiat value as `balance`/`calculated_balance` strings, plus `truncated`/`returned_count`/`total_count`. There are no addresses and no per-asset holdings. The normalizer now reads that shape, so each CoinTracker account becomes one row. Remaining: re-sync live and confirm the rows and totals match CoinTracker; then decide whether `balance` or `calculated_balance` should win, and whether idle accounts should be included.
 
 - [x] **Multichain crypto account value (ENS/0x)**
   - Done 2026-10-01: ⟳ Refresh on an ENS/0x crypto account totals native coins and priced tokens across Ethereum, Base, Optimism, Arbitrum and Polygon, plus native BNB and AVAX balances on BNB Chain and Avalanche (native only, no tokens) via keyless Blockscout/publicnode lookups (`app/lib/multichain-balance.js`), with a per-chain breakdown and a partial-result warning. The ENS lookup card uses the same source. It replaced the Ethereum-only ETH balance (`nitsuah.eth`: ~$29 ETH-only → ~$445 including PIXL and Base tokens).
@@ -124,6 +136,7 @@ These items came from the current browser/production pass. **P0** items are corr
   - Priority: P2.
   - The parsers use assumed column names with aliases (`docs/integrations.md`). Confirm against a current Mercari sales history and Poshmark sales report download, add any missing aliases and replace the fixtures with anonymized real headers.
 - [ ] **Etsy live run against a real shop** (self-hosted and lifefire.netlify.app) once an Etsy app keystring is approved; record the result in `docs/integrations.md`.
+  - Hosted setup (found in the 2026-10-14 auth audit): `/api/sync/etsy/authorize` on lifefire.netlify.app currently redirects to `#etsy-error=not_configured`. Register an Etsy app at https://www.etsy.com/developers/register, add the callback `https://lifefire.netlify.app/api/sync/etsy/callback`, set `ETSY_CLIENT_ID` (and optionally `ETSY_SHARED_SECRET`) on the Netlify site `lifefire`, redeploy, then run a live connect.
 
 ### P1 — GitHub README / promo parity
 
@@ -132,6 +145,7 @@ These items came from the current browser/production pass. **P0** items are corr
   - Add/verify the user-facing story for: Side Gig tax tagging + cost basis, automatic eBay order sync, encrypted Google Drive backup, vehicle valuation, local-first/privacy model, browser demo, MCP/LLM workflow, diversification/rebalancing/harvesting insights, notifications/alerts, and CSV/Plaid ingestion.
   - Remove or qualify claims that depend on rollout-gated work (especially Google Drive).
   - Add a compact architecture/privacy diagram or equivalent visual explanation and a clearer “Try it / Run it / Ask Claude” path.
+    - Progress 2026-10-14: the architecture diagram is done (`docs/diagrams/architecture.mmd`, plus `projection-dataflow.mmd`, rendered in CI and embedded in the README). The privacy diagram and the "Try it / Run it / Ask Claude" path are still open.
   - Acceptance Criteria: every prominent README feature is either demonstrably shipped or explicitly labeled planned; no stale environment/setup instructions remain; links to the live demo, docs, security model, and integration setup are easy to find.
 
 - [ ] **Promo ledger audit**
@@ -163,7 +177,7 @@ These items came from the current browser/production pass. **P0** items are corr
 ### Nightly journeys + review-pass findings — Oct 9, 2026
 
 - [x] **Nightly "AI user" journeys (pilot for the cross-repo loop)**
-  - Done 2026-10-09: 7 journeys, 19 baselines, nightly caller on the shared nitsuah/.github harness (needs nitsuah/.github#19 merged first). After merge, run `gh workflow run journeys.yml` once to create `bot/journeys`.
+  - Done 2026-10-09: 7 journeys, 19 baselines, nightly caller on the shared nitsuah/.github harness. nitsuah/.github#19 is merged, the manual `journeys.yml` run completed successfully, `bot/journeys` exists, and the nightly schedule is running.
 - [ ] **Fix the review-pass findings** (label `bot:review`). Fixing one may change a baseline: regenerate it in Docker in the same PR.
   - Priority: P1: #169 insights equity % counts crypto, #170 single-stock warning on broad ETFs (wrong advice). #178 MCP fire_status_summary disagrees with the dashboard (Claude gives different numbers than the UI).
   - Priority: P2: #166 privacy-modal nav links 404, #167 allocation legend clipped, #168 expense label/hint collisions, #171 settings toggles misaligned, #172 truncated selects, #173 ledger add-row on phones (with "Normalize Side Gig Ledger form controls" above).

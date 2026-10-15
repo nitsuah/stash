@@ -10,7 +10,7 @@ repo: vigil
 
 > 🧭 [vigil](./README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-09-25
+updated: 2026-10-14
 
 Next Review: 2026-10-24
 

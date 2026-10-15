@@ -69,7 +69,6 @@ Authoritative validation sources: `docker compose run --rm unit`, Docker Playwri
 | Client Portal               | ✅ Complete | Password-protected delivery |
 | Testimonials                | ⏳ Planned | Section removed from the page until real client reviews exist (see ROADMAP.md) |
 | Privacy Policy              | ✅ Complete | GDPR-compliant |
-| Admin CMS                   | ✅ Complete | Decap CMS configured |
 | WebP Optimization           | ✅ Complete | Automatic conversion |
 | Performance Monitoring      | ✅ Complete | Core Web Vitals tracking |
 | Feature Flags               | ✅ Complete | Easy on/off toggles |

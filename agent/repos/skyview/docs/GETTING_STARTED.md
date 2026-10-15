@@ -41,7 +41,7 @@ docker compose -f config/docker-compose.yml up --build web
 docker compose -f config/docker-compose.yml run --rm unit
 ```
 
-The recommended dev command is `npm run dev` (runs `netlify dev` on port 8888 with Netlify Functions and Identity active). A static fallback is `npx http-server . -p 3000` for quick previews without Functions.
+The recommended dev command is `npm run dev` (runs `netlify dev` on port 8888 with Netlify Functions active). A static fallback is `npx http-server . -p 3000` for quick previews without Functions.
 
 ### Step 1: Deploy to Netlify (10 min)
 ```bash
@@ -71,18 +71,7 @@ features: {
 
 **Full Options:** See `docs/CONFIG.md`
 
-### Step 3: Set Up Admin Access (10 min)
-
-1. Go to Netlify Dashboard → Identity
-2. Enable Netlify Identity
-3. Settings → Registration → "Invite only"
-4. Invite yourself via email
-5. Visit `https://yoursite.netlify.app/admin`
-6. Log in with your credentials
-
-Now you can manage gallery content without touching code!
-
-### Step 4: Configure Notifications (5 min)
+### Step 3: Configure Notifications (5 min)
 
 1. Submit a test form on your site
 2. Netlify Dashboard → Forms → "Form notifications"
@@ -201,7 +190,6 @@ Before going live:
 
 ### Contact form not working
 - Deploy to Netlify first (forms don't work locally)
-- Enable Netlify Identity
 - Configure email notifications in Netlify dashboard
 
 ### Videos not playing
@@ -230,4 +218,4 @@ Your site is production-ready. Just:
 
 Questions? Check the docs/ folder or the inline comments in the code.
 
-**Last Updated:** 2026-08-22
+**Last Updated:** 2026-10-14

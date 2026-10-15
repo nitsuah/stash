@@ -114,7 +114,7 @@ ats-fill/
 
 > The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
 > The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
-> Last refreshed: 2026-10-09 · UI snapshot: v1.0.2 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
+> Last refreshed: 2026-10-14 · UI snapshot: v1.0.3 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
 
 ### Main dashboard
 
@@ -155,6 +155,20 @@ Dark mode follows your system theme:
 ### Interview Prep
 
 ![ats-fill interview prep](https://github.com/nitsuah/ats-fill/blob/main/screenshots/interview-prep.png)
+
+## Architecture & flow diagrams
+
+<!-- visual-docs:start -->
+Rendered from the Mermaid sources in [`docs/diagrams/`](https://github.com/nitsuah/ats-fill/tree/main/docs/diagrams) by the screenshot-gallery job in CI.
+
+**Architecture** ([source](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/architecture.mmd))
+
+![ats-fill architecture: popup, content script, service worker, storage and optional services](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/architecture.svg)
+
+**Form fill flow** ([source](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/form-fill-flow.mmd))
+
+![ats-fill form fill flow from the Fill button to review](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/form-fill-flow.svg)
+<!-- visual-docs:end -->
 
 ---
 
@@ -250,6 +264,7 @@ Company,Role Title,Status,Date,Employment Type,Remote,Location,Pay Min,Pay Max,S
 | [interviews.md](./skills/ats-fill-job-search/references/interviews.md) | Prep sheet, STAR story bank, technical and system design, questions to ask, thank-yous |
 | [offers.md](./skills/ats-fill-job-search/references/offers.md) | Pay research, negotiation scripts, comparing offers, rejections |
 | [resources.md](./skills/ats-fill-job-search/references/resources.md) | Curated, primary-source links (O*NET, BLS, CareerOneStop, EEOC, FTC and more) |
+| [automation.md](./skills/ats-fill-job-search/references/automation.md) | Tracker CLI, Gmail-to-tracker sync, low-token daily/weekly routines |
 
 **Install**
 
@@ -330,6 +345,10 @@ docker compose -f config/docker-compose.yml run --rm lint
 
 # E2E (Playwright, requires headed or CI browser)
 docker compose -f config/docker-compose.yml run --rm e2e
+
+# Nightly journeys: "AI user" paths with visual baselines (Linux, Playwright image only; see tests/journeys/README.md).
+# Run nightly by .github/workflows/journeys.yml; failures file bot:journey issues and BUGS.md on bot/journeys lists them.
+docker run --rm -v "$PWD:/w" -w /w mcr.microsoft.com/playwright:v1.64.0-jammy sh -c "npm ci && npm run test:journeys"
 
 # Coverage
 docker compose -f config/docker-compose.yml run --rm coverage
