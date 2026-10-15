@@ -57,6 +57,11 @@ see those files rather than a duplicated narrative here._
   - Priority: P1
   - Type: Feature
 
+- [ ] **Set `WALLET_AUTH_SECRET` on the hosted multiplayer socket server** — wallet sign-in tokens are signed with this secret, and without it sessions reset on every server restart.
+  - Priority: P2
+  - Problem: no hosted socket server exists yet (the darkmoon.dev Netlify site has no `VITE_SOCKET_SERVER_URL`). When it is deployed, an unset `WALLET_AUTH_SECRET` means wallet sign-in sessions are invalidated on every restart. Found in the 2026-10-14 auth audit.
+  - Acceptance Criteria: when the socket server is deployed, `WALLET_AUTH_SECRET` is set on that server to a long random value (e.g. 32 random bytes, base64-encoded); a restart keeps an existing wallet session valid. See `docs/API.md` → Wallet sign-in.
+
 ## Notes
 
 - See [INSTRUCTIONS](./INSTRUCTIONS.md) for agent handoff and workflow best practices.

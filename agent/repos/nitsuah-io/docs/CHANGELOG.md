@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Docker Images` workflow builds `config/Dockerfile.unit` and `config/Dockerfile.test` and runs Jest / Playwright inside them whenever `.nvmrc`, a Dockerfile or a compose file changes. CI Fast uses setup-node and never exercised these images.
 
 ### Fixed
+- Docs: README and METRICS now reflect the Node 26.11.1 pin and the Playwright image's actual bundled Node (v24.21.0, not 24.20.0).
 - Every page declared `<link rel="canonical" href="https://nitsuah.io">` (a root-layout `alternates.canonical` inherited by all routes), telling search engines each page, including every blog post, was a duplicate of the homepage.
 - Site-wide `og:image`/`twitter:image` pointed at `/social-preview.svg`, which doesn't exist (404), so shared links had no preview image.
 - Netlify CSP blocked Reown/WalletConnect AppKit's `api.web3modal.org` on every page; `connect-src` now allows `https://*.web3modal.org`.

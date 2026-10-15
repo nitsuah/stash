@@ -5,7 +5,7 @@ date: 2026-10-07
 
 # obn-import — 2026-10-07
 
-> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-09-30|2026-09-30]] <!-- nav -->
+> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-09-30|2026-09-30]] · [[reports/cloud/obn-import/obn-import-2026-10-15|2026-10-15]] → <!-- nav -->
 
 All report cadences are now within schedule (previous run's week-vuln/eng-loc overdue flags are resolved), but the newest daily note is 6 days old and the vault graph's unreachable-report count has grown sharply (1 → 24 FAILs) since the last check.
 

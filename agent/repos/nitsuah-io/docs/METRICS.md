@@ -47,8 +47,8 @@ The previously published "Resume Tests" (8) and "Visual Tests" (9) rows no longe
 
 | Metric | Value | Notes |
 | ------ | ----- | ----- |
-| Unit test image (`config/Dockerfile.unit`) | `node:26.10.0-slim` | Built and run 2026-09-27 (Node 26 PR); `npm test` passed 282/282 across 24 suites |
-| Playwright image (`config/Dockerfile.test`) | `mcr.microsoft.com/playwright:v1.63.0-noble` + Node 26.10.0 overlay | The upstream image ships Node 24.20.0; the overlay stage makes E2E run on the `.nvmrc` version |
+| Unit test image (`config/Dockerfile.unit`) | `node:26.11.1-slim` | Built and run 2026-09-27 (Node 26 PR); `npm test` passed 282/282 across 24 suites |
+| Playwright image (`config/Dockerfile.test`) | `mcr.microsoft.com/playwright:v1.64.0-noble` + Node 26.11.1 overlay | The upstream image ships Node v24.21.0 (verified with `docker run --rm mcr.microsoft.com/playwright:v1.64.0-noble node -v`, 2026-10-14); the overlay stage makes E2E run on the `.nvmrc` version |
 | Playwright run | `docker run --rm --shm-size=2g -e FORCE_BROWSER_E2E=1 <Dockerfile.test image> npx playwright test --config config/playwright.config.ts` | 2026-09-27: 27 tests (incl. 6 in `tests/runtime.spec.ts`), 18 passed, 9 intentionally skipped, ~19.6s on Node 26.10.0; the runtime spec also passes 6/6 on the Node 24.20.0 baseline image |
 
 ## Notes

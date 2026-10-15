@@ -137,10 +137,11 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Type: Docs
   - Note: Source `.vb` files lack inline comments explaining business logic. Add docstrings or a companion `USAGE.md` per tool. (Restored 2026-09-30; PR #160 had pointed it at a nonexistent `atlassian/jira/vba`.)
 
-- [ ] Add architecture diagrams
+- [x] Add architecture diagrams
   - Priority: P3
   - Type: Docs
   - Mermaid/PlantUML in docs/
+  - Done 2026-10-14: `docs/diagrams/{routine-pipeline,showcase-loop,vault-graph-render}.mmd`, rendered to SVG and embedded in the README by `.github/workflows/visual-docs.yml`.
   - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
 - [ ] Add CONTRIBUTING.md

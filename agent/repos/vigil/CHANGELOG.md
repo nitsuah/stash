@@ -17,21 +17,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Visual best practices
+### Added
 
-- **Changed:** `visual_docs` is now scored. Healthy means CI regenerates the screenshots and diagrams and the README embeds them. Each row (screenshots, diagrams, videos, Pages) shows its own grade. A row offers the recipe PR (which now includes `docs/VISUAL_DOCS_HOWTO.md`) when CI alone can fix it; otherwise it shows a `/promo` handoff with the repo path and inputs.
-- **Added:** an `actions_pr_permission` check ("Allow GitHub Actions to create and approve pull requests"), scored only when a visual-docs workflow needs it, with the `gh api` command as its handoff; an informational `journeys` practice; and `visual_setup` per repo in `/api/context`.
+- Showcase board: rendered and published `visual-17s` (17 s, Visual Docs check from the Best Practices card, then the fix PR) to `site/assets/`, via a new `visual` extra scene in the `brag-30s` composition. Its copy says Visual Docs is scored. Videos 5/7 → 6/6.
+- Showcase board: `promo/spots.json` now mirrors `visual-17s` on `visual-docs-signal` and marks `metrics-tracking` `visual: none` (a sub-item of documentation tracking, which already covers METRICS.md). Linked 38/59 → 38/58; the remaining visible gaps need captures.
+- An `actions_pr_permission` check ("Allow GitHub Actions to create and approve pull requests"), scored only when a visual-docs workflow needs it, with the `gh api` command as its handoff; an informational `journeys` practice; and `visual_setup` per repo in `/api/context`.
+- Six DB-free Playwright journeys in `e2e/journeys/` (dashboard sort, repo details, chat proposal, PMO open work, relationship map, phone card) with 12 Linux baselines, `npm run test:journeys`, and `.github/workflows/journeys.yml`, which runs them nightly through nitsuah/.github's reusable workflow and files deduplicated `bot:journey` issues.
+- Sort repos by tier — T1 Critical → T2 Important → T3 Standard → T4 Low → Untiered (null) always last; direction toggle (↑/↓); tie-break by repo name (A→Z) for stable ordering. Controls apply to both desktop table and mobile card list, with a compact "Sort" select in the header and a Tier sort button in the desktop table's Repository header.
 
-### Visual docs churn
+### Changed
 
-- **Fixed:** the visual-docs workflow re-ran on its own merged bot PR (the rendered `.svg` matched its `docs/diagrams/**` trigger), and screenshots captured mid-load differed run to run, so a new "regenerate diagrams and screenshots" PR opened after every merge (#285). The trigger now matches diagram sources only, the template ignores output-only pushes, and every shot waits for loading placeholders to clear.
+- `visual_docs` is now scored. Healthy means CI regenerates the screenshots and diagrams and the README embeds them. Each row (screenshots, diagrams, videos, Pages) shows its own grade. A row offers the recipe PR (which now includes `docs/VISUAL_DOCS_HOWTO.md`) when CI alone can fix it; otherwise it shows a `/promo` handoff with the repo path and inputs.
+- The demo portfolio and API mocks moved from `e2e/visual-docs/screenshots.spec.ts` to `e2e/fixtures/demo-portfolio.ts`, shared by the screenshots and the journeys.
 
-### Nightly journeys
+### Fixed
 
-- **Added:** six DB-free Playwright journeys in `e2e/journeys/` (dashboard sort, repo details, chat proposal, PMO open work, relationship map, phone card) with 12 Linux baselines, `npm run test:journeys`, and `.github/workflows/journeys.yml`, which runs them nightly through nitsuah/.github's reusable workflow and files deduplicated `bot:journey` issues.
-- **Changed:** the demo portfolio and API mocks moved from `e2e/visual-docs/screenshots.spec.ts` to `e2e/fixtures/demo-portfolio.ts`, shared by the screenshots and the journeys.
-- **Fixed:** the trend mock in the visual-docs and mocked UI suites now matches `?fullName=` (#253 added it), so those runs no longer hit the real route and log 500s (Fixes #278).
-- **Fixed:** the dashboard's background details prefetch is rescheduled whenever the repo list changes. Before, a repo-list refresh within ~240 ms of load (always in `next dev`, where StrictMode fetches twice) cancelled the pending fetches for good, and those rows kept "synced 12h ago" instead of their docs icon (Fixes #281).
+- `promo/capture.spec.ts` no longer marks `visual_docs` informational (it is scored; only `journeys` is informational), so promo captures stop showing a false "(not scored)" label; `site/assets/card-practices.webp` re-shot. The e2e fixture has the same stale flag: #292.
+- `.env.example` now uses the variable names the app reads (`GITHUB_ID` / `GITHUB_SECRET`, not `GITHUB_CLIENT_*`), drops unused Supabase and `GITHUB_APP_ID` entries, and documents `BYOK_ENCRYPTION_KEY`, `MCP_API_KEY`, `NETLIFY_DATABASE_URL` precedence, and the OAuth callback URL. CI falls back to named dummy OAuth values when the repo secrets are unset.
+- The visual-docs workflow re-ran on its own merged bot PR (the rendered `.svg` matched its `docs/diagrams/**` trigger), and screenshots captured mid-load differed run to run, so a new "regenerate diagrams and screenshots" PR opened after every merge (#285). The trigger now matches diagram sources only, the template ignores output-only pushes, and every shot waits for loading placeholders to clear.
+- The trend mock in the visual-docs and mocked UI suites now matches `?fullName=` (#253 added it), so those runs no longer hit the real route and log 500s (Fixes #278).
+- The dashboard's background details prefetch is rescheduled whenever the repo list changes. Before, a repo-list refresh within ~240 ms of load (always in `next dev`, where StrictMode fetches twice) cancelled the pending fetches for good, and those rows kept "synced 12h ago" instead of their docs icon (Fixes #281).
+
+### Removed
+
+- The unpublished `brag-30s` spot entry in `promo/spots.json` (superseded by `hero-37s`; its composition stays as the base for every cut).
 
 ### Docs
 
@@ -107,7 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Visual docs signal + CI recipe
 
-- **Added:** `visual_docs` best practice (informational, not scored): diagrams + screenshots detected from the repo tree, healthy only when the README embeds them; Best Practices panel shows a "(not scored)" tag and a link to the recipe when missing/dormant. `INFORMATIONAL_PRACTICES` keeps it out of the health score so no repo's score moves.
+- **Added:** `visual_docs` best practice: diagrams + screenshots detected from the repo tree, healthy only when the README embeds them; Best Practices panel links to the recipe when missing/dormant. It is scored now (see Unreleased, Changed).
 - **Added:** reusable recipe — `templates/.github/workflows/visual-docs.yml`, `scripts/visual-docs-readme.mjs` (rewrites the README's `<!-- visual-docs:start/end -->` block, `--check` for CI), [docs/VISUAL_DOCS.md](./docs/VISUAL_DOCS.md).
 - **Added:** dogfood — `.github/workflows/visual-docs.yml` regenerates `docs/screenshots/*.png` from a DB-free Playwright spec (`e2e/visual-docs`, frozen clock) and `docs/diagrams/architecture.svg` from Mermaid, then opens a PR on `bot/visual-docs`; README gains a "Screenshots & diagrams" section.
 

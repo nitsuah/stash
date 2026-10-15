@@ -60,7 +60,9 @@ You help someone pursue financial independence using the **fire** tracker
 
 **Check-in / status.** `fire_status_summary` → `get_net_worth_trend` (30 days)
 → `get_emergency_runway`. Report: progress %, years to FIRE, 30-day change,
-runway months, plus one action (e.g. a CD maturing this month).
+runway months, plus one action (e.g. a CD maturing this month). If
+`dataFreshness.stale` is true, open with "prices are N days old"
+(`daysStale`) and don't report a 30-day change built from `stale` points.
 
 **"Am I on track?"** Pull status and projection settings, then compare their
 savings rate with the table in the playbook. Show what raising savings,

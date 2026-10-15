@@ -10,10 +10,10 @@ repo: skyview
 
 > 🧭 [skyview](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](../METRICS.md) <!-- nav -->
 
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-10-14
 Next Review: 2026-10-24
 
-> **Planning split:** public FE = landing, gallery, booking, contact, and privacy-safe funnel tracking. `/admin` = separate CMS surface. Client delivery / signed-download auth = separate backend workstream.
+> **Planning split:** public FE = landing, gallery, booking, contact, and privacy-safe funnel tracking. Client delivery / signed-download auth = separate backend workstream.
 
 > 2027 planning reset (2026-09-24): Q1–Q3 2026 (static site, SEO, funnel tracking, CSP, gallery governance, A/B
 > framework, campaign personalization), the 2026-09 client-portal security work (server-side HMAC token validation,
@@ -44,7 +44,7 @@ Next Review: 2026-10-24
 - [ ] **Multi-segment campaign personalization** — expand `scripts/campaign.js` for service spotlight targeting and more hero copy variants. *(2026 Q4)*
 - [ ] **Testimonials** — collect real client reviews, then re-add the section to `index.html` (removed 2026-09-19) as a `config.js`-driven rotating carousel with campaign-segment targeting. *(merges the 2026 Q4 carousel and Q1 2027 activation items)*
 - [ ] **Google My Business** — verify listing, link to live site, enable review collection.
-- [ ] **Blog / news section** — Decap CMS collection for articles; SEO long-tail discovery for drone services.
+- [ ] **Blog / news section** — content collection for articles; SEO long-tail discovery for drone services.
 - [ ] **Expanded service pages** — individual landing pages for Real Estate, Events, Cinematography, and Mapping.
 - [ ] **Portfolio case studies** — per-project pages with before/after, deliverables, and client outcome blurb.
 

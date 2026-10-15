@@ -7,7 +7,7 @@ date: 2026-10-07
 
 # eng-mini: fire — 2026-10-07 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-10-01|2026-10-01]] <!-- nav -->
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-10-01|2026-10-01]] · [[reports/eng-mini-fire-2026-10-14|2026-10-14]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Selected as the #3 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-03T23:49:28-04:00, HEAD `7ffbeff` "docs: fix review comments across README, CHANGELOG, FEATURES, ROADMAP, TASKS, and skills (#157)"). Root audited from a throwaway clone at `/home/user/fire`.
 

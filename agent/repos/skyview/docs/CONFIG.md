@@ -26,7 +26,6 @@ window.SKYVIEW_CONFIG = {
         testimonials: false,       // ← Change to true when you have reviews
         calendly: true,            // ← Already enabled (ready to use!)
         clientPortal: false,       // ← Enable when ready to deliver files
-        adminCMS: true,            // ← Enable when Netlify Identity is set up
         analytics: false,          // ← Enable when analytics is configured
         platform: false            // ← Marketplace mode; see ROADMAP.md before enabling
     }
@@ -146,29 +145,7 @@ clientPortal: true
 
 ---
 
-### 5. Admin CMS (`adminCMS`)
-
-**Default:** `true` (enabled)
-
-**What it does:**
-- Currently just tracks status
-- Admin panel is available at `/admin` regardless
-- Requires Netlify Identity to be configured
-
-**Setup required:**
-1. Deploy to Netlify
-2. Enable Netlify Identity
-3. Invite yourself as user
-4. Visit `/admin` to manage gallery
-
-**To disable:**
-```javascript
-adminCMS: false
-```
-
----
-
-### 6. 3D Preview (`preview3D`)
+### 5. 3D Preview (`preview3D`)
 
 **Default:** `false` (hidden)
 
@@ -188,7 +165,7 @@ preview3D: true
 
 ---
 
-### 7. Analytics (`analytics`)
+### 6. Analytics (`analytics`)
 
 **Default:** `false` (disabled)
 
@@ -275,7 +252,6 @@ features: {
     contactForm: false,      // Still testing
     calendly: true,          // Ready! ✅
     clientPortal: false,     // Not needed yet
-    adminCMS: true,          // Set up for managing gallery
     preview3D: false,        // Not implemented yet
     analytics: false         // Will add later
 }
@@ -288,7 +264,6 @@ features: {
     contactForm: true,       // Now accepting leads! ✅
     calendly: true,          // ✅
     clientPortal: false,     // Working on it
-    adminCMS: true,          // ✅
     preview3D: false,        // Future feature
     analytics: true          // Now tracking! ✅
 }
@@ -301,7 +276,6 @@ features: {
     contactForm: true,       // ✅
     calendly: true,          // ✅
     clientPortal: true,      // Delivering files! ✅
-    adminCMS: true,          // ✅
     preview3D: true,         // 3D viewer implemented! ✅
     analytics: true          // ✅
 }

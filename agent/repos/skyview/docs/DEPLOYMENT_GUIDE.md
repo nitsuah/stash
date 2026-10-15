@@ -48,7 +48,6 @@ features: {
     contactForm: true,      // ✅ Enable after Netlify Forms setup
     calendly: true,         // ✅ Update URL below
     clientPortal: false,    // ⏳ Keep disabled until production ready
-    adminCMS: true,         // ✅ Enable for content management
     preview3D: false,       // ⏳ Future feature
     analytics: true,        // ✅ Enable after adding tracking ID
     platform: false         // ⏳ Marketplace mode — see ROADMAP.md before enabling
@@ -194,28 +193,7 @@ Add to your form in [index.html](https://github.com/nitsuah/skyview/blob/main/in
 
 **Test it:** Submit form on live site → Check email
 
-### 3. Enable Netlify Identity (for CMS)
-#### Setup Identity
-1. Go to "Identity" in Netlify dashboard
-2. Click "Enable Identity"
-3. Go to "Settings and usage"
-4. Click "Registration" → Set to "Invite only"
-
-#### Create Admin User
-1. Go to "Identity" tab
-2. Click "Invite users"
-3. Enter your email
-4. Check email for invitation link
-5. Set password
-
-#### Configure Git Gateway
-1. Go to "Settings" → "Identity" → "Services"
-2. Enable "Git Gateway"
-3. Click "Generate access token"
-
-**Test it:** Visit `https://your-site.netlify.app/admin` → Log in
-
-### 4. Enable Analytics
+### 3. Enable Analytics
 
 #### Plausible Analytics (Recommended - Privacy-Friendly)
 1. Sign up at https://plausible.io/ ($9/month)
@@ -243,7 +221,7 @@ Add to your form in [index.html](https://github.com/nitsuah/skyview/blob/main/in
 </script>
 ```
 
-### 5. Configure Environment Variables (If Needed)
+### 4. Configure Environment Variables (If Needed)
 1. Go to "Site settings" → "Environment variables"
 2. Add any API keys or secrets
 3. Never commit these to Git!
@@ -254,7 +232,7 @@ Add to your form in [index.html](https://github.com/nitsuah/skyview/blob/main/in
 
 ### 1. Security Headers
 
-Security headers (CSP, X-Frame-Options, Permissions-Policy, Referrer-Policy, and X-Robots-Tag on admin/portal routes) are **already defined in netlify.toml**. No manual step required. Review or extend the `[[headers]]` blocks in `netlify.toml` if you need to customise them.
+Security headers (CSP, X-Frame-Options, Permissions-Policy, Referrer-Policy, and X-Robots-Tag on portal routes) are **already defined in netlify.toml**. No manual step required. Review or extend the `[[headers]]` blocks in `netlify.toml` if you need to customise them.
 
 ### 2. Enable HTTPS
 - Automatic on Netlify! ✅
@@ -332,8 +310,7 @@ In browser console, you should see:
 ### Important (Recommended)
 - [ ] Custom domain configured
 - [ ] Analytics enabled and tracking
-- [ ] Netlify Identity configured (for /admin)
-- [ ] Security headers added to netlify.toml
+- [ ] Security headers in netlify.toml reviewed
 - [ ] Sitemap created and submitted to Google
 - [ ] Favicon displays correctly
 - [ ] Social media preview images set
@@ -488,7 +465,6 @@ Send to:
 
 ### Resources
 - **Netlify Docs**: https://docs.netlify.com/
-- **Decap CMS Docs**: https://decapcms.org/docs/
 - **Calendly Integration**: https://help.calendly.com/
 
 ### Getting Help

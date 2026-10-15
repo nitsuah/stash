@@ -10,7 +10,7 @@ repo: nitsuah-io
 
 > 🧭 [nitsuah-io](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-10-14
 
 > **Status check (2026-09-24):** none of the open items below shipped in 2026; all are carried into `docs/ROADMAP.md` 2027 Q1 for planning. Completed items were condensed into `docs/FEATURES.md` / `docs/CHANGELOG.md`.
 

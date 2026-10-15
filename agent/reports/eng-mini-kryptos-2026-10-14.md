@@ -8,6 +8,7 @@ date: 2026-10-14
 # eng-mini: kryptos — 2026-10-14 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-mini-kryptos-2026-10-01|2026-10-01]] <!-- nav -->
+
 >
 > Report only — no moves executed, no changes made to the target repo. Selected as the #2 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-14T05:05:28-04:00, HEAD `b1d9db4` "docs: assess AKG pre-1997 clock preview (#258)"). Root audited from a throwaway clone at `/home/user/kryptos`.
 

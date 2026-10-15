@@ -79,6 +79,8 @@ Status guide: `[shipped]` is available now, `[planned]` is backlog work.
 
 - `[shipped]` **Jest Unit Tests** — server-side logic; 8 test files; ≥ 85% whole-tree line coverage (`src/server.js` + `src/modules/**`, see `docs/METRICS.md`)
 - `[shipped]` **Playwright E2E Tests** — full coverage of all major features and modals
+- `[shipped]` **Nightly Journeys** — `tests/journeys/`: four user journeys (desktop + phone) on a fictional demo collection with the API mocked, one visual baseline per step; failures become deduplicated `bot:journey` issues via the shared nitsuah/.github harness
+- `[shipped]` **Visual Docs CI** — `visual-docs.yml` regenerates `docs/screenshots/<feature-id>.png` from the journeys and renders `docs/diagrams/*.mmd`, then opens a bot PR
 - `[shipped]` **CI** — Hadolint, Shellcheck, HTMLHint, ESLint, `node --check` syntax check, `npm ci --omit=dev` dep check, Jest unit tests, Docker build smoke test
 
 ## Enrichment

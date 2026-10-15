@@ -92,7 +92,7 @@ We welcome contributions! See [CONTRIBUTING.md](https://github.com/nitsuah/.gith
 
 ## Run Locally (3 Steps)
 
-Uses the Node.js version pinned in `.nvmrc` (currently 26.10.0; run `nvm use`). CI, Docker, Netlify and the git hooks all run that same version.
+Uses the Node.js version pinned in `.nvmrc` (currently 26.11.1; run `nvm use`). CI, Docker, Netlify and the git hooks all run that same version.
 
 ```bash
 # 1. Install dependencies
