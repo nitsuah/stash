@@ -288,6 +288,11 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 
 ## Later
 
+- [ ] Render and Playwright throughput on the primary desktop (Ryzen 7 + RTX 4080). This is blocked until the desktop is set up. The plan is in `agent/prompts/PROMO.md` § "Waiting on the desktop": WSL memory, parallel renders, `RENDER_WORKERS`, NVENC/GPU raster, and CI renders. Benchmark one spot before and after.
+  - Priority: P2
+  - Type: Infrastructure
+  - Blocked on: desktop setup (the laptop's Docker is capped at 8 GB, which serializes every render and Playwright job)
+
 - [x] Vigil key follow-up: confirm the rotated key works locally (ask Claude to "check vigil"), and add `VIGIL_MCP_KEY` to the cloud environment so daily-brief can read vigil (the setting wasn't findable in the claude.ai UI on 2026-09-26).
   - Priority: P3
   - Type: Integration
