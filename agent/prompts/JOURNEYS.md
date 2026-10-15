@@ -86,6 +86,23 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - Friction: a 1-in-50 `Math.random` easter-egg toast flaked a 0 px soak (5.8k px) once in ~30 runs; fixed by seeding `Math.random` in the fixture. Jest's `**/tests/**/*.spec.js` would have run the journeys; had to add an ignore.
 - Promote: STANDARD.md fixture checklist — seed `Math.random` (mulberry32 init script) alongside the frozen clock; check the unit runner's testMatch doesn't swallow `tests/journeys`. Same lesson as vigil#281: a count that flips between soak runs is a product race first.
 
+### 2026-10-14/15 · skyview, motor-pool, ats-fill · review + adopt (T1 wave 2, one Sonnet agent, serial)
+- **Ran:** review pass + adopt in each repo, one Playwright container at a time. skyview#191 (9 journeys), motor-pool#98 (7, backend-free), ats-fill#143 (8, real extension under xvfb). 5 `bot:review` issues: skyview#189, #190, motor-pool#96, #97, ats-fill#142. All three review passes found phone-width layout bugs.
+- **Misses caught in review:**
+  - CodeRabbit on skyview: PR runs had write tokens, so the callers were split into a read-only PR job and a write nightly job, pinned to one commit. Applied to all three callers and the template (.github#25).
+  - CodeRabbit on skyview: journeys stopped before the action their titles name. Post, book and availability now mock the write and assert the request body.
+  - CodeRabbit on skyview: the expired-code journey used a fake signature. It now signs with `generatePortalToken`.
+  - Coordinator review of motor-pool: the file save only asserted the button state. It now asserts that the write reached the API.
+  - Coordinator review of ats-fill: two feature tags named features the journeys never exercised. Dropped.
+- **Friction:**
+  - skyview's hero baselines flaked on CI because of Google Fonts. `document.fonts.ready` resolves before a third-party stylesheet arrives. The fix was to block `fonts.googleapis.com` and `fonts.gstatic.com` in the fixture.
+  - Finding that meant downloading the artifact and comparing actual vs expected by eye.
+  - A worktree was wiped mid-run by something outside the agent.
+- **Promote:**
+  - Done in .github#25: hide canvases instead of masking them, scroll-behavior, backend-free mocks, the extension recipe, testIgnore, viewport placement, tolerance scales with text size, the PR/nightly job split.
+  - Still to do, STANDARD: block external webfont hosts; a journey performs the action in its title and asserts the result.
+  - Still to do, reporter: link the diff PNG in the PR summary.
+
 ## Metrics log
 
 Appended monthly by [[RSI]] (`journeys/metrics.mjs`). The first row lands 2026-11-02 for October.

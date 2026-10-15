@@ -164,3 +164,25 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
     - The diagram and screenshot hints point at real recipes.
   - vigil TASK: a branch placeholder in `templates/.github/workflows/visual-docs.yml`; a `--diagrams-only` / `SCREENSHOT_EXTS` option in `visual-docs-readme.mjs`; a trailing newline after `mmdc`; the Windows one-liner in `VISUAL_DOCS.md`; and an audit check that a spot's `features[]` and each feature's `spots[]` agree.
   - Next wave: `fix screenshots` per repo, working through the `Capture for promo:` TASKS lines, is what moves `linked` to ok.
+
+### 2026-10-14/15 · T1 waves 2–3 · journeys + render (videos, vertical)
+- **Ran:**
+  - Wave 2 (journeys) is logged in JOURNEYS.md.
+  - Wave 3: one Sonnet agent rendered serially until it hit the session limit just before committing stash. The coordinator reviewed every render and finished stash.
+  - skyview#192: site-14s, portal-12s and hero-30s published, plus hero-30s-vert.
+  - vigil#291: visual-17s rendered, and brag-30s dropped as superseded.
+  - fire#199: brag-22s-vert. The six 55–65 s tour spots were left unrendered by design (TASKS: split them first).
+  - stash#239: journeys-19s-vert, with Kokoro narration through `promo/tts`.
+  - Board: portfolio 41% → 49%. skyview and stash are at 100%, fire and vhs at 95%, vigil 91% → 95%, and ats-fill and motor-pool 64% → 86%.
+- **Checklist misses:** every render passed the checklist, but review still found two real defects.
+  - vigil `visual-17s` told viewers Visual Docs was "not scored". It is scored. Its captured card even showed "(not scored)", because the promo capture fixture still set `informational` on `visual_docs`. Fixed copy, share copy and fixture, then recaptured and re-rendered. The e2e fixture is vigil#292.
+  - fire `brag-22s-vert` clipped the dashboard at 1080 px, cutting off the spend rate and the legend. Refit the crop and re-rendered.
+  - Neither vertical was mirrored onto its features' `spots[]`.
+- **Friction:**
+  - `build.sh --recapture` rewrote six Pages screenshots as a side effect.
+  - `--publish` has no target for `-vert` spots.
+  - skyview's vertical leaves the bottom third empty.
+  - CodeRabbit's free tier rate-limited several PRs. Self-review per Austin's rule covered them.
+- **Promote:**
+  - Done in .github#26: check claims against the code (copy, share copy and captured UI); run `git status` after a render; vertical frame checks (no clipping, no dead third); the manual publish path including `spots[]`.
+  - Next: T2 (nitsuah-io, bb-mcp, darkmoon). `fix screenshots` per T1 repo, working through the "Capture for promo" TASKS lines, is what turns the remaining `linked` cells green.
