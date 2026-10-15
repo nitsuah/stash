@@ -288,7 +288,7 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 
 ## Later
 
-- [ ] Render and Playwright throughput on the primary desktop (Ryzen 7 + RTX 4080). This is blocked until the desktop is set up. The plan is in `agent/prompts/PROMO.md` § "Waiting on the desktop": WSL memory, parallel renders, `RENDER_WORKERS`, NVENC/GPU raster, and CI renders. Benchmark one spot before and after.
+- [ ] Render and Playwright throughput on the primary desktop (Ryzen 7 + RTX 4080). This is blocked until the desktop is set up. The plan is in `agent/prompts/PROMO.md` § "Waiting on the desktop": WSL memory, parallel renders, `RENDER_WORKERS`, NVENC/GPU raster, and CI renders. Done when both benchmarks are logged before and after: render (frames/s and wall time for `journeys-19s`) and Playwright (wall time and safe concurrency for fire's journeys).
   - Priority: P2
   - Type: Infrastructure
   - Blocked on: desktop setup (the laptop's Docker is capped at 8 GB, which serializes every render and Playwright job)

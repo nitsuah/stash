@@ -24,12 +24,18 @@ The RSI log for the `/promo` skill (`~/.claude/skills/promo/SKILL.md`, upstream 
 Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 4080). Set 2026-10-15. Tracked in `docs/TASKS.md` under Later.
 
 - **Why:** the laptop (Ryzen 9 5900HX, TDP-locked RTX 3070, 15.4 GB RAM, no `.wslconfig`) gives Docker only 8 GB. Renders run at about 1.5–3 fps (a 20 s spot takes 3–6 min, mostly headless-Chromium frame capture), and every render or Playwright job had to run alone behind `~/code/.docker-lock`. The T1/T2 waves spent hours queued. The desktop also has no thermal or TDP ceiling on long all-core renders.
-- **Steps, in order. Benchmark one spot (frames per second, wall time) before step 1 and after each step, and log the numbers here:**
+- **Benchmarks.** Run both before step 1 and after each step, and log the numbers here:
+  - **Render:** one spot, the same one each time (stash `journeys-19s`, compose-only and no /brag). Record frames per second and wall time.
+  - **Playwright:** one fixed workload, fire's journeys (`npm run test:journeys` in its pinned image, `--repeat-each 3`). Record wall time. Also record how many of these can run at once without failures or OOM. That number replaces the one-at-a-time Docker lock.
+- **Steps, in order:**
   1. Create `%USERPROFILE%\.wslconfig` with `[wsl2]`, `memory=` (total RAM minus about 4 GB) and `processors=` (all threads), then run `wsl --shutdown` and restart Docker Desktop. Then let wave briefs run two or three Docker jobs at once and relax the lock.
   2. Raise `RENDER_WORKERS` (default 4) in each repo's `promo/render.js` / `render.cjs` up to the core count. Watch memory.
   3. Use the GPU: run `docker run --gpus all` (Docker Desktop supports it on WSL2), encode with ffmpeg `h264_nvenc`, and try Chromium GPU raster (`--use-gl=egl`). Keep x264 where NVENC quality loses on the contact sheet.
   4. Optionally render compose-only spots (stash, bb-mcp, nitsuah-io, skyview: no /brag in the loop) in GitHub Actions through `workflow_dispatch` on the free public-repo runners, then download the artifact for review. Spots that use /brag stay local.
-- **Done when:** a full render wave runs in parallel, and the per-spot wall time is logged here before and after.
+- **Done when:**
+  - a full render wave runs in parallel;
+  - Playwright suites run concurrently without failures;
+  - both benchmarks (render frames/s and wall time; Playwright wall time and safe concurrency) are logged here before and after.
 
 ## Run log
 
