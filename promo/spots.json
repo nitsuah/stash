@@ -3,83 +3,96 @@
   "live": null,
   "page": "https://nitsuah.github.io/stash/",
   "pagesDir": "pages",
+  "frontend": false,
   "features": [
     {
       "id": "flask-python",
       "title": "Flask (Python)",
       "category": "Backend API Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "express-node-js",
       "title": "Express (Node.js)",
       "category": "Backend API Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "postgresql",
       "title": "PostgreSQL",
       "category": "Database Schema Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "mongodb",
       "title": "MongoDB",
       "category": "Database Schema Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "oauth-2-0-oidc",
       "title": "OAuth 2.0 / OIDC",
       "category": "SSO / Identity Management Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "saml-2-0",
       "title": "SAML 2.0",
       "category": "SSO / Identity Management Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "aws-sso-iam-identity-center",
       "title": "AWS SSO / IAM Identity Center",
       "category": "SSO / Identity Management Examples",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "9router",
       "title": "9router",
       "category": "AI Agent System",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "eng-loc-skill",
       "title": "eng-loc skill",
       "category": "AI Agent System",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "eng-mini-skill",
       "title": "eng-mini skill",
       "category": "AI Agent System",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "journeys",
       "title": "Journeys",
       "category": "AI Agent System",
       "screenshots": [
-        "pages/assets/journeys-insights.png"
+        "pages/assets/journeys-fee.png",
+        "pages/assets/journeys-insights.png",
+        "pages/assets/journeys-phone.png"
       ],
       "spots": [
         "journeys-19s"
@@ -89,21 +102,27 @@
       "id": "repo-docs-sync",
       "title": "Repo docs sync",
       "category": "Vault Tooling",
-      "screenshots": [],
+      "screenshots": [
+        "docs/screenshots/vault-graph.png"
+      ],
       "spots": []
     },
     {
       "id": "vault-hub-links",
       "title": "Vault hub links",
       "category": "Vault Tooling",
-      "screenshots": [],
+      "screenshots": [
+        "docs/screenshots/vault-graph.png"
+      ],
       "spots": []
     },
     {
       "id": "mirror-enrichment",
       "title": "Mirror enrichment",
       "category": "Vault Tooling",
-      "screenshots": [],
+      "screenshots": [
+        "docs/screenshots/vault-graph.png"
+      ],
       "spots": []
     },
     {
@@ -111,20 +130,24 @@
       "title": "Doc link fixer",
       "category": "Vault Tooling",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "routine-owned-diff-gate",
       "title": "Routine-owned diff gate",
       "category": "Vault Tooling",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "orphan-finder",
       "title": "Orphan finder",
       "category": "Vault Tooling",
-      "screenshots": [],
+      "screenshots": [
+        "docs/screenshots/vault-graph.png"
+      ],
       "spots": []
     },
     {
@@ -132,27 +155,37 @@
       "title": "Jira runbook",
       "category": "Vault Tooling",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "per-directory-readmes",
       "title": "Per-directory READMEs",
       "category": "Vault Tooling",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "remora",
       "title": "Remora",
       "category": "Projects",
-      "screenshots": [],
+      "screenshots": [
+        "projects/remora/assets/remora-home.png",
+        "projects/remora/assets/remora-imports.png",
+        "projects/remora/assets/remora-reports.png",
+        "projects/remora/assets/remora-tools.png"
+      ],
       "spots": []
     },
     {
       "id": "sampler",
       "title": "Sampler",
       "category": "Projects",
-      "screenshots": [],
+      "screenshots": [
+        "projects/sampler/assets/sampler-home.png",
+        "projects/sampler/assets/sampler-calibration.png"
+      ],
       "spots": []
     },
     {
@@ -166,7 +199,10 @@
       "id": "pfa",
       "title": "PFA",
       "category": "Projects",
-      "screenshots": [],
+      "screenshots": [
+        "projects/pfa/power-failure-alarm.png",
+        "projects/pfa/pfa_pcb.png"
+      ],
       "spots": []
     },
     {

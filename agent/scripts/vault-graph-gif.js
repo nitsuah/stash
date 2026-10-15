@@ -14,7 +14,7 @@
  * Normally run through vault-graph-gif.ps1 (Docker: Node + ffmpeg, no host
  * toolchain). Direct use:
  *   npm i d3-force@3 pureimage@0.4    (in any scratch dir next to a copy of this file)
- *   VAULT=<stash>/agent OUT_DIR=<stash>/pages/assets node vault-graph-gif.js
+ *   VAULT=<stash>/agent OUT_DIR=<stash>/docs/screenshots node vault-graph-gif.js
  *   PREVIEW=1 ...   → settled last frame only, OUT_DIR/vault-graph-preview.png
  *   SNAPSHOT_JSON=<file> ...  → also dump nodes, edges and per-frame positions
  *                               (for redrawing the animation elsewhere, e.g. a video)
@@ -28,7 +28,7 @@ const pureimage = require('pureimage');
 
 const FFMPEG     = process.env.FFMPEG_PATH || 'ffmpeg';
 const VAULT      = path.resolve(process.env.VAULT || path.join(__dirname, '..'));
-const OUT_DIR    = path.resolve(process.env.OUT_DIR || path.join(VAULT, '..', 'pages', 'assets'));
+const OUT_DIR    = path.resolve(process.env.OUT_DIR || path.join(VAULT, '..', 'docs', 'screenshots'));
 const FRAMES_DIR = path.join(os.tmpdir(), 'vault-graph-frames');
 const NAME       = 'vault-graph';
 

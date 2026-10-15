@@ -1,0 +1,24 @@
+flowchart LR
+  subgraph sched["Schedulers"]
+    local["Local scheduled tasks<br/>daily-repo-sync, week-sotu, monthly audits"]
+    cloud["Cloud routines<br/>eng-loc, eng-mini, vuln, obn-import"]
+  end
+  subgraph spec["Specs in agent/prompts and agent/routines"]
+    daily["DAILY.md steps 0-4"]
+    others["SOTU, PMO, TIRE, RSI, LOC, MINI"]
+  end
+  local --> daily
+  local --> others
+  cloud --> others
+  daily --> sync["sync-repos.ps1<br/>mirror repo docs into agent/repos"]
+  sync --> enrich["enrich-mirror.py<br/>up and source frontmatter"]
+  daily --> notes["Daily and weekly notes<br/>agent/notes"]
+  others --> reports["Reports<br/>agent/reports"]
+  enrich --> hubs
+  notes --> hubs
+  reports --> hubs["build-vault-indexes.py<br/>hub links, prev and next nav"]
+  hubs --> pr["obn PR on obn/ branch"]
+  pr --> gate["check-generated-diff.py<br/>routine-owned files only"]
+  gate -->|"green and passes"| merge["Squash merge to main"]
+  gate -->|"anything else"| human["Left open for a human"]
+  merge --> vault["Linked vault<br/>graph with one cluster per repo"]
