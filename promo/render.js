@@ -18,6 +18,7 @@ const [W, H] = cfg.size || [1920, 1080];
     const open = async () => {
         const page = await browser.newPage({ viewport: { width: W, height: H } });
         page.on('pageerror', (e) => console.error('[page]', e.message));
+        await page.addInitScript((c) => { window.SPOT = c; }, cfg);
         await page.goto(`file:///repo/promo/${spot}/compose.html`);
         await page.evaluate(async () => {
             await document.fonts.ready;

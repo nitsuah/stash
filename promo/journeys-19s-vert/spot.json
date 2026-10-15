@@ -1,0 +1,76 @@
+{
+  "title": "stash · journeys — vertical short (narrated)",
+  "format": "vertical",
+  "size": [
+    1080,
+    1920
+  ],
+  "synth": "journeys-19s",
+  "duration": 19,
+  "fps": 30,
+  "poster": 2.4,
+  "scenes": [
+    [
+      "title",
+      0,
+      3
+    ],
+    [
+      "review",
+      3,
+      7.5
+    ],
+    [
+      "nightly",
+      7.5,
+      12
+    ],
+    [
+      "lifecycle",
+      12,
+      16.5
+    ],
+    [
+      "outro",
+      16.5,
+      19
+    ]
+  ],
+  "narration": {
+    "voice": "af_heart",
+    "speed": 1,
+    "lines": [
+      {
+        "id": "01",
+        "at": 0.3,
+        "dur": 1.69,
+        "text": "QA before you have users."
+      },
+      {
+        "id": "02",
+        "at": 3.2,
+        "dur": 4.12,
+        "text": "An AI uses it once, like a new user, and files what it finds."
+      },
+      {
+        "id": "03",
+        "at": 7.7,
+        "dur": 4.01,
+        "text": "Then a plain bot walks seven journeys every night. Zero tokens."
+      },
+      {
+        "id": "04",
+        "at": 12.2,
+        "dur": 2.5,
+        "text": "It files, dedups and closes its own bugs."
+      },
+      {
+        "id": "05",
+        "at": 16.5,
+        "dur": 2.43,
+        "text": "Slash journeys. Run it on your repo.",
+        "cap": "/journeys. Run it on your repo."
+      }
+    ]
+  }
+}
