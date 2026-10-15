@@ -1,0 +1,8 @@
+flowchart LR
+  vault["agent/ vault<br/>notes and wikilinks"] --> gen["vault-graph-gif.js<br/>seeded d3-force layout"]
+  cfg["agent/.obsidian graph.json<br/>and app.json filters"] -.-> gen
+  gen --> out["docs/screenshots<br/>vault-graph png, webp, gif, json"]
+  out --> bot["visual-docs.yml<br/>bot PR"]
+  out --> pages["pages.yml<br/>copies into the Pages artifact"]
+  pages --> site["GitHub Pages<br/>How it works"]
+  out --> readme["README visual-docs block"]

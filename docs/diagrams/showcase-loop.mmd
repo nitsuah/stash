@@ -1,0 +1,14 @@
+flowchart LR
+  scan["visual_board.py<br/>scan tracked public repos"] --> json["visual-board.json<br/>gitignored"]
+  json --> art["Showcase board artifact<br/>visual-board-page.html"]
+  daily["DAILY.md Showcase board step"] --> scan
+  daily --> pick["Daily note line<br/>today's pick"]
+  scan --> pick
+  pick --> promo["promo fix cells<br/>one repo, one PR"]
+  promo --> ci["Repo visual-docs workflow<br/>screenshots and diagrams"]
+  ci --> botpr["Bot PR on bot/visual-docs"]
+  botpr --> merged["Merged to default branch"]
+  merged --> scan
+  promo --> rsi["PROMO.md RSI log<br/>friction and promotions"]
+  rsi --> skill["promo skill and board rules"]
+  skill --> promo
