@@ -61,19 +61,32 @@ def tier_of(repo: str) -> str:
 
 def tracked_repos() -> list[dict]:
     """Rows of scope.md's '## Tracked' table: name, local path, owner/repo."""
-    repos, in_table = [], False
+    # Columns are found by header name, so adding or reordering a column (the Tier
+    # column, 2026-10-15) can't silently empty the list.
+    repos, in_table, col = [], False, {}
     for line in SCOPE.read_text(encoding="utf-8").splitlines():
         if line.startswith("## "):
             in_table = line.strip() == "## Tracked (active audit/automation scope)"
             continue
-        if not in_table or not line.startswith("| ") or line.startswith(("| Repo", "|---")):
+        if not in_table or not line.startswith("| ") or line.startswith("|---"):
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
-        path = re.search(r"`([^`]+)`", cells[1])
-        url = re.search(r"https://github\.com/([\w.-]+/[\w.-]+)", cells[2])
+        if cells[0] == "Repo":
+            col = {name.lower(): i for i, name in enumerate(cells)}
+            continue
+        if not col:
+            continue
+        def cell(name: str, cells: list[str] = cells) -> str:
+            i = col.get(name)
+            return cells[i] if i is not None and i < len(cells) else ""
+
+        path = re.search(r"`([^`]+)`", cell("local path"))
+        url = re.search(r"https://github\.com/([\w.-]+/[\w.-]+)", cell("github url"))
         if path and url:
-            private = len(cells) > 4 and "private" in cells[4].lower()
+            private = "private" in cell("visibility").lower()
             repos.append({"repo": cells[0], "path": path.group(1), "full_name": url.group(1), "private": private})
+    if not repos:
+        raise SystemExit(f"tracked_repos: no rows parsed from {SCOPE} (heading or column names changed?)")
     return repos
 
 
