@@ -19,6 +19,7 @@ Learns from your resume and saved profile data so future applications can be com
 - **Resume Learning**: Extracts and reuses experience, education, skills, and personal details from your resume
 - **Profile Reuse**: Applies previously captured candidate information across multiple job applications
 - **Memory Review Controls**: Lets you edit, ignore, restore, and remove remembered answers directly from Profile
+- **Your Answers Only**: Memory and page drafts keep what you typed or changed, not values ats-fill filled that you never touched, and skip placeholder non-answers
 
 ### 🎯 Job Matching and Response Generation
 
@@ -33,6 +34,9 @@ Focuses on reducing manual effort during the application process.
 
 - **Form Fill Automation**: Automatically fills supported application forms with candidate and job-specific data
 - **Supported ATS Platforms**: Works with supported applicant tracking systems used by common job portals and employer sites
+- **Resume Attach**: Attaches your saved resume PDF to Resume/CV upload fields when you fill (toggle under Profile → Saved local copy)
+- **Type-Ahead Dropdowns**: Picks the matching option in searchable dropdowns (country, city, Yes/No, EEO lists) instead of leaving typed text behind; unmatched dropdowns are flagged for review
+- **Yes/No Button Questions**: Answers Ashby-style Yes/No button questions when the answer is an explicit yes or no; anything else is left for review
 - **Receiver Auto-Recovery**: Retries content-script injection automatically when a supported page initially has no active receiver
 
 ### 🤖 AI-Powered Writing Tools
@@ -62,6 +66,7 @@ Designed so the user stays in control of all data without relying on any externa
 - **LinkedIn OAuth Import**: BYO LinkedIn app Client ID/Secret; launches OIDC sign-in to pre-fill name and email into the profile (local-only, consent-based)
 - **Google OAuth Import**: BYO Google Cloud OAuth Client ID/Secret; same local-only, consent-based OIDC sign-in flow as LinkedIn, pre-fills name and email
 - **Resume Upload**: Supports PDF, DOCX, and plain-text paste; parsed locally via Gemini if a key is present
+- **Remove Duplicates**: One button merges tracker entries for the same posting (matched by job ID in the URL, or company + title logged within a week), keeping the furthest-along status and every detail, after showing you each merge
 - **CSV Tracker Import**: Import past applications from any spreadsheet export using flexible header matching
 - **Tracker CLI and inbox sync** (`npx -y github:nitsuah/ats-fill`): read the pipeline from a terminal or scheduled routine straight from the extension's on-disk storage, and turn job emails (application confirmations, interview requests, rejections, offers) into forward-only tracker updates
 - **AI assistant access** (optional): let Claude or another assistant on your computer add and update tracker entries through a local helper, without remote debugging or any open port; it can't delete or see anything else

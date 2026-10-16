@@ -17,11 +17,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fill no longer puts profile values into long questions that merely use a field word: "…solutions to **address** recurring challenges?" got the street address, and "…located within the United **States**?" was treated as a standard field and never answered. Single words (address, state, name, available) now only match whole words in label-sized text.
+- Last names no longer include a middle name or initial ("Austin J. Hardy" filled Last Name as "J. Hardy").
+- The last-resort label matcher uses whole words, and a one-word saved answer only matches a label-sized prompt. "Did someone refer you? …share their name" was getting the applicant's own name, and "Do you reside in the United States?" was getting the state abbreviation.
+- Required-marker labels ("…United States?*") are recognised as questions, so they get drafted answers instead of being skipped.
+- A radio or checkbox group that needs review is listed once under its question instead of once per option, and react-select's hidden "required" helper inputs no longer show up as "unlabeled field".
+- A type-ahead's search text is kept out of page drafts and learned memory, so a half-typed search ("United St") is never replayed on another form.
+- Filled fields now get the focus-in / focus-out events a real click-in and tab-out would send. Ashby only commits a typed value to its form model on blur (React onBlur runs on focusout), so filled fields looked complete but failed "Missing entry for required field" on submit.
+- Ashby Yes/No questions are answered by clicking the Yes or No button (only for an explicit yes/no answer; anything else is left for review).
+- AI non-answers ("Not specified in the provided information.", "N/A") are no longer filled or remembered; the field is flagged for review instead.
+- "Other: please specify" boxes are no longer filled with the group's answer (it put the race answer into the race "Other" box).
+- Twitter / X fields are no longer filled with the portfolio URL.
+- Values ats-fill typed and the user never changed are kept out of page drafts and learned memory, so one bad fill no longer comes back on reload, gets counted as "kept" by the next fill, or is reused on other applications. Radio groups are learned under their question instead of an option label.
+
+- Standalone home masthead stacks under 640px, so the intro no longer squeezes to one word per line and the stats bar no longer overlaps it; the standalone page no longer overflows sideways by the scrollbar width (#142).
+
 ### Added
 
+- **Type-ahead dropdowns** (Greenhouse react-select, Ashby autocomplete): Fill opens the menu, searches, and clicks the option containing every word of the answer, with US states and countries spelled out ("Sevierville, TN, US" → "Sevierville, Tennessee, United States"). Short lists also match explicit Yes/No answers, "US Citizen" for work-authorization (Yes) and sponsorship (No) questions, gender wording (Male/Man), and each form's own "prefer not to say" option. Anything else is cleared and left for review.
+- **Resume attach on fill**: Fill attaches the saved resume PDF to Resume/CV upload fields (never to cover-letter or "autofill from resume" inputs, never over a file already chosen), and the fill summary says so. A checkbox under Profile → Saved local copy turns it off.
+- **Remove duplicates** (Tracker toolbar): merges tracker entries for the same application. Entries match when their URLs point at the same posting (Greenhouse/Ashby/Lever/LinkedIn job IDs, ignoring apply/confirmation steps and tracking parameters), or when company and title both match and they were logged within 7 days; title and company alone are not enough. Each merge keeps the furthest-along status, the earliest date and every detail the others had, and the button lists every merge for confirmation first.
 - **Nightly journeys** (`tests/journeys/`, `.github/workflows/journeys.yml`, `npm run test:journeys`): 8 journeys (home on a Greenhouse page, fill a fictional application, pipeline, analytics, interview prep, job search with filters, optional sources in Settings, phone) with 12 visual baselines, driven through the real extension on the demo state and tagged with the feature ids in `promo/spots.json`. Failures become deduplicated `bot:journey` issues through the shared `nitsuah/.github` harness with no AI. Replaces the artifact-only `playwright-nightly.yml`; `ci.yml` still runs the full e2e suite on every PR. The one-time review pass filed #142 (phone home masthead).
 - Mermaid architecture and form-fill-flow diagrams in `docs/diagrams/`, embedded in the README. The `screenshot-gallery` CI job renders them (pinned `minlag/mermaid-cli`) and the rolling "docs: refresh UI screenshots" PR now carries the `.svg` renders too.
 - `promo/spots.json`: existing gallery screenshots linked to the features they show, and non-visual features marked `"visual": "none"`. No spot, reel or video changed.
+
+### Changed
+
+- Docs: merged the duplicate 1.0.3 rows in CHROMEWEBSTORE.md's version history.
+
+### Fixed
+
+- **AI assistant access** wouldn't turn on from the toolbar popup: Chrome's Allow prompt could close along with the popup, so the permission was never granted and the helper never heard from ats-fill. The background now asks for the permission (the popup only relays the click), so the prompt stays up, and Settings says when the prompt was closed instead of looking switched on.
+- **AI assistant access** setup on Windows now registers the helper through Explorer and confirms it. Run from inside a packaged app such as the Claude desktop app, the old `reg add` landed in that app's private copy of the registry, so Chrome kept reporting "Specified native messaging host not found". Settings now shows the real connection error and when ats-fill last tried, instead of a generic setup hint.
 
 ## [1.0.3] - 2026-10-14
 

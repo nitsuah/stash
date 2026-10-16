@@ -31,7 +31,7 @@ Open 2026 items are tracked below and in `docs/ROADMAP.md` 2027 Q1.
 
 ## Todo
 
-- [ ] Fix the two defects from the journeys review pass.
+- [x] Fix the two defects from the journeys review pass. Done 2026-10-15: #189 platform sidebar wraps at phone width; #190 privacy page loads main.js as a module.
   - Priority: P2
   - #189: signed-in platform pages are 630px wide at 390px (`platform/src/styles/app.css:272-277`, sidebar nav row doesn't wrap), so "Sign out" is cut off.
   - #190: `pages/privacy.html:318` loads `scripts/main.js` without `type="module"`, so it throws and nothing initialises.

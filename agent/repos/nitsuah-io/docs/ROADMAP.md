@@ -59,7 +59,7 @@ Next Review: 2026-10-24
 - [ ] AI-generated project summaries with human-editable overrides.
 
 #### Web3 Depth
-- [ ] Expand wallet-flow coverage in Playwright Nightly (connection, signing, disconnect).
+- [ ] Expand wallet-flow coverage in Playwright Nightly (connection, signing, disconnect). Connect and disconnect are covered by a journey in `journeys.yml` (2026-10-15); signing is not.
 - [ ] Add EIP-6963 multi-wallet discovery support.
 - [ ] Hardware wallet path (Ledger/Trezor) for Labs contract interactions.
 - [ ] Farm staking demo: embed live staking flow pulling from farm repo contracts.
