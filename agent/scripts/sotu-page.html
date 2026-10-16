@@ -96,6 +96,8 @@ footer{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-3)
     const c=d.counts||{}; const q=d.quota;
     $("stats").innerHTML=[`<span>updated <b>${esc((d.generated_at||"").replace("T"," ").slice(0,16))} UTC</b></span>`,
       `<span>source <b>${esc(d.source)}</b></span>`,
+      d.scope?`<span>scope <b>tier ${esc(Array.isArray(d.scope.tiers)?d.scope.tiers.join("+"):d.scope.tiers)}</b> · ${esc((d.scope.repos||[]).length)} repos (tiers from ${esc(d.scope.tier_source)})</span>`:"",
+      (d.tier_drift||[]).length?`<span>scope.md tier drift <b>${esc(d.tier_drift.map(x=>x.repo+" "+x.scope_md+"→"+x.vigil).join(", "))}</b></span>`:"",
       `<span>open <b>P0 ${c.P0||0} · P1 ${c.P1||0} · P2 ${c.P2||0}</b></span>`,
       q?`<span>quota <b>weekly ${esc(q.weekly)}% · 5h ${esc(q.five_hour)}%</b> resets ${esc(q.weekly_resets)}</span>`:""].join("");
     if(d.focus){$("focus").textContent=d.focus;$("focus").hidden=false;}

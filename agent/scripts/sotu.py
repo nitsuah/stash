@@ -5,15 +5,20 @@ Deterministic: gathers open work and routine health into one JSON file plus a
 Markdown summary, so the routine only has to add a short "focus" note instead of
 hand-writing a report. Standard library only.
 
+Scope: tier 1 and 2 repos only. Tiers come from vigil's live `repos[].tier`
+(GET /api/context) when VIGIL_MCP_KEY is set, else from scope.md's Tier column;
+disagreements are reported as drift so scope.md can be corrected.
+
 Sources, in order:
-  1. vigil MCP `get_open_tasks` when VIGIL_MCP_KEY is set (one HTTP call).
-  2. Otherwise each tracked repo's TASKS.md (root or docs/), read from the
-     local clone's origin default branch, parsed with vigil's rules.
+  1. Each in-scope repo's TASKS.md (root or docs/), read from the local clone's
+     origin default branch right after a fetch, parsed with vigil's rules. This is
+     the default because vigil's task cache lags same-day merges by hours.
+  2. vigil MCP `get_open_tasks` instead, only with --vigil-tasks.
   3. Open rows in agent/reports/findings-ledger.md.
   4. Optional --routines JSON written by the routine (routine health + quota).
 
 Usage:
-  python agent/scripts/sotu.py [--routines path.json] [--no-vigil]
+  python agent/scripts/sotu.py [--routines path.json] [--no-vigil] [--vigil-tasks] [--all-tiers]
 Writes agent/reports/sotu/sotu-data.json and agent/reports/sotu/sotu-<YYYY>-W<ww>.md.
 """
 from __future__ import annotations
@@ -33,12 +38,10 @@ SCOPE = STASH / "agent" / "projects" / "scope.md"
 LEDGER = STASH / "agent" / "reports" / "findings-ledger.md"
 OUT_DIR = STASH / "agent" / "reports" / "sotu"
 VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://gh-vigil.netlify.app/api/mcp")
+VIGIL_CONTEXT_URL = os.environ.get("VIGIL_CONTEXT_URL", "https://gh-vigil.netlify.app/api/context")
 
-# Display grouping only. Repos not listed land in tier III.
-TIERS = {
-    "I": ["vigil", "fire", "skyview", "ats-fill", "motor-pool", "vhs", "stash"],
-    "II": ["darkmoon", "bb-mcp", "nitsuah-io", "deployer"],
-}
+# SOTU covers vigil tiers 1 and 2 only (T1 Critical, T2 Important). "-" = not registered in vigil.
+SCOPE_TIERS = {"1", "2"}
 PRIO_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, None: 4}
 HUMAN_OWNER = re.compile(r"\b(you|austin|human|manual|owner)\b", re.IGNORECASE)
 PARKED = re.compile(r"(20\d\d)[- ]Q[1-4]|\bdeferred\b|\bon hold\b|\bblocked\b", re.IGNORECASE)
@@ -52,11 +55,38 @@ ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger
 PRIO_SCORE = {"P0": 100, "P1": 60, "P2": 30, "P3": 10, None: 5}
 
 
-def tier_of(repo: str) -> str:
-    for tier, names in TIERS.items():
-        if repo in names:
-            return tier
-    return "III"
+def norm_tier(raw: str | None) -> str:
+    """'T1' / 'Tier 1' / '1' -> '1'; anything else (unregistered, '—') -> '-'."""
+    m = re.search(r"([1-4])", raw or "")
+    return m.group(1) if m else "-"
+
+
+def vigil_tiers() -> dict[str, str] | None:
+    """Live tiers from vigil's /api/context, keyed by repo name. None when vigil can't be read."""
+    key = os.environ.get("VIGIL_MCP_KEY")
+    if not key or not VIGIL_CONTEXT_URL.startswith("https://"):
+        return None
+    req = urllib.request.Request(VIGIL_CONTEXT_URL, headers={"Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            ctx = json.load(resp)
+    except Exception as exc:  # fall back to scope.md, but say why
+        print(f"vigil tiers unavailable ({exc}); using scope.md's Tier column", file=sys.stderr)
+        return None
+    return {r["name"]: norm_tier(r.get("tier")) for r in ctx.get("repos", []) if r.get("name")}
+
+
+def apply_tiers(repos: list[dict], live: dict[str, str] | None) -> list[dict]:
+    """Set each repo's tier (vigil wins over scope.md) and return the rows where scope.md disagrees."""
+    drift = []
+    for r in repos:
+        if live is None:
+            r["tier"] = r["scope_tier"]
+            continue
+        r["tier"] = live.get(r["repo"], "-")
+        if r["tier"] != r["scope_tier"]:
+            drift.append({"repo": r["repo"], "vigil": r["tier"], "scope_md": r["scope_tier"]})
+    return drift
 
 
 def tracked_repos() -> list[dict]:
@@ -84,7 +114,8 @@ def tracked_repos() -> list[dict]:
         url = re.search(r"https://github\.com/([\w.-]+/[\w.-]+)", cell("github url"))
         if path and url:
             private = "private" in cell("visibility").lower()
-            repos.append({"repo": cells[0], "path": path.group(1), "full_name": url.group(1), "private": private})
+            repos.append({"repo": cells[0], "path": path.group(1), "full_name": url.group(1), "private": private,
+                          "scope_tier": norm_tier(cell("tier"))})
     if not repos:
         raise SystemExit(f"tracked_repos: no rows parsed from {SCOPE} (heading or column names changed?)")
     return repos
@@ -240,9 +271,9 @@ def classify(t: dict) -> dict:
     t["initiative"] = initiative
     t["routine_candidate"] = initiative and bool(ROUTINE_CANDIDATE.search(t["title"]))
     # Initiatives reach every tracked repo, so they get 1.5x; single-app items keep their own priority
-    # weight, plus a small bump for tier I apps. A P1 app item still outranks a P2 initiative.
+    # weight, plus a small bump for tier 1 apps. A P1 app item still outranks a P2 initiative.
     score = PRIO_SCORE.get(t["priority"], 5) * (1.5 if initiative else 1.0)
-    if not initiative and tier_of(t["repo"]) == "I":
+    if not initiative and t.get("tier") == "1":
         score += 5
     t["score"] = round(score, 1)
     return t
@@ -258,12 +289,21 @@ def public_view(t: dict, private: set[str]) -> dict:
     return {**t, "ref": safe_ref, "criteria": None, "owner": None, "section": None}
 
 
-def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dict:
-    repos = tracked_repos()
+def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_tiers: bool = False,
+          vigil_task_source: bool = False) -> dict:
+    all_repos = tracked_repos()
+    live = vigil_tiers() if use_vigil else None
+    drift = apply_tiers(all_repos, live)
+    repos = all_repos if all_tiers else [r for r in all_repos if r["tier"] in SCOPE_TIERS]
+    if not repos:
+        raise SystemExit("build: no tier 1/2 repos in scope (vigil tiers unreadable and scope.md Tier column empty?)")
+    in_scope = {r["repo"] for r in repos}
+    out_of_scope = {r["repo"] for r in all_repos} - in_scope
+    tier_by = {r["repo"]: r["tier"] for r in all_repos}
     by_name = {r["repo"]: r for r in repos}
     private = {r["repo"] for r in repos if r["private"]}
     stale = fetch_all(repos) if fetch else []
-    tasks = vigil_tasks(repos) if use_vigil else None
+    tasks = vigil_tasks(repos) if use_vigil and vigil_task_source else None
     source, missing = ("vigil", [])
     if tasks is None:
         tasks, missing = local_tasks(repos)
@@ -278,9 +318,11 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dic
             filled = sorted({t["repo"] for t in extra})
             if filled:
                 source = f"vigil + local TASKS.md ({', '.join(filled)})"
-    tasks = [classify(public_view(t, private)) for t in tasks]
+    tasks = [classify({**public_view(t, private), "tier": tier_by.get(t["repo"], "-")})
+             for t in tasks if t["repo"] in in_scope]
     tasks.sort(key=lambda t: (PRIO_RANK.get(t["priority"], 4), t["status"] != "in-progress", t["repo"]))
-    ledger = ledger_items()
+    # Ledger rows for out-of-scope repos drop out; cross-cutting rows (e.g. "cloud routines") stay.
+    ledger = [i for i in ledger_items() if i["repo"] not in out_of_scope]
 
     needs_you = [dict(kind="task", **t) for t in tasks
                  if (t.get("owner") and HUMAN_OWNER.search(t["owner"])) or t["title"].lower().startswith("manual step")]
@@ -314,7 +356,10 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True) -> dic
         "source": source, "missing_tasks_file": missing, "stale_refs": stale,
         "counts": {p or "none": sum(1 for t in tasks if t["priority"] == p) for p in ("P0", "P1", "P2", "P3", None)},
         "needs_you": needs_you, "kickoff": kickoff, "aging": aging, "initiatives": initiatives,
-        "tasks": [dict(tier=tier_of(t["repo"]), **t) for t in tasks],
+        "tasks": tasks,
+        "scope": {"tiers": "all" if all_tiers else sorted(SCOPE_TIERS), "repos": sorted(in_scope),
+                  "excluded": sorted(out_of_scope), "tier_source": "vigil" if live is not None else "scope.md"},
+        "tier_drift": drift,
         "ledger_open": ledger,
         "routines": routines.get("routines", []), "quota": routines.get("quota"),
         "priorities": priorities,
@@ -325,6 +370,9 @@ def to_markdown(d: dict, week: str) -> str:
     L = [f"---\nkind: sotu\nweek: {week}\n---\n", f"# State of the Union — {week}\n",
          f"Generated {d['generated_at']} from {d['source']}. "
          f"Open tasks: " + ", ".join(f"{k} {v}" for k, v in d["counts"].items()) + ".\n",
+         f"Scope: tier {', '.join(d['scope']['tiers']) if d['scope']['tiers'] != 'all' else 'all'} repos "
+         f"per {d['scope']['tier_source']} ({', '.join(d['scope']['repos'])}). "
+         f"Left out: {', '.join(d['scope']['excluded']) or 'none'}.\n",
          "<!-- focus -->\n"]
     if d.get("quota"):
         q = d["quota"]
@@ -356,6 +404,9 @@ def to_markdown(d: dict, week: str) -> str:
     if low:
         L.append("\nP3 / unprioritized, counts only (full list in sotu-data.json): "
                  + ", ".join(f"{r} {n}" for r, n in sorted(low.items())) + ".")
+    if d.get("tier_drift"):
+        L.append("\nscope.md Tier column differs from vigil (update scope.md): "
+                 + ", ".join(f"{x['repo']} vigil {x['vigil']} vs scope.md {x['scope_md']}" for x in d["tier_drift"]) + ".")
     if d.get("stale_refs"):
         L.append(f"\nFetch failed, tasks may be stale: {', '.join(d['stale_refs'])}.")
     if d["missing_tasks_file"]:
@@ -366,10 +417,12 @@ def to_markdown(d: dict, week: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--routines", help="JSON with {routines: [...], quota: {...}} written by the routine")
-    ap.add_argument("--no-vigil", action="store_true", help="skip vigil even if VIGIL_MCP_KEY is set")
+    ap.add_argument("--no-vigil", action="store_true", help="skip vigil (tiers fall back to scope.md)")
+    ap.add_argument("--vigil-tasks", action="store_true", help="read tasks from vigil's cache instead of TASKS.md")
     ap.add_argument("--no-fetch", action="store_true", help="don't git fetch the tracked repos first")
+    ap.add_argument("--all-tiers", action="store_true", help="include tier 3/4 and unregistered repos")
     args = ap.parse_args()
-    data = build(args.routines, not args.no_vigil, not args.no_fetch)
+    data = build(args.routines, not args.no_vigil, not args.no_fetch, args.all_tiers, args.vigil_tasks)
     data["tasks"].sort(key=lambda t: (t["tier"], t["repo"], PRIO_RANK.get(t["priority"], 4)))
     y, w, _ = dt.date.today().isocalendar()
     week = f"{y}-W{w:02d}"
