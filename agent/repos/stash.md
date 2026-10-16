@@ -5,7 +5,7 @@ repo: stash
 
 # stash
 
-> Reviewed: 2026-10-10
+> Reviewed: 2026-10-16
 
 ## Overview
 
@@ -35,7 +35,8 @@ Austin J. Hardy's technical evolution archive — 15+ years of enterprise automa
 ## Open P0/P1 Tasks
 
 - [x] **P1 (added 2026-10-09, done same day)** Journeys rollout pilot on fire. fire#176 merged after nitsuah/.github#19, and the first `workflow_dispatch` run passed and created `bot/journeys`. Still needed: "Allow GitHub Actions to create and approve pull requests" in fire's Actions settings, for visual-docs. Next in the rollout (P2): vigil journeys, in nitsuah/vigil#282 (6 journeys, 12 baselines, soak 54/54; review pass filed vigil#275–#279 and #281). Earlier progress note: review pass filed fire#166–#175, 7 journeys / 19 baselines, soak 70/70, PR open on fire. Remaining: merge it after nitsuah/.github#19, then one `workflow_dispatch` run to create `bot/journeys` and confirm the reporter. Shared harness (nitsuah/.github#19) and the 1FLOW/RSI wiring are done.
-- [ ] **P1 (on hold since 2026-09-26)** CI-generated diagrams and screenshots for app repos, auto-embedded in READMEs. Raised from P2; parked as the next portfolio initiative, to be built into vigil once the MCP rollup and PMO UI ship.
+- [x] **P1 (closed 2026-10-15)** CI-generated diagrams and screenshots for app repos. The showcase board shows CI-regenerated screenshots and diagrams for every tier I repo (skyview, stash, fire, vhs, vigil, ats-fill, motor-pool) plus nitsuah-io and bb-mcp; vigil scores `visual_docs`. The remainder is a new P2 (infrastructure) blocked on the desktop setup, since the laptop's 8 GB Docker cap serializes renders and Playwright jobs.
+- Journeys rollout progress 2026-10-16: ats-fill and nitsuah-io run `journeys.yml` (10-15), skyview (skyview#191) and vhs (vhs#80) run the caller; darkmoon and games are left.
 
 The Vault scorecard follow-ups were all closed 2026-09-26/27 (vigil MCP connected, Stale hubs line, failed-run reporting, `title:` frontmatter on mirrors). Highest-priority open items otherwise (P2) from TASKS.md:
 

@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-15 — Drive backup status docs
+
+- **Changed:** FEATURES, README and integrations now show the hosted Google Drive round trip as verified (2026-10-14); self-hosted verification is still open.
+
 ### 2026-10-14 — Vertical short (showcase board)
 
 - **Added:** `brag-22s-vert`, a narrated 9:16 cut of the hero spot (22 s, 1080x1920, burned-in captions from the narration), published to `site/assets/brag-22s-vert.mp4`. `promo/render.js` reads `size` from `spot.json`; `promo/pipeline.sh` accepts `"synth": "<spot>"` so a spot can reuse another spot's music. The six 55–65 s tour spots stay unpublished (see TASKS: split them first).

@@ -86,10 +86,17 @@ npm run test:e2e:docker
 - `security-scan`: npm audit
 - `lighthouse-check`: PR performance audit
 
-### Playwright Nightly (`.github/workflows/playwright-nightly.yml`)
+### Journeys (`.github/workflows/journeys.yml`)
 
-- Scheduled + manual browser run
-- Uses `FORCE_BROWSER_E2E=1` to run browser-gated tests in CI context
+- Replaces `playwright-nightly.yml`. Nightly and manual runs of `tests/journeys` in the Playwright 1.64 noble image; PRs touching `src/`, `public/` or the journeys run them read-only
+- Eight visitor journeys, each step checked against a Linux baseline under `tests/journeys/__screenshots__` (`maxDiffPixels: 20`)
+- Nightly failures are filed as deduplicated `bot:journey` issues and close themselves after 3 green runs; `BUGS.md` lives on the `bot/journeys` branch
+- Regenerate baselines in Docker: `docker compose -f config/docker-compose.test.yml run --rm playwright npm run test:journeys -- --update-snapshots`
+- The smoke, wallet and accessibility specs in `tests/` no longer run nightly; run them with `npm run test:e2e:docker` (or `FORCE_BROWSER_E2E=1 npm run test:e2e`)
+
+### Visual docs (`.github/workflows/visual-docs.yml`)
+
+- Redraws `docs/screenshots/*.png` (`tests/visual`, `npm run capture:screenshots`) and `docs/diagrams/*.svg` on pushes to `main` and opens a `bot/visual-docs` PR
 
 ## Git Hooks
 

@@ -6,7 +6,7 @@ aliases: [auto-apply-plugin]
 
 # auto-apply-plugin
 
-> Reviewed: 2026-10-09
+> Reviewed: 2026-10-16
 
 ## Overview
 
@@ -24,7 +24,7 @@ aliases: [auto-apply-plugin]
 
 ## Open P0/P1 Tasks
 
-None open (updated 2026-10-01). `docs/TASKS.md` still says there are no open tasks after the 2027 Q1 planning reset. PR #122 (merged 2026-10-01) added the Chrome Web Store CTA across the site and README, a release workflow that builds the Store listing assets, a YouTube feature-tour video pipeline (`video/`), and expanded the `skills/ats-fill-job-search` Claude skill into a router plus references. PR #123 (bot screenshot refresh) is open. The local `origin` still points at the old `nitsuah/auto-apply-plugin` URL.
+None open (refreshed 2026-10-16 against the mirrored `docs/TASKS.md`). The CWS token re-mint and weekly token check are done (1.0.3 is the published Store version; the dispatch job passed on `main` 2026-10-15). Open below P1: P2 rework CWS releases so they stop queuing behind review; P2 (new 2026-10-16) opt-in "Full auto" mode that submits only when nothing needs review, plus multiple resume versions; P3 (new 2026-10-16) detect the ATS inside an embedded Greenhouse iframe (readiness card says "No job page" and the tracker logs split rows).
 
 
 ## Blockers

@@ -5,7 +5,7 @@ repo: fire
 
 # fire
 
-> Reviewed: 2026-10-10
+> Reviewed: 2026-10-16
 
 ## Overview
 
@@ -40,14 +40,14 @@ Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (
 
 ## Open P0/P1 Tasks
 
-_Refreshed 2026-10-10 against the mirrored `docs/TASKS.md` (new "Nightly journeys + review-pass findings" section, 2026-10-09)._
+_Refreshed 2026-10-16 against the mirrored `docs/TASKS.md` (Drive backup P0 closed 2026-10-14/15; eBay toast and Side Gig theming marked done in #138)._
 
 - [ ] **P1 (new 2026-10-09)** Fix the journeys review-pass findings (label `bot:review`): #169 insights equity % counts crypto, #170 single-stock warning fires on broad ETFs (wrong advice), #178 MCP `fire_status_summary` disagrees with the dashboard. P2 findings: #166, #167, #168, #171, #172, #173. A fix may change a journey baseline; regenerate it in Docker in the same PR.
 
-- [ ] **P0** Google Drive backup round-trip verification before rollout: prove encrypt → upload → download → decrypt end-to-end (Drive only sees ciphertext, wrong-key/corrupt backups fail cleanly) before the UI may report a successful backup.
+- [ ] **P1 (split from the closed P0, 2026-10-15)** Google Drive backup: report success only after a verified round trip. Live backup/restore through Drive is confirmed (self-hosted and lifefire.netlify.app); remaining: `runGDriveBackupNow()` in `app/lib/managers/gdrive-backup.js` says "Backup saved" as soon as the upload returns. Download and decrypt (or digest-check) first, with a unit test for the failed-verify path.
 - [ ] **P1** Serve Plaid on the Netlify deploy (lifefire.netlify.app). Progress 2026-09-30 (PR #146): `netlify/functions/plaid.mjs` serves all `/api/sync/plaid/*` routes with unit coverage. Remaining: a live Link → sync run on the hosted site and browser smoke coverage. Rule: any new `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
 - [ ] **P1, blocked on CoinTracker** CoinTracker MCP integration (#139 shipped the OAuth 2.1 + PKCE connector, merge rules and 42 tests). The issued token has `permissions: []` because the test account isn't enrolled in CoinTracker MCP early access. A P2 export-file fallback is queued, blocked on a sample export.
-- [ ] **P1** Browser/production-pass items: eBay connection completion as a toast + automatic sync; Side Gig Ledger form controls themed; provider-contract tests for every price/balance integration (HTML-instead-of-JSON failures); sync-health state in the Side Hustle Hub.
+- [ ] **P1** Browser/production-pass items: provider-contract tests for every price/balance integration (HTML-instead-of-JSON failures) and sync-health state in the Side Hustle Hub. (eBay connection toast + first sync and Side Gig Ledger theming were done in #138, 2026-09-28.)
 - [ ] **P1** Docs/promo: README feature-parity refresh, promo ledger audit, feature-discovery pass for the GitHub landing page.
 - [ ] **P1** Model real eBay fee brackets in `calculateEbayFeesTotal` (per-category fee-rule schema; CodeRabbit on PR #103).
 
