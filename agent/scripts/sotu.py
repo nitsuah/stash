@@ -351,6 +351,11 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_ti
     routines = json.loads(Path(routines_path).read_text(encoding="utf-8")) if routines_path else {}
     prio_path = OUT_DIR / "priorities.json"  # curated top initiatives + WSJF top 5 (SOTU.md step 5)
     priorities = json.loads(prio_path.read_text(encoding="utf-8")) if prio_path.exists() else {}
+    # Same rule as ledger rows: repo-specific entries for out-of-scope repos drop out of the
+    # output (the source file is left for SOTU.md step 7); cross-cutting entries stay.
+    for key in ("initiatives", "top5"):
+        if isinstance(priorities.get(key), list):
+            priorities[key] = [p for p in priorities[key] if p.get("repo") not in out_of_scope]
     return {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
         "source": source, "missing_tasks_file": missing, "stale_refs": stale,
