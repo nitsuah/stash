@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-15 — SOTU status sync
+
+- **Fixed:** the Portfolio Checklist was showing finished work as open. Closed ledger row F-20260930-03 (cloud daily-brief reaches vigil again, verified 10-14 and 10-15), ticked the diagrams/screenshots initiative, and emptied `priorities.json` (both initiatives and the WSJF #1 are done; the done items are kept under `done`). The matching product-repo TASKS fixes are nitsuah/fire#202, Nitsuah-Labs/nitsuah-io#575 and nitsuah/vigil#297.
+
 ### 2026-10-15 — Vertical short
 
 - **Added:** `journeys-19s-vert`, a 19 s 1080×1920 narrated cut of the journeys spot with burned-in captions, published to `pages/assets/`. Narration is Kokoro TTS through vigil's `vigil-promo-tts` image (`promo/tts/narrate.sh`, `mix.py`); the voice lines are committed in `promo/journeys-19s-vert/vo/`. `promo/build.sh` reuses another spot's `synth.py` via `"synth"` and mixes narration for spots with `"narration"`; `render.js` exposes the spot config to the page as `window.SPOT`.
