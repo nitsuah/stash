@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### 2026-10-15 — SOTU status sync
 
+- **Fixed:** a full check of every open task against code, merged PRs and CI found ten more done-but-unticked items (ats-fill CWS token and listing-assets job, fire eBay toast/ledger theme/PWA and the Drive follow-up, nitsuah-io journeys-review findings, osrs `recover()`, and the ats-fill/nitsuah-io journeys callers here). They are now closed at the source.
 - **Fixed:** the Portfolio Checklist was showing finished work as open. Closed ledger row F-20260930-03 (cloud daily-brief reaches vigil again, verified 10-14 and 10-15), ticked the diagrams/screenshots initiative, and emptied `priorities.json` (both initiatives and the WSJF #1 are done; the done items are kept under `done`). The matching product-repo TASKS fixes are nitsuah/fire#202, Nitsuah-Labs/nitsuah-io#575 and nitsuah/vigil#297.
 
 ### 2026-10-15 — Vertical short
