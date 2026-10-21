@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-21T06:16+00:00",
+  "generated_at": "2026-10-21T06:40+00:00",
   "source": "local TASKS.md",
   "missing_tasks_file": [],
   "stale_refs": [],
   "counts": {
     "P0": 0,
-    "P1": 22,
+    "P1": 21,
     "P2": 24,
     "P3": 26,
     "none": 1
@@ -14,19 +14,19 @@
   "kickoff": [
     {
       "repo": "fire",
-      "title": "Google Drive backup: report success only after a verified round trip",
+      "title": "Serve Plaid on the Netlify deploy (lifefire.netlify.app)",
       "ref": "docs/TASKS.md:42",
       "priority": "P1",
       "status": "todo",
       "owner": null,
       "section": "P1 \u2014 Integration & workflow improvements",
-      "criteria": "the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path).",
+      "criteria": "Link, public-token exchange, account/position refresh, and transaction sync all work on lifefire.netlify.app; each hosted function has unit coverage; browser smoke coverage exercises the hosted routes; no /api/sync/plaid/* request can fall through to an HTML Netlify 404.",
       "parked": false,
       "tier": "1",
       "initiative": false,
       "routine_candidate": false,
       "score": 65.0,
-      "prompt": "Kick off fire (C:\\Users\\ajhar\\code\\fire): \"Google Drive backup: report success only after a verified round trip\" (docs/TASKS.md:42, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker. Acceptance criteria: the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path)."
+      "prompt": "Kick off fire (C:\\Users\\ajhar\\code\\fire): \"Serve Plaid on the Netlify deploy (lifefire.netlify.app)\" (docs/TASKS.md:42, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker. Acceptance criteria: Link, public-token exchange, account/position refresh, and transaction sync all work on lifefire.netlify.app; each hosted function has unit coverage; browser smoke coverage exercises the hosted routes; no /api/sync/plaid/* request can fall through to an HTML Netlify 404."
     },
     {
       "repo": "motor-pool",
@@ -139,23 +139,8 @@
     },
     {
       "repo": "fire",
-      "title": "Google Drive backup: report success only after a verified round trip",
-      "ref": "docs/TASKS.md:42",
-      "priority": "P1",
-      "status": "todo",
-      "owner": null,
-      "section": "P1 \u2014 Integration & workflow improvements",
-      "criteria": "the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path).",
-      "parked": false,
-      "tier": "1",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 65.0
-    },
-    {
-      "repo": "fire",
       "title": "Serve Plaid on the Netlify deploy (lifefire.netlify.app)",
-      "ref": "docs/TASKS.md:48",
+      "ref": "docs/TASKS.md:42",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -170,7 +155,7 @@
     {
       "repo": "fire",
       "title": "CoinTracker MCP integration for wallet discovery/investigation _(blocked on CoinTracker: the test account isn't enrolled in MCP early access)_",
-      "ref": "docs/TASKS.md:64",
+      "ref": "docs/TASKS.md:58",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -185,7 +170,7 @@
     {
       "repo": "fire",
       "title": "Etsy live run against a real shop (self-hosted and lifefire.netlify.app) once an Etsy app keystring is approved; record the result in `docs/integrations.md`.",
-      "ref": "docs/TASKS.md:139",
+      "ref": "docs/TASKS.md:133",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -200,7 +185,7 @@
     {
       "repo": "fire",
       "title": "README feature-parity and product-story refresh",
-      "ref": "docs/TASKS.md:144",
+      "ref": "docs/TASKS.md:138",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -215,7 +200,7 @@
     {
       "repo": "fire",
       "title": "Promo ledger audit",
-      "ref": "docs/TASKS.md:152",
+      "ref": "docs/TASKS.md:146",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -230,7 +215,7 @@
     {
       "repo": "fire",
       "title": "Feature-discovery pass for the GitHub landing page",
-      "ref": "docs/TASKS.md:160",
+      "ref": "docs/TASKS.md:154",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -245,7 +230,7 @@
     {
       "repo": "fire",
       "title": "Add provider-contract tests for all price/balance integrations",
-      "ref": "docs/TASKS.md:168",
+      "ref": "docs/TASKS.md:162",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -260,7 +245,7 @@
     {
       "repo": "fire",
       "title": "Add sync-health state to the Side Hustle Hub",
-      "ref": "docs/TASKS.md:172",
+      "ref": "docs/TASKS.md:166",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -275,7 +260,7 @@
     {
       "repo": "fire",
       "title": "Model real eBay fee brackets in `calculateEbayFeesTotal` (`app/lib/side-gig.js`), not just a flat rate + order fee.",
-      "ref": "docs/TASKS.md:218",
+      "ref": "docs/TASKS.md:212",
       "priority": "P1",
       "status": "todo",
       "owner": null,
@@ -290,7 +275,7 @@
     {
       "repo": "fire",
       "title": "Share Plaid operations between Express and the hosted Netlify function",
-      "ref": "docs/TASKS.md:60",
+      "ref": "docs/TASKS.md:54",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -305,7 +290,7 @@
     {
       "repo": "fire",
       "title": "CoinTracker export-file fallback when MCP isn't available",
-      "ref": "docs/TASKS.md:80",
+      "ref": "docs/TASKS.md:74",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -320,7 +305,7 @@
     {
       "repo": "fire",
       "title": "Etsy: exact fees instead of estimates",
-      "ref": "docs/TASKS.md:132",
+      "ref": "docs/TASKS.md:126",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -335,7 +320,7 @@
     {
       "repo": "fire",
       "title": "Verify Mercari/Poshmark export headers against real files",
-      "ref": "docs/TASKS.md:136",
+      "ref": "docs/TASKS.md:130",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -350,7 +335,7 @@
     {
       "repo": "fire",
       "title": "Fix the review-pass findings (label `bot:review`). Fixing one may change a baseline: regenerate it in Docker in the same PR.",
-      "ref": "docs/TASKS.md:182",
+      "ref": "docs/TASKS.md:176",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -365,7 +350,7 @@
     {
       "repo": "fire",
       "title": "Split the long spots into ~21 s feature spots + one hero cut",
-      "ref": "docs/TASKS.md:188",
+      "ref": "docs/TASKS.md:182",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -380,7 +365,7 @@
     {
       "repo": "fire",
       "title": "Journey coverage: 23 of 92 spots.json features are tagged. After /promo culls `\"visual\": \"none\"`, add journeys for the user-visible rest (chaos mode, CD ladd...",
-      "ref": "docs/TASKS.md:194",
+      "ref": "docs/TASKS.md:188",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -395,7 +380,7 @@
     {
       "repo": "fire",
       "title": "Run full penetration testing checklist from docs/security-hardening.md",
-      "ref": "docs/TASKS.md:247",
+      "ref": "docs/TASKS.md:241",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -410,7 +395,7 @@
     {
       "repo": "fire",
       "title": "Income vs. expense 12-month rolling trend view",
-      "ref": "docs/TASKS.md:278",
+      "ref": "docs/TASKS.md:272",
       "priority": "P2",
       "status": "todo",
       "owner": null,
@@ -425,7 +410,7 @@
     {
       "repo": "fire",
       "title": "FEATURES.md over-reports (40% culled): confirm trims. The 38 `\"visual\": \"none\"` ids in promo/spots.json are implementation details, sub-items or duplicates. ...",
-      "ref": "docs/TASKS.md:192",
+      "ref": "docs/TASKS.md:186",
       "priority": "P3",
       "status": "todo",
       "owner": null,
@@ -440,7 +425,7 @@
     {
       "repo": "fire",
       "title": "Stop exposing browser helpers as classic-script globals (`app/lib/fetch-utils.js` `fetchJson`, and the rest of `app/lib/`)",
-      "ref": "docs/TASKS.md:209",
+      "ref": "docs/TASKS.md:203",
       "priority": "P3",
       "status": "todo",
       "owner": null,
@@ -455,7 +440,7 @@
     {
       "repo": "fire",
       "title": "Optional multi-user mode (separate encrypted db.json per user, HTTP Basic auth gate)",
-      "ref": "docs/TASKS.md:286",
+      "ref": "docs/TASKS.md:280",
       "priority": "P3",
       "status": "todo",
       "owner": null,
@@ -1231,13 +1216,7 @@
     ],
     "tier_source": "vigil"
   },
-  "tier_drift": [
-    {
-      "repo": "skyview",
-      "vigil": "-",
-      "scope_md": "2"
-    }
-  ],
+  "tier_drift": [],
   "ledger_open": [
     {
       "id": "F-20260930-08",
@@ -1395,5 +1374,5 @@
       }
     ]
   },
-  "focus": "Quiet week for the in-scope repos: nothing is routed to you, and a spot check of the kickoff items against merged PRs found no stale ticks (fire's Drive item was already narrowed to the verify-before-success step). The one thing to look at is routine health: cloud daily-brief and week-obn-import hit the usage limit, and monthly-tire-kick has not run since the 09-28 spend-limit failure. Best kickoff is fire's Drive backup verified round trip, since it is small, has a clear test, and the live backup is already confirmed. The two priorities.json slots are still empty, so pick the next initiative."
+  "focus": "Quiet week for the in-scope repos: nothing is routed to you. The fire Drive backup item turned out to be open in code, so I shipped it (fire#215, merged): backups now read the file back, require encryption, and delete anything that fails verification. Routine health needs a look: cloud daily-brief and week-obn-import hit the usage limit, and monthly-tire-kick has not run since the 09-28 spend-limit failure. Next kickoff is motor-pool's principals and API tokens (unauthenticated exec returns 401 is the test). Check: vigil's journeys item is still open in code (no scaffold flow, journeys still informational). The two priorities.json slots are still empty, so pick the next initiative."
 }
