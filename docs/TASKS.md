@@ -25,7 +25,7 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Progress 2026-10-09: review pass filed vigil#275–#279 and #281; 6 journeys, 12 baselines, soak 54/54 in nitsuah/vigil#282. Remaining: merge it (after nitsuah/.github#21 if you want the updated rules first), one `workflow_dispatch` run, then fold `e2e.yml` failures into the reporter.
 - [x] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
   - Priority: P2
-  - Check first that Nitsuah-Labs Actions may call `nitsuah/.github`'s reusable workflow.
+  - Check first that Nitsuah-Labs GitHub Actions may call `nitsuah/.github`'s reusable workflow.
   - Done 2026-10-15: both run `.github/workflows/journeys.yml` (ats-fill#143, nitsuah-io#570); neither has `playwright-nightly.yml` any more.
 - [ ] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
   - Progress 2026-10-16: skyview (skyview#191) and vhs (vhs#80) run the journeys caller; darkmoon and games are left.
