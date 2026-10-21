@@ -10,7 +10,7 @@
 
 These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`eng-loc`/`eng-mini`/`stale-worktrees`/`vuln-patcher`/`gh-overseer` routines operate on.
 
-**Tier column**: pulled from vigil's live `repos.tier` (`GET https://gh-vigil.netlify.app/api/context` with `$VIGIL_MCP_KEY`, same call `routine-cloud-daily-brief.md` already makes) on 2026-10-15, re-checked 2026-10-16 (no drift). `sotu.py` now reads the live tiers on every run and reports drift, and SOTU covers only T1/T2 repos. It's user-assigned in vigil, never auto-detected, so it drifts out of date here — re-pull before trusting it for a prioritization call more than a few weeks old. `—` means the repo isn't registered in vigil yet (no tier to read), not that it's unimportant. T1 Critical, T2 Important, T3 Standard, T4 Low (see vigil's README for the full rubric).
+**Tier column**: pulled from vigil's live `repos.tier` (`GET https://gh-vigil.netlify.app/api/context` with `$VIGIL_MCP_KEY`, same call `routine-cloud-daily-brief.md` already makes) on 2026-10-15, re-checked 2026-10-21 (skyview now unregistered in vigil, so `—`). `sotu.py` now reads the live tiers on every run and reports drift, and SOTU covers only T1/T2 repos. It's user-assigned in vigil, never auto-detected, so it drifts out of date here — re-pull before trusting it for a prioritization call more than a few weeks old. `—` means the repo isn't registered in vigil yet (no tier to read), not that it's unimportant. T1 Critical, T2 Important, T3 Standard, T4 Low (see vigil's README for the full rubric).
 
 | Repo | Tier | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|---|
@@ -28,7 +28,7 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 | nitsuah-io | T3 | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
 | osrs | — | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
 | vigil | T1 | `C:\Users\ajhar\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
-| skyview | T2 | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
+| skyview | — | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
 | stash | T3 | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
 | vhs | T2 | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
 
