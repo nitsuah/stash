@@ -682,7 +682,7 @@ VEHICLE_VALUE_PROVIDER=dataone
 | Blockstream (Bitcoin) | ❌ Phase 1 | None |
 | Solana RPC | ❌ Phase 1 | None |
 | CoinGecko prices | ❌ Phase 1 | None (optional key) |
-| Google Drive backup | 🟡 Implemented self-hosted and on the hosted deploy (`netlify/functions/gdrive-backup.mjs`, `/api/backup/drive/*`); live round-trip verification pending | `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET`, `SYNC_MASTER_KEY` |
+| Google Drive backup | 🟡 Implemented self-hosted and on the hosted deploy (`netlify/functions/gdrive-backup.mjs`, `/api/backup/drive/*`); live round trip verified on the hosted deploy (2026-10-14); self-hosted verification pending | `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET`, `SYNC_MASTER_KEY` |
 | NHTSA VIN decode | ❌ Phase 1 | None |
 | Vehicle value API | ❌ Phase 1 | `VEHICLE_VALUE_API_KEY` |
 | Plaid (Fidelity/bank sync) | ✅ Live on the hosted deploy — `netlify/functions/plaid.mjs`, reached at `/api/sync/plaid/*` via the `netlify.toml` redirects. No `app/api/sync/plaid` route exists, so self-hosted Express does not serve it. | `PLAID_CLIENT_ID`, `PLAID_SECRET` |

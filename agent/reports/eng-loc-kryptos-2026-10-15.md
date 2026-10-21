@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: kryptos
+date: 2026-10-15
+---
+
 # ENG LOC Report — kryptos (2026-10-15)
+
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-09-01|2026-09-01]] <!-- nav -->
+
 HEAD: 7b1abd4ac9e4119072029c578b448827a2440009
 
 Mode: `--report` (dry run, no changes made)

@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — vhs (2026-07-29)
 
-> 🧭 [[repos/vhs|vhs]] · ← [[reports/eng-loc-vhs-2026-07-04|2026-07-04]] <!-- nav -->
+> 🧭 [[repos/vhs|vhs]] · ← [[reports/eng-loc-vhs-2026-07-04|2026-07-04]] · [[reports/eng-loc-vhs-2026-10-15|2026-10-15]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

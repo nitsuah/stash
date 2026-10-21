@@ -163,7 +163,7 @@ repo: fire
 
 ## Planned
 
-- **Netlify Google Drive backup** — `netlify/functions/gdrive-backup.mjs` serves `/api/backup/drive` and `/api/backup/drive/*` on the hosted deploy. The OAuth tokens are sealed with `SYNC_MASTER_KEY` and held by the browser; the browser's state is encrypted with AES-256-GCM before upload, and restore hands back the decrypted state. Unit-tested against a mocked Drive, including the round trip and wrong-key/corrupted backups. A live round trip is still pending (see the P0 task).
+- **Netlify Google Drive backup** — `netlify/functions/gdrive-backup.mjs` serves `/api/backup/drive` and `/api/backup/drive/*` on the hosted deploy. The OAuth tokens are sealed with `SYNC_MASTER_KEY` and held by the browser; the browser's state is encrypted with AES-256-GCM before upload, and restore hands back the decrypted state. Unit-tested against a mocked Drive, including the round trip and wrong-key/corrupted backups. A live round trip was verified on the hosted deploy on 2026-10-14; the self-hosted round trip and reporting success only after a verified round trip are still open (see the P0 task).
 - **Netlify Plaid backend** — Plaid Link, account/position sync, and transaction sync are served on the hosted deploy by `netlify/functions/plaid.mjs` via the `/api/sync/plaid/*` rewrites (PR #146), with unit coverage and a `netlify.toml` routing test. Express behavior is unchanged. Still outstanding on the `Serve Plaid on the Netlify deploy` task: a live Link → sync run against lifefire.netlify.app and browser smoke coverage.
 
 - **Tax Drag Estimation Engine** — Custom federal/state bracket support with capital gains configuration.

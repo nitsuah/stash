@@ -99,6 +99,7 @@ Comprehensive test coverage with automated CI/CD and Docker-based testing infras
 - **E2E Tests**: Playwright for visual regression, user flows, and cross-browser compatibility (59 passing)
 - **Accessibility Tests**: axe-core integration with automated WCAG 2.1 AA compliance checks (20 passing)
 - **Visual Regression**: Screenshot comparison across browsers and viewports with Docker baselines (6 passing)
+- **Nightly Journeys**: Eight visitor journeys (landing page, project filter, blog post, resume, about, theme persistence, mock-wallet connect, phone menu) run nightly in the Playwright image with a viewport baseline per step; failures become deduplicated `bot:journey` issues
 - **Docker Testing**: Production build strategy ensures CI/local parity with Playwright Docker image
 - **Pre-commit Hooks**: Auto-format, typecheck, and unit tests before commit (~3s)
 - **CI Pipeline**: GitHub Actions running full test suite, build verification, and deploy previews (100% pass rate)
