@@ -189,7 +189,8 @@ def repo_hub(name):
 chains = defaultdict(list)
 for p in md_files("reports"):
     if os.path.basename(p) != "INDEX.md":
-        chains[report_kind_and_subject(p)].append(p)
+        kind, subject = report_kind_and_subject(p)
+        chains[(kind, RENAMED.get(subject, subject) if subject else None)].append(p)  # one chain across a rename
 
 hub_lines = defaultdict(list)   # repos/<x>.md -> block lines
 latest_reports = []             # (label, rel) for VAULT-MAP

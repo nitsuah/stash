@@ -6,7 +6,7 @@ date: 2026-07-29
 
 # ENG LOC Report — agent-board (2026-07-29)
 
-> 🧭 [[repos/motor-pool|agent-board]] · ← [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] <!-- nav -->
+> 🧭 [[repos/motor-pool|motor-pool]] · ← [[reports/eng-loc-agent-board-2026-07-04|2026-07-04]] · [[reports/eng-loc-motor-pool-2026-10-08|2026-10-08]] → <!-- nav -->
 
 **Thresholds**: `max_lines=500`, `min_lines=30`
 **Extensions**: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, `.java`, `.cs`, `.php`, `.rb`, `.swift`, `.kt`, `.scala`, `.vue`, `.svelte`

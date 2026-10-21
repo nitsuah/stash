@@ -6,7 +6,7 @@ date: 2026-06-25
 
 # eng-loc: auto-apply-plugin — 2026-06-25
 
-> 🧭 [[repos/ats-fill|auto-apply-plugin]] · [[reports/eng-loc-auto-apply-plugin-2026-07-03|2026-07-03]] → <!-- nav -->
+> 🧭 [[repos/ats-fill|ats-fill]] · [[reports/eng-loc-auto-apply-plugin-2026-07-03|2026-07-03]] → <!-- nav -->
 
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 
