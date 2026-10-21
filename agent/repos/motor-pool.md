@@ -45,7 +45,7 @@ New P1 track as of 2026-10-14 (`docs/TASKS.md`, build plan [[repos/motor-pool/do
 - [ ] **P1** Imp runner: `imp-runner` + DinD sidecar, `claude -p` via 9router, time/cost limits, pre-push gate, runner-side push and PR
 - [ ] **P1** Imps panel + `/imp` skill: list/detail/live tail/cancel; one-call dispatch from Claude Code
 
-P2 backlog (context): journeys review-pass defects #96/#97 (phone top bar, unstyled session-name button), GPU model portfolio, deployment-path docs, MCP container manager, bb-mcp streaming UI/persona selector/demo mode (2027-Q2), content-gen Docker-socket replacement. Also new 10-14: `docs/RUST-REWRITE-ASSESSMENT.md`.
+P2 backlog (context): GPU model portfolio, deployment-path docs, MCP container manager, bb-mcp streaming UI/persona selector/demo mode (2027-Q2), content-gen Docker-socket replacement. Also new 10-14: `docs/RUST-REWRITE-ASSESSMENT.md`.
 
 Earlier P1s (coverage ≥80%, CI unit-test gate + lcov, Docker optimization, API docs) are complete.
 
