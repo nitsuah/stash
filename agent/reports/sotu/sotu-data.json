@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-16T05:25+00:00",
+  "generated_at": "2026-10-21T06:16+00:00",
   "source": "local TASKS.md",
   "missing_tasks_file": [],
   "stale_refs": [],
   "counts": {
     "P0": 0,
-    "P1": 24,
-    "P2": 28,
-    "P3": 31,
+    "P1": 22,
+    "P2": 24,
+    "P3": 26,
     "none": 1
   },
   "needs_you": [],
@@ -19,7 +19,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": "the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path).",
       "parked": false,
       "tier": "1",
@@ -61,24 +61,8 @@
       "prompt": "Kick off vigil (C:\\Users\\ajhar\\code\\vigil): \"Journeys in vigil, beyond detection (see the 2026-10-09 journeys brief).\" (TASKS.md:36, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker. Acceptance criteria: a repo with no journeys can be scaffolded from vigil. Then promote `journeys` out of `INFORMATIONAL_PRACTICES`."
     },
     {
-      "repo": "skyview",
-      "title": "Bring the marketplace backend live in production (the site's booking CTA now points at it).",
-      "ref": "docs/TASKS.md:47",
-      "priority": "P1",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": null,
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 60.0,
-      "prompt": "Kick off skyview (C:\\Users\\ajhar\\code\\skyview): \"Bring the marketplace backend live in production (the site's booking CTA now points at it).\" (docs/TASKS.md:47, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker."
-    },
-    {
       "repo": "vhs",
-      "title": "Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) — `setActiveTab()` never calls `r...",
+      "title": "Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) \u2014 `setActiveTab()` never calls `r...",
       "ref": "docs/TASKS.md:13",
       "priority": "P1",
       "status": "todo",
@@ -90,10 +74,37 @@
       "initiative": false,
       "routine_candidate": false,
       "score": 60.0,
-      "prompt": "Kick off vhs (C:\\Users\\ajhar\\code\\vhs): \"Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) — `setActiveTab()` never calls `r...\" (docs/TASKS.md:13, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker."
+      "prompt": "Kick off vhs (C:\\Users\\ajhar\\code\\vhs): \"Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) \u2014 `setActiveTab()` never calls `r...\" (docs/TASKS.md:13, P1). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker."
+    },
+    {
+      "repo": "ats-fill",
+      "title": "Rework how releases reach the Chrome Web Store so they stop queuing behind review.",
+      "ref": "docs/TASKS.md:36",
+      "priority": "P2",
+      "status": "todo",
+      "owner": null,
+      "section": "Todo",
+      "criteria": "a decision recorded here (or in `docs/release/chrome-web-store.md`); the release workflow publishes at most one pending review at a time, or only on the chosen schedule; a dispatch from `main` ships a release end to end without a review collision.",
+      "parked": false,
+      "tier": "1",
+      "initiative": false,
+      "routine_candidate": false,
+      "score": 35.0,
+      "prompt": "Kick off ats-fill (C:\\Users\\ajhar\\code\\ats-fill): \"Rework how releases reach the Chrome Web Store so they stop queuing behind review.\" (docs/TASKS.md:36, P2). Read the item and its sub-bullets in TASKS.md, confirm scope with me in 3 bullets, then work on a feature branch with a PR; run tests in Docker. Acceptance criteria: a decision recorded here (or in `docs/release/chrome-web-store.md`); the release workflow publishes at most one pending review at a time, or only on the chosen schedule; a dispatch from `main` ships a release end to end without a review collision."
     }
   ],
-  "aging": [],
+  "aging": [
+    {
+      "id": "F-20260926-01",
+      "first_seen": "2026-09-26",
+      "seen": 1,
+      "repo": "cloud routines",
+      "finding": "`RemoteTrigger list` returns only the newest 20 triggers and ignores `next_cursor`; 19 fired, undeletable reminders fill it, so audits can't enumerate the recurring fleet. Until the API paginates (or reminders drop out of `list`), audits use the known IDs in memory `reference-cloud-routine-ids` and `rsi-changes.log`",
+      "class": "routine",
+      "status": "open",
+      "link": "split from F-20260924-13"
+    }
+  ],
   "initiatives": [],
   "tasks": [
     {
@@ -112,13 +123,28 @@
       "score": 35.0
     },
     {
+      "repo": "ats-fill",
+      "title": "Add an opt-in \"Full auto\" fill mode (attach, fill, then submit) behind its own toggle.",
+      "ref": "docs/TASKS.md:54",
+      "priority": "P2",
+      "status": "todo",
+      "owner": null,
+      "section": "Todo",
+      "criteria": "toggle in Settings, off by default, with a plain warning; journeys cover a form that auto-submits and one that stops for review; the store listing and CHROMEWEBSTORE.md stop saying ats-fill never submits only once this ships.",
+      "parked": false,
+      "tier": "1",
+      "initiative": false,
+      "routine_candidate": false,
+      "score": 35.0
+    },
+    {
       "repo": "fire",
       "title": "Google Drive backup: report success only after a verified round trip",
       "ref": "docs/TASKS.md:42",
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": "the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path).",
       "parked": false,
       "tier": "1",
@@ -133,7 +159,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": "Link, public-token exchange, account/position refresh, and transaction sync all work on lifefire.netlify.app; each hosted function has unit coverage; browser smoke coverage exercises the hosted routes; no /api/sync/plaid/* request can fall through to an HTML Netlify 404.",
       "parked": false,
       "tier": "1",
@@ -148,7 +174,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": "provider capabilities and data ownership are documented; duplicate calls are avoided; users can see provider/source and last-refresh state; no private keys or signing capability are ever requested; existing direct-chain tracking remains functional.",
       "parked": true,
       "tier": "1",
@@ -163,7 +189,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "Narrated brags + money-maker skills — Oct 7, 2026",
+      "section": "Narrated brags + money-maker skills \u2014 Oct 7, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -178,7 +204,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — GitHub README / promo parity",
+      "section": "P1 \u2014 GitHub README / promo parity",
       "criteria": "every prominent README feature is either demonstrably shipped or explicitly labeled planned; no stale environment/setup instructions remain; links to the live demo, docs, security model, and integration setup are easy to find.",
       "parked": false,
       "tier": "1",
@@ -193,7 +219,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — GitHub README / promo parity",
+      "section": "P1 \u2014 GitHub README / promo parity",
       "criteria": "promo claims map one-to-one to README/FEATURES capabilities and no promo asset claims behavior that the product does not currently provide.",
       "parked": false,
       "tier": "1",
@@ -208,7 +234,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "P1 — GitHub README / promo parity",
+      "section": "P1 \u2014 GitHub README / promo parity",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -253,7 +279,7 @@
       "priority": "P1",
       "status": "todo",
       "owner": null,
-      "section": "PROD Phase 1 — Real-Time Data Connectors ✅ (open items in ROADMAP.md 2027 Q1)",
+      "section": "PROD Phase 1 \u2014 Real-Time Data Connectors \u2705 (open items in ROADMAP.md 2027 Q1)",
       "criteria": "`ebay-category-rate` stores a fee-rule identifier (not a bare percentage), and `calculateEbayFeesTotal` resolves that rule's tiers/caps rather than multiplying one flat rate across the full transaction value.",
       "parked": false,
       "tier": "1",
@@ -268,7 +294,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": "Express and Netlify share one Plaid operations module with no Express router import; existing route contracts and unit tests stay unchanged.",
       "parked": false,
       "tier": "1",
@@ -283,7 +309,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "P1 — Integration & workflow improvements",
+      "section": "P1 \u2014 Integration & workflow improvements",
       "criteria": null,
       "parked": true,
       "tier": "1",
@@ -298,7 +324,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "Narrated brags + money-maker skills — Oct 7, 2026",
+      "section": "Narrated brags + money-maker skills \u2014 Oct 7, 2026",
       "criteria": "synced rows carry actual fees when the ledger entries can be matched, fall back to the estimate otherwise, and the flag says which.",
       "parked": false,
       "tier": "1",
@@ -313,7 +339,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "Narrated brags + money-maker skills — Oct 7, 2026",
+      "section": "Narrated brags + money-maker skills \u2014 Oct 7, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -328,7 +354,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "Nightly journeys + review-pass findings — Oct 9, 2026",
+      "section": "Nightly journeys + review-pass findings \u2014 Oct 9, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -343,7 +369,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "Nightly journeys + review-pass findings — Oct 9, 2026",
+      "section": "Nightly journeys + review-pass findings \u2014 Oct 9, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -358,7 +384,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "Nightly journeys + review-pass findings — Oct 9, 2026",
+      "section": "Nightly journeys + review-pass findings \u2014 Oct 9, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -373,7 +399,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "PROD Phase 3 — Security Hardening ✅ (see ROADMAP.md 2027 Q3; remaining item below)",
+      "section": "PROD Phase 3 \u2014 Security Hardening \u2705 (see ROADMAP.md 2027 Q3; remaining item below)",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -388,7 +414,7 @@
       "priority": "P2",
       "status": "todo",
       "owner": null,
-      "section": "PROD Phase 4 — Feature Parity (2027 Q4)",
+      "section": "PROD Phase 4 \u2014 Feature Parity (2027 Q4)",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -403,7 +429,7 @@
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "Nightly journeys + review-pass findings — Oct 9, 2026",
+      "section": "Nightly journeys + review-pass findings \u2014 Oct 9, 2026",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -418,7 +444,7 @@
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "Follow-ups from PR #111 — Sep 2026",
+      "section": "Follow-ups from PR #111 \u2014 Sep 2026",
       "criteria": "decision recorded (native modules vs. bundler), helpers exported/imported explicitly, `no-undef` lint enforced for cross-file references, and the Playwright suite still green.",
       "parked": false,
       "tier": "1",
@@ -433,7 +459,7 @@
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "PROD Phase 4 — Feature Parity (2027 Q4)",
+      "section": "PROD Phase 4 \u2014 Feature Parity (2027 Q4)",
       "criteria": null,
       "parked": false,
       "tier": "1",
@@ -473,7 +499,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "Imp runner: `imp-runner` service + `imp-docker` DinD sidecar, repo mirrors/worktrees, `claude -p` via 9router, stream → events, time/cost limits, pre-push ga...",
+      "title": "Imp runner: `imp-runner` service + `imp-docker` DinD sidecar, repo mirrors/worktrees, `claude -p` via 9router, stream \u2192 events, time/cost limits, pre-push ga...",
       "ref": "docs/TASKS.md:17",
       "priority": "P1",
       "status": "todo",
@@ -518,7 +544,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "[2027-Q2] Blackboard agent demo mode — add a demo-mode preset that walks through a full Blackboard workflow (course discovery → assignment submission → grade...",
+      "title": "[2027-Q2] Blackboard agent demo mode \u2014 add a demo-mode preset that walks through a full Blackboard workflow (course discovery \u2192 assignment submission \u2192 grade...",
       "ref": "docs/TASKS.md:33",
       "priority": "P2",
       "status": "todo",
@@ -533,7 +559,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "[2027-Q2] bb-mcp tool registry panel — display available bb-mcp tools alongside other MCP providers in the dashboard; show last invocation time and per-role ...",
+      "title": "[2027-Q2] bb-mcp tool registry panel \u2014 display available bb-mcp tools alongside other MCP providers in the dashboard; show last invocation time and per-role ...",
       "ref": "docs/TASKS.md:38",
       "priority": "P2",
       "status": "todo",
@@ -548,7 +574,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "[Deferred] Unblock NemoClaw sandbox container — deprioritized; Ollama is the active local runtime.",
+      "title": "[Deferred] Unblock NemoClaw sandbox container \u2014 deprioritized; Ollama is the active local runtime.",
       "ref": "docs/TASKS.md:45",
       "priority": "P3",
       "status": "todo",
@@ -563,7 +589,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "[Deferred] OpenLLM / replacement custom-model endpoint — deprioritized; Ollama + tools/ endpoints cover current needs.",
+      "title": "[Deferred] OpenLLM / replacement custom-model endpoint \u2014 deprioritized; Ollama + tools/ endpoints cover current needs.",
       "ref": "docs/TASKS.md:50",
       "priority": "P3",
       "status": "todo",
@@ -593,7 +619,7 @@
     },
     {
       "repo": "motor-pool",
-      "title": "[Follow-up] Measure Ollama memory usage under load — replaces the rejected",
+      "title": "[Follow-up] Measure Ollama memory usage under load \u2014 replaces the rejected",
       "ref": "docs/TASKS.md:60",
       "priority": "P3",
       "status": "todo",
@@ -749,7 +775,7 @@
       "status": "todo",
       "owner": null,
       "section": "P3 - Exploratory",
-      "criteria": "visual-docs shots named after the feature ids (an expanded-panel full-page shot, the Improve diff, a Suggest result, the guided tour) and the audit at ≥ 50/57.",
+      "criteria": "visual-docs shots named after the feature ids (an expanded-panel full-page shot, the Improve diff, a Suggest result, the guided tour) and the audit at \u2265 50/57.",
       "parked": false,
       "tier": "1",
       "initiative": false,
@@ -839,7 +865,7 @@
       "status": "todo",
       "owner": null,
       "section": "P3 - Exploratory",
-      "criteria": "a lightweight per-repo activity log surfaced in both the chat panel and the PMO view, built on the existing dispatch/queue seams rather than a new schema — persist a `sessionId` (correlating with the `motorPoolSessionId` already returned by `motorPoolBridge.dispatch()` in `lib/agent-bridge.ts`), a `",
+      "criteria": "a lightweight per-repo activity log surfaced in both the chat panel and the PMO view, built on the existing dispatch/queue seams rather than a new schema \u2014 persist a `sessionId` (correlating with the `motorPoolSessionId` already returned by `motorPoolBridge.dispatch()` in `lib/agent-bridge.ts`), a `",
       "parked": false,
       "tier": "1",
       "initiative": false,
@@ -878,7 +904,7 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Analytics/Product Owner tools: event telemetry tap, engagement metrics aggregation, AI recommendation signal export. See ROADMAP.md 2027 Q1 — depends on the ...",
+      "title": "Analytics/Product Owner tools: event telemetry tap, engagement metrics aggregation, AI recommendation signal export. See ROADMAP.md 2027 Q1 \u2014 depends on the ...",
       "ref": "docs/TASKS.md:36",
       "priority": "P3",
       "status": "todo",
@@ -908,12 +934,12 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Webhook-to-SSE bridge — receive and authenticate inbound Blackboard webhook calls, fan out to active SSE sessions.",
+      "title": "Webhook-to-SSE bridge \u2014 receive and authenticate inbound Blackboard webhook calls, fan out to active SSE sessions.",
       "ref": "docs/TASKS.md:43",
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "2027 Q1 — needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
+      "section": "2027 Q1 \u2014 needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
       "criteria": null,
       "parked": false,
       "tier": "2",
@@ -923,12 +949,12 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Event-driven pipeline scaling — normalized event schema + durable storage decision, ahead of \"scaling\" being a meaningful question.",
+      "title": "Event-driven pipeline scaling \u2014 normalized event schema + durable storage decision, ahead of \"scaling\" being a meaningful question.",
       "ref": "docs/TASKS.md:44",
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "2027 Q1 — needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
+      "section": "2027 Q1 \u2014 needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
       "criteria": null,
       "parked": false,
       "tier": "2",
@@ -938,12 +964,12 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Vector store integration for semantic course content search and AI recommendation signals — needs an RBAC/FERPA-safe indexing pipeline, not just a vector store.",
+      "title": "Vector store integration for semantic course content search and AI recommendation signals \u2014 needs an RBAC/FERPA-safe indexing pipeline, not just a vector store.",
       "ref": "docs/TASKS.md:45",
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "2027 Q1 — needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
+      "section": "2027 Q1 \u2014 needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
       "criteria": null,
       "parked": false,
       "tier": "2",
@@ -953,12 +979,12 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Publish a stable MCP client SDK / integration contract — a versioned deliverable on top of `GET /manifest`, separate from bb-mcp itself.",
+      "title": "Publish a stable MCP client SDK / integration contract \u2014 a versioned deliverable on top of `GET /manifest`, separate from bb-mcp itself.",
       "ref": "docs/TASKS.md:46",
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "2027 Q1 — needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
+      "section": "2027 Q1 \u2014 needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
       "criteria": null,
       "parked": false,
       "tier": "2",
@@ -968,12 +994,12 @@
     },
     {
       "repo": "bb-mcp",
-      "title": "Tool call batching — needs a batch envelope + partial-failure semantics decision at the transport layer.",
+      "title": "Tool call batching \u2014 needs a batch envelope + partial-failure semantics decision at the transport layer.",
       "ref": "docs/TASKS.md:47",
       "priority": "P3",
       "status": "todo",
       "owner": null,
-      "section": "2027 Q1 — needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
+      "section": "2027 Q1 \u2014 needs scoping (moved from 2026 Q3; a real subsystem, not a tool-sized change)",
       "criteria": null,
       "parked": false,
       "tier": "2",
@@ -997,188 +1023,8 @@
       "score": 5.0
     },
     {
-      "repo": "skyview",
-      "title": "Complete the launch checklist with verified production identity data.",
-      "ref": "docs/TASKS.md:19",
-      "priority": "P1",
-      "status": "in-progress",
-      "owner": null,
-      "section": "In Progress",
-      "criteria": "production identity fields populated in `config.js`; no placeholder values remain in the rendered page or schema.org JSON-LD.",
-      "parked": true,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 60.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Bring the marketplace backend live in production (the site's booking CTA now points at it).",
-      "ref": "docs/TASKS.md:47",
-      "priority": "P1",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": null,
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 60.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Fix the two features the screenshot suite found broken on the real page.",
-      "ref": "docs/TASKS.md:32",
-      "priority": "P2",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": "both render correctly; add `campaign-personalization` and `csv-json-export` captures to `tests/visual-docs/screenshots.spec.ts` and link them in `promo/spots.json`.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 30.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Build a real per-client storage backend for the client portal.",
-      "ref": "docs/TASKS.md:42",
-      "priority": "P2",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": "delivered files live outside any statically-published directory (served as bytes, or via a private-bucket presigned URL) and the manifest is scoped per client.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 30.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Set up the email sending domain (DNS + Resend verification), then prove password reset in production.",
-      "ref": "docs/TASKS.md:53",
-      "priority": "P2",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": "(a) the sender domain used by `netlify/functions/utils/email.js` shows Verified in Resend (SPF/DKIM, plus a DMARC record); (b) a real password-reset email is sent, received, and its link works on production.",
-      "parked": true,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 30.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Native scheduling hardening (follow-ups to the availability work; none block the cutover).",
-      "ref": "docs/TASKS.md:58",
-      "priority": "P2",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": null,
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 30.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Activate analytics provider (Plausible or Netlify Analytics) and set conversion goals.",
-      "ref": "docs/TASKS.md:78",
-      "priority": "P2",
-      "status": "todo",
-      "owner": null,
-      "section": "Maintenance",
-      "criteria": "page view, booking, and contact-form events tracked in dashboard.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 30.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Trim `docs/FEATURES.md` to what users can see or do.",
-      "ref": "docs/TASKS.md:38",
-      "priority": "P3",
-      "status": "todo",
-      "owner": null,
-      "section": "Todo",
-      "criteria": null,
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 10.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Test and tooling debt surfaced by the 2026-09 auth + scheduling pass.",
-      "ref": "docs/TASKS.md:67",
-      "priority": "P3",
-      "status": "todo",
-      "owner": null,
-      "section": "Maintenance",
-      "criteria": null,
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 10.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Enable testimonials section once real client reviews are collected.",
-      "ref": "docs/TASKS.md:82",
-      "priority": "P3",
-      "status": "todo",
-      "owner": null,
-      "section": "Maintenance",
-      "criteria": "`testimonials: true` in config.js; at least 3 verified reviews displayed.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 10.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Activate A/B experiments.",
-      "ref": "docs/TASKS.md:86",
-      "priority": "P3",
-      "status": "todo",
-      "owner": null,
-      "section": "Maintenance",
-      "criteria": "`experiments.enabled: true` in config.js; variant assignment wired to analytics; results analysed after 2 weeks.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 10.0
-    },
-    {
-      "repo": "skyview",
-      "title": "Dependency audit and update.",
-      "ref": "docs/TASKS.md:90",
-      "priority": "P3",
-      "status": "todo",
-      "owner": null,
-      "section": "Maintenance",
-      "criteria": "`npm audit` clean; Playwright, Vitest, and netlify-cli on latest minor versions.",
-      "parked": false,
-      "tier": "2",
-      "initiative": false,
-      "routine_candidate": false,
-      "score": 10.0
-    },
-    {
       "repo": "vhs",
-      "title": "Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) — `setActiveTab()` never calls `r...",
+      "title": "Confirmed review tapes don't appear in the Collection until it re-renders ([#79](https://github.com/nitsuah/vhs/issues/79)) \u2014 `setActiveTab()` never calls `r...",
       "ref": "docs/TASKS.md:13",
       "priority": "P1",
       "status": "todo",
@@ -1193,7 +1039,7 @@
     },
     {
       "repo": "vhs",
-      "title": "GPU performance optimization for AI scanning — `config/docker-compose.yml` already has a `web-gpu` profile for pointing at a native GPU-accelerated Ollama (D...",
+      "title": "GPU performance optimization for AI scanning \u2014 `config/docker-compose.yml` already has a `web-gpu` profile for pointing at a native GPU-accelerated Ollama (D...",
       "ref": "docs/TASKS.md:52",
       "priority": "P1",
       "status": "todo",
@@ -1208,7 +1054,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Multi-tape detection — detect and crop individual tapes from a single batch photo (OpenCV). Real computer-vision work, not tractable as part of a docs/harden...",
+      "title": "Multi-tape detection \u2014 detect and crop individual tapes from a single batch photo (OpenCV). Real computer-vision work, not tractable as part of a docs/harden...",
       "ref": "docs/TASKS.md:53",
       "priority": "P1",
       "status": "todo",
@@ -1223,7 +1069,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Tape count, value total and clickable stats chips are gone ([#77](https://github.com/nitsuah/vhs/issues/77)) — `updateCount()` writes to a missing `#count` s...",
+      "title": "Tape count, value total and clickable stats chips are gone ([#77](https://github.com/nitsuah/vhs/issues/77)) \u2014 `updateCount()` writes to a missing `#count` s...",
       "ref": "docs/TASKS.md:16",
       "priority": "P2",
       "status": "todo",
@@ -1253,7 +1099,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Review `scripts/audit-metadata.js` dry-run output against the real collection before any `--apply` — PR #55 added the tool (dry-run by default, OMDb comparis...",
+      "title": "Review `scripts/audit-metadata.js` dry-run output against the real collection before any `--apply` \u2014 PR #55 added the tool (dry-run by default, OMDb comparis...",
       "ref": "docs/TASKS.md:22",
       "priority": "P2",
       "status": "todo",
@@ -1283,7 +1129,7 @@
     },
     {
       "repo": "vhs",
-      "title": "True sold-price valuation (eBay Marketplace Insights) — the shipped valuation uses the Browse API, which returns active listings (asking prices), not realize...",
+      "title": "True sold-price valuation (eBay Marketplace Insights) \u2014 the shipped valuation uses the Browse API, which returns active listings (asking prices), not realize...",
       "ref": "docs/TASKS.md:40",
       "priority": "P2",
       "status": "todo",
@@ -1298,7 +1144,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Auto-crop tape thumbnails — per-tape crop from a batch photo (OpenCV/ImageMagick). Real computer-vision work — carried into 2027 Q1 (see `docs/ROADMAP.md`).",
+      "title": "Auto-crop tape thumbnails \u2014 per-tape crop from a batch photo (OpenCV/ImageMagick). Real computer-vision work \u2014 carried into 2027 Q1 (see `docs/ROADMAP.md`).",
       "ref": "docs/TASKS.md:57",
       "priority": "P2",
       "status": "todo",
@@ -1313,7 +1159,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Finish PR #55's remaining priorities — P6 (mobile Easter eggs) and P7 (polish) were marked in progress on that branch when it merged; confirm what shipped an...",
+      "title": "Finish PR #55's remaining priorities \u2014 P6 (mobile Easter eggs) and P7 (polish) were marked in progress on that branch when it merged; confirm what shipped an...",
       "ref": "docs/TASKS.md:25",
       "priority": "P3",
       "status": "todo",
@@ -1343,7 +1189,7 @@
     },
     {
       "repo": "vhs",
-      "title": "Delete orphaned `src/modules/routes/jobs.js` and `routes/lookup.js` — confirmed unused: `server.js` implements `/api/jobs*` and `/api/lookup*` inline and nev...",
+      "title": "Delete orphaned `src/modules/routes/jobs.js` and `routes/lookup.js` \u2014 confirmed unused: `server.js` implements `/api/jobs*` and `/api/lookup*` inline and nev...",
       "ref": "docs/TASKS.md:46",
       "priority": "P3",
       "status": "todo",
@@ -1367,7 +1213,6 @@
       "bb-mcp",
       "fire",
       "motor-pool",
-      "skyview",
       "vhs",
       "vigil"
     ],
@@ -1381,11 +1226,18 @@
       "kryptos",
       "nitsuah-io",
       "osrs",
+      "skyview",
       "stash"
     ],
     "tier_source": "vigil"
   },
-  "tier_drift": [],
+  "tier_drift": [
+    {
+      "repo": "skyview",
+      "vigil": "-",
+      "scope_md": "2"
+    }
+  ],
   "ledger_open": [
     {
       "id": "F-20260930-08",
@@ -1411,114 +1263,114 @@
   "routines": [
     {
       "name": "daily-repo-sync",
-      "last_run": "2026-10-15",
-      "status": "succeeded",
-      "next_run": "2026-10-16",
-      "note": "local"
-    },
-    {
-      "name": "week-sotu",
-      "last_run": "2026-10-14",
-      "status": "failed",
-      "next_run": "2026-10-19",
-      "note": "local; Mon run crashed (exit 3221225794); this is the re-run"
-    },
-    {
-      "name": "week-fin-sum",
-      "last_run": "2026-10-14",
-      "status": "succeeded",
-      "next_run": "2026-10-19",
-      "note": "local"
-    },
-    {
-      "name": "ops-catchup",
-      "last_run": "2026-10-14",
+      "last_run": "2026-10-21",
       "status": "succeeded",
       "next_run": "2026-10-21",
-      "note": "local"
-    },
-    {
-      "name": "ats-fill-daily-inbox-sync",
-      "last_run": "2026-10-15",
-      "status": "succeeded",
-      "next_run": "2026-10-16",
-      "note": "local"
-    },
-    {
-      "name": "ats-fill-weekly-review",
-      "last_run": "2026-10-15",
-      "status": "succeeded",
-      "next_run": "2026-10-19",
-      "note": "local; first baseline"
+      "note": ""
     },
     {
       "name": "monthly-pmo-audit",
       "last_run": "2026-10-01",
       "status": "succeeded",
       "next_run": "2026-11-01",
-      "note": "local"
+      "note": ""
     },
     {
       "name": "monthly-usage-report",
       "last_run": "2026-10-01",
       "status": "succeeded",
       "next_run": "2026-11-01",
-      "note": "local"
+      "note": ""
     },
     {
       "name": "monthly-self-improvement",
       "last_run": "2026-10-02",
-      "status": "deferred",
+      "status": "succeeded",
       "next_run": "2026-11-02",
-      "note": "local; deferred at weekly 99%, one-shot catch-up fired 2026-10-07"
+      "note": ""
+    },
+    {
+      "name": "week-fin-sum",
+      "last_run": "2026-10-21",
+      "status": "succeeded",
+      "next_run": "2026-10-26",
+      "note": ""
     },
     {
       "name": "monthly-tire-kick",
       "last_run": "2026-09-28",
       "status": "failed",
       "next_run": "2026-10-28",
-      "note": "local; monthly spend limit"
+      "note": "spend limit hit"
     },
     {
-      "name": "daily-brief",
-      "last_run": "2026-10-15",
+      "name": "week-sotu",
+      "last_run": "2026-10-21",
+      "status": "running",
+      "next_run": "2026-10-26",
+      "note": "this run; Monday run hit weekly limit"
+    },
+    {
+      "name": "ops-catchup",
+      "last_run": "2026-10-21",
       "status": "succeeded",
-      "next_run": "2026-10-16",
-      "note": "cloud"
+      "next_run": "2026-10-21",
+      "note": ""
     },
     {
-      "name": "week-obn-import",
+      "name": "ats-fill-daily-inbox-sync",
+      "last_run": "2026-10-21",
+      "status": "succeeded",
+      "next_run": "2026-10-21",
+      "note": ""
+    },
+    {
+      "name": "ats-fill-weekly-review",
+      "last_run": "2026-10-21",
+      "status": "succeeded",
+      "next_run": "2026-10-26",
+      "note": ""
+    },
+    {
+      "name": "cloud daily-brief",
+      "last_run": "2026-10-20",
+      "status": "failed",
+      "next_run": "2026-10-21",
+      "note": "usage limit"
+    },
+    {
+      "name": "cloud week-obn-import",
       "last_run": "2026-10-14",
       "status": "failed",
       "next_run": "2026-10-21",
-      "note": "cloud; usage limit reached"
+      "note": "usage limit"
     },
     {
-      "name": "week-eng-mini",
+      "name": "cloud week-eng-mini",
       "last_run": "2026-10-14",
       "status": "succeeded",
       "next_run": "2026-10-21",
-      "note": "cloud"
+      "note": ""
     },
     {
-      "name": "week-vuln",
+      "name": "cloud week-vuln",
       "last_run": "2026-10-15",
       "status": "succeeded",
       "next_run": "2026-10-22",
-      "note": "cloud"
+      "note": ""
     },
     {
-      "name": "week-eng-loc",
+      "name": "cloud week-eng-loc",
       "last_run": "2026-10-15",
       "status": "succeeded",
       "next_run": "2026-10-22",
-      "note": "cloud"
+      "note": ""
     }
   ],
   "quota": {
-    "weekly": 83,
-    "five_hour": 45,
-    "weekly_resets": "2026-10-21T05:00Z"
+    "weekly": 2,
+    "five_hour": 10,
+    "weekly_resets": "2026-10-28T04:59Z"
   },
   "priorities": {
     "updated": "2026-10-15",
@@ -1543,5 +1395,5 @@
       }
     ]
   },
-  "focus": "The SOTU now covers only vigil's tier 1-2 apps (ats-fill, bb-mcp, fire, motor-pool, skyview, vhs, vigil): 84 open tasks, P1 24 and P2 28, with tiers read live from vigil and no drift against scope.md. Nothing needs you and there are no open P0s. The initiative and WSJF slots in priorities.json are empty, so the next pick is yours. The best kickoff is fire's Drive UI gate: backup and restore work, but the panel says \"Backup saved\" before the new file is verified. It is small and closes the backup safety story. check: fire's CoinTracker sync (it connects now, but the 10-14 run reported 0 wallets) and the live Plaid run on lifefire."
+  "focus": "Quiet week for the in-scope repos: nothing is routed to you, and a spot check of the kickoff items against merged PRs found no stale ticks (fire's Drive item was already narrowed to the verify-before-success step). The one thing to look at is routine health: cloud daily-brief and week-obn-import hit the usage limit, and monthly-tire-kick has not run since the 09-28 spend-limit failure. Best kickoff is fire's Drive backup verified round trip, since it is small, has a clear test, and the live backup is already confirmed. The two priorities.json slots are still empty, so pick the next initiative."
 }
