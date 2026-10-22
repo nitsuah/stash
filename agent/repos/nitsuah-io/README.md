@@ -6,7 +6,6 @@ kind: repo-doc
 repo: nitsuah-io
 ---
 
-
 # Nitsuah.io — Personal Portfolio
 
 > 🧭 **nitsuah-io** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
@@ -139,7 +138,7 @@ Note: Uses wagmi CLI to generate Web3 hooks on build
 - **Playwright Coverage:** Smoke, browser flows, and critical accessibility checks
 - **Docker-First Validation:** Run Playwright in Docker for CI-consistent verification
 - **CI Model:** Fast required CI + nightly/manual browser-heavy Playwright
-- **Nightly Journeys:** `tests/journeys` walks the visitor happy paths (home, project filter, blog post, resume, theme, mock-wallet connect, phone menu) with a viewport baseline per step; failures become deduplicated `bot:journey` issues, listed in [BUGS.md](https://github.com/Nitsuah-Labs/nitsuah-io/blob/bot/journeys/BUGS.md) on the `bot/journeys` branch
+- **Nightly Journeys:** `tests/journeys` walks the visitor happy paths (home, project filter, blog post, resume, about, theme, mock-wallet connect/disconnect, phone menu) with a viewport baseline per step; failures become deduplicated `bot:journey` issues, listed in [BUGS.md](https://github.com/Nitsuah-Labs/nitsuah-io/blob/bot/journeys/BUGS.md) on the `bot/journeys` branch
 
 ```bash
 # Quick local checks

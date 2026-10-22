@@ -6,7 +6,7 @@ date: 2026-06-25
 
 # eng-loc: motor-pool — 2026-06-25
 
-> 🧭 [[repos/motor-pool|agent-board]] · [[reports/eng-loc-agent-board-2026-06-28|2026-06-28]] → <!-- nav -->
+> 🧭 [[repos/motor-pool|motor-pool]] · [[reports/eng-loc-agent-board-2026-06-28|2026-06-28]] → <!-- nav -->
 
 Thresholds: large ≥500, small <30 lines. Excludes: node_modules, dist, build, worktrees, vendor bundles.
 

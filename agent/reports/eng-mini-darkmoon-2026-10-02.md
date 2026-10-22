@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: darkmoon — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-09-16|2026-09-16]] <!-- nav -->
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-09-16|2026-09-16]] · [[reports/eng-mini-darkmoon-2026-10-21|2026-10-21]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `d76c62d` "docs(pmo): re-baseline refactor hotspots; useBotAI split first (F-20260916-04) (#469)", `git log -1 --format=%ci` 2026-10-01T13:09:34-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/darkmoon`.
 

@@ -6,7 +6,7 @@ date: 2026-07-04
 
 # ENG LOC Report: overseer (2026-07-04)
 
-> 🧭 [[repos/vigil|overseer]] · ← [[reports/eng-loc-overseer-2026-07-03|2026-07-03]] · [[reports/eng-loc-overseer-2026-07-29|2026-07-29]] → <!-- nav -->
+> 🧭 [[repos/vigil|vigil]] · ← [[reports/eng-loc-overseer-2026-07-03|2026-07-03]] · [[reports/eng-loc-overseer-2026-07-29|2026-07-29]] → <!-- nav -->
 
 ## Files > 500 lines (refactor candidates)
 

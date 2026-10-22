@@ -6,7 +6,7 @@ date: 2026-07-03
 
 # ENG LOC Report: auto-apply-plugin
 
-> 🧭 [[repos/ats-fill|auto-apply-plugin]] · ← [[reports/eng-loc-auto-apply-plugin-2026-06-25|2026-06-25]] · [[reports/eng-loc-auto-apply-plugin-2026-07-04|2026-07-04]] → <!-- nav -->
+> 🧭 [[repos/ats-fill|ats-fill]] · ← [[reports/eng-loc-auto-apply-plugin-2026-06-25|2026-06-25]] · [[reports/eng-loc-auto-apply-plugin-2026-07-04|2026-07-04]] → <!-- nav -->
 
 **Date:** 2026-07-03
 **Repo:** auto-apply-plugin (auto-apply-plugin)

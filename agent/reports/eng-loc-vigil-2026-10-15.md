@@ -6,7 +6,7 @@ date: 2026-10-15
 
 # ENG LOC Report — vigil (2026-10-15)
 
-> 🧭 [[repos/vigil|vigil]] <!-- nav -->
+> 🧭 [[repos/vigil|vigil]] · ← [[reports/eng-loc-overseer-2026-07-29|2026-07-29]] <!-- nav -->
 
 HEAD: 5c199d4fc304c5ee2468432987dcaf427035dad8
 
