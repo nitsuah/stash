@@ -169,8 +169,11 @@ def set_props(rel, props):
 # ---------- reports ----------
 def report_kind_and_subject(rel):
     rest = rel[len("reports/"):]
-    if "/" in rest:  # reports/cloud/<routine>/<date>.md
-        return "/".join(rest.split("/")[:-1]), None
+    if "/" in rest:  # reports/cloud/<routine>/<routine>-<date>.md
+        folder, name = rest.rsplit("/", 1)
+        stem = DATE_IN_NAME.sub("", name[:-3]).strip("-")
+        # a different series sharing the folder (sotu/light-work-<week>) gets its own chain
+        return (folder if stem in ("", folder.split("/")[-1]) else f"{folder}/{stem}"), None
     stem = DATE_IN_NAME.sub("", rest[:-3]).strip("-")
     for kind in REPO_KINDS:
         if stem.startswith(kind + "-") or stem == kind:
