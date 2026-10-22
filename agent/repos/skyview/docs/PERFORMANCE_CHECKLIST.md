@@ -430,14 +430,8 @@ Create `.lighthouserc.json`:
 **Status**: ✅ **Most optimizations complete!**
 **Next Step**: Run `npm run optimize:images` and deploy to Netlify
 
-<<<<<<< Updated upstream
 ## Related
-- [lighthouse-desktop.report.html](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.html) — desktop Lighthouse audit report
-- [lighthouse-desktop.report.json](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.json) — Lighthouse JSON data
-- [[repos/skyview/docs/DEPLOYMENT_GUIDE|Deployment Guide]] — production deployment reference
-=======
-## Assets
 
-- [lighthouse-desktop.report.html](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.html) — Lighthouse desktop audit report
-- [lighthouse-desktop.report.json](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.json) — Lighthouse desktop audit data
->>>>>>> Stashed changes
+- [lighthouse-desktop.report.html](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.html): desktop Lighthouse audit report
+- [lighthouse-desktop.report.json](https://github.com/nitsuah/skyview/blob/main/docs/lighthouse-desktop.report.json): desktop Lighthouse audit data
+- [Deployment Guide](./DEPLOYMENT_GUIDE.md): production deployment reference
