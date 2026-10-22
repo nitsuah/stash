@@ -8,7 +8,7 @@ repo: ats-fill
 
 # Chrome Web Store Listing — ats-fill
 
-> Last Updated: 2026-10-15
+> Last Updated: 2026-10-16
 
 Single source of truth for the Developer Dashboard: listing copy, permission justifications and privacy disclosures. Release mechanics (OAuth, the publish workflow, rollback) live in [docs/release/chrome-web-store.md](docs/release/chrome-web-store.md); listing images in [docs/CHROME_WEB_STORE_ASSETS.md](docs/CHROME_WEB_STORE_ASSETS.md).
 
@@ -126,6 +126,7 @@ https://nitsuah.github.io/ats-fill/
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 1.0.4 | 2026-10-16 | Attaches your saved resume to the application's resume upload (can be turned off in Profile; the file only reaches the employer when you press submit). Answers Ashby Yes/No buttons and type-ahead dropdowns (Greenhouse location, country, demographic questions); filled values now stick on React forms. Fill no longer reuses AI non-answers or untouched autofill. Tracker: "Remove duplicates" button, one row per application form embedded in a career page, and cleaner company names. Job search: Remotive results match the query. | Draft |
 | 1.0.3 | 2026-10-14 | Optional "AI assistant access" setting: a local AI assistant can add and update tracker entries through a helper program on the user's computer (new `alarms` permission; optional `nativeMessaging`, requested only from that setting). Tracker entries capture the real company name on Ashby, Workday and generic apply pages instead of the page title; "My Application –" prefixes are dropped from job titles. | In review |
 | 1.0.2 | 2026-10-05 | See [CHANGELOG](docs/CHANGELOG.md). | Published |
 

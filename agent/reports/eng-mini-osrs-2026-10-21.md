@@ -7,6 +7,8 @@ date: 2026-10-21
 
 # eng-mini: osrs — 2026-10-21 (REPORT MODE, second pass)
 
+> 🧭 [[repos/osrs|osrs]] · ← [[reports/eng-mini-osrs-2026-10-02|2026-10-02]] <!-- nav -->
+
 > Report only; no moves executed. Fresh `--depth 1` clone of `nitsuah/osrs`. Latest commit 2026-10-21 10:20 -0400. This supersedes the earlier same-day report (HEAD `1a24bf9…`); the repo moved since.
 
 ## Files Reviewed at Root

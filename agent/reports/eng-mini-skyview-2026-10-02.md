@@ -7,7 +7,7 @@ date: 2026-10-02
 
 # eng-mini: skyview — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/skyview|skyview]] · ← [[reports/eng-mini-skyview-2026-09-23|2026-09-23]] <!-- nav -->
+> 🧭 [[repos/skyview|skyview]] · ← [[reports/eng-mini-skyview-2026-09-23|2026-09-23]] · [[reports/eng-mini-skyview-2026-10-21|2026-10-21]] → <!-- nav -->
 
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `5f46960` "chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates (#166)", `git log -1 --format=%ci` 2026-10-01T16:19:10-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/skyview`.
 

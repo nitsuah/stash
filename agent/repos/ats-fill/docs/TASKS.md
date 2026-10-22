@@ -47,12 +47,13 @@ _None._
   - Acceptance Criteria: a decision recorded here (or in `docs/release/chrome-web-store.md`); the release workflow publishes at most one pending review at a time, or only on the chosen schedule; a dispatch from `main` ships a release end to end without a review collision.
   - Found in the 2026-10-14 cross-repo auth audit.
 
-- [ ] Show the detected ATS when the application form is embedded in an iframe.
+- [x] Show the detected ATS when the application form is embedded in an iframe.
   - Priority: P3
   - Type: Bug · Confidence: High
   - Problem: on company career pages that embed a Greenhouse form (e.g. databricks.com with `job-boards.greenhouse.io/embed/job_app`), Fill works in the iframe but the popup's readiness card says "DETECTED ATS: No job page", because `DETECT_ATS` is answered from the top frame.
   - Same root cause in the tracker: filling the embedded form logged split rows ("Databricks — (no title)" from the iframe and "— Delivery Solutions Architect - Digital Native Business" from the parent page) instead of one entry, so the inbox sync could not tell which Databricks job a confirmation belongs to.
   - Acceptance Criteria: the readiness card names the ATS from the frame that owns the form; an e2e fixture with an embedded Greenhouse iframe covers it, and filling it logs exactly one tracker entry with both company and title.
+  - Done 2026-10-16: the host page defers `DETECT_ATS`, `GET_JOB_INFO` and `FILL_FORM` to an embedded ATS form iframe; the embed reads its title from its Remix data and the company from `for`, and records the parent job page as the tracker URL, so a fill logs one entry. Covered by jsdom tests only (no e2e fixture yet).
   - Found 2026-10-16 while battle-testing fill on live forms.
 
 - [ ] Add an opt-in "Full auto" fill mode (attach, fill, then submit) behind its own toggle.

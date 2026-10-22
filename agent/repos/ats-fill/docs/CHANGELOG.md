@@ -17,8 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-10-16
+
 ### Fixed
 
+- Tracker rows no longer keep a "<role> @ <company>" company name ("Staff Software Engineer - DevX @ Amplitude"): adding, editing and CSV import keep only the company.
+- An application form embedded in a career page iframe (Greenhouse on databricks.com, for example) is now the frame that answers Detect ATS and job capture, so the readiness card names Greenhouse; filling it logs one tracker entry with the company and title instead of a split pair.
 - Fill no longer puts profile values into long questions that merely use a field word: "…solutions to **address** recurring challenges?" got the street address, and "…located within the United **States**?" was treated as a standard field and never answered. Single words (address, state, name, available) now only match whole words in label-sized text.
 - Last names no longer include a middle name or initial ("Austin J. Hardy" filled Last Name as "J. Hardy").
 - The last-resort label matcher uses whole words, and a one-word saved answer only matches a label-sized prompt. "Did someone refer you? …share their name" was getting the applicant's own name, and "Do you reside in the United States?" was getting the state abbreviation.
@@ -30,9 +34,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AI non-answers ("Not specified in the provided information.", "N/A") are no longer filled or remembered; the field is flagged for review instead.
 - "Other: please specify" boxes are no longer filled with the group's answer (it put the race answer into the race "Other" box).
 - Twitter / X fields are no longer filled with the portfolio URL.
-- Values ats-fill typed and the user never changed are kept out of page drafts and learned memory, so one bad fill no longer comes back on reload, gets counted as "kept" by the next fill, or is reused on other applications. Radio groups are learned under their question instead of an option label.
+- Job search: Remotive results now match the query. Remotive ignores its `search` parameter and returned the same listings for every search, so the query is applied to its results locally.
+- Values typed by ats-fill that the user never changed are kept out of page drafts and learned memory, so one bad fill no longer comes back on reload, gets counted as "kept" by the next fill, or is reused on other applications. Radio groups are learned under their question instead of an option label.
 
 - Standalone home masthead stacks under 640px, so the intro no longer squeezes to one word per line and the stats bar no longer overlaps it; the standalone page no longer overflows sideways by the scrollbar width (#142).
+- **AI assistant access** wouldn't turn on from the toolbar popup: Chrome's Allow prompt could close along with the popup, so the permission was never granted and the helper never heard from ats-fill. The background now asks for the permission (the popup only relays the click), so the prompt stays up, and Settings says when the prompt was closed instead of looking switched on.
+- **AI assistant access** setup on Windows now registers the helper through Explorer and confirms it. Run from inside a packaged app such as the Claude desktop app, the old `reg add` landed in that app's private copy of the registry, so Chrome kept reporting "Specified native messaging host not found". Settings now shows the real connection error and when ats-fill last tried, instead of a generic setup hint.
 
 ### Added
 
@@ -46,11 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Docs: merged the duplicate 1.0.3 rows in CHROMEWEBSTORE.md's version history.
-
-### Fixed
-
-- **AI assistant access** wouldn't turn on from the toolbar popup: Chrome's Allow prompt could close along with the popup, so the permission was never granted and the helper never heard from ats-fill. The background now asks for the permission (the popup only relays the click), so the prompt stays up, and Settings says when the prompt was closed instead of looking switched on.
-- **AI assistant access** setup on Windows now registers the helper through Explorer and confirms it. Run from inside a packaged app such as the Claude desktop app, the old `reg add` landed in that app's private copy of the registry, so Chrome kept reporting "Specified native messaging host not found". Settings now shows the real connection error and when ats-fill last tried, instead of a generic setup hint.
 
 ## [1.0.3] - 2026-10-14
 

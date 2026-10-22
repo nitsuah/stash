@@ -7,6 +7,8 @@ date: 2026-10-21
 
 # eng-mini: skyview — 2026-10-21 (REPORT MODE)
 
+> 🧭 [[repos/skyview|skyview]] · ← [[reports/eng-mini-skyview-2026-10-02|2026-10-02]] <!-- nav -->
+
 > Report only; no moves executed. Fresh `--depth 1` clone of `nitsuah/skyview`. Latest commit 2026-10-21 10:18 -0400. Previous report: 2026-10-02.
 
 ## Files Reviewed at Root
