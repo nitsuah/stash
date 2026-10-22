@@ -28,16 +28,17 @@ These items came from the current browser/production pass. **P0** items are corr
   - Completed in PR #138: hosted ENS resolution fans out across supported EVM chains, aggregates successful USD values, and returns JSON-safe errors while preserving partial results.
   - Done 2026-09-28: PR #138 merged
 
-- [ ] **Google Drive backup round-trip verification before rollout**
+- [x] **Google Drive backup round-trip verification before rollout**
   - Priority: P0. Backup is financial data and must not be considered production-safe until encryption, upload, download, and decryption have been proven end-to-end.
   - Scope: browser-first Google login/connect flow; link the Drive account before exposing backup actions; encrypt locally/server-side with the existing AES-256-GCM design; add an explicit test fixture that uploads an encrypted backup, downloads it, decrypts it, and byte/structure-compares the restored payload.
   - Acceptance Criteria: Google OAuth connect works from the browser; Drive only receives ciphertext; a fresh restore succeeds against a real or deterministic mocked Drive round trip; corrupted/wrong-key backups fail cleanly; UI cannot report a successful backup until the round-trip verification succeeds.
   - Rollout gate: do not change the README/marketing copy to imply backup safety beyond the tested guarantees until this passes.
   - Progress 2026-10-14: on lifefire.netlify.app the Drive button returned the fire-api catch-all 404 ("not available in the hosted browser deployment"). `netlify/functions/gdrive-backup.mjs` now serves every `/api/backup/drive*` route on the hosted deploy. Tokens are sealed in the browser as Etsy's are; the browser sends its state and applies the restored state. The Drive and crypto code is shared with Express through store-free helpers in `app/lib/gdrive-backup.js`. `tests/unit/netlify-gdrive-backup.test.mjs` covers the following against a deterministic mocked Drive: authorize, callback to a sealed blob, ciphertext-only upload, list, and restore round trip (structure-compared). It also checks that wrong-key and corrupted backups and dead or unreadable grants fail with JSON. The toml routing test covers the new rewrites.
-    - Remaining (needs the user): ~~add the hosted redirect URI and do a live round trip on lifefire.netlify.app~~ (done 2026-10-14, see below); a live round trip on self-hosted is still open.
-    - Remaining (code): the UI still reports success after the upload, not after a verified round trip.
+    - Remaining (needs the user): ~~add the hosted redirect URI and do a live round trip on lifefire.netlify.app~~ (done 2026-10-14, see below); ~~a live round trip on self-hosted~~ (owner-confirmed 2026-10-15).
+    - ~~Remaining (code): the UI still reports success after the upload, not after a verified round trip.~~ Done 2026-10-21 (#215): the backup reads the upload back, decrypts and compares it before reporting success.
     - 2026-10-14, first live run on lifefire.netlify.app: the OAuth connect worked once the Google account was added as a test user. Listing backups then failed with only "Drive list failed. Try again later." Drive errors now carry Google's own message and reason code (for example `accessNotConfigured` when the Drive API is disabled for the project), both in the panel and in the Express responses.
     - 2026-10-14, live round trip **verified on lifefire.netlify.app**: once the Drive API was enabled in the GCP project, connect → Backup Now → Restore worked end to end. Follow-up (with the CoinTracker/web3 account work): after a restore, trigger the account refreshes (price/crypto/CoinTracker) so restored rows don't show stale values until the next scheduled refresh.
+  - Done 2026-10-21: every acceptance criterion now holds. Live round trip verified on the hosted deploy 2026-10-14 (PRs #188, #191, #201) and confirmed by the owner on self-hosted 2026-10-15; since #215 the UI reports success only after the uploaded file is read back, decrypted and matched.
 
 - [x] **Prices and net-worth history went stale with no dashboard tab open**
   - Found by the 2026-10-14 weekly check-in: `priceUpdatedAt` stuck at 2026-09-26, the Vanguard CITs never re-priced, and 8 snapshots all equal to $1,040,480.27.
@@ -85,16 +86,18 @@ These items came from the current browser/production pass. **P0** items are corr
 - [x] **Move eBay connector into the Side Hustle Hub**
   - Completed in PR #138: eBay is now a compact Side Hustle Hub integration with connection state and manual/automatic sync controls.
 
-- [ ] **Make eBay connection completion a toast + automatic sync**
+- [x] **Make eBay connection completion a toast + automatic sync**
   - Priority: P1.
   - Current behavior: browser callback shows `eBay connected. Use Settings → eBay Order Sync → Sync Now.`
   - Scope: replace the alert with the site's toast system; immediately start a sync after a successful connection; show progress/success/failure without requiring navigation to Settings.
   - Acceptance Criteria: successful OAuth returns to the Side Hustle Hub, a non-blocking toast appears, sync starts automatically, and the ledger refreshes when complete. Failure leaves the connector connected and gives an actionable retry state.
+  - Done 2026-09-28 (#138): the OAuth return shows the app toast and starts the first order sync; a failed first sync keeps the connector and says so.
 
-- [ ] **Normalize Side Gig Ledger form controls to the site theme**
+- [x] **Normalize Side Gig Ledger form controls to the site theme**
   - Priority: P1.
   - Scope: style `Tag all`, tax-tag selects, and item-cost inputs using the existing CSS tokens/components rather than browser/default white controls.
   - Acceptance Criteria: controls match dark/glass theme in desktop and mobile, retain accessible focus/contrast states, and have Playwright coverage at the Side Hustle Hub viewport sizes.
+  - Done 2026-09-28 (#138): tax-tag, bulk-tag and item-cost controls use the theme tokens.
 
 ### Chaos mode, layout customization, Claude skill — Oct 1, 2026
 
@@ -277,9 +280,10 @@ _Coverage: 84.31% stmts / 77.16% branch / 84.66% funcs / 84.97% lines (715 tests
 - [ ] Income vs. expense 12-month rolling trend view
   - Priority: P2
   - Type: Feature
-- [ ] PWA: `manifest.json` + service worker for installable offline mode
+- [x] PWA: `manifest.json` + service worker for installable offline mode
   - Priority: P2
   - Type: Feature
+  - Done (#81, 2026-08-23): `app/manifest.json` is linked from `index.html` and `app/sw.js` is registered by `lib/service-worker-registration.js`.
 - [~] CD maturity and FIRE milestone notification system — in-app alerts bell + browser-notification settings shipped; push/outbound delivery pending
 - [ ] Optional multi-user mode (separate encrypted db.json per user, HTTP Basic auth gate)
   - Priority: P3

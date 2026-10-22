@@ -23,13 +23,8 @@ repo: nitsuah-io
 
 ### P1 - High
 
-- [ ] Replace placeholder-heavy client demo assets.
-  - Context: the restaurant, e-commerce, real-estate, CMS, and NFT demos still rely on missing or placeholder imagery tracked in `docs/archive/SCREENSHOTS.md`.
-  - Acceptance Criteria: each demo renders with representative assets instead of placeholders.
+- [ ] Capture for promo: interactive-3d-scenes, spline-3d-scene-on-3d-route (the `/3d` scene once it loads, [#568](https://github.com/Nitsuah-Labs/nitsuah-io/issues/568); "3d" is not in the screenshot fixture set, so capture it from the live scene); ens-resolution (a connected wallet whose address resolves to an ENS name); domain-registration (`/labs/register` with a connected wallet).
 
-- [ ] Replace duplicate project and crypto page assets.
-  - Context: several project and crypto entries still reuse the same placeholder images.
-  - Acceptance Criteria: each featured project and crypto item has distinct representative media.
 
 - [ ] Redeploy the Register and Domains labs contracts to Amoy.
   - Context: #519 migrated `src/wagmi.ts`, chain-id checks, explorer links and copy from Mumbai to Amoy, but the contracts (`0x94b40dDa4ACfDe42c7B334A60f25a0f86CE163d8`, `0xBbDF8C47BC3FF87aaC2396493C3F98a89C399163`) were only ever deployed to Mumbai, which is shut down — so the labs pages point at addresses with no contract on Amoy. Needs a funded Amoy wallet (a human step); `Nitsuah-Labs/deployer`'s `deploy/deploy.ts` deploys `RegisterPortal`/`Domains` and is the natural tool.
@@ -44,6 +39,10 @@ repo: nitsuah-io
   - Acceptance Criteria: Projects page uses an asymmetric bento grid; Skills section uses a compact bento matrix; layout is responsive and accessible.
 
 ### P2 - Medium
+
+- [ ] Make the copy agree across screens (found framing the site tour on 2026-10-15).
+  - Context: the landing page says "Senior Platform & AI Engineer" while `/resume` says "Senior Systems Engineer" and the Pages page badge says "Senior Systems Engineer"; on a 390 px phone the landing page's Code and View All Projects buttons run past the right edge (`featured-projects-landing-page-mobile.png`) and the resume's Coinbase logo overlaps its job title (`professional-resume-mobile.png`).
+  - Acceptance Criteria: one title everywhere; no clipped buttons or overlapping logos at 390 px.
 
 - [ ] Re-enable ESLint as a required CI check once `eslint-config-next` and `typescript-eslint` support TypeScript 7.
   - Context: the repo is on TS 7, and both packages fail against it, so `npm run lint` can't run. CI's ESLint step is replaced by a visible "skipped" warning instead of a step that fails with `continue-on-error`. We stay on TS 7 rather than aliasing `typescript` to TS 6 (decided 2026-10-09). The flat-config migration is ready in draft #557 (drop its `package.json` TypeScript alias when reviving it).
@@ -73,6 +72,7 @@ repo: nitsuah-io
 ### P3 - Exploratory
 
 - [ ] Expand wallet-flow coverage in Playwright Nightly.
+  - Progress (2026-10-15): the nightly `journeys.yml` now covers connect and disconnect through the mock provider; signing is still uncovered.
   - Context: full wallet lifecycle (connect → sign → disconnect) still lacks automated nightly coverage.
   - Acceptance Criteria: wallet connection flow passes in the Nightly workflow using a mock provider.
 

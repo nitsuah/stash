@@ -447,7 +447,7 @@ The system is being productionized toward real-time, API-driven data in four pha
 | Web3 wallet tracking (ETH, BTC, SOL, + EVM chains) | Phase 1 | Live (user-provided keys per chain) |
 | Crypto account multichain value (ENS/0x, 7 EVM chains, tokens) | Phase 1 | Live (keyless: Blockscout + public RPCs) |
 | CoinTracker wallets (read-only MCP) | Phase 1 | Implemented; blocked until CoinTracker enables MCP early access for the account |
-| Google Drive encrypted backup | Phase 1 | Implemented self-hosted and on the hosted deploy (`netlify/functions/gdrive-backup.mjs`) via Google OAuth; live round-trip verification pending |
+| Google Drive encrypted backup | Phase 1 | Implemented self-hosted and on the hosted deploy (`netlify/functions/gdrive-backup.mjs`) via Google OAuth; success reported only after a verified read-back (#215); live round trip verified on the hosted deploy (2026-10-14) and self-hosted (2026-10-15) |
 | Vehicle value API (NHTSA VIN free; paid providers via `VEHICLE_VALUE_PROVIDER`) | Phase 1 | Live |
 | Fidelity / Plaid positions + balance sync | Phase 2 | Live (user-provided credentials; sandbox ready) |
 | Plaid on Netlify (hosted) | Phase 2 | **Hosted only** — endpoints route to `netlify/functions/plaid.mjs` at `/api/sync/plaid/*` (see [docs/integrations.md](docs/integrations.md#browser-only-deploy-netlify-function)); unit- and route-tested, live Link → sync run against the hosted deploy still pending |

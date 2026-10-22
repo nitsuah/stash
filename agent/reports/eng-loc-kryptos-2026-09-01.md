@@ -6,7 +6,7 @@ date: 2026-09-01
 
 # LOC Report — kryptos
 
-> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-07-29|2026-07-29]] <!-- nav -->
+> 🧭 [[repos/kryptos|kryptos]] · ← [[reports/eng-loc-kryptos-2026-07-29|2026-07-29]] · [[reports/eng-loc-kryptos-2026-10-15|2026-10-15]] → <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-01

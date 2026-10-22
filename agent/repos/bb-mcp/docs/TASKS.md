@@ -10,7 +10,7 @@ repo: bb-mcp
 
 > 🧭 [bb-mcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-30
+Last Updated: 2026-10-15
 
 ## Done
 
@@ -26,7 +26,6 @@ _All completed foundation, 2026 Q2, and 2026 Q3 work is shipped and condensed in
 
 ### P1 - High
 
-_None open._
 
 ### P2 - Medium
 

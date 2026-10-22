@@ -5,7 +5,7 @@ date: 2026-10-15
 
 # obn-import — 2026-10-15
 
-> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-10-07|2026-10-07]] <!-- nav -->
+> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-10-07|2026-10-07]] · [[reports/cloud/obn-import/obn-import-2026-10-21|2026-10-21]] → <!-- nav -->
 
 Seven tracked repos (darkmoon, deployer, fire, kryptos, vigil, skyview, vhs) are overdue on eng-loc (stuck on 2026-10-01 runs, 14 days old), `avatar` has never had an eng-loc report and `deployer` has never had an eng-mini report, and the vault graph's unreachable-report FAIL count has dropped sharply (24 → 4) since the last check.
 

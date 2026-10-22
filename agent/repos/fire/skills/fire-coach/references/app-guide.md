@@ -49,7 +49,7 @@ one tappable summary bar.
   and sync again.
 - **Synced (self-hosted, opt-in):** Plaid (Settings), eBay (Side Hustle Hub →
   eBay Sales Sync), wallets (Crypto Wallets).
-- **Google Drive Backup (Settings → Data Management):** self-hosted only — encrypts db.json with `SYNC_MASTER_KEY` before uploading to your personal Drive; the hosted demo does not offer this.
+- **Google Drive Backup (Settings → Data Management):** self-hosted and on the hosted deploy — encrypts the data (db.json self-hosted, the browser's state hosted) with AES-256-GCM before uploading to your personal Drive, and reports success only after reading the backup back and verifying it.
 - **Spending:** Expenses → Spending Upload, then adjust the categories.
   Budget numbers drive the FIRE number.
 

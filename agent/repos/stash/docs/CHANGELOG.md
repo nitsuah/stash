@@ -16,6 +16,17 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-16 — SOTU scoped to tier 1–2 apps
+
+- **Changed:** `sotu.py` reads each repo's tier live from vigil's `/api/context` (falling back to scope.md's Tier column) and covers only T1/T2 repos: ats-fill, bb-mcp, fire, motor-pool, skyview, vhs and vigil. Out-of-scope repos' tasks and ledger rows drop out; `--all-tiers` restores the full list. Tier drift against scope.md is reported in the report and the page header.
+- **Changed:** tasks now come from TASKS.md on `origin` by default; vigil's task cache (`--vigil-tasks`) lags same-day merges by hours.
+- **Changed:** `agent/prompts/SOTU.md` adds a tier-drift step and a verify step: Needs-you, kickoff and P0/P1 items are checked against merged PRs, issues, code and CI, and done items are closed at the source with docs-only PRs.
+
+### 2026-10-15 — SOTU status sync
+
+- **Fixed:** a full check of every open task against code, merged PRs and CI found ten more done-but-unticked items (ats-fill CWS token and listing-assets job, fire eBay toast/ledger theme/PWA and the Drive follow-up, nitsuah-io journeys-review findings, osrs `recover()`, and the ats-fill/nitsuah-io journeys callers here). They are now closed at the source.
+- **Fixed:** the Portfolio Checklist was showing finished work as open. Closed ledger row F-20260930-03 (cloud daily-brief reaches vigil again, verified 10-14 and 10-15), ticked the diagrams/screenshots initiative, and emptied `priorities.json` (both initiatives and the WSJF #1 are done; the done items are kept under `done`). The matching product-repo TASKS fixes are nitsuah/fire#202, Nitsuah-Labs/nitsuah-io#575 and nitsuah/vigil#297.
+
 ### 2026-10-15 — Vertical short
 
 - **Added:** `journeys-19s-vert`, a 19 s 1080×1920 narrated cut of the journeys spot with burned-in captions, published to `pages/assets/`. Narration is Kokoro TTS through vigil's `vigil-promo-tts` image (`promo/tts/narrate.sh`, `mix.py`); the voice lines are committed in `promo/journeys-19s-vert/vo/`. `promo/build.sh` reuses another spot's `synth.py` via `"synth"` and mixes narration for spots with `"narration"`; `render.js` exposes the spot config to the page as `window.SPOT`.
