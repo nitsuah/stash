@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Mobile layout (390 px): blog post CSS selectors are `:global` so the image max-width and the TOC hide apply (#565); `/profile` main uses `border-box` so it no longer overflows by 32 px (#566); Labs pages use `width: 100%` instead of `100vw`, removing the 8 px sideways scroll (#567).
 - `/3d` mounts the Spline runtime on its public scene again (a placeholder had replaced the mount in d8766c3), inside its framed panel (#568).
-- Blog posts: the encoding pass had replaced em dashes, arrows, tree characters and check/cross marks in 7 posts with `|--`, `|    ` and `[OK]`; restored from the clean copies in history, plus links unwrapped inside code samples. A unit test rejects `|-- ` and `[OK]` in post content (#569).
+- Blog posts: the encoding pass had replaced em dashes, arrows, tree characters and check/cross marks in 7 posts with a `|--` tree prefix, a pipe followed by four spaces, and `[OK]` markers; restored from the clean copies in history, plus links unwrapped inside code samples. A unit test rejects a `|--` tree prefix followed by a space, and `[OK]`, in post content (#569).
 - Home page at 1440×900: the `.home-main` grid no longer clips the project cards; short viewports scroll (#572).
 - Docs: README and METRICS now reflect the Node 26.11.1 pin and the Playwright image's actual bundled Node (v24.21.0, not 24.20.0).
 - Every page declared `<link rel="canonical" href="https://nitsuah.io">` (a root-layout `alternates.canonical` inherited by all routes), telling search engines each page, including every blog post, was a duplicate of the homepage.

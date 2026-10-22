@@ -35,9 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "Other: please specify" boxes are no longer filled with the group's answer (it put the race answer into the race "Other" box).
 - Twitter / X fields are no longer filled with the portfolio URL.
 - Job search: Remotive results now match the query. Remotive ignores its `search` parameter and returned the same listings for every search, so the query is applied to its results locally.
-- Values ats-fill typed and the user never changed are kept out of page drafts and learned memory, so one bad fill no longer comes back on reload, gets counted as "kept" by the next fill, or is reused on other applications. Radio groups are learned under their question instead of an option label.
+- Values typed by ats-fill that the user never changed are kept out of page drafts and learned memory, so one bad fill no longer comes back on reload, gets counted as "kept" by the next fill, or is reused on other applications. Radio groups are learned under their question instead of an option label.
 
 - Standalone home masthead stacks under 640px, so the intro no longer squeezes to one word per line and the stats bar no longer overlaps it; the standalone page no longer overflows sideways by the scrollbar width (#142).
+- **AI assistant access** wouldn't turn on from the toolbar popup: Chrome's Allow prompt could close along with the popup, so the permission was never granted and the helper never heard from ats-fill. The background now asks for the permission (the popup only relays the click), so the prompt stays up, and Settings says when the prompt was closed instead of looking switched on.
+- **AI assistant access** setup on Windows now registers the helper through Explorer and confirms it. Run from inside a packaged app such as the Claude desktop app, the old `reg add` landed in that app's private copy of the registry, so Chrome kept reporting "Specified native messaging host not found". Settings now shows the real connection error and when ats-fill last tried, instead of a generic setup hint.
 
 ### Added
 
@@ -51,11 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Docs: merged the duplicate 1.0.3 rows in CHROMEWEBSTORE.md's version history.
-
-### Fixed
-
-- **AI assistant access** wouldn't turn on from the toolbar popup: Chrome's Allow prompt could close along with the popup, so the permission was never granted and the helper never heard from ats-fill. The background now asks for the permission (the popup only relays the click), so the prompt stays up, and Settings says when the prompt was closed instead of looking switched on.
-- **AI assistant access** setup on Windows now registers the helper through Explorer and confirms it. Run from inside a packaged app such as the Claude desktop app, the old `reg add` landed in that app's private copy of the registry, so Chrome kept reporting "Specified native messaging host not found". Settings now shows the real connection error and when ats-fill last tried, instead of a generic setup hint.
 
 ## [1.0.3] - 2026-10-14
 

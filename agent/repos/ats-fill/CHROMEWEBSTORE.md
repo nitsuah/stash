@@ -8,7 +8,7 @@ repo: ats-fill
 
 # Chrome Web Store Listing — ats-fill
 
-> Last Updated: 2026-10-15
+> Last Updated: 2026-10-16
 
 Single source of truth for the Developer Dashboard: listing copy, permission justifications and privacy disclosures. Release mechanics (OAuth, the publish workflow, rollback) live in [docs/release/chrome-web-store.md](docs/release/chrome-web-store.md); listing images in [docs/CHROME_WEB_STORE_ASSETS.md](docs/CHROME_WEB_STORE_ASSETS.md).
 
