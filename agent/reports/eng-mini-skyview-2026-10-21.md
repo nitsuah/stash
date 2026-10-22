@@ -24,20 +24,25 @@ date: 2026-10-21
 
 ## Duplicate / Destination Checks
 
-`docs/` holds ROADMAP, TASKS, FEATURES, CHANGELOG; root holds only METRICS. No root/`docs/` pairs. No CONTRIBUTING at either location. A move of the dev compose files to `config/` would not collide with `config/docker-compose.yml` only if renamed; `docker-compose.dev.yml` is a different filename, so no conflict.
+`docs/` holds ROADMAP, TASKS, FEATURES, CHANGELOG; root holds only METRICS. No root/`docs/` pairs. No CONTRIBUTING at either location. Moving the dev compose files to `config/` would not collide with `config/docker-compose.yml`: `docker-compose.dev.yml` is a different filename. Their relative paths still need review (see Known Risks).
 
 ## Files Moved
+
 None (report mode).
 
 ## Validation
+
 Read-only audit; no build/test run.
 
 ## Known Risks / Deferred
+
 - `docker-compose.dev.yml` / `Dockerfile.dev` move requires fixing relative `build.context`/`dockerfile`/volume paths. Deferred.
 - `docs/lighthouse-desktop.report.{html,json}` are generated artifacts inside `docs/` (not root; informational).
 
 ## Overseer Decisions Required
+
 None.
 
 ## Suggested Follow-up
+
 Optionally move `docker-compose.dev.yml` → `config/` with corrected paths.

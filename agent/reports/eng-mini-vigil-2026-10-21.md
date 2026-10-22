@@ -29,16 +29,21 @@ date: 2026-10-21
 Planning docs: ROADMAP, TASKS, FEATURES, METRICS, CHANGELOG exist at root only (last commit 2026-10-21 each); `docs/` holds none of them. No root/`docs/` pairs. No CONTRIBUTING at either location. No destination conflicts for any proposed move.
 
 ## Files Moved
+
 None (report mode).
 
 ## Validation
+
 Read-only audit; no build/test run.
 
 ## Known Risks / Deferred
+
 - Moving the five `playwright.*.config.ts` files to `config/` requires updating `package.json` (`test:journeys`, others), three workflows, comments in `smoke.yml`/`e2e.yml`, and `testDir`/`globalSetup` paths. Medium risk, deferred.
 
 ## Overseer Decisions Required
+
 1. Tracked `build.log`, `build-out.log`, `build2.log` (212/212/834 bytes) and `.coverage` (53 KB): look like accidental commits. Removal is a deletion (out of scope for the non-destructive pass). Propose: `git rm` them and add to `.gitignore`. Needs approval.
 
 ## Suggested Follow-up
+
 Approve the artifact removal; optionally consolidate Playwright configs under `config/` in a dedicated PR.

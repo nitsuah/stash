@@ -28,16 +28,21 @@ date: 2026-10-21
 `docs/` has FEATURES, METRICS, ROADMAP, TASKS (+ `archive/`); root has only CHANGELOG. No root/`docs/` pairs. No CONTRIBUTING at either location. `config/.pre-commit-config.yaml` and `config/pytest.ini` do not exist, so no destination conflicts.
 
 ## Files Moved
+
 None (report mode).
 
 ## Validation
+
 Read-only audit; no build/test run.
 
 ## Known Risks / Deferred
-Two deferred config moves above need tool-invocation updates (`pre-commit --config`, `pytest -c`) and their own validation (`pre-commit run --all-files`, `make test`).
+
+Two deferred config moves above need tool-invocation updates (`pre-commit --config`, `pytest -c`) and their own validation (`pre-commit run --config config/.pre-commit-config.yaml --all-files`, `make test`).
 
 ## Overseer Decisions Required
+
 None.
 
 ## Suggested Follow-up
+
 Optionally finish the `config/` migration for `.pre-commit-config.yaml` and `pytest.ini` in a dedicated PR.
