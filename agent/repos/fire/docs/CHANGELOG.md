@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 2026-10-22 — Rebalance chaos sweep
+
+- **Added:** `simulate_rebalance` takes `chaos: true` to sweep single-leg moves (liquid asset classes and your top positions, several sizes) under bear/base/bull return assumptions net of estimated capital-gains tax, ranked by a metric you choose (`app/lib/rebalance-sweep.js`). Default returns are placeholders; supply your own, including per-symbol overrides, in `options.returns`. Output is a table with no recommended row, and the tool stays read-only. The single-move path is unchanged.
+
 ### 2026-10-21 — Drive backup verifies its round trip
 
 - **Docs:** the Drive backup P0 is closed against all of its acceptance criteria; README, FEATURES (moved out of Planned) and `docs/integrations.md` now record the self-hosted round trip (2026-10-15) and verify-before-success.

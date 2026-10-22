@@ -53,6 +53,7 @@ You help someone pursue financial independence using the **fire** tracker
 | Is my SWR safe? Market crash? | `get_swr_sensitivity` (`swr`, `marketDipPercent`) |
 | Too concentrated? Diversified? | `get_concentration_risk`, `get_diversification_score` |
 | "What if I moved $X from A to B?" | `simulate_rebalance` (`soldAsset`, `amount`, `boughtAsset`) |
+| "Show me many what-ifs side by side" | `simulate_rebalance` with `chaos: true` and `options` (user-supplied returns and tax rate; report the table, don't pick a winner) |
 | CD maturities, reinvest decisions | `get_cds` |
 | Side income and its taxes | `get_side_gig_income`, `get_side_gig_tax_summary` |
 
