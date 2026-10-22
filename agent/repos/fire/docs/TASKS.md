@@ -34,11 +34,11 @@ These items came from the current browser/production pass. **P0** items are corr
   - Acceptance Criteria: Google OAuth connect works from the browser; Drive only receives ciphertext; a fresh restore succeeds against a real or deterministic mocked Drive round trip; corrupted/wrong-key backups fail cleanly; UI cannot report a successful backup until the round-trip verification succeeds.
   - Rollout gate: do not change the README/marketing copy to imply backup safety beyond the tested guarantees until this passes.
   - Progress 2026-10-14: on lifefire.netlify.app the Drive button returned the fire-api catch-all 404 ("not available in the hosted browser deployment"). `netlify/functions/gdrive-backup.mjs` now serves every `/api/backup/drive*` route on the hosted deploy. Tokens are sealed in the browser as Etsy's are; the browser sends its state and applies the restored state. The Drive and crypto code is shared with Express through store-free helpers in `app/lib/gdrive-backup.js`. `tests/unit/netlify-gdrive-backup.test.mjs` covers the following against a deterministic mocked Drive: authorize, callback to a sealed blob, ciphertext-only upload, list, and restore round trip (structure-compared). It also checks that wrong-key and corrupted backups and dead or unreadable grants fail with JSON. The toml routing test covers the new rewrites.
-    - Remaining (needs the user): ~~add the hosted redirect URI and do a live round trip on lifefire.netlify.app~~ (done 2026-10-14, see below); a live round trip on self-hosted is still open.
-    - Remaining (code): the UI still reports success after the upload, not after a verified round trip.
+    - Remaining (needs the user): ~~add the hosted redirect URI and do a live round trip on lifefire.netlify.app~~ (done 2026-10-14, see below); ~~a live round trip on self-hosted~~ (owner-confirmed 2026-10-15).
+    - ~~Remaining (code): the UI still reports success after the upload, not after a verified round trip.~~ Done 2026-10-21 (#215): the backup reads the upload back, decrypts and compares it before reporting success.
     - 2026-10-14, first live run on lifefire.netlify.app: the OAuth connect worked once the Google account was added as a test user. Listing backups then failed with only "Drive list failed. Try again later." Drive errors now carry Google's own message and reason code (for example `accessNotConfigured` when the Drive API is disabled for the project), both in the panel and in the Express responses.
     - 2026-10-14, live round trip **verified on lifefire.netlify.app**: once the Drive API was enabled in the GCP project, connect → Backup Now → Restore worked end to end. Follow-up (with the CoinTracker/web3 account work): after a restore, trigger the account refreshes (price/crypto/CoinTracker) so restored rows don't show stale values until the next scheduled refresh.
-  - Done 2026-10-14: live round trip verified on the hosted deploy (PRs #188, #191, #201). The self-hosted live run and success-after-round-trip reporting moved to the P1 follow-up below.
+  - Done 2026-10-21: every acceptance criterion now holds. Live round trip verified on the hosted deploy 2026-10-14 (PRs #188, #191, #201) and confirmed by the owner on self-hosted 2026-10-15; since #215 the UI reports success only after the uploaded file is read back, decrypted and matched.
 
 - [x] **Prices and net-worth history went stale with no dashboard tab open**
   - Found by the 2026-10-14 weekly check-in: `priceUpdatedAt` stuck at 2026-09-26, the Vanguard CITs never re-priced, and 8 snapshots all equal to $1,040,480.27.
@@ -46,12 +46,6 @@ These items came from the current browser/production pass. **P0** items are corr
   - Follow-up: the CIT CUSIPs still update only on a CSV import. Pricing them needs a fund-NAV source, or a Plaid holdings sync for the 401k.
 
 ### P1 — Integration & workflow improvements
-
-- [ ] **Google Drive backup: report success only after a verified round trip**
-  - Priority: P1. Split from the closed P0 above on 2026-10-15.
-  - Done 2026-10-15: live backup and restore through Google Drive confirmed by the owner (self-hosted and lifefire.netlify.app).
-  - Remaining: `runGDriveBackupNow()` in `app/lib/managers/gdrive-backup.js` shows "Backup saved" as soon as the upload returns. Download and decrypt the new file (or check its digest) before showing success.
-  - Acceptance Criteria: the UI cannot show a successful backup until the restore check passes (unit test covers the failed-verify path).
 
 - [ ] **Serve Plaid on the Netlify deploy (lifefire.netlify.app)**
   - Priority: P1. Hosted browser deployment must support the same Plaid Link → exchange → accounts → positions → transactions workflow as Express; a JSON-safe 404/status stub is not sufficient.
