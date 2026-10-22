@@ -8,7 +8,7 @@ repo: ats-fill
 
 # Chrome Web Store Listing — ats-fill
 
-> Last Updated: 2026-10-16
+> Last Updated: 2026-10-21
 
 Single source of truth for the Developer Dashboard: listing copy, permission justifications and privacy disclosures. Release mechanics (OAuth, the publish workflow, rollback) live in [docs/release/chrome-web-store.md](docs/release/chrome-web-store.md); listing images in [docs/CHROME_WEB_STORE_ASSETS.md](docs/CHROME_WEB_STORE_ASSETS.md).
 
@@ -32,7 +32,7 @@ Optional AI drafting and resume parsing use your own free Google Gemini key. Wit
 
 How to use it: accept the privacy notice, upload your resume and check the parsed details, fill in your preferences, then open an application page and press Fill. Review the form and submit it yourself. ats-fill never submits for you.
 
-Privacy: everything is stored only in your browser on your device. There is no account, no server and no analytics. Data leaves your device only when you start a job search, an AI request with your own key, or an optional profile import. Sensitive demographic fields are off by default and never sent to AI.
+Privacy: everything is stored only in your browser on your device. There is no account, no server and no analytics. Data leaves your device only when you start a job search, an AI request with your own key, or an optional profile import, and when you submit an application yourself (the employer's site then receives the answers filled in and any resume attached). Sensitive demographic fields are off by default and never sent to AI.
 
 Source code and support: https://github.com/nitsuah/ats-fill
 
@@ -87,11 +87,11 @@ Built and validated from each release tag by the release workflow (see [docs/CHR
 | Data Type | Handled? | Transmitted Off-Device? | Purpose | Shared with Third Parties? |
 |-----------|-----------|------------------------|---------|---------------------------|
 | Personally identifiable info | Yes (profile, resume) | Only to Google Gemini when the user runs an AI action with their own key, and to the employer's application site (filled answers and the attached resume file) when the user submits that form themselves | Filling applications, drafting answers | Only that user-initiated request or submission |
-| Health info | Disability field, opt-in only | No; never sent to AI | Answering a form question when the user enables it | No |
-| Financial info | Desired pay range | Only within a user-run AI draft | Answering salary questions | Only that user-initiated request |
+| Health info | Disability field, opt-in only | Never to AI; to the employer's application site only if the user enables the field and submits that form themselves | Answering a form question when the user enables it | Only that user-initiated submission |
+| Financial info | Desired pay range | Only within a user-run AI draft, and to the employer's application site when the user submits that form themselves | Answering salary questions | Only that user-initiated request or submission |
 | Authentication info | User's own API keys | Only to the service each key belongs to | Job search, AI | No |
 | Personal communications | No | — | — | — |
-| Location | City or region from the profile | Only within a user-run AI draft | Answering location questions | Only that user-initiated request |
+| Location | City or region from the profile | Only within a user-run AI draft, and to the employer's application site when the user submits that form themselves | Answering location questions | Only that user-initiated request or submission |
 | Web history | No | — | — | — |
 | User activity | Application tracker (jobs the user saved or applied to) | No | Pipeline and analytics on the user's device | No |
 | Website content | Job description text from pages the user applies on | Only to Gemini when the user asks for a summary or drafts | Tracker entries, tailored drafts | Only that user-initiated request |

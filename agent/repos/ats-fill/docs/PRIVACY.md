@@ -11,7 +11,7 @@ repo: ats-fill
 > 🧭 [ats-fill](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
 **Document version:** 1.3
-**Last updated:** October 14, 2026
+**Last updated:** October 21, 2026
 **Applies to:** the ats-fill browser extension ("the extension") in this repository.
 
 This is the canonical, public statement of the extension's Terms of Use (EULA),
@@ -92,6 +92,7 @@ Data leaves your device **only** when *you* trigger an optional network action:
 | LinkedIn session job search (optional) | LinkedIn Voyager API | your search query, via your active browser session | your existing LinkedIn sign-in |
 | LinkedIn / Google profile import (optional) | LinkedIn or Google OAuth/OIDC | OAuth handshake | your own app credentials + your sign-in |
 | Custom job source fetch (optional) | whatever URL you add | your search query (appended as a param when the feed doesn't already encode one) | none — a one-time browser permission prompt scoped to that site |
+| Submitting an application (you press Submit; ats-fill never does) | that employer's application site | the answers ats-fill filled in, including any opt-in disability, salary or location answers, and the attached resume file | none — the employer's own form |
 
 Without a Gemini key, autofill still works fully using deterministic, on-device
 logic and sends nothing anywhere. Each request sends only what is needed to
