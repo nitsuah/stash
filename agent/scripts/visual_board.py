@@ -101,7 +101,7 @@ def scan(repo: dict, fetch: bool) -> dict:
     files = git(p, "ls-tree", "-r", "--name-only", ref).splitlines() if ref else []
     if not files:
         # No clone or no readable default branch: report it, but keep it out of the score and the pick.
-        return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
+        return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": repo["scope_tier"],
                 "path": p, "found": False, "score": None, "next": None,
                 "cells": {k: {"status": "na", "label": "no clone"} for k, _ in COLUMNS}}
     found = True
@@ -189,7 +189,7 @@ def scan(repo: dict, fetch: bool) -> dict:
     scored = [v for v in c.values() if v["status"] != "na"]
     score = round(100 * sum(1 if v["status"] == "ok" else 0.5 if v["status"] == "partial" else 0 for v in scored) / len(scored))
     nxt = next((k for k, _ in COLUMNS if c[k]["status"] in ("missing", "partial")), None)
-    return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": sotu.tier_of(repo["repo"]),
+    return {"repo": repo["repo"], "full_name": repo["full_name"], "tier": repo["scope_tier"],
             "path": p, "found": found, "score": score, "cells": c,
             "unlinked": s.get("unlinked", []),  # visible features with nothing linked: the linked pass works this list
             "token_perm": token_perm or "read",
