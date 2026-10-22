@@ -16,27 +16,29 @@ Anything should be able to dispatch an imp with one call: a routine, a webhook, 
 
 - `dashboard/routes/tasks.js` + `dashboard/task-runner.js`: a task queue with priority ordering. It's an in-memory `Map`, ticks every 5 s, runs one task at a time, and dispatches a task by sending its title as a chat message to a session. It isn't durable and doesn't run processes.
 - `POST /api/webhooks/trigger`: HMAC-signed external events that can create tasks.
-- `docs/ROADMAP.md`: has a planned durable audit record. Austin also plans a **durable work queue**. Imps should be its first consumer, not a parallel queue. If the durable queue doesn't exist yet, build the minimum durable version (persisted, survives restarts, claim/lease so a task runs once) as phase 1, shaped so it can grow into the general queue.
+- `docs/ROADMAP.md`: has a planned durable audit record. Austin also plans a **durable work queue**. Imps should be its first consumer, not a parallel queue. If the durable queue doesn't exist yet, build the minimum durable version (persisted, survives restarts, claim/lease; delivery is at-least-once, so the runner must be idempotent, see Runner step 0) as phase 1, shaped so it can grow into the general queue.
 - motor-pool already runs in Docker and has a sandbox-workspace pattern (`workspace-seed`, `agent_workspace` volume). Reuse its ideas, but imps work on *other* repos under `~/code`.
 
 ## Design
 
 **Imp task** (a queue item of kind `imp`):
-- `repo`: folder under `~/code`
-- `baseBranch`: default is the repo's default branch
+- `repo`: folder under `~/code`. Validate at enqueue and again before the run: resolve the real path and reject absolute paths, `..` and symlinks that land outside `~/code`.
+- `baseBranch`: default is the repo's default branch. If given, it must pass `git check-ref-format --branch` and exist on `origin`.
 - `brief`: markdown
 - `source`: e.g. `issue:nitsuah/vigil#123`, `routine:<name>`, `manual`
 - `priority`
 - `model`: default 9router combo `MAX`
 - `limits`: max minutes, max cost
 - `labels`
-- Server fills in: `status`, `attempts`, `worktree`, `branch`, `sessionId`, `prUrl`, `result`, `costUsd`, timestamps
+- Server fills in: `status`, `attempts`, `attemptId` (new per claim), `worktree`, `branch`, `cliSessionId` (the `claude --resume` ID; not the dashboard chat `sessionId` the webhook contract uses), `prUrl`, `result`, `costUsd`, timestamps
 
-**Lifecycle:** `queued → claimed → running → pr_opened | no_change | failed | timed_out`
+**Lifecycle:** `queued → claimed → running → pr_opened | no_change | failed | timed_out | cancelled`
+- `cancelled` is reachable from `queued`, `claimed` and `running`. Cancelling a running imp kills its process group, releases the lease, saves the record with the last report, then cleans the worktree.
 - A claim is a lease with a heartbeat. If the runner dies, the lease expires and the task requeues with `attempts+1`.
 - Cap attempts at 2. After that it's `failed`, with the imp's last report attached, and it doesn't retry again.
 
 **Runner:**
+0. Reconcile before acting (a retried task may have half-run): if branch `imp/<slug>-<id>` or an open PR for it already exists, adopt it instead of starting over; remove a worktree left by an expired attempt. Record the `attemptId` in the branch's first commit trailer and the PR body.
 1. Create a worktree from `origin/<baseBranch>` on branch `imp/<slug>-<id>`. Verify the base hash matches origin before starting.
 2. Launch `claude -p "<filled brief>" --model <model> --permission-mode acceptEdits --allowedTools <allowlist> --output-format stream-json --verbose < /dev/null`.
    - Env starts clean (drop any inherited `CLAUDE*`/`ANTHROPIC*`), then `ANTHROPIC_BASE_URL=<9router>/v1` and `ANTHROPIC_API_KEY=<9router key from config/secret>`.
@@ -49,18 +51,18 @@ Anything should be able to dispatch an imp with one call: a routine, a webhook, 
 - `POST /api/imps`: create an imp task.
 - `GET /api/imps` / `GET /api/imps/:id`: status, live tail, result.
 - `POST /api/imps/:id/cancel`: cancel a task.
-- Auth on the create endpoint (bearer or HMAC like the webhook) before it's reachable beyond localhost.
+- Every `/api/imps` endpoint (create, list, detail, live tail, cancel) needs auth (bearer or HMAC like the webhook) and a per-owner check before it's reachable beyond localhost.
 
 **Dispatchers (thin, after the core works):**
 - A `/imp` skill or command for Claude sessions that POSTs a brief.
-- A webhook rule: GitHub `issues.opened`/`labeled` with `bot:journey` → imp task using the journey-fix brief template. Label the issue `imp:working`, then `imp:pr` or `imp:failed`.
+- A webhook rule: GitHub `issues.labeled` where the added label is `bot:journey` (ignore the `imp:*` label events this rule causes) → imp task using the journey-fix brief template. The webhook contract today only carries `createTask.title/priority/sessionId`, so extend it (or add a mapper) to produce the full `/api/imps` payload. Dedupe on the issue: skip if an open imp task already exists for it. Label the issue `imp:working` only after the enqueue succeeds, then `imp:pr` or `imp:failed`.
 - A routine-offload path, so cloud and local routines can enqueue their mechanical steps as imps.
 
 **Guardrails:**
 - Imps never merge.
-- Never touch auth, billing or secrets paths (reject at enqueue by a path/keyword rule, or have the brief tell the imp to stop and report).
+- Never touch auth, billing or secrets paths. Enforce this in server/runner code, not the prompt: reject at enqueue by a path/keyword rule, and before pushing, fail the task if the diff touches a protected path. The brief's stop-and-report line is a backstop only.
 - Allowlist only: `Read Edit Write Glob Grep` plus `Bash(git *) Bash(docker *) Bash(gh *)`. No host npm/node: Docker only.
-- During a 9router fallback window (the router reports a non-Anthropic model serving), only run tasks tagged `low-risk`. Hold the rest.
+- During a 9router fallback window (the router reports a non-Anthropic model serving), only run tasks marked low-risk by the server's own rule (task kind and repo allowlist), not by a label an issue author can set. Hold the rest.
 - Commits carry `Co-Authored-By: 9router imp <noreply@anthropic.com>`, so imp work stays distinguishable in history.
 
 ## Brief template (what the runner fills per task)
