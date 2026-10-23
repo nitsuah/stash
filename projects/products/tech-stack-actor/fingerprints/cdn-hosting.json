@@ -1,0 +1,7 @@
+[
+  { "name": "Cloudflare", "category": "CDN", "website": "https://www.cloudflare.com", "match": { "headers": { "server": "^cloudflare$", "cf-ray": "." } }, "example": { "headers": { "server": "cloudflare", "cf-ray": "8abc123-IAD" } } },
+  { "name": "Netlify", "category": "Hosting", "website": "https://www.netlify.com", "match": { "headers": { "server": "^Netlify$", "x-nf-request-id": "." } }, "example": { "headers": { "server": "Netlify", "x-nf-request-id": "01HABC" } } },
+  { "name": "Vercel", "category": "Hosting", "website": "https://vercel.com", "match": { "headers": { "server": "^Vercel$", "x-vercel-id": "." } }, "example": { "headers": { "server": "Vercel", "x-vercel-id": "iad1::abc" } } },
+  { "name": "Amazon CloudFront", "category": "CDN", "website": "https://aws.amazon.com/cloudfront/", "match": { "headers": { "via": "CloudFront", "x-amz-cf-id": "." } }, "example": { "headers": { "via": "1.1 abc.cloudfront.net (CloudFront)", "x-amz-cf-id": "abc" } } },
+  { "name": "Fastly", "category": "CDN", "website": "https://www.fastly.com", "match": { "headers": { "x-served-by": "^cache-", "x-fastly-request-id": "." } }, "example": { "headers": { "x-served-by": "cache-iad-kiad7000012-IAD" } } }
+]
