@@ -1,0 +1,13 @@
+{
+    "actorSpecification": 1,
+    "name": "broken-link-checker",
+    "title": "Broken Link Checker (internal and external)",
+    "description": "Crawl a website and list every broken link with the pages it appears on.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 1024,
+    "minMemoryMbytes": 512,
+    "input": "./input_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md"
+}
