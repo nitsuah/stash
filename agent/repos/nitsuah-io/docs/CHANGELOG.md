@@ -17,7 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Fixed:** removed the `Sitemap: https://nitsuah.io/sitemap-index.xml` line from `public/robots.txt`. That URL does not exist (the app serves `/sitemap.xml`), so crawlers following robots.txt got about 95 404s a week, each one a function invocation.
+
+### Changed
+
+- **Changed:** `netlify.toml` gains a production-only `ignore` command, so a push to `main` deploys only when something outside docs, tests, CI config or promo assets changed. Each production deploy costs 15 Netlify credits, and docs/test-only merges no longer spend them. Deploy previews are unaffected, and a missing `CACHED_COMMIT_REF` makes the check fail open so the build still runs.
+
 ### Added
+- Ten more free browser tools at `/tools` (25 in total): an HTML heading outline checker, a vague link text checker, a time zone converter, an hourly-to-salary calculator, a percentage calculator, a JSON formatter, Base64 and URL encoders/decoders, a Unix timestamp converter and a regex tester, added to the sitemap and covered by `free-tools.test.ts`; every tool was checked against known values and all pages score 100 on axe-core. Earlier: free browser tools at `/tools`: a WCAG contrast checker, freelance hourly-rate, project-quote, margin/markup and late-fee calculators, a local-business JSON-LD generator and an SRT subtitle shifter, an invoice generator (print or save as PDF) a WCAG 2.2 AA accessibility checklist, a word counter, an aspect-ratio calculator, a HEX/RGB/HSL color converter, a text case converter, a UTM link builder and a random password generator. Static, client-side-only pages in `public/tools/` (no third-party requests), served at pretty URLs by `rewrites()` in `next.config.js`, with canonical URLs, all eight pages in the sitemap, and `src/__tests__/free-tools.test.ts` guarding the structure. Each page scored 100 on axe-core and every tool was checked against known values.
 - Representative images for the storefront, restaurant, NFT, blog CMS and real-estate demos, and distinct media for all 12 crypto projects, replacing the emoji placeholders and reused images (#559).
 - Journeys review fixes from 2026-10-15: blog posts fit a phone and lost the mangled `|--` punctuation, `/profile` and the Labs pages no longer scroll sideways, and the home project-card buttons no longer clip at 1440×900 (#574, closing #565–#567, #569, #572).
 - `site-tour-vert`: a 29 s, 1080x1920 narrated tour of the site (home, projects, resume, about, blog, Labs) with burned-in captions, built compose-only from the committed screenshots (`promo/site-tour-vert/`, `promo/build.sh`, Kokoro narration lines committed under `vo/`), published to `github-pages-blog/brag/` and a "Site tour" slot on the Pages page, and mirrored into five features' `spots[]`.

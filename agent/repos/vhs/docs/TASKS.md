@@ -18,13 +18,13 @@ Last Updated: 2026-10-14
 
 ## Todo
 
-- [ ] **Confirmed review tapes don't appear in the Collection until it re-renders** ([#79](https://github.com/nitsuah/vhs/issues/79)) — `setActiveTab()` never calls `renderInv()`; after the fix, restore the 19-card check in `tests/journeys/review.spec.js`
+- [ ] **Confirmed review tapes don't appear in the Collection until it re-renders** ([#79](https://github.com/nitsuah/vhs/issues/79)) — ~~`setActiveTab()` never calls `renderInv()`~~ (fixed in #91); still to do: restore the 19-card check in `tests/journeys/review.spec.js`
   - Priority: P1
   - Type: Bug
 - [ ] **Tape count, value total and clickable stats chips are gone** ([#77](https://github.com/nitsuah/vhs/issues/77)) — `updateCount()` writes to a missing `#count` since #36; `quickFilter` was dropped
   - Priority: P2
   - Type: Bug
-- [ ] **Phone toolbar wraps the Export button onto its own row** ([#78](https://github.com/nitsuah/vhs/issues/78))
+- [x] **Phone toolbar wraps the Export button onto its own row** ([#78](https://github.com/nitsuah/vhs/issues/78))
   - Priority: P2
   - Type: Bug
 - [ ] **Review `scripts/audit-metadata.js` dry-run output against the real collection before any `--apply`** — PR #55 added the tool (dry-run by default, OMDb comparison, high-confidence-only corrections) but its own test plan left this unchecked: `--apply` was only ever dry-run against local test data because no `OMDB_API_KEY` was configured. Acceptance: a dry run over the ~500-title collection is reviewed by a human, then `--apply` is run (or specific corrections rejected with reasons).
