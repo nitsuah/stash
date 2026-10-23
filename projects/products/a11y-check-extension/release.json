@@ -1,0 +1,6 @@
+{
+  "targets": ["chrome-web-store"],
+  "versionFile": "manifest.json",
+  "packageFiles": ["manifest.json", "popup.html", "popup.js", "sw.js", "axe.min.js", "icon16.png", "icon48.png", "icon128.png"],
+  "storeId": null
+}

@@ -1,0 +1,37 @@
+{
+    "title": "Broken Link Checker input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "Pages to start crawling from (up to 20). The Actor follows links on the same site.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "maxPages": {
+            "title": "Max pages to crawl",
+            "type": "integer",
+            "description": "Upper limit of pages crawled on the site (1 to 1000).",
+            "default": 50,
+            "minimum": 1,
+            "maximum": 1000
+        },
+        "checkExternal": {
+            "title": "Check external links",
+            "type": "boolean",
+            "description": "Also test links that point to other websites.",
+            "default": true
+        },
+        "timeoutSecs": {
+            "title": "Timeout per link (seconds)",
+            "type": "integer",
+            "description": "How long to wait for each link before calling it broken.",
+            "default": 15,
+            "minimum": 3,
+            "maximum": 60
+        }
+    },
+    "required": ["startUrls"]
+}

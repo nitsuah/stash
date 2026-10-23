@@ -1,0 +1,30 @@
+{
+    "title": "Website Accessibility Audit input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Pages to audit",
+            "type": "array",
+            "description": "One or more http(s) page URLs. Each page is audited separately (up to 200 per run).",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "standards": {
+            "title": "axe-core rule tags",
+            "type": "array",
+            "description": "Which rule sets to run. Default is WCAG 2.0 to 2.2 level A and AA. Other useful tags: best-practice, wcag2aaa, section508.",
+            "editor": "stringList",
+            "default": ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]
+        },
+        "maxNodesPerViolation": {
+            "title": "Examples per violation",
+            "type": "integer",
+            "description": "How many failing elements to include for each violated rule (1 to 20).",
+            "default": 3,
+            "minimum": 1,
+            "maximum": 20
+        }
+    },
+    "required": ["startUrls"]
+}
