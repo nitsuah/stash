@@ -51,6 +51,10 @@ export function detect(page, fingerprints) {
     return [...hits.values()].sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
 }
 
+// html, script and link patterns need at least this many literal characters and must not be a common path.
+const MIN_LITERAL = 5;
+const GENERIC = new Set(['/api/', '/api', '/graphql', '/static/', '/build/', '/assets/', '/dist/', '/js/', '/css/', '/img/', '/images/', '/scripts/', '/vendor/', '/lib/', '/public/', '/media/', '/files/', '/cdn/', 'script', 'style', 'bundle', 'main.js', 'app.js', 'vendor.js']);
+
 /** Checks fingerprint data for mistakes. Returns a list of problem strings, empty when the data is sound. */
 export function lintFingerprints(fingerprints) {
     const problems = [];
@@ -67,6 +71,12 @@ export function lintFingerprints(fingerprints) {
         let valid = true;
         for (const p of patterns) {
             try { re(p); } catch { valid = false; problems.push(`${id}: invalid regex ${p}`); }
+        }
+        // Content patterns must be specific: a short or common path matches thousands of sites that do not use the technology.
+        for (const p of [...(m.html ?? []), ...(m.scripts ?? []), ...(m.links ?? [])]) {
+            const plain = p.replace(/\\(.)/g, '$1').trim().toLowerCase();
+            const literal = plain.replace(/[\^$.*+?()[\]{}|]/g, '');
+            if (literal.length < MIN_LITERAL || GENERIC.has(plain)) problems.push(`${id}: pattern too generic ${p}`);
         }
         if (!fp.example) problems.push(`${id}: missing example`);
         else if (valid && patterns.length && !detect(fp.example, [fp]).some((h) => h.name === fp.name)) problems.push(`${id}: its own example does not match`);

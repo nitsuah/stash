@@ -32,6 +32,17 @@ test('a plain page matches nothing', () => {
     assert.deepEqual(detect({ html: '<html><body>hello</body></html>', headers: {}, scripts: [], links: [], cookies: [], meta: {} }, all), []);
 });
 
+test('lint rejects patterns that are too generic', () => {
+    const generic = lintFingerprints([
+        { name: 'A', category: 'CMS', match: { scripts: ['/api/'] }, example: { scripts: ['/api/x'] } },
+        { name: 'B', category: 'CMS', match: { scripts: ['/static/'] }, example: { scripts: ['/static/x'] } },
+        { name: 'C', category: 'CMS', match: { html: ['abc'] }, example: { html: 'abc' } },
+        { name: 'D', category: 'CMS', match: { scripts: ['static\\.hotjar\\.com'] }, example: { scripts: ['https://static.hotjar.com/x.js'] } },
+    ]);
+    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 3);
+    assert.ok(!generic.some((p) => p.startsWith('D:')));
+});
+
 test('lint catches bad data', () => {
     const problems = lintFingerprints([{ name: 'X', category: 'CMS', match: { html: ['('] }, example: { html: 'x' } }, { name: 'X', category: 'CMS', match: {} }]);
     assert.ok(problems.some((p) => /invalid regex/.test(p)));
