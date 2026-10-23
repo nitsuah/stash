@@ -1,0 +1,6 @@
+{
+  "targets": ["apify"],
+  "versionFile": "package.json",
+  "packageFiles": ["src", ".actor", "Dockerfile", "package.json", "README.md"],
+  "storeId": "Xzbnphk6cesLQ9uUv"
+}

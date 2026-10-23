@@ -1,0 +1,39 @@
+name: Products CI
+
+# Validates the small shippable products in projects/products. Runs only when they change.
+# Publishing is deliberately not wired up yet: it needs store secrets and a one-time manual store upload.
+on:
+  pull_request:
+    paths:
+      - "projects/products/**"
+      - ".github/workflows/products-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "projects/products/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "20"
+
+      - name: Validate release configs, manifests and schemas
+        run: node projects/products/scripts/validate.mjs
+
+      - name: Dry-run package the extension
+        working-directory: projects/products/a11y-check-extension
+        run: |
+          zip -q ../../../a11y-check-extension.zip manifest.json popup.html popup.js sw.js axe.min.js icon16.png icon48.png icon128.png
+          unzip -t ../../../a11y-check-extension.zip
+          unzip -p ../../../a11y-check-extension.zip manifest.json | node -e 'const m=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log(m.name,m.version)'

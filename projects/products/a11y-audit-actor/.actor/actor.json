@@ -1,0 +1,32 @@
+{
+    "actorSpecification": 1,
+    "name": "website-accessibility-audit",
+    "title": "Website Accessibility Audit (WCAG, axe-core)",
+    "description": "Audit any list of URLs for WCAG 2.2 accessibility problems. Returns a 0-100 score and every violation with examples, ready for reports or CI.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "input": "./input_schema.json",
+    "dockerfile": "./Dockerfile",
+    "readme": "../README.md",
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "title": "Accessibility audit results",
+            "views": {
+                "overview": {
+                    "title": "Scores",
+                    "transformation": { "fields": ["url", "score", "violationCount", "byImpact"] },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "url": { "label": "URL", "format": "link" },
+                            "score": { "label": "Score (0-100)", "format": "number" },
+                            "violationCount": { "label": "Violations", "format": "number" },
+                            "byImpact": { "label": "By impact", "format": "object" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

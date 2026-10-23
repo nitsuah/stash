@@ -6,6 +6,7 @@ Standalone tools and boards that don't fit under the API/backend/database exampl
 | ------- | ---- | ------- |
 | [`auto/`](./auto/README.md) | HTML + localStorage | Single-page car maintenance/project tracking board, no backend |
 | [`fps-tech/`](./fps-tech/README.md) | Assets | Branding assets for FPS Tech |
+| [`products/`](./products/README.md) | Extensions + Actors | Small shippable products (Chrome extension, Apify Actor) with per-package release config |
 | [`pfa/`](./pfa/README.md) | Circuit design | USB-powered power failure alarm circuit |
 | [`remora/`](./remora/README.md) | Access/VBA | Privileged Access Management (PAM) tool |
 | [`resume/`](./resume/README.md) | JSON data | Structured resume/portfolio data (JSON Resume format) |
