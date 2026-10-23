@@ -1,6 +1,7 @@
 """Writes icon16/48/128.png (blue rounded tile with a white check) using only the standard library. Run in python:3-slim."""
 import struct
 import zlib
+from pathlib import Path
 
 
 def png(size):
@@ -31,6 +32,12 @@ def png(size):
     return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
 
 
-for s in (16, 48, 128):
-    open(f"icon{s}.png", "wb").write(png(s))
-    print("icon", s)
+def main():
+    out_dir = Path(__file__).resolve().parent  # always the extension folder, whatever the working directory is
+    for s in (16, 48, 128):
+        (out_dir / f"icon{s}.png").write_bytes(png(s))
+        print("icon", s)
+
+
+if __name__ == "__main__":
+    main()

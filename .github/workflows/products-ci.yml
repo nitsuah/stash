@@ -34,6 +34,8 @@ jobs:
       - name: Dry-run package the extension
         working-directory: projects/products/a11y-check-extension
         run: |
-          zip -q ../../../a11y-check-extension.zip manifest.json popup.html popup.js sw.js axe.min.js icon16.png icon48.png icon128.png
+          # Zip exactly what release.json declares, so a file added there but missing from the package fails here.
+          node -e 'console.log(JSON.parse(require("fs").readFileSync("release.json","utf8")).packageFiles.join("\n"))' > /tmp/package-files.txt
+          zip -q ../../../a11y-check-extension.zip -@ < /tmp/package-files.txt
           unzip -t ../../../a11y-check-extension.zip
           unzip -p ../../../a11y-check-extension.zip manifest.json | node -e 'const m=JSON.parse(require("fs").readFileSync(0,"utf8"));console.log(m.name,m.version)'

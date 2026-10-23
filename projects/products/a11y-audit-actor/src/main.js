@@ -1,5 +1,5 @@
 // Accessibility audit Actor: runs axe-core (WCAG 2.x A/AA by default) on each URL and returns a score plus violations.
-import { Actor } from 'apify';
+import { Actor, log } from 'apify';
 import { PlaywrightCrawler } from 'crawlee';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
@@ -28,7 +28,13 @@ const crawler = new PlaywrightCrawler({
     requestHandlerTimeoutSecs: 90,
     navigationTimeoutSecs: 45,
     launchContext: { launchOptions: { args: ['--no-sandbox'] } },
-    async requestHandler({ page, request }) {
+    async requestHandler({ page, request, response }) {
+        // A missing or failing page must not get a score: an error page could otherwise look accessible.
+        const status = response?.status() ?? 200;
+        if (status >= 400) {
+            await Actor.pushData({ url: request.url, error: `HTTP ${status}`, auditedAt: new Date().toISOString() });
+            return;
+        }
         await page.waitForLoadState('load');
         // evaluate() runs through the debugger protocol, so a page's Content-Security-Policy cannot block axe.
         await page.evaluate(axeSource);
@@ -58,7 +64,12 @@ const crawler = new PlaywrightCrawler({
             axeVersion,
             auditedAt: new Date().toISOString(),
         });
-        await Actor.charge({ eventName: 'page-audited' });
+        // The result is already stored, so a billing hiccup must not make Crawlee retry the page and store it twice.
+        try {
+            await Actor.charge({ eventName: 'page-audited' });
+        } catch (err) {
+            log.warning(`Charge failed for ${request.url}: ${err.message}`);
+        }
     },
     async failedRequestHandler({ request }) {
         await Actor.pushData({ url: request.url, error: (request.errorMessages?.slice(-1)[0] ?? 'Page failed to load').split('\n')[0], auditedAt: new Date().toISOString() });

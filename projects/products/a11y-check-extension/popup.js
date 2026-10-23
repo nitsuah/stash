@@ -20,17 +20,29 @@ async function run() {
   out.replaceChildren(el('p', 'Checking...'));
   try {
     const tab = await targetTab();
-    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['axe.min.js'] });
-    const [{ result }] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
+    // Audit every frame we are allowed into: axe only sees the document it is loaded in, so iframes need their own run.
+    const target = { tabId: tab.id, allFrames: true };
+    await chrome.scripting.executeScript({ target, files: ['axe.min.js'] });
+    const frames = await chrome.scripting.executeScript({
+      target,
       func: async () => {
+        if (!window.axe) return null;
         const r = await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] } });
         return r.violations.map((v) => ({ id: v.id, impact: v.impact, help: v.help, url: v.helpUrl, count: v.nodes.length, first: v.nodes[0] ? v.nodes[0].target.join(' ') : '' }));
       },
     });
+    const audited = frames.filter((f) => Array.isArray(f.result));
+    const byRule = new Map();
+    for (const v of audited.flatMap((f) => f.result)) {
+      const seen = byRule.get(v.id);
+      if (seen) seen.count += v.count;
+      else byRule.set(v.id, { ...v });
+    }
+    const result = [...byRule.values()];
+    const skipped = frames.length - audited.length;
     const penalty = result.reduce((s, v) => s + (WEIGHT[v.impact] || 0), 0);
     const box = el('div');
-    box.append(el('div', `Score ${Math.max(0, 100 - penalty)} / 100`, ''), el('p', `${result.length} rule${result.length === 1 ? '' : 's'} failed`, 'muted'));
+    box.append(el('div', `Score ${Math.max(0, 100 - penalty)} / 100`, ''), el('p', `${result.length} rule${result.length === 1 ? '' : 's'} failed, ${audited.length} frame${audited.length === 1 ? '' : 's'} checked${skipped ? `, ${skipped} could not be checked` : ''}`, 'muted'));
     box.firstChild.id = 'score';
     const list = el('ul');
     for (const v of result.sort((a, b) => (WEIGHT[b.impact] || 0) - (WEIGHT[a.impact] || 0))) {

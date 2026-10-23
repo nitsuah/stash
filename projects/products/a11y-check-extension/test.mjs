@@ -31,7 +31,19 @@ const tabId = await popup.evaluate(async () => {
 });
 await popup.goto(`chrome-extension://${id}/popup.html?tab=${tabId}`);
 await popup.click('#run');
-await popup.waitForSelector('#score, #out p', { timeout: 60000 }); await popup.waitForTimeout(8000); console.log('OUT', (await popup.textContent('#out')).slice(0, 300));
-console.log('SCORE', await popup.textContent('#score'));
-console.log('ITEMS', await popup.locator('li').count());
+try {
+  await popup.waitForSelector('#score', { timeout: 60000 });
+} catch (err) {
+  console.error('FAIL no score shown. Popup said:', (await popup.textContent('#out')).slice(0, 300));
+  await ctx.close();
+  process.exit(1);
+}
+const score = Number((await popup.textContent('#score')).match(/\d+/)[0]);
+const items = await popup.locator('li').count();
+console.log('SCORE', score, 'ITEMS', items);
 await ctx.close();
+// The demo page is deliberately inaccessible, so a perfect score or an empty list means the audit is broken.
+if (!(score < 100) || items < 1) {
+  console.error('FAIL expected a score below 100 and at least one violation');
+  process.exit(1);
+}
