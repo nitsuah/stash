@@ -9,6 +9,7 @@ Small, self-contained things we ship to marketplaces: browser extensions, Apify 
 | `broken-link-actor` | Apify Store | built and tested locally against a test site (3 of 3 known broken links found); not uploaded yet |
 | `seo-health-actor` | Apify Store | built and tested locally against a site with planted SEO problems (all found); not uploaded yet |
 | `security-headers-actor` | Apify Store | built, tested on real sites (github B, example.com F, expired and self-signed certs graded F); pushed to Apify |
+| `structured-data-actor` | Apify Store | built, tested on a planted site (complete product 100, missing properties, broken JSON, incomplete FAQ all flagged) |
 
 ## Adding a product
 1. Create `projects/products/<name>/` with its sources and a `release.json` (`targets`, `versionFile`, `packageFiles`, `storeId`).
