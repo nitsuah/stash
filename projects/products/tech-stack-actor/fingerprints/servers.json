@@ -1,0 +1,8 @@
+[
+  { "name": "Nginx", "category": "Web servers", "website": "https://nginx.org", "match": { "headers": { "server": "^nginx" } }, "example": { "headers": { "server": "nginx/1.25.3" } } },
+  { "name": "Apache", "category": "Web servers", "website": "https://httpd.apache.org", "match": { "headers": { "server": "^Apache" } }, "example": { "headers": { "server": "Apache/2.4.58 (Ubuntu)" } } },
+  { "name": "Microsoft IIS", "category": "Web servers", "website": "https://www.iis.net", "match": { "headers": { "server": "^Microsoft-IIS" } }, "implies": ["ASP.NET"], "example": { "headers": { "server": "Microsoft-IIS/10.0" } } },
+  { "name": "Express", "category": "Web frameworks", "website": "https://expressjs.com", "match": { "headers": { "x-powered-by": "^Express" } }, "example": { "headers": { "x-powered-by": "Express" } } },
+  { "name": "PHP", "category": "Programming languages", "website": "https://www.php.net", "match": { "headers": { "x-powered-by": "PHP" }, "cookies": ["^PHPSESSID="] }, "example": { "headers": { "x-powered-by": "PHP/8.2.12" } } },
+  { "name": "ASP.NET", "category": "Web frameworks", "website": "https://dotnet.microsoft.com/apps/aspnet", "match": { "headers": { "x-powered-by": "ASP\\.NET", "x-aspnet-version": "." }, "cookies": ["^ASP\\.NET_SessionId="] }, "example": { "headers": { "x-powered-by": "ASP.NET" } } }
+]

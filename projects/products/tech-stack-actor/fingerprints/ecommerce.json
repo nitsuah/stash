@@ -1,0 +1,7 @@
+[
+  { "name": "Shopify", "category": "E-commerce", "website": "https://www.shopify.com", "match": { "scripts": ["cdn\\.shopify\\.com"], "html": ["Shopify\\.theme"], "headers": { "x-shopify-stage": "." } }, "example": { "scripts": ["https://cdn.shopify.com/s/files/1/0000/theme.js"] } },
+  { "name": "WooCommerce", "category": "E-commerce", "website": "https://woocommerce.com", "match": { "scripts": ["/wp-content/plugins/woocommerce/"], "html": ["class=\"woocommerce"] }, "implies": ["WordPress"], "example": { "scripts": ["/wp-content/plugins/woocommerce/assets/js/frontend/cart.min.js"] } },
+  { "name": "Magento", "category": "E-commerce", "website": "https://business.adobe.com/products/magento/magento-commerce.html", "match": { "cookies": ["^mage-"], "scripts": ["/static/version\\d+/frontend/"] }, "implies": ["PHP"], "example": { "cookies": ["mage-cache-storage=%7B%7D"] } },
+  { "name": "Stripe", "category": "Payment processors", "website": "https://stripe.com", "match": { "scripts": ["js\\.stripe\\.com"] }, "example": { "scripts": ["https://js.stripe.com/v3/"] } },
+  { "name": "PayPal", "category": "Payment processors", "website": "https://www.paypal.com", "match": { "scripts": ["paypal(objects)?\\.com/(sdk/js|api/checkout)"] }, "example": { "scripts": ["https://www.paypal.com/sdk/js?client-id=abc"] } }
+]

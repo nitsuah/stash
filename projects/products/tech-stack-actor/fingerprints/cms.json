@@ -1,0 +1,8 @@
+[
+  { "name": "WordPress", "category": "CMS", "website": "https://wordpress.org", "match": { "meta": { "generator": "^WordPress" }, "scripts": ["/wp-(content|includes)/"], "links": ["/wp-(content|includes)/"] }, "implies": ["PHP"], "example": { "meta": { "generator": "WordPress 6.4.2" } } },
+  { "name": "Drupal", "category": "CMS", "website": "https://www.drupal.org", "match": { "meta": { "generator": "^Drupal" }, "headers": { "x-generator": "^Drupal" }, "scripts": ["/sites/default/files/", "/core/misc/drupal\\.js"] }, "implies": ["PHP"], "example": { "meta": { "generator": "Drupal 10 (https://www.drupal.org)" } } },
+  { "name": "Joomla", "category": "CMS", "website": "https://www.joomla.org", "match": { "meta": { "generator": "^Joomla" }, "scripts": ["/media/jui/js/", "/media/system/js/"] }, "implies": ["PHP"], "example": { "meta": { "generator": "Joomla! - Open Source Content Management" } } },
+  { "name": "Wix", "category": "CMS", "website": "https://www.wix.com", "match": { "meta": { "generator": "^Wix\\.com" }, "scripts": ["static\\.parastorage\\.com"] }, "example": { "scripts": ["https://static.parastorage.com/services/wix-thunderbolt/dist/main.js"] } },
+  { "name": "Squarespace", "category": "CMS", "website": "https://www.squarespace.com", "match": { "meta": { "generator": "^Squarespace" }, "scripts": ["static1\\.squarespace\\.com"], "html": ["<!-- This is Squarespace"] }, "example": { "meta": { "generator": "Squarespace 7.1" } } },
+  { "name": "Ghost", "category": "CMS", "website": "https://ghost.org", "match": { "meta": { "generator": "^Ghost" } }, "example": { "meta": { "generator": "Ghost 5.79" } } }
+]

@@ -1,0 +1,7 @@
+[
+  { "name": "Google Analytics", "category": "Analytics", "website": "https://analytics.google.com", "match": { "scripts": ["googletagmanager\\.com/gtag/js", "google-analytics\\.com/(analytics|ga)\\.js"] }, "example": { "scripts": ["https://www.googletagmanager.com/gtag/js?id=G-ABC123"] } },
+  { "name": "Google Tag Manager", "category": "Tag managers", "website": "https://tagmanager.google.com", "match": { "scripts": ["googletagmanager\\.com/gtm\\.js"], "html": ["googletagmanager\\.com/ns\\.html"] }, "example": { "scripts": ["https://www.googletagmanager.com/gtm.js?id=GTM-ABC123"] } },
+  { "name": "Hotjar", "category": "Analytics", "website": "https://www.hotjar.com", "match": { "scripts": ["static\\.hotjar\\.com"] }, "example": { "scripts": ["https://static.hotjar.com/c/hotjar-123.js?sv=6"] } },
+  { "name": "Plausible", "category": "Analytics", "website": "https://plausible.io", "match": { "scripts": ["plausible\\.io/js/"] }, "example": { "scripts": ["https://plausible.io/js/script.js"] } },
+  { "name": "Facebook Pixel", "category": "Advertising", "website": "https://www.facebook.com/business/tools/meta-pixel", "match": { "scripts": ["connect\\.facebook\\.net/.*/fbevents\\.js"] }, "example": { "scripts": ["https://connect.facebook.net/en_US/fbevents.js"] } }
+]
