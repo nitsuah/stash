@@ -39,10 +39,11 @@ async function run() {
       else byRule.set(v.id, { ...v });
     }
     const result = [...byRule.values()];
-    const skipped = frames.length - audited.length;
     const penalty = result.reduce((s, v) => s + (WEIGHT[v.impact] || 0), 0);
     const box = el('div');
-    box.append(el('div', `Score ${Math.max(0, 100 - penalty)} / 100`, ''), el('p', `${result.length} rule${result.length === 1 ? '' : 's'} failed, ${audited.length} frame${audited.length === 1 ? '' : 's'} checked${skipped ? `, ${skipped} could not be checked` : ''}`, 'muted'));
+    // Chrome only returns frames it could inject into, and without a frame inventory (another permission) we cannot count the rest,
+    // so say plainly that the score covers the accessible frames only.
+    box.append(el('div', `Score ${Math.max(0, 100 - penalty)} / 100`, ''), el('p', `${result.length} rule${result.length === 1 ? '' : 's'} failed. Covers the ${audited.length} frame${audited.length === 1 ? '' : 's'} the browser allowed us to check; blocked frames, such as some cross-origin iframes, are not included.`, 'muted'));
     box.firstChild.id = 'score';
     const list = el('ul');
     for (const v of result.sort((a, b) => (WEIGHT[b.impact] || 0) - (WEIGHT[a.impact] || 0))) {
