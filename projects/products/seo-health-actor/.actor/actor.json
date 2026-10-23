@@ -1,0 +1,13 @@
+{
+    "actorSpecification": 1,
+    "name": "seo-health-check",
+    "title": "SEO Health Check (titles, descriptions, sitemap, noindex)",
+    "description": "Crawl a site and list every page with SEO problems: missing or duplicate titles and descriptions, noindex, missing canonicals, plus robots.txt and sitemap checks.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 1024,
+    "minMemoryMbytes": 512,
+    "input": "./input_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md"
+}

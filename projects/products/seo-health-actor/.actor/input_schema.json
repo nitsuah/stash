@@ -1,0 +1,23 @@
+{
+    "title": "SEO Health Check input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "Pages to start from (up to 20). The Actor follows links on the same site.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "maxPages": {
+            "title": "Max pages to crawl",
+            "type": "integer",
+            "description": "Upper limit of pages checked (1 to 1000).",
+            "default": 50,
+            "minimum": 1,
+            "maximum": 1000
+        }
+    },
+    "required": ["startUrls"]
+}
