@@ -54,7 +54,7 @@ export function detect(page, fingerprints) {
 // html, script and link patterns need at least this many literal characters and must not be a common path.
 const MIN_LITERAL = 5;
 const GENERIC = new Set(['/api/', '/api', '/graphql', '/static/', '/build/', '/assets/', '/dist/', '/js/', '/css/', '/img/', '/images/', '/scripts/', '/vendor/', '/lib/', '/public/', '/media/', '/files/', '/cdn/', 'script', 'style', 'bundle', 'main.js', 'app.js', 'vendor.js']);
-const GENERIC_PATH_PREFIXES = [...GENERIC].filter((value) => value.startsWith('/'));
+const GENERIC_PATH_PREFIXES = [...GENERIC].filter((value) => value.startsWith('/') && value.endsWith('/'));
 
 /** Checks fingerprint data for mistakes. Returns a list of problem strings, empty when the data is sound. */
 export function lintFingerprints(fingerprints) {
