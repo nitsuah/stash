@@ -199,7 +199,7 @@ agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
 promo/out/
 
 # backend
-backend/
+backend/express/node_modules/
 
 
 # Generated Content and Asset files
