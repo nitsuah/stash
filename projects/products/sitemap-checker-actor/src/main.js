@@ -40,7 +40,7 @@ async function collect(sitemapUrl, depth, seen, out, notes) {
     if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Sitemap entry budget reached (' + maxEntries + ')' }); return; }
     seen.add(sitemapUrl);
     const r = await get(sitemapUrl);
-    if (r.status !== 200) { notes.push({ sitemap: sitemapUrl, problem: r.error ? 'Could not fetch (' + r.error + ')' : 'Returned HTTP ' + r.status }); return; }
+    if (r.error || r.status !== 200) { notes.push({ sitemap: sitemapUrl, problem: r.error ? 'Could not fetch (' + r.error + ')' : 'Returned HTTP ' + r.status }); return; }
     if (/<sitemapindex/i.test(r.text)) {
         for (const child of locs(r.text)) {
             if (seen.size >= MAX_SITEMAPS_PER_SITE || out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped sitemap traversal at the configured resource budget' }); break; }
