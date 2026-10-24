@@ -1,0 +1,21 @@
+name: accessibility
+on: [pull_request]
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      # Replace the next two steps with however your site starts (or point baseUrl at a preview URL).
+      - name: Start site
+        run: |
+          npm ci && npm run build && (npm run start &) && sleep 8
+      - name: Scan
+        working-directory: a11y
+        run: |
+          npm install --no-audit --no-fund
+          node scan.mjs "$(node -p "require('./a11y.config.json').baseUrl")" "$(node -p "require('./a11y.config.json').paths.join(',')")" ci
+          node gate.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: a11y-report, path: a11y/reports }

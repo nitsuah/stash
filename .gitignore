@@ -197,3 +197,15 @@ agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
 # Playwright MCP page snapshots (browser session dumps)
 .playwright-mcp/
 promo/out/
+
+
+# Generated Content and Asset files
+agent/projects/MM/**/out*/
+agent/projects/MM/**/*.zip
+agent/projects/MM/**/reports/
+agent/projects/MM/**/raw/
+agent/projects/MM/**/storage/
+agent/projects/MM/**/node_modules/
+agent/projects/MM/**/dist/
+agent/projects/MM/**/package-lock.json
+agent/projects/MM/**/site/d/

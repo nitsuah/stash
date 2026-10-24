@@ -1,0 +1,1 @@
+const fs=require('fs');require('http').createServer((q,s)=>{const f=q.url==='/'?'index.html':q.url.slice(1);try{s.end(fs.readFileSync('sample-site/'+f))}catch{s.statusCode=404;s.end()}}).listen(8080);
