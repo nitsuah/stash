@@ -1,0 +1,11 @@
+{
+    "name": "website-tech-stack-detector",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "scripts": { "start": "node src/main.js", "test": "node --test \"test/*.test.mjs\"" },
+    "dependencies": {
+        "apify": "^3.0.0",
+        "cheerio": "^1.0.0"
+    }
+}
