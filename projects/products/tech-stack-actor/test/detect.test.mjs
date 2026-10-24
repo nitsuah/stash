@@ -44,8 +44,9 @@ test('lint rejects patterns that are too generic', () => {
         { name: 'H', category: 'CMS', match: { scripts: ['(?<slug>[a-z0-9]+)'] }, example: { scripts: ['acme'] } },
         { name: 'I', category: 'CMS', match: { scripts: ['\\u0061'] }, example: { scripts: ['a'] } },
         { name: 'J', category: 'CMS', match: { scripts: ['/api/|specific-library'] }, example: { scripts: ['/api/'] } },
+        { name: 'K', category: 'CMS', match: { scripts: ['/api/.{0,50}'] }, example: { scripts: ['/api/x'] } },
     ]);
-    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 8);
+    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 9);
     assert.ok(generic.some((p) => p.includes('E: pattern too generic')));
     assert.ok(generic.some((p) => p.includes('F: pattern too generic')));
     assert.ok(!generic.some((p) => p.startsWith('D:')));
@@ -53,11 +54,12 @@ test('lint rejects patterns that are too generic', () => {
     assert.ok(generic.some((p) => p.includes('H: pattern too generic')), 'named-group metadata is not counted as matched text');
     assert.ok(generic.some((p) => p.includes('I: pattern too generic')), 'Unicode escapes count as one decoded character');
     assert.ok(generic.some((p) => p.includes('J: pattern too generic')), 'every regex alternative must be sufficiently specific');
+    assert.ok(generic.some((p) => p.includes('K: pattern too generic')), 'quantifier bounds do not count as literal specificity');
 });
 
 test('lint reports non-string content patterns without throwing or skipping later patterns', () => {
     const problems = lintFingerprints([{ name: 'X', category: 'CMS', match: { scripts: [42, 'specific-library-name'] }, example: { scripts: ['specific-library-name'] } }]);
-    assert.ok(problems.some((p) => p.includes('X: pattern must be a string 42')));
+    assert.equal(problems.filter((p) => p.includes('X: pattern must be a string 42')).length, 1);
     assert.ok(!problems.some((p) => p.includes('specific-library-name')));
 });
 
