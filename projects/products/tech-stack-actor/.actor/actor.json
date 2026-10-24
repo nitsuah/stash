@@ -1,0 +1,14 @@
+{
+    "actorSpecification": 1,
+    "name": "website-tech-stack-detector",
+    "title": "Website Tech Stack Detector (CMS, frameworks, CDN)",
+    "description": "Find which CMS, frameworks, analytics, servers, CDNs and payment tools a list of websites use, with the evidence for each.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 512,
+    "minMemoryMbytes": 256,
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md"
+}

@@ -1,0 +1,23 @@
+{
+    "title": "Website Tech Stack Detector input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Websites",
+            "type": "array",
+            "description": "Page URLs to analyze (up to 200). Each URL is fetched once.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "timeoutSecs": {
+            "title": "Timeout per URL (seconds)",
+            "type": "integer",
+            "description": "How long to wait for each page.",
+            "default": 20,
+            "minimum": 3,
+            "maximum": 60
+        }
+    },
+    "required": ["startUrls"]
+}
