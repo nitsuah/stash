@@ -1,0 +1,14 @@
+{
+    "actorSpecification": 1,
+    "name": "security-headers-check",
+    "title": "Security Headers and TLS Check (grade A to F)",
+    "description": "Grade any list of URLs on security headers, cookie flags, HTTPS redirect and certificate health, with a plain-language list of what to fix.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 512,
+    "minMemoryMbytes": 256,
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md"
+}
