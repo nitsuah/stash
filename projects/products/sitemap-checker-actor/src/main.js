@@ -1,6 +1,6 @@
 // Sitemap URL checker: finds a site's sitemaps (robots.txt or /sitemap.xml), lists every URL in them and tests each one.
 import zlib from 'node:zlib';
-import { Actor, log } from 'apify';
+import { Actor } from 'apify';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SitemapUrlChecker/1.0; +https://apify.com)';
@@ -46,7 +46,7 @@ async function get(url) {
 const locs = (xml) => [...xml.matchAll(/<loc>\s*([^<\s][^<]*?)\s*<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&'));
 
 function isValidLastmod(value) {
-    const match = /^(\\d{4})-(\\d{2})-(\\d{2})(?:T(\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.(\\d+))?)?(Z|[+-]\\d{2}:\\d{2})?)?$/.exec(value);
+    const match = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?(Z|[+-]\d{2}:\d{2})?)?$/.exec(value);
     if (!match) return false;
     const [, y, mo, d, hh, mm, ss, , zone] = match;
     const year = Number(y), month = Number(mo), day = Number(d);
@@ -78,7 +78,7 @@ async function collect(sitemapUrl, depth, seen, out, notes) {
         for (const block of r.text.split(/<url>/i).slice(1)) {
             if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped collecting entries at the configured limit of ' + maxEntries }); break; }
             const [loc] = locs(block);
-            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: (block.match(/<lastmod>\\s*([^<]+?)\\s*<\\/lastmod>/i) ?? [])[1] ?? null });
+            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: (block.match(/<lastmod>\s*([^<]+?)\s*<\/lastmod>/i) ?? [])[1] ?? null });
         }
     } else notes.push({ sitemap: sitemapUrl, problem: 'Not a valid sitemap (no urlset or sitemapindex element)' });
 }
@@ -95,7 +95,10 @@ async function probe(url) {
 }
 
 let totalChecked = 0;
+let stopForChargeLimit = false;
+let chargeFailure = null;
 for (const origin of sites) {
+    if (stopForChargeLimit || chargeFailure) break;
     const robots = await get(`${origin}/robots.txt`);
     const declared = robots.status === 200 ? [...robots.text.matchAll(/^\s*Sitemap:\s*(\S+)/gim)].map((m) => m[1]) : [];
     const sitemapUrls = declared.length ? declared : [`${origin}/sitemap.xml`];
@@ -121,8 +124,6 @@ for (const origin of sites) {
 
     let next = 0;
     let checkedThisSite = 0;
-    let stopForChargeLimit = false;
-    let chargeFailure = null;
     async function worker() {
         while (next < unique.length && !stopForChargeLimit) {
             const e = unique[next++];
