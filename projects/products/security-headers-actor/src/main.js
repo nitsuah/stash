@@ -39,7 +39,7 @@ function checkHeaders(h) {
     }
     const csp = h.get('content-security-policy');
     if (!csp) add('csp-missing', 'high', 'No Content-Security-Policy header');
-    else if (/unsafe-inline|unsafe-eval|\*\s/i.test(csp) && /script-src|default-src/i.test(csp)) add('csp-weak', 'medium', 'CSP allows unsafe-inline, unsafe-eval or a wildcard source');
+    else if (hasWeakScriptSources(csp)) add('csp-weak', 'medium', 'CSP allows unsafe-inline, unsafe-eval or a wildcard script source');
     if (!h.get('x-frame-options') && !/frame-ancestors/i.test(csp ?? '')) add('clickjacking', 'medium', 'No X-Frame-Options or CSP frame-ancestors');
     if (!/nosniff/i.test(h.get('x-content-type-options') ?? '')) add('nosniff-missing', 'medium', 'X-Content-Type-Options is not nosniff');
     if (!h.get('referrer-policy')) add('referrer-policy-missing', 'low', 'No Referrer-Policy header');
