@@ -54,6 +54,7 @@ export function detect(page, fingerprints) {
 // html, script and link patterns need at least this many literal characters and must not be a common path.
 const MIN_LITERAL = 5;
 const GENERIC = new Set(['/api/', '/api', '/graphql', '/static/', '/build/', '/assets/', '/dist/', '/js/', '/css/', '/img/', '/images/', '/scripts/', '/vendor/', '/lib/', '/public/', '/media/', '/files/', '/cdn/', 'script', 'style', 'bundle', 'main.js', 'app.js', 'vendor.js']);
+const GENERIC_PATH_PREFIXES = [...GENERIC].filter((value) => value.startsWith('/'));
 
 /** Checks fingerprint data for mistakes. Returns a list of problem strings, empty when the data is sound. */
 export function lintFingerprints(fingerprints) {
@@ -88,15 +89,27 @@ export function lintFingerprints(fingerprints) {
             // Evaluate each alternation separately so a generic branch cannot hide behind a specific one.
             const alternatives = [{ literal: '', constrainedClassTokens: 0 }];
             const current = () => alternatives[alternatives.length - 1];
+            let groupDepth = 0;
             for (let i = 0; i < plain.length; i += 1) {
                 const ch = plain[i];
-                if (ch === '(' && plain[i + 1] === '?' && plain[i + 2] === '<') {
-                    const marker = plain[i + 3];
-                    // Skip lookbehind operators and named-group declarations; neither matches text.
-                    if (marker === '=' || marker === '!') { i += 3; continue; }
-                    const close = plain.indexOf('>', i + 3);
-                    if (close !== -1) { i = close; continue; }
+                if (ch === '(') {
+                    if (plain[i + 1] === '?' && plain[i + 2] === '<') {
+                        const marker = plain[i + 3];
+                        // Skip lookbehind operators and named-group declarations; neither matches text.
+                        groupDepth += 1;
+                        if (marker === '=' || marker === '!') { i += 3; continue; }
+                        const close = plain.indexOf('>', i + 3);
+                        if (close !== -1) { i = close; continue; }
+                    }
+                    if (plain[i + 1] === '?' && [':', '=', '!', '>'].includes(plain[i + 2])) {
+                        groupDepth += 1;
+                        i += 2;
+                        continue;
+                    }
+                    groupDepth += 1;
+                    continue;
                 }
+                if (ch === ')') { if (groupDepth > 0) groupDepth -= 1; continue; }
                 if (ch === '\\') {
                     const next = plain[i + 1];
                     if (next === undefined) continue;
@@ -139,12 +152,12 @@ export function lintFingerprints(fingerprints) {
                     }
                     continue;
                 }
-                if (ch === '|') { alternatives.push({ literal: '', constrainedClassTokens: 0 }); continue; }
+                if (ch === '|') { if (groupDepth === 0) alternatives.push({ literal: '', constrainedClassTokens: 0 }); continue; }
                 if (!/^[.^$*+?(){}]$/.test(ch)) current().literal += ch;
             }
             const tooGeneric = alternatives.some(({ literal, constrainedClassTokens }) => {
                 const specificity = [...literal].length + constrainedClassTokens;
-                return specificity < MIN_LITERAL || GENERIC.has(literal);
+                return specificity < MIN_LITERAL || GENERIC.has(literal) || GENERIC_PATH_PREFIXES.some((prefix) => literal.startsWith(prefix));
             });
             if (tooGeneric || GENERIC.has(plain)) {
                 problems.push(`${id}: pattern too generic ${p}`);
