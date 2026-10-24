@@ -1,11 +1,3 @@
----
-up: "[[repos/vigil]]"
-title: "vigil · ROADMAP"
-source: https://github.com/nitsuah/vigil/blob/main/ROADMAP.md
-kind: repo-doc
-repo: vigil
----
-
 # 🗺️ Vigil Roadmap
 
 > 🧭 [vigil](./README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
