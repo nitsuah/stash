@@ -92,11 +92,10 @@ export function lintFingerprints(fingerprints) {
                 const ch = plain[i];
                 if (ch === '(' && plain[i + 1] === '?' && plain[i + 2] === '<') {
                     const marker = plain[i + 3];
-                    // (?<=...) and (?<!...) are lookbehinds; (?<name>...) is a named-group declaration.
-                    if (marker !== '=' && marker !== '!') {
-                        const close = plain.indexOf('>', i + 3);
-                        if (close !== -1) { i = close; continue; }
-                    }
+                    // Skip lookbehind operators and named-group declarations; neither matches text.
+                    if (marker === '=' || marker === '!') { i += 3; continue; }
+                    const close = plain.indexOf('>', i + 3);
+                    if (close !== -1) { i = close; continue; }
                 }
                 if (ch === '\\') {
                     const next = plain[i + 1];
@@ -145,7 +144,7 @@ export function lintFingerprints(fingerprints) {
             }
             const tooGeneric = alternatives.some(({ literal, constrainedClassTokens }) => {
                 const specificity = [...literal].length + constrainedClassTokens;
-                return specificity < MIN_LITERAL || GENERIC.has(literal) || GENERIC.has(literal.split(/[?*+{(]/, 1)[0]);
+                return specificity < MIN_LITERAL || GENERIC.has(literal);
             });
             if (tooGeneric || GENERIC.has(plain)) {
                 problems.push(`${id}: pattern too generic ${p}`);
