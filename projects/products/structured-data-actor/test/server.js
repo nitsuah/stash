@@ -4,7 +4,7 @@ import http from 'node:http';
 const ld = (o) => `<script type="application/ld+json">${typeof o === 'string' ? o : JSON.stringify(o)}</script>`;
 const page = (body, head = '') => `<html lang="en"><head><title>t</title>${head}</head><body>${body}</body></html>`;
 const pages = {
-    '/': page('<a href="/good">g</a><a href="/bad-product">b</a><a href="/broken">x</a><a href="/faq">f</a><a href="/none">n</a>'),
+    '/': page('<a href="/good">g</a><a href="/bad-product">b</a><a href="/broken">x</a><a href="/faq">f</a><a href="/none">n</a><a href="/product-rating">pr</a><a href="/product-price-spec">po</a><a href="/article-minimal">a</a><a href="/absolute-type">p</a><a href="/server-error">e</a>'),
     '/good': page('<h1>Good</h1>', ld({ '@context': 'https://schema.org', '@type': 'Product', name: 'Mug', image: 'https://x/mug.png', description: 'A mug', sku: '1', brand: 'Acme', aggregateRating: { '@type': 'AggregateRating', ratingValue: 4 }, offers: { '@type': 'Offer', price: '9.99', priceCurrency: 'USD', availability: 'InStock', url: 'https://x/mug' } })),
     '/bad-product': page('<h1>Bad</h1>', ld({ '@context': 'https://schema.org', '@type': 'Product', name: 'Cup' })),
     '/broken': page('<h1>Broken</h1>', ld('{ "@type": "Product", "name": "Oops",')),
