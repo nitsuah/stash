@@ -37,6 +37,7 @@ jobs:
           files=$(ls projects/products/*/test/*.test.mjs 2>/dev/null || true)
           if [ -n "$files" ]; then node --test $files; else echo "no product unit tests"; fi
 
+
       - name: Dry-run package the extension
         working-directory: projects/products/a11y-check-extension
         run: |
