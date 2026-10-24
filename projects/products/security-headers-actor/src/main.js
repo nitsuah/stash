@@ -1,6 +1,7 @@
 // Security headers and TLS check: grades each URL A to F from its HTTP response headers, cookie flags, HTTPS redirect and certificate.
 import tls from 'node:tls';
 import { Actor, log } from 'apify';
+import { hasWeakScriptSources } from './csp.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SecurityHeadersCheck/1.0; +https://apify.com)';
@@ -14,18 +15,6 @@ if (!urls.length) await Actor.fail('Provide at least one http(s) URL in startUrl
 
 // Each finding costs points off 100. Severity weights are deliberately simple and documented in the README.
 const WEIGHT = { high: 20, medium: 10, low: 4 };
-
-function hasWeakScriptSources(csp) {
-    const directives = new Map();
-    for (const raw of csp.split(';')) {
-        const parts = raw.trim().split(/\s+/);
-        const name = (parts.shift() ?? '').toLowerCase();
-        if (name && !directives.has(name)) directives.set(name, parts);
-    }
-    // script-src overrides default-src; style-src does not weaken script policy.
-    const sources = directives.get('script-src') ?? directives.get('default-src');
-    return Boolean(sources?.some((source) => /^(?:'unsafe-inline'|'unsafe-eval'|\*)$/i.test(source)));
-}
 
 function checkHeaders(h) {
     const out = [];
