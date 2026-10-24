@@ -34,7 +34,7 @@ function normalizeType(rawType) {
         const parsed = new URL(raw);
         if (parsed.hostname.toLowerCase() === 'schema.org') local = parsed.pathname.split('/').filter(Boolean).at(-1) ?? raw;
     } catch {
-        local = raw.replace(/^schema\\.org\\//i, '');
+        local = raw.replace(/^schema\.org\//i, '');
     }
     return ALIASES[local] ?? local;
 }
