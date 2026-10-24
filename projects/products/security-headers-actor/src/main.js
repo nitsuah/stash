@@ -15,6 +15,18 @@ if (!urls.length) await Actor.fail('Provide at least one http(s) URL in startUrl
 // Each finding costs points off 100. Severity weights are deliberately simple and documented in the README.
 const WEIGHT = { high: 20, medium: 10, low: 4 };
 
+function hasWeakScriptSources(csp) {
+    const directives = new Map();
+    for (const raw of csp.split(';')) {
+        const parts = raw.trim().split(/\\s+/);
+        const name = (parts.shift() ?? '').toLowerCase();
+        if (name && !directives.has(name)) directives.set(name, parts);
+    }
+    // script-src overrides default-src; style-src does not weaken script policy.
+    const sources = directives.get('script-src') ?? directives.get('default-src');
+    return Boolean(sources?.some((source) => /^(?:'unsafe-inline'|'unsafe-eval'|\\*)$/i.test(source)));
+}
+
 function checkHeaders(h) {
     const out = [];
     const add = (rule, severity, detail) => out.push({ rule, severity, detail });
@@ -84,11 +96,13 @@ async function audit(url) {
         const c = checkCookies(res.headers);
         row.cookies = c.cookies;
         findings.push(...c.findings);
+        // We only need status and headers; release the response body/socket promptly.
+        await res.body?.cancel().catch(() => {});
     } catch (err) {
         const code = err.cause?.code ?? err.message;
         // A certificate that fails validation is the finding itself, so grade it instead of reporting a fetch error.
         if (u.protocol === 'https:' && /CERT|SELF_SIGNED|UNABLE_TO_VERIFY|ALTNAME|SSL/i.test(String(code))) {
-            row.tls = await certInfo(u.hostname);
+            row.tls = await certInfo(u.hostname, u.port ? Number(u.port) : 443);
             findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate failed validation: ${code}` });
             row.score = 0;
             row.grade = 'F';
@@ -104,9 +118,12 @@ async function audit(url) {
         try {
             const r = await fetch(`http://${u.host}${u.pathname}`, { redirect: 'manual', headers: { 'user-agent': UA }, signal: AbortSignal.timeout(timeoutMs) });
             const loc = r.headers.get('location') ?? '';
-            if (!(r.status >= 300 && r.status < 400 && /^https:/i.test(loc))) findings.push({ rule: 'http-no-redirect', severity: 'medium', detail: 'HTTP does not redirect to HTTPS' });
+            const upgrades = r.status >= 300 && r.status < 400 && /^https:/i.test(loc);
+            await r.body?.cancel().catch(() => {});
+            if (!upgrades) findings.push({ rule: 'http-no-redirect', severity: 'medium', detail: 'HTTP does not redirect to HTTPS' });
         } catch { /* port 80 closed is fine */ }
-        row.tls = await certInfo(finalHost);
+        const final = new URL(row.finalUrl);
+        row.tls = await certInfo(final.hostname, final.port ? Number(final.port) : 443);
         if (row.tls.error) findings.push({ rule: 'tls-error', severity: 'high', detail: `TLS connection failed: ${row.tls.error}` });
         else {
             if (!row.tls.authorized) findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate not trusted: ${row.tls.authorizationError}` });
@@ -123,17 +140,26 @@ async function audit(url) {
 
 let next = 0;
 let audited = 0;
+let stopForChargeLimit = false;
+let chargeFailure = null;
 async function worker() {
-    while (next < urls.length) {
+    while (next < urls.length && !stopForChargeLimit) {
         const url = urls[next++];
         const row = await audit(url);
-        await Actor.pushData(row);
+        if (stopForChargeLimit) return;
         if (!row.error) {
+            let charge;
+            try { charge = await Actor.charge({ eventName: 'url-checked' }); }
+            catch (e) { chargeFailure = e; stopForChargeLimit = true; return; }
+            if (typeof charge?.chargedCount === 'number' && charge.chargedCount < 1) { stopForChargeLimit = true; return; }
             audited += 1;
-            try { await Actor.charge({ eventName: 'url-checked' }); } catch (e) { log.warning(`Charge failed for ${url}: ${e.message}`); }
+            // This row was charged; stop other workers from publishing later unpaid work.
+            if (charge?.eventChargeLimitReached) stopForChargeLimit = true;
         }
+        await Actor.pushData(row);
     }
 }
 await Promise.all(Array.from({ length: 5 }, worker));
-await Actor.setValue('SUMMARY', { urls: urls.length, audited, finishedAt: new Date().toISOString() });
+await Actor.setValue('SUMMARY', { urls: urls.length, audited, chargeLimitReached: stopForChargeLimit && !chargeFailure, chargeError: chargeFailure?.message ?? null, finishedAt: new Date().toISOString() });
+if (chargeFailure) await Actor.fail('Could not charge for URL audit: ' + chargeFailure.message);
 await Actor.exit();
