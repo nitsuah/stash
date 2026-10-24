@@ -40,11 +40,19 @@ test('lint rejects patterns that are too generic', () => {
         { name: 'E', category: 'CMS', match: { scripts: ['[a-z0-9]+'] }, example: { scripts: ['anything'] } },
         { name: 'F', category: 'CMS', match: { scripts: ['/api/.*'] }, example: { scripts: ['/api/anything'] } },
         { name: 'D', category: 'CMS', match: { scripts: ['static\\.hotjar\\.com'] }, example: { scripts: ['https://static.hotjar.com/x.js'] } },
+        { name: 'G', category: 'CMS', match: { scripts: ['ab\\.cd'] }, example: { scripts: ['ab.cd'] } },
     ]);
     assert.equal(generic.filter((p) => /too generic/.test(p)).length, 5);
     assert.ok(generic.some((p) => p.includes('E: pattern too generic')));
     assert.ok(generic.some((p) => p.includes('F: pattern too generic')));
     assert.ok(!generic.some((p) => p.startsWith('D:')));
+    assert.ok(!generic.some((p) => p.startsWith('G:')), 'escaped literal punctuation counts toward specificity');
+});
+
+test('lint reports non-string content patterns without throwing or skipping later patterns', () => {
+    const problems = lintFingerprints([{ name: 'X', category: 'CMS', match: { scripts: [42, 'specific-library-name'] }, example: { scripts: ['specific-library-name'] } }]);
+    assert.ok(problems.some((p) => p.includes('X: pattern must be a string 42')));
+    assert.ok(!problems.some((p) => p.includes('specific-library-name')));
 });
 
 test('lint catches bad data', () => {
