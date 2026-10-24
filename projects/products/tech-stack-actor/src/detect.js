@@ -75,8 +75,11 @@ export function lintFingerprints(fingerprints) {
         // Content patterns must be specific: a short or common path matches thousands of sites that do not use the technology.
         for (const p of [...(m.html ?? []), ...(m.scripts ?? []), ...(m.links ?? [])]) {
             const plain = p.replace(/\\(.)/g, '$1').trim().toLowerCase();
-            const literal = plain.replace(/[\^$.*+?()[\]{}|]/g, '');
-            if (literal.length < MIN_LITERAL || GENERIC.has(plain)) problems.push(`${id}: pattern too generic ${p}`);
+            // Regex character classes describe sets, not literal URL/text characters.
+            // Remove complete classes before counting literals or checking generic prefixes.
+            const withoutClasses = plain.replace(/\[(?:\\.|[^\]\\])*\]/g, '');
+            const literal = withoutClasses.replace(/[\^$.*+?()[\]{}|]/g, '');
+            if (literal.length < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal)) problems.push(`${id}: pattern too generic ${p}`);
         }
         if (!fp.example) problems.push(`${id}: missing example`);
         else if (valid && patterns.length && !detect(fp.example, [fp]).some((h) => h.name === fp.name)) problems.push(`${id}: its own example does not match`);
