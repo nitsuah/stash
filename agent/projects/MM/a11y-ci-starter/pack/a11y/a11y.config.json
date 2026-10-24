@@ -1,0 +1,6 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "paths": ["/", "/about", "/contact"],
+  "failOn": { "critical": 0, "serious": 0, "moderate": 10 },
+  "ignoreRules": []
+}
