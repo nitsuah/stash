@@ -42,7 +42,7 @@ test('lint rejects patterns that are too generic', () => {
         { name: 'D', category: 'CMS', match: { scripts: ['static\\.hotjar\\.com'] }, example: { scripts: ['https://static.hotjar.com/x.js'] } },
         { name: 'G', category: 'CMS', match: { scripts: ['ab\\.cd'] }, example: { scripts: ['ab.cd'] } },
         { name: 'H', category: 'CMS', match: { scripts: ['(?<slug>[a-z0-9]+)'] }, example: { scripts: ['acme'] } },
-        { name: 'I', category: 'CMS', match: { scripts: ['\\\\u0061'] }, example: { scripts: ['a'] } },
+        { name: 'I', category: 'CMS', match: { scripts: ['\\u0061'] }, example: { scripts: ['a'] } },
         { name: 'J', category: 'CMS', match: { scripts: ['/api/|specific-library'] }, example: { scripts: ['/api/'] } },
     ]);
     assert.equal(generic.filter((p) => /too generic/.test(p)).length, 8);
