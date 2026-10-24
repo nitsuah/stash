@@ -198,6 +198,9 @@ agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
 .playwright-mcp/
 promo/out/
 
+# backend
+backend/
+
 
 # Generated Content and Asset files
 agent/projects/MM/**/out*/
