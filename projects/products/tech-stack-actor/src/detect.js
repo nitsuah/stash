@@ -87,12 +87,14 @@ export function lintFingerprints(fingerprints) {
             // Tokenize before discarding regex syntax: escaped punctuation is literal,
             // while character-class contents and unescaped operators are not.
             let literal = '';
+            let constrainedClassTokens = 0;
             for (let i = 0; i < plain.length; i += 1) {
                 const ch = plain[i];
                 if (ch === '\\') {
                     const next = plain[i + 1];
                     if (next === undefined) continue;
-                    if (/^[dDsSwWbBAZzG]$/.test(next)) { i += 1; continue; }
+                    if (/^[dDsSwW]$/.test(next)) { constrainedClassTokens += 1; i += 1; continue; }
+                    if (/^[bBAZzG]$/.test(next)) { i += 1; continue; }
                     literal += next;
                     i += 1;
                     continue;
@@ -109,7 +111,8 @@ export function lintFingerprints(fingerprints) {
                 if (!/^[.^$*+?(){}|]$/.test(ch)) literal += ch;
             }
             const literalPrefix = literal.split(/[?*+{(|]/, 1)[0];
-            if (literal.length < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal) || GENERIC.has(literalPrefix)) {
+            // A constrained token such as \\d contributes specificity without being treated as a literal character.
+            if (literal.length + constrainedClassTokens < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal) || GENERIC.has(literalPrefix)) {
                 problems.push(`${id}: pattern too generic ${p}`);
             }
         }
