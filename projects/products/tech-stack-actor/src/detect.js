@@ -154,7 +154,7 @@ export function lintFingerprints(fingerprints) {
                 // Quantifier bounds describe repetition, not matched literal text.
                 // A leading or otherwise invalid { sequence remains a literal in non-u regexes.
                 if (ch === '{' && i > 0 && !/[|(^$*+?{]/.test(plain[i - 1])) {
-                    const quantifier = /^\\{\\d+(?:,\\d*)?\\}/.exec(plain.slice(i));
+                    const quantifier = /^\{\d+(?:,\d*)?\}/.exec(plain.slice(i));
                     if (quantifier) { i += quantifier[0].length - 1; continue; }
                 }
                 if (!/^[.^$*+?(){}]$/.test(ch)) current().literal += ch;
