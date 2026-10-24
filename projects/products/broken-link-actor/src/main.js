@@ -46,6 +46,7 @@ const crawler = new CheerioCrawler({
     failedRequestHandler: async () => {},
 });
 await crawler.run(startUrls);
+if (pagesCrawled === 0) await Actor.fail('No pages were crawled. Check that startUrls are reachable and return a crawlable response.');
 for (const u of startUrls) if (!sources.has(u)) sources.set(u, new Set(['(start URL)']));
 
 let links = [...sources.keys()].filter((l) => checkExternal || internalOrigins.has(originOf(l)));
