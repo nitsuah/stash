@@ -2,6 +2,7 @@
 import tls from 'node:tls';
 import { Actor, log } from 'apify';
 import { hasWeakScriptSources } from './csp.js';
+import { tlsTarget } from './tls-target.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SecurityHeadersCheck/1.0; +https://apify.com)';
@@ -91,7 +92,8 @@ async function audit(url) {
         const code = err.cause?.code ?? err.message;
         // A certificate that fails validation is the finding itself, so grade it instead of reporting a fetch error.
         if (u.protocol === 'https:' && /CERT|SELF_SIGNED|UNABLE_TO_VERIFY|ALTNAME|SSL/i.test(String(code))) {
-            row.tls = await certInfo(u.hostname, u.port ? Number(u.port) : 443);
+            const target = tlsTarget(u.href);
+            row.tls = await certInfo(target.hostname, target.port);
             findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate failed validation: ${code}` });
             row.score = 0;
             row.grade = 'F';
@@ -111,8 +113,8 @@ async function audit(url) {
             await r.body?.cancel().catch(() => {});
             if (!upgrades) findings.push({ rule: 'http-no-redirect', severity: 'medium', detail: 'HTTP does not redirect to HTTPS' });
         } catch { /* port 80 closed is fine */ }
-        const final = new URL(row.finalUrl);
-        row.tls = await certInfo(final.hostname, final.port ? Number(final.port) : 443);
+        const target = tlsTarget(row.finalUrl);
+        row.tls = await certInfo(target.hostname, target.port);
         if (row.tls.error) findings.push({ rule: 'tls-error', severity: 'high', detail: `TLS connection failed: ${row.tls.error}` });
         else {
             if (!row.tls.authorized) findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate not trusted: ${row.tls.authorizationError}` });
