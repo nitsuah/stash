@@ -1,7 +1,15 @@
 """Zero-LLM asset factory: seeded mazes, wall art and math worksheets -> HTML/SVG sources + listings.csv.
 Stdlib only. Same seed always gives the same output. Run in python:3-slim, then render.mjs makes PDFs and PNG previews.
 Usage: python build_assets.py [seed]   (default seed 2027)"""
-import csv, html, pathlib, random, shutil, sys
+import calendar
+import csv
+import datetime
+import html
+import math
+import pathlib
+import random
+import shutil
+import sys
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out"
@@ -70,10 +78,14 @@ def maze_svg(cells, w, h, c, path=None):
     lines = []
     for (x, y), walls in cells.items():
         x0, y0 = x * c + 10, y * c + 10
-        if "N" in walls: lines.append(f"M{x0} {y0}h{c}")
-        if "W" in walls: lines.append(f"M{x0} {y0}v{c}")
-        if y == h - 1 and "S" in walls: lines.append(f"M{x0} {y0 + c}h{c}")
-        if x == w - 1 and "E" in walls: lines.append(f"M{x0 + c} {y0}v{c}")
+        if "N" in walls:
+            lines.append(f"M{x0} {y0}h{c}")
+        if "W" in walls:
+            lines.append(f"M{x0} {y0}v{c}")
+        if y == h - 1 and "S" in walls:
+            lines.append(f"M{x0} {y0 + c}h{c}")
+        if x == w - 1 and "E" in walls:
+            lines.append(f"M{x0 + c} {y0}v{c}")
     sol = ""
     if path:
         pts = " ".join(f"{x * c + 10 + c / 2},{y * c + 10 + c / 2}" for x, y in path)
@@ -102,9 +114,11 @@ def problems(rng, op, n, lo, hi):
     out = []
     for _ in range(n):
         a, b = rng.randint(lo, hi), rng.randint(lo, hi)
-        if op == "-" and b > a: a, b = b, a
+        if op == "-" and b > a:
+            a, b = b, a
         if op == "/":
-            b = max(b, 2); a = b * rng.randint(lo, hi)
+            b = max(b, 2)
+            a = b * rng.randint(lo, hi)
         ans = {"+": a + b, "-": a - b, "x": a * b, "/": a // b}[op]
         out.append((f"{a} {op if op != '/' else chr(247)} {b} =", ans))
     return out
@@ -166,7 +180,7 @@ def pack(slug, title, price, tags, blurb, files, readme_extra=""):
     for rel, text in files.items():
         write(base / rel, text)
     write(base / "README.txt", f"{title}\n\n{blurb}\n{readme_extra}\nFiles are generated from a fixed seed ({SEED}), so each set is unique to this release.\n\n{LIC}")
-    PACKS.append(dict(sku=slug, title=title, price=price, tags="|".join(tags), description=blurb))
+    PACKS.append({"sku": slug, "title": title, "price": price, "tags": "|".join(tags), "description": blurb})
 
 
 shutil.rmtree(OUT, ignore_errors=True)
@@ -189,7 +203,6 @@ pack("geometric-wall-art-vol-1", "Geometric Wall Art Set Vol. 1: 12 Abstract Pri
      "12 abstract geometric posters in 2400x3000 px (4:5), ready to print at 8x10, 16x20 or 24x30 inches. Delivered as SVG plus PNG.", {f"{n}.svg": s for n, s in art})
 
 # ---------- dated planner (regenerates for any year) ----------
-import calendar, datetime, math
 
 YEAR = SEED
 

@@ -1,5 +1,16 @@
 """Batch 2 pack builder (ideas 30, 33, 34, 39, 64, 89, 108, 109, 113, 115). Stdlib only. Run in python:3-slim."""
-import json, math, pathlib, random, shutil, struct, subprocess, sys, textwrap, wave, zipfile, zlib
+import json
+import math
+import pathlib
+import random
+import shutil
+import struct
+import subprocess
+import sys
+import textwrap
+import wave
+import zipfile
+import zlib
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out2"

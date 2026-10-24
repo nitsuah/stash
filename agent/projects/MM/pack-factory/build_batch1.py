@@ -1,5 +1,11 @@
 """Batch 1 pack builder (ideas 28, 35, 86, 87, 90, 93). Stdlib only. Run in python:3-slim: python build_batch1.py"""
-import json, pathlib, shutil, zipfile, textwrap, subprocess, sys
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+import textwrap
+import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out"

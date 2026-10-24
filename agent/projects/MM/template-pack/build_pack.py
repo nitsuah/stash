@@ -1,5 +1,9 @@
 """Builds the Freelancer Starter Kit from code. Zero LLM calls. Output: dist/ + freelancer-starter-kit.zip"""
-import csv, zipfile, pathlib, shutil
+import csv
+import pathlib
+import shutil
+import zipfile
+
 root = pathlib.Path(__file__).parent
 dist = root / "dist" / "freelancer-starter-kit"
 shutil.rmtree(root / "dist", ignore_errors=True)
@@ -40,12 +44,14 @@ rows = "".join(f"<tr><td>[Description {i}]</td><td class='r'>[Qty]</td><td class
 with open(dist / "04-income-expense-tracker.csv", "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["Date", "Type (income/expense)", "Client / Vendor", "Category", "Amount", "Invoice #", "Paid? (Y/N)", "Notes"])
-    for _ in range(25): w.writerow([""] * 8)
+    for _ in range(25):
+        w.writerow([""] * 8)
 
 with open(dist / "05-project-time-log.csv", "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["Date", "Client", "Project", "Task", "Hours", "Billable (Y/N)"])
-    for _ in range(25): w.writerow([""] * 6)
+    for _ in range(25):
+        w.writerow([""] * 6)
 
 (dist / "README.txt").write_text("""Freelancer Starter Kit
 ======================
@@ -60,5 +66,6 @@ No sign-up, no subscription. Edit freely for your own business. Do not resell th
 
 zp = root / "freelancer-starter-kit.zip"
 with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
-    for p in sorted(dist.iterdir()): z.write(p, f"freelancer-starter-kit/{p.name}")
+    for p in sorted(dist.iterdir()):
+        z.write(p, f"freelancer-starter-kit/{p.name}")
 print("built", zp, zp.stat().st_size, "bytes")

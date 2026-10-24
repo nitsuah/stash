@@ -1,6 +1,13 @@
 """Batch 3 pack builder: self-hosting compose pack, CSV cleaner, test data generator, dedupe tool, text extractor,
 backup script, model/dataset card templates. Stdlib only. Run in python:3-slim, then validate compose with docker."""
-import csv, json, pathlib, shutil, subprocess, sys, textwrap, time, zipfile
+import csv
+import pathlib
+import shutil
+import subprocess
+import sys
+import textwrap
+import time
+import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out3"

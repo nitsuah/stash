@@ -1,5 +1,9 @@
 """Builds the free tools site (static, client-side only, no trackers). Stdlib only. python build_site.py -> dist/"""
-import html, json, os, pathlib, shutil, zipfile
+import html
+import os
+import pathlib
+import shutil
+import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 BASE = os.environ.get("TOOLS_BASE", "")  # e.g. /tools when served from nitsuah.io

@@ -1,4 +1,6 @@
-import json, pathlib, re
+import json
+import pathlib
+import re
 
 seen = {}
 for f in sorted(pathlib.Path("raw").glob("*.json")):

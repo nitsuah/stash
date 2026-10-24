@@ -1,7 +1,10 @@
 """Categorize bank/card CSV exports with simple keyword rules. No AI, no network, no dependencies.
 usage: python categorize.py transactions.csv [rules.csv] > categorized.csv
 Input needs columns: date, description, amount (negative = money out). Extra columns are kept."""
-import csv, sys
+import csv
+import sys
+from contextlib import suppress
+
 
 def load_rules(path):
     with open(path, newline="", encoding="utf-8") as f:
@@ -20,9 +23,10 @@ def main():
             desc = (row.get("description") or "").lower()
             cat = next((c for k, c in rules if k in desc), "Uncategorized")
             row["category"] = cat
-            if cat == "Uncategorized": unmatched += 1
-            try: totals[cat] = totals.get(cat, 0.0) + float(row["amount"])
-            except (KeyError, ValueError): pass
+            if cat == "Uncategorized":
+                unmatched += 1
+            with suppress(KeyError, ValueError):
+                totals[cat] = totals.get(cat, 0.0) + float(row["amount"])
             w.writerow(row)
     print("\nSummary:", file=sys.stderr)
     for c, t in sorted(totals.items(), key=lambda x: x[1]):

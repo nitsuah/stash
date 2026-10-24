@@ -1,7 +1,9 @@
 """Emits one ffmpeg command per output format for a master video, using brand.json.
 Run inside python:3-slim; run.sh feeds the printed commands to an ffmpeg container.
 usage: render.py <input.mp4> <brand> <variant> "<title>"  (paths are relative to /work)"""
-import json, sys, pathlib
+import json
+import pathlib
+import sys
 
 inp, brand, variant, title = sys.argv[1:5]
 cfg = json.loads(pathlib.Path("/work/brand.json").read_text(encoding="utf-8"))
@@ -12,7 +14,8 @@ tagline = b.get("variants", {}).get(variant, {}).get("tagline", b["tagline"])
 def esc(s):  # drawtext escaping
     return s.replace("\\", "\\\\").replace("'", "’").replace(":", "\\:").replace("%", "\\%")
 
-hexc = lambda c: "0x" + c.lstrip("#")
+def hexc(c):
+    return "0x" + c.lstrip("#")
 stem = pathlib.Path(inp).stem
 for name, f in cfg["formats"].items():
     w, h = f["w"], f["h"]
