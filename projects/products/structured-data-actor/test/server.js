@@ -10,8 +10,13 @@ const pages = {
     '/broken': page('<h1>Broken</h1>', ld('{ "@type": "Product", "name": "Oops",')),
     '/faq': page('<h1>FAQ</h1>', ld({ '@context': 'https://schema.org', '@graph': [{ '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'Why?' }] }, { '@type': 'Organization', name: 'Acme' }] })),
     '/none': page('<h1>Nothing</h1>'),
+    '/product-rating': page('<h1>Rated product</h1>', ld({ '@type': 'Product', name: 'Rated mug', aggregateRating: { '@type': 'AggregateRating', ratingValue: 4 } })),
+    '/product-price-spec': page('<h1>Offer</h1>', ld({ '@type': 'Offer', priceCurrency: 'USD', priceSpecification: { '@type': 'PriceSpecification', price: '9.99' } })),
+    '/article-minimal': page('<h1>Article</h1>', ld({ '@type': 'Article', headline: 'A short article' })),
+    '/absolute-type': page('<h1>Person</h1>', ld({ '@type': 'https://schema.org/Person', name: 'Ada' })),
 };
 http.createServer((req, res) => {
+    if (req.url === '/server-error') { res.writeHead(500, { 'content-type': 'text/html' }); return res.end('server error'); }
     const body = pages[req.url];
     res.writeHead(body ? 200 : 404, { 'content-type': 'text/html' });
     res.end(body ?? 'not found');
