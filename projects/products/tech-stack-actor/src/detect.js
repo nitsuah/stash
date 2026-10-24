@@ -80,8 +80,7 @@ export function lintFingerprints(fingerprints) {
         // Content patterns must be specific: a short or common path matches thousands of sites that do not use the technology.
         for (const p of [...(m.html ?? []), ...(m.scripts ?? []), ...(m.links ?? [])]) {
             if (typeof p !== 'string') {
-                problems.push(`${id}: pattern must be a string ${p}`);
-                continue;
+                continue; // already reported by the validity loop above
             }
             const plain = p.trim().toLowerCase();
             // Count matched literals, not regex metadata, character-class contents, or operators.
@@ -152,6 +151,12 @@ export function lintFingerprints(fingerprints) {
                     continue;
                 }
                 if (ch === '|') { if (groupDepth === 0) alternatives.push({ literal: '', constrainedClassTokens: 0 }); continue; }
+                // Quantifier bounds describe repetition, not matched literal text.
+                // A leading or otherwise invalid { sequence remains a literal in non-u regexes.
+                if (ch === '{' && i > 0 && !/[|(^$*+?{]/.test(plain[i - 1])) {
+                    const quantifier = /^\\{\\d+(?:,\\d*)?\\}/.exec(plain.slice(i));
+                    if (quantifier) { i += quantifier[0].length - 1; continue; }
+                }
                 if (!/^[.^$*+?(){}]$/.test(ch)) current().literal += ch;
             }
             const tooGeneric = alternatives.some(({ literal, constrainedClassTokens }) => {
