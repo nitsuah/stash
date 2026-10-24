@@ -1,3 +1,11 @@
+---
+up: "[[repos/bb-mcp]]"
+title: "bb-mcp · FEATURES"
+source: https://github.com/nitsuah/bb-mcp/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: bb-mcp
+---
+
 # Features
 
 > 🧭 [bb-mcp](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

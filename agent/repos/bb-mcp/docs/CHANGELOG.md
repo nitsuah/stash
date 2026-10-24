@@ -1,3 +1,11 @@
+---
+up: "[[repos/bb-mcp]]"
+title: "bb-mcp · CHANGELOG"
+source: https://github.com/nitsuah/bb-mcp/blob/main/docs/CHANGELOG.md
+kind: repo-doc
+repo: bb-mcp
+---
+
 # Changelog
 
 > 🧭 [bb-mcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->
