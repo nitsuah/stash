@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: skyview
+date: 2026-10-22
+---
+
 # LOC Report — skyview (2026-10-22)
+
+> 🧭 [[repos/skyview|skyview]] · ← [[reports/eng-loc-skyview-2026-09-16|2026-09-16]] <!-- nav -->
+
 HEAD: e43dd7a793040575544460e4c4899b27b2d1304e
 
 Mode: `--report` (dry run, no changes made)
