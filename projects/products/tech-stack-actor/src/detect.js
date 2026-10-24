@@ -70,16 +70,48 @@ export function lintFingerprints(fingerprints) {
         if (!patterns.length) problems.push(`${id}: has no match patterns`);
         let valid = true;
         for (const p of patterns) {
+            if (typeof p !== 'string') {
+                valid = false;
+                problems.push(`${id}: pattern must be a string ${p}`);
+                continue;
+            }
             try { re(p); } catch { valid = false; problems.push(`${id}: invalid regex ${p}`); }
         }
         // Content patterns must be specific: a short or common path matches thousands of sites that do not use the technology.
         for (const p of [...(m.html ?? []), ...(m.scripts ?? []), ...(m.links ?? [])]) {
-            const plain = p.replace(/\\(.)/g, '$1').trim().toLowerCase();
-            // Regex character classes describe sets, not literal URL/text characters.
-            // Remove complete classes before counting literals or checking generic prefixes.
-            const withoutClasses = plain.replace(/\[(?:\\.|[^\]\\])*\]/g, '');
-            const literal = withoutClasses.replace(/[\^$.*+?()[\]{}|]/g, '');
-            if (literal.length < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal)) problems.push(`${id}: pattern too generic ${p}`);
+            if (typeof p !== 'string') {
+                problems.push(`${id}: pattern must be a string ${p}`);
+                continue;
+            }
+            const plain = p.trim().toLowerCase();
+            // Tokenize before discarding regex syntax: escaped punctuation is literal,
+            // while character-class contents and unescaped operators are not.
+            let literal = '';
+            for (let i = 0; i < plain.length; i += 1) {
+                const ch = plain[i];
+                if (ch === '\\') {
+                    const next = plain[i + 1];
+                    if (next === undefined) continue;
+                    if (/^[dDsSwWbBAZzG]$/.test(next)) { i += 1; continue; }
+                    literal += next;
+                    i += 1;
+                    continue;
+                }
+                if (ch === '[') {
+                    i += 1;
+                    while (i < plain.length) {
+                        if (plain[i] === '\\') { i += 2; continue; }
+                        if (plain[i] === ']') break;
+                        i += 1;
+                    }
+                    continue;
+                }
+                if (!/^[.^$*+?(){}|]$/.test(ch)) literal += ch;
+            }
+            const literalPrefix = literal.split(/[?*+{(|]/, 1)[0];
+            if (literal.length < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal) || GENERIC.has(literalPrefix)) {
+                problems.push(`${id}: pattern too generic ${p}`);
+            }
         }
         if (!fp.example) problems.push(`${id}: missing example`);
         else if (valid && patterns.length && !detect(fp.example, [fp]).some((h) => h.name === fp.name)) problems.push(`${id}: its own example does not match`);
