@@ -84,18 +84,50 @@ export function lintFingerprints(fingerprints) {
                 continue;
             }
             const plain = p.trim().toLowerCase();
-            // Tokenize before discarding regex syntax: escaped punctuation is literal,
-            // while character-class contents and unescaped operators are not.
-            let literal = '';
-            let constrainedClassTokens = 0;
+            // Count matched literals, not regex metadata, character-class contents, or operators.
+            // Evaluate each alternation separately so a generic branch cannot hide behind a specific one.
+            const alternatives = [{ literal: '', constrainedClassTokens: 0 }];
+            const current = () => alternatives[alternatives.length - 1];
             for (let i = 0; i < plain.length; i += 1) {
                 const ch = plain[i];
+                if (ch === '(' && plain[i + 1] === '?' && plain[i + 2] === '<') {
+                    const marker = plain[i + 3];
+                    // (?<=...) and (?<!...) are lookbehinds; (?<name>...) is a named-group declaration.
+                    if (marker !== '=' && marker !== '!') {
+                        const close = plain.indexOf('>', i + 3);
+                        if (close !== -1) { i = close; continue; }
+                    }
+                }
                 if (ch === '\\') {
                     const next = plain[i + 1];
                     if (next === undefined) continue;
-                    if (/^[dDsSwW]$/.test(next)) { constrainedClassTokens += 1; i += 1; continue; }
+                    if (next === 'u') {
+                        if (plain[i + 2] === '{') {
+                            const close = plain.indexOf('}', i + 3);
+                            const hex = close === -1 ? '' : plain.slice(i + 3, close);
+                            const codePoint = /^[0-9a-f]+$/i.test(hex) ? Number.parseInt(hex, 16) : NaN;
+                            if (Number.isInteger(codePoint) && codePoint >= 0 && codePoint <= 0x10ffff) current().literal += String.fromCodePoint(codePoint);
+                            i = close === -1 ? plain.length : close;
+                            continue;
+                        }
+                        const hex = plain.slice(i + 2, i + 6);
+                        if (/^[0-9a-f]{4}$/i.test(hex)) { current().literal += String.fromCharCode(Number.parseInt(hex, 16)); i += 5; continue; }
+                    }
+                    if (next === 'x') {
+                        const hex = plain.slice(i + 2, i + 4);
+                        if (/^[0-9a-f]{2}$/i.test(hex)) { current().literal += String.fromCharCode(Number.parseInt(hex, 16)); i += 3; continue; }
+                    }
+                    if (/^[dDsSwW]$/.test(next)) { current().constrainedClassTokens += 1; i += 1; continue; }
+                    if (/^[pP]$/.test(next) && plain[i + 2] === '{') {
+                        const close = plain.indexOf('}', i + 3);
+                        if (close !== -1) { current().constrainedClassTokens += 1; i = close; continue; }
+                    }
+                    if (next === 'k' && plain[i + 2] === '<') {
+                        const close = plain.indexOf('>', i + 3);
+                        if (close !== -1) { i = close; continue; }
+                    }
                     if (/^[bBAZzG]$/.test(next)) { i += 1; continue; }
-                    literal += next;
+                    current().literal += next;
                     i += 1;
                     continue;
                 }
@@ -108,11 +140,14 @@ export function lintFingerprints(fingerprints) {
                     }
                     continue;
                 }
-                if (!/^[.^$*+?(){}|]$/.test(ch)) literal += ch;
+                if (ch === '|') { alternatives.push({ literal: '', constrainedClassTokens: 0 }); continue; }
+                if (!/^[.^$*+?(){}]$/.test(ch)) current().literal += ch;
             }
-            const literalPrefix = literal.split(/[?*+{(|]/, 1)[0];
-            // A constrained token such as \\d contributes specificity without being treated as a literal character.
-            if (literal.length + constrainedClassTokens < MIN_LITERAL || GENERIC.has(plain) || GENERIC.has(literal) || GENERIC.has(literalPrefix)) {
+            const tooGeneric = alternatives.some(({ literal, constrainedClassTokens }) => {
+                const specificity = [...literal].length + constrainedClassTokens;
+                return specificity < MIN_LITERAL || GENERIC.has(literal) || GENERIC.has(literal.split(/[?*+{(]/, 1)[0]);
+            });
+            if (tooGeneric || GENERIC.has(plain)) {
                 problems.push(`${id}: pattern too generic ${p}`);
             }
         }
