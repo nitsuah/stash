@@ -92,7 +92,7 @@ for (const origin of sites) {
     const unique = [...new Map(validEntries.map((e) => [e.url, e])).values()].slice(0, maxUrls);
     for (const [url, n] of counts) if (n > 1) problems.push({ url, issue: 'duplicate', detail: 'Listed ' + n + ' times in the sitemaps' });
     const originHost = new URL(origin).hostname;
-    for (const e of unique) if (!isSameHostname(e.url, origin))) problems.push({ url: e.url, sitemap: e.sitemap, issue: 'wrong-host', detail: 'URL is on ' + e.parsedUrl.hostname + ', not ' + originHost });
+    for (const e of unique) if (!isSameHostname(e.url, origin)) problems.push({ url: e.url, sitemap: e.sitemap, issue: 'wrong-host', detail: 'URL is on ' + e.parsedUrl.hostname + ', not ' + originHost });
 
     let next = 0;
     let checkedThisSite = 0;
