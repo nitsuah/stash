@@ -1,3 +1,11 @@
+---
+up: "[[repos/vigil]]"
+title: "vigil · CHANGELOG"
+source: https://github.com/nitsuah/vigil/blob/main/CHANGELOG.md
+kind: repo-doc
+repo: vigil
+---
+
 # Changelog
 
 > 🧭 [vigil](./README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · **Changelog** · [Metrics](./METRICS.md) <!-- nav -->

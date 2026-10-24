@@ -1,3 +1,11 @@
+---
+up: "[[repos/vigil]]"
+title: "vigil · FEATURES"
+source: https://github.com/nitsuah/vigil/blob/main/FEATURES.md
+kind: repo-doc
+repo: vigil
+---
+
 # Vigil Features
 
 > 🧭 [vigil](./README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->

@@ -1,3 +1,11 @@
+---
+up: "[[repos/vigil]]"
+title: "vigil · TASKS"
+source: https://github.com/nitsuah/vigil/blob/main/TASKS.md
+kind: repo-doc
+repo: vigil
+---
+
 # Tasks
 
 > 🧭 [vigil](./README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
