@@ -7,4 +7,4 @@ RUN npm --quiet set progress=false \
 
 COPY --chown=myuser:myuser . ./
 
-CMD npm start --silent
+CMD ["node", "src/main.js"]
