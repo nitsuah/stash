@@ -5,8 +5,8 @@ const B = 'http://localhost:8080';
 const routes = {
     '/robots.txt': ['text/plain', `User-agent: *\nDisallow:\nSitemap: ${B}/sitemap-index.xml`],
     '/sitemap-index.xml': ['application/xml', `<sitemapindex><sitemap><loc>${B}/sm1.xml</loc></sitemap><sitemap><loc>${B}/sm2.xml</loc></sitemap></sitemapindex>`],
-    '/sm1.xml': ['application/xml', `<urlset><url><loc>${B}/good</loc><lastmod>2026-01-05</lastmod></url><url><loc>${B}/gone</loc></url><url><loc>${B}/moved</loc></url></urlset>`],
-    '/sm2.xml': ['application/xml', `<urlset><url><loc>${B}/good</loc></url><url><loc>${B}/hidden</loc><lastmod>last tuesday</lastmod></url><url><loc>http://other.example/x</loc></url></urlset>`],
+    '/sm1.xml': ['application/xml', `<urlset><url><loc>${B}/good</loc><lastmod>2026-02-30T25:00:00+15:00</lastmod></url><url><loc>${B}/gone</loc></url><url><loc>${B}/moved</loc></url></urlset>`],
+    '/sm2.xml': ['application/xml', `<urlset><url><loc>${B}/good</loc></url><url><loc>${B}/hidden</loc><lastmod>last tuesday</lastmod></url><url><loc>http://other.example/x</loc></url><url><loc>not-a-url</loc></url><url><loc>https://localhost:8080/good</loc></url></urlset>`],
     '/good': ['text/html', 'ok'],
     '/hidden': ['text/html', 'ok', { 'x-robots-tag': 'noindex' }],
 };
