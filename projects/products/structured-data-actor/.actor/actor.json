@@ -1,0 +1,14 @@
+{
+    "actorSpecification": 1,
+    "name": "structured-data-validator",
+    "title": "Structured Data Validator (JSON-LD, schema.org)",
+    "description": "Crawl a site, parse every JSON-LD block and list missing required and recommended schema.org properties per page.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 1024,
+    "minMemoryMbytes": 512,
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md"
+}
