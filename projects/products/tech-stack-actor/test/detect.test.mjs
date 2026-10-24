@@ -41,12 +41,18 @@ test('lint rejects patterns that are too generic', () => {
         { name: 'F', category: 'CMS', match: { scripts: ['/api/.*'] }, example: { scripts: ['/api/anything'] } },
         { name: 'D', category: 'CMS', match: { scripts: ['static\\.hotjar\\.com'] }, example: { scripts: ['https://static.hotjar.com/x.js'] } },
         { name: 'G', category: 'CMS', match: { scripts: ['ab\\.cd'] }, example: { scripts: ['ab.cd'] } },
+        { name: 'H', category: 'CMS', match: { scripts: ['(?<slug>[a-z0-9]+)'] }, example: { scripts: ['acme'] } },
+        { name: 'I', category: 'CMS', match: { scripts: ['\\\\u0061'] }, example: { scripts: ['a'] } },
+        { name: 'J', category: 'CMS', match: { scripts: ['/api/|specific-library'] }, example: { scripts: ['/api/'] } },
     ]);
-    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 5);
+    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 8);
     assert.ok(generic.some((p) => p.includes('E: pattern too generic')));
     assert.ok(generic.some((p) => p.includes('F: pattern too generic')));
     assert.ok(!generic.some((p) => p.startsWith('D:')));
     assert.ok(!generic.some((p) => p.startsWith('G:')), 'escaped literal punctuation counts toward specificity');
+    assert.ok(generic.some((p) => p.includes('H: pattern too generic')), 'named-group metadata is not counted as matched text');
+    assert.ok(generic.some((p) => p.includes('I: pattern too generic')), 'Unicode escapes count as one decoded character');
+    assert.ok(generic.some((p) => p.includes('J: pattern too generic')), 'every regex alternative must be sufficiently specific');
 });
 
 test('lint reports non-string content patterns without throwing or skipping later patterns', () => {
