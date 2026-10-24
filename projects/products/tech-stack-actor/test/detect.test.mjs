@@ -37,9 +37,13 @@ test('lint rejects patterns that are too generic', () => {
         { name: 'A', category: 'CMS', match: { scripts: ['/api/'] }, example: { scripts: ['/api/x'] } },
         { name: 'B', category: 'CMS', match: { scripts: ['/static/'] }, example: { scripts: ['/static/x'] } },
         { name: 'C', category: 'CMS', match: { html: ['abc'] }, example: { html: 'abc' } },
+        { name: 'E', category: 'CMS', match: { scripts: ['[a-z0-9]+'] }, example: { scripts: ['anything'] } },
+        { name: 'F', category: 'CMS', match: { scripts: ['/api/.*'] }, example: { scripts: ['/api/anything'] } },
         { name: 'D', category: 'CMS', match: { scripts: ['static\\.hotjar\\.com'] }, example: { scripts: ['https://static.hotjar.com/x.js'] } },
     ]);
-    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 3);
+    assert.equal(generic.filter((p) => /too generic/.test(p)).length, 5);
+    assert.ok(generic.some((p) => p.includes('E: pattern too generic')));
+    assert.ok(generic.some((p) => p.includes('F: pattern too generic')));
     assert.ok(!generic.some((p) => p.startsWith('D:')));
 });
 
