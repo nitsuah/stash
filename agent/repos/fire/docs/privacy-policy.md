@@ -40,7 +40,7 @@ When you use the hosted Netlify deployment:
 When you run the application locally via Docker:
 
 - Data is stored in a **local `data/db.json` file** on your machine.
-- The Express server (`localhost:3001`) is bound to `127.0.0.1` (loopback), so it's reachable only from your machine, not other devices on your network. `FIRE_API_KEY` is required by default (set `FIRE_AUTH_DISABLED=true` to explicitly opt out for local-only use) — see [security-hardening.md](security-hardening.md).
+- The Express server (`localhost:3001`) is bound to `127.0.0.1` (loopback), so it's reachable only from your machine, not other devices on your network. `FIRE_API_KEY` is required by default (set `FIRE_AUTH_DISABLED=true` to explicitly opt out for local-only use) — see [security-hardening.md](https://github.com/nitsuah/fire/blob/main/docs/security-hardening.md).
 - The browser app syncs with this local server; `localStorage` serves as a fallback if the server is unreachable.
 - **Optional Google Drive backup.** The hosted site has no Drive backup; it exists only on a self-hosted server. If you connect Google Drive (Google OAuth, `drive.file` scope, so the app can see only the files it creates) and run a backup, the server encrypts a copy of `data/db.json` with AES-256-GCM using your `SYNC_MASTER_KEY` before upload, and stores it as a file in **your own** Google Drive (folder `fire-tracker-backups`, or the folder you configure). Google holds only ciphertext. The Drive OAuth token is stored on your machine in `data/tokens-gdrive.json`, also encrypted with `SYNC_MASTER_KEY`. Backups stay in your Drive until you delete them there; this app has no copy and no separate retention. Losing `SYNC_MASTER_KEY` makes those backups unreadable.
 

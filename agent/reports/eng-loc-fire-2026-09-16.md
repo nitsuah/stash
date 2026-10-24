@@ -6,7 +6,7 @@ date: 2026-09-16
 
 # LOC Report — fire
 
-> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-07-29|2026-07-29]] <!-- nav -->
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-07-29|2026-07-29]] · [[reports/eng-loc-fire-2026-10-22|2026-10-22]] → <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-16

@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: fire
+date: 2026-10-22
+---
+
 # LOC Report — fire (2026-10-22)
+
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-09-16|2026-09-16]] <!-- nav -->
+
 HEAD: 861c5307c8072c5ffb5b086e5dc23c52a3ce0650
 
 Mode: `--report` (dry run, no changes made)
