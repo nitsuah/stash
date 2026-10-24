@@ -6,9 +6,9 @@ const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo),
 
 // Required properties make the entity unusable for rich results; recommended ones improve them. Kept deliberately small and documented in the README.
 const RUBRIC = {
-    Product: { required: ['name', 'image', 'offers'], recommended: ['description', 'sku', 'brand', 'aggregateRating'] },
-    Offer: { required: ['price', 'priceCurrency'], recommended: ['availability', 'url'] },
-    Article: { required: ['headline', 'image', 'datePublished', 'author'], recommended: ['dateModified', 'publisher'] },
+    Product: { required: ['name'], recommended: ['image', 'description', 'sku', 'brand', 'aggregateRating', 'offers'] },
+    Offer: { required: ['priceCurrency'], recommended: ['availability', 'url'] },
+    Article: { required: [], recommended: ['headline', 'image', 'datePublished', 'author', 'dateModified', 'publisher'] },
     LocalBusiness: { required: ['name', 'address'], recommended: ['telephone', 'openingHours', 'openingHoursSpecification', 'image', 'url', 'geo'] },
     Organization: { required: ['name', 'url'], recommended: ['logo', 'sameAs', 'contactPoint'] },
     FAQPage: { required: ['mainEntity'], recommended: [] },
@@ -27,6 +27,17 @@ const ALIASES = {
     CafeOrCoffeeShop: 'LocalBusiness', LegalService: 'LocalBusiness', RealEstateAgent: 'LocalBusiness', Corporation: 'Organization', NGO: 'Organization',
 };
 const SEVERITY = { required: 'high', recommended: 'low' };
+function normalizeType(rawType) {
+    const raw = String(rawType);
+    let local = raw;
+    try {
+        const parsed = new URL(raw);
+        if (parsed.hostname.toLowerCase() === 'schema.org') local = parsed.pathname.split('/').filter(Boolean).at(-1) ?? raw;
+    } catch {
+        local = raw.replace(/^schema\\.org\\//i, '');
+    }
+    return ALIASES[local] ?? local;
+}
 const WEIGHT = { high: 12, medium: 8, low: 2 };
 
 await Actor.init();
@@ -53,13 +64,20 @@ function entities(node, out = []) {
 function validate(entity) {
     const issues = [];
     for (const rawType of asArray(entity['@type'])) {
-        const type = ALIASES[rawType] ?? rawType;
+        const type = normalizeType(rawType);
         const rule = RUBRIC[type];
         if (!rule) continue;
         for (const level of ['required', 'recommended']) {
             for (const prop of rule[level]) {
                 if (!present(entity[prop])) issues.push({ type: rawType, rule: `${level}-missing`, property: prop, severity: SEVERITY[level], detail: `${rawType} is missing ${level === 'required' ? 'required' : 'recommended'} property "${prop}"` });
             }
+        }
+        if (type === 'Product' && !['offers', 'aggregateRating', 'review'].some((key) => present(entity[key]))) {
+            issues.push({ type: rawType, rule: 'required-missing', property: 'offers|aggregateRating|review', severity: 'high', detail: 'Product must provide offers, aggregateRating, or review for a product snippet' });
+        }
+        if (type === 'Offer') {
+            const hasPrice = present(entity.price) || asArray(entity.priceSpecification).some((spec) => spec && typeof spec === 'object' && present(spec.price));
+            if (!hasPrice) issues.push({ type: rawType, rule: 'required-missing', property: 'price|priceSpecification.price', severity: 'high', detail: 'Offer must provide price or priceSpecification.price' });
         }
     }
     return issues;
@@ -69,7 +87,7 @@ const crawler = new CheerioCrawler({
     maxRequestsPerCrawl: maxPages,
     maxConcurrency: 10,
     maxRequestRetries: 1,
-    ignoreHttpErrorStatusCodes: [400, 401, 402, 403, 404, 405, 410, 429],
+    ignoreHttpErrorStatusCodes: [...Array.from({ length: 100 }, (_, i) => 500 + i), 400, 401, 402, 403, 404, 405, 410, 429],
     async requestHandler({ request, $, enqueueLinks, response }) {
         const url = request.loadedUrl ?? request.url;
         const status = response?.statusCode ?? 200;
