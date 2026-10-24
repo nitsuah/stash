@@ -54,6 +54,7 @@ def strip_code(text):
 def collect():
     """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
     notes, attachments = [], []
+    MM_SKIP_PREFIX = "agent/projects/MM/"
     for dp, dn, fn in os.walk(VAULT):
         # same exclusions as .obsidian/app.json userIgnoreFilters (logs, plugin data, scratch .txt),
         # applied to notes and attachments alike
@@ -62,6 +63,8 @@ def collect():
                  and not (top and d in IGNORED_DIRS)]
         for f in fn:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
+            if rel.startswith(MM_SKIP_PREFIX):
+                continue  # skip MM source files from graph analysis
             if f.lower().endswith(".md"):
                 notes.append(rel)
             elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.IGNORECASE):  # scripts are knowledge: VAULT-MAP links them
