@@ -18,14 +18,25 @@ for (const p of paths) {
   let bytes = 0;
   const pending = [];
   page.on('response', r => pending.push(r.body().then(b => { bytes += b.length; }).catch(() => {})));
-  await page.goto(base + p, { waitUntil: 'domcontentloaded', timeout: 20000 });
-  const loadMs = Date.now() - t0;
-  await Promise.all(pending);
-  await page.waitForTimeout(1500);
-  await page.evaluate(axeSrc);
-  const axe = await page.evaluate(() => axe.run());
-  results.push({ path: p, loadMs, bytes, violations: axe.violations });
-  await page.close();
+  try {
+    const response = await page.goto(new URL(p, base).href, { waitUntil: 'domcontentloaded', timeout: 20000 });
+    const loadMs = Date.now() - t0;
+    if (!response || response.status() >= 400) {
+      results.push({ path: p, loadMs, bytes, error: response ? `HTTP ${response.status()}` : 'Navigation returned no response', violations: [] });
+      await page.close();
+      continue;
+    }
+    // Transfer-size metrics are best-effort: a streaming body must not block the audit.
+    await Promise.race([Promise.all(pending), new Promise(resolve => setTimeout(resolve, 5000))]);
+    await page.waitForTimeout(1500);
+    await page.evaluate(axeSrc);
+    const axe = await page.evaluate(() => axe.run());
+    results.push({ path: p, loadMs, bytes, violations: axe.violations });
+  } catch (error) {
+    results.push({ path: p, loadMs: Date.now() - t0, bytes, error: String(error?.message || error), violations: [] });
+  } finally {
+    await page.close();
+  }
 }
 await browser.close();
 
