@@ -8,7 +8,7 @@ Start the MoneyMakers build per `C:\Users\ajhar\code\stash\agent\projects\MM\PLA
 
 Both are drafts only. Do not publish, send, create accounts, or move money.
 
-**Tracking:** The Neon project `moneymakers` (`divine-surf-90579532`) has tables `projects` and `money_events`, and view `project_pnl`. Update the rows for these two projects. Log any token cost as `cost` rows in `money_events`. Neon is the only tracker; do not use Google Drive or Sheets.
+**Tracking:** Draft proposed changes to the Neon project `moneymakers` (`divine-surf-90579532`), including `projects` and `money_events` rows. Show the exact mutations to the user and wait for explicit approval before writing. Log token costs as `cost` rows only after approval. Neon is the only tracker; do not use Google Drive or Sheets.
 
 **Defaults to pick and note in the output** (confirm with the user before going past drafts):
 - Token budget per bot (PLAN.md open question 2)
