@@ -14,6 +14,8 @@ import sys
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out"
 SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 2027
+if not 1 <= SEED <= 9999:
+    raise SystemExit("seed/year must be between 1 and 9999; existing outputs were not touched")
 LIC = "Personal and commercial use. Do not resell or redistribute the files themselves.\n"
 PAGE_CSS = ("@page{size:Letter;margin:0.5in}body{font-family:system-ui,Arial,sans-serif;color:#111;margin:0}"
             ".pg{page-break-after:always;text-align:center;padding:0.2in}.pg>svg{display:block;margin:0 auto;width:auto;max-width:100%;max-height:8.2in}h1{font-size:26pt;margin:0 0 4pt}"
