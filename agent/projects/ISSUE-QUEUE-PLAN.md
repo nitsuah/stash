@@ -66,4 +66,4 @@ issue opened ──► [1 TRIAGE: Opus] ──► q:ready ──► [2 WORKERS: 
 
 ## 5. Guardrails carried over from IMPS-PLAN
 
-The runner pushes, never the worker. No GitHub token in the worker. Deny paths (`.github/workflows`, `.env*`, auth/billing). Diff cap. gitleaks. A branch ruleset means nothing auto-merges. 9router fallback gate: if a served `model` isn't what the run asked for, that run is held, not judged.
+The runner pushes, never the worker. No GitHub token in the worker. When one consolidated fix resolves multiple issues, include a `Closes #n` reference for every issue in the PR body (one closing keyword per issue), or record an explicit post-merge reconciliation step for issues that cannot be linked to that PR. Deny paths (`.github/workflows`, `.env*`, auth/billing). Diff cap. gitleaks. A branch ruleset means nothing auto-merges. 9router fallback gate: if a served `model` isn't what the run asked for, that run is held, not judged.
