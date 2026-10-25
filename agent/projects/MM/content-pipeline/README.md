@@ -34,7 +34,7 @@ Motor-pool has no ffmpeg code of its own; MoneyPrinterTurbo uses ffmpeg inside i
 
 ```
 ideas (Neon) -> pick idea -> script prompt -> content-gen or opencut render (master)
-   -> reformat.sh (3 aspect ratios + brand) -> caption prompt per platform
+   -> run.sh (3 aspect ratios + brand) -> caption prompt per platform
    -> drafts + social_posts rows (status draft) -> human approval -> (later) pusher posts
 ```
 
