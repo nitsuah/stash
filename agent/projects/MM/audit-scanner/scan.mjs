@@ -18,18 +18,20 @@ for (const p of paths) {
   let bytes = 0;
   const pending = [];
   page.on('response', r => pending.push(r.body().then(b => { bytes += b.length; }).catch(() => {})));
-  const response = await page.goto(base + p, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  const response = await page.goto(new URL(p, base).href, { waitUntil: 'load', timeout: 20000 });
   if (!response || response.status() >= 400) {
     results.push({ path: p, loadMs: Date.now() - t0, bytes, error: `Page returned HTTP ${response?.status() ?? 'no response'}`, violations: [] });
     await page.close();
     continue;
   }
   const loadMs = Date.now() - t0;
-  await Promise.all(pending);
+  // Measure response bodies for a bounded window; streaming bodies must not block the audit.
+  await Promise.race([Promise.all(pending), new Promise(resolve => setTimeout(resolve, 5000))]);
+  const measuredBytes = bytes;
   await page.waitForTimeout(1500);
   await page.evaluate(axeSrc);
   const axe = await page.evaluate(() => axe.run());
-  results.push({ path: p, loadMs, bytes, violations: axe.violations });
+  results.push({ path: p, loadMs, bytes: measuredBytes, violations: axe.violations });
   await page.close();
 }
 await browser.close();
