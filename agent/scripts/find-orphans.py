@@ -54,7 +54,7 @@ def strip_code(text):
 def collect():
     """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
     notes, attachments = [], []
-    MM_SKIP_PREFIX = "agent/projects/MM/"
+    MM_SKIP_PREFIX = "projects/MM/"
     for dp, dn, fn in os.walk(VAULT):
         # same exclusions as .obsidian/app.json userIgnoreFilters (logs, plugin data, scratch .txt),
         # applied to notes and attachments alike
