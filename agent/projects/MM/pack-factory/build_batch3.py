@@ -234,6 +234,7 @@ for i, a in enumerate(sys.argv):
     if a == "--dates" and i + 1 < len(sys.argv):
         date_cols = sys.argv[i + 1].split(",")
         args = [x for x in args if x != sys.argv[i + 1]]
+src, dst = args[0], args[1]
 FORMATS = ["%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%d %b %Y", "%b %d, %Y", "%Y/%m/%d"]
 
 
