@@ -20,7 +20,7 @@ LIC = "Personal and commercial use. Do not resell or redistribute the files them
 PAGE_CSS = ("@page{size:Letter;margin:0.5in}body{font-family:system-ui,Arial,sans-serif;color:#111;margin:0}"
             ".pg{page-break-after:always;text-align:center;padding:0.2in}.pg>svg{display:block;margin:0 auto;width:auto;max-width:100%;max-height:8.2in}h1{font-size:26pt;margin:0 0 4pt}"
             "h2{font-size:16pt;margin:0 0 8pt}.sub{font-size:11pt;color:#333;margin-bottom:10pt}"
-            ".grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10pt}.mz{border:1px solid #bbb}"
+            ".grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10pt}.mz{border:1px solid #bbb}.mz svg{display:block;width:100%;max-height:1.8in}"
             ".wk{display:grid;grid-template-columns:repeat(4,1fr);gap:16pt 12pt;text-align:left;font-size:16pt;"
             "font-variant-numeric:tabular-nums}.wk div{padding:6pt 2pt;border-bottom:1px solid #999}.key .wk{font-size:11pt}")
 
@@ -107,7 +107,7 @@ def maze_book(slug, title, tiers, per_tier):
             pages.append(f"<div class='pg'><h1>Maze {n}</h1><div class='sub'>{label}. Start at the top-left gap, finish at the bottom-right gap.</div>{maze_svg(cells, w, h, c)}</div>")
             keys.append(f"<div class='mz'><b>Maze {n}</b>{maze_svg(cells, w, h, max(4, c // 3), solve(cells, w, h))}</div>")
     cover = f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>{html.escape(title)}</h1><div class='sub'>{n} mazes, easy to hard, with solutions. Nitsuah Labs.</div></div>"
-    key_pages = "".join(f"<div class='pg'><h2>Solutions</h2><div class='grid'>{''.join(keys[i:i + 6])}</div></div>" for i in range(0, len(keys), 6))
+    key_pages = "".join(f"<div class='pg'><h2>Solutions</h2><div class='grid'>{''.join(keys[i:i + 4])}</div></div>" for i in range(0, len(keys), 2))
     return doc(title, cover + "".join(pages) + key_pages), n
 
 
@@ -134,7 +134,7 @@ def worksheet_pack(slug, title, ops, lo, hi, sheets):
         ps = problems(rng, op, 24, lo, hi)
         pages.append(f"<div class='pg'><h1>Worksheet {i + 1}</h1><div class='sub'>Name: ______________ &nbsp; Date: __________</div><div class='wk'>{''.join(f'<div>{html.escape(q)}</div>' for q, _ in ps)}</div></div>")
         keys.append(f"<div><b>Worksheet {i + 1}</b><div class='wk'>{''.join(f'<div>{a}</div>' for _, a in ps)}</div></div>")
-    key_pages = "".join(f"<div class='pg key'><h2>Answer key</h2>{''.join(keys[j:j + 4])}</div>" for j in range(0, len(keys), 4))
+    key_pages = "".join(f"<div class='pg key'><h2>Answer key</h2>{''.join(keys[j:j + 2])}</div>" for j in range(0, len(keys), 4))
     return doc(title, "".join(pages) + key_pages)
 
 
@@ -245,7 +245,7 @@ def mandala_svg(rng):
     parts = []
     for ring in range(rng.randint(4, 6)):
         n = rng.choice([6, 8, 10, 12, 16])
-        r = 90 + ring * 80
+        r = 90 + ring * 65
         pw, ph = rng.randint(14, 34), rng.randint(30, 70)
         kind = rng.choice(["petal", "circle", "diamond"])
         for i in range(n):
