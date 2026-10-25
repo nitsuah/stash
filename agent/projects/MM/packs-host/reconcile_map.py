@@ -51,7 +51,6 @@ def main():
     args = parser.parse_args()
     if not args.archive_dir.is_dir():
         raise SystemExit(f"archive directory does not exist: {args.archive_dir}")
-    expected = read_manifest(ROOT / "map.txt")
     actual = staged_rows(args.archive_dir)
     if args.refresh:
         if not actual:
@@ -59,6 +58,7 @@ def main():
         (ROOT / "map.txt").write_text("".join(f"{slug} {name}\n" for slug, name in actual), encoding="utf-8")
         print(f"refreshed map.txt with {len(actual)} staged archives")
         return
+    expected = read_manifest(ROOT / "map.txt")
     expected_by_name = {name: slug for slug, name in expected}
     actual_by_name = {name: slug for slug, name in actual}
     missing = sorted(set(expected_by_name) - set(actual_by_name))
