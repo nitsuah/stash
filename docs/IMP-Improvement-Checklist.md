@@ -10,4 +10,4 @@
 - [ ] Schedule nightly clean‑up of worktrees older than 48 h (could be a cron task).
 - [ ] Ensure future IMP runs use Docker (`docker compose run …`) as per config.
 
-*All items marked with ✅ are completed; pending items are tasks for tomorrow.*
+*All items marked with [x] are completed; unchecked items remain pending.*
