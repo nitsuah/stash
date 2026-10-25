@@ -1,7 +1,7 @@
 // Zero-LLM cover factory: renders a 1280x720 cover and a 600x600 thumbnail per product from products.mjs.
 // Run in the playwright image with MM mounted at /w:  node covers.mjs   (cwd /w/cover-factory). Output: out/<slug>-cover.png, out/<slug>-thumb.png
 import { createRequire } from 'node:module';
-import { mkdirSync, writeFileSync, readdirSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readdirSync, readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { products } from './products.mjs';
 const { chromium } = createRequire(resolve('../audit-scanner/package.json'))('playwright');
@@ -21,6 +21,18 @@ function visualHtml(v, mode) {
   if (v.list) return `<div class="list">${v.list.map(([a, b]) => `<div class="row"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>`;
   if (v.table) return `<div class="tbl">${v.table.map((r, i) => `<div class="tr ${i === 0 ? 'th' : ''}">${r.map((c) => `<span>${esc(c)}</span>`).join('')}</div>`).join('')}</div>`;
   return '';
+}
+
+// Fail before launching Chromium if the generated source assets are missing.
+for (const p of products) {
+  const v = p.visual || {};
+  const asset = v.grid ? `/w/${v.grid}` : v.img ? `/w/${v.img}` : v.page ? `/w/${v.page}` : null;
+  if (asset && !existsSync(asset)) {
+    throw new Error(`Missing visual asset for ${p.slug}: ${asset}. Run ./run.sh from cover-factory to build inputs first.`);
+  }
+  if (v.grid && readdirSync(asset).filter((name) => name.endsWith('.svg')).length === 0) {
+    throw new Error(`No SVG icons found for ${p.slug}: ${asset}. Run ./run.sh from cover-factory to build inputs first.`);
+  }
 }
 
 const CSS = `
