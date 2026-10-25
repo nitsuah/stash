@@ -198,17 +198,20 @@ agent/.obsidian/plugins/mcp-tools/bin/mcp-server.exe
 .playwright-mcp/
 promo/out/
 
-# backend
-backend/express/node_modules/
+# Local JavaScript dependencies
+**/node_modules/
 
-
-# Generated Content and Asset files
-agent/projects/MM/**/out*/
+# MM project runtime state and generated deliverables
+agent/projects/MM/**/storage/
+agent/projects/MM/**/out/
+agent/projects/MM/**/dist/
 agent/projects/MM/**/*.zip
+
+# MM generated reports, captures, and sample media
 agent/projects/MM/**/reports/
 agent/projects/MM/**/raw/
-agent/projects/MM/**/storage/
-agent/projects/MM/**/node_modules/
-agent/projects/MM/**/dist/
+agent/projects/MM/**/sample.mp4
 agent/projects/MM/**/package-lock.json
-agent/projects/MM/**/site/d/
+
+# MM packaged output batches
+agent/projects/MM/pack-factory/out*/
