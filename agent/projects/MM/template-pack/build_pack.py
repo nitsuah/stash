@@ -55,7 +55,7 @@ with open(dist / "05-project-time-log.csv", "w", newline="") as f:
 
 (dist / "README.txt").write_text("""Freelancer Starter Kit
 ======================
-01-invoice.html ................ open in a browser, edit the [brackets], Print > Save as PDF
+01-invoice.html ................ edit the bracketed fields in a text editor, then open in a browser to preview and Print > Save as PDF
 02-proposal.html ............... same workflow
 03-client-onboarding-checklist.md ... any text editor / Notion / Obsidian
 04-income-expense-tracker.csv .. opens in Excel, Google Sheets, Numbers
