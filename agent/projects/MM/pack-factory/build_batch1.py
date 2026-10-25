@@ -214,7 +214,7 @@ for k in ("priceRange", "sameAs"):
     if b.get(k):
         data[k] = b[k]
 print('<script type="application/ld+json">')
-print(json.dumps(data, indent=2))
+print(json.dumps(data, indent=2).replace("<", "\\u003c"))
 print("</script>")
 ''', encoding="utf-8")
 w(b, "README.md", f"""
