@@ -7,7 +7,7 @@ def main():
     import re
     import shutil
     import zipfile
-    
+
     SRC = pathlib.Path.home() / ".claude" / "skills"
     SKILLS = ["content-gen", "repo-audit", "site-gen", "journeys", "opencut", "brag-slim", "promo"]
     root = pathlib.Path(__file__).parent
@@ -46,7 +46,7 @@ def main():
     review_path.write_text("\n".join(report), encoding="utf-8")
     if report:
         raise SystemExit(f"Refusing to create a distributable ZIP: {len(report)} lines need human review. See {review_path}")
-    
+
     zp = root / "claude-code-skills-bundle.zip"
     with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
         for p in sorted(dist.rglob("*")):
