@@ -13,9 +13,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out"
-SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 2027
-if not 1 <= SEED <= 9999:
-    raise SystemExit("seed/year must be between 1 and 9999; existing outputs were not touched")
+SEED = 2027
 LIC = "Personal and commercial use. Do not resell or redistribute the files themselves.\n"
 PAGE_CSS = ("@page{size:Letter;margin:0.5in}body{font-family:system-ui,Arial,sans-serif;color:#111;margin:0}"
             ".pg{page-break-after:always;text-align:center;padding:0.2in}.pg>svg{display:block;margin:0 auto;width:auto;max-width:100%;max-height:8.2in}h1{font-size:26pt;margin:0 0 4pt}"
@@ -173,130 +171,139 @@ def art_set(slug, count):
     return [(f"art-{i + 1:02d}", art_svg(rng, PALETTES[i % len(PALETTES)], ["rings", "blocks", "tiles"][i % 3])) for i in range(count)]
 
 
-# ---------- build ----------
-PACKS = []
+def main():
+    global SEED
+    SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 2027
+    if not 1 <= SEED <= 9999:
+        raise SystemExit("seed/year must be between 1 and 9999; existing outputs were not touched")
+    # ---------- build ----------
+    PACKS = []
 
 
-def pack(slug, title, price, tags, blurb, files, readme_extra=""):
-    base = OUT / slug
-    for rel, text in files.items():
-        write(base / rel, text)
-    write(base / "README.txt", f"{title}\n\n{blurb}\n{readme_extra}\nFiles are generated from a fixed seed ({SEED}), so each set is unique to this release.\n\n{LIC}")
-    PACKS.append({"sku": slug, "title": title, "price": price, "tags": "|".join(tags), "description": blurb})
+    def pack(slug, title, price, tags, blurb, files, readme_extra=""):
+        base = OUT / slug
+        for rel, text in files.items():
+            write(base / rel, text)
+        write(base / "README.txt", f"{title}\n\n{blurb}\n{readme_extra}\nFiles are generated from a fixed seed ({SEED}), so each set is unique to this release.\n\n{LIC}")
+        PACKS.append({"sku": slug, "title": title, "price": price, "tags": "|".join(tags), "description": blurb})
 
 
-shutil.rmtree(OUT, ignore_errors=True)
+    shutil.rmtree(OUT, ignore_errors=True)
 
-b1, n1 = maze_book("maze-book-1", "Maze Puzzle Book Vol. 1", [("Easy", 8, 10, 40), ("Medium", 14, 18, 24), ("Hard", 22, 28, 15)], 10)
-pack("maze-book-vol-1", "Maze Puzzle Book Vol. 1: 30 Printable Mazes with Solutions (PDF)", 6,
-     ["maze book", "printable puzzles", "kids activity", "puzzle pdf", "brain games", "mazes", "road trip", "classroom", "party activity", "digital download", "puzzle book", "easy to hard", "letter size"],
-     "30 printable mazes in three difficulty levels with a full solution section. US Letter PDF, print as many copies as you like for personal use.", {"book.html": b1})
+    b1, n1 = maze_book("maze-book-1", "Maze Puzzle Book Vol. 1", [("Easy", 8, 10, 40), ("Medium", 14, 18, 24), ("Hard", 22, 28, 15)], 10)
+    pack("maze-book-vol-1", "Maze Puzzle Book Vol. 1: 30 Printable Mazes with Solutions (PDF)", 6,
+         ["maze book", "printable puzzles", "kids activity", "puzzle pdf", "brain games", "mazes", "road trip", "classroom", "party activity", "digital download", "puzzle book", "easy to hard", "letter size"],
+         "30 printable mazes in three difficulty levels with a full solution section. US Letter PDF, print as many copies as you like for personal use.", {"book.html": b1})
 
-for slug, title, ops, lo, hi in [
-        ("math-add-sub-grade-2", "Grade 2 Addition and Subtraction Worksheets: 20 Printable Pages with Answer Key (PDF)", ["+", "-"], 2, 40),
-        ("math-multiply-grade-3", "Grade 3 Multiplication and Division Worksheets: 20 Printable Pages with Answer Key (PDF)", ["x", "/"], 2, 12),
-        ("math-mixed-grade-4", "Grade 4 Mixed Operations Worksheets: 20 Printable Pages with Answer Key (PDF)", ["+", "-", "x", "/"], 5, 60)]:
-    pack(slug, title, 4, ["math worksheets", "homeschool", "printable", "grade school", "practice sheets", "answer key", "teacher resource", "classroom", "digital download", "pdf worksheets", "arithmetic", "back to school", "kids math"],
-         "20 printable practice sheets, 24 problems each, plus an answer key. US Letter PDF.", {"book.html": worksheet_pack(slug, title, ops, lo, hi, 20)})
+    for slug, title, ops, lo, hi in [
+            ("math-add-sub-grade-2", "Grade 2 Addition and Subtraction Worksheets: 20 Printable Pages with Answer Key (PDF)", ["+", "-"], 2, 40),
+            ("math-multiply-grade-3", "Grade 3 Multiplication and Division Worksheets: 20 Printable Pages with Answer Key (PDF)", ["x", "/"], 2, 12),
+            ("math-mixed-grade-4", "Grade 4 Mixed Operations Worksheets: 20 Printable Pages with Answer Key (PDF)", ["+", "-", "x", "/"], 5, 60)]:
+        pack(slug, title, 4, ["math worksheets", "homeschool", "printable", "grade school", "practice sheets", "answer key", "teacher resource", "classroom", "digital download", "pdf worksheets", "arithmetic", "back to school", "kids math"],
+             "20 printable practice sheets, 24 problems each, plus an answer key. US Letter PDF.", {"book.html": worksheet_pack(slug, title, ops, lo, hi, 20)})
 
-art = art_set("wall-art-1", 12)
-pack("geometric-wall-art-vol-1", "Geometric Wall Art Set Vol. 1: 12 Abstract Printable Posters, 24x30 in (4:5), Instant Download", 8,
-     ["wall art", "printable art", "geometric print", "abstract art", "modern decor", "digital download", "poster print", "home decor", "office art", "living room art", "minimalist", "instant download", "4x5 print"],
-     "12 abstract geometric posters in 2400x3000 px (4:5), ready to print at 8x10, 16x20 or 24x30 inches. Delivered as SVG plus PNG.", {f"{n}.svg": s for n, s in art})
+    art = art_set("wall-art-1", 12)
+    pack("geometric-wall-art-vol-1", "Geometric Wall Art Set Vol. 1: 12 Abstract Printable Posters, 24x30 in (4:5), Instant Download", 8,
+         ["wall art", "printable art", "geometric print", "abstract art", "modern decor", "digital download", "poster print", "home decor", "office art", "living room art", "minimalist", "instant download", "4x5 print"],
+         "12 abstract geometric posters in 2400x3000 px (4:5), ready to print at 8x10, 16x20 or 24x30 inches. Delivered as SVG plus PNG.", {f"{n}.svg": s for n, s in art})
 
-# ---------- dated planner (regenerates for any year) ----------
+    # ---------- dated planner (regenerates for any year) ----------
 
-YEAR = SEED
-
-
-def planner_html(year):
-    cal = calendar.Calendar(firstweekday=6)
-    css = ("<style>table{width:100%;border-collapse:collapse;table-layout:fixed}td,th{border:1px solid #888;height:1.05in;vertical-align:top;"
-           "font-size:10pt;text-align:left;padding:2pt}th{height:.3in;background:#eee}.wkr{height:auto}.wkr td{height:.95in}"
-           ".hab td{height:.22in;height:.22in;font-size:7pt;text-align:center;padding:0}.hab td.n{text-align:left;width:1.6in}</style>")
-    pages = [f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>{year} Planner</h1><div class='sub'>Monthly calendar, weekly pages and a habit tracker. Nitsuah Labs.</div></div>"]
-    for m in range(1, 13):
-        rows = "".join("<tr>" + "".join(f"<td>{d.day if d.month == m else ''}</td>" for d in wk) + "</tr>" for wk in cal.monthdatescalendar(year, m))
-        pages.append(f"<div class='pg'><h1>{calendar.month_name[m]} {year}</h1><table><tr>{''.join(f'<th>{n}</th>' for n in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])}</tr>{rows}</table></div>")
-    d = datetime.date(year, 1, 1)
-    d -= datetime.timedelta(days=(d.weekday() + 1) % 7)
-    while d.year <= year and (d <= datetime.date(year, 12, 31)):
-        end = d + datetime.timedelta(days=6)
-        days = "".join(f"<tr><td style='width:1.3in'><b>{(d + datetime.timedelta(days=i)).strftime('%a %b %d')}</b></td><td></td></tr>" for i in range(7))
-        pages.append(f"<div class='pg'><h2>Week of {d.strftime('%b %d')} to {end.strftime('%b %d, %Y')}</h2><table class='wkr'>{days}</table><h2 style='margin-top:12pt'>Notes</h2><table class='wkr'><tr><td style='height:1.6in'></td></tr></table></div>")
-        d += datetime.timedelta(days=7)
-    for m in range(1, 13):
-        nd = calendar.monthrange(year, m)[1]
-        head = "<tr><td class='n'><b>Habit</b></td>" + "".join(f"<td>{i}</td>" for i in range(1, nd + 1)) + "</tr>"
-        body = "".join("<tr><td class='n'></td>" + "<td></td>" * nd + "</tr>" for _ in range(14))
-        pages.append(f"<div class='pg'><h2>Habit tracker: {calendar.month_name[m]} {year}</h2><table class='hab'>{head}{body}</table></div>")
-    return doc(f"{year} Planner", css + "".join(pages))
+    YEAR = SEED
 
 
-pack(f"planner-{YEAR}", f"{YEAR} Printable Planner: Monthly Calendar, Weekly Pages and Habit Tracker, PDF Instant Download", 7,
-     [f"{YEAR} planner", "printable planner", "weekly planner", "monthly calendar", "habit tracker", "planner pdf", "digital download", "yearly planner", "letter size", "productivity", "instant download", "calendar printable"],
-     f"A complete {YEAR} planner: 12 monthly calendars, a page for every week and a monthly habit tracker. US Letter PDF.", {"book.html": planner_html(YEAR)},
-     "Re-run the factory with another seed to build the next year (the seed is the year).\n")
+    def planner_html(year):
+        cal = calendar.Calendar(firstweekday=6)
+        css = ("<style>table{width:100%;border-collapse:collapse;table-layout:fixed}td,th{border:1px solid #888;height:1.05in;vertical-align:top;"
+               "font-size:10pt;text-align:left;padding:2pt}th{height:.3in;background:#eee}.wkr{height:auto}.wkr td{height:.95in}"
+               ".hab td{height:.22in;height:.22in;font-size:7pt;text-align:center;padding:0}.hab td.n{text-align:left;width:1.6in}</style>")
+        pages = [f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>{year} Planner</h1><div class='sub'>Monthly calendar, weekly pages and a habit tracker. Nitsuah Labs.</div></div>"]
+        for m in range(1, 13):
+            rows = "".join("<tr>" + "".join(f"<td>{d.day if d.month == m else ''}</td>" for d in wk) + "</tr>" for wk in cal.monthdatescalendar(year, m))
+            pages.append(f"<div class='pg'><h1>{calendar.month_name[m]} {year}</h1><table><tr>{''.join(f'<th>{n}</th>' for n in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])}</tr>{rows}</table></div>")
+        d = datetime.date(year, 1, 1)
+        d -= datetime.timedelta(days=(d.weekday() + 1) % 7)
+        while d.year <= year and (d <= datetime.date(year, 12, 31)):
+            end = d + datetime.timedelta(days=6)
+            days = "".join(f"<tr><td style='width:1.3in'><b>{(d + datetime.timedelta(days=i)).strftime('%a %b %d')}</b></td><td></td></tr>" for i in range(7))
+            pages.append(f"<div class='pg'><h2>Week of {d.strftime('%b %d')} to {end.strftime('%b %d, %Y')}</h2><table class='wkr'>{days}</table><h2 style='margin-top:12pt'>Notes</h2><table class='wkr'><tr><td style='height:1.6in'></td></tr></table></div>")
+            d += datetime.timedelta(days=7)
+        for m in range(1, 13):
+            nd = calendar.monthrange(year, m)[1]
+            head = "<tr><td class='n'><b>Habit</b></td>" + "".join(f"<td>{i}</td>" for i in range(1, nd + 1)) + "</tr>"
+            body = "".join("<tr><td class='n'></td>" + "<td></td>" * nd + "</tr>" for _ in range(14))
+            pages.append(f"<div class='pg'><h2>Habit tracker: {calendar.month_name[m]} {year}</h2><table class='hab'>{head}{body}</table></div>")
+        return doc(f"{year} Planner", css + "".join(pages))
 
 
-# ---------- coloring pages ----------
-def mandala_svg(rng):
-    cx = cy = 500
-    parts = []
-    for ring in range(rng.randint(4, 6)):
-        n = rng.choice([6, 8, 10, 12, 16])
-        r = 90 + ring * 65
-        pw, ph = rng.randint(14, 34), rng.randint(30, 70)
-        kind = rng.choice(["petal", "circle", "diamond"])
-        for i in range(n):
-            a = 360 / n * i
-            x, y = cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))
-            if kind == "petal":
-                s = f"<ellipse cx='0' cy='0' rx='{pw}' ry='{ph}' transform='rotate({a + 90})'/>"
-            elif kind == "circle":
-                s = f"<circle cx='0' cy='0' r='{pw}'/>"
-            else:
-                s = f"<rect x='{-pw}' y='{-pw}' width='{pw * 2}' height='{pw * 2}' transform='rotate({a + 45})'/>"
-            parts.append(f"<g transform='translate({x:.1f} {y:.1f})'>{s}</g>")
-        parts.append(f"<circle cx='{cx}' cy='{cy}' r='{r - 40}'/>")
-    parts.append(f"<circle cx='{cx}' cy='{cy}' r='30'/>")
-    return (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' width='100%' role='img' aria-label='Coloring page'>"
-            f"<g fill='none' stroke='#111' stroke-width='4'>{''.join(parts)}</g></svg>")
+    pack(f"planner-{YEAR}", f"{YEAR} Printable Planner: Monthly Calendar, Weekly Pages and Habit Tracker, PDF Instant Download", 7,
+         [f"{YEAR} planner", "printable planner", "weekly planner", "monthly calendar", "habit tracker", "planner pdf", "digital download", "yearly planner", "letter size", "productivity", "instant download", "calendar printable"],
+         f"A complete {YEAR} planner: 12 monthly calendars, a page for every week and a monthly habit tracker. US Letter PDF.", {"book.html": planner_html(YEAR)},
+         "Re-run the factory with another seed to build the next year (the seed is the year).\n")
 
 
-def coloring_book():
-    rng = random.Random(f"{SEED}-mandala")
-    pages = "".join(f"<div class='pg'><h2>Mandala {i + 1}</h2>{mandala_svg(rng)}</div>" for i in range(30))
-    return doc("Mandala Coloring Book", f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>Mandala Coloring Book</h1><div class='sub'>30 pages to color. Nitsuah Labs.</div></div>{pages}")
+    # ---------- coloring pages ----------
+    def mandala_svg(rng):
+        cx = cy = 500
+        parts = []
+        for ring in range(rng.randint(4, 6)):
+            n = rng.choice([6, 8, 10, 12, 16])
+            r = 90 + ring * 65
+            pw, ph = rng.randint(14, 34), rng.randint(30, 70)
+            kind = rng.choice(["petal", "circle", "diamond"])
+            for i in range(n):
+                a = 360 / n * i
+                x, y = cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))
+                if kind == "petal":
+                    s = f"<ellipse cx='0' cy='0' rx='{pw}' ry='{ph}' transform='rotate({a + 90})'/>"
+                elif kind == "circle":
+                    s = f"<circle cx='0' cy='0' r='{pw}'/>"
+                else:
+                    s = f"<rect x='{-pw}' y='{-pw}' width='{pw * 2}' height='{pw * 2}' transform='rotate({a + 45})'/>"
+                parts.append(f"<g transform='translate({x:.1f} {y:.1f})'>{s}</g>")
+            parts.append(f"<circle cx='{cx}' cy='{cy}' r='{r - 40}'/>")
+        parts.append(f"<circle cx='{cx}' cy='{cy}' r='30'/>")
+        return (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' width='100%' role='img' aria-label='Coloring page'>"
+                f"<g fill='none' stroke='#111' stroke-width='4'>{''.join(parts)}</g></svg>")
 
 
-pack("mandala-coloring-book-vol-1", "Mandala Coloring Pages: 30 Printable Designs for Adults and Kids, PDF Instant Download", 5,
-     ["coloring pages", "mandala", "adult coloring", "printable coloring", "coloring book", "kids activity", "digital download", "relaxation", "mindfulness", "pdf coloring", "mandala print", "instant download", "letter size"],
-     "30 mandala coloring pages with clean outlines. US Letter PDF, print as many copies as you like for personal use.", {"book.html": coloring_book()})
+    def coloring_book():
+        rng = random.Random(f"{SEED}-mandala")
+        pages = "".join(f"<div class='pg'><h2>Mandala {i + 1}</h2>{mandala_svg(rng)}</div>" for i in range(30))
+        return doc("Mandala Coloring Book", f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>Mandala Coloring Book</h1><div class='sub'>30 pages to color. Nitsuah Labs.</div></div>{pages}")
 
 
-# ---------- wallpapers ----------
-def wallpaper(rng, pal, w, h):
-    a, b = rng.sample(pal, 2)
-    shapes = []
-    for _ in range(rng.randint(5, 9)):
-        r = rng.randint(min(w, h) // 8, min(w, h) // 3)
-        shapes.append(f"<circle cx='{rng.randint(0, w)}' cy='{rng.randint(0, h)}' r='{r}' fill='{rng.choice(pal)}' opacity='0.35'/>")
-    return (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {w} {h}' width='{w}' height='{h}'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>"
-            f"<stop offset='0' stop-color='{a}'/><stop offset='1' stop-color='{b}'/></linearGradient></defs><rect width='{w}' height='{h}' fill='url(#g)'/>{''.join(shapes)}</svg>")
+    pack("mandala-coloring-book-vol-1", "Mandala Coloring Pages: 30 Printable Designs for Adults and Kids, PDF Instant Download", 5,
+         ["coloring pages", "mandala", "adult coloring", "printable coloring", "coloring book", "kids activity", "digital download", "relaxation", "mindfulness", "pdf coloring", "mandala print", "instant download", "letter size"],
+         "30 mandala coloring pages with clean outlines. US Letter PDF, print as many copies as you like for personal use.", {"book.html": coloring_book()})
 
 
-rng = random.Random(f"{SEED}-wall")
-files = {}
-for i, pal in enumerate(PALETTES):
-    for label, w, h in [("phone", 1170, 2532), ("tablet", 2048, 2732), ("desktop", 3840, 2160)]:
-        files[f"theme-{i + 1}-{label}.svg"] = wallpaper(rng, pal, w, h)
-pack("gradient-wallpapers-vol-1", "Abstract Gradient Wallpaper Pack: 6 Themes for Phone, Tablet and Desktop, Instant Download", 4,
-     ["wallpaper", "phone wallpaper", "iphone wallpaper", "desktop wallpaper", "abstract", "gradient", "tablet wallpaper", "background", "digital download", "aesthetic", "lock screen", "instant download", "wallpaper pack"],
-     "6 abstract gradient themes, each in phone (1170x2532), tablet (2048x2732) and desktop (3840x2160) sizes. JPG files.", files)
+    # ---------- wallpapers ----------
+    def wallpaper(rng, pal, w, h):
+        a, b = rng.sample(pal, 2)
+        shapes = []
+        for _ in range(rng.randint(5, 9)):
+            r = rng.randint(min(w, h) // 8, min(w, h) // 3)
+            shapes.append(f"<circle cx='{rng.randint(0, w)}' cy='{rng.randint(0, h)}' r='{r}' fill='{rng.choice(pal)}' opacity='0.35'/>")
+        return (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {w} {h}' width='{w}' height='{h}'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>"
+                f"<stop offset='0' stop-color='{a}'/><stop offset='1' stop-color='{b}'/></linearGradient></defs><rect width='{w}' height='{h}' fill='url(#g)'/>{''.join(shapes)}</svg>")
 
-with open(OUT / "listings.csv", "w", newline="", encoding="utf-8") as f:
-    wr = csv.DictWriter(f, fieldnames=["sku", "title", "price", "tags", "description"])
-    wr.writeheader()
-    wr.writerows(PACKS)
-print(f"seed={SEED} packs={len(PACKS)} mazes={n1}")
+
+    rng = random.Random(f"{SEED}-wall")
+    files = {}
+    for i, pal in enumerate(PALETTES):
+        for label, w, h in [("phone", 1170, 2532), ("tablet", 2048, 2732), ("desktop", 3840, 2160)]:
+            files[f"theme-{i + 1}-{label}.svg"] = wallpaper(rng, pal, w, h)
+    pack("gradient-wallpapers-vol-1", "Abstract Gradient Wallpaper Pack: 6 Themes for Phone, Tablet and Desktop, Instant Download", 4,
+         ["wallpaper", "phone wallpaper", "iphone wallpaper", "desktop wallpaper", "abstract", "gradient", "tablet wallpaper", "background", "digital download", "aesthetic", "lock screen", "instant download", "wallpaper pack"],
+         "6 abstract gradient themes, each in phone (1170x2532), tablet (2048x2732) and desktop (3840x2160) sizes. JPG files.", files)
+
+    with open(OUT / "listings.csv", "w", newline="", encoding="utf-8") as f:
+        wr = csv.DictWriter(f, fieldnames=["sku", "title", "price", "tags", "description"])
+        wr.writeheader()
+        wr.writerows(PACKS)
+    print(f"seed={SEED} packs={len(PACKS)} mazes={n1}")
+
+
+if __name__ == "__main__":
+    main()
