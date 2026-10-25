@@ -9,7 +9,7 @@ import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out"
-shutil.rmtree(OUT, ignore_errors=True)
+OUT.mkdir(parents=True, exist_ok=True)
 LIC = "Personal and commercial use. Do not resell or redistribute the files themselves.\n"
 
 
@@ -264,13 +264,16 @@ b = OUT / "social-image-templates"
 w(b, "posts.json", json.dumps({"brand": {"bg": "#0f1720", "fg": "#f5f7fa", "accent": "#10b981", "name": "Your Brand"},
                                "posts": [{"slug": "tip-1", "headline": "Invoice on day one", "sub": "Do not wait for the work to finish."}, {"slug": "tip-2", "headline": "Write the scope down", "sub": "Out of scope matters most."}]}, indent=2))
 (b / "make_cards.py").write_text('''"""python make_cards.py posts.json -> out/<slug>_square|story|wide.svg (1080x1080, 1080x1920, 1200x630)."""
-import json, sys, html, pathlib
+import json, sys, html, pathlib, re
 d = json.load(open(sys.argv[1], encoding="utf-8"))
 b = d["brand"]
 e = html.escape
 pathlib.Path("out").mkdir(exist_ok=True)
 SIZES = {"square": (1080, 1080), "story": (1080, 1920), "wide": (1200, 630)}
 for p in d["posts"]:
+    slug = p.get("slug", "")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", slug):
+        raise SystemExit(f"Invalid post slug: {slug!r}")
     for name, (W, H) in SIZES.items():
         fs = max(40, min(H // 8, int(W * 0.85 / max(len(p["headline"]), 1) / 0.55)))
         svg = (
@@ -280,7 +283,7 @@ for p in d["posts"]:
             f"<text x='{W // 2}' y='{H // 2 + fs}' text-anchor='middle' font-family='sans-serif' font-size='{fs // 2}' fill='{b['accent']}'>{e(p['sub'])}</text>"
             f"<text x='{W // 2}' y='{H - H // 14}' text-anchor='middle' font-family='sans-serif' font-size='{max(24, H // 32)}' fill='{b['fg']}'>{e(b['name'])}</text></svg>"
         )
-        pathlib.Path(f"out/{p['slug']}_{name}.svg").write_text(svg, encoding="utf-8")
+        pathlib.Path(f"out/{slug}_{name}.svg").write_text(svg, encoding="utf-8")
 print("wrote", len(d["posts"]) * 3, "cards")
 ''', encoding="utf-8")
 w(b, "README.md", f"""
