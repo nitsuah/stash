@@ -34,10 +34,14 @@ for s in SKILLS:
     "Some reference external tools (Docker, Netlify, Playwright) and example repo names; "
     "adapt paths and names to your setup. Personal and commercial use; do not resell.\n"
 )
+review_path = root / "REVIEW-LEFTOVERS.txt"
+review_path.write_text("\n".join(report), encoding="utf-8")
+if report:
+    raise SystemExit(f"Refusing to create a distributable ZIP: {len(report)} lines need human review. See {review_path}")
+
 zp = root / "claude-code-skills-bundle.zip"
 with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
     for p in sorted(dist.rglob("*")):
         if p.is_file():
             z.write(p, f"claude-code-skills-bundle/{p.relative_to(dist).as_posix()}")
-(root / "REVIEW-LEFTOVERS.txt").write_text("\n".join(report))
-print(len(SKILLS), "skills", zp.stat().st_size, "bytes;", len(report), "lines need review")
+print(len(SKILLS), "skills", zp.stat().st_size, "bytes; no flagged lines")
