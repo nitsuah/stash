@@ -380,8 +380,6 @@ create table products(id integer primary key, name text, category text, price re
 create table orders(id integer primary key, customer_id integer, order_date date, status text);
 create table order_items(order_id integer, product_id integer, qty integer);
 """)
-con.close()
-
 rnd = random.Random(11)
 cities = ["Austin", "Boston", "Chicago", "Denver", "Seattle"]
 for i in range(1, 41):
