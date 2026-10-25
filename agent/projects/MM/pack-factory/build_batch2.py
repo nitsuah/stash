@@ -159,33 +159,40 @@ def main():
     w(b, "data.csv", "label,value\nQ1,120\nQ2,180\nQ3,150\nQ4,210\n")
     (b / "make_chart.py").write_text('''"""python make_chart.py data.csv "Chart title" > chart.svg   (bar chart; pass --horizontal for horizontal bars)"""
 import csv, html, sys
-args = [a for a in sys.argv[1:] if not a.startswith("--")]
-horiz = "--horizontal" in sys.argv
-rows = [(r["label"], float(r["value"])) for r in csv.DictReader(open(args[0], encoding="utf-8-sig"))]
-if not rows:
-    raise SystemExit("CSV must contain at least one data row")
-if any(value < 0 for _, value in rows):
-    raise SystemExit("Negative chart values are not supported; provide nonnegative values")
-title = html.escape(args[1] if len(args) > 1 else "Chart")
-W, H, M = 800, 480, 60
-mx = max(v for _, v in rows) or 1
-out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}' role='img' aria-label='{title}'>",
-       f"<rect width='{W}' height='{H}' fill='#ffffff'/><text x='{W // 2}' y='34' text-anchor='middle' font-family='sans-serif' font-size='22' font-weight='700' fill='#111'>{title}</text>"]
-n = len(rows)
-for i, (lab, v) in enumerate(rows):
-    if horiz:
-        bh = (H - 2 * M) / n * 0.7
-        y = M + i * (H - 2 * M) / n
-        bw = (W - 2 * M - 80) * v / mx
-        out.append(f"<text x='{M - 6}' y='{y + bh / 2 + 5}' text-anchor='end' font-family='sans-serif' font-size='14' fill='#111'>{html.escape(lab)}</text><rect x='{M}' y='{y}' width='{bw}' height='{bh}' fill='#1d4ed8'/><text x='{M + bw + 6}' y='{y + bh / 2 + 5}' font-family='sans-serif' font-size='14' fill='#111'>{v:g}</text>")
-    else:
-        bw = (W - 2 * M) / n * 0.7
-        x = M + i * (W - 2 * M) / n + (W - 2 * M) / n * 0.15
-        bh = (H - 2 * M - 30) * v / mx
-        y = H - M - bh
-        out.append(f"<rect x='{x}' y='{y}' width='{bw}' height='{bh}' fill='#1d4ed8'/><text x='{x + bw / 2}' y='{y - 6}' text-anchor='middle' font-family='sans-serif' font-size='14' fill='#111'>{v:g}</text><text x='{x + bw / 2}' y='{H - M + 20}' text-anchor='middle' font-family='sans-serif' font-size='14' fill='#111'>{html.escape(lab)}</text>")
-out.append("</svg>")
-print("".join(out))
+
+
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    horiz = "--horizontal" in sys.argv
+    rows = [(r["label"], float(r["value"])) for r in csv.DictReader(open(args[0], encoding="utf-8-sig"))]
+    if not rows:
+        raise SystemExit("CSV must contain at least one data row")
+    if any(value < 0 for _, value in rows):
+        raise SystemExit("Negative chart values are not supported; provide nonnegative values")
+    title = html.escape(args[1] if len(args) > 1 else "Chart")
+    W, H, M = 800, 480, 60
+    mx = max(v for _, v in rows) or 1
+    out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}' role='img' aria-label='{title}'>",
+           f"<rect width='{W}' height='{H}' fill='#ffffff'/><text x='{W // 2}' y='34' text-anchor='middle' font-family='sans-serif' font-size='22' font-weight='700' fill='#111'>{title}</text>"]
+    n = len(rows)
+    for i, (lab, v) in enumerate(rows):
+        if horiz:
+            bh = (H - 2 * M) / n * 0.7
+            y = M + i * (H - 2 * M) / n
+            bw = (W - 2 * M - 80) * v / mx
+            out.append(f"<text x='{M - 6}' y='{y + bh / 2 + 5}' text-anchor='end' font-family='sans-serif' font-size='14' fill='#111'>{html.escape(lab)}</text><rect x='{M}' y='{y}' width='{bw}' height='{bh}' fill='#1d4ed8'/><text x='{M + bw + 6}' y='{y + bh / 2 + 5}' font-family='sans-serif' font-size='14' fill='#111'>{v:g}</text>")
+        else:
+            bw = (W - 2 * M) / n * 0.7
+            x = M + i * (W - 2 * M) / n + (W - 2 * M) / n * 0.15
+            bh = (H - 2 * M - 30) * v / mx
+            y = H - M - bh
+            out.append(f"<rect x='{x}' y='{y}' width='{bw}' height='{bh}' fill='#1d4ed8'/><text x='{x + bw / 2}' y='{y - 6}' text-anchor='middle' font-family='sans-serif' font-size='14' fill='#111'>{v:g}</text><text x='{x + bw / 2}' y='{H - M + 20}' text-anchor='middle' font-family='sans-serif' font-size='14' fill='#111'>{html.escape(lab)}</text>")
+    out.append("</svg>")
+    print("".join(out))
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "README.md", f"""
 # CSV to SVG Charts
@@ -295,13 +302,20 @@ No dependencies; Node 18 or newer. It alerts on every run while a site is down, 
     w(b, "links.json", json.dumps({"name": "Your Name", "bio": "What you do, in one line.", "links": [{"label": "My website", "url": "https://example.com"}, {"label": "Latest video", "url": "https://example.com/video"}, {"label": "Email me", "url": "mailto:you@example.com"}], "bg": "#0f1720", "fg": "#f5f7fa", "accent": "#34d399"}, indent=2))
     (b / "build.py").write_text('''"""python build.py -> index.html (reads links.json). Upload anywhere."""
 import json, html
-d = json.load(open("links.json", encoding="utf-8"))
-e = html.escape
-links = "".join(f"<li><a href='{e(l['url'])}'>{e(l['label'])}</a></li>" for l in d["links"])
-css = f"body{{margin:0;background:{d['bg']};color:{d['fg']};font:20px/1.5 system-ui,sans-serif;text-align:center}}main{{max-width:30rem;margin:auto;padding:2rem 1rem}}ul{{list-style:none;padding:0}}li{{margin:1rem 0}}a{{display:block;padding:1rem;border:2px solid {d['accent']};border-radius:10px;color:{d['fg']};text-decoration:none;font-weight:600}}a:hover,a:focus{{background:{d['accent']};color:{d['bg']}}}"
-page = f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>{e(d['name'])}</title><meta name='description' content='{e(d['bio'])}'><style>{css}</style></head><body><main><h1>{e(d['name'])}</h1><p>{e(d['bio'])}</p><nav aria-label='Links'><ul>{links}</ul></nav></main></body></html>"
-open("index.html", "w", encoding="utf-8").write(page)
-print("wrote index.html")
+
+
+def main():
+    d = json.load(open("links.json", encoding="utf-8"))
+    e = html.escape
+    links = "".join(f"<li><a href='{e(l['url'])}'>{e(l['label'])}</a></li>" for l in d["links"])
+    css = f"body{{margin:0;background:{d['bg']};color:{d['fg']};font:20px/1.5 system-ui,sans-serif;text-align:center}}main{{max-width:30rem;margin:auto;padding:2rem 1rem}}ul{{list-style:none;padding:0}}li{{margin:1rem 0}}a{{display:block;padding:1rem;border:2px solid {d['accent']};border-radius:10px;color:{d['fg']};text-decoration:none;font-weight:600}}a:hover,a:focus{{background:{d['accent']};color:{d['bg']}}}"
+    page = f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>{e(d['name'])}</title><meta name='description' content='{e(d['bio'])}'><style>{css}</style></head><body><main><h1>{e(d['name'])}</h1><p>{e(d['bio'])}</p><nav aria-label='Links'><ul>{links}</ul></nav></main></body></html>"
+    open("index.html", "w", encoding="utf-8").write(page)
+    print("wrote index.html")
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "README.md", f"""
 # Link-in-Bio Template
