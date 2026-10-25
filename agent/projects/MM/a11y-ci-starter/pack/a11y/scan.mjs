@@ -29,9 +29,19 @@ for (const p of paths) {
     // Transfer-size metrics are best-effort: a streaming body must not block the audit.
     await Promise.race([Promise.all(pending), new Promise(resolve => setTimeout(resolve, 5000))]);
     await page.waitForTimeout(1500);
-    await page.evaluate(axeSrc);
-    const axe = await page.evaluate(() => axe.run());
-    results.push({ path: p, loadMs, bytes, violations: axe.violations });
+    const violations = [];
+    const frameErrors = [];
+    // Scan each frame independently so embedded content is not silently skipped.
+    for (const frame of page.frames()) {
+      try {
+        await frame.evaluate(axeSrc);
+        const axe = await frame.evaluate(() => window.axe.run(document, { iframes: false }));
+        violations.push(...axe.violations);
+      } catch (error) {
+        frameErrors.push({ url: frame.url(), error: String(error?.message || error) });
+      }
+    }
+    results.push({ path: p, loadMs, bytes, violations, frameErrors });
   } catch (error) {
     results.push({ path: p, loadMs: Date.now() - t0, bytes, error: String(error?.message || error), violations: [] });
   } finally {
