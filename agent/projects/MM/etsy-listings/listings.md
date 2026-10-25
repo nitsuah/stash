@@ -1,6 +1,6 @@
 # Etsy digital-download listings (draft, not published)
 
-Source zips are in `MM/pack-factory/out*/` (same files as the Gumroad packs). Needs the user's Etsy seller account before anything is created.
+Source zips are in `agent/projects/MM/pack-factory/out*/` (same files as the Gumroad packs). Needs the user's Etsy seller account before anything is created.
 Etsy rules to apply when creating each listing: type = Digital, title max 140 characters, up to 13 tags of max 20 characters each,
 review each product's actual creation process and add an accurate, product-specific AI disclosure wherever Etsy requires it; do not claim AI-generated artwork for functional templates or guides unless that is accurate, and manually verify each listing against current Etsy policy before publishing, upload the zip (max 20 MB, 5 files per listing), add a preview image.
 License line used in every pack: personal and commercial use; no resale or redistribution of the files themselves.
@@ -31,8 +31,8 @@ HOW TO USE
 LICENSE
 Personal and commercial use. Please do not resell or redistribute the files themselves.
 
-CREATED WITH
-Designed and tested by Nitsuah Labs. Some artwork is generated with AI tools and then curated by hand.
+CREATION PROCESS / AI USE
+For each pack, record the actual creation process and whether AI tools were used. Describe human design, authorship, editing, and testing accurately. Include an AI disclosure only when applicable under the current Etsy policy; do not use a blanket claim for every pack. A human must verify the listing and current policy before publishing.
 
 ## Notes
 - Listing order is by likely Etsy search demand: wall art and planners first, developer-oriented packs last (poorer fit for Etsy's audience).
