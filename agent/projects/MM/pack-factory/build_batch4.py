@@ -307,7 +307,7 @@ Pattern-based: it will miss some secrets and flag some harmless strings. If a re
 {LIC}""")
 t = b / "_fixture"
 t.mkdir()
-(t / "a.py").write_text('aws = "AKIA" + "ABCDEFGHIJKLMNOP"\nTOKEN = "abcd1234" + "abcd1234" + "abcd1234"\nprint("ok")\n')
+(t / "a.py").write_text('aws = "' + "AKIA" + "ABCDEFGHIJKLMNOP" + '"\nTOKEN = "' + "abcd1234" + "abcd1234" + "abcd1234" + '"\nprint("ok")\n')
 (t / ".env").write_text("X=1\n")
 r = subprocess.run([sys.executable, "envlint.py", str(t)], cwd=b, capture_output=True, text=True)
 assert r.returncode == 1 and "AWS access key id" in r.stdout and "env file present" in r.stdout, r.stdout
