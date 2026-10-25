@@ -160,6 +160,10 @@ import csv, html, sys
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 horiz = "--horizontal" in sys.argv
 rows = [(r["label"], float(r["value"])) for r in csv.DictReader(open(args[0], encoding="utf-8-sig"))]
+if not rows:
+    raise SystemExit("CSV must contain at least one data row")
+if any(value < 0 for _, value in rows):
+    raise SystemExit("Negative chart values are not supported; provide nonnegative values")
 title = html.escape(args[1] if len(args) > 1 else "Chart")
 W, H, M = 800, 480, 60
 mx = max(v for _, v in rows) or 1
@@ -184,7 +188,7 @@ print("".join(out))
 w(b, "README.md", f"""
 # CSV to SVG Charts
 `python make_chart.py data.csv "Quarterly sales" > chart.svg` (add `--horizontal` for horizontal bars).
-CSV needs `label,value` columns. Output is a plain SVG with a title and text labels (accessible, prints sharply).
+CSV needs `label,value` columns with nonnegative numeric values. Output is a plain SVG with a title and text labels (accessible, prints sharply).
 Plain Python 3, no installs.
 
 {LIC}""")
@@ -269,7 +273,7 @@ for (const url of cfg.urls) {
 if (bad.length) {
   const text = "Uptime alert:\\n" + bad.join("\\n");
   if (dry) console.log("[dry] would post:", text);
-  else await fetch(cfg.webhook, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content: text, text }) });
+  else {\n    const response = await fetch(cfg.webhook, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content: text, text }) });\n    if (!response.ok) throw new Error(`Webhook delivery failed: HTTP ${response.status}`);\n  }
 }
 process.exit(bad.length ? 1 : 0);
 ''', encoding="utf-8")
