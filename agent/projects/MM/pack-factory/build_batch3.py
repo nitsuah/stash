@@ -11,7 +11,7 @@ import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out3"
-shutil.rmtree(OUT, ignore_errors=True)
+
 LIC = "Personal and commercial use. Do not resell or redistribute the files themselves.\n"
 
 
@@ -30,10 +30,12 @@ def zip_pack(slug):
     return z.stat().st_size
 
 
-# ---------- self-hosting compose pack ----------
-b = OUT / "self-hosting-compose-pack"
-STACKS = {
-    "umami": ("Privacy-friendly web analytics", """
+def main():
+    shutil.rmtree(OUT, ignore_errors=True)
+    # ---------- self-hosting compose pack ----------
+    b = OUT / "self-hosting-compose-pack"
+    STACKS = {
+        "umami": ("Privacy-friendly web analytics", """
         services:
           umami:
             image: ghcr.io/umami-software/umami:postgresql-latest
@@ -54,7 +56,7 @@ STACKS = {
         volumes:
           umami-db:
         """, "DB_PASSWORD=change-me\nAPP_SECRET=change-me-too\n", "Open http://localhost:3000. Default login is documented by Umami; change it immediately."),
-    "uptime-kuma": ("Self-hosted uptime monitoring", """
+        "uptime-kuma": ("Self-hosted uptime monitoring", """
         services:
           kuma:
             image: louislam/uptime-kuma:1
@@ -64,7 +66,7 @@ STACKS = {
         volumes:
           kuma-data:
         """, "", "Open http://localhost:3001 and create the admin account."),
-    "listmonk": ("Newsletter and mailing lists", """
+        "listmonk": ("Newsletter and mailing lists", """
         services:
           app:
             image: listmonk/listmonk:latest
@@ -91,7 +93,7 @@ STACKS = {
         volumes:
           listmonk-db:
         """, "DB_PASSWORD=change-me\nADMIN_USER=admin\nADMIN_PASSWORD=change-me-too\n", "First run may need `docker compose run --rm app ./listmonk --install` (see listmonk docs). You need an SMTP provider to send mail; follow anti-spam laws."),
-    "nextcloud": ("Private file sync and sharing", """
+        "nextcloud": ("Private file sync and sharing", """
         services:
           app:
             image: nextcloud:stable
@@ -118,7 +120,7 @@ STACKS = {
           nextcloud-data:
           nextcloud-db:
         """, "DB_PASSWORD=change-me\nDB_ROOT_PASSWORD=change-me-too\n", "Open http://localhost:8080 and create the admin account. Put it behind HTTPS before exposing it."),
-    "gitea": ("Self-hosted Git service", """
+        "gitea": ("Self-hosted Git service", """
         services:
           gitea:
             image: gitea/gitea:latest
@@ -128,7 +130,7 @@ STACKS = {
         volumes:
           gitea-data:
         """, "", "Open http://localhost:3002 and finish the install page. SSH is on port 2222."),
-    "grocy": ("Household or shop inventory", """
+        "grocy": ("Household or shop inventory", """
         services:
           grocy:
             image: lscr.io/linuxserver/grocy:latest
@@ -142,7 +144,7 @@ STACKS = {
         volumes:
           grocy-config:
         """, "TZ=America/New_York\n", "Open http://localhost:9283. Default login is in the Grocy docs; change it."),
-    "photoprism": ("Private photo library", """
+        "photoprism": ("Private photo library", """
         services:
           photoprism:
             image: photoprism/photoprism:latest
@@ -172,7 +174,7 @@ STACKS = {
           photoprism-storage:
           photoprism-db:
         """, "ADMIN_PASSWORD=change-me-12chars\nDB_PASSWORD=change-me-too\n", "Put photos in ./originals. Admin password must be at least 8 characters."),
-    "vaultwarden": ("Password manager server (Bitwarden-compatible)", """
+        "vaultwarden": ("Password manager server (Bitwarden-compatible)", """
         services:
           vaultwarden:
             image: vaultwarden/server:latest
@@ -184,7 +186,7 @@ STACKS = {
         volumes:
           vw-data:
         """, "", "Signups are off by default; enable briefly to create your account, then turn off. Use HTTPS in production and back up /data."),
-    "n8n": ("Workflow automation", """
+        "n8n": ("Workflow automation", """
         services:
           n8n:
             image: n8nio/n8n:latest
@@ -196,7 +198,7 @@ STACKS = {
         volumes:
           n8n-data:
         """, "TZ=America/New_York\n", "Open http://localhost:5678 and create the owner account."),
-    "ntfy": ("Push notifications to your phone", """
+        "ntfy": ("Push notifications to your phone", """
         services:
           ntfy:
             image: binwiederhier/ntfy
@@ -207,21 +209,21 @@ STACKS = {
         volumes:
           ntfy-cache:
         """, "", "Publish with curl -d 'hello' http://localhost:8090/mytopic and subscribe in the ntfy app."),
-}
-idx = ["# Self-Hosting Docker Compose Pack\n\nTen ready-to-run stacks. Each folder has `docker-compose.yml`, `.env.example` (copy to `.env`) and a README.\n\n| Stack | What it is |\n|---|---|\n"]
-for name, (desc, compose, env, note) in STACKS.items():
-    w(b, f"{name}/docker-compose.yml", compose)
-    w(b, f"{name}/.env.example", env or "# no variables needed\n")
-    w(b, f"{name}/README.md", f"# {name}\n{desc}.\n\n    cp .env.example .env   # edit secrets\n    docker compose up -d\n\n{note}\n\nImages use `latest` tags; pin a version before relying on it. Back up the named volumes.\n")
-    idx.append(f"| {name} | {desc} |\n")
-idx.append("\nRequires Docker. These are starting points, not hardened production setups: use HTTPS, strong secrets, firewalls and backups. " + LIC)
-w(b, "README.md", "".join(idx))
-print("compose", len(STACKS), zip_pack("self-hosting-compose-pack"))
+    }
+    idx = ["# Self-Hosting Docker Compose Pack\n\nTen ready-to-run stacks. Each folder has `docker-compose.yml`, `.env.example` (copy to `.env`) and a README.\n\n| Stack | What it is |\n|---|---|\n"]
+    for name, (desc, compose, env, note) in STACKS.items():
+        w(b, f"{name}/docker-compose.yml", compose)
+        w(b, f"{name}/.env.example", env or "# no variables needed\n")
+        w(b, f"{name}/README.md", f"# {name}\n{desc}.\n\n    cp .env.example .env   # edit secrets\n    docker compose up -d\n\n{note}\n\nImages use `latest` tags; pin a version before relying on it. Back up the named volumes.\n")
+        idx.append(f"| {name} | {desc} |\n")
+    idx.append("\nRequires Docker. These are starting points, not hardened production setups: use HTTPS, strong secrets, firewalls and backups. " + LIC)
+    w(b, "README.md", "".join(idx))
+    print("compose", len(STACKS), zip_pack("self-hosting-compose-pack"))
 
-# ---------- CSV cleaner ----------
-b = OUT / "csv-cleaner"
-(b).mkdir(parents=True)
-(b / "csv_clean.py").write_text('''"""python csv_clean.py in.csv out.csv [--dedupe] [--lower-emails] [--phones] [--dates date_col,...]
+    # ---------- CSV cleaner ----------
+    b = OUT / "csv-cleaner"
+    (b).mkdir(parents=True)
+    (b / "csv_clean.py").write_text('''"""python csv_clean.py in.csv out.csv [--dedupe] [--lower-emails] [--phones] [--dates date_col,...]
 Trims whitespace, collapses repeated spaces, optionally dedupes rows, lowercases email columns, normalizes US phones to
 (XXX) XXX-XXXX and dates to YYYY-MM-DD. Prints a report. Stdlib only."""
 import csv, re, sys
@@ -285,24 +287,24 @@ with open(dst, "w", newline="", encoding="utf-8") as f:
     wr.writerows(rows)
 print(f"rows in: {before}, rows out: {len(rows)}, cells changed: {changed}", file=sys.stderr)
 ''', encoding="utf-8")
-w(b, "messy.csv", "name,email,phone,signup\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\nBen Ray,ben@example.com,phone unavailable,2026-03-06\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\n")
-w(b, "README.md", f"""
+    w(b, "messy.csv", "name,email,phone,signup\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\nBen Ray,ben@example.com,phone unavailable,2026-03-06\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\n")
+    w(b, "README.md", f"""
 # CSV Cleaner
     python csv_clean.py messy.csv clean.csv --dedupe --lower-emails --phones --dates signup
 Trims and collapses spaces, removes exact duplicate rows, lowercases email columns, normalizes US phone numbers and dates (YYYY-MM-DD).
 Columns are matched by name (columns containing "email" or "phone"). Review the output before using it. Plain Python 3.
 
 {LIC}""")
-r = subprocess.run([sys.executable, "csv_clean.py", "messy.csv", "clean.csv", "--dedupe", "--lower-emails", "--phones", "--dates", "signup"], cwd=b, capture_output=True, text=True, check=True)
-rows = list(csv.DictReader(open(b / "clean.csv")))
-assert len(rows) == 2 and rows[0]["email"] == "ana@example.com" and rows[0]["phone"] == "phone unavailable" and rows[0]["signup"] == "2026-03-05", rows
-(b / "clean.csv").unlink()
-print("csv-clean", r.stderr.strip(), zip_pack("csv-cleaner"))
+    r = subprocess.run([sys.executable, "csv_clean.py", "messy.csv", "clean.csv", "--dedupe", "--lower-emails", "--phones", "--dates", "signup"], cwd=b, capture_output=True, text=True, check=True)
+    rows = list(csv.DictReader(open(b / "clean.csv")))
+    assert len(rows) == 2 and rows[0]["email"] == "ana@example.com" and rows[0]["phone"] == "phone unavailable" and rows[0]["signup"] == "2026-03-05", rows
+    (b / "clean.csv").unlink()
+    print("csv-clean", r.stderr.strip(), zip_pack("csv-cleaner"))
 
-# ---------- test data generator ----------
-b = OUT / "test-data-generator"
-b.mkdir(parents=True)
-(b / "gen_testdata.py").write_text('''"""python gen_testdata.py --rows 100 --seed 1 --format csv|json > people.csv  (fake people and orders, no real data)"""
+    # ---------- test data generator ----------
+    b = OUT / "test-data-generator"
+    b.mkdir(parents=True)
+    (b / "gen_testdata.py").write_text('''"""python gen_testdata.py --rows 100 --seed 1 --format csv|json > people.csv  (fake people and orders, no real data)"""
 import csv, json, random, sys
 from datetime import date, timedelta
 
@@ -327,22 +329,22 @@ else:
     wr.writeheader()
     wr.writerows(rows)
 ''', encoding="utf-8")
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Test Data Generator
     python gen_testdata.py --rows 500 --seed 7 --format csv > people.csv
 Reproducible fake people and orders (same seed, same data). Emails use the reserved example.test domain; phone numbers use
 the 555-01xx fictional range, so nothing points at real people. Edit the name and city lists for other locales. Plain Python 3.
 
 {LIC}""")
-r = subprocess.run([sys.executable, "gen_testdata.py", "--rows", "50", "--seed", "3"], cwd=b, capture_output=True, text=True, check=True)
-r2 = subprocess.run([sys.executable, "gen_testdata.py", "--rows", "50", "--seed", "3"], cwd=b, capture_output=True, text=True, check=True)
-assert r.stdout == r2.stdout and len(r.stdout.strip().splitlines()) == 51
-print("testdata", zip_pack("test-data-generator"))
+    r = subprocess.run([sys.executable, "gen_testdata.py", "--rows", "50", "--seed", "3"], cwd=b, capture_output=True, text=True, check=True)
+    r2 = subprocess.run([sys.executable, "gen_testdata.py", "--rows", "50", "--seed", "3"], cwd=b, capture_output=True, text=True, check=True)
+    assert r.stdout == r2.stdout and len(r.stdout.strip().splitlines()) == 51
+    print("testdata", zip_pack("test-data-generator"))
 
-# ---------- dedupe tool ----------
-b = OUT / "fuzzy-dedupe-tool"
-b.mkdir(parents=True)
-(b / "dedupe.py").write_text('''"""python dedupe.py in.csv column [--threshold 0.88] > report.csv
+    # ---------- dedupe tool ----------
+    b = OUT / "fuzzy-dedupe-tool"
+    b.mkdir(parents=True)
+    (b / "dedupe.py").write_text('''"""python dedupe.py in.csv column [--threshold 0.88] > report.csv
 Finds likely duplicate values in one column (exact after normalizing case/spacing/punctuation, plus fuzzy matches) and prints groups.
 Never deletes anything: it only reports. Stdlib only."""
 import csv, difflib, re, sys
@@ -378,8 +380,8 @@ for members in groups.values():
             wr.writerow([g, m + 2, vals[m][1]])
 print(f"{g} duplicate group(s) in {len(rows)} rows", file=sys.stderr)
 ''', encoding="utf-8")
-w(b, "sample.csv", "company\nAcme Corp\nacme corp.\nAcme Corporation\nGlobex\nInitech\nglobex\n")
-w(b, "README.md", f"""
+    w(b, "sample.csv", "company\nAcme Corp\nacme corp.\nAcme Corporation\nGlobex\nInitech\nglobex\n")
+    w(b, "README.md", f"""
 # Fuzzy Dedupe Tool
     python dedupe.py sample.csv company > report.csv
 Finds likely duplicates in one column: exact matches after ignoring case, spaces and punctuation, plus similar spellings (default
@@ -387,14 +389,14 @@ similarity 0.88; lower with `--threshold 0.8`). It only reports groups with row 
 Comparison is pairwise, so it suits files up to a few thousand rows. Plain Python 3.
 
 {LIC}""")
-r = subprocess.run([sys.executable, "dedupe.py", "sample.csv", "company"], cwd=b, capture_output=True, text=True, check=True)
-assert "2 duplicate group(s)" in r.stderr, r.stderr
-print("dedupe", r.stderr.strip(), zip_pack("fuzzy-dedupe-tool"))
+    r = subprocess.run([sys.executable, "dedupe.py", "sample.csv", "company"], cwd=b, capture_output=True, text=True, check=True)
+    assert "2 duplicate group(s)" in r.stderr, r.stderr
+    print("dedupe", r.stderr.strip(), zip_pack("fuzzy-dedupe-tool"))
 
-# ---------- text extractor ----------
-b = OUT / "text-extractor"
-b.mkdir(parents=True)
-(b / "extract.py").write_text('''"""python extract.py notes.txt > found.csv   Pulls emails, US phone numbers, URLs, dates and dollar amounts out of text. Stdlib only."""
+    # ---------- text extractor ----------
+    b = OUT / "text-extractor"
+    b.mkdir(parents=True)
+    (b / "extract.py").write_text('''"""python extract.py notes.txt > found.csv   Pulls emails, US phone numbers, URLs, dates and dollar amounts out of text. Stdlib only."""
 import csv, re, sys
 
 text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
@@ -415,22 +417,22 @@ for kind, pat in PATTERNS.items():
         counts[kind] = counts.get(kind, 0) + 1
 print(counts, file=sys.stderr)
 ''', encoding="utf-8")
-w(b, "sample.txt", "Call unavailable or email ops@example.com by 2026-03-15.\nInvoice total $1,250.00 at https://example.com/inv/9\nOther: phone unavailable, due 4/2/26, $40\n")
-w(b, "README.md", f"""
+    w(b, "sample.txt", "Call unavailable or email ops@example.com by 2026-03-15.\nInvoice total $1,250.00 at https://example.com/inv/9\nOther: phone unavailable, due 4/2/26, $40\n")
+    w(b, "README.md", f"""
 # Text Extractor
     python extract.py notes.txt > found.csv
 Finds emails, US phone numbers, URLs, dates and dollar amounts in any text file and lists them with line numbers. Pattern-based,
 so expect some misses and false hits; check the results. Add your own patterns in the PATTERNS table. Plain Python 3, offline.
 
 {LIC}""")
-r = subprocess.run([sys.executable, "extract.py", "sample.txt"], cwd=b, capture_output=True, text=True, check=True)
-assert "ops@example.com" in r.stdout and "1,250.00" in r.stdout and "https://example.com/inv/9" in r.stdout and "2026-03-15" in r.stdout, r.stdout
-print("extract", r.stderr.strip(), zip_pack("text-extractor"))
+    r = subprocess.run([sys.executable, "extract.py", "sample.txt"], cwd=b, capture_output=True, text=True, check=True)
+    assert "ops@example.com" in r.stdout and "1,250.00" in r.stdout and "https://example.com/inv/9" in r.stdout and "2026-03-15" in r.stdout, r.stdout
+    print("extract", r.stderr.strip(), zip_pack("text-extractor"))
 
-# ---------- backup script ----------
-b = OUT / "simple-backup-script"
-b.mkdir(parents=True)
-(b / "backup.py").write_text('''"""python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
+    # ---------- backup script ----------
+    b = OUT / "simple-backup-script"
+    b.mkdir(parents=True)
+    (b / "backup.py").write_text('''"""python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
 Creates a timestamped .tar.gz of each source, verifies it can be read, and deletes the oldest beyond --keep. Stdlib only."""
 import hashlib, os, sys, tarfile, time
 from pathlib import Path
@@ -463,7 +465,7 @@ for s in srcs:
         o.unlink()
         print("removed old", o.name)
 ''', encoding="utf-8")
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Simple Backup Script
     python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
 Makes a timestamped compressed archive of each folder, checks the archive can be read back, and keeps only the newest N per folder.
@@ -471,21 +473,21 @@ Schedule it with cron (Linux/macOS) or Task Scheduler (Windows). Keep a copy off
 It does not encrypt; store archives somewhere you trust or encrypt the destination. Plain Python 3.
 
 {LIC}""")
-srcdir = OUT / "_t_src"
-srcdir.mkdir()
-(srcdir / "a.txt").write_text("hello")
-for _ in range(4):
-    subprocess.run([sys.executable, "backup.py", "--src", str(srcdir), "--dest", str(OUT / "_t_dest"), "--keep", "2"], cwd=b, check=True, capture_output=True)
-    time.sleep(1.1)
-kept = list((OUT / "_t_dest").glob("_t_src-*.tar.gz"))
-assert len(kept) == 2, kept
-shutil.rmtree(srcdir)
-shutil.rmtree(OUT / "_t_dest")
-print("backup keeps 2 of 4", zip_pack("simple-backup-script"))
+    srcdir = OUT / "_t_src"
+    srcdir.mkdir()
+    (srcdir / "a.txt").write_text("hello")
+    for _ in range(4):
+        subprocess.run([sys.executable, "backup.py", "--src", str(srcdir), "--dest", str(OUT / "_t_dest"), "--keep", "2"], cwd=b, check=True, capture_output=True)
+        time.sleep(1.1)
+    kept = list((OUT / "_t_dest").glob("_t_src-*.tar.gz"))
+    assert len(kept) == 2, kept
+    shutil.rmtree(srcdir)
+    shutil.rmtree(OUT / "_t_dest")
+    print("backup keeps 2 of 4", zip_pack("simple-backup-script"))
 
-# ---------- model and dataset card templates ----------
-b = OUT / "model-and-dataset-card-templates"
-w(b, "MODEL_CARD.md", """
+    # ---------- model and dataset card templates ----------
+    b = OUT / "model-and-dataset-card-templates"
+    w(b, "MODEL_CARD.md", """
 ---
 license: <license>
 language: <languages>
@@ -514,7 +516,7 @@ Known failure modes; groups or inputs it handles poorly.
 ## Risks and mitigations
 ## Citation / contact
 """)
-w(b, "DATASET_CARD.md", """
+    w(b, "DATASET_CARD.md", """
 ---
 license: <license>
 language: <languages>
@@ -537,11 +539,15 @@ Imbalances, label noise, gaps.
 ## Maintenance
 Version history and contact.
 """)
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Model and Dataset Card Templates
 Two fill-in-the-blank Markdown templates (with Hugging Face style front matter) for documenting a model or a dataset: summary, intended use,
 data, training, evaluation, limitations and risks. Copy, fill in, publish next to your files. Documentation templates only; they do
 not check your claims or license compliance.
 
 {LIC}""")
-print("cards", zip_pack("model-and-dataset-card-templates"))
+    print("cards", zip_pack("model-and-dataset-card-templates"))
+
+
+if __name__ == "__main__":
+    main()
