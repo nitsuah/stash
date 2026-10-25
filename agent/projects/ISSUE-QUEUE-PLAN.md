@@ -62,6 +62,8 @@ issue opened ──► [1 TRIAGE: Opus] ──► q:ready ──► [2 WORKERS: 
 | 4 | **Weekly RSI pass** as a scheduled task: scoreboard → PR to prompts/templates | motor-pool | First evidence-backed prompt PR |
 | later | IMPS-PLAN PRs 1, 2, 4 (principals, Postgres queue, dashboard panel) | motor-pool | When there's a second human dispatcher or the gov/edu story needs it |
 
+**Stale claim recovery:** A `q:working` claim must include runner ID, issue number, claimed-at timestamp, and a lease expiry. A runner may reclaim only after the lease expires and it verifies the prior runner is not actively renewing the claim; it must post a recovery comment, remove `q:working`, and re-claim atomically where possible. Never treat a stale label alone as proof that a worker is dead. Workers should renew leases while active and stop before pushing if they lose the claim.
+
 **Distributed compute:** the runner is stateless and GitHub holds the state, so a second runner on the Ryzen/4080 desktop is just the same container with `RUNNER_ID=desktop` and its own local 9router. Claims are first-comment-wins. Use `IMP_CONCURRENCY` to give the desktop the race fan-out.
 
 ## 5. Guardrails carried over from IMPS-PLAN
