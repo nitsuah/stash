@@ -31,7 +31,15 @@ const tabId = await popup.evaluate(async () => {
 });
 await popup.goto(`chrome-extension://${id}/popup.html?tab=${tabId}`);
 await popup.click('#run');
-await popup.waitForSelector('#score, #out p', { timeout: 60000 }); await popup.waitForTimeout(8000); console.log('OUT', (await popup.textContent('#out')).slice(0, 300));
+await popup.waitForFunction(() => document.querySelector('#score') || document.querySelector('#error'), null, { timeout: 60000 });
+const outcome = await popup.evaluate(() => ({
+  score: Boolean(document.querySelector('#score')),
+  count: Number((document.querySelector('#violations-count')?.textContent || '').match(/^(\d+)/)?.[1] || 0),
+  error: document.querySelector('#error')?.textContent || ''
+}));
+if (!outcome.score) throw new Error(`Demo scan did not complete successfully: ${outcome.error}`);
+if (outcome.count <= 0) throw new Error('Demo scan unexpectedly reported zero accessibility violations');
+console.log('OUT', (await popup.textContent('#out')).slice(0, 300));
 console.log('SCORE', await popup.textContent('#score'));
 console.log('ITEMS', await popup.locator('li').count());
 await ctx.close();
