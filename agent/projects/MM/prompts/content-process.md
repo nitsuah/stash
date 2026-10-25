@@ -27,14 +27,14 @@ project `divine-surf-90579532`); outputs go back to Neon. Never post; never writ
 
 ## 4. Reformat to all shapes
 ```
-sh content-pipeline/run.sh <slug>.mp4 <brand> <A|B> "<short title>"
+bash content-pipeline/run.sh <slug>.mp4 <brand> <A|B> "<short title>"
 ```
 Produces vertical, square and landscape cuts in `content-pipeline/out/`.
 
 ## 5. Captions per platform
 > From the script write: a YouTube title (max 70 chars) and description; a LinkedIn post (3 short
 > paragraphs); a Reddit-style title plus neutral body that discloses the product is ours; a short
-> alt-text line for the thumbnail. Each ends with the link for that product. Keep each under the
+> alt-text line for the thumbnail. Include the product link in platform copy where appropriate. Thumbnail alt text should describe the image, not require a product link. Keep each under the
 > platform's limit. No hashtags spam (max 3).
 
 ## 6. Record
