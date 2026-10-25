@@ -1,16 +1,20 @@
 # IMP Runner location
 
-The IMP kit is a **detached checkout** of the upstream `imps` repository.  It is intentionally kept **outside** the main project tree so that the hourly `imps‑dispatch` task can reset it to the latest `origin/main` without affecting any source files.
+The IMP kit is a **detached checkout** of the upstream `imps` repository. Keep it **outside** the main project tree so the `imps-dispatch` task can reset it to the latest `origin/main` without affecting project source files.
 
-**Recommended location**
-```
-C:\Users\ajhar\code\imps-runner   ←  IMP kit (detached checkout)
-```
+## Configure the path locally
 
-Configure the path locally instead of editing tracked files: set the `IMPS_KIT_PATH` environment variable, or write the absolute path to `.imps/kit-path.txt` (the `.imps/` directory is ignored by Git). The runner checks these local settings before the optional `kit_path` fallback in `.github/imps-config.yml`. The repo itself should **not** contain the kit – it is a large, frequently-reset directory and would bloat the repository.
+Choose any absolute path outside this repository, such as `C:\\tools\\imps-runner` on Windows or `~/src/imps-runner` on Linux/macOS. Do not commit a machine-specific path.
 
-**Why not `stash/agents/` or `.github/imps/`?**
-- `stash/agents/` is meant for Claude‑Code agents (JS/TS plugins) that run inside the repo.  IMP is a separate tool chain; mixing it with agents would confuse the build and CI pipelines.
-- `.github/` is reserved for workflow files, templates, and small config assets.  Placing a full checkout there would be unnecessarily large and could interfere with GitHub Actions’ checkout steps.
+The runner checks these settings in order:
 
-**Conclusion:** keep `imps-runner` at `C:\Users\ajhar\code\imps-runner`.  Optionally add a lightweight pointer file (`.github/imps-path.txt`) for discoverability.
+1. The `IMPS_KIT_PATH` environment variable.
+2. The ignored local file `.imps/kit-path.txt`, containing the absolute path on one line.
+3. The optional `kit_path` value in `.github/imps-config.yml`.
+
+The tracked config leaves `kit_path` empty by default. The runner reads its simple scalar values directly, so it does not require a third-party PowerShell YAML module.
+
+## Why keep the kit outside the repository?
+
+- `agent/` is for this repository's agents and project tooling; the detached IMP checkout is a separate tool chain.
+- `.github/` is reserved for workflows, templates, and small configuration assets. A full checkout there would unnecessarily bloat the repository and could interfere with GitHub Actions.
