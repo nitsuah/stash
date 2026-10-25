@@ -1,9 +1,9 @@
 # IMP Dashboard (auto‑generated)
 
 ## Summary (last 24 h)
-- **30** IMP runs across 5 repos
-- **14** passed gate → open PRs
-- **16** failed gate (diff too large, missing trailer, no commits, permission denials)
+- **26** IMP runs across 5 repos
+- **16** passed gate → open PRs
+- **10** failed gate (diff too large, missing trailer, no commits, permission denials)
 
 ## Details
 | Repo | Passed | Failed | Notes |
