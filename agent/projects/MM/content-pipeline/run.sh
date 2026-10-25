@@ -14,13 +14,13 @@ duration="$(docker run --rm -v "$W:/work" -w /work --entrypoint ffprobe jrottenb
 docker run --rm -v "$W:/work" -w /work python:3-slim python render.py "$@" "$duration"
 shopt -s nullglob
 args_files=(out/ffmpeg-*.args)
-if ((\${#args_files[@]} == 0)); then
+if ((${#args_files[@]} == 0)); then
   echo "Renderer did not produce any FFmpeg argument files" >&2
   exit 1
 fi
-for argfile in "\${args_files[@]}"; do
+for argfile in "${args_files[@]}"; do
   mapfile -d '' -t args < "$argfile"
-  ((\${#args[@]} > 0)) || { echo "Empty FFmpeg argument file: $argfile" >&2; exit 1; }
+  ((${#args[@]} > 0)) || { echo "Empty FFmpeg argument file: $argfile" >&2; exit 1; }
   docker run --rm -v "$W:/work" -w /work --entrypoint ffmpeg jrottenberg/ffmpeg:7-ubuntu "\${args[@]}"
 done
 ls -la out
