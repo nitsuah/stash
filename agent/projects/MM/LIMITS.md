@@ -11,4 +11,4 @@ Source of truth is the Neon `limits` table (project `moneymakers`). This is a re
 | stash pushes | Imps runner sets `origin` push URL to `no_push` | Always | none |
 | Etsy | Shop needs the user's card, bank and ID | When the user finishes setup | 9 drafted listings plus factory packs |
 
-Commands for each are in the table's `how_to_retry` column and in `apify-publish.md`.
+Retry guidance is summarized in the `Retry when` column above. Apify publication steps are in `apify-publish.md`; the remaining scripts' invocation commands are documented in their project READMEs or source usage text.
