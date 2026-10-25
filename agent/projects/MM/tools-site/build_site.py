@@ -211,10 +211,10 @@ page("text-case-converter", "Text case converter", "Convert text to upper case, 
      "Text case converter", "Type or paste text and choose a case.",
      '<label for="t">Your text</label><textarea id="t" rows="5">Hello world from the case converter</textarea><label for="m">Convert to</label><select id="m"><option value="upper">UPPER CASE</option><option value="lower">lower case</option><option value="title">Title Case</option><option value="sentence">Sentence case</option><option value="camel">camelCase</option><option value="snake">snake_case</option><option value="kebab">kebab-case</option></select><label for="o">Result</label><textarea id="o" rows="5" readonly></textarea>',
      """const t=document.getElementById('t'),m=document.getElementById('m'),o=document.getElementById('o');
-const words=s=>s.toLowerCase().match(/[a-z0-9]+/g)||[];
+const words=s=>s.toLowerCase().match(/[\\p{L}\\p{N}]+/gu)||[];
 function run(){const s=t.value,w=words(s),k=m.value;o.value=k==='upper'?s.toUpperCase():k==='lower'?s.toLowerCase():k==='title'?s.toLowerCase().replace(/(^|\\s)(\\S)/g,(x,a,b)=>a+b.toUpperCase()):k==='sentence'?s.toLowerCase().replace(/(^\\s*|[.!?]\\s+)(\\S)/g,(x,a,b)=>a+b.toUpperCase()):k==='camel'?w.map((x,i)=>i?x[0].toUpperCase()+x.slice(1):x).join(''):k==='snake'?w.join('_'):w.join('-')}
 t.addEventListener('input',run);m.addEventListener('change',run);run();""",
-     "<p>Camel, snake and kebab case split on anything that is not a letter or number, so punctuation is dropped. Title case here capitalizes every word and does not apply style-guide rules for small words.</p>")
+     "<p>Camel, snake and kebab case split on anything that is not a Unicode letter or number, so punctuation is dropped. Title case here capitalizes every word and does not apply style-guide rules for small words.</p>")
 
 # --- UTM builder ---
 page("utm-link-builder", "UTM link builder", "Build a campaign URL with UTM parameters for source, medium, campaign, term and content.",
