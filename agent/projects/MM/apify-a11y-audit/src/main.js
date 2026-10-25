@@ -30,6 +30,10 @@ const crawler = new PlaywrightCrawler({
     launchContext: { launchOptions: { args: ['--no-sandbox'] } },
     async requestHandler({ page, request }) {
         await page.waitForLoadState('load');
+        const responseStatus = await page.evaluate(() => performance.getEntriesByType('navigation')[0]?.responseStatus ?? 0);
+        if (responseStatus >= 400) {
+            throw new Error(`Page returned HTTP ${responseStatus}; accessibility audit was not run.`);
+        }
         // evaluate() runs through the debugger protocol, so a page's Content-Security-Policy cannot block axe.
         await page.evaluate(axeSource);
         const result = await page.evaluate((runTags) => window.axe.run(document, { runOnly: { type: 'tag', values: runTags } }), tags);
@@ -46,6 +50,7 @@ const crawler = new PlaywrightCrawler({
             };
         });
         const penalty = Object.entries(counts).reduce((sum, [k, n]) => sum + (WEIGHT[k] ?? 0) * n, 0);
+        await Actor.charge({ eventName: 'page-audited' });
         await Actor.pushData({
             url: request.loadedUrl ?? request.url,
             title: await page.title(),
@@ -58,7 +63,6 @@ const crawler = new PlaywrightCrawler({
             axeVersion,
             auditedAt: new Date().toISOString(),
         });
-        await Actor.charge({ eventName: 'page-audited' });
     },
     async failedRequestHandler({ request }) {
         await Actor.pushData({ url: request.url, error: (request.errorMessages?.slice(-1)[0] ?? 'Page failed to load').split('\n')[0], auditedAt: new Date().toISOString() });
