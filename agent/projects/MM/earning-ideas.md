@@ -1,6 +1,6 @@
-# Small open-source earning projects (target: first $100)
+# Small earning projects (target: first $100)
 
-Each idea uses free or open-source tools. "$ to $100" is a rough estimate of how many paid jobs, sales, or sponsors it takes. None of these are guaranteed. Expect many to earn $0.
+Ideas use a mix of free tiers, open-source tools, and paid platforms. "$ to $100" is a rough estimate of how many paid jobs, sales, or sponsors it takes, before applicable hosting, API, transaction, and marketplace fees. None of these are guaranteed. Expect many to earn $0.
 
 ## A. Services you deliver with open-source tools
 
