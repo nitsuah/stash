@@ -18,7 +18,7 @@ def main():
     try:
         duration = float(duration_arg)
     except ValueError:
-        raise SystemExit("duration must be a positive number of seconds")
+        raise SystemExit("duration must be a positive number of seconds") from None
     if not duration > 0:
         raise SystemExit("duration must be a positive number of seconds")
     cfg = json.loads(pathlib.Path("/work/brand.json").read_text(encoding="utf-8"))
