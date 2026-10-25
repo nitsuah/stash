@@ -26,7 +26,7 @@ stash\agent\projects\imp-motor-pool-prompt.md
 
 ## 3. Design: as little LLM as possible, at the right chokepoints
 
-GitHub issues are the queue. Labels are the state machine. Scripts do everything that has a right answer. A model is called only at three chokepoints:
+GitHub issues are the queue. Labels are the state machine. Claiming must be an exclusive transition: a worker must never process an issue that still has `q:ready` or already has `q:working`. Scripts do everything that has a right answer. A model is called only at three chokepoints:
 
 ```
 issue opened ──► [1 TRIAGE: Opus] ──► q:ready ──► [2 WORKERS: claude -p via 9router, N in parallel]
@@ -56,7 +56,7 @@ issue opened ──► [1 TRIAGE: Opus] ──► q:ready ──► [2 WORKERS: 
 | # | PR | Where | Done when |
 | --- | --- | --- | --- |
 | 0 | Close #204/#157, prune .github prompts, fix journeys infra-dedup + Playwright image pin | .github, fire, ats-fill, vigil | Clean slate; vigil's 5 journey issues closed by one fix |
-| 1 | **Runner v0** (IMPS-PLAN PR 3, minus Postgres): `imp-runner` script that polls `gh issue list --label q:ready` across `config/imp-repos.json`, claims with `q:working` + a claim comment (host id, so the desktop can run a second runner), worktree from `origin/main`, `claude -p` via 9router with the IMPS-PLAN flags, gate, push, PR, labels | motor-pool | One real fire `bot:review` bug → open PR with no human touch |
+| 1 | **Runner v0** (IMPS-PLAN PR 3, minus Postgres): `imp-runner` script that polls `gh issue list --label q:ready` across `config/imp-repos.json`, claims by verifying the issue has `q:ready` and lacks `q:working`, then atomically removing `q:ready` and adding `q:working` plus a claim comment (runner ID and timestamp; the desktop can run a second runner), worktree from `origin/main`, `claude -p` via 9router with the IMPS-PLAN flags, gate, push, PR, labels | motor-pool | One real fire `bot:review` bug → open PR with no human touch |
 | 2 | **Race mode**: `q:race` (or a default per repo) fans out to N models in parallel worktrees; gate; Opus judge; scoreboard | motor-pool | Same issue, 3 models, one PR, scoreboard row |
 | 3 | **Triage**: Opus brief + label on `issues.opened` (polling routine first; webhook later) | motor-pool | New issues arrive with a brief and a label |
 | 4 | **Weekly RSI pass** as a scheduled task: scoreboard → PR to prompts/templates | motor-pool | First evidence-backed prompt PR |
