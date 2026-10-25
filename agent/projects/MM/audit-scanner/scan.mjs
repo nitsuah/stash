@@ -18,7 +18,12 @@ for (const p of paths) {
   let bytes = 0;
   const pending = [];
   page.on('response', r => pending.push(r.body().then(b => { bytes += b.length; }).catch(() => {})));
-  await page.goto(base + p, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  const response = await page.goto(base + p, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  if (!response || response.status() >= 400) {
+    results.push({ path: p, loadMs: Date.now() - t0, bytes, error: `Page returned HTTP ${response?.status() ?? 'no response'}`, violations: [] });
+    await page.close();
+    continue;
+  }
   const loadMs = Date.now() - t0;
   await Promise.all(pending);
   await page.waitForTimeout(1500);
