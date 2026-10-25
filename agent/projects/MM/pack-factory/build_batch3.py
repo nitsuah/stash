@@ -201,7 +201,7 @@ STACKS = {
           ntfy:
             image: binwiederhier/ntfy
             command: serve
-            ports: ["8090:80"]
+            ports: ["127.0.0.1:8090:80"]
             volumes: [ntfy-cache:/var/cache/ntfy]
             restart: unless-stopped
         volumes:
@@ -229,7 +229,6 @@ from datetime import datetime
 
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 flags = [a for a in sys.argv[1:] if a.startswith("--")]
-src, dst = args[0], args[1]
 date_cols = []
 for i, a in enumerate(sys.argv):
     if a == "--dates" and i + 1 < len(sys.argv):
