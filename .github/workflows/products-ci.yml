@@ -31,6 +31,14 @@ jobs:
       - name: Validate release configs, manifests and schemas
         run: node projects/products/scripts/validate.mjs
 
+      - name: Run product unit tests
+        run: |
+          # Packages that ship tests (for example the tech-stack fingerprint checks) run here, so data changes cannot skip them.
+          files=$(ls projects/products/*/test/*.test.mjs 2>/dev/null || true)
+          if [ -n "$files" ]; then node --test $files; else echo "no product unit tests"; fi
+
+
+
       - name: Dry-run package the extension
         working-directory: projects/products/a11y-check-extension
         run: |

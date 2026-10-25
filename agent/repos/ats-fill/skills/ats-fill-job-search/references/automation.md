@@ -45,6 +45,16 @@ Never ask the candidate to turn on Chrome remote debugging: it exposes every log
 
 Save per-machine defaults in `~/.ats-fill/config.json`, e.g. `{"extensionId": "<unpacked build id>", "profile": "Profile 1", "staleDays": 14}`. The environment variables `ATS_FILL_EXTENSION_ID`, `ATS_FILL_PROFILE` and `ATS_FILL_STALE_DAYS` override it. Run `setup` again after setting `extensionId`, so the helper also accepts that build.
 
+## Browser and environment rules (for agents)
+
+- **Never enable Chrome remote debugging** on the candidate's profile, and never pass `--live` or set `ATS_FILL_CDP_URL` for them. Remote debugging exposes every logged-in site. The CLI's disk reads and bridge writes need no browser access.
+- **Tracker writes only through the CLI.** Don't enqueue bridge messages by hand. The bridge accepts only `LOG_APPLICATION`, `UPDATE_APPLICATION`, `IMPORT_APPLICATIONS_CSV`, `SEARCH_JOBS` and `OPEN_APPLICATION_TAB` (see `BRIDGE_ALLOWED_TYPES` in `background/native-bridge.js`). `OPEN_APPLICATION_TAB` only opens an http(s) tab and never submits. Any other type is refused, and new types need a code change and review.
+- **Delete is never automated.** Use the popup, or ask the candidate.
+- **Reads work anywhere the candidate's Chrome data is on disk** (Windows: `%LOCALAPPDATA%\Google\Chrome\User Data`). Cloud routines and sandboxes can't read it, so run tracker routines locally.
+- **Bridge writes need a fresh check-in** (under 3 minutes old in `~/.ats-fill/bridge/heartbeat.json`). When it's stale, `add`/`set` fall back to a CSV. Tell the candidate to import it, and don't retry in a loop.
+- **`setup` writes the Node path it runs under** into the helper launcher. After changing or uninstalling Node, run `setup` again from the Node you want to keep.
+- **Don't scrape LinkedIn or other sites for hiring managers.** Ask the candidate for names they find themselves.
+
 ## Inbox → tracker loop
 
 Classification is deterministic code, not the model, so a sync costs roughly the size of the email snippets:

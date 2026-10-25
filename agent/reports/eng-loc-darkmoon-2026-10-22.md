@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: darkmoon
+date: 2026-10-22
+---
+
 # LOC Report — darkmoon (2026-10-22)
+
+> 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-loc-darkmoon-2026-09-16|2026-09-16]] <!-- nav -->
+
 HEAD: 859e04b9ade44f6cb07bc2e27fac0f3286e88099
 
 Mode: `--report` (dry run, no changes made)

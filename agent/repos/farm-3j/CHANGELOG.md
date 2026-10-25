@@ -51,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Changed:** `.nvmrc` is now `22`, matching CI and the Dockerfile (both already Node 22). Netlify builds read `.nvmrc`, so the production server handler was still being built and run on Node 20, which is end-of-life.
+- **Changed:** Dependabot now groups minor and patch updates per ecosystem (`minor-and-patch`), so a week of bumps is one PR and one production deploy instead of one per package. Major updates stay separate PRs.
 - Agent instructions (`.github/copilot-instructions.md`) now require closing tracked work in the same PR: update `docs/TASKS.md`, `docs/ROADMAP.md` and this changelog before the last push, and confirm `git diff origin/main...HEAD --stat` includes them before merge; extended `.github/pull_request_template.md` with a "Closes TASKS item(s)" checklist.
 - **Feature cards** (homepage) — `<div onClick>` replaced with `<button aria-expanded aria-controls>`; content div always mounted (hidden when collapsed) so `aria-controls` target is always present; animated children still unmount inside to stop timers
 - **`GRUNT_BARN_MELEE_RANGE`** extracted from inline constant to `constants.ts`; `HeroPanel` magic `3` replaced with `HERO_MAX_ITEMS`; `tome_xp` Use button disabled (no handler); `WaveTimer` prop typed as `RefObject` not `MutableRefObject`

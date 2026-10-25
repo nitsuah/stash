@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Insights: the equity share excludes crypto, matching the Asset Allocation chart (#169).
+- **Fixed:** the production `ignore` command now returns 1 (build) when `CACHED_COMMIT_REF` or `COMMIT_REF` is empty, and quotes both. Unquoted, an empty `CACHED_COMMIT_REF` made the shell drop the argument, so `git diff --quiet` compared a commit to the working tree and could exit 0, skipping a production deploy instead of failing open.
+- Privacy modal no longer shows the GitHub docs nav row (#166).
+- Insights: broad-market funds such as VTI no longer trigger the single-stock concentration warning, and its copy and the CD-maturity copy read correctly (#170).
+- Dashboard: the Asset Allocation legend sits under the chart, so long labels are no longer clipped (#167).
+
+### 2026-10-22 — Skip no-op Netlify production deploys
+
+- **Changed:** `netlify.toml` gains a `[context.production]` `ignore` command, so a push to `main` only deploys lifefire when `app/`, `netlify/`, `netlify.toml`, `package.json` or `package-lock.json` changed. Docs, screenshot/diagram regeneration, tests, `promo/`, `site/` and `config/` no longer spend 15 production-deploy credits each. Deploy previews are unaffected (free), and a missing `CACHED_COMMIT_REF` makes the check fail open so the build still runs.
+
 ### 2026-10-22 — Rebalance chaos sweep
 
 - **Added:** `simulate_rebalance` takes `chaos: true` to sweep single-leg moves (liquid asset classes and your top positions, several sizes) under bear/base/bull return assumptions net of estimated capital-gains tax, ranked by a metric you choose (`app/lib/rebalance-sweep.js`). Default returns are placeholders; supply your own, including per-symbol overrides, in `options.returns`. Output is a table with no recommended row, and the tool stays read-only. The single-move path is unchanged.
