@@ -35,6 +35,6 @@ These shared pieces make each project faster to start:
 
 1. One Stripe account for all products (human sets it up once).
 2. One Neon database for project data, with one table per project type.
-3. Drafts live in the repo under `stashgent\projects\MM`.
+3. Drafts live in the repo under `stash/agent/projects/MM`.
 4. One Gmail for outbound drafts, reviewed before sending.
 5. `money_events` in Neon for all money events.
