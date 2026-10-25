@@ -7,7 +7,7 @@ The IMP kit is a **detached checkout** of the upstream `imps` repository.  It is
 C:\Users\ajhar\code\imps-runner   ←  IMP kit (detached checkout)
 ```
 
-If you prefer to version‑control the path for clarity, add a tiny pointer file inside the repository (e.g. `.github/imps-path.txt`) containing the absolute path.  The repo itself should **not** contain the kit – it is a large, frequently‑reset directory and would bloat the repository.
+Configure the path locally instead of editing tracked files: set the `IMPS_KIT_PATH` environment variable, or write the absolute path to `.imps/kit-path.txt` (the `.imps/` directory is ignored by Git). The runner checks these local settings before the optional `kit_path` fallback in `.github/imps-config.yml`. The repo itself should **not** contain the kit – it is a large, frequently-reset directory and would bloat the repository.
 
 **Why not `stash/agents/` or `.github/imps/`?**
 - `stash/agents/` is meant for Claude‑Code agents (JS/TS plugins) that run inside the repo.  IMP is a separate tool chain; mixing it with agents would confuse the build and CI pipelines.
