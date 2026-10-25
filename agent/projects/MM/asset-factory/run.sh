@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 MM="$(cd .. && pwd -W 2>/dev/null || pwd)"
 export MSYS_NO_PATHCONV=1
 docker run --rm -v "$MM":/w -w /w/asset-factory python:3-slim python build_assets.py "${1:-2027}"
+docker run --rm -v "$MM":/w -w /w/audit-scanner mcr.microsoft.com/playwright:v1.64.0-noble npm install --no-audit --no-fund --silent
 docker run --rm -v "$MM":/w -w /w/asset-factory mcr.microsoft.com/playwright:v1.64.0-noble node render.mjs out
 docker run --rm -i -v "$MM":/w -w /w/asset-factory python:3-slim python - <<'PY'
 import pathlib, zipfile
