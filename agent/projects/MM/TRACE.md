@@ -1,6 +1,6 @@
 # MoneyMakers trace: what exists, where it lives, how it is hooked up
 
-Source of truth is Neon project `moneymakers` (`divine-surf-90579532`): tables `assets` (what we built and where it goes), `hookups` (accounts, auth state, how to reconnect), `ideas`, `experiments`, `money_events`. This file is a readable snapshot (2026-10-23); when it disagrees with Neon, trust Neon.
+Source of truth is Neon project `moneymakers` (`divine-surf-90579532`): tables `projects` (project state), `assets` (what we built and where it goes), `hookups` (accounts, auth state, how to reconnect), `ideas`, `experiments`, `money_events`, and view `project_pnl`. This file is a readable snapshot (2026-10-23); when it disagrees with Neon, trust Neon.
 
 ## Pipelines (no Claude usage once built)
 | Pipeline | Where | Run | Output |
@@ -15,7 +15,7 @@ Source of truth is Neon project `moneymakers` (`divine-surf-90579532`): tables `
 - **Gumroad** nitsua5.gumroad.com: 10 products live, $0 sales. Hard limit of 10 new products per day. 26 packs queued.
 - **Etsy**: account exists, shop not created (needs the user's billing card, bank and ID). Drafts in `MM/etsy-listings/listings.md`; machine-readable titles, prices and tags in `MM/asset-factory/out/listings.csv`.
 - **Stripe** (live): tip link in `nitsuah/.github` `.github/FUNDING.yml`. Dashboard works through Chrome; Stripe MCP is not authenticated.
-- **nitsuah.io/tools**: 25 free tools, tip link only. Old standalone site redirects through `MM/redirect-site/_redirects`.
+- **nitsuah.io/tools**: 25 free tools, tip link only. Old standalone site redirects through `agent/projects/MM/tools-site/redirect-site/_redirects`.
 - **Downloads site**: staged in `MM/packs-host` (31 zips under random names), not deployed; public deploy needs the user's approval (idea 157).
 
 ## Rules in force
