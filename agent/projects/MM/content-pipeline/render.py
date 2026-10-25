@@ -12,9 +12,15 @@ def hexc(color):
 
 
 def main():
-    if len(sys.argv) != 5:
-        raise SystemExit('usage: render.py <input.mp4> <brand> <variant> "<title>"')
-    inp, brand, variant, title = sys.argv[1:5]
+    if len(sys.argv) != 6:
+        raise SystemExit('usage: render.py <input.mp4> <brand> <variant> "<title>" <duration-seconds>')
+    inp, brand, variant, title, duration_arg = sys.argv[1:6]
+    try:
+        duration = float(duration_arg)
+    except ValueError:
+        raise SystemExit("duration must be a positive number of seconds")
+    if not duration > 0:
+        raise SystemExit("duration must be a positive number of seconds")
     cfg = json.loads(pathlib.Path("/work/brand.json").read_text(encoding="utf-8"))
     brands = cfg.get("brands", {})
     if brand not in brands:
@@ -46,9 +52,9 @@ def main():
             f"drawtext=font='{font}':textfile=/work/out/title.txt:fontcolor={hexc(colors['fg'])}:fontsize={title_size}:"
             f"x=(w-text_w)/2:y=h*0.06:box=1:boxcolor={hexc(colors['accent'])}@0.85:boxborderw={max(1, h // 90)},"
             f"drawtext=font='{font}':textfile=/work/out/intro.txt:fontcolor={hexc(colors['fg'])}:fontsize={max(1, h // 40)}:"
-            f"x=(w-text_w)/2:y=h*0.90,"
+            f"x=(w-text_w)/2:y=h*0.90:enable='between(t,0,3)',"
             f"drawtext=font='{font}':textfile=/work/out/outro.txt:fontcolor={hexc(colors['fg'])}:fontsize={max(1, h // 40)}:"
-            f"x=(w-text_w)/2:y=h*0.95"
+            f"x=(w-text_w)/2:y=h*0.95:enable='gte(t,{max(0.0, duration - 3.0):.3f})'"
         )
         output = f"out/{slug}_{suffix}_{brand}_{variant}_{name}.mp4"
         argv = ["-y", "-i", inp, "-vf", vf, "-c:v", "libx264", "-crf", "23", "-preset", "veryfast", "-c:a", "copy", output]
