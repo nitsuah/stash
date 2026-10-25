@@ -1,4 +1,4 @@
-kit_path: "C:/Users/ajhar/code/imps-runner"
+kit_path: ""
 docker_command: "docker compose run --rm node npm ci"
 max_diff_lines: 15
 require_imp_trailer: true
