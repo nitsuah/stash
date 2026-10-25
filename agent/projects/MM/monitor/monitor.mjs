@@ -16,8 +16,12 @@ for (const url of urls) {
   if (res.html) {
     const base = new URL(url);
     const links = [...new Set([...res.html.matchAll(/href=["']([^"'#]+)["']/gi)].map(m => { try { return new URL(m[1], base).href; } catch { return null; } })
-      .filter(h => h && h.startsWith(base.origin)))].slice(0, 25);
-    for (const l of links) { const c = await check(l, 'HEAD'); if (!c.ok) broken.push({ url: l, status: c.status, error: c.error }); }
+       .filter(h => { if (!h) return false; try { return new URL(h).origin === base.origin; } catch { return false; } }))];
+    const concurrency = 5;
+    for (let i = 0; i < links.length; i += concurrency) {
+      const batch = await Promise.all(links.slice(i, i + concurrency).map(l => check(l, 'HEAD')));
+      for (const c of batch) if (!c.ok) broken.push({ url: c.url, status: c.status, error: c.error });
+    }
   }
   const { html, ...rest } = res;
   out.push({ ...rest, checked_at: new Date().toISOString(), broken_links: broken });
