@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p raw
-F='--state open --limit 100 --json repository,title,url,commentsCount,createdAt'
+F='--state open --limit 1000 --json repository,title,url,commentsCount,createdAt'
 gh search issues --label "💎 Bounty" $F > raw/a.json
 gh search issues --label "bounty" $F > raw/b.json
 gh search issues '"bounty" in:title' $F > raw/c.json
