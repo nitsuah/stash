@@ -107,7 +107,7 @@ def maze_book(slug, title, tiers, per_tier):
             pages.append(f"<div class='pg'><h1>Maze {n}</h1><div class='sub'>{label}. Start at the top-left gap, finish at the bottom-right gap.</div>{maze_svg(cells, w, h, c)}</div>")
             keys.append(f"<div class='mz'><b>Maze {n}</b>{maze_svg(cells, w, h, max(4, c // 3), solve(cells, w, h))}</div>")
     cover = f"<div class='pg'><h1 style='margin-top:3in;font-size:40pt'>{html.escape(title)}</h1><div class='sub'>{n} mazes, easy to hard, with solutions. Nitsuah Labs.</div></div>"
-    key_pages = "".join(f"<div class='pg'><h2>Solutions</h2><div class='grid'>{''.join(keys[i:i + 4])}</div></div>" for i in range(0, len(keys), 2))
+    key_pages = "".join(f"<div class='pg'><h2>Solutions</h2><div class='grid'>{''.join(keys[i:i + 4])}</div></div>" for i in range(0, len(keys), 4))
     return doc(title, cover + "".join(pages) + key_pages), n
 
 
@@ -134,7 +134,7 @@ def worksheet_pack(slug, title, ops, lo, hi, sheets):
         ps = problems(rng, op, 24, lo, hi)
         pages.append(f"<div class='pg'><h1>Worksheet {i + 1}</h1><div class='sub'>Name: ______________ &nbsp; Date: __________</div><div class='wk'>{''.join(f'<div>{html.escape(q)}</div>' for q, _ in ps)}</div></div>")
         keys.append(f"<div><b>Worksheet {i + 1}</b><div class='wk'>{''.join(f'<div>{a}</div>' for _, a in ps)}</div></div>")
-    key_pages = "".join(f"<div class='pg key'><h2>Answer key</h2>{''.join(keys[j:j + 2])}</div>" for j in range(0, len(keys), 4))
+    key_pages = "".join(f"<div class='pg key'><h2>Answer key</h2>{''.join(keys[j:j + 2])}</div>" for j in range(0, len(keys), 2))
     return doc(title, "".join(pages) + key_pages)
 
 
