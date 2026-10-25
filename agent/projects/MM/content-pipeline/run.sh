@@ -9,7 +9,9 @@ export MSYS_NO_PATHCONV=1
 
 # Python writes argument arrays as NUL-delimited files. No generated command is
 # evaluated by a shell, so titles and paths cannot trigger shell substitution.
-docker run --rm -v "$W:/work" -w /work python:3-slim python render.py "$@"
+[[ -f "${1:-}" ]] || { echo "Input video not found: ${1:-<missing>}" >&2; exit 1; }
+duration="$(docker run --rm -v "$W:/work" -w /work --entrypoint ffprobe jrottenberg/ffmpeg:7-ubuntu -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$1")"
+docker run --rm -v "$W:/work" -w /work python:3-slim python render.py "$@" "$duration"
 shopt -s nullglob
 args_files=(out/ffmpeg-*.args)
 if ((\${#args_files[@]} == 0)); then
