@@ -6,7 +6,7 @@ import sys
 
 
 def load_rules(path):
-    with open(path, newline="", encoding="utf-8") as f:
+    with open(path, newline="", encoding="utf-8-sig") as f:
         return [(r["keyword"].strip().lower(), r["category"].strip()) for r in csv.DictReader(f) if r["keyword"].strip()]
 
 def main():
@@ -37,4 +37,6 @@ def main():
         print(f"  {c:<22}{t:>10.2f}", file=sys.stderr)
     print(f"  Uncategorized rows: {unmatched} (add keywords to rules.csv)", file=sys.stderr)
 
-main()
+
+if __name__ == "__main__":
+    main()
