@@ -451,7 +451,7 @@ for s in srcs:
     with tarfile.open(out) as t:
         n = len(t.getmembers())
     print(f"wrote {out} ({out.stat().st_size} bytes, {n} entries, verified)")
-    olds = sorted(dest.glob(f"{name}-*.tar.gz"))
+    olds = sorted(dest.glob(f"{prefix}-*.tar.gz"))
     for o in olds[:-keep]:
         o.unlink()
         print("removed old", o.name)
