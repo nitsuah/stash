@@ -18,7 +18,7 @@ Landing your first (or fifth) client shouldn't mean a weekend of fiddling with f
 - **Project time log** (CSV): track billable hours per client
 
 **How it works**
-Open a file, replace the [bracketed] fields, save or print to PDF. That's it. Files are plain HTML, Markdown and CSV, so they open anywhere and never break.
+For HTML files, open the file in a text editor and replace the [bracketed] fields, then open it in a browser to preview or print to PDF. Edit Markdown and CSV files in a compatible editor or spreadsheet app. Files are plain HTML, Markdown and CSV, so they open anywhere and never break.
 
 **Who it's for**
 Freelancers, consultants, designers, developers and writers who want a simple paperwork setup without a monthly tool.
