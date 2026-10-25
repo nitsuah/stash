@@ -3,10 +3,6 @@ import pathlib
 import shutil
 import zipfile
 
-root = pathlib.Path(__file__).parent
-dist = root / "dist" / "minimal-line-icons"
-shutil.rmtree(root / "dist", ignore_errors=True)
-(dist / "svg").mkdir(parents=True)
 # each icon: svg body in a 24x24 box, stroke-based
 ICONS = {
     "home": '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
@@ -57,29 +53,39 @@ def svg(body, stroke="currentColor", w=2):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="{stroke}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round">{body}</svg>'
 
 
-for n, b in ICONS.items():
-    (dist / "svg" / f"{n}.svg").write_text(svg(b))
 
-cells = "".join(f'<div class="c">{svg(b, "#222")}<span>{n}</span></div>' for n, b in ICONS.items())
-(dist / "preview.html").write_text(
-    f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Minimal Line Icons</title>"
-    f"<style>body{{font-family:Arial;margin:24px}}.g{{display:grid;grid-template-columns:repeat(auto-fill,100px);gap:12px}}"
-    f".c{{text-align:center;font-size:11px;color:#555}}.c svg{{width:48px;height:48px;display:block;margin:0 auto 4px}}</style></head>"
-    f"<body><h1>Minimal Line Icons ({len(ICONS)})</h1><div class='g'>{cells}</div></body></html>"
-)
-(dist / "LICENSE.txt").write_text(
-    "Minimal Line Icons. Use in personal and commercial projects, unlimited. "
-    "Do not resell or redistribute the icon files themselves as a pack.\n"
-)
-(dist / "README.txt").write_text(
-    f"{len(ICONS)} line icons, 24x24 grid, 2px stroke, currentColor (inherits your text color).\n"
-    "svg/ folder: one file per icon. Open preview.html to browse.\n"
-    "Tip: change stroke-width or stroke in the SVG to restyle.\n"
-)
-zp = root / "minimal-line-icons.zip"
-with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
-    for p in sorted(dist.rglob("*")):
-        if p.is_file():
-            z.write(p, f"minimal-line-icons/{p.relative_to(dist).as_posix()}")
+def main():
+    root = pathlib.Path(__file__).parent
+    dist = root / "dist" / "minimal-line-icons"
+    shutil.rmtree(root / "dist", ignore_errors=True)
+    (dist / "svg").mkdir(parents=True)
+    for n, b in ICONS.items():
+        (dist / "svg" / f"{n}.svg").write_text(svg(b))
+    
+    cells = "".join(f'<div class="c">{svg(b, "#222")}<span>{n}</span></div>' for n, b in ICONS.items())
+    (dist / "preview.html").write_text(
+        f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Minimal Line Icons</title>"
+        f"<style>body{{font-family:Arial;margin:24px}}.g{{display:grid;grid-template-columns:repeat(auto-fill,100px);gap:12px}}"
+        f".c{{text-align:center;font-size:11px;color:#555}}.c svg{{width:48px;height:48px;display:block;margin:0 auto 4px}}</style></head>"
+        f"<body><h1>Minimal Line Icons ({len(ICONS)})</h1><div class='g'>{cells}</div></body></html>"
+    )
+    (dist / "LICENSE.txt").write_text(
+        "Minimal Line Icons. Use in personal and commercial projects, unlimited. "
+        "Do not resell or redistribute the icon files themselves as a pack.\n"
+    )
+    (dist / "README.txt").write_text(
+        f"{len(ICONS)} line icons, 24x24 grid, 2px stroke, currentColor (inherits your text color).\n"
+        "svg/ folder: one file per icon. Open preview.html to browse.\n"
+        "Tip: change stroke-width or stroke in the SVG to restyle.\n"
+    )
+    zp = root / "minimal-line-icons.zip"
+    with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
+        for p in sorted(dist.rglob("*")):
+            if p.is_file():
+                z.write(p, f"minimal-line-icons/{p.relative_to(dist).as_posix()}")
+    
+    print(len(ICONS), "icons", zp.stat().st_size, "bytes")
 
-print(len(ICONS), "icons", zp.stat().st_size, "bytes")
+
+if __name__ == "__main__":
+    main()
