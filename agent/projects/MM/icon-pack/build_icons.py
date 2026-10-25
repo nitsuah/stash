@@ -61,7 +61,7 @@ def main():
     (dist / "svg").mkdir(parents=True)
     for n, b in ICONS.items():
         (dist / "svg" / f"{n}.svg").write_text(svg(b))
-    
+
     cells = "".join(f'<div class="c">{svg(b, "#222")}<span>{n}</span></div>' for n, b in ICONS.items())
     (dist / "preview.html").write_text(
         f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Minimal Line Icons</title>"
@@ -83,7 +83,7 @@ def main():
         for p in sorted(dist.rglob("*")):
             if p.is_file():
                 z.write(p, f"minimal-line-icons/{p.relative_to(dist).as_posix()}")
-    
+
     print(len(ICONS), "icons", zp.stat().st_size, "bytes")
 
 
