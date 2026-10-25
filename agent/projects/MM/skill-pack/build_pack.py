@@ -18,7 +18,13 @@ def main():
     shutil.rmtree(root / "dist", ignore_errors=True)
     dist.mkdir(parents=True)
     BS = chr(92)
+    home = str(pathlib.Path.home())
+    # Scrub the actual build user's home directory in either path separator
+    # style; do not assume the source machine uses the original author's account.
     SUBS = [
+        (home.replace("/", BS), "~"),
+        (home.replace(BS, "/"), "~"),
+        (home, "~"),
         (f"C:{BS}Users{BS}ajhar{BS}code{BS}", "~/code/"),
         (f"C:{BS}Users{BS}ajhar", "~"),
         ("/c/Users/ajhar", "~"),
@@ -29,7 +35,7 @@ def main():
     for s in SKILLS:
         t = (SRC / s / "SKILL.md").read_text(encoding="utf-8")
         for a, b in SUBS:
-            t = t.replace(a, b)
+            t = re.sub(re.escape(a), lambda _match, replacement=b: replacement, t, flags=re.IGNORECASE)
         t = t.replace(BS, "/")
         (dist / s).mkdir()
         (dist / s / "SKILL.md").write_text(t, encoding="utf-8")
