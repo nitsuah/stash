@@ -7,8 +7,8 @@
             "title": "Pages to audit",
             "type": "array",
             "description": "One or more http(s) page URLs. Each page is audited separately (up to 200 per run).",
-            "editor": "requestListSources",
-            "prefill": [{ "url": "https://example.com/" }]
+            "editor": "stringList",
+            "default": ["https://example.com/"]
         },
         "standards": {
             "title": "axe-core rule tags",
