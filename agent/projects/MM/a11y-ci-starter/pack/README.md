@@ -1,6 +1,6 @@
 # Accessibility CI Starter
 
-Fails a pull request when it adds accessibility problems. Uses axe-core and Playwright (both free, open source).
+Fails a pull request when the current scan exceeds the configured accessibility severity thresholds. Uses axe-core and Playwright (both free, open source).
 No AI, no paid services, no accounts.
 
 ## Setup (10 minutes)
