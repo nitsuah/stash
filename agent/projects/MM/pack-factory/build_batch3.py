@@ -432,7 +432,7 @@ b = OUT / "simple-backup-script"
 b.mkdir(parents=True)
 (b / "backup.py").write_text('''"""python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
 Creates a timestamped .tar.gz of each source, verifies it can be read, and deletes the oldest beyond --keep. Stdlib only."""
-import os, sys, tarfile, time
+import hashlib, os, sys, tarfile, time
 from pathlib import Path
 
 def opts(name):
@@ -441,11 +441,18 @@ def opts(name):
 srcs, dest, keep = [Path(os.path.expanduser(s)) for s in opts("--src")], Path(os.path.expanduser((opts("--dest") or ["."])[0])), int((opts("--keep") or ["7"])[0])
 if not srcs:
     sys.exit("usage: backup.py --src DIR [--src DIR ...] --dest DIR [--keep N]")
+if keep < 1:
+    sys.exit("--keep must be at least 1")
 dest.mkdir(parents=True, exist_ok=True)
 stamp = time.strftime("%Y%m%d-%H%M%S")
 for s in srcs:
+    s = s.resolve()
+    if not s.exists():
+        sys.exit(f"source does not exist: {s}")
     name = s.name or "root"
-    out = dest / f"{name}-{stamp}.tar.gz"
+    identity = hashlib.sha256(str(s).encode("utf-8")).hexdigest()[:10]
+    prefix = f"{name}-{identity}"
+    out = dest / f"{prefix}-{stamp}.tar.gz"
     with tarfile.open(out, "w:gz") as t:
         t.add(s, arcname=name)
     with tarfile.open(out) as t:
