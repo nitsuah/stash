@@ -12,7 +12,7 @@ import zipfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "out4"
-shutil.rmtree(OUT, ignore_errors=True)
+
 LIC = "Personal and commercial use. Do not resell or redistribute the files themselves.\n"
 
 
@@ -41,22 +41,24 @@ def run(b, *args, stdin=None):
     return subprocess.run([sys.executable, *args], cwd=b, input=stdin, capture_output=True, text=True, check=True)
 
 
-# ---------- 131: static site starters ----------
-b = OUT / "static-site-starters"
-BASE_CSS = ":root{--bg:#ffffff;--fg:#1a1a1a;--muted:#4a4a4a;--accent:#0b5cad;--soft:#f2f5f9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.6 system-ui,sans-serif}a{color:var(--accent)}a:focus,button:focus{outline:3px solid #ffbf47;outline-offset:2px}.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.5rem;z-index:9}header,main,footer{max-width:60rem;margin:auto;padding:1.25rem}nav a{margin-right:1rem}.hero{background:var(--soft);padding:2rem 1.25rem;border-radius:8px}.btn{display:inline-block;background:var(--accent);color:#fff;padding:.7rem 1.2rem;border-radius:6px;text-decoration:none;font-weight:600}.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}.card{border:1px solid #c8d0da;border-radius:8px;padding:1rem}.muted{color:var(--muted)}"
+def main():
+    shutil.rmtree(OUT, ignore_errors=True)
+    # ---------- 131: static site starters ----------
+    b = OUT / "static-site-starters"
+    BASE_CSS = ":root{--bg:#ffffff;--fg:#1a1a1a;--muted:#4a4a4a;--accent:#0b5cad;--soft:#f2f5f9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.6 system-ui,sans-serif}a{color:var(--accent)}a:focus,button:focus{outline:3px solid #ffbf47;outline-offset:2px}.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.5rem;z-index:9}header,main,footer{max-width:60rem;margin:auto;padding:1.25rem}nav a{margin-right:1rem}.hero{background:var(--soft);padding:2rem 1.25rem;border-radius:8px}.btn{display:inline-block;background:var(--accent);color:#fff;padding:.7rem 1.2rem;border-radius:6px;text-decoration:none;font-weight:600}.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}.card{border:1px solid #c8d0da;border-radius:8px;padding:1rem}.muted{color:var(--muted)}"
 
 
-def site(name, title, nav, body):
-    nav_html = "".join(f"<a href='{h}'>{t}</a>" for h, t in nav)
-    wr(b, name, f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>{title}</title><meta name='description' content='{title}'><link rel='stylesheet' href='style.css'></head><body><a class='skip' href='#main'>Skip to content</a><header><strong>Your Name</strong><nav aria-label='Main'>{nav_html}</nav></header><main id='main'>{body}</main><footer><p class='muted'>&copy; Your Name. <a href='#main'>Back to top</a></p></footer></body></html>")
+    def site(name, title, nav, body):
+        nav_html = "".join(f"<a href='{h}'>{t}</a>" for h, t in nav)
+        wr(b, name, f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>{title}</title><meta name='description' content='{title}'><link rel='stylesheet' href='style.css'></head><body><a class='skip' href='#main'>Skip to content</a><header><strong>Your Name</strong><nav aria-label='Main'>{nav_html}</nav></header><main id='main'>{body}</main><footer><p class='muted'>&copy; Your Name. <a href='#main'>Back to top</a></p></footer></body></html>")
 
 
-NAV = [("landing.html", "Home"), ("portfolio.html", "Work"), ("docs.html", "Docs")]
-wr(b, "style.css", BASE_CSS)
-site("landing.html", "Landing page", NAV, "<section class='hero'><h1>One clear promise for your visitors</h1><p>Explain who it is for and the result they get, in two sentences.</p><a class='btn' href='#contact'>Get in touch</a></section><section aria-labelledby='f'><h2 id='f'>What you get</h2><div class='grid'><div class='card'><h3>Benefit one</h3><p>Short, specific, true.</p></div><div class='card'><h3>Benefit two</h3><p>Short, specific, true.</p></div><div class='card'><h3>Benefit three</h3><p>Short, specific, true.</p></div></div></section><section aria-labelledby='c'><h2 id='c'>Contact</h2><p id='contact'><a href='mailto:you@example.com'>you@example.com</a></p></section>")
-site("portfolio.html", "Portfolio", NAV, "<h1>Selected work</h1><div class='grid'><article class='card'><h2>Project one</h2><p>What it was, your role, the result.</p><a href='#'>Read the case study</a></article><article class='card'><h2>Project two</h2><p>What it was, your role, the result.</p><a href='#'>Read the case study</a></article></div>")
-site("docs.html", "Documentation", NAV, "<h1>Documentation</h1><section aria-labelledby='s1'><h2 id='s1'>Getting started</h2><p>Install, configure, run.</p><pre><code>npm install your-tool</code></pre></section><section aria-labelledby='s2'><h2 id='s2'>Reference</h2><ul><li><a href='#'>Command one</a></li><li><a href='#'>Command two</a></li></ul></section>")
-w(b, "README.md", f"""
+    NAV = [("landing.html", "Home"), ("portfolio.html", "Work"), ("docs.html", "Docs")]
+    wr(b, "style.css", BASE_CSS)
+    site("landing.html", "Landing page", NAV, "<section class='hero'><h1>One clear promise for your visitors</h1><p>Explain who it is for and the result they get, in two sentences.</p><a class='btn' href='#contact'>Get in touch</a></section><section aria-labelledby='f'><h2 id='f'>What you get</h2><div class='grid'><div class='card'><h3>Benefit one</h3><p>Short, specific, true.</p></div><div class='card'><h3>Benefit two</h3><p>Short, specific, true.</p></div><div class='card'><h3>Benefit three</h3><p>Short, specific, true.</p></div></div></section><section aria-labelledby='c'><h2 id='c'>Contact</h2><p id='contact'><a href='mailto:you@example.com'>you@example.com</a></p></section>")
+    site("portfolio.html", "Portfolio", NAV, "<h1>Selected work</h1><div class='grid'><article class='card'><h2>Project one</h2><p>What it was, your role, the result.</p><a href='#'>Read the case study</a></article><article class='card'><h2>Project two</h2><p>What it was, your role, the result.</p><a href='#'>Read the case study</a></article></div>")
+    site("docs.html", "Documentation", NAV, "<h1>Documentation</h1><section aria-labelledby='s1'><h2 id='s1'>Getting started</h2><p>Install, configure, run.</p><pre><code>npm install your-tool</code></pre></section><section aria-labelledby='s2'><h2 id='s2'>Reference</h2><ul><li><a href='#'>Command one</a></li><li><a href='#'>Command two</a></li></ul></section>")
+    w(b, "README.md", f"""
 # Static Site Starters
 Three plain HTML/CSS pages sharing one stylesheet: landing, portfolio and docs. No build step, no JavaScript, no dependencies.
 Replace the placeholder text, rename "Your Name", deploy anywhere (Netlify drag-and-drop, GitHub Pages).
@@ -64,11 +66,11 @@ Built for accessibility: skip link, landmarks, heading order, visible focus, 4.5
 (axe-core) after you change colors.
 
 {LIC}""")
-print("131", zip_pack("static-site-starters"))
+    print("131", zip_pack("static-site-starters"))
 
-# ---------- 140: contrast checker ----------
-b = OUT / "wcag-contrast-checker"
-wr(b, "contrast.py", '''"""python contrast.py "#777777" "#ffffff"      -> ratio and WCAG verdicts
+    # ---------- 140: contrast checker ----------
+    b = OUT / "wcag-contrast-checker"
+    wr(b, "contrast.py", '''"""python contrast.py "#777777" "#ffffff"      -> ratio and WCAG verdicts
 python contrast.py --palette palette.json     -> checks every text/background pair in a JSON file
 Also suggests the closest darker or lighter text color that reaches 4.5:1. Stdlib only."""
 import json, sys
@@ -121,8 +123,8 @@ if "--palette" in sys.argv:
 else:
     report(sys.argv[1], sys.argv[2])
 ''')
-wr(b, "palette.json", json.dumps([{"fg": "#1a1a1a", "bg": "#ffffff"}, {"fg": "#777777", "bg": "#ffffff"}, {"fg": "#ffffff", "bg": "#0b5cad"}], indent=2))
-w(b, "README.md", f"""
+    wr(b, "palette.json", json.dumps([{"fg": "#1a1a1a", "bg": "#ffffff"}, {"fg": "#777777", "bg": "#ffffff"}, {"fg": "#ffffff", "bg": "#0b5cad"}], indent=2))
+    w(b, "README.md", f"""
 # WCAG Contrast Checker
     python contrast.py "#777777" "#ffffff"
     python contrast.py --palette palette.json
@@ -130,28 +132,28 @@ Reports the contrast ratio and whether it meets WCAG 2.x AA (4.5:1 normal text, 
 and suggests the closest color that reaches 4.5:1. Text over images or gradients needs manual checking. Plain Python 3.
 
 {LIC}""")
-r1 = run(b, "contrast.py", "#000000", "#ffffff").stdout
-assert "21.00:1" in r1, r1
-r2 = run(b, "contrast.py", "#777777", "#ffffff").stdout
-assert "FAIL" in r2 and "suggestion" in r2, r2
-print("140", zip_pack("wcag-contrast-checker"))
+    r1 = run(b, "contrast.py", "#000000", "#ffffff").stdout
+    assert "21.00:1" in r1, r1
+    r2 = run(b, "contrast.py", "#777777", "#ffffff").stdout
+    assert "FAIL" in r2 and "suggestion" in r2, r2
+    print("140", zip_pack("wcag-contrast-checker"))
 
-# ---------- 149: accessibility checklist ----------
-b = OUT / "accessibility-checklist"
-GROUPS = {
-    "Perceivable": [("1.1.1", "Every meaningful image has a text alternative; decorative images are hidden from assistive tech"), ("1.2.2", "Prerecorded video has captions"), ("1.3.1", "Headings, lists, tables and form labels use real HTML structure"), ("1.4.3", "Text contrast is at least 4.5:1 (3:1 for large text)"), ("1.4.4", "Text can be zoomed to 200% without losing content"), ("1.4.10", "Content reflows at 320px wide without horizontal scrolling"), ("1.4.11", "Buttons, inputs and focus indicators have 3:1 contrast")],
-    "Operable": [("2.1.1", "Everything works with a keyboard alone"), ("2.1.2", "Keyboard focus is never trapped"), ("2.4.1", "A skip link lets keyboard users bypass the navigation"), ("2.4.3", "Focus order follows the visual order"), ("2.4.4", "Link text makes sense out of context"), ("2.4.7", "Keyboard focus is clearly visible"), ("2.4.11", "Focused items are not hidden behind sticky headers (WCAG 2.2)"), ("2.5.8", "Click targets are at least 24 by 24 CSS pixels (WCAG 2.2)")],
-    "Understandable": [("3.1.1", "The page language is set (html lang)"), ("3.2.3", "Navigation is consistent across pages"), ("3.3.1", "Form errors are identified in text"), ("3.3.2", "Inputs have visible labels and instructions"), ("3.3.7", "Do not ask users to re-enter information you already have (WCAG 2.2)"), ("3.3.8", "Login does not rely on solving a puzzle or memorizing (WCAG 2.2)")],
-    "Robust": [("4.1.2", "Custom controls expose name, role and state"), ("4.1.3", "Status messages are announced without moving focus")],
-}
-body = "".join(f"<h2>{g}</h2><ul>" + "".join(f"<li><label><input type='checkbox' data-k='{c}'> <strong>{c}</strong> {t}</label></li>" for c, t in items) + "</ul>" for g, items in GROUPS.items())
-wr(b, "checklist.html", f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Accessibility checklist (WCAG 2.2 AA)</title><style>body{{font:18px/1.6 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#1a1a1a;background:#fff}}ul{{list-style:none;padding:0}}li{{margin:.5rem 0}}input{{width:1.2rem;height:1.2rem}}</style></head><body><main><h1>Accessibility checklist (WCAG 2.2 AA)</h1><p>A plain-language working checklist. Ticks are saved in this browser. Automated tools catch only part of these; test with a keyboard and a screen reader too.</p>{body}</main><script>document.querySelectorAll('input[type=checkbox]').forEach(function(c){{try{{c.checked=localStorage.getItem('a11y-'+c.dataset.k)==='1'}}catch(e){{}}c.addEventListener('change',function(){{try{{localStorage.setItem('a11y-'+c.dataset.k,c.checked?'1':'0')}}catch(e){{}}}})}})</script></body></html>")
-w(b, "README.txt", "Open checklist.html in a browser. Numbers are WCAG success criteria. This is a working aid, not a conformance audit or legal advice.\n\n" + LIC)
-print("149", sum(len(v) for v in GROUPS.values()), "items", zip_pack("accessibility-checklist"))
+    # ---------- 149: accessibility checklist ----------
+    b = OUT / "accessibility-checklist"
+    GROUPS = {
+        "Perceivable": [("1.1.1", "Every meaningful image has a text alternative; decorative images are hidden from assistive tech"), ("1.2.2", "Prerecorded video has captions"), ("1.3.1", "Headings, lists, tables and form labels use real HTML structure"), ("1.4.3", "Text contrast is at least 4.5:1 (3:1 for large text)"), ("1.4.4", "Text can be zoomed to 200% without losing content"), ("1.4.10", "Content reflows at 320px wide without horizontal scrolling"), ("1.4.11", "Buttons, inputs and focus indicators have 3:1 contrast")],
+        "Operable": [("2.1.1", "Everything works with a keyboard alone"), ("2.1.2", "Keyboard focus is never trapped"), ("2.4.1", "A skip link lets keyboard users bypass the navigation"), ("2.4.3", "Focus order follows the visual order"), ("2.4.4", "Link text makes sense out of context"), ("2.4.7", "Keyboard focus is clearly visible"), ("2.4.11", "Focused items are not hidden behind sticky headers (WCAG 2.2)"), ("2.5.8", "Click targets are at least 24 by 24 CSS pixels (WCAG 2.2)")],
+        "Understandable": [("3.1.1", "The page language is set (html lang)"), ("3.2.3", "Navigation is consistent across pages"), ("3.3.1", "Form errors are identified in text"), ("3.3.2", "Inputs have visible labels and instructions"), ("3.3.7", "Do not ask users to re-enter information you already have (WCAG 2.2)"), ("3.3.8", "Login does not rely on solving a puzzle or memorizing (WCAG 2.2)")],
+        "Robust": [("4.1.2", "Custom controls expose name, role and state"), ("4.1.3", "Status messages are announced without moving focus")],
+    }
+    body = "".join(f"<h2>{g}</h2><ul>" + "".join(f"<li><label><input type='checkbox' data-k='{c}'> <strong>{c}</strong> {t}</label></li>" for c, t in items) + "</ul>" for g, items in GROUPS.items())
+    wr(b, "checklist.html", f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Accessibility checklist (WCAG 2.2 AA)</title><style>body{{font:18px/1.6 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#1a1a1a;background:#fff}}ul{{list-style:none;padding:0}}li{{margin:.5rem 0}}input{{width:1.2rem;height:1.2rem}}</style></head><body><main><h1>Accessibility checklist (WCAG 2.2 AA)</h1><p>A plain-language working checklist. Ticks are saved in this browser. Automated tools catch only part of these; test with a keyboard and a screen reader too.</p>{body}</main><script>document.querySelectorAll('input[type=checkbox]').forEach(function(c){{try{{c.checked=localStorage.getItem('a11y-'+c.dataset.k)==='1'}}catch(e){{}}c.addEventListener('change',function(){{try{{localStorage.setItem('a11y-'+c.dataset.k,c.checked?'1':'0')}}catch(e){{}}}})}})</script></body></html>")
+    w(b, "README.txt", "Open checklist.html in a browser. Numbers are WCAG success criteria. This is a working aid, not a conformance audit or legal advice.\n\n" + LIC)
+    print("149", sum(len(v) for v in GROUPS.values()), "items", zip_pack("accessibility-checklist"))
 
-# ---------- 146: SRT tools ----------
-b = OUT / "srt-tools"
-wr(b, "srt_tools.py", '''"""python srt_tools.py shift in.srt out.srt 2.5      (seconds, negative allowed)
+    # ---------- 146: SRT tools ----------
+    b = OUT / "srt-tools"
+    wr(b, "srt_tools.py", '''"""python srt_tools.py shift in.srt out.srt 2.5      (seconds, negative allowed)
 python srt_tools.py vtt in.srt out.vtt
 python srt_tools.py clean in.srt out.srt            (strip HTML tags, drop empty cues, renumber)
 python srt_tools.py merge a.srt b.srt out.srt        (append b after a, renumber)
@@ -203,28 +205,28 @@ elif cmd == "merge":
 else:
     sys.exit(__doc__)
 ''')
-wr(b, "sample.srt", "1\n00:00:01,000 --> 00:00:03,000\n<i>Hello</i> there\n\n2\n00:00:04,000 --> 00:00:06,500\nSecond line\n\n3\n00:00:07,000 --> 00:00:08,000\n<b></b>\n")
-w(b, "README.md", f"""
+    wr(b, "sample.srt", "1\n00:00:01,000 --> 00:00:03,000\n<i>Hello</i> there\n\n2\n00:00:04,000 --> 00:00:06,500\nSecond line\n\n3\n00:00:07,000 --> 00:00:08,000\n<b></b>\n")
+    w(b, "README.md", f"""
 # SRT Tools
 Four small subtitle commands: `shift` (fix timing by N seconds), `vtt` (convert to WebVTT), `clean` (strip HTML tags, drop empty cues, renumber),
 `merge` (append one file after another). Run `python srt_tools.py` for usage. Works on standard SubRip files. Plain Python 3.
 
 {LIC}""")
-run(b, "srt_tools.py", "shift", "sample.srt", "s.srt", "2.5")
-assert "00:00:03,500 --> 00:00:05,500" in (b / "s.srt").read_text()
-run(b, "srt_tools.py", "clean", "sample.srt", "c.srt")
-assert "<i>" not in (b / "c.srt").read_text() and (b / "c.srt").read_text().count("-->") == 2
-run(b, "srt_tools.py", "vtt", "sample.srt", "v.vtt")
-assert (b / "v.vtt").read_text().startswith("WEBVTT") and "00:00:01.000 --> 00:00:03.000" in (b / "v.vtt").read_text()
-run(b, "srt_tools.py", "merge", "c.srt", "c.srt", "m.srt")
-assert (b / "m.srt").read_text().count("-->") == 4
-for f in ("s.srt", "c.srt", "v.vtt", "m.srt"):
-    (b / f).unlink()
-print("146", zip_pack("srt-tools"))
+    run(b, "srt_tools.py", "shift", "sample.srt", "s.srt", "2.5")
+    assert "00:00:03,500 --> 00:00:05,500" in (b / "s.srt").read_text()
+    run(b, "srt_tools.py", "clean", "sample.srt", "c.srt")
+    assert "<i>" not in (b / "c.srt").read_text() and (b / "c.srt").read_text().count("-->") == 2
+    run(b, "srt_tools.py", "vtt", "sample.srt", "v.vtt")
+    assert (b / "v.vtt").read_text().startswith("WEBVTT") and "00:00:01.000 --> 00:00:03.000" in (b / "v.vtt").read_text()
+    run(b, "srt_tools.py", "merge", "c.srt", "c.srt", "m.srt")
+    assert (b / "m.srt").read_text().count("-->") == 4
+    for f in ("s.srt", "c.srt", "v.vtt", "m.srt"):
+        (b / f).unlink()
+    print("146", zip_pack("srt-tools"))
 
-# ---------- 147: changelog generator ----------
-b = OUT / "changelog-generator"
-wr(b, "changelog.py", '''"""git log --pretty=%s v1.0..HEAD | python changelog.py "v1.1.0" > CHANGELOG-entry.md
+    # ---------- 147: changelog generator ----------
+    b = OUT / "changelog-generator"
+    wr(b, "changelog.py", '''"""git log --pretty=%s v1.0..HEAD | python changelog.py "v1.1.0" > CHANGELOG-entry.md
 Groups conventional-commit subjects (feat, fix, docs, perf, refactor, chore...) into a Markdown changelog entry. Stdlib only."""
 import re, sys, datetime
 
@@ -249,20 +251,20 @@ for k in order:
             print(f"- {i}")
         print()
 ''')
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Changelog Generator
     git log --pretty=%s v1.0..HEAD | python changelog.py "v1.1.0" > entry.md
 Turns conventional-commit subjects (`feat(api): add search`, `fix: crash on empty input`, `feat!: drop v1`) into grouped Markdown:
 Breaking changes, Added, Fixed, Changed and more. Reads from stdin, so it also works with any list of lines. Plain Python 3.
 
 {LIC}""")
-r = run(b, "changelog.py", "v1.1.0", stdin="feat(api): add search\nfix: crash on empty input\nfeat!: drop v1\nrandom message\n").stdout
-assert "### Breaking changes" in r and "- **api:** add search" in r and "### Fixed" in r and "### Other" in r, r
-print("147", zip_pack("changelog-generator"))
+    r = run(b, "changelog.py", "v1.1.0", stdin="feat(api): add search\nfix: crash on empty input\nfeat!: drop v1\nrandom message\n").stdout
+    assert "### Breaking changes" in r and "- **api:** add search" in r and "### Fixed" in r and "### Other" in r, r
+    print("147", zip_pack("changelog-generator"))
 
-# ---------- 148: env/secrets linter ----------
-b = OUT / "env-secrets-linter"
-wr(b, "envlint.py", '''"""python envlint.py [folder]   Scans text files for likely committed secrets and .env problems. Offline, stdlib only.
+    # ---------- 148: env/secrets linter ----------
+    b = OUT / "env-secrets-linter"
+    wr(b, "envlint.py", '''"""python envlint.py [folder]   Scans text files for likely committed secrets and .env problems. Offline, stdlib only.
 Exit code 1 if anything is found, so it can run in CI or a git pre-commit hook. Heuristic: expect false positives and misses."""
 import os, re, sys
 
@@ -297,7 +299,7 @@ for d, dirs, files in os.walk(root):
 print(f"{found} finding(s)", file=sys.stderr)
 sys.exit(1 if found else 0)
 ''')
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Env and Secrets Linter
     python envlint.py .
 Walks a folder and flags likely secrets (AWS key ids, private key blocks, Slack and GitHub tokens, generic `password=...` style assignments)
@@ -305,23 +307,23 @@ and `.env` files that should be git-ignored. Offline and dependency-free; exits 
 Pattern-based: it will miss some secrets and flag some harmless strings. If a real secret leaks, rotate it; deleting the line is not enough.
 
 {LIC}""")
-t = b / "_fixture"
-t.mkdir()
-(t / "a.py").write_text('aws = "' + "AKIA" + "ABCDEFGHIJKLMNOP" + '"\nTOKEN = "' + "abcd1234" + "abcd1234" + "abcd1234" + '"\nprint("ok")\n')
-(t / ".env").write_text("X=1\n")
-r = subprocess.run([sys.executable, "envlint.py", str(t)], cwd=b, capture_output=True, text=True)
-assert r.returncode == 1 and "AWS access key id" in r.stdout and "env file present" in r.stdout, r.stdout
-clean = b / "_clean"
-clean.mkdir()
-(clean / "b.py").write_text("print('hello')\n")
-assert subprocess.run([sys.executable, "envlint.py", str(clean)], cwd=b, capture_output=True).returncode == 0
-shutil.rmtree(t)
-shutil.rmtree(clean)
-print("148", zip_pack("env-secrets-linter"))
+    t = b / "_fixture"
+    t.mkdir()
+    (t / "a.py").write_text('aws = "' + "AKIA" + "ABCDEFGHIJKLMNOP" + '"\nTOKEN = "' + "abcd1234" + "abcd1234" + "abcd1234" + '"\nprint("ok")\n')
+    (t / ".env").write_text("X=1\n")
+    r = subprocess.run([sys.executable, "envlint.py", str(t)], cwd=b, capture_output=True, text=True)
+    assert r.returncode == 1 and "AWS access key id" in r.stdout and "env file present" in r.stdout, r.stdout
+    clean = b / "_clean"
+    clean.mkdir()
+    (clean / "b.py").write_text("print('hello')\n")
+    assert subprocess.run([sys.executable, "envlint.py", str(clean)], cwd=b, capture_output=True).returncode == 0
+    shutil.rmtree(t)
+    shutil.rmtree(clean)
+    print("148", zip_pack("env-secrets-linter"))
 
-# ---------- 143: sitemap generator ----------
-b = OUT / "sitemap-and-link-checker"
-wr(b, "sitemap_gen.py", '''"""python sitemap_gen.py ./site https://example.com   -> writes sitemap.xml and robots.txt into ./site, prints broken internal links.
+    # ---------- 143: sitemap generator ----------
+    b = OUT / "sitemap-and-link-checker"
+    wr(b, "sitemap_gen.py", '''"""python sitemap_gen.py ./site https://example.com   -> writes sitemap.xml and robots.txt into ./site, prints broken internal links.
 Scans .html files; internal links to files that do not exist are reported. Stdlib only."""
 import html, os, re, sys
 from urllib.parse import urlparse, unquote
@@ -353,82 +355,86 @@ for p in pages:
 print(f"{len(pages)} page(s), {bad} broken internal link(s)", file=sys.stderr)
 sys.exit(1 if bad else 0)
 ''')
-w(b, "README.md", f"""
+    w(b, "README.md", f"""
 # Sitemap and Link Checker
     python sitemap_gen.py ./my-site https://example.com
 Writes `sitemap.xml` and `robots.txt` for a folder of static HTML pages and reports internal links that point to files that do not exist.
 Does not check external links or links generated by JavaScript. Plain Python 3.
 
 {LIC}""")
-s = b / "_site"
-s.mkdir()
-(s / "index.html").write_text("<a href='about.html'>a</a> <a href='missing.html'>m</a> <a href='https://x.com'>x</a>")
-(s / "about.html").write_text("<a href='index.html'>home</a>")
-r = subprocess.run([sys.executable, "sitemap_gen.py", str(s), "https://example.com"], cwd=b, capture_output=True, text=True)
-assert r.returncode == 1 and "missing.html" in r.stdout and "about.html" in (s / "sitemap.xml").read_text() and "Sitemap:" in (s / "robots.txt").read_text(), (r.stdout, r.stderr)
-shutil.rmtree(s)
-print("143", zip_pack("sitemap-and-link-checker"))
+    s = b / "_site"
+    s.mkdir()
+    (s / "index.html").write_text("<a href='about.html'>a</a> <a href='missing.html'>m</a> <a href='https://x.com'>x</a>")
+    (s / "about.html").write_text("<a href='index.html'>home</a>")
+    r = subprocess.run([sys.executable, "sitemap_gen.py", str(s), "https://example.com"], cwd=b, capture_output=True, text=True)
+    assert r.returncode == 1 and "missing.html" in r.stdout and "about.html" in (s / "sitemap.xml").read_text() and "Sitemap:" in (s / "robots.txt").read_text(), (r.stdout, r.stderr)
+    shutil.rmtree(s)
+    print("143", zip_pack("sitemap-and-link-checker"))
 
-# ---------- 137: SQL practice pack ----------
-b = OUT / "sql-practice-pack"
-b.mkdir(parents=True)
-db = b / "shop.db"
-con = sqlite3.connect(db)
-con.executescript("""
+    # ---------- 137: SQL practice pack ----------
+    b = OUT / "sql-practice-pack"
+    b.mkdir(parents=True)
+    db = b / "shop.db"
+    con = sqlite3.connect(db)
+    con.executescript("""
 create table customers(id integer primary key, name text, city text, signup date);
 create table products(id integer primary key, name text, category text, price real);
 create table orders(id integer primary key, customer_id integer, order_date date, status text);
 create table order_items(order_id integer, product_id integer, qty integer);
 """)
-rnd = random.Random(11)
-cities = ["Austin", "Boston", "Chicago", "Denver", "Seattle"]
-for i in range(1, 41):
-    con.execute("insert into customers values (?,?,?,?)", (i, f"Customer {i}", rnd.choice(cities), f"2026-{rnd.randint(1, 9):02d}-{rnd.randint(1, 28):02d}"))
-cats = {"Books": 15, "Games": 30, "Tools": 45}
-for i in range(1, 16):
-    c = rnd.choice(list(cats))
-    con.execute("insert into products values (?,?,?,?)", (i, f"Product {i}", c, round(cats[c] * rnd.uniform(0.6, 1.6), 2)))
-for i in range(1, 121):
-    con.execute("insert into orders values (?,?,?,?)", (i, rnd.randint(1, 40), f"2026-{rnd.randint(1, 9):02d}-{rnd.randint(1, 28):02d}", rnd.choice(["paid", "paid", "paid", "refunded", "pending"])))
-    for _ in range(rnd.randint(1, 3)):
-        con.execute("insert into order_items values (?,?,?)", (i, rnd.randint(1, 15), rnd.randint(1, 4)))
-con.commit()
-EX = [
-    ("List all customers from Austin.", "select * from customers where city = 'Austin' order by id"),
-    ("Count customers per city, largest first.", "select city, count(*) n from customers group by city order by n desc, city"),
-    ("List products over $40, most expensive first.", "select name, price from products where price > 40 order by price desc"),
-    ("What is the average product price per category?", "select category, round(avg(price), 2) avg_price from products group by category order by category"),
-    ("How many orders are in each status?", "select status, count(*) n from orders group by status order by status"),
-    ("Show each order with the customer's name (join).", "select o.id, c.name from orders o join customers c on c.id = o.customer_id order by o.id"),
-    ("Total quantity sold per product name.", "select p.name, sum(oi.qty) qty from order_items oi join products p on p.id = oi.product_id group by p.name order by qty desc, p.name"),
-    ("Revenue per order for paid orders (qty x price).", "select o.id, round(sum(oi.qty * p.price), 2) revenue from orders o join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where o.status = 'paid' group by o.id order by o.id"),
-    ("Top 5 customers by number of orders.", "select c.name, count(*) n from orders o join customers c on c.id = o.customer_id group by c.id order by n desc, c.name limit 5"),
-    ("Customers who never ordered.", "select c.name from customers c left join orders o on o.customer_id = c.id where o.id is null order by c.id"),
-    ("Orders per month.", "select substr(order_date, 1, 7) month, count(*) n from orders group by month order by month"),
-    ("Categories with more than 4 products.", "select category, count(*) n from products group by category having n > 4 order by category"),
-    ("Most expensive product in each category.", "select p.category, p.name, p.price from products p where p.price = (select max(price) from products where category = p.category) order by p.category"),
-    ("Customers who bought a Tools product.", "select distinct c.name from customers c join orders o on o.customer_id = c.id join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where p.category = 'Tools' order by c.name"),
-    ("Running total of orders by month.", "select month, n, sum(n) over (order by month) running from (select substr(order_date, 1, 7) month, count(*) n from orders group by month) order by month"),
-    ("Rank products by units sold (window function).", "select name, qty, rank() over (order by qty desc) rnk from (select p.name, sum(oi.qty) qty from order_items oi join products p on p.id = oi.product_id group by p.name) order by rnk, name"),
-    ("Refund rate: share of orders that are refunded.", "select round(100.0 * sum(status = 'refunded') / count(*), 1) pct from orders"),
-    ("Customers whose first order was in the first quarter of the year.", "select c.name from customers c join (select customer_id, min(order_date) first_order from orders group by customer_id) f on f.customer_id = c.id where f.first_order < '2026-04-01' order by c.name"),
-    ("Average order value (paid orders only).", "select round(avg(rev), 2) aov from (select o.id, sum(oi.qty * p.price) rev from orders o join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where o.status = 'paid' group by o.id)"),
-    ("Orders containing more than one distinct product.", "select order_id, count(distinct product_id) n from order_items group by order_id having n > 1 order by order_id"),
-]
-q, a = ["# SQL Practice Pack: exercises\n\nOpen `shop.db` in SQLite (DB Browser for SQLite, or `sqlite3 shop.db`). Tables: customers, products, orders, order_items. Try each before reading answers.md.\n"], ["# Answers\n\nOne valid answer per exercise; yours may differ if it returns the same rows.\n"]
-for i, (text, sql) in enumerate(EX, 1):
-    rows = con.execute(sql).fetchall()
-    assert rows is not None
-    q.append(f"\n## {i}. {text}\n")
-    a.append(f"\n## {i}. {text}\n```sql\n{sql};\n```\nReturns {len(rows)} row(s).\n")
-con.close()
-wr(b, "exercises.md", "".join(q))
-wr(b, "answers.md", "".join(a))
-w(b, "README.md", f"""
+    rnd = random.Random(11)
+    cities = ["Austin", "Boston", "Chicago", "Denver", "Seattle"]
+    for i in range(1, 41):
+        con.execute("insert into customers values (?,?,?,?)", (i, f"Customer {i}", rnd.choice(cities), f"2026-{rnd.randint(1, 9):02d}-{rnd.randint(1, 28):02d}"))
+    cats = {"Books": 15, "Games": 30, "Tools": 45}
+    for i in range(1, 16):
+        c = rnd.choice(list(cats))
+        con.execute("insert into products values (?,?,?,?)", (i, f"Product {i}", c, round(cats[c] * rnd.uniform(0.6, 1.6), 2)))
+    for i in range(1, 121):
+        con.execute("insert into orders values (?,?,?,?)", (i, rnd.randint(1, 40), f"2026-{rnd.randint(1, 9):02d}-{rnd.randint(1, 28):02d}", rnd.choice(["paid", "paid", "paid", "refunded", "pending"])))
+        for _ in range(rnd.randint(1, 3)):
+            con.execute("insert into order_items values (?,?,?)", (i, rnd.randint(1, 15), rnd.randint(1, 4)))
+    con.commit()
+    EX = [
+        ("List all customers from Austin.", "select * from customers where city = 'Austin' order by id"),
+        ("Count customers per city, largest first.", "select city, count(*) n from customers group by city order by n desc, city"),
+        ("List products over $40, most expensive first.", "select name, price from products where price > 40 order by price desc"),
+        ("What is the average product price per category?", "select category, round(avg(price), 2) avg_price from products group by category order by category"),
+        ("How many orders are in each status?", "select status, count(*) n from orders group by status order by status"),
+        ("Show each order with the customer's name (join).", "select o.id, c.name from orders o join customers c on c.id = o.customer_id order by o.id"),
+        ("Total quantity sold per product name.", "select p.name, sum(oi.qty) qty from order_items oi join products p on p.id = oi.product_id group by p.name order by qty desc, p.name"),
+        ("Revenue per order for paid orders (qty x price).", "select o.id, round(sum(oi.qty * p.price), 2) revenue from orders o join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where o.status = 'paid' group by o.id order by o.id"),
+        ("Top 5 customers by number of orders.", "select c.name, count(*) n from orders o join customers c on c.id = o.customer_id group by c.id order by n desc, c.name limit 5"),
+        ("Customers who never ordered.", "select c.name from customers c left join orders o on o.customer_id = c.id where o.id is null order by c.id"),
+        ("Orders per month.", "select substr(order_date, 1, 7) month, count(*) n from orders group by month order by month"),
+        ("Categories with more than 4 products.", "select category, count(*) n from products group by category having n > 4 order by category"),
+        ("Most expensive product in each category.", "select p.category, p.name, p.price from products p where p.price = (select max(price) from products where category = p.category) order by p.category"),
+        ("Customers who bought a Tools product.", "select distinct c.name from customers c join orders o on o.customer_id = c.id join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where p.category = 'Tools' order by c.name"),
+        ("Running total of orders by month.", "select month, n, sum(n) over (order by month) running from (select substr(order_date, 1, 7) month, count(*) n from orders group by month) order by month"),
+        ("Rank products by units sold (window function).", "select name, qty, rank() over (order by qty desc) rnk from (select p.name, sum(oi.qty) qty from order_items oi join products p on p.id = oi.product_id group by p.name) order by rnk, name"),
+        ("Refund rate: share of orders that are refunded.", "select round(100.0 * sum(status = 'refunded') / count(*), 1) pct from orders"),
+        ("Customers whose first order was in the first quarter of the year.", "select c.name from customers c join (select customer_id, min(order_date) first_order from orders group by customer_id) f on f.customer_id = c.id where f.first_order < '2026-04-01' order by c.name"),
+        ("Average order value (paid orders only).", "select round(avg(rev), 2) aov from (select o.id, sum(oi.qty * p.price) rev from orders o join order_items oi on oi.order_id = o.id join products p on p.id = oi.product_id where o.status = 'paid' group by o.id)"),
+        ("Orders containing more than one distinct product.", "select order_id, count(distinct product_id) n from order_items group by order_id having n > 1 order by order_id"),
+    ]
+    q, a = ["# SQL Practice Pack: exercises\n\nOpen `shop.db` in SQLite (DB Browser for SQLite, or `sqlite3 shop.db`). Tables: customers, products, orders, order_items. Try each before reading answers.md.\n"], ["# Answers\n\nOne valid answer per exercise; yours may differ if it returns the same rows.\n"]
+    for i, (text, sql) in enumerate(EX, 1):
+        rows = con.execute(sql).fetchall()
+        assert rows is not None
+        q.append(f"\n## {i}. {text}\n")
+        a.append(f"\n## {i}. {text}\n```sql\n{sql};\n```\nReturns {len(rows)} row(s).\n")
+    con.close()
+    wr(b, "exercises.md", "".join(q))
+    wr(b, "answers.md", "".join(a))
+    w(b, "README.md", f"""
 # SQL Practice Pack
 A small shop database (40 customers, 15 products, 120 orders) as a SQLite file plus {len(EX)} exercises, from simple filters to joins, grouping,
 subqueries and window functions. Every answer in `answers.md` was executed against the database when the pack was built. Needs SQLite 3.25+ for window functions.
 All data is generated and fictional.
 
 {LIC}""")
-print("137", len(EX), "exercises", zip_pack("sql-practice-pack"))
+    print("137", len(EX), "exercises", zip_pack("sql-practice-pack"))
+
+
+if __name__ == "__main__":
+    main()
