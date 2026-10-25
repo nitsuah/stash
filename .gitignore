@@ -214,6 +214,4 @@ agent/projects/MM/**/sample.mp4
 agent/projects/MM/**/package-lock.json
 
 # MM packaged output batches
-agent/projects/MM/pack-factory/out2/
-agent/projects/MM/pack-factory/out3/
-agent/projects/MM/pack-factory/out4/
+agent/projects/MM/pack-factory/out*/
