@@ -223,69 +223,77 @@ def main():
     # ---------- CSV cleaner ----------
     b = OUT / "csv-cleaner"
     (b).mkdir(parents=True)
-    (b / "csv_clean.py").write_text('''"""python csv_clean.py in.csv out.csv [--dedupe] [--lower-emails] [--phones] [--dates date_col,...]
-Trims whitespace, collapses repeated spaces, optionally dedupes rows, lowercases email columns, normalizes US phones to
-(XXX) XXX-XXXX and dates to YYYY-MM-DD. Prints a report. Stdlib only."""
-import csv, re, sys
-from datetime import datetime
-
-args = [a for a in sys.argv[1:] if not a.startswith("--")]
-flags = [a for a in sys.argv[1:] if a.startswith("--")]
-date_cols = []
-for i, a in enumerate(sys.argv):
-    if a == "--dates" and i + 1 < len(sys.argv):
-        date_cols = sys.argv[i + 1].split(",")
-        args = [x for x in args if x != sys.argv[i + 1]]
-src, dst = args[0], args[1]
-FORMATS = ["%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%d %b %Y", "%b %d, %Y", "%Y/%m/%d"]
+    (b / "csv_clean.py").write_text('''
 
 
-def to_iso(v):
-    for f in FORMATS:
-        try:
-            return datetime.strptime(v, f).strftime("%Y-%m-%d")
-        except ValueError:
-            pass
-    return v
+def main():
+    """python csv_clean.py in.csv out.csv [--dedupe] [--lower-emails] [--phones] [--dates date_col,...]
+    Trims whitespace, collapses repeated spaces, optionally dedupes rows, lowercases email columns, normalizes US phones to
+    (XXX) XXX-XXXX and dates to YYYY-MM-DD. Prints a report. Stdlib only."""
+    import csv, re, sys
+    from datetime import datetime
+
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = [a for a in sys.argv[1:] if a.startswith("--")]
+    date_cols = []
+    for i, a in enumerate(sys.argv):
+        if a == "--dates" and i + 1 < len(sys.argv):
+            date_cols = sys.argv[i + 1].split(",")
+            args = [x for x in args if x != sys.argv[i + 1]]
+    src, dst = args[0], args[1]
+    FORMATS = ["%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%d %b %Y", "%b %d, %Y", "%Y/%m/%d"]
 
 
-def phone(v):
-    d = re.sub(r"\\D", "", v)
-    if len(d) == 11 and d[0] == "1":
-        d = d[1:]
-    return f"({d[:3]}) {d[3:6]}-{d[6:]}" if len(d) == 10 else v
+    def to_iso(v):
+        for f in FORMATS:
+            try:
+                return datetime.strptime(v, f).strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+        return v
 
 
-rows = list(csv.DictReader(open(src, newline="", encoding="utf-8-sig")))
-fields = list(rows[0].keys()) if rows else []
-changed = 0
-for r in rows:
-    for k in fields:
-        v = r[k] or ""
-        n = re.sub(r"\\s+", " ", v).strip()
-        if "--lower-emails" in flags and "email" in k.lower():
-            n = n.lower()
-        if "--phones" in flags and "phone" in k.lower():
-            n = phone(n)
-        if k in date_cols and n:
-            n = to_iso(n)
-        if n != v:
-            changed += 1
-        r[k] = n
-before = len(rows)
-if "--dedupe" in flags:
-    seen, out = set(), []
+    def phone(v):
+        d = re.sub(r"\\D", "", v)
+        if len(d) == 11 and d[0] == "1":
+            d = d[1:]
+        return f"({d[:3]}) {d[3:6]}-{d[6:]}" if len(d) == 10 else v
+
+
+    rows = list(csv.DictReader(open(src, newline="", encoding="utf-8-sig")))
+    fields = list(rows[0].keys()) if rows else []
+    changed = 0
     for r in rows:
-        key = tuple(r.values())
-        if key not in seen:
-            seen.add(key)
-            out.append(r)
-    rows = out
-with open(dst, "w", newline="", encoding="utf-8") as f:
-    wr = csv.DictWriter(f, fieldnames=fields, lineterminator="\\n")
-    wr.writeheader()
-    wr.writerows(rows)
-print(f"rows in: {before}, rows out: {len(rows)}, cells changed: {changed}", file=sys.stderr)
+        for k in fields:
+            v = r[k] or ""
+            n = re.sub(r"\\s+", " ", v).strip()
+            if "--lower-emails" in flags and "email" in k.lower():
+                n = n.lower()
+            if "--phones" in flags and "phone" in k.lower():
+                n = phone(n)
+            if k in date_cols and n:
+                n = to_iso(n)
+            if n != v:
+                changed += 1
+            r[k] = n
+    before = len(rows)
+    if "--dedupe" in flags:
+        seen, out = set(), []
+        for r in rows:
+            key = tuple(r.values())
+            if key not in seen:
+                seen.add(key)
+                out.append(r)
+        rows = out
+    with open(dst, "w", newline="", encoding="utf-8") as f:
+        wr = csv.DictWriter(f, fieldnames=fields, lineterminator="\\n")
+        wr.writeheader()
+        wr.writerows(rows)
+    print(f"rows in: {before}, rows out: {len(rows)}, cells changed: {changed}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "messy.csv", "name,email,phone,signup\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\nBen Ray,ben@example.com,phone unavailable,2026-03-06\n  Ana  Lopez ,ANA@Example.com,phone unavailable,03/05/2026\n")
     w(b, "README.md", f"""
@@ -308,26 +316,32 @@ Columns are matched by name (columns containing "email" or "phone"). Review the 
 import csv, json, random, sys
 from datetime import date, timedelta
 
-def arg(name, default):
-    return sys.argv[sys.argv.index(name) + 1] if name in sys.argv else default
 
-n, seed, fmt = int(arg("--rows", 100)), int(arg("--seed", 1)), arg("--format", "csv")
-rnd = random.Random(seed)
-first = ["Ana", "Ben", "Chen", "Dara", "Eli", "Fay", "Gus", "Hana", "Ivan", "Jo", "Kai", "Lena", "Milo", "Nia", "Omar", "Pia"]
-last = ["Lopez", "Ray", "Wu", "Singh", "Kim", "Okafor", "Novak", "Silva", "Haas", "Reyes", "Costa", "Dube"]
-cities = ["Springfield", "Riverton", "Lakeside", "Fairview", "Georgetown", "Madison"]
-rows = []
-for i in range(1, n + 1):
-    f, l = rnd.choice(first), rnd.choice(last)
-    rows.append({"id": i, "name": f"{f} {l}", "email": f"{f}.{l}{i}@example.test".lower(), "phone": f"555-01{rnd.randint(0, 99):02d}",
-                 "city": rnd.choice(cities), "signup": (date(2026, 1, 1) + timedelta(days=rnd.randint(0, 300))).isoformat(),
-                 "order_total": round(rnd.uniform(5, 500), 2)})
-if fmt == "json":
-    print(json.dumps(rows, indent=2))
-else:
-    wr = csv.DictWriter(sys.stdout, fieldnames=list(rows[0]), lineterminator="\\n")
-    wr.writeheader()
-    wr.writerows(rows)
+def main():
+    def arg(name, default):
+        return sys.argv[sys.argv.index(name) + 1] if name in sys.argv else default
+
+    n, seed, fmt = int(arg("--rows", 100)), int(arg("--seed", 1)), arg("--format", "csv")
+    rnd = random.Random(seed)
+    first = ["Ana", "Ben", "Chen", "Dara", "Eli", "Fay", "Gus", "Hana", "Ivan", "Jo", "Kai", "Lena", "Milo", "Nia", "Omar", "Pia"]
+    last = ["Lopez", "Ray", "Wu", "Singh", "Kim", "Okafor", "Novak", "Silva", "Haas", "Reyes", "Costa", "Dube"]
+    cities = ["Springfield", "Riverton", "Lakeside", "Fairview", "Georgetown", "Madison"]
+    rows = []
+    for i in range(1, n + 1):
+        f, l = rnd.choice(first), rnd.choice(last)
+        rows.append({"id": i, "name": f"{f} {l}", "email": f"{f}.{l}{i}@example.test".lower(), "phone": f"555-01{rnd.randint(0, 99):02d}",
+                     "city": rnd.choice(cities), "signup": (date(2026, 1, 1) + timedelta(days=rnd.randint(0, 300))).isoformat(),
+                     "order_total": round(rnd.uniform(5, 500), 2)})
+    if fmt == "json":
+        print(json.dumps(rows, indent=2))
+    else:
+        wr = csv.DictWriter(sys.stdout, fieldnames=list(rows[0]), lineterminator="\\n")
+        wr.writeheader()
+        wr.writerows(rows)
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "README.md", f"""
 # Test Data Generator
@@ -344,41 +358,49 @@ the 555-01xx fictional range, so nothing points at real people. Edit the name an
     # ---------- dedupe tool ----------
     b = OUT / "fuzzy-dedupe-tool"
     b.mkdir(parents=True)
-    (b / "dedupe.py").write_text('''"""python dedupe.py in.csv column [--threshold 0.88] > report.csv
-Finds likely duplicate values in one column (exact after normalizing case/spacing/punctuation, plus fuzzy matches) and prints groups.
-Never deletes anything: it only reports. Stdlib only."""
-import csv, difflib, re, sys
+    (b / "dedupe.py").write_text('''
 
-args = [a for a in sys.argv[1:] if not a.startswith("--")]
-th = float(sys.argv[sys.argv.index("--threshold") + 1]) if "--threshold" in sys.argv else 0.88
-if "--threshold" in sys.argv:
-    args = [a for a in args if a != sys.argv[sys.argv.index("--threshold") + 1]]
-src, col = args[0], args[1]
-norm = lambda s: re.sub(r"[^a-z0-9 ]", "", re.sub(r"\\s+", " ", s.lower()).strip())
-rows = list(csv.DictReader(open(src, newline="", encoding="utf-8-sig")))
-vals = [(i, r[col], norm(r[col])) for i, r in enumerate(rows)]
-group = list(range(len(vals)))
-def find(x):
-    while group[x] != x:
-        group[x] = group[group[x]]
-        x = group[x]
-    return x
-for a in range(len(vals)):
-    for b in range(a + 1, len(vals)):
-        if vals[a][2] and (vals[a][2] == vals[b][2] or difflib.SequenceMatcher(None, vals[a][2], vals[b][2]).ratio() >= th):
-            group[find(b)] = find(a)
-groups = {}
-for i in range(len(vals)):
-    groups.setdefault(find(i), []).append(i)
-wr = csv.writer(sys.stdout, lineterminator="\\n")
-wr.writerow(["group", "row_number", col])
-g = 0
-for members in groups.values():
-    if len(members) > 1:
-        g += 1
-        for m in members:
-            wr.writerow([g, m + 2, vals[m][1]])
-print(f"{g} duplicate group(s) in {len(rows)} rows", file=sys.stderr)
+
+def main():
+    """python dedupe.py in.csv column [--threshold 0.88] > report.csv
+    Finds likely duplicate values in one column (exact after normalizing case/spacing/punctuation, plus fuzzy matches) and prints groups.
+    Never deletes anything: it only reports. Stdlib only."""
+    import csv, difflib, re, sys
+
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    th = float(sys.argv[sys.argv.index("--threshold") + 1]) if "--threshold" in sys.argv else 0.88
+    if "--threshold" in sys.argv:
+        args = [a for a in args if a != sys.argv[sys.argv.index("--threshold") + 1]]
+    src, col = args[0], args[1]
+    norm = lambda s: re.sub(r"[^a-z0-9 ]", "", re.sub(r"\\s+", " ", s.lower()).strip())
+    rows = list(csv.DictReader(open(src, newline="", encoding="utf-8-sig")))
+    vals = [(i, r[col], norm(r[col])) for i, r in enumerate(rows)]
+    group = list(range(len(vals)))
+    def find(x):
+        while group[x] != x:
+            group[x] = group[group[x]]
+            x = group[x]
+        return x
+    for a in range(len(vals)):
+        for b in range(a + 1, len(vals)):
+            if vals[a][2] and (vals[a][2] == vals[b][2] or difflib.SequenceMatcher(None, vals[a][2], vals[b][2]).ratio() >= th):
+                group[find(b)] = find(a)
+    groups = {}
+    for i in range(len(vals)):
+        groups.setdefault(find(i), []).append(i)
+    wr = csv.writer(sys.stdout, lineterminator="\\n")
+    wr.writerow(["group", "row_number", col])
+    g = 0
+    for members in groups.values():
+        if len(members) > 1:
+            g += 1
+            for m in members:
+                wr.writerow([g, m + 2, vals[m][1]])
+    print(f"{g} duplicate group(s) in {len(rows)} rows", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "sample.csv", "company\nAcme Corp\nacme corp.\nAcme Corporation\nGlobex\nInitech\nglobex\n")
     w(b, "README.md", f"""
@@ -399,23 +421,29 @@ Comparison is pairwise, so it suits files up to a few thousand rows. Plain Pytho
     (b / "extract.py").write_text('''"""python extract.py notes.txt > found.csv   Pulls emails, US phone numbers, URLs, dates and dollar amounts out of text. Stdlib only."""
 import csv, re, sys
 
-text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
-PATTERNS = {
-    "email": r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
-    "phone": r"(?:\\+?1[ .-]?)?\\(?\\d{3}\\)?[ .-]?\\d{3}[ .-]?\\d{4}",
-    "url": r"https?://[^\\s<>\\"')]+",
-    "date": r"\\b(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}/\\d{1,2}/\\d{2,4})\\b",
-    "amount": r"\\$\\s?\\d[\\d,]*(?:\\.\\d{2})?",
-}
-wr = csv.writer(sys.stdout, lineterminator="\\n")
-wr.writerow(["type", "value", "line"])
-counts = {}
-for kind, pat in PATTERNS.items():
-    for m in re.finditer(pat, text):
-        line = text.count("\\n", 0, m.start()) + 1
-        wr.writerow([kind, m.group(0).strip(), line])
-        counts[kind] = counts.get(kind, 0) + 1
-print(counts, file=sys.stderr)
+
+def main():
+    text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
+    PATTERNS = {
+        "email": r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+        "phone": r"(?:\\+?1[ .-]?)?\\(?\\d{3}\\)?[ .-]?\\d{3}[ .-]?\\d{4}",
+        "url": r"https?://[^\\s<>\\"')]+",
+        "date": r"\\b(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}/\\d{1,2}/\\d{2,4})\\b",
+        "amount": r"\\$\\s?\\d[\\d,]*(?:\\.\\d{2})?",
+    }
+    wr = csv.writer(sys.stdout, lineterminator="\\n")
+    wr.writerow(["type", "value", "line"])
+    counts = {}
+    for kind, pat in PATTERNS.items():
+        for m in re.finditer(pat, text):
+            line = text.count("\\n", 0, m.start()) + 1
+            wr.writerow([kind, m.group(0).strip(), line])
+            counts[kind] = counts.get(kind, 0) + 1
+    print(counts, file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "sample.txt", "Call unavailable or email ops@example.com by 2026-03-15.\nInvoice total $1,250.00 at https://example.com/inv/9\nOther: phone unavailable, due 4/2/26, $40\n")
     w(b, "README.md", f"""
@@ -432,38 +460,46 @@ so expect some misses and false hits; check the results. Add your own patterns i
     # ---------- backup script ----------
     b = OUT / "simple-backup-script"
     b.mkdir(parents=True)
-    (b / "backup.py").write_text('''"""python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
-Creates a timestamped .tar.gz of each source, verifies it can be read, and deletes the oldest beyond --keep. Stdlib only."""
-import hashlib, os, sys, tarfile, time
-from pathlib import Path
+    (b / "backup.py").write_text('''
 
-def opts(name):
-    return [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == name and i + 1 < len(sys.argv)]
 
-srcs, dest, keep = [Path(os.path.expanduser(s)) for s in opts("--src")], Path(os.path.expanduser((opts("--dest") or ["."])[0])), int((opts("--keep") or ["7"])[0])
-if not srcs:
-    sys.exit("usage: backup.py --src DIR [--src DIR ...] --dest DIR [--keep N]")
-if keep < 1:
-    sys.exit("--keep must be at least 1")
-dest.mkdir(parents=True, exist_ok=True)
-stamp = time.strftime("%Y%m%d-%H%M%S")
-for s in srcs:
-    s = s.resolve()
-    if not s.exists():
-        sys.exit(f"source does not exist: {s}")
-    name = s.name or "root"
-    identity = hashlib.sha256(str(s).encode("utf-8")).hexdigest()[:10]
-    prefix = f"{name}-{identity}"
-    out = dest / f"{prefix}-{stamp}.tar.gz"
-    with tarfile.open(out, "w:gz") as t:
-        t.add(s, arcname=name)
-    with tarfile.open(out) as t:
-        n = len(t.getmembers())
-    print(f"wrote {out} ({out.stat().st_size} bytes, {n} entries, verified)")
-    olds = sorted(dest.glob(f"{prefix}-*.tar.gz"))
-    for o in olds[:-keep]:
-        o.unlink()
-        print("removed old", o.name)
+def main():
+    """python backup.py --src ~/Documents --src ~/Projects --dest /mnt/backup --keep 7
+    Creates a timestamped .tar.gz of each source, verifies it can be read, and deletes the oldest beyond --keep. Stdlib only."""
+    import hashlib, os, sys, tarfile, time
+    from pathlib import Path
+
+    def opts(name):
+        return [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == name and i + 1 < len(sys.argv)]
+
+    srcs, dest, keep = [Path(os.path.expanduser(s)) for s in opts("--src")], Path(os.path.expanduser((opts("--dest") or ["."])[0])), int((opts("--keep") or ["7"])[0])
+    if not srcs:
+        sys.exit("usage: backup.py --src DIR [--src DIR ...] --dest DIR [--keep N]")
+    if keep < 1:
+        sys.exit("--keep must be at least 1")
+    dest.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    for s in srcs:
+        s = s.resolve()
+        if not s.exists():
+            sys.exit(f"source does not exist: {s}")
+        name = s.name or "root"
+        identity = hashlib.sha256(str(s).encode("utf-8")).hexdigest()[:10]
+        prefix = f"{name}-{identity}"
+        out = dest / f"{prefix}-{stamp}.tar.gz"
+        with tarfile.open(out, "w:gz") as t:
+            t.add(s, arcname=name)
+        with tarfile.open(out) as t:
+            n = len(t.getmembers())
+        print(f"wrote {out} ({out.stat().st_size} bytes, {n} entries, verified)")
+        olds = sorted(dest.glob(f"{prefix}-*.tar.gz"))
+        for o in olds[:-keep]:
+            o.unlink()
+            print("removed old", o.name)
+
+
+if __name__ == "__main__":
+    main()
 ''', encoding="utf-8")
     w(b, "README.md", f"""
 # Simple Backup Script
