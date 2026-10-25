@@ -12,5 +12,5 @@ vendors; rows that match nothing are marked Uncategorized and counted so you kno
 
 ## Notes
 - Matching is case-insensitive substring, so keep keywords specific ("github", not "git").
-- This sorts transactions; it is not tax or accounting advice. Check categories with your accountant.
+- This is not tax or accounting advice. Check categories with your accountant.
 - Personal and commercial use; do not resell.
