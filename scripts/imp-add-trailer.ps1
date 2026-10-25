@@ -1,21 +1,21 @@
-# imp-add-trailer.ps1 – ensure IMP brief includes required trailer
-# This script is called by the brief‑generation pipeline (if you have one).
-# It appends a standardized trailer line to the brief markdown file before the IMP gate runs.
-
+# imp-add-trailer.ps1 - ensure an IMP brief includes the required trailer.
+[CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][string]$BriefPath
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$BriefPath
 )
 
-$trailer = "\n---\nImp trailer: auto‑generated on $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+$ErrorActionPreference = 'Stop'
+if (-not (Test-Path -LiteralPath $BriefPath -PathType Leaf)) {
+    throw "Brief file not found: $BriefPath"
+}
 
-if (Test-Path $BriefPath) {
-    $content = Get-Content $BriefPath -Raw
-    if ($content -notmatch "Imp\s+trailer") {
-        Add-Content -Path $BriefPath -Value $trailer -Encoding utf8
-        Write-Host "Added IMP trailer to $BriefPath"
-    } else {
-        Write-Host "IMP trailer already present in $BriefPath"
-    }
+$Content = Get-Content -LiteralPath $BriefPath -Raw
+if ($Content -notmatch '(?im)^Imp\s+trailer\s*:') {
+    $Trailer = "`n---`nImp trailer: auto-generated on $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+    Add-Content -LiteralPath $BriefPath -Value $Trailer -Encoding utf8
+    Write-Host "Added IMP trailer to $BriefPath" -ForegroundColor Green
 } else {
-    Write-Error "Brief file not found: $BriefPath"
+    Write-Host "IMP trailer already present in $BriefPath" -ForegroundColor Yellow
 }
