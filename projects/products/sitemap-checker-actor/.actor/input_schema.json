@@ -1,0 +1,31 @@
+{
+    "title": "Sitemap URL Checker input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Websites",
+            "type": "array",
+            "description": "Any page URL on each site (up to 20 sites). The Actor uses the site root to find robots.txt and the sitemaps.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "maxUrlsPerSite": {
+            "title": "Max URLs to test per site",
+            "type": "integer",
+            "description": "Upper limit of sitemap URLs tested for each site (1 to 5000).",
+            "default": 200,
+            "minimum": 1,
+            "maximum": 5000
+        },
+        "timeoutSecs": {
+            "title": "Timeout per request (seconds)",
+            "type": "integer",
+            "description": "How long to wait for each request.",
+            "default": 15,
+            "minimum": 3,
+            "maximum": 60
+        }
+    },
+    "required": ["startUrls"]
+}
