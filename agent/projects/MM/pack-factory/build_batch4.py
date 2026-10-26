@@ -117,11 +117,15 @@ def report(fg, bg):
         print(f"  suggestion: use {suggest(fg, bg)} for text on {bg}")
 
 
-if "--palette" in sys.argv:
-    for p in json.load(open(sys.argv[sys.argv.index("--palette") + 1])):
-        report(p["fg"], p["bg"])
-else:
-    report(sys.argv[1], sys.argv[2])
+def main():
+    if "--palette" in sys.argv:
+        for p in json.load(open(sys.argv[sys.argv.index("--palette") + 1])):
+            report(p["fg"], p["bg"])
+    else:
+        report(sys.argv[1], sys.argv[2])
+
+if __name__ == "__main__":
+    main()
 ''')
     wr(b, "palette.json", json.dumps([{"fg": "#1a1a1a", "bg": "#ffffff"}, {"fg": "#777777", "bg": "#ffffff"}, {"fg": "#ffffff", "bg": "#0b5cad"}], indent=2))
     w(b, "README.md", f"""
@@ -136,6 +140,7 @@ and suggests the closest color that reaches 4.5:1. Text over images or gradients
     assert "21.00:1" in r1, r1
     r2 = run(b, "contrast.py", "#777777", "#ffffff").stdout
     assert "FAIL" in r2 and "suggestion" in r2, r2
+    subprocess.run([sys.executable, "-c", "import contrast"], cwd=b, check=True)
     print("140", zip_pack("wcag-contrast-checker"))
 
     # ---------- 149: accessibility checklist ----------
@@ -187,23 +192,27 @@ def dump(cues, sep=","):
     return "\\n\\n".join(f"{i}\\n{fmt(a, sep)} --> {fmt(b, sep)}\\n{t}" for i, (a, b, t) in enumerate(cues, 1)) + "\\n"
 
 
-cmd = sys.argv[1]
-if cmd == "shift":
-    cues = [[a + float(sys.argv[4]) * 1000, b + float(sys.argv[4]) * 1000, t] for a, b, t in parse(open(sys.argv[2], encoding="utf-8").read())]
-    open(sys.argv[3], "w", encoding="utf-8").write(dump(cues))
-elif cmd == "vtt":
-    cues = parse(open(sys.argv[2], encoding="utf-8").read())
-    open(sys.argv[3], "w", encoding="utf-8").write("WEBVTT\\n\\n" + dump(cues, ".").replace("\\n\\n", "\\n\\n", 1))
-elif cmd == "clean":
-    cues = [[a, b, re.sub(r"<[^>]+>", "", t).strip()] for a, b, t in parse(open(sys.argv[2], encoding="utf-8").read())]
-    open(sys.argv[3], "w", encoding="utf-8").write(dump([c for c in cues if c[2]]))
-elif cmd == "merge":
-    a = parse(open(sys.argv[2], encoding="utf-8").read())
-    b = parse(open(sys.argv[3], encoding="utf-8").read())
-    off = a[-1][1] if a else 0
-    open(sys.argv[4], "w", encoding="utf-8").write(dump(a + [[x + off, y + off, t] for x, y, t in b]))
-else:
-    sys.exit(__doc__)
+def main():
+    cmd = sys.argv[1]
+    if cmd == "shift":
+        cues = [[a + float(sys.argv[4]) * 1000, b + float(sys.argv[4]) * 1000, t] for a, b, t in parse(open(sys.argv[2], encoding="utf-8").read())]
+        open(sys.argv[3], "w", encoding="utf-8").write(dump(cues))
+    elif cmd == "vtt":
+        cues = parse(open(sys.argv[2], encoding="utf-8").read())
+        open(sys.argv[3], "w", encoding="utf-8").write("WEBVTT\\n\\n" + dump(cues, ".").replace("\\n\\n", "\\n\\n", 1))
+    elif cmd == "clean":
+        cues = [[a, b, re.sub(r"<[^>]+>", "", t).strip()] for a, b, t in parse(open(sys.argv[2], encoding="utf-8").read())]
+        open(sys.argv[3], "w", encoding="utf-8").write(dump([c for c in cues if c[2]]))
+    elif cmd == "merge":
+        a = parse(open(sys.argv[2], encoding="utf-8").read())
+        b = parse(open(sys.argv[3], encoding="utf-8").read())
+        off = a[-1][1] if a else 0
+        open(sys.argv[4], "w", encoding="utf-8").write(dump(a + [[x + off, y + off, t] for x, y, t in b]))
+    else:
+        sys.exit(__doc__)
+
+if __name__ == "__main__":
+    main()
 ''')
     wr(b, "sample.srt", "1\n00:00:01,000 --> 00:00:03,000\n<i>Hello</i> there\n\n2\n00:00:04,000 --> 00:00:06,500\nSecond line\n\n3\n00:00:07,000 --> 00:00:08,000\n<b></b>\n")
     w(b, "README.md", f"""
@@ -220,6 +229,7 @@ Four small subtitle commands: `shift` (fix timing by N seconds), `vtt` (convert 
     assert (b / "v.vtt").read_text().startswith("WEBVTT") and "00:00:01.000 --> 00:00:03.000" in (b / "v.vtt").read_text()
     run(b, "srt_tools.py", "merge", "c.srt", "c.srt", "m.srt")
     assert (b / "m.srt").read_text().count("-->") == 4
+    subprocess.run([sys.executable, "-c", "import srt_tools"], cwd=b, check=True)
     for f in ("s.srt", "c.srt", "v.vtt", "m.srt"):
         (b / f).unlink()
     print("146", zip_pack("srt-tools"))
@@ -231,25 +241,29 @@ Groups conventional-commit subjects (feat, fix, docs, perf, refactor, chore...) 
 import re, sys, datetime
 
 TITLES = {"feat": "Added", "fix": "Fixed", "perf": "Performance", "docs": "Documentation", "refactor": "Changed", "test": "Tests", "chore": "Maintenance", "build": "Maintenance", "ci": "Maintenance"}
-version = sys.argv[1] if len(sys.argv) > 1 else "Unreleased"
-groups = {}
-for line in sys.stdin.read().splitlines():
-    m = re.match(r"^(\\w+)(\\(([^)]*)\\))?(!)?: (.+)$", line.strip())
-    if not m:
-        if line.strip():
-            groups.setdefault("Other", []).append(line.strip())
-        continue
-    kind, scope, breaking, msg = m.group(1), m.group(3), m.group(4), m.group(5)
-    key = "Breaking changes" if breaking else TITLES.get(kind, "Other")
-    groups.setdefault(key, []).append((f"**{scope}:** " if scope else "") + msg)
-order = ["Breaking changes", "Added", "Fixed", "Changed", "Performance", "Documentation", "Tests", "Maintenance", "Other"]
-print(f"## {version} - {datetime.date.today().isoformat()}\\n")
-for k in order:
-    if k in groups:
-        print(f"### {k}")
-        for i in groups[k]:
-            print(f"- {i}")
-        print()
+def main():
+    version = sys.argv[1] if len(sys.argv) > 1 else "Unreleased"
+    groups = {}
+    for line in sys.stdin.read().splitlines():
+        m = re.match(r"^(\\w+)(\\(([^)]*)\\))?(!)?: (.+)$", line.strip())
+        if not m:
+            if line.strip():
+                groups.setdefault("Other", []).append(line.strip())
+            continue
+        kind, scope, breaking, msg = m.group(1), m.group(3), m.group(4), m.group(5)
+        key = "Breaking changes" if breaking else TITLES.get(kind, "Other")
+        groups.setdefault(key, []).append((f"**{scope}:** " if scope else "") + msg)
+    order = ["Breaking changes", "Added", "Fixed", "Changed", "Performance", "Documentation", "Tests", "Maintenance", "Other"]
+    print(f"## {version} - {datetime.date.today().isoformat()}\\n")
+    for k in order:
+        if k in groups:
+            print(f"### {k}")
+            for i in groups[k]:
+                print(f"- {i}")
+            print()
+
+if __name__ == "__main__":
+    main()
 ''')
     w(b, "README.md", f"""
 # Changelog Generator
@@ -260,6 +274,7 @@ Breaking changes, Added, Fixed, Changed and more. Reads from stdin, so it also w
 {LIC}""")
     r = run(b, "changelog.py", "v1.1.0", stdin="feat(api): add search\nfix: crash on empty input\nfeat!: drop v1\nrandom message\n").stdout
     assert "### Breaking changes" in r and "- **api:** add search" in r and "### Fixed" in r and "### Other" in r, r
+    subprocess.run([sys.executable, "-c", "import changelog"], cwd=b, check=True)
     print("147", zip_pack("changelog-generator"))
 
     # ---------- 148: env/secrets linter ----------
@@ -277,27 +292,31 @@ RULES = [
 ]
 SKIP_DIRS = {".git", "node_modules", ".venv", "__pycache__"}
 SKIP_EXT = {".png", ".jpg", ".gif", ".zip", ".pdf", ".woff", ".woff2", ".ico"}
-root = sys.argv[1] if len(sys.argv) > 1 else "."
-found = 0
-for d, dirs, files in os.walk(root):
-    dirs[:] = [x for x in dirs if x not in SKIP_DIRS]
-    for f in files:
-        p = os.path.join(d, f)
-        if os.path.splitext(f)[1].lower() in SKIP_EXT:
-            continue
-        if f == ".env" or (f.startswith(".env.") and f != ".env.example"):
-            print(f"{p}: env file present (make sure it is git-ignored)")
-            found += 1
-        try:
-            for n, line in enumerate(open(p, encoding="utf-8"), 1):
-                for name, rx in RULES:
-                    if rx.search(line):
-                        print(f"{p}:{n}: {name}")
-                        found += 1
-        except (UnicodeDecodeError, OSError):
-            pass
-print(f"{found} finding(s)", file=sys.stderr)
-sys.exit(1 if found else 0)
+def main():
+    root = sys.argv[1] if len(sys.argv) > 1 else "."
+    found = 0
+    for d, dirs, files in os.walk(root):
+        dirs[:] = [x for x in dirs if x not in SKIP_DIRS]
+        for f in files:
+            p = os.path.join(d, f)
+            if os.path.splitext(f)[1].lower() in SKIP_EXT:
+                continue
+            if f == ".env" or (f.startswith(".env.") and f != ".env.example"):
+                print(f"{p}: env file present (make sure it is git-ignored)")
+                found += 1
+            try:
+                for n, line in enumerate(open(p, encoding="utf-8"), 1):
+                    for name, rx in RULES:
+                        if rx.search(line):
+                            print(f"{p}:{n}: {name}")
+                            found += 1
+            except (UnicodeDecodeError, OSError):
+                pass
+    print(f"{found} finding(s)", file=sys.stderr)
+    sys.exit(1 if found else 0)
+
+if __name__ == "__main__":
+    main()
 ''')
     w(b, "README.md", f"""
 # Env and Secrets Linter
@@ -317,6 +336,7 @@ Pattern-based: it will miss some secrets and flag some harmless strings. If a re
     clean.mkdir()
     (clean / "b.py").write_text("print('hello')\n")
     assert subprocess.run([sys.executable, "envlint.py", str(clean)], cwd=b, capture_output=True).returncode == 0
+    subprocess.run([sys.executable, "-c", "import envlint"], cwd=b, check=True)
     shutil.rmtree(t)
     shutil.rmtree(clean)
     print("148", zip_pack("env-secrets-linter"))
@@ -328,32 +348,36 @@ Scans .html files; internal links to files that do not exist are reported. Stdli
 import html, os, re, sys
 from urllib.parse import urlparse, unquote
 
-root, base = os.path.abspath(sys.argv[1]), sys.argv[2].rstrip("/")
-pages = []
-for d, _, files in os.walk(root):
-    for f in files:
-        if f.endswith(".html"):
-            pages.append(os.path.relpath(os.path.join(d, f), root).replace(os.sep, "/"))
-pages.sort()
-urls = [base + "/" + ("" if p == "index.html" else p) for p in pages]
-open(os.path.join(root, "sitemap.xml"), "w", encoding="utf-8").write(
-    '<?xml version="1.0" encoding="UTF-8"?>\\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n' + "".join(f"  <url><loc>{html.escape(u)}</loc></url>\\n" for u in urls) + "</urlset>\\n")
-open(os.path.join(root, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\\nAllow: /\\nSitemap: {base}/sitemap.xml\\n")
-bad = 0
-for p in pages:
-    text = open(os.path.join(root, p), encoding="utf-8").read()
-    for href in re.findall(r"""href=["']([^"'#?]+)""", text):
-        u = urlparse(href)
-        if u.scheme or href.startswith(("mailto:", "tel:", "//")):
-            continue
-        target = os.path.normpath(os.path.join(root, os.path.dirname(p), unquote(href))) if not href.startswith("/") else os.path.join(root, href.lstrip("/"))
-        if os.path.isdir(target):
-            target = os.path.join(target, "index.html")
-        if not os.path.exists(target):
-            print(f"broken link in {p}: {href}")
-            bad += 1
-print(f"{len(pages)} page(s), {bad} broken internal link(s)", file=sys.stderr)
-sys.exit(1 if bad else 0)
+def main():
+    root, base = os.path.abspath(sys.argv[1]), sys.argv[2].rstrip("/")
+    pages = []
+    for d, _, files in os.walk(root):
+        for f in files:
+            if f.endswith(".html"):
+                pages.append(os.path.relpath(os.path.join(d, f), root).replace(os.sep, "/"))
+    pages.sort()
+    urls = [base + "/" + ("" if p == "index.html" else p) for p in pages]
+    open(os.path.join(root, "sitemap.xml"), "w", encoding="utf-8").write(
+        '<?xml version="1.0" encoding="UTF-8"?>\\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n' + "".join(f"  <url><loc>{html.escape(u)}</loc></url>\\n" for u in urls) + "</urlset>\\n")
+    open(os.path.join(root, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\\nAllow: /\\nSitemap: {base}/sitemap.xml\\n")
+    bad = 0
+    for p in pages:
+        text = open(os.path.join(root, p), encoding="utf-8").read()
+        for href in re.findall(r"""href=["']([^"'#?]+)""", text):
+            u = urlparse(href)
+            if u.scheme or href.startswith(("mailto:", "tel:", "//")):
+                continue
+            target = os.path.normpath(os.path.join(root, os.path.dirname(p), unquote(href))) if not href.startswith("/") else os.path.join(root, href.lstrip("/"))
+            if os.path.isdir(target):
+                target = os.path.join(target, "index.html")
+            if not os.path.exists(target):
+                print(f"broken link in {p}: {href}")
+                bad += 1
+    print(f"{len(pages)} page(s), {bad} broken internal link(s)", file=sys.stderr)
+    sys.exit(1 if bad else 0)
+
+if __name__ == "__main__":
+    main()
 ''')
     w(b, "README.md", f"""
 # Sitemap and Link Checker
@@ -368,6 +392,7 @@ Does not check external links or links generated by JavaScript. Plain Python 3.
     (s / "about.html").write_text("<a href='index.html'>home</a>")
     r = subprocess.run([sys.executable, "sitemap_gen.py", str(s), "https://example.com"], cwd=b, capture_output=True, text=True)
     assert r.returncode == 1 and "missing.html" in r.stdout and "about.html" in (s / "sitemap.xml").read_text() and "Sitemap:" in (s / "robots.txt").read_text(), (r.stdout, r.stderr)
+    subprocess.run([sys.executable, "-c", "import sitemap_gen"], cwd=b, check=True)
     shutil.rmtree(s)
     print("143", zip_pack("sitemap-and-link-checker"))
 

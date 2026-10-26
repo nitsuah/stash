@@ -6,6 +6,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const axeSrc = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const axeVersion = require('axe-core/package.json').version;
+const config = JSON.parse(readFileSync(new URL('./a11y.config.json', import.meta.url), 'utf8'));
 const [base, pathsArg = '/', out = 'report'] = process.argv.slice(2);
 const paths = pathsArg.split(',');
 const W = { critical: 10, serious: 5, moderate: 2, minor: 1 };
@@ -28,7 +29,12 @@ for (const p of paths) {
     }
     // Transfer-size metrics are best-effort: a streaming body must not block the audit.
     await Promise.race([Promise.all(pending), new Promise(resolve => setTimeout(resolve, 5000))]);
-    await page.waitForTimeout(1500);
+    const readySelector = config.readySelectors?.[p] ?? config.readySelector;
+    if (readySelector) {
+      await page.locator(readySelector).waitFor({ state: 'visible', timeout: config.readyTimeoutMs ?? 10000 });
+    } else {
+      await page.waitForTimeout(config.settleMs ?? 1500);
+    }
     const violations = [];
     const frameErrors = [];
     // Scan each frame independently so embedded content is not silently skipped.

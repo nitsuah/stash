@@ -4,6 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p out
+# Never reuse argument files from a previous render (removed formats must not run again).
+rm -f out/ffmpeg-*.args
 W="$(pwd -W 2>/dev/null || pwd)"
 export MSYS_NO_PATHCONV=1
 
@@ -19,8 +21,11 @@ if ((${#args_files[@]} == 0)); then
   exit 1
 fi
 for argfile in "${args_files[@]}"; do
-  mapfile -d '' -t args < "$argfile"
+  args=()
+  while IFS= read -r -d '' arg; do
+    args+=("$arg")
+  done < "$argfile"
   ((${#args[@]} > 0)) || { echo "Empty FFmpeg argument file: $argfile" >&2; exit 1; }
-  docker run --rm -v "$W:/work" -w /work --entrypoint ffmpeg jrottenberg/ffmpeg:7-ubuntu "\${args[@]}"
+  docker run --rm -v "$W:/work" -w /work --entrypoint ffmpeg jrottenberg/ffmpeg:7-ubuntu "${args[@]}"
 done
 ls -la out

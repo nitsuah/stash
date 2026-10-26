@@ -228,7 +228,7 @@ def main():
         if b.get(k):
             data[k] = b[k]
     print('<script type="application/ld+json">')
-    print(json.dumps(data, indent=2).replace("<", "\\u003c"))
+    print(json.dumps(data, indent=2).replace("<", "\\\\u003c"))
     print("</script>")
 
 
@@ -245,7 +245,16 @@ Types: LocalBusiness, Restaurant, CafeOrCoffeeShop, Store, and other schema.org 
 {LIC}""")
     r = subprocess.run([sys.executable, "make_jsonld.py", "business.json"], cwd=b, capture_output=True, text=True, check=True)
     body = r.stdout.split("\n", 1)[1].rsplit("\n</script>", 1)[0]
-    json.loads(body)  # validates the generated JSON
+    json.loads(body)  # validates the generated JSON and script-safe escaping
+    malicious = json.loads((b / "business.json").read_text(encoding="utf-8"))
+    malicious["name"] = "</script><script>alert(1)</script>"
+    fixture = b / "_xss.json"
+    fixture.write_text(json.dumps(malicious), encoding="utf-8")
+    rx = subprocess.run([sys.executable, "make_jsonld.py", str(fixture)], cwd=b, capture_output=True, text=True, check=True)
+    xss_body = rx.stdout.split("\n", 1)[1].rsplit("\n</script>", 1)[0]
+    json.loads(xss_body)
+    assert "</script>" not in xss_body.lower(), "JSON-LD output must escape closing script tags"
+    fixture.unlink()
     print("87", zip_pack("local-seo-jsonld-generator"))
 
     # ---------- 90: flyer generator ----------

@@ -18,19 +18,23 @@ def main():
     shutil.rmtree(root / "dist", ignore_errors=True)
     dist.mkdir(parents=True)
     BS = chr(92)
-    home = str(pathlib.Path.home())
-    # Scrub the actual build user's home directory in either path separator
-    # style; do not assume the source machine uses the original author's account.
-    SUBS = [
-        (home.replace("/", BS), "~"),
-        (home.replace(BS, "/"), "~"),
-        (home, "~"),
+    home_path = pathlib.Path.home()
+    home = str(home_path)
+    home_forms = {home, home.replace("/", BS), home.replace(BS, "/"), home_path.as_posix()}
+    if home_path.drive:
+        home_tail = home_path.as_posix().split(":", 1)[1].lstrip("/")
+        home_forms.add("/" + home_path.drive[0].lower() + "/" + home_tail)
+    SUBS = [(p, "~") for p in sorted(home_forms, key=len, reverse=True) if p]
+    SUBS.extend([
         (f"C:{BS}Users{BS}ajhar{BS}code{BS}", "~/code/"),
         (f"C:{BS}Users{BS}ajhar", "~"),
         ("/c/Users/ajhar", "~"),
         ("ajhar", "<user>"),
-    ]
-    LEFT = re.compile(r"nitsuah|Nitsuah|gmail|@[\w.-]+\.\w+|api[_-]?key|token|secret", re.I)
+    ])
+    LEFT = re.compile(
+        r"(?P<project>nitsuah)|(?P<email>gmail|@[\w.-]+\.\w+)|(?P<credential>api[_-]?key|token|secret)", re.I
+    )
+    PERSONAL_HOME = re.compile(r'''(?i)(?:[A-Z]:[/\\]Users[/\\][^/\\\s"']+|/Users/[^/\s"']+|/home/[^/\s"']+|/[a-z]/Users/[^/\s"']+)''')
     report = []
     for s in SKILLS:
         t = (SRC / s / "SKILL.md").read_text(encoding="utf-8")
@@ -40,8 +44,11 @@ def main():
         (dist / s).mkdir()
         (dist / s / "SKILL.md").write_text(t, encoding="utf-8")
         for i, line in enumerate(t.splitlines(), 1):
-            if LEFT.search(line):
-                report.append(f"{s}:{i}: {line.strip()[:140]}")
+            match = LEFT.search(line)
+            home_match = PERSONAL_HOME.search(line)
+            if match or home_match:
+                kind = "personal_home_path" if home_match else match.lastgroup
+                report.append("{}:{}: {}".format(s, i, kind))
     (dist / "README.txt").write_text(
         "Claude Code Skills Starter Bundle\n"
         "Copy any folder into ~/.claude/skills/ . Each skill is a SKILL.md workflow for Claude Code. "

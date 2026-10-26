@@ -56,13 +56,15 @@ issue opened ──► [1 TRIAGE: Opus] ──► q:ready ──► [2 WORKERS: 
 | # | PR | Where | Done when |
 | --- | --- | --- | --- |
 | 0 | Close #204/#157, prune .github prompts, fix journeys infra-dedup + Playwright image pin | .github, fire, ats-fill, vigil | Clean slate; vigil's 5 journey issues closed by one fix |
-| 1 | **Runner v0** (IMPS-PLAN PR 3, minus Postgres): `imp-runner` script that polls `gh issue list --label q:ready` across `config/imp-repos.json`, claims by verifying the issue has `q:ready` and lacks `q:working`, then atomically removing `q:ready` and adding `q:working` plus a claim comment (runner ID and timestamp; the desktop can run a second runner), worktree from `origin/main`, `claude -p` via 9router with the IMPS-PLAN flags, gate, push, PR, labels | motor-pool | One real fire `bot:review` bug → open PR with no human touch |
+| 1 | **Runner v0** (IMPS-PLAN PR 3, minus Postgres): `imp-runner` script that polls `gh issue list --label q:ready` across `config/imp-repos.json`, claims by verifying the issue has `q:ready` and lacks `q:working`, then atomically removing `q:ready` and adding `q:working` plus a claim comment (runner ID and timestamp; the desktop can run a second runner), worktree from `origin/main`, `claude -p` via 9router with the IMPS-PLAN flags, gate; on success, push/open the PR; on success or terminal failure, release `q:working` before adding exactly one terminal label (`q:pr`, `q:held`, or `q:needs-human`) and record the reason | motor-pool | One real fire `bot:review` bug → open PR with no human touch |
 | 2 | **Race mode**: `q:race` (or a default per repo) fans out to N models in parallel worktrees; gate; Opus judge; scoreboard | motor-pool | Same issue, 3 models, one PR, scoreboard row |
 | 3 | **Triage**: Opus brief + label on `issues.opened` (polling routine first; webhook later) | motor-pool | New issues arrive with a brief and a label |
 | 4 | **Weekly RSI pass** as a scheduled task: scoreboard → PR to prompts/templates | motor-pool | First evidence-backed prompt PR |
 | later | IMPS-PLAN PRs 1, 2, 4 (principals, Postgres queue, dashboard panel) | motor-pool | When there's a second human dispatcher or the gov/edu story needs it |
 
 **Stale claim recovery:** A `q:working` claim must include runner ID, issue number, claimed-at timestamp, and a lease expiry. A runner may reclaim only after the lease expires and it verifies the prior runner is not actively renewing the claim; it must post a recovery comment, remove `q:working`, and re-claim atomically where possible. Never treat a stale label alone as proof that a worker is dead. Workers should renew leases while active and stop before pushing if they lose the claim.
+
+**Terminal label transition:** After a successful PR is created, remove `q:working` before adding `q:pr`. On terminal gate, model, push, or PR-creation failure, remove `q:working` before adding `q:held` or `q:needs-human`. Make the transition idempotent and record the outcome in a claim comment; never leave `q:working` on completed work.
 
 **Distributed compute:** the runner is stateless and GitHub holds the state, so a second runner on the Ryzen/4080 desktop is just the same container with `RUNNER_ID=desktop` and its own local 9router. Claims are first-comment-wins. Use `IMP_CONCURRENCY` to give the desktop the race fan-out.
 

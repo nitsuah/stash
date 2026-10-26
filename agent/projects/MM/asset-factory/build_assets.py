@@ -174,8 +174,8 @@ def art_set(slug, count):
 def main():
     global SEED
     SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 2027
-    if not 1 <= SEED <= 9999:
-        raise SystemExit("seed/year must be between 1 and 9999; existing outputs were not touched")
+    if not 2 <= SEED <= 9998:
+        raise SystemExit("seed/year must be between 2 and 9998; existing outputs were not touched")
     # ---------- build ----------
     PACKS = []
 

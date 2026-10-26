@@ -18,7 +18,14 @@ for (const p of paths) {
   let bytes = 0;
   const pending = [];
   page.on('response', r => pending.push(r.body().then(b => { bytes += b.length; }).catch(() => {})));
-  const response = await page.goto(new URL(p, base).href, { waitUntil: 'load', timeout: 20000 });
+  let response;
+  try {
+    response = await page.goto(new URL(p, base).href, { waitUntil: 'load', timeout: 20000 });
+  } catch (error) {
+    results.push({ path: p, loadMs: Date.now() - t0, bytes, error: String(error?.message || error), violations: [] });
+    await page.close();
+    continue;
+  }
   if (!response || response.status() >= 400) {
     results.push({ path: p, loadMs: Date.now() - t0, bytes, error: `Page returned HTTP ${response?.status() ?? 'no response'}`, violations: [] });
     await page.close();
@@ -41,7 +48,8 @@ let weighted = 0;
 let findings = '';
 for (const r of results) {
   findings += `### ${r.path}\n`;
-  if (!r.violations.length) findings += '_No automated violations._\n';
+  if (r.error) findings += `_Audit incomplete: ${r.error}._\n`;
+  if (!r.violations.length && !r.error) findings += '_No automated violations._\n';
   for (const v of r.violations) {
     const imp = v.impact || 'minor';
     counts[imp] += v.nodes.length; weighted += W[imp] * v.nodes.length;
@@ -60,3 +68,8 @@ mkdirSync('reports', { recursive: true });
 writeFileSync(`reports/${out}.md`, md);
 writeFileSync(`reports/${out}.json`, JSON.stringify(results, null, 2));
 console.log(`wrote reports/${out}.md  violations=${total} score=${vars.score}`);
+const failedPages = results.filter(r => r.error);
+if (failedPages.length) {
+  console.error(`Audit incomplete for ${failedPages.length} page(s); see the report for details.`);
+  process.exitCode = 1;
+}

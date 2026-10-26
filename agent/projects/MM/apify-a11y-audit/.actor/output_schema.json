@@ -1,26 +1,11 @@
 {
+  "actorOutputSchemaVersion": 1,
   "title": "Website Accessibility Audit output",
-  "type": "object",
-  "schemaVersion": 1,
   "properties": {
-    "url": { "type": "string", "title": "Audited URL" },
-    "title": { "type": "string", "title": "Page title" },
-    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
-    "violationCount": { "type": "integer", "minimum": 0 },
-    "byImpact": {
-      "type": "object",
-      "properties": {
-        "critical": { "type": "integer", "minimum": 0 },
-        "serious": { "type": "integer", "minimum": 0 },
-        "moderate": { "type": "integer", "minimum": 0 },
-        "minor": { "type": "integer", "minimum": 0 }
-      }
-    },
-    "passedRules": { "type": "integer", "minimum": 0 },
-    "violations": { "type": "array", "items": { "type": "object" } },
-    "standards": { "type": "array", "items": { "type": "string" } },
-    "axeVersion": { "type": "string" },
-    "auditedAt": { "type": "string", "format": "date-time" },
-    "error": { "type": "string" }
+    "results": {
+      "type": "string",
+      "title": "Audit results",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
   }
 }

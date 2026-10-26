@@ -43,7 +43,7 @@ async function run() {
       link.href = v.url;
       link.target = '_blank';
       link.rel = 'noreferrer';
-      li.append(el('span', `${v.impact}: `, v.impact), link, el('div', `${v.count} element${v.count === 1 ? '' : 's'}, first: `, 'muted'));
+      li.append(el('span', `${v.impact}: `, v.impact), link, el('div', `Frame: ${v.frame}`, 'muted'), el('div', `${v.count} element${v.count === 1 ? '' : 's'}, first: `, 'muted'));
       li.lastChild.append(el('code', v.first));
       list.append(li);
     }
