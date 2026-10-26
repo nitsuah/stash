@@ -22,6 +22,7 @@ if (-not (Test-Path -LiteralPath $ConfigPath -PathType Leaf)) {
 # Read the small scalar config without relying on a non-standard YAML module.
 $Config = @{}
 foreach ($line in Get-Content -LiteralPath $ConfigPath) {
+    if ($line -match '^\s*#' -or $line -match '^\s*$') { continue }
     if ($line -match '^\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(.*?)\s*$') {
         $value = $Matches[2].Trim()
         if ($value.Length -ge 2 -and (($value.StartsWith('"') -and $value.EndsWith('"')) -or ($value.StartsWith("'") -and $value.EndsWith("'")))) {
@@ -48,6 +49,18 @@ if (-not (Test-Path -LiteralPath $EntryPoint -PathType Leaf)) {
 }
 if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     throw 'Node.js is required but was not found on PATH.'
+}
+
+# Point humans / future kit hooks at the vault playbook without forking the kit.
+$VaultPrompt = $env:IMPS_VAULT_PROMPT
+if ([string]::IsNullOrWhiteSpace($VaultPrompt) -and -not [string]::IsNullOrWhiteSpace([string]$Config['vault_prompt'])) {
+    $candidate = [string]$Config['vault_prompt']
+    if (-not [System.IO.Path]::IsPathRooted($candidate)) {
+        $candidate = Join-Path $RepoRoot $candidate
+    }
+    if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+        $env:IMPS_VAULT_PROMPT = $candidate
+    }
 }
 
 & node $EntryPoint $Command @ImpArgs

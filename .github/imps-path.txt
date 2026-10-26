@@ -1,10 +1,15 @@
 # IMP Runner location
 
-The IMP kit is a **detached checkout** of the upstream `imps` repository. Keep it **outside** the main project tree so the `imps-dispatch` task can reset it to the latest `origin/main` without affecting project source files.
+The IMP kit is a **detached checkout** of the public `nitsuah/.github` tree
+(`imps/`). Keep it **outside** the main project tree so the `imps-dispatch`
+task can reset it to the latest `origin/main` without affecting project source
+files. Prefer the kit's setup script when available; otherwise follow
+`imps/STANDARD.md` § Scheduling.
 
 ## Configure the path locally
 
-Choose any absolute path outside this repository, such as `C:\\tools\\imps-runner` on Windows or `~/src/imps-runner` on Linux/macOS. Do not commit a machine-specific path.
+Choose any absolute path outside this repository (for example a sibling
+`imps-runner` folder). Do not commit a machine-specific path.
 
 The runner checks these settings in order:
 
@@ -12,9 +17,19 @@ The runner checks these settings in order:
 2. The ignored local file `.imps/kit-path.txt`, containing the absolute path on one line.
 3. The optional `kit_path` value in `.github/imps-config.yml`.
 
-The tracked config leaves `kit_path` empty by default. The runner reads its simple scalar values directly, so it does not require a third-party PowerShell YAML module.
+The tracked config leaves `kit_path` empty by default. `scripts/imp-run.ps1`
+reads its simple scalar values directly, so it does not require a third-party
+PowerShell YAML module.
+
+Optional: `vault_prompt` in `.github/imps-config.yml` points at
+`agent/prompts/IMPS.md` (inventory and RSI log). The wrapper exports it as
+`IMPS_VAULT_PROMPT` when set. Diff size limits come from each issue brief's
+`maxLines` field — there is no repo-level `max_diff_lines` knob.
 
 ## Why keep the kit outside the repository?
 
-- `agent/` is for this repository's agents and project tooling; the detached IMP checkout is a separate tool chain.
-- `.github/` is reserved for workflows, templates, and small configuration assets. A full checkout there would unnecessarily bloat the repository and could interfere with GitHub Actions.
+- `agent/` holds this repository's prompts, memory and project notes for the
+  imp worker (see `agent/prompts/IMPS.md`). It is not a second copy of the kit.
+- `.github/` is reserved for workflows, templates, and small configuration
+  assets. A full checkout there would unnecessarily bloat the repository and
+  could interfere with GitHub Actions.

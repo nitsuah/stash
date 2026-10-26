@@ -1,4 +1,10 @@
+# Stash-local imps wiring. The runnable kit lives in nitsuah/.github/imps
+# (detached checkout on each machine). Diff caps come from each issue brief's
+# maxLines — the kit does not read a repo-level max_diff_lines key.
+#
+# kit_path: optional absolute path to the detached checkout. Prefer IMPS_KIT_PATH
+# or the ignored file .imps/kit-path.txt so machine paths stay out of git.
 kit_path: ""
-docker_command: "docker compose run --rm node npm ci"
-max_diff_lines: 30
-require_imp_trailer: true
+# Vault playbook (prompts, inventory, RSI log). Not required by the kit today;
+# wrappers may export it as IMPS_VAULT_PROMPT for humans and future hooks.
+vault_prompt: agent/prompts/IMPS.md
