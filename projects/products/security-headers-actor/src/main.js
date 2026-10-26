@@ -1,6 +1,8 @@
 // Security headers and TLS check: grades each URL A to F from its HTTP response headers, cookie flags, HTTPS redirect and certificate.
 import tls from 'node:tls';
 import { Actor, log } from 'apify';
+import { hasWeakScriptSources } from './csp.js';
+import { tlsTarget } from './tls-target.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SecurityHeadersCheck/1.0; +https://apify.com)';
@@ -27,7 +29,7 @@ function checkHeaders(h) {
     }
     const csp = h.get('content-security-policy');
     if (!csp) add('csp-missing', 'high', 'No Content-Security-Policy header');
-    else if (/unsafe-inline|unsafe-eval|\*\s/i.test(csp) && /script-src|default-src/i.test(csp)) add('csp-weak', 'medium', 'CSP allows unsafe-inline, unsafe-eval or a wildcard source');
+    else if (hasWeakScriptSources(csp)) add('csp-weak', 'medium', 'CSP allows unsafe-inline, unsafe-eval or a wildcard script source');
     if (!h.get('x-frame-options') && !/frame-ancestors/i.test(csp ?? '')) add('clickjacking', 'medium', 'No X-Frame-Options or CSP frame-ancestors');
     if (!/nosniff/i.test(h.get('x-content-type-options') ?? '')) add('nosniff-missing', 'medium', 'X-Content-Type-Options is not nosniff');
     if (!h.get('referrer-policy')) add('referrer-policy-missing', 'low', 'No Referrer-Policy header');
@@ -84,11 +86,14 @@ async function audit(url) {
         const c = checkCookies(res.headers);
         row.cookies = c.cookies;
         findings.push(...c.findings);
+        // We only need status and headers; release the response body/socket promptly.
+        await res.body?.cancel().catch(() => {});
     } catch (err) {
         const code = err.cause?.code ?? err.message;
         // A certificate that fails validation is the finding itself, so grade it instead of reporting a fetch error.
         if (u.protocol === 'https:' && /CERT|SELF_SIGNED|UNABLE_TO_VERIFY|ALTNAME|SSL/i.test(String(code))) {
-            row.tls = await certInfo(u.hostname);
+            const target = tlsTarget(u.href);
+            row.tls = await certInfo(target.hostname, target.port);
             findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate failed validation: ${code}` });
             row.score = 0;
             row.grade = 'F';
@@ -104,9 +109,12 @@ async function audit(url) {
         try {
             const r = await fetch(`http://${u.host}${u.pathname}`, { redirect: 'manual', headers: { 'user-agent': UA }, signal: AbortSignal.timeout(timeoutMs) });
             const loc = r.headers.get('location') ?? '';
-            if (!(r.status >= 300 && r.status < 400 && /^https:/i.test(loc))) findings.push({ rule: 'http-no-redirect', severity: 'medium', detail: 'HTTP does not redirect to HTTPS' });
+            const upgrades = r.status >= 300 && r.status < 400 && /^https:/i.test(loc);
+            await r.body?.cancel().catch(() => {});
+            if (!upgrades) findings.push({ rule: 'http-no-redirect', severity: 'medium', detail: 'HTTP does not redirect to HTTPS' });
         } catch { /* port 80 closed is fine */ }
-        row.tls = await certInfo(finalHost);
+        const target = tlsTarget(row.finalUrl);
+        row.tls = await certInfo(target.hostname, target.port);
         if (row.tls.error) findings.push({ rule: 'tls-error', severity: 'high', detail: `TLS connection failed: ${row.tls.error}` });
         else {
             if (!row.tls.authorized) findings.push({ rule: 'cert-invalid', severity: 'high', detail: `Certificate not trusted: ${row.tls.authorizationError}` });
@@ -123,17 +131,26 @@ async function audit(url) {
 
 let next = 0;
 let audited = 0;
+let stopForChargeLimit = false;
+let chargeFailure = null;
 async function worker() {
-    while (next < urls.length) {
+    while (next < urls.length && !stopForChargeLimit) {
         const url = urls[next++];
         const row = await audit(url);
-        await Actor.pushData(row);
+        if (stopForChargeLimit) return;
         if (!row.error) {
+            let charge;
+            try { charge = await Actor.charge({ eventName: 'url-checked' }); }
+            catch (e) { chargeFailure = e; stopForChargeLimit = true; return; }
+            if (typeof charge?.chargedCount === 'number' && charge.chargedCount < 1) { stopForChargeLimit = true; return; }
             audited += 1;
-            try { await Actor.charge({ eventName: 'url-checked' }); } catch (e) { log.warning(`Charge failed for ${url}: ${e.message}`); }
+            // This row was charged; stop other workers from publishing later unpaid work.
+            if (charge?.eventChargeLimitReached) stopForChargeLimit = true;
         }
+        await Actor.pushData(row);
     }
 }
 await Promise.all(Array.from({ length: 5 }, worker));
-await Actor.setValue('SUMMARY', { urls: urls.length, audited, finishedAt: new Date().toISOString() });
+await Actor.setValue('SUMMARY', { urls: urls.length, audited, chargeLimitReached: stopForChargeLimit && !chargeFailure, chargeError: chargeFailure?.message ?? null, finishedAt: new Date().toISOString() });
+if (chargeFailure) await Actor.fail('Could not charge for URL audit: ' + chargeFailure.message);
 await Actor.exit();
