@@ -215,3 +215,4 @@ agent/projects/MM/**/package-lock.json
 
 # MM packaged output batches
 agent/projects/MM/pack-factory/out*/
+.imps/
