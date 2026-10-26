@@ -198,7 +198,7 @@
 
     <div class="grid g3">
       <div class="card"><span class="tag">1 · kit</span><h3><code>setup.ps1</code> / <code>setup.sh</code></h3><p>Checks node, git, <code>gh auth</code>, Docker and 9router. Installs the detached runner, clones <code>IMPS_CODE/.github</code> for kit self-work, creates <code>~/.imps</code>, and registers the schedule.</p></div>
-      <div class="card"><span class="tag green">2 · schedule</span><h3>hourly :07 + label watch</h3><p>Windows: two Scheduled Tasks. macOS/Linux: <code>crontab</code> when it exists, otherwise <b>systemd user timers</b> — plus a <code>loginctl enable-linger</code> hint so they survive logout. If neither scheduler exists, setup says so instead of half-succeeding.</p></div>
+      <div class="card"><span class="tag green">2 · schedule</span><h3>hourly :07 + label watch</h3><p>Windows: two Scheduled Tasks. macOS/Linux: <code>crontab</code> when it exists; otherwise setup prints a hint to configure your own scheduler (it does not install systemd timers automatically and does not fail).</p></div>
       <div class="card"><span class="tag warn">3 · self-update</span><h3>fetch + reset every cycle</h3><p>The wrappers pull <code>origin/main</code> themselves, so a merged kit change reaches every machine on its next tick with no one visiting it. A failed fetch or reset aborts the cycle non-zero; it never runs whatever happened to be on disk.</p></div>
     </div>
 
