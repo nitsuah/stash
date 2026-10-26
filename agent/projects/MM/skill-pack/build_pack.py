@@ -21,9 +21,22 @@ def main():
     home_path = pathlib.Path.home()
     home = str(home_path)
     home_forms = {home, home.replace("/", BS), home.replace(BS, "/"), home_path.as_posix()}
-    if home_path.drive:
+    normalized_home = home.replace(BS, "/")
+    git_bash_home = re.match(r"^/([a-zA-Z])/(.+)$", normalized_home)
+    if git_bash_home:
+        drive_letter, home_tail = git_bash_home.groups()
+        home_forms.update({
+            f"{drive_letter.upper()}:/{home_tail}",
+            f"{drive_letter.upper()}:{BS}{home_tail.replace('/', BS)}",
+        })
+    elif home_path.drive:
         home_tail = home_path.as_posix().split(":", 1)[1].lstrip("/")
-        home_forms.add("/" + home_path.drive[0].lower() + "/" + home_tail)
+        drive_letter = home_path.drive[0]
+        home_forms.update({
+            "/" + drive_letter.lower() + "/" + home_tail,
+            f"{drive_letter.upper()}:/{home_tail}",
+            f"{drive_letter.upper()}:{BS}{home_tail.replace('/', BS)}",
+        })
     SUBS = [(p, "~") for p in sorted(home_forms, key=len, reverse=True) if p]
     SUBS.extend([
         (f"C:{BS}Users{BS}ajhar{BS}code{BS}", "~/code/"),
