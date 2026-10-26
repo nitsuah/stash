@@ -142,10 +142,10 @@
     </p>
     <div class="layers">
       <div class="layer"><div><b>The queue is the lock <span class="ai zero">label flip</span></b><span>A warlock flips <code>imp:ready</code> → <code>imp:working</code> before spawning. Another machine sees the label and skips it. The window between reading the search result and flipping it is real and accepted: a duplicate imp produces a duplicate PR, which a human closes — not a corrupted repo.</span></div></div>
-      <div class="layer"><div><b>A claim has a lease <span class="ai zero">3 h</span></b><span>A label has no owner, so the warlock also writes a <code>&lt;!-- imp-claim --&gt;</code> comment naming the machine and the time. Every cycle reclaims claims older than 3 h made by another machine with no live run in this machine's ledger, comments <code>&lt;!-- imp-reclaim --&gt;</code>, and puts the issue back on <code>imp:ready</code>. A crashed machine therefore strands an issue for three hours, not forever.</span></div></div>
+      <div class="layer"><div><b>A claim has a lease <span class="ai zero">3 h</span></b><span>A label has no owner, so the warlock also writes a <code>&lt;!-- imp-claim --&gt;</code> comment naming the machine and the time.  The dispatcher reclaims claims older than 3 h made by another machine with no live run in this machine's ledger, comment <code>&lt;!-- imp-reclaim --&gt;</code>, and put the issue back on <code>imp:ready</code>. A crashed machine therefore strands an issue for up to three hours, not forever.</span></div></div>
       <div class="layer"><div><b>The ledger is per-machine <span class="ai zero">local</span></b><span><code>~/.imps/runs.jsonl</code> never leaves the machine. A warlock cannot fix-sweep a PR opened from another machine's ledger — it logs the PR as unknown and skips. Fix rounds happen on the machine that opened the PR, which is the machine holding its worktree and its test context.</span></div></div>
-      <div class="layer"><div><b>Every run says where it came from <span class="ai zero">kitSha</span></b><span>Ledger rows and dispatch events carry <code>kitSha</code> and <code>machine</code>. A behaviour change after a kit fix is then attributable — you can tell a bad brief from a machine that is forty commits behind instead of guessing.</span></div></div>
-      <div class="layer"><div><b>The heartbeat is the one shared thing <span class="ai once">opt-in</span></b><span>With <code>"heartbeat": true</code> in <code>config.json</code> or <code>IMPS_HEARTBEAT=1</code>, each cycle updates one issue, <code>imps heartbeat: &lt;machine&gt;</code>, with its kit sha, last cycle and runs today. A row that has stopped moving is a machine that is not running. It never fails a cycle — a heartbeat that can break the loop would be worse than no heartbeat.</span></div></div>
+      <div class="layer"><div><b>Every run says where it came from <span class="ai zero">not recorded</span></b><span>Run provenance is <em>not currently recorded</em> — ledger rows and dispatch events do not carry <code>kitSha</code> or <code>machine</code>. A future kit change will add these fields so a behaviour change after a kit fix is attributable — you can tell a bad brief from a machine that is forty commits behind instead of guessing.</span></div></div>
+      <div class="layer"><div><b>The heartbeat is the one shared thing <span class="ai once">opt-in</span></b><span>Heartbeat is <em>opt-in</em> — <code>"heartbeat": true</code> in <code>config.json</code> or <code>IMPS_HEARTBEAT=1</code> updates one issue, <code>imps heartbeat: <machine></code>, with its kit sha, last cycle and runs today. A row that has stopped moving is a machine that is not running. It will never fail a cycle — a heartbeat that can break the loop would be worse than no heartbeat.</span></div></div>
     </div>
     <div class="callout" style="margin-top:18px">
       Do not point two machines at one <code>IMPS_HOME</code>. The ledger is the warlock's memory, not a cache, and two
@@ -162,7 +162,7 @@
       Everything that can be a script is a script. Caps live in code defaults (see
       <a href="https://github.com/nitsuah/.github/blob/main/imps/defaults.mjs">defaults.mjs</a> /
       <a href="https://github.com/nitsuah/.github/blob/main/imps/lib.mjs">lib.mjs</a>), not in wishful docs, and
-      <code>check-defaults.mjs</code> fails the build when this page's contract and the code disagree.
+      <code>check-defaults.mjs</code> reads <code>STANDARD.md</code> and <code>dispatch.mjs</code> header and fails the build when they disagree with the code; it does not read <code>pages/imps.html</code>.
     </p>
     <div class="table-wrap">
       <table>
@@ -170,7 +170,7 @@
         <tbody>
           <tr><td>Clean env</td><td>Worker gets PATH and the 9router URL/key. No Claude session tokens, no GitHub token.</td></tr>
           <tr><td>No push from the worker</td><td>Worktree push URL is <code>no_push</code>. Only <code>imp.mjs pr</code> pushes, and only after the gate passes.</td></tr>
-          <tr><td>Diff budget</td><td>Gate default <code>maxLines</code> is <strong>40</strong> (brief can raise it). Fix rounds get <code>--slack 30</code> extra lines.</td></tr>
+          <tr><td>Diff budget</td><td>Gate default <code>maxLines</code> is <strong>15</strong> (brief can raise it). Fix rounds get <code>--slack 30</code> extra lines.</td></tr>
           <tr><td>Scope</td><td>Every changed path must start with a brief <code>allow:</code> prefix when allow is set.</td></tr>
           <tr><td>Deny list</td><td><code>.github/</code>, <code>.env</code> anywhere, <code>secrets/</code>, package / yarn / pnpm / bun lockfiles.</td></tr>
           <tr><td>Trailer</td><td>Every commit authored as the imp must match <code>/Co-Authored-By: .*imp/i</code>.</td></tr>
@@ -199,7 +199,7 @@
     <div class="grid g3">
       <div class="card"><span class="tag">1 · kit</span><h3><code>setup.ps1</code> / <code>setup.sh</code></h3><p>Checks node, git, <code>gh auth</code>, Docker and 9router. Installs the detached runner, clones <code>IMPS_CODE/.github</code> for kit self-work, creates <code>~/.imps</code>, and registers the schedule.</p></div>
       <div class="card"><span class="tag green">2 · schedule</span><h3>hourly :07 + label watch</h3><p>Windows: two Scheduled Tasks. macOS/Linux: <code>crontab</code> when it exists; otherwise setup prints a hint to configure your own scheduler (it does not install systemd timers automatically and does not fail).</p></div>
-      <div class="card"><span class="tag warn">3 · self-update</span><h3>fetch + reset every cycle</h3><p>The wrappers pull <code>origin/main</code> themselves, so a merged kit change reaches every machine on its next tick with no one visiting it. A failed fetch or reset aborts the cycle non-zero; it never runs whatever happened to be on disk.</p></div>
+      <div class="card"><span class="tag warn">3 · self-update</span><h3>fetch + reset every cycle</h3><p>The Unix wrapper (<code>hourly.sh</code>) aborts on failed fetch or reset. The Windows wrappers (<code>hourly.cmd</code>, <code>label-watch.cmd</code>) check exit codes after <code>git fetch</code> and <code>git reset</code> — a failed fetch or reset aborts the cycle so a merged kit change always reaches the machine.</p></div>
     </div>
 
     <div class="table-wrap" style="margin-top:24px">
@@ -215,16 +215,13 @@
 
     <div class="layers" style="margin-top:24px">
       <div class="layer"><div><b>Preflight <span class="ai zero">fails loud</span></b><span><code>imps/preflight.mjs</code> refuses a checkout where a required kit file is missing or any <code>.mjs</code> is under 200 bytes. A hand-copied stub once satisfied a "does the file exist" check and no-op'd on schedule for days while every dashboard looked healthy — an existence check is not a health check.</span></div></div>
-      <div class="layer"><div><b>Drift the pull cannot fix <span class="ai zero">warlock.mjs</span></b><span>Two things are generated or local: the <code>hourly.*</code> wrapper itself (Unix wrapper exports <code>IMPS_KIT_PATH</code>; Windows wrapper <code>set</code>s it), and <code>~/.imps</code>. <code>warlock.mjs</code> reads the wrapper's <code>IMPS_KIT_PATH</code> and compares it to the runner's HEAD; <code>doctor.ps1</code> runs it — so a stale wrapper is a failing check, not an archaeology project.</span></div></div>
+      <div class="layer"><div><b>Drift the pull cannot fix <span class="ai zero">warlock.mjs</span></b><span><code>warlock.mjs</code> checks: runner path known, runner is a real git checkout, has <code>imps/dispatch.mjs</code>, no tracked edits, current with <code>origin/main</code>, <code>hourly.cmd</code> (Windows) or <code>hourly.sh</code> (Unix) points at it and was generated from its sha, exactly one dispatch task (on Windows; Unix users must verify manually), lock not stale, ledger parseable, and one HTTP <code>MAX</code> probe to 9router. <code>preflight.mjs</code> and <code>doctor.ps1</code> do not run <code>warlock.mjs</code>; they only verify the kit files exist and pass size checks.</span></div></div>
       <div class="layer"><div><b>Dry run <span class="ai zero">IMPS_DRY_RUN=1</span></b><span>Flows through both wrappers. A new machine can prove it sees the queue and understands the briefs before it claims a single issue.</span></div></div>
-      <div class="layer"><div><b>Health, one command <span class="ai zero">exit 1 on any failure</span></b><span><code>warlock.mjs</code> checks: runner path known, runner is a real git checkout, has <code>imps/dispatch.mjs</code>, no tracked edits, current with <code>origin/main</code>, <code>hourly.cmd</code> points at it and was generated from its sha, exactly one dispatch task, lock not stale, ledger parseable — and one HTTP <code>MAX</code> probe to 9router.</span></div></div>
+      <div class="layer"><div><b>Health, one command <span class="ai zero">exit 1 on any failure</span></b><span><code>warlock.mjs</code> checks: runner path known, runner is a real git checkout, has <code>imps/dispatch.mjs</code>, no tracked edits, current with <code>origin/main</code>, <code>hourly.cmd</code> (Windows) or <code>hourly.sh</code> (Unix) points at it and was generated from its sha, exactly one dispatch task (on Windows; Unix users must verify manually), lock not stale, ledger parseable — and one HTTP <code>MAX</code> probe to 9router.</span></div></div>
     </div>
 
     <p class="sub" style="margin-top:22px">
-      Deploying a second machine is therefore: clone, run setup, done. It pulls its own updates from then on. When a
-      machine genuinely stalls, the kit's own RSI loop files an <code>imp:ready</code> issue against the kit — the fleet
-      repairs its own tooling instead of waiting for a person to notice.
-    </p>
+      Deploying a second machine is therefore: clone, run setup, done. It pulls its own updates from then on. When a machine genuinely stalls, operators must monitor stalled machines independently. The kit's RSI loop (<code>rsi.mjs</code>) files <code>imp:ready</code> issues against the kit for recurring gate failures, fix-loop <code>needs-human</code> spikes, and open journey issues observed during running cycles — so the fleet repairs its own tooling instead of waiting for a person to notice.
   </div>
 </section>
 
