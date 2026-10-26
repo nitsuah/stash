@@ -48,7 +48,7 @@ def main():
             home_match = PERSONAL_HOME.search(line)
             if match or home_match:
                 kind = "personal_home_path" if home_match else match.lastgroup
-                report.append("{}:{}: {}".format(s, i, kind))
+                report.append(f"{s}:{i}: {kind}")
     (dist / "README.txt").write_text(
         "Claude Code Skills Starter Bundle\n"
         "Copy any folder into ~/.claude/skills/ . Each skill is a SKILL.md workflow for Claude Code. "

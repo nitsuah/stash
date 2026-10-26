@@ -1,7 +1,7 @@
 """Writes icon16/48/128.png (blue rounded tile with a white check) using only the standard library. Run in python:3-slim."""
-from pathlib import Path
 import struct
 import zlib
+from pathlib import Path
 
 
 def png(size):
