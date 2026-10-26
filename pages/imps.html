@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>stash · imps</title>
+  <meta name="description" content="One GitHub issue to one small PR: headless Claude workers through 9router, gated by Docker tests, diff caps and path deny-lists, then reviewed before anything merges.">
+  <meta property="og:title" content="stash · imps: one issue → one small PR">
+  <meta property="og:description" content="Headless workers with deterministic gates. The model writes the patch; the gate decides whether it ships as a PR.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+<!-- Showcase kit: click-to-expand images, fullscreen button on videos. Spec: https://github.com/nitsuah/.github/blob/main/showcase/STANDARD.md -->
+<script src="https://cdn.jsdelivr.net/gh/nitsuah/.github@main/showcase/expand.js" defer></script>
+  <style>
+    .layer .ai { font: 600 11px/1 var(--mono); padding: 3px 6px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+    .layer .ai.once { background: var(--accent-soft); color: var(--accent); }
+    .layer .ai.zero { background: var(--accent-2-soft); color: var(--accent-2); }
+    .flow {
+      display: grid; gap: 8px; margin-top: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .flow .step {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px 16px; min-height: 96px;
+    }
+    .flow .step b { display: block; font: 600 13px/1.3 var(--mono); color: var(--accent); margin-bottom: 6px; }
+    .flow .step span { font-size: 14px; color: var(--muted); }
+    .flow .arrow {
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .flow { grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; align-items: stretch; }
+      .flow .arrow {
+        display: flex; align-items: center; justify-content: center;
+        color: var(--muted); font: 600 18px var(--mono); padding: 0 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="dot"></span>stash · imps</a>
+    <div class="links">
+      <a href="#flow">Flow</a>
+      <a href="#rails">Safety</a>
+      <a href="#setup">Setup</a>
+      <a href="#rsi">Improve</a>
+      <a href="#together">With journeys</a>
+      <a href="journeys.html">Journeys</a>
+      <a href="./">One brain ↩</a>
+      <a href="https://github.com/nitsuah/stash">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">nitsuah/stash · agent/prompts/IMPS.md</div>
+    <h1>One issue. One small <em>PR</em>.</h1>
+    <p class="lede">
+      An imp is a headless Claude worker, routed through 9router, that takes exactly one GitHub issue and opens one
+      small pull request. The model never pushes and never holds a GitHub token. A deterministic gate — Docker tests,
+      a line budget, path allow/deny lists, and a <code>Co-Authored-By</code> trailer — decides whether the work becomes a PR.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/nitsuah/.github/blob/main/imps/STANDARD.md">Read the standard →</a>
+      <a class="btn" href="https://github.com/nitsuah/stash/blob/main/agent/prompts/IMPS.md">Playbook and run log</a>
+      <a class="btn" href="https://github.com/nitsuah/.github/tree/main/imps">The public kit</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>1</b><span>issue → 1 PR</span></div>
+      <div class="stat"><b>15</b><span>default maxLines at the gate</span></div>
+      <div class="stat"><b>2</b><span>fix rounds, then needs-human</span></div>
+      <div class="stat"><b>15</b><span>runs / 24 h daily cap</span></div>
+      <div class="stat"><b>0</b><span>GitHub token in the worker</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Queue → gate → PR → review / fix</h2>
+    <p class="sub">
+      GitHub issues are the queue. Labels are the state machine. The hourly dispatcher has no model of its own:
+      it picks work, runs the kit, and writes the ledger.
+    </p>
+
+    <div class="flow" aria-label="Imp lifecycle">
+      <div class="step"><b>1 · Queue</b><span><code>imp:ready</code> + an <code>&lt;!-- imp-brief --&gt;</code> comment with front matter (<code>repo</code>, <code>issue</code>, <code>test</code>, <code>maxLines</code>, <code>allow</code>).</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="step"><b>2 · Run</b><span>Throwaway worktree, clean env, tool allowlist. Commits locally as <code>9router imp</code>. Push URL is <code>no_push</code>.</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="step"><b>3 · Gate</b><span>Docker tests exit 0, diff within <code>maxLines</code>, paths under <code>allow</code>, deny list clean, every imp commit carries the trailer.</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="step"><b>4 · PR + loop</b><span>Open a PR labelled <code>imp</code>, read-only review, up to two fix rounds on feedback / red CI, then <code>imp:needs-human</code>.</span></div>
+    </div>
+
+    <div class="layers" style="margin-top:28px">
+      <div class="layer"><div><b>Brief <span class="ai once">human / triage</span></b><span>Newest issue comment starting with <code>&lt;!-- imp-brief --&gt;</code> wins. Front matter is taken verbatim. The runner substitutes <code>{wt}</code> and runs <code>test:</code> itself — the model's "tests pass" claim is never trusted.</span></div></div>
+      <div class="layer"><div><b>Dispatcher <span class="ai zero">0 tokens</span></b><span><code>dispatch.mjs</code> hourly: lock file, 9router <code>MAX</code> health probe, fix-sweep open <code>imp</code> PRs first, then pick quiet repos (prefer <code>bot:review</code>), respect WIP / per-repo / daily caps, pause a repo 24 h after two straight gate failures.</span></div></div>
+      <div class="layer"><div><b>Worker <span class="ai once">AI · one issue</span></b><span><code>imp.mjs run</code> through 9router with PATH + router URL/key only. Tools: Read, Edit, Write, Glob, Grep, a short git allowlist, <code>docker run</code>. No <code>gh</code>, no host npm.</span></div></div>
+      <div class="layer"><div><b>Gate <span class="ai zero">deterministic</span></b><span>Tests and optional <code>lint:</code> in Docker, at least one commit, <code>Co-Authored-By: …imp</code> on every imp-authored commit, no leftovers, size and scope checks, hard deny of <code>.github/</code>, <code>.env*</code>, <code>secrets/</code>, lockfiles.</span></div></div>
+      <div class="layer"><div><b>PR / review / fix <span class="ai once">AI · bounded</span></b><span>After a pass, <code>imp.mjs pr</code> pushes and opens the PR. <code>review.mjs</code> posts a read-only COMMENT review (verdict recomputed from findings). <code>fix.mjs</code> answers threads and red CI for at most two rounds.</span></div></div>
+    </div>
+
+    <div class="callout ok" style="margin-top:20px">
+      Labels: <code>imp:ready</code> → <code>imp:working</code> → <code>imp:pr</code> or <code>imp:failed</code>. Exhausted fix rounds or a conflict get <code>imp:needs-human</code>.
+      The kit can arm squash auto-merge when the reviewer verdict is approve <em>and</em> checks look green — branch rulesets still apply, so required status checks are what actually stop a red merge.
+    </div>
+  </div>
+</section>
+
+<section id="rails">
+  <div class="wrap">
+    <div class="eyebrow">Guardrails</div>
+    <h2>The model is nondeterministic. The rails are not.</h2>
+    <p class="sub">
+      Everything that can be a script is a script. Caps live in code defaults (see
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/dispatch.mjs">dispatch.mjs</a> /
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/lib.mjs">lib.mjs</a>), not in wishful docs.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rail</th><th>What the code does</th></tr></thead>
+        <tbody>
+          <tr><td>Clean env</td><td>Worker gets PATH and the 9router URL/key. No Claude session tokens, no GitHub token.</td></tr>
+          <tr><td>No push from the worker</td><td>Worktree push URL is <code>no_push</code>. Only <code>imp.mjs pr</code> pushes, and only after the gate passes.</td></tr>
+          <tr><td>Diff budget</td><td>Gate default <code>maxLines</code> is <strong>15</strong> (brief can raise it). Fix rounds get <code>--slack 30</code> extra lines.</td></tr>
+          <tr><td>Scope</td><td>Every changed path must start with a brief <code>allow:</code> prefix when allow is set.</td></tr>
+          <tr><td>Deny list</td><td><code>.github/</code>, <code>.env</code> anywhere, <code>secrets/</code>, package / yarn / pnpm / bun lockfiles.</td></tr>
+          <tr><td>Trailer</td><td>Every commit authored as the imp must match <code>/Co-Authored-By: .*imp/i</code>.</td></tr>
+          <tr><td>Throughput caps</td><td>Defaults today: <code>--max 5</code>, <code>--wip 8</code>, <code>--per-repo 4</code>, <code>--concurrency 4</code>, <code>--daily-cap 15</code>.</td></tr>
+          <tr><td>Cooldown</td><td>24 h repo pause after two consecutive gate failures (<code>loopBudget</code>).</td></tr>
+          <tr><td>Fix budget</td><td>Two rounds, then <code>imp:needs-human</code>. Conflicts escalate the same way.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="wrap">
+    <div class="eyebrow">Machine setup</div>
+    <h2>A detached runner, never a copy inside the repo</h2>
+    <p class="sub">
+      The kit lives in the public <a href="https://github.com/nitsuah/.github/tree/main/imps">nitsuah/.github <code>imps/</code></a>
+      tree (same pattern as <a href="journeys.html">journeys</a>). Each machine keeps a <em>detached</em> checkout outside
+      any project tree, so the hourly task can reset it to <code>origin/main</code> and only merged kit code runs unattended.
+    </p>
+    <div class="grid g3">
+      <div class="card"><span class="tag">kit</span><h3>nitsuah/.github/imps</h3><p>Contract in <code>STANDARD.md</code>, plus <code>dispatch.mjs</code>, <code>imp.mjs</code>, <code>lib.mjs</code>, <code>review.mjs</code>, <code>fix.mjs</code>, <code>precheck.mjs</code>, prompts and tests.</p></div>
+      <div class="card"><span class="tag green">runner</span><h3>Detached checkout</h3><p>Rebuild locally (often named <code>imps-runner</code>), register the Windows scheduled task that runs the hourly wrapper, and point stash at it with <code>IMPS_KIT_PATH</code> or ignored <code>.imps/kit-path.txt</code>. Prefer the kit's setup script when present; otherwise follow STANDARD § Scheduling.</p></div>
+      <div class="card"><span class="tag warn">stash wrapper</span><h3>scripts/imp-run.ps1</h3><p>Thin resolver: config → local kit path → <code>node &lt;kit&gt;/imps/imp.mjs …</code>. Repo config stays in <code>.github/imps-config.yml</code>; secrets and absolute paths stay off git.</p></div>
+    </div>
+    <div class="callout" style="margin-top:18px">
+      State lives under a machine-local home (default <code>~/.imps</code>): <code>runs.jsonl</code>, <code>dispatch.jsonl</code>, briefs and transcripts.
+      Paths and tokens never belong in the Pages site or the public repo.
+    </div>
+  </div>
+</section>
+
+<section id="rsi">
+  <div class="wrap">
+    <div class="eyebrow">Self-improvement</div>
+    <h2>Measure the runs. Teach the preamble.</h2>
+    <p class="sub">
+      Every run writes a ledger row (model served, turns, tool errors, gate reasons, tokens). That is the training data
+      for the next prompt change — not vibes.
+    </p>
+    <div class="layers">
+      <div class="layer"><div><b>Report</b><span><code>node imps/imp.mjs report</code> (and <code>stats.mjs</code>) surfaces recurring tool-error kinds and gate failures.</span></div></div>
+      <div class="layer"><div><b>One lesson</b><span>Each recurring failure becomes one line under "Lessons from earlier runs" in <code>PREAMBLE.md</code>, or one gate rule in <code>lib.mjs</code>, citing the run ids. Same loop for <code>REVIEW.md</code> and <code>FIX.md</code>.</span></div></div>
+      <div class="layer"><div><b>Own PR</b><span>Ship the lesson alone so the brief hash changes and the next batch shows whether it helped. Delete a lesson once ~10 runs pass without hitting it.</span></div></div>
+      <div class="layer"><div><b>Token review</b><span>Weekly: can a script or a free model do the paid triage step? Move one thing per review into the kit (<code>precheck.mjs</code> is the template).</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="together">
+  <div class="wrap">
+    <div class="eyebrow">Cost-aware loop</div>
+    <h2>Journeys find. Imps fix. Journeys verify.</h2>
+    <p class="sub">
+      Nightly journeys cost zero tokens and file <code>bot:journey</code> issues with screenshots and a Docker repro.
+      Imps are for the small, already-diagnosed fixes (often <code>bot:review</code> first). Green nights after the merge
+      are the verification — the bot closes the issue, not the author.
+    </p>
+    <div class="grid g3">
+      <a class="card" href="journeys.html"><span class="tag">find / verify</span><h3>Journeys</h3><p>AI once at setup. Playwright every night. Dedup, reopen, auto-close after three green nights.</p></a>
+      <a class="card" href="https://github.com/nitsuah/.github/tree/main/imps"><span class="tag warn">fix</span><h3>Imps</h3><p>One briefed issue, one gated PR, bounded fix rounds. Public kit shared across repos.</p></a>
+      <a class="card" href="https://github.com/nitsuah/stash/blob/main/agent/repos/motor-pool/docs/IMPS-PLAN.md"><span class="tag green">next</span><h3>motor-pool plan</h3><p>Long-term: durable queue, <code>imp-runner</code> container, GitHub App identity, imps never merge without a human ruleset.</p></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>nitsuah/stash · a public reference, not a product · <a href="https://github.com/nitsuah/stash/blob/main/LICENSE">license</a></span>
+    <span><a href="./">one brain</a> · <a href="journeys.html">journeys</a> · <a href="setup.html">setup</a> · <a href="https://github.com/nitsuah/stash/blob/main/agent/prompts/IMPS.md">IMPS.md</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

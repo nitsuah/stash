@@ -1,6 +1,6 @@
 # JOURNEYS
 
-The low-inference "AI user" loop: nightly Playwright journeys that use each product like a person would, with no AI at run time. Failures become deduplicated `bot:journey` issues, the next nights verify the fixes, and monthly metrics feed [[RSI]]. Think OSRS essence-mining bots: deterministic, repeatable, near-zero tokens.
+The low-inference "AI user" loop: nightly Playwright journeys that use each product like a person would, with no AI at run time. Failures become deduplicated `bot:journey` issues, the next nights verify the fixes, and monthly metrics feed [[RSI]]. Think OSRS essence-mining bots: deterministic, repeatable, near-zero tokens. Small, already-diagnosed fixes can go to [[IMPS]] (one issue → one gated PR); journeys still verify after merge.
 
 - **Contract and code:** [nitsuah/.github `journeys/`](https://github.com/nitsuah/.github/tree/main/journeys). Start with `STANDARD.md`. The reusable workflow is `nitsuah/.github/.github/workflows/journeys.yml@main`.
 - **This file:** the inventory, the rollout order, the three prompts where AI is used, and the run and metrics logs.
