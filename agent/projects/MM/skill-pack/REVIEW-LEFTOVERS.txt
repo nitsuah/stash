@@ -1,0 +1,19 @@
+content-gen:122: | "No pexels_api_keys" error | Edit `agent-board/tools/content-gen/MoneyPrinterTurbo/config.toml` — all keys must be inside `[app]` section 
+repo-audit:124: ### Design system (use these tokens exactly)
+site-gen:34: **Netlify auth** (one-time): add `NETLIFY_AUTH_TOKEN` to `agent-board/.env`.
+site-gen:35: Get your token at https://app.netlify.com/user/applications#personal-access-tokens
+site-gen:227: | discover returns no leads | Add YELP_API_KEY to `tools/website/.env` (free at yelp.com/developers) |
+journeys:10: - **Contract** (lifecycle, labels, fingerprints, metrics): [journeys/STANDARD.md](https://github.com/nitsuah/.github/blob/main/journeys/STAN
+journeys:12: - **Reference implementation:** `nitsuah/fire` (`tests/journeys/`, `.github/workflows/journeys.yml`, `visual-docs.yml`).
+journeys:59: - **Same PR:** caller workflow (template, Playwright image pinned), `test:journeys` script, `journeys-report/` in .gitignore and eslint igno
+journeys:88: If the same friction appears twice in the log, it becomes a rule here or in STANDARD.md. Edit `nitsuah/.github/skills/journeys/SKILL.md`, th
+opencut:52: git clone https://github.com/nitsuah/opencut-classic.git ~/code\opencut
+opencut:69: BETTER_AUTH_SECRET=dummy_secret
+promo:8: `/promo` runs the visual-showcase loop for one repo, end to end, and leaves an auditable trail. The contract is [showcase/STANDARD.md](https
+promo:67: Screenshots and diagrams are CI's job. If the repo has no `.github/workflows/visual-docs.yml`, adopt the recipe from vigil's [docs/VISUAL_DO
+promo:71: - **If the repo has nightly journeys** ([journeys/STANDARD.md](https://github.com/nitsuah/.github/blob/main/journeys/STANDARD.md)), don't ad
+promo:89: A full-page screenshot paints `position: fixed`/`sticky` chrome once at the viewport bottom, over real content, and stops at a `100vh` or `o
+promo:103: **No browser needed** for card grids, matrices and chat turns: build an SVG in node and rasterize it with `@resvg/resvg-js` (`npm i --no-sav
+promo:228: - **Script-check the bounds.** Expose `window.bounds()` (every element's rect) from the composition and sample it at ~100 times across the s
+promo:277: - in `nitsuah/.github/showcase/`,
+promo:278: - or in this skill: `nitsuah/.github/skills/promo/SKILL.md`, then copy it to `~/.claude/skills/promo/`.

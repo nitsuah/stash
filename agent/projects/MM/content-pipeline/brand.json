@@ -1,0 +1,36 @@
+{
+  "_comment": "Edit freely. Variants are for A/B tests; record the variant used in drafts.notes. No logos or fonts are bundled yet.",
+  "brands": {
+    "nitsuah-labs": {
+      "role": "primary sales and tools brand",
+      "display_name": "Nitsuah Labs",
+      "tagline": "Small tools that save you hours.",
+      "colors": { "bg": "#0f1720", "fg": "#f5f7fa", "accent": "#10b981" },
+      "font": "DejaVu Sans",
+      "intro_text": "Nitsuah Labs",
+      "outro_text": "nitsuah.io",
+      "variants": {
+        "A": { "accent": "#10b981", "tagline": "Small tools that save you hours." },
+        "B": { "accent": "#f59e0b", "tagline": "Free tools. Paid shortcuts." }
+      }
+    },
+    "fps-tech": {
+      "role": "YouTube gaming and tech channel, drives clicks to the primary brand",
+      "display_name": "FPS Tech",
+      "tagline": "Gaming and cool tech.",
+      "colors": { "bg": "#0b0b12", "fg": "#ffffff", "accent": "#ef4444" },
+      "font": "DejaVu Sans",
+      "intro_text": "FPS Tech",
+      "outro_text": "More at nitsuah.io",
+      "variants": {
+        "A": { "accent": "#ef4444" },
+        "B": { "accent": "#22d3ee" }
+      }
+    }
+  },
+  "formats": {
+    "vertical": { "w": 1080, "h": 1920 },
+    "square": { "w": 1080, "h": 1080 },
+    "landscape": { "w": 1920, "h": 1080 }
+  }
+}

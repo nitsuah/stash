@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "One-Click Accessibility Check",
+  "version": "0.1.0",
+  "description": "Check the current page for WCAG accessibility problems in one click. Runs locally with axe-core, sends nothing anywhere.",
+  "permissions": ["activeTab", "scripting"],
+  "background": { "service_worker": "sw.js" },
+  "action": { "default_title": "Check accessibility", "default_popup": "popup.html" },
+  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" }
+}
