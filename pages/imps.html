@@ -92,6 +92,15 @@
       GitHub issues are the queue. Labels are the state machine. The hourly dispatcher has no model of its own:
       it picks work, runs the kit, and writes the ledger.
     </p>
+    <p class="sub">
+      <b>One warlock per machine, many imps per machine, many machines.</b> The warlock is the single
+      <code>dispatch.mjs</code> cycle; the imp-runner is the detached checkout it executes; imps are the workers.
+      More throughput means more imps (<code>--concurrency</code>), never a second warlock — two would see the same
+      <code>imp:ready</code> labels, pick the same briefs, and race on one <code>imp-nm-&lt;repo&gt;</code> volume.
+      Machines coordinate only through labels. Contract:
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/WARLOCK.md">WARLOCK.md</a>, checked by
+      <code>node &lt;kit&gt;/imps/warlock.mjs</code>.
+    </p>
 
     <div class="flow" aria-label="Imp lifecycle">
       <div class="step"><b>1 · Queue</b><span><code>imp:ready</code> + an <code>&lt;!-- imp-brief --&gt;</code> comment with front matter (<code>repo</code>, <code>issue</code>, <code>test</code>, <code>maxLines</code>, <code>allow</code>).</span></div>

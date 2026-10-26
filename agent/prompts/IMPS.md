@@ -19,6 +19,24 @@ Headless Claude workers (via 9router) that turn **one GitHub issue into one smal
 
 `agent/` holds prompts and knowledge. The detached `imps-runner` checkout holds the code that actually runs. Copying `imps/*.mjs` into `agent/` would fork the contract and break the "only merged kit code runs unattended" rule.
 
+## Topology: one warlock, many imps, many machines
+
+Three words, and the count that goes with each. Contract: `.github` [`imps/WARLOCK.md`](https://github.com/nitsuah/.github/blob/main/imps/WARLOCK.md); check it with `node <kit>/imps/warlock.mjs`.
+
+| Word | What it is | How many per machine |
+| --- | --- | --- |
+| **warlock** | the one `dispatch.mjs` cycle — no LLM of its own, just the queue | **exactly 1** |
+| **imp-runner** | the detached kit checkout the warlock executes | 1 (shared by every imp) |
+| **imp** | a headless `claude -p` worker through 9router | many — `--concurrency` / `--per-repo` / `--wip` / `--daily-cap` |
+
+The warlock holds a lock and picks work; it never edits a repo. Wanting more throughput is a request for **more imps**, never a second warlock — two warlocks see the same `imp:ready` labels, pick the same briefs, and race on one `imp-nm-<repo>` node_modules volume, which corrupts `npm ci` and shows up as gate failures that look like bad briefs.
+
+`dispatch.lock` skips a cycle when the lock is under 3 h old, so it stops *overlap*, not *duplication* — two warlocks started 4 h apart both run. One Scheduled Task per machine is the invariant the code cannot enforce, which is why `warlock.mjs` checks it.
+
+Machines are independent: own warlock, own runner, own `~/.imps`. They coordinate **only through GitHub labels** — `imp:ready` → `imp:working` is the queue's lock, coarse and accepted, since a duplicate run produces a duplicate PR a human closes, not a corrupted repo. The ledger is per-machine, so a warlock cannot fix-sweep a PR another machine opened; fix rounds happen on the machine that opened it. Never point two machines at one `IMPS_HOME`.
+
+**Why this is written down:** on 2026-10-26 `~/code/imps-runner` was a 78-byte `dispatch.mjs` stub with no `.git`, so `hourly.cmd` logged `IMP dispatch stub executed` on schedule and the hourly loop was inert while the real cycles came from hand-run `/imp`. "Is `dispatch.mjs` there" was the only question anything asked. `warlock.mjs` refuses to pass a directory that merely contains the file.
+
 ## Flow (verified against the kit)
 
 ```
@@ -95,6 +113,13 @@ Required: `repo`, `issue`. The runner runs `test` / `lint` / optional `format`. 
 4. Commit trailer helper: `scripts/imp-add-trailer.ps1` amends/creates the **commit** `Co-Authored-By` line the gate checks (it does not write a fake trailer into the brief file).
 
 ## Run log
+
+### 2026-10-26 · topology contract + topology check
+
+- Named the three parts in `.github` [`imps/WARLOCK.md`](https://github.com/nitsuah/.github/blob/main/imps/WARLOCK.md): **one warlock per machine, many imps per machine, many machines** (nitsuah/.github#52).
+- Added `<kit>/imps/warlock.mjs`: ten local checks, no mutation, exit 1 on any failure — runner path known, is a real git checkout, has `imps/dispatch.mjs`, no local edits, current with `origin/main`, `hourly.cmd` points at it, exactly one dispatch task, lock not stale, ledger parseable, 9router answers a MAX probe.
+- Found while writing it: this machine's `~/code/imps-runner` is a 78-byte `dispatch.mjs` stub with **no `.git`**, and `~/.imps/kit-path.txt` does not exist. `hourly.cmd` therefore logged `IMP dispatch stub executed` on schedule — the hourly loop was inert, and the real cycles came from hand-run `/imp`. `warlock.mjs` reports both as failures.
+- Repair is operator action, not a kit change: `pwsh imps/setup.ps1 -RunnerPath <fresh path>`, then re-run `warlock.mjs` until clean.
 
 ### 2026-10-26 · stash · Pages + vault wiring
 
