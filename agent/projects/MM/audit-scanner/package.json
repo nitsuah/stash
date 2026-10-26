@@ -1,0 +1,2 @@
+{ "name": "mm-audit-scanner", "version": "0.1.0", "type": "module", "private": true,
+  "dependencies": { "axe-core": "4.10.2", "playwright": "1.64.0" } }

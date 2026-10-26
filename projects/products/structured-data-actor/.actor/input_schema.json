@@ -1,0 +1,23 @@
+{
+    "title": "Structured Data Validator input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "Pages to start from (up to 20). The Actor follows links on the same site.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "maxPages": {
+            "title": "Max pages to check",
+            "type": "integer",
+            "description": "Upper limit of pages checked (1 to 500).",
+            "default": 30,
+            "minimum": 1,
+            "maximum": 500
+        }
+    },
+    "required": ["startUrls"]
+}

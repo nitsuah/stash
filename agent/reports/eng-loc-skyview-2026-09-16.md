@@ -6,7 +6,7 @@ date: 2026-09-16
 
 # LOC Report — skyview
 
-> 🧭 [[repos/skyview|skyview]] <!-- nav -->
+> 🧭 [[repos/skyview|skyview]] · [[reports/eng-loc-skyview-2026-10-22|2026-10-22]] → <!-- nav -->
 
 Mode: `--report` (dry run, no changes made)
 Date: 2026-09-16

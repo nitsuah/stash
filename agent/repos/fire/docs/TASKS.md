@@ -182,8 +182,8 @@ These items came from the current browser/production pass. **P0** items are corr
 - [x] **Nightly "AI user" journeys (pilot for the cross-repo loop)**
   - Done 2026-10-09: 7 journeys, 19 baselines, nightly caller on the shared nitsuah/.github harness. nitsuah/.github#19 is merged, the manual `journeys.yml` run completed successfully, `bot/journeys` exists, and the nightly schedule is running.
 - [ ] **Fix the review-pass findings** (label `bot:review`). Fixing one may change a baseline: regenerate it in Docker in the same PR.
-  - Priority: P1: #169 insights equity % counts crypto, #170 single-stock warning on broad ETFs (wrong advice). #178 MCP fire_status_summary disagrees with the dashboard (Claude gives different numbers than the UI).
-  - Priority: P2: #166 privacy-modal nav links 404, #167 allocation legend clipped, #168 expense label/hint collisions, #171 settings toggles misaligned, #172 truncated selects, #173 ledger add-row on phones (with "Normalize Side Gig Ledger form controls" above).
+  - Priority: P1: ~~#169 insights equity % counts crypto~~ (fixed in #236), ~~#170 single-stock warning on broad ETFs (wrong advice)~~ (fixed in #230). #178 MCP fire_status_summary disagrees with the dashboard (Claude gives different numbers than the UI).
+  - Priority: P2: ~~#166 privacy-modal nav links 404~~ (fixed in #229), ~~#167 allocation legend clipped~~ (fixed in #233), #168 expense label/hint collisions, #171 settings toggles misaligned, #172 truncated selects, #173 ledger add-row on phones (with "Normalize Side Gig Ledger form controls" above).
   - Promo: #174 seed history dropped, #175 `vitalik.eth` in the demo seed. Done 2026-10-09 in the /promo refresh (#176): `capture.js` pre-writes the seed's history, and the demo wallet is now the unregistered `fire-demo-wallet.eth`.
 - [x] **/promo refresh (2026-10-09)**
   - Done: spots.json culled (38 of 95 `"visual": "none"`), 13 docs screenshots from the journeys (`npm run capture:screenshots`, `visual-docs.yml`), published spots re-captured with the fixed seed.

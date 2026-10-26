@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "paths": ["/", "/about", "/contact"],
+  "readyTimeoutMs": 10000,
+  "settleMs": 1500,
+  "readySelectors": {},
+  "failOn": { "critical": 0, "serious": 0, "moderate": 10 },
+  "ignoreRules": []
+}

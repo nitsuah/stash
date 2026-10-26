@@ -1,0 +1,73 @@
+// Content for each cover. Visual paths are relative to the MM folder (mounted at /w). Keep claims true to the pack contents.
+export const products = [
+  {
+    slug: 'event-flyer-generator', gumroad: 'xtebiq', a: '#4c1d95', b: '#be185d', c: '#fde68a',
+    title: 'Event Flyer Generator', tagline: 'Edit one JSON file. Get a print-ready SVG flyer.',
+    bullets: ['Print-ready SVG at any size', 'Change text, dates and colors in JSON', 'One small Python script, no installs'],
+    chips: ['SVG', 'JSON', 'Python'],
+    visual: { img: 'pack-factory/out/event-flyer-generator/flyer.svg', pos: 'center', fit: 'contain', bg: '#0f1720' },
+  },
+  {
+    slug: 'local-seo-jsonld', gumroad: 'yfboq', a: '#064e3b', b: '#0f766e', c: '#99f6e4',
+    title: 'Local SEO JSON-LD Generator', tagline: 'LocalBusiness schema markup from one simple file.',
+    bullets: ['Name, address, hours and services', 'Valid LocalBusiness JSON-LD output', 'Paste it into your site header'],
+    chips: ['JSON-LD', 'Python', 'Local SEO'],
+    visual: { file: 'business.json  >  jsonld', code: '<span class="c">// business.json</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Corner Cafe"</span>,\n  <span class="k">"telephone"</span>: <span class="s">"Phone not provided"</span>,\n  <span class="k">"address"</span>: { <span class="k">"city"</span>: <span class="s">"Your Town"</span> },\n  <span class="k">"hours"</span>: [ <span class="s">"Mon-Fri 8-4"</span> ]\n}\n\n<span class="g">$ python make_jsonld.py</span>\n&lt;script type="application/ld+json"&gt;\n{ <span class="k">"@type"</span>: <span class="s">"LocalBusiness"</span>, ... }\n&lt;/script&gt;' },
+  },
+  {
+    slug: 'accessible-menu-site', gumroad: 'zqkotu', a: '#7c2d12', b: '#b45309', c: '#fde68a',
+    title: 'Accessible Menu Website Template', tagline: 'Edit a JSON file, get a finished restaurant menu site.',
+    bullets: ['Menu, hours and contact from menu.json', 'Scores 100 on automated accessibility checks', 'Plain HTML you can host anywhere'],
+    chips: ['HTML', 'CSS', 'JSON'],
+    visual: { page: 'pack-factory/out/menu-website-template/index.html', scale: 0.7 },
+  },
+  {
+    slug: 'printable-planners', gumroad: 'yircy', a: '#1e3a8a', b: '#0e7490', c: '#a5f3fc',
+    title: 'Printable Planners', tagline: 'Weekly, daily, habit tracker and budget pages that print clean.',
+    bullets: ['Four ready-to-print planners', 'Plain HTML, print to PDF in one click', 'US Letter size, print as many as you like'],
+    chips: ['Weekly', 'Daily', 'Habits', 'Budget'],
+    visual: { page: 'pack-factory/out/printable-planners/weekly-planner.html', scale: 0.7 },
+  },
+  {
+    slug: 'obsidian-freelancer-vault', gumroad: 'faqgui', a: '#312e81', b: '#6d28d9', c: '#ddd6fe',
+    title: 'Obsidian Freelancer Vault', tagline: 'Clients, projects and templates, ready to open in Obsidian.',
+    bullets: ['Client and project folder structure', 'Templates for notes and meetings', 'A dashboard that ties it together'],
+    chips: ['Obsidian', 'Markdown', 'Templates'],
+    visual: { list: [['Dashboard.md', 'Your open projects and clients at a glance'], ['Clients/', 'One note per client with contacts and history'], ['Projects/', 'Scope, status and next actions'], ['Templates/', 'Meeting, project and client note templates'], ['README.md', 'Set up in five minutes']] },
+  },
+  {
+    slug: 'expense-categorizer', gumroad: 'albpz', a: '#14532d', b: '#15803d', c: '#bbf7d0',
+    title: 'Expense Categorizer for CSV Exports', tagline: 'Turn a messy bank export into categorized expenses.',
+    bullets: ['Rules you can edit in plain text', 'Works offline on your own files', 'Flags rows it cannot categorize'],
+    chips: ['CSV', 'Python', 'Bookkeeping'],
+    visual: { table: [['Description', 'Category', 'Amount'], ['AMZN MKTP US*2K4', 'Office supplies', '$42.18'], ['ADOBE *CREATIVE', 'Software', '$54.99'], ['SHELL OIL 5741', 'Vehicle', '$61.20'], ['ZOOM.US 888', 'Software', '$15.99'], ['VENMO PAYMENT', '? needs review', '$120.00']] },
+  },
+  {
+    slug: 'accessibility-ci-starter', gumroad: 'mfpaof', a: '#0f172a', b: '#1d4ed8', c: '#93c5fd',
+    title: 'Accessibility CI Starter', tagline: 'Fail the build when a page gets less accessible.',
+    bullets: ['GitHub Actions workflow, copy and go', 'axe-core and Playwright checks', 'Readable report on every pull request'],
+    chips: ['GitHub Actions', 'axe-core', 'Playwright'],
+    visual: { file: '.github/workflows/a11y.yml', code: '<span class="k">name</span>: Accessibility\n<span class="k">on</span>: [pull_request]\n<span class="k">jobs</span>:\n  <span class="k">axe</span>:\n    <span class="k">runs-on</span>: ubuntu-latest\n    <span class="k">steps</span>:\n      - <span class="k">uses</span>: actions/checkout@v4\n      - <span class="k">run</span>: npx playwright install chromium\n      - <span class="k">run</span>: node a11y/scan.mjs\n\n<span class="g">✓ 12 pages scanned</span>\n<span class="g">✓ 0 serious violations</span>', thumbCode: '<span class="k">on</span>: [pull_request]\n<span class="k">run</span>: node a11y/scan.mjs\n\n<span class="g">✓ 12 pages scanned</span>\n<span class="g">✓ 0 serious violations</span>' },
+  },
+  {
+    slug: 'claude-code-skills-bundle', gumroad: 'gghera', a: '#431407', b: '#c2410c', c: '#fed7aa',
+    title: 'Claude Code Skills Starter Bundle', tagline: 'Seven working skill folders to drop into Claude Code.',
+    bullets: ['Real, tested workflows, not templates', 'Each skill is one SKILL.md you can read', 'Edit them to fit your own projects'],
+    chips: ['7 skills', 'Claude Code', 'Markdown'],
+    visual: { list: [['repo-audit', 'Find large files and weak spots'], ['site-gen', 'Generate a client website'], ['promo', 'Keep screenshots and videos current'], ['journeys', 'Nightly user-journey checks'], ['content-gen', 'Short video from a topic'], ['opencut', 'Edit video from the terminal'], ['brag-slim', 'Launch video from a repo']] },
+  },
+  {
+    slug: 'minimal-line-icons', gumroad: 'uzghs', a: '#18181b', b: '#3f3f46', c: '#e4e4e7',
+    title: 'Minimal Line Icons', tagline: '41 clean SVG icons, one consistent style.',
+    bullets: ['Scalable SVG, change color with CSS', 'Same stroke weight across the set', 'Personal and commercial use, unlimited'],
+    chips: ['41 icons', 'SVG', 'Commercial OK'],
+    visual: { grid: 'icon-pack/dist/minimal-line-icons/svg' },
+  },
+  {
+    slug: 'freelancer-starter-kit', gumroad: 'mlljac', a: '#0c4a6e', b: '#0369a1', c: '#bae6fd',
+    title: 'Freelancer Starter Kit', tagline: 'Invoice, proposal, onboarding checklist and trackers.',
+    bullets: ['Invoice and proposal you can print', 'Client onboarding checklist', 'Income and time tracking sheets'],
+    chips: ['HTML', 'Markdown', 'CSV'],
+    visual: { list: [['01  Invoice', 'Printable HTML, edit and save as PDF'], ['02  Proposal', 'Scope, timeline and price on one page'], ['03  Client onboarding checklist', 'Everything to collect before you start'], ['04  Income and expense tracker', 'Spreadsheet-ready CSV'], ['05  Project time log', 'Hours per task and client']] },
+  },
+];

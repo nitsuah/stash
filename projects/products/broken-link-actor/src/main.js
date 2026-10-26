@@ -46,6 +46,7 @@ const crawler = new CheerioCrawler({
     failedRequestHandler: async () => {},
 });
 await crawler.run(startUrls);
+if (pagesCrawled === 0) await Actor.fail('No pages were crawled. Check that startUrls are reachable and return a crawlable response.');
 for (const u of startUrls) if (!sources.has(u)) sources.set(u, new Set(['(start URL)']));
 
 let links = [...sources.keys()].filter((l) => checkExternal || internalOrigins.has(originOf(l)));
@@ -82,6 +83,11 @@ async function worker() {
     }
 }
 await Promise.all(Array.from({ length: 10 }, worker));
+
+// A clean site must still return a row, so users (and Apify's daily self-test) can tell "no problems" from "nothing ran".
+if (broken === 0) {
+    await Actor.pushData({ brokenLink: null, status: null, error: null, internal: null, foundOnCount: 0, foundOn: [], message: `No broken links found (${links.length} links checked on ${pagesCrawled} pages)` });
+}
 
 await Actor.setValue('SUMMARY', { pagesCrawled, linksChecked: links.length, brokenLinks: broken, truncatedAt: truncated ? MAX_LINKS : null, checkedExternal: checkExternal, finishedAt: new Date().toISOString() });
 if (pagesCrawled > 0) await Actor.charge({ eventName: 'page-crawled', count: pagesCrawled });

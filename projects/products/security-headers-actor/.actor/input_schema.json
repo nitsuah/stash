@@ -1,0 +1,23 @@
+{
+    "title": "Security Headers and TLS Check input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "URLs to check",
+            "type": "array",
+            "description": "http(s) URLs to grade (up to 200). Each is checked separately.",
+            "editor": "requestListSources",
+            "prefill": [{ "url": "https://example.com/" }]
+        },
+        "timeoutSecs": {
+            "title": "Timeout per URL (seconds)",
+            "type": "integer",
+            "description": "How long to wait for each request and TLS handshake.",
+            "default": 15,
+            "minimum": 3,
+            "maximum": 60
+        }
+    },
+    "required": ["startUrls"]
+}

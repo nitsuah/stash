@@ -75,10 +75,10 @@ def main():
     ap.add_argument("--json")
     ap.add_argument("--under", default="")
     ap.add_argument("--check", action="store_true",
-                    help="exit 1 if a note outside the repos/<repo>/ mirrors is orphaned or unreachable, or "
-                         "two notes outside the mirrors share a name (an ambiguous [[wikilink]])")
+                    help="exit 1 if a note outside repo mirrors and the projects/MM source tree is orphaned or unreachable, or "
+                         "two notes outside repo mirrors and projects/MM share a name (an ambiguous [[wikilink]])")
     ap.add_argument("--long", type=int, default=0, metavar="N",
-                    help="also list notes outside the repos/<repo>/ mirrors longer than N lines, longest first")
+                    help="also list notes outside repo mirrors and projects/MM longer than N lines, longest first")
     a = ap.parse_args()
 
     notes, attachments = collect()
@@ -177,8 +177,8 @@ def main():
         sizes = []
         for n in scope:
             parts = n.split("/")
-            if parts[0] == "repos" and len(parts) > 2:
-                continue  # mirrors are copies of repo docs; split them in the repo, not here
+            if (parts[0] == "repos" and len(parts) > 2) or n.startswith("projects/MM/"):
+                continue  # repo mirrors and MM source copies are checked in their source projects
             try:
                 with open(os.path.join(VAULT, n), encoding="utf-8", errors="replace") as fh:
                     lines = sum(1 for _ in fh)
@@ -208,7 +208,7 @@ def main():
             print("  " + n)
         print("\nunreachable from the vault home (outside repo mirrors):")
         for n in unreachable:
-            if not re.match(r"^repos/[^/]+/", n):
+            if not re.match(r"^repos/[^/]+/", n) and not n.startswith("projects/MM/"):
                 print("  " + n)
     if a.json:
         with open(a.json, "w", encoding="utf-8") as f:
@@ -216,7 +216,7 @@ def main():
                        "unreachable": unreachable, "unresolved": broken,
                        "links": {n: sorted(out_links[n] | in_links[n]) for n in notes}}, f, indent=2)
     if a.check:
-        native = [n for n in notes if not re.match(r"^repos/[^/]+/", n)]
+        native = [n for n in notes if not re.match(r"^repos/[^/]+/", n) and not n.startswith("projects/MM/")]
         bad = sorted({n for n in orphans + unreachable if n in native})
         names = defaultdict(list)
         for n in native:
@@ -230,16 +230,16 @@ def main():
             for n in odd_ext:
                 print("  " + n)
         if ghosts:
-            print(f"\nFAIL: {sum(len(v) for v in ghosts.values())} broken link(s) in notes outside the repo mirrors "
+            print(f"\nFAIL: {sum(len(v) for v in ghosts.values())} broken link(s) in notes outside repo mirrors and MM source tree "
                   "(fix with scripts/fix-doc-links.py --vault):")
             for n, ts in ghosts.items():
                 print(f"  {n}: " + ", ".join(ts))
         if bad:
-            print(f"\nFAIL: {len(bad)} note(s) outside the repo mirrors have no path from the vault home:")
+            print(f"\nFAIL: {len(bad)} note(s) outside repo mirrors and MM source tree have no path from the vault home:")
             for n in bad:
                 print("  " + n)
         if dupes:
-            print(f"\nFAIL: {len(dupes)} name(s) shared by notes outside the repo mirrors "
+            print(f"\nFAIL: {len(dupes)} name(s) shared by notes outside repo mirrors and MM source tree "
                   "(a bare [[name]] is ambiguous and the graph shows look-alike nodes); rename one:")
             for v in dupes.values():
                 print("  " + " · ".join(v))
