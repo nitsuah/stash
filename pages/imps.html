@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>stash · imps</title>
-  <meta name="description" content="One GitHub issue to one small PR: headless Claude workers through 9router, gated by Docker tests, diff caps and path deny-lists, then reviewed before anything merges.">
+  <meta name="description" content="One GitHub issue to one small PR: headless Claude workers through 9router, gated by Docker tests, diff caps and path deny-lists, then reviewed before anything merges. One warlock per machine, many imps, many machines.">
   <meta property="og:title" content="stash · imps: one issue → one small PR">
-  <meta property="og:description" content="Headless workers with deterministic gates. The model writes the patch; the gate decides whether it ships as a PR.">
+  <meta property="og:description" content="Headless workers with deterministic gates, coordinated through GitHub labels alone. The model writes the patch; the gate decides whether it ships as a PR.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -46,8 +46,9 @@
     <a class="brand" href="./"><span class="dot"></span>stash · imps</a>
     <div class="links">
       <a href="#flow">Flow</a>
+      <a href="#fleet">Machines</a>
       <a href="#rails">Safety</a>
-      <a href="#setup">Setup</a>
+      <a href="#deploy">Deploy</a>
       <a href="#rsi">Improve</a>
       <a href="#together">With journeys</a>
       <a href="journeys.html">Journeys</a>
@@ -65,19 +66,20 @@
       An imp is a headless Claude worker, routed through 9router, that takes exactly one GitHub issue and opens one
       small pull request. The model never pushes and never holds a GitHub token. A deterministic gate — Docker tests,
       a line budget, path allow/deny lists, and a <code>Co-Authored-By</code> trailer — decides whether the work becomes a PR.
+      Add machines by running setup on each, not by running two dispatchers on one.
     </p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/nitsuah/.github/blob/main/imps/STANDARD.md">Read the standard →</a>
-      <a class="btn" href="https://github.com/nitsuah/stash/blob/main/agent/prompts/IMPS.md">Playbook and run log</a>
+      <a class="btn" href="https://github.com/nitsuah/.github/blob/main/imps/WARLOCK.md">The topology contract</a>
       <a class="btn" href="https://github.com/nitsuah/.github/tree/main/imps">The public kit</a>
     </div>
 
     <div class="stats">
       <div class="stat"><b>1</b><span>issue → 1 PR</span></div>
+      <div class="stat"><b>1</b><span>warlock per machine</span></div>
       <div class="stat"><b>15</b><span>default maxLines at the gate</span></div>
       <div class="stat"><b>2</b><span>fix rounds, then needs-human</span></div>
-      <div class="stat"><b>15</b><span>runs / 24 h daily cap</span></div>
-      <div class="stat"><b>0</b><span>GitHub token in the worker</span></div>
+      <div class="stat"><b>0</b><span>shared database, shared lock</span></div>
     </div>
   </div>
 </header>
@@ -92,9 +94,18 @@
       GitHub issues are the queue. Labels are the state machine. The hourly dispatcher has no model of its own:
       it picks work, runs the kit, and writes the ledger.
     </p>
+    <p class="sub">
+      <b>One warlock per machine, many imps per machine, many machines.</b> The warlock is the single
+      <code>dispatch.mjs</code> cycle; the imp-runner is the detached checkout it executes; imps are the workers.
+      More throughput means more imps (<code>--concurrency</code>), never a second warlock — two would see the same
+      <code>imp:ready</code> labels, pick the same briefs, and race on one <code>imp-nm-<repo></code> volume.
+      Machines coordinate only through labels. Contract:
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/WARLOCK.md">WARLOCK.md</a>, checked by
+      <code>node <kit>/imps/warlock.mjs</code>.
+    </p>
 
     <div class="flow" aria-label="Imp lifecycle">
-      <div class="step"><b>1 · Queue</b><span><code>imp:ready</code> + an <code>&lt;!-- imp-brief --&gt;</code> comment with front matter (<code>repo</code>, <code>issue</code>, <code>test</code>, <code>maxLines</code>, <code>allow</code>).</span></div>
+      <div class="step"><b>1 · Queue</b><span><code>imp:ready</code> + an <code><!-- imp-brief --></code> comment with front matter (<code>repo</code>, <code>issue</code>, <code>test</code>, <code>maxLines</code>, <code>allow</code>).</span></div>
       <div class="arrow" aria-hidden="true">→</div>
       <div class="step"><b>2 · Run</b><span>Throwaway worktree, clean env, tool allowlist. Commits locally as <code>9router imp</code>. Push URL is <code>no_push</code>.</span></div>
       <div class="arrow" aria-hidden="true">→</div>
@@ -104,8 +115,8 @@
     </div>
 
     <div class="layers" style="margin-top:28px">
-      <div class="layer"><div><b>Brief <span class="ai once">human / triage</span></b><span>Newest issue comment starting with <code>&lt;!-- imp-brief --&gt;</code> wins. Front matter is taken verbatim. The runner substitutes <code>{wt}</code> and runs <code>test:</code> itself — the model's "tests pass" claim is never trusted.</span></div></div>
-      <div class="layer"><div><b>Dispatcher <span class="ai zero">0 tokens</span></b><span><code>dispatch.mjs</code> hourly: lock file, 9router <code>MAX</code> health probe, fix-sweep open <code>imp</code> PRs first, then pick quiet repos (prefer <code>bot:review</code>), respect WIP / per-repo / daily caps, pause a repo 24 h after two straight gate failures.</span></div></div>
+      <div class="layer"><div><b>Brief <span class="ai once">human / triage</span></b><span>Newest issue comment starting with <code><!-- imp-brief --></code> wins. Front matter is taken verbatim. The runner substitutes <code>{wt}</code> and runs <code>test:</code> itself — the model's "tests pass" claim is never trusted.</span></div></div>
+      <div class="layer"><div><b>Dispatcher <span class="ai zero">0 tokens</span></b><span><code>dispatch.mjs</code> hourly at :07 plus a 5-minute label watch: lock file, 9router <code>MAX</code> health probe, reclaim stranded claims, fix-sweep open <code>imp</code> PRs first, then pick quiet repos (prefer <code>bot:review</code>), respect WIP / per-repo / daily caps, pause a repo 24 h after two straight gate failures.</span></div></div>
       <div class="layer"><div><b>Worker <span class="ai once">AI · one issue</span></b><span><code>imp.mjs run</code> through 9router with PATH + router URL/key only. Tools: Read, Edit, Write, Glob, Grep, a short git allowlist, <code>docker run</code>. No <code>gh</code>, no host npm.</span></div></div>
       <div class="layer"><div><b>Gate <span class="ai zero">deterministic</span></b><span>Tests and optional <code>lint:</code> in Docker, at least one commit, <code>Co-Authored-By: …imp</code> on every imp-authored commit, no leftovers, size and scope checks, hard deny of <code>.github/</code>, <code>.env*</code>, <code>secrets/</code>, lockfiles.</span></div></div>
       <div class="layer"><div><b>PR / review / fix <span class="ai once">AI · bounded</span></b><span>After a pass, <code>imp.mjs pr</code> pushes and opens the PR. <code>review.mjs</code> posts a read-only COMMENT review (verdict recomputed from findings). <code>fix.mjs</code> answers threads and red CI for at most two rounds.</span></div></div>
@@ -113,7 +124,32 @@
 
     <div class="callout ok" style="margin-top:20px">
       Labels: <code>imp:ready</code> → <code>imp:working</code> → <code>imp:pr</code> or <code>imp:failed</code>. Exhausted fix rounds or a conflict get <code>imp:needs-human</code>.
-      The kit can arm squash auto-merge when the reviewer verdict is approve <em>and</em> checks look green — branch rulesets still apply, so required status checks are what actually stop a red merge.
+      The kit can arm squash auto-merge when the reviewer verdict is approve <em>and</em> every check on the head commit is green — and it re-checks before merging, because
+      <code>gh pr merge --auto</code> only waits for <em>required</em> checks.
+    </div>
+  </div>
+</section>
+
+<section id="fleet">
+  <div class="wrap">
+    <div class="eyebrow">Many machines</div>
+    <h2>The queue is the lock. Nothing else is shared.</h2>
+    <p class="sub">
+      There is no shared database, no shared volume and no leader election. Each machine has its own warlock, its own
+      runner checkout and its own <code>~/.imps</code> state, and the only thing they read and write in common is GitHub.
+      That keeps a machine's death local — and it is also where the interesting failure modes live, so each one has a
+      mechanism rather than a hope.
+    </p>
+    <div class="layers">
+      <div class="layer"><div><b>The queue is the lock <span class="ai zero">label flip</span></b><span>A warlock flips <code>imp:ready</code> → <code>imp:working</code> before spawning. Another machine sees the label and skips it. The window between reading the search result and flipping it is real and accepted: a duplicate imp produces a duplicate PR, which a human closes — not a corrupted repo.</span></div></div>
+      <div class="layer"><div><b>A claim has a lease <span class="ai zero">3 h</span></b><span>A label has no owner, so the warlock also writes a <code><!-- imp-claim --></code> comment naming the machine and the time.  The dispatcher reclaims claims older than 3 h made by another machine with no live run in this machine's ledger, comment <code><!-- imp-reclaim --></code>, and put the issue back on <code>imp:ready</code>. A crashed machine therefore strands an issue for up to three hours, not forever.</span></div></div>
+      <div class="layer"><div><b>The ledger is per-machine <span class="ai zero">local</span></b><span><code>~/.imps/runs.jsonl</code> never leaves the machine. A warlock cannot fix-sweep a PR opened from another machine's ledger — it logs the PR as unknown and skips. Fix rounds happen on the machine that opened the PR, which is the machine holding its worktree and its test context.</span></div></div>
+      <div class="layer"><div><b>Every run says where it came from <span class="ai zero">planned</span></b><span>Run provenance is <em>planned</em> — ledger rows and dispatch events do not yet carry <code>kitSha</code> or <code>machine</code>. A future kit change will add these fields so a behaviour change after a kit fix is attributable — you can tell a bad brief from a machine that is forty commits behind instead of guessing.</span></div></div>
+      <div class="layer"><div><b>The heartbeat is the one shared thing <span class="ai once">planned</span></b><span>Heartbeat is <em>planned</em> — <code>"heartbeat": true</code> in <code>config.json</code> or <code>IMPS_HEARTBEAT=1</code> will update one issue, <code>imps heartbeat: <machine></code>, with its kit sha, last cycle and runs today. A row that has stopped moving is a machine that is not running. It will never fail a cycle — a heartbeat that can break the loop would be worse than no heartbeat.</span></div></div>
+    </div>
+    <div class="callout" style="margin-top:18px">
+      Do not point two machines at one <code>IMPS_HOME</code>. The ledger is the warlock's memory, not a cache, and two
+      writers make every fix-sweep decision a coin flip.
     </div>
   </div>
 </section>
@@ -124,8 +160,9 @@
     <h2>The model is nondeterministic. The rails are not.</h2>
     <p class="sub">
       Everything that can be a script is a script. Caps live in code defaults (see
-      <a href="https://github.com/nitsuah/.github/blob/main/imps/dispatch.mjs">dispatch.mjs</a> /
-      <a href="https://github.com/nitsuah/.github/blob/main/imps/lib.mjs">lib.mjs</a>), not in wishful docs.
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/defaults.mjs">defaults.mjs</a> /
+      <a href="https://github.com/nitsuah/.github/blob/main/imps/lib.mjs">lib.mjs</a>), not in wishful docs, and
+      <code>check-defaults.mjs</code> reads <code>STANDARD.md</code> and <code>dispatch.mjs</code> header and fails the build when they disagree with the code; it does not read <code>pages/imps.html</code>.
     </p>
     <div class="table-wrap">
       <table>
@@ -137,33 +174,55 @@
           <tr><td>Scope</td><td>Every changed path must start with a brief <code>allow:</code> prefix when allow is set.</td></tr>
           <tr><td>Deny list</td><td><code>.github/</code>, <code>.env</code> anywhere, <code>secrets/</code>, package / yarn / pnpm / bun lockfiles.</td></tr>
           <tr><td>Trailer</td><td>Every commit authored as the imp must match <code>/Co-Authored-By: .*imp/i</code>.</td></tr>
-          <tr><td>Throughput caps</td><td>Defaults today: <code>--max 5</code>, <code>--wip 8</code>, <code>--per-repo 4</code>, <code>--concurrency 4</code>, <code>--daily-cap 15</code>.</td></tr>
+          <tr><td>Throughput caps</td><td>Defaults today: <code>--max 5</code>, <code>--wip 8</code>, <code>--per-repo 4</code>, <code>--concurrency 4</code>, <code>--daily-cap 15</code>, quiet repos only for <code>quietHours 6</code>.</td></tr>
+          <tr><td>Quota</td><td>Per-model run counter lives in <code>~/.imps</code>, not the checkout, and refills on a rolling window. A counter in a directory that is reset every cycle could neither persist nor limit anything.</td></tr>
           <tr><td>Cooldown</td><td>24 h repo pause after two consecutive gate failures (<code>loopBudget</code>).</td></tr>
           <tr><td>Fix budget</td><td>Two rounds, then <code>imp:needs-human</code>. Conflicts escalate the same way.</td></tr>
+          <tr><td>Earned trust</td><td>Auto-merge requires <code>autoMergeTrust</code> (3) previously merged <code>imp</code> PRs with all checks green for that repo, seeded from GitHub history. A seed query error fails closed.</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
-<section id="setup">
+<section id="deploy">
   <div class="wrap">
     <div class="eyebrow">Machine setup</div>
-    <h2>A detached runner, never a copy inside the repo</h2>
+    <h2>A detached runner that keeps itself current</h2>
     <p class="sub">
       The kit lives in the public <a href="https://github.com/nitsuah/.github/tree/main/imps">nitsuah/.github <code>imps/</code></a>
       tree (same pattern as <a href="journeys.html">journeys</a>). Each machine keeps a <em>detached</em> checkout outside
-      any project tree, so the hourly task can reset it to <code>origin/main</code> and only merged kit code runs unattended.
+      any project tree, so the hourly wrapper can reset it to <code>origin/main</code> before every run and only merged kit
+      code runs unattended.
     </p>
+
     <div class="grid g3">
-      <div class="card"><span class="tag">kit</span><h3>nitsuah/.github/imps</h3><p>Contract in <code>STANDARD.md</code>, plus <code>dispatch.mjs</code>, <code>imp.mjs</code>, <code>lib.mjs</code>, <code>review.mjs</code>, <code>fix.mjs</code>, <code>precheck.mjs</code>, prompts and tests.</p></div>
-      <div class="card"><span class="tag green">runner</span><h3>Detached checkout</h3><p>Rebuild locally (often named <code>imps-runner</code>), register the Windows scheduled task that runs the hourly wrapper, and point stash at it with <code>IMPS_KIT_PATH</code> or ignored <code>.imps/kit-path.txt</code>. Prefer the kit's setup script when present; otherwise follow STANDARD § Scheduling.</p></div>
-      <div class="card"><span class="tag warn">stash wrapper</span><h3>scripts/imp-run.ps1</h3><p>Thin resolver: config → local kit path → <code>node &lt;kit&gt;/imps/imp.mjs …</code>. Repo config stays in <code>.github/imps-config.yml</code>; secrets and absolute paths stay off git.</p></div>
+      <div class="card"><span class="tag">1 · kit</span><h3><code>setup.ps1</code> / <code>setup.sh</code></h3><p>Checks node, git, <code>gh auth</code>, Docker and 9router. Installs the detached runner, clones <code>IMPS_CODE/.github</code> for kit self-work, creates <code>~/.imps</code>, and registers the schedule.</p></div>
+      <div class="card"><span class="tag green">2 · schedule</span><h3>hourly :07 + label watch</h3><p>Windows: two Scheduled Tasks. macOS/Linux: <code>crontab</code> when it exists; otherwise setup prints a hint to configure your own scheduler (it does not install systemd timers automatically and does not fail).</p></div>
+      <div class="card"><span class="tag warn">3 · self-update</span><h3>fetch + reset every cycle (exit-code checked)</h3><p>The Unix wrappers (<code>hourly.sh</code>, <code>label-watch.sh</code>) abort on failed fetch or reset. The Windows wrappers (<code>hourly.cmd</code>, <code>label-watch.cmd</code>) check exit codes after <code>git fetch</code> and <code>git reset</code> — a failed fetch or reset aborts the cycle so a merged kit change always reaches the machine.</p></div>
     </div>
-    <div class="callout" style="margin-top:18px">
-      State lives under a machine-local home (default <code>~/.imps</code>): <code>runs.jsonl</code>, <code>dispatch.jsonl</code>, briefs and transcripts.
-      Paths and tokens never belong in the Pages site or the public repo.
+
+    <div class="table-wrap" style="margin-top:24px">
+      <table>
+        <thead><tr><th>Path</th><th>What</th><th>Reset by updates?</th></tr></thead>
+        <tbody>
+          <tr><td>runner checkout</td><td>the kit — code only</td><td><b>yes</b>, <code>reset --hard origin/main</code> every cycle</td></tr>
+          <tr><td><code>IMPS_CODE</code> clone</td><td>base for kit self-work worktrees</td><td>no — fetched only</td></tr>
+          <tr><td><code>~/.imps</code></td><td>ledger, logs, locks, <code>config.json</code>, quota</td><td><b>never</b> — machine state</td></tr>
+        </tbody>
+      </table>
     </div>
+
+    <div class="layers" style="margin-top:24px">
+      <div class="layer"><div><b>Preflight <span class="ai zero">fails loud</span></b><span><code>imps/preflight.mjs</code> refuses a checkout where a required kit file is missing or any <code>.mjs</code> is under 200 bytes. A hand-copied stub once satisfied a "does the file exist" check and no-op'd on schedule for days while every dashboard looked healthy — an existence check is not a health check.</span></div></div>
+      <div class="layer"><div><b>Drift the pull cannot fix <span class="ai zero">warlock.mjs</span></b><span><code>warlock.mjs</code> checks: runner path known, runner is a real git checkout, has <code>imps/dispatch.mjs</code>, no tracked edits, current with <code>origin/main</code>, <code>hourly.cmd</code> (Windows) or <code>hourly.sh</code> (Unix) points at it and was generated from its sha, exactly one dispatch task (on Windows; Unix users must verify manually), lock not stale, ledger parseable, and one HTTP <code>MAX</code> probe to 9router. <code>preflight.mjs</code> and <code>doctor.ps1</code> do not run <code>warlock.mjs</code>; they only verify the kit files exist and pass size checks.</span></div></div>
+      <div class="layer"><div><b>Dry run <span class="ai zero">IMPS_DRY_RUN=1</span></b><span>Flows through both wrappers. A new machine can prove it sees the queue and understands the briefs before it claims a single issue.</span></div></div>
+      <div class="layer"><div><b>Health, one command <span class="ai zero">exit 1 on any failure</span></b><span><code>warlock.mjs</code> checks: runner path known, runner is a real git checkout, has <code>imps/dispatch.mjs</code>, no tracked edits, current with <code>origin/main</code>, <code>hourly.cmd</code> (Windows) or <code>hourly.sh</code> (Unix) points at it and was generated from its sha, exactly one dispatch task (on Windows; Unix users must verify manually), lock not stale, ledger parseable — and one HTTP <code>MAX</code> probe to 9router.</span></div></div>
+    </div>
+
+    <p class="sub" style="margin-top:22px">
+      Deploying a second machine is therefore: clone, run setup, done. It pulls its own updates from then on. When a machine genuinely stalls, operators must monitor stalled machines independently. The kit's RSI loop (<code>rsi.mjs</code>) files <code>imp:ready</code> issues against the kit for recurring gate failures, fix-loop <code>needs-human</code> spikes, and open journey issues observed during running cycles — so the fleet repairs its own tooling instead of waiting for a person to notice.
+    </p>
   </div>
 </section>
 
@@ -172,14 +231,14 @@
     <div class="eyebrow">Self-improvement</div>
     <h2>Measure the runs. Teach the preamble.</h2>
     <p class="sub">
-      Every run writes a ledger row (model served, turns, tool errors, gate reasons, tokens). That is the training data
-      for the next prompt change — not vibes.
+      Every run writes a ledger row (model served, turns, tool errors, gate reasons, tokens, kit sha). That is the
+      training data for the next prompt change — not vibes.
     </p>
     <div class="layers">
-      <div class="layer"><div><b>Report</b><span><code>node imps/imp.mjs report</code> (and <code>stats.mjs</code>) surfaces recurring tool-error kinds and gate failures.</span></div></div>
+      <div class="layer"><div><b>Report</b><span><code>node imps/imp.mjs report</code> (and <code>stats.mjs</code>) surfaces recurring tool-error kinds and gate failures; <code>dispatch.jsonl</code> carries the same provenance for queue decisions.</span></div></div>
       <div class="layer"><div><b>One lesson</b><span>Each recurring failure becomes one line under "Lessons from earlier runs" in <code>PREAMBLE.md</code>, or one gate rule in <code>lib.mjs</code>, citing the run ids. Same loop for <code>REVIEW.md</code> and <code>FIX.md</code>.</span></div></div>
       <div class="layer"><div><b>Own PR</b><span>Ship the lesson alone so the brief hash changes and the next batch shows whether it helped. Delete a lesson once ~10 runs pass without hitting it.</span></div></div>
-      <div class="layer"><div><b>Token review</b><span>Weekly: can a script or a free model do the paid triage step? Move one thing per review into the kit (<code>precheck.mjs</code> is the template).</span></div></div>
+      <div class="layer"><div><b>File the issue</b><span><code>rsi.mjs</code> turns recurring gate failures, fix-loop <code>needs-human</code> spikes and open journey issues into capped <code>imp:ready</code> issues — including kit briefs against <code>.github</code>, so a machine that stalls leaves a written reason behind.</span></div></div>
     </div>
   </div>
 </section>
@@ -195,7 +254,7 @@
     </p>
     <div class="grid g3">
       <a class="card" href="journeys.html"><span class="tag">find / verify</span><h3>Journeys</h3><p>AI once at setup. Playwright every night. Dedup, reopen, auto-close after three green nights.</p></a>
-      <a class="card" href="https://github.com/nitsuah/.github/tree/main/imps"><span class="tag warn">fix</span><h3>Imps</h3><p>One briefed issue, one gated PR, bounded fix rounds. Public kit shared across repos.</p></a>
+      <a class="card" href="https://github.com/nitsuah/.github/tree/main/imps"><span class="tag warn">fix</span><h3>Imps</h3><p>One briefed issue, one gated PR, bounded fix rounds. Public kit shared across repos and machines.</p></a>
       <a class="card" href="https://github.com/nitsuah/stash/blob/main/agent/repos/motor-pool/docs/IMPS-PLAN.md"><span class="tag green">next</span><h3>motor-pool plan</h3><p>Long-term: durable queue, <code>imp-runner</code> container, GitHub App identity, imps never merge without a human ruleset.</p></a>
     </div>
   </div>
