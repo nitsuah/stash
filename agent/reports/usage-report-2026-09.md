@@ -4,6 +4,8 @@ kind: usage-report
 
 # Usage report — 2026-09
 
+> 🧭 [[reports/usage-report-2026-10|2026-10]] → <!-- nav -->
+
 Generated 2026-10-01 ~18:10 UTC by the first scheduled run of `monthly-usage-report` (spec: [[USAGE]]). Window: **full calendar month, 2026-09-01 → 2026-09-30**. This replaces the partial 9/24 preview of this file, which covered 8/24 → 9/24; that version is in git at `a885bb8`. The two are not directly comparable. Read-only: nothing was committed, no PR was opened, and no task config was changed.
 
 ## Claude usage trend

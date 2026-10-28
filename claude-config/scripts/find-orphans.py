@@ -29,6 +29,8 @@ from urllib.parse import unquote
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
 IGNORED_DIRS = {"logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
+# generated MM output (gitignored) and node_modules: excluded by app.json userIgnoreFilters, so not graph nodes
+IGNORED_RE = re.compile(r"^projects/MM/[^/]+/(out[0-9]*|dist|reports|raw|storage)/|(^|/)node_modules/|\.zip$")
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
 MDLINK = re.compile(r"\[(?:\\.|[^\]\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")  # link text may hold \[ \]
@@ -62,6 +64,8 @@ def collect():
                  and not (top and d in IGNORED_DIRS)]
         for f in fn:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
+            if IGNORED_RE.search(rel):
+                continue
             if f.lower().endswith(".md"):
                 notes.append(rel)
             elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.IGNORECASE):  # scripts are knowledge: VAULT-MAP links them
