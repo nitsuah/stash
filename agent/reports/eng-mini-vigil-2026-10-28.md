@@ -7,6 +7,8 @@ date: 2026-10-28
 
 # eng-mini: vigil — 2026-10-28 (REPORT MODE)
 
+> 🧭 [[repos/vigil|vigil]] · ← [[reports/eng-mini-vigil-2026-10-21|2026-10-21]] <!-- nav -->
+>
 > Report only; no moves executed. Fresh `--depth 1` clone of `nitsuah/vigil`. Latest commit 2026-10-28 10:48 -0700.
 
 ## Files Reviewed at Root

@@ -29,8 +29,12 @@ from urllib.parse import unquote
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
 IGNORED_DIRS = {"logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
-# generated MM output (gitignored) and node_modules: excluded by app.json userIgnoreFilters, so not graph nodes
-IGNORED_RE = re.compile(r"^projects/MM/[^/]+/(out[0-9]*|dist|reports|raw|storage)/|(^|/)node_modules/|\.zip$")
+# Not graph nodes: excluded by app.json userIgnoreFilters (keep the two lists in step). Generated MM output
+# (gitignored), node_modules, zips, tracked non-markdown source under projects/MM (notes there stay),
+# report data (reports/**/*.json) and the vault-level scripts/ pages (.html/.js; .py stays, VAULT-MAP links it)
+IGNORED_RE = re.compile(r"^projects/MM/[^/]+/(out[0-9]*|dist|reports|raw|storage)/|(^|/)node_modules/|\.zip$"
+                        r"|^projects/MM/(?:.*/)?(?:[^/]+\.(?:mjs|cjs|js|json|py|sh|html|css|csv|tsv|txt|yml|yaml|toml|lock|png|jpe?g|gif|webp|svg|ico|mp4|zip|pdf)|(?:Dockerfile|\.gitignore|_redirects))$"
+                        r"|^reports/.*\.json$|^scripts/.*\.(html|js)$")
 
 WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
 MDLINK = re.compile(r"\[(?:\\.|[^\]\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")  # link text may hold \[ \]

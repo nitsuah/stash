@@ -7,6 +7,8 @@ date: 2026-10-28
 
 # eng-mini: bb-mcp — 2026-10-28 (REPORT MODE)
 
+> 🧭 [[repos/bb-mcp|bb-mcp]] · ← [[reports/eng-mini-bb-mcp-2026-10-02|2026-10-02]] <!-- nav -->
+>
 > Report only; no moves executed. Fresh `--depth 1` clone of `nitsuah/bb-mcp`. Latest commit 2026-10-28 10:48 -0700.
 
 ## Files Reviewed at Root

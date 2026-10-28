@@ -8,7 +8,7 @@ date: 2026-10-02
 # eng-mini: games — 2026-10-02 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/games|games]] · ← [[reports/eng-mini-games-2026-09-24|2026-09-24]] <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `a341d34` "docs(pmo): track blocked eslint 10 bump (#333) (#351)", `git log -1 --format=%ci` 2026-10-01T13:09:27-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/games`.
 
 ## Root Audit — games/

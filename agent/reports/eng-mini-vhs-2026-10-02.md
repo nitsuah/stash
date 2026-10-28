@@ -8,7 +8,7 @@ date: 2026-10-02
 # eng-mini: vhs — 2026-10-02 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/vhs|vhs]] · ← [[reports/eng-mini-vhs-2026-06-29|2026-06-29]] <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `422c1b2` "feat(site): GitHub Pages landing page + launch video (#66)", `git log -1 --format=%ci` 2026-10-01T13:39:17-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/vhs`.
 
 ## Root Audit — vhs/

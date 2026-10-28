@@ -7,8 +7,8 @@ date: 2026-10-02
 
 # eng-mini: bb-mcp — 2026-10-02 (REPORT MODE / DRY RUN)
 
-> 🧭 [[repos/bb-mcp|bb-mcp]] · ← [[reports/eng-mini-bb-mcp-2026-09-30|2026-09-30]] <!-- nav -->
-
+> 🧭 [[repos/bb-mcp|bb-mcp]] · ← [[reports/eng-mini-bb-mcp-2026-09-30|2026-09-30]] · [[reports/eng-mini-bb-mcp-2026-10-28|2026-10-28]] → <!-- nav -->
+>
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `c3a28cf` "docs(pmo): remove shipped JSON-schema milestone from ROADMAP (#136)", `git log -1 --format=%ci` 2026-10-01T13:09:40-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/bb-mcp`.
 
 ## Root Audit — bb-mcp/

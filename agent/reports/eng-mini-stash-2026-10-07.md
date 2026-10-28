@@ -8,7 +8,7 @@ date: 2026-10-07
 # eng-mini: stash — 2026-10-07 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/stash|stash]] · ← [[reports/eng-mini-stash-2026-10-01|2026-10-01]] · [[reports/eng-mini-stash-2026-10-21|2026-10-21]] → <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently active tracked repo this run (`git log -1 --format=%ci` from this session's own synced checkout: 2026-10-07T09:22:24-04:00, HEAD `20610d9` "report(daily-brief): 2026-10-07 (#192)"). Root audited directly from this session's working checkout at `/home/user/stash` (already synced to `origin/main` at the top of this run — no separate throwaway clone was needed or made).
 
 ## Root Audit — stash/

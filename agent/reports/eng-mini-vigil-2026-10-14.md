@@ -8,7 +8,6 @@ date: 2026-10-14
 # eng-mini: vigil — 2026-10-14 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/vigil|vigil]] · ← [[reports/eng-mini-vigil-2026-10-02|2026-10-02]] · [[reports/eng-mini-vigil-2026-10-21|2026-10-21]] → <!-- nav -->
-
 >
 > Report only — no moves executed, no changes made to the target repo. Selected as the #3 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-14T04:56:06-04:00, HEAD `8f9c396` "build(deps): bump the minor-and-patch group across 1 directory with 14 updates (#280)"). Root audited from a throwaway clone at `/home/user/vigil`.
 

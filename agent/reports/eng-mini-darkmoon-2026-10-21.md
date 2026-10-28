@@ -8,7 +8,6 @@ date: 2026-10-21
 # eng-mini: darkmoon — 2026-10-21 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/darkmoon|darkmoon]] · ← [[reports/eng-mini-darkmoon-2026-10-02|2026-10-02]] <!-- nav -->
-
 >
 > Report only — no moves executed, no changes made to the target repo. Selected as the #2 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-21T02:15:51-04:00, HEAD `a44d209` "fix(combat): block hitscan shots through obstacles and improve test diagnostics (#483)"). Root audited from a throwaway clone at `/home/user/darkmoon`.
 
