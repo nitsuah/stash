@@ -13,8 +13,9 @@ repo: vhs
 [![CI](https://github.com/nitsuah/vhs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/vhs/actions/workflows/ci.yml)
 [![Pages](https://github.com/nitsuah/vhs/actions/workflows/pages.yml/badge.svg)](https://nitsuah.github.io/vhs/)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9cf148ef-31d4-4edc-9862-a72a4ca6e0ff/deploy-status)](https://app.netlify.com/projects/vhsbox/deploys)
+[![Live](https://img.shields.io/badge/live-vhs.nitsuah.io-e84040)](https://vhs.nitsuah.io/)
 
-A personal tool to catalog a VHS collection — capturing what each tape is, what it might be worth, and building a record you can actually use (sell, store, share). Backed by PostgreSQL, served by Express, containerized with Docker.
+A personal tool to catalog a VHS collection — capturing what each tape is, what it might be worth, and building a record you can actually use (sell, store, share). Live at [vhs.nitsuah.io](https://vhs.nitsuah.io/). Backed by PostgreSQL, served by Express, containerized with Docker.
 
 ## What's Shipped
 

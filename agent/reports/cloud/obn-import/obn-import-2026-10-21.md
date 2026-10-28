@@ -5,7 +5,7 @@ date: 2026-10-21
 
 # obn-import — 2026-10-21
 
-> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-10-15|2026-10-15]] <!-- nav -->
+> 🧭 ← [[reports/cloud/obn-import/obn-import-2026-10-15|2026-10-15]] · [[reports/cloud/obn-import/obn-import-2026-10-28|2026-10-28]] → <!-- nav -->
 
 The newest daily note is 6 days old (2026-10-15) and the vault graph FAIL count is now 13 unreachable reports (up from 9 earlier today); report cadences are otherwise on time. Second run of the day.
 

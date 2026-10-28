@@ -1,4 +1,11 @@
+---
+kind: cloud/daily-brief
+date: 2026-10-23
+---
+
 # daily-brief — 2026-10-23
+
+> 🧭 ← [[reports/cloud/daily-brief/daily-brief-2026-10-22|2026-10-22]] <!-- nav -->
 
 PRs: 23 open across 9 repos, 5 need attention
 Coverage: user:nitsuah PR search ok (13); org:Nitsuah-Labs PR search ok (10); status:failure ok (user 1, org 0); review:changes-requested ok (user 5, org not searched); calendar ok; Gmail ok (unread in inbox); vigil ok

@@ -27,14 +27,14 @@ repo: fire
 - **Ask your LLM** — the built-in MCP server exposes read-only financial tools for Claude/other MCP clients without giving the model trading or write access to external accounts.
 - **Built for investigation, not just a number** — projections, scenario stress tests, diversification signals, tax-loss alerts, rebalancing what-ifs, CD maturities, emergency runway, and side-gig tax tagging turn raw balances into context.
 
-**Try it:** [live browser demo](https://lifefire.netlify.app/) · **Run it locally:** `docker compose up -d` · **Use with Claude:** see [MCP Server](#mcp-server-claude-integration) and the [fire-coach skill](skills/README.md)
+**Try it:** [live browser demo](https://fire.nitsuah.io/) · **Run it locally:** `docker compose up -d` · **Use with Claude:** see [MCP Server](#mcp-server-claude-integration) and the [fire-coach skill](skills/README.md)
 
 ---
 
 ## Live links
 
 - **Project site:** https://nitsuah.github.io/fire/
-- **Browser demo:** https://lifefire.netlify.app/
+- **Browser demo:** https://fire.nitsuah.io/
 
 ## Features
 
@@ -51,7 +51,7 @@ repo: fire
 - **Precious metals** — Gold/Silver account type valued by weight × live spot (metals.dev with a free Yahoo futures fallback)
 - **Crypto accounts** — enter an ENS name, 0x address or ticker in either Name or Identifier. ⟳ Refresh on an ENS/0x account totals native coins plus priced tokens across Ethereum, Base, Optimism, Arbitrum and Polygon, plus native BNB and AVAX balances on BNB Chain and Avalanche (native only, no tokens), with no API keys, and shows the per-chain breakdown under the row. A ticker account is valued as quantity × live price. Wallet tracking appears under the form when Type = Cryptocurrency
 - **REST API** — full CRUD for accounts, CDs, wallets, vehicles, sync templates, state; `FIRE_API_KEY` header auth required by default (opt out with `FIRE_AUTH_DISABLED=true` for local-only use); `FIRE_ADMIN_KEY`-gated key-rotation endpoint
-- **MCP Server** — 16 read-only tools for Claude/LLM integration via `app/mcp-server.mjs`
+- **MCP Server** — 20 read-only tools for Claude/LLM integration via `app/mcp-server.mjs`
 - **Yahoo Finance prices** — live portfolio valuation with crumb-based auth, stale-data fallback, and SSE (`GET /api/prices/stream`) for live push; configurable via `ALPHA_VANTAGE_API_KEY` or `POLYGON_API_KEY` as stable alternatives
 - **Webhook sync framework** — JSON data-mapped templates for automated data ingestion (full CRUD + live receiver at `POST /api/sync/webhook/:templateId`)
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
@@ -179,21 +179,20 @@ domain and drop the `tls internal` line.
 
 ## MCP Server (Claude Integration)
 
-Connect Claude Code to your live financial data. The project ships a `.mcp.json` that Claude Code picks up automatically on startup — edit the `cwd` to match your local path:
+Connect Claude Code to your live financial data. The project ships a `.mcp.json` that Claude Code picks up automatically on startup — no edits needed, since Claude Code runs project MCP servers from the project root and the server resolves its data directory itself. Point it at a different data directory with the `FIRE_DATA_DIR` environment variable if you like:
 
 ```json
 {
   "mcpServers": {
     "fire-tracker": {
       "command": "node",
-      "args": ["app/mcp-server.mjs"],
-      "cwd": "/your/path/to/fire"
+      "args": ["app/mcp-server.mjs"]
     }
   }
 }
 ```
 
-**Tools (16, all read-only):** `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`
+**Tools (17, all read-only):** `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_insurances`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`
 
 `simulate_rebalance` is a what-if: it reports allocation and diversification score before/after moving money between asset classes, and never trades or saves anything. With `chaos: true` it sweeps every single-leg move across liquid classes and your top positions at several sizes, scores each under bear/base/bull return assumptions you supply (defaults are placeholders) net of estimated capital-gains tax, and ranks the rows by a metric you pick. It reports a table, never a recommendation.
 
@@ -267,7 +266,7 @@ fire/
 ├── app/
 │   ├── index.html              # Single-page app entry point
 │   ├── server.js               # Express server (port 3001)
-│   ├── mcp-server.mjs          # MCP server — 16 read-only tools
+│   ├── mcp-server.mjs          # MCP server — 20 read-only tools
 │   ├── lib/
 │   │   ├── db.js               # State persistence (db.json, atomic writes)
 │   │   ├── crypto-utils.js     # AES-256-GCM encrypt/decrypt
@@ -329,7 +328,7 @@ fire/
 │   ├── playwright.config.js    # real-browser UI regression suite (tests/e2e-ui)
 │   └── eslint.config.mjs
 ├── scripts/
-│   └── test-mcp.mjs            # MCP smoke test (all 16 read-only tools)
+│   └── test-mcp.mjs            # MCP smoke test (all 20 read-only tools)
 ├── data/                       # db.json lives here (git-ignored)
 ├── docs/                       # Architecture notes
 ├── .env.example                # Environment variable reference

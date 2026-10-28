@@ -8,7 +8,7 @@ repo: ats-fill
 
 # Chrome Web Store Listing — ats-fill
 
-> Last Updated: 2026-10-21
+> Last Updated: 2026-10-25
 
 Single source of truth for the Developer Dashboard: listing copy, permission justifications and privacy disclosures. Release mechanics (OAuth, the publish workflow, rollback) live in [docs/release/chrome-web-store.md](docs/release/chrome-web-store.md); listing images in [docs/CHROME_WEB_STORE_ASSETS.md](docs/CHROME_WEB_STORE_ASSETS.md).
 
@@ -24,8 +24,8 @@ Local-first ATS form-filling assistant. Save your profile once, review answers, 
 
 ats-fill fills job applications from a profile you save once, and you review every field before you submit.
 
-Fill Greenhouse, Lever, Ashby and LinkedIn Easy Apply forms in place, with partial support for Workday, iCIMS, Jobvite and other application forms. Fill also attaches your saved resume file to the form's resume upload (you can turn this off); like everything you fill in, it reaches the employer's application site only when you submit the form yourself. Preview every answer before it's used. Corrections you make on forms are remembered for next time, and you can review, edit or delete them.
-Search 16 job boards from one panel, and save any result to your pipeline with one click.
+Fill application forms in place on the most common applicant tracking systems, with partial support on many others. Fill also attaches your saved resume file to the form's resume upload (you can turn this off); like everything you fill in, it reaches the employer's application site only when you submit the form yourself. Preview every answer before it's used. Corrections you make on forms are remembered for next time, and you can review, edit or delete them.
+Search many job boards from one panel, and save any result to your pipeline with one click.
 Track every application on a board from draft to offer, import past applications from a spreadsheet, and see response analytics computed from your own history.
 Practice for interviews with questions generated for the specific job.
 Optional AI drafting and resume parsing use your own free Google Gemini key. Without a key, filling, tracking, search and analytics all still work.
@@ -104,7 +104,7 @@ Built and validated from each release tag by the release workflow (see [docs/CHR
 ## Privacy Policy
 
 **Privacy Policy URL**
-https://github.com/nitsuah/ats-fill/blob/main/docs/PRIVACY.md
+https://nitsuah.github.io/ats-fill/privacy.html
 
 ## Distribution
 
@@ -137,4 +137,5 @@ https://nitsuah.github.io/ats-fill/
 - Workday, iCIMS, Jobvite and generic forms fill partially; users are told to review every field.
 
 ### Rejection History
-None recorded.
+- **2026-10-25** — Keyword Spam (Yellow Argon) for listing ATS names in the description; fixed by describing supported sites generically.
+- **Listing rule:** the store description must not list ATS or job-board brand names.

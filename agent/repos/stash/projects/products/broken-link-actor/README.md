@@ -17,7 +17,7 @@ Crawl a website and get a list of every broken link, with the pages it appears o
 4. It reports links that return an error status (400 and above), time out, or fail to resolve.
 
 ## Output
-One row per broken link: brokenLink, status (or an error code such as ENOTFOUND), whether it is internal, how many pages contain it and up to five of those pages. A SUMMARY record in the key-value store has the counts: pages crawled, links checked, broken links.
+One row per broken link (or a single "No broken links found" row when the site is clean): brokenLink, status (or an error code such as ENOTFOUND), whether it is internal, how many pages contain it and up to five of those pages. A SUMMARY record in the key-value store has the counts: pages crawled, links checked, broken links.
 
 ## Input
 - startUrls: where to begin (up to 20).
