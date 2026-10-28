@@ -10,7 +10,7 @@ Keep the Claude Code routine stack healthy and improving month over month, using
 
 ## Inputs (read all before acting)
 
-1. This month's `stash/agent/reports/usage-report-<YYYY-MM>.md` (produced by [[USAGE]] earlier the same cycle — if missing, run its steps yourself first).
+1. This month's `stash/agent/reports/usage-report-<YYYY-MM>.md` (produced by [[USAGE]] on the 1st, covering the previous completed month, earlier the same cycle — if missing, run its steps yourself first).
 2. This month's `stash/agent/reports/pmo-audit-<YYYY-MM-DD>.md` (produced by [[PMO]]).
 3. `mcp__scheduled-tasks__list_scheduled_tasks` + `list_task_runs` for every task — live current state, not the reports' snapshot.
 4. `daily-git-sync.log` and `stale-worktrees.log` tails.

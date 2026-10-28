@@ -40,26 +40,29 @@ Generated 2026-10-28 ~18:00 UTC by the catch-up run `catchup-monthly-usage-repor
 Local `mcp__scheduled-tasks`, runs **started 10/01–10/28**. `list_task_runs` returns only 10 by default; `limit` accepts up to 50, which this run used for the two tasks with more.
 
 - **Landed** = succeeded and its output exists.
+- **Suspected no-op** = a run that finished implausibly fast (see spec). Counted per task only where checked: `monthly-self-improvement` is 1; elsewhere `n/a`, because `daily-git-sync.log` headings did not parse reliably.
+- **Output lost** = report PR closed unmerged. Not attributable to a local task here (see below), so `n/a`.
+- Failure rates are as originally computed (failed runs only); non-landed outcomes are not counted as failures.
 - **Hijacked** = `last_activity_at` more than 2 h after `started_at`, so the final status is unreliable.
 
-| Task | Runs | Succeeded | Failed | Fail rate | Hijacked | Most common failure |
-|---|---|---|---|---|---|---|
-| daily-repo-sync | 21 | 16 | 5 | **24%** | 6 (10/07 26 h, 10/08 6 h, 10/09 6 h, 10/14 2.1 h, 10/15 10 h, 10/22 6 h) | Weekly limit (4/5), session limit (1/5) |
-| daily-imps-triage | 7 | 3 | 4 | **57%** | 3 (10/22 11.8 h, 10/22 PM 33 h, 10/23 11 h) | Weekly limit (4/4) |
-| ats-fill-daily-inbox-sync | 16 | 12 | 4 | 25% | 3 (10/15 30 h, 10/15 3.7 h, 10/21 9 h) | Weekly limit (4/4) |
-| ats-fill-weekly-review | 3 | 2 | 1 | 33% | 2 (10/15 17 h, 10/21 52 h) | Weekly limit |
-| week-sotu | 7 | 6 | 1 | 14% | 5 (10/01 7 d, 10/07 3 h, 10/08 32 h, 10/16 5 h, 10/21 16 h) | Process crash, exit code 3221225794 (10/14) |
-| week-fin-sum | 5 | 5 | 0 | 0% | 1 (10/21 23.5 h) | none |
-| ops-catchup | 6 | 6 | 0 | 0% | 1 (10/14: 7 d) | none |
-| monthly-pmo-audit | 1 (10/01) | 1 | 0 | 0% | 1 (6.1 h) | none |
-| monthly-usage-report | 1 (10/01) | 1 | 0 | 0% | 0 | none (4.4 min) |
-| monthly-self-improvement | 1 (10/02) | 1 | 0 | 0% | 0 | none, but the run lasted 13 s: **suspected no-op**. The 2026-10 RSI report landed via stash#198 from another session. |
-| monthly-tire-kick | 1 (10/28) | 1 | 0 | 0% | 0 | none; partial pass (3 vuln bumps, ledger and report, stash#333 merged) |
+| Task | Runs | Succeeded | Failed | Fail rate | Suspected no-op | Output lost | Hijacked | Most common failure |
+|---|---|---|---|---|---|---|---|---|
+| daily-repo-sync | 21 | 16 | 5 | **24%** | n/a | n/a | 6 (10/07 26 h, 10/08 6 h, 10/09 6 h, 10/14 2.1 h, 10/15 10 h, 10/22 6 h) | Weekly limit (4/5), session limit (1/5) |
+| daily-imps-triage | 7 | 3 | 4 | **57%** | n/a | n/a | 3 (10/22 11.8 h, 10/22 PM 33 h, 10/23 11 h) | Weekly limit (4/4) |
+| ats-fill-daily-inbox-sync | 16 | 12 | 4 | 25% | n/a | n/a | 3 (10/15 30 h, 10/15 3.7 h, 10/21 9 h) | Weekly limit (4/4) |
+| ats-fill-weekly-review | 3 | 2 | 1 | 33% | n/a | n/a | 2 (10/15 17 h, 10/21 52 h) | Weekly limit |
+| week-sotu | 7 | 6 | 1 | 14% | n/a | n/a | 5 (10/01 7 d, 10/07 3 h, 10/08 32 h, 10/16 5 h, 10/21 16 h) | Process crash, exit code 3221225794 (10/14) |
+| week-fin-sum | 5 | 5 | 0 | 0% | n/a | n/a | 1 (10/21 23.5 h) | none |
+| ops-catchup | 6 | 6 | 0 | 0% | n/a | n/a | 1 (10/14: 7 d) | none |
+| monthly-pmo-audit | 1 (10/01) | 1 | 0 | 0% | n/a | n/a | 1 (6.1 h) | none |
+| monthly-usage-report | 1 (10/01) | 1 | 0 | 0% | n/a | n/a | 0 | none (4.4 min) |
+| monthly-self-improvement | 1 (10/02) | 0 | 0 | 0% | 1 | n/a | 0 | none, but the run lasted 13 s: **suspected no-op**. The 2026-10 RSI report landed via stash#198 from another session. |
+| monthly-tire-kick | 1 (10/28) | 1 | 0 | 0% | n/a | n/a | 0 | none; partial pass (3 vuln bumps, ledger and report, stash#333 merged) |
 
 Notes:
 
-- **Weekly-limit failures cluster on the weekend before each reset** and hit every daily task at once, in under 10 s each. 17 of 18 October failures were quota rejections.
-- **Missed Mondays:** week-sotu and week-fin-sum have no run for Monday 10/26 (weekly lockout); `catchup-week-sotu-2026-10-28` is queued for tonight.
+- **Weekly-limit failures cluster on the weekend before each reset** and hit every daily task at once, in under 10 s each. 14 of 15 October failures were quota rejections (the other was the week-sotu process crash).
+- **Missed Mondays:** week-sotu and week-fin-sum have no run for Monday 10/26 (weekly lockout); the `catchup-week-sotu-2026-10-28` task was disabled, and the user is running week-sotu by hand.
 - **Hijacking is routine, not exceptional:** 22 of 69 October runs (32%, up from 21% in September) were resumed for other work. Statuses for those are unreliable.
 - **Output verification not done for every run.** `daily-git-sync.log` headings did not parse reliably, so no-op counts for `daily-repo-sync` are not reported. The only sub-60 s run was 10/28 16:06 (46 s), which correctly detected that the day's run had already completed.
 - **DEFERRED runs:** none identifiable; `list_task_runs` summaries are mostly absent.
@@ -71,7 +74,7 @@ Notes:
 
 ## Shipped work
 
-Commits on each repo's default branch since 2026-10-01 (origin ref, no feature branches, so lower than September's all-refs counts), and merged PRs via `gh pr list --search "merged:>=2026-10-01"`. Repos resolved by origin URL; forks (`9router`, `windirstat-mcp`) and `latent-spaces/brag` excluded.
+Commits on each repo's default branch since 2026-10-01 (origin ref, no feature branches, so lower than September's all-refs counts), and merged PRs via `gh pr list --state merged --limit 1000 --search "merged:>=2026-10-01"`. Repos resolved by origin URL; forks (`9router`, `windirstat-mcp`) and `latent-spaces/brag` excluded.
 
 | Repo | Commits | Merged PRs |
 |---|---|---|
@@ -93,11 +96,11 @@ Commits on each repo's default branch since 2026-10-01 (origin ref, no feature b
 | avatar | 7 | 7 |
 | osrs | 7 | 7 |
 | gcp | 4 | 4 |
-| **Total** | **792** | **755** |
+| **Total** | **792** | **749** |
 
 Notes:
 
-- Merged PRs are 755 in 28 days, against 542 for all of September. Much of the rise is routine and imps output (stash 143, `.github` 63).
+- Merged PRs are 749 in 28 days, against 542 for all of September. Much of the rise is routine and imps output (stash 143, `.github` 63).
 - ats-fill now merges PRs (57), where September had 0.
 - `motor-pool` is the renamed `agent-board` repo.
 
@@ -109,12 +112,14 @@ Unavailable. ActivityWatch (`localhost:5600`) did not respond, and the lock/unlo
 
 Ranked by evidence:
 
-1. **Weekly-limit collisions.** Four daily tasks (`daily-repo-sync`, `daily-imps-triage`, both ats-fill syncs) all fire in the same 5-hour window and all fail together when the cap is gone. 17 failures this month. Fix: give each a usage preflight like `monthly-usage-report`'s, and skip or stagger them once weekly use passes about 85% rather than failing at init.
+1. **Weekly-limit collisions.** Three daily tasks (`daily-repo-sync`, `daily-imps-triage`, `ats-fill-daily-inbox-sync`) account for 13 failures, and the weekly `ats-fill-weekly-review` adds 1 more quota failure; they fail together when the cap is gone. Fix: give each a usage preflight like `monthly-usage-report`'s, and skip or stagger them once weekly use passes about 85% rather than failing at init.
 2. **Run hijacking (32% of runs).** Scheduled sessions are reused for follow-up work, which corrupts status and duration. Fix: have routines end with an instruction to start a fresh session for follow-up, or record completion in a log that does not depend on session status.
 3. **Missed Monday runs are caught up by hand.** Weekly tasks (week-sotu, week-fin-sum) miss when the weekend lockout runs past Monday. `ops-catchup` handles it on Wednesday; fixing item 1 reduces the need.
-4. **Catch-up duplicates the schedule.** The `catchup-monthly-usage-report-2026-10-28` task existed because no 2026-10 file was on main. The 10/01 run wrote the September report, so the monthly task will fire again 11/01 and produce a 2026-11 report. Fix: decide whether the report covers the previous or the current month and name the file accordingly (see the spec fix below).
+4. **Catch-up duplicates the schedule.** The `catchup-monthly-usage-report-2026-10-28` task existed because no 2026-10 file was on main. The 10/01 run wrote the September report, so the monthly task fires again 11/01. Under the window now defined in the spec (a 1st-of-month run covers the previous completed month), it will write a full `usage-report-2026-10` that supersedes this partial one. Fix applied: the window is now stated in `USAGE.md`.
 5. **Cloud reminder churn.** 20 disabled one-shot reminders crowd page 1 of `RemoteTrigger list`, hiding any recurring fleet. A cleanup session already exists ("RemoteTrigger pagination and reminder cleanup"); deleting finished reminders would make the list usable.
 
 ## Spec fixes made in this run
 
-`agent/prompts/USAGE.md`: noted that `list_task_runs` takes `limit` up to 50 (default 10 silently truncates counts), and that the report's month is the one being run in or just ended, with its filename stating the window.
+`agent/prompts/USAGE.md` (and one clause in `agent/prompts/RSI.md`): noted that `list_task_runs` takes `limit` up to 50 (default 10 silently truncates counts), and the reporting window: a scheduled run on the 1st covers the previous completed calendar month; a catch-up run before month end covers the partial month and states it.
+
+On 2026-10-28 the user ran the monthly usage report manually (this run).
