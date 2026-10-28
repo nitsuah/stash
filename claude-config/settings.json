@@ -1,0 +1,143 @@
+{
+  "env": {},
+  "permissions": {
+    "allow": [
+      "Bash(docker ps)",
+      "Bash(docker logs *)",
+      "Bash(docker inspect *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "mcp__docker__*",
+      "mcp__obsidian__*",
+      "mcp__blender__*",
+      "mcp__playwright__*",
+      "mcp__MCP_DOCKER__*",
+      "Bash(git *)",
+      "Bash(docker *)",
+      "PowerShell(Set-Location C:\\Users\\ajhar\\code)",
+      "PowerShell(git *)",
+      "PowerShell(docker *)",
+      "Read('C:\\Users\\ajhar\\code\\**')",
+      "Grep('C:\\Users\\ajhar\\code\\**')"
+    ],
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": [
+      "C:\\Users\\ajhar\\code"
+    ],
+    "allowedMcpServers": [
+      {
+        "serverName": "windirstat-mcp",
+        "serverCommand": [
+          "node",
+          "C:\\Users\\ajhar\\code\\windirstat-mcp\\mcp-server.js"
+        ]
+      }
+    ]
+  },
+  "model": "MAX",
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -NonInteractive -File \"C:\\Users\\ajhar\\.claude\\hooks\\peon-ping\\peon.ps1\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -NonInteractive -File \"C:\\Users\\ajhar\\.claude\\hooks\\peon-ping\\peon.ps1\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -NonInteractive -File \"C:\\Users\\ajhar\\.claude\\hooks\\peon-ping\\peon.ps1\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -NonInteractive -File \"C:\\Users\\ajhar\\.claude\\hooks\\peon-ping\\scripts\\hook-handle-use.ps1\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "RemoteTrigger|mcp__scheduled-tasks__run_scheduled_task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -NonInteractive -File \"C:/Users/ajhar/.claude/hooks/routine-guard/guard.ps1\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "atlassian@claude-plugins-official": false,
+    "auth0@claude-plugins-official": false,
+    "small-business@knowledge-work-plugins": false,
+    "productivity@knowledge-work-plugins": false,
+    "marketing@knowledge-work-plugins": false,
+    "finance@knowledge-work-plugins": false,
+    "sales@knowledge-work-plugins": false,
+    "legal@knowledge-work-plugins": false,
+    "operations@knowledge-work-plugins": false,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "customer-support@knowledge-work-plugins": false,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "stripe@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "knowledge-work-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/knowledge-work-plugins"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "modelSettings": {
+    "max": {
+      "autoCompactWindow": "auto"
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "editorMode": "normal",
+  "preferredNotifChannel": "auto",
+  "switchModelsOnFlag": true,
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "useAutoModeDuringPlan": true
+}
