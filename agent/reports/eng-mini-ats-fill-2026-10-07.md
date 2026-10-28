@@ -8,7 +8,7 @@ date: 2026-10-07
 # eng-mini: ats-fill — 2026-10-07 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/ats-fill|ats-fill]] · ← [[reports/eng-mini-ats-fill-2026-10-02|2026-10-02]] <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Selected as the #2 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-04T03:35:17-04:00, HEAD `21f137f` "docs: refresh UI screenshots (#126)"). Root audited from a throwaway clone at `/home/user/ats-fill`.
 
 ## Root Audit — ats-fill/

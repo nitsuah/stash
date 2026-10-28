@@ -148,10 +148,13 @@ def set_nav(rel, parts):
     if h1 is None and rest[:1] == ["---"] and "---" in rest[1:]:
         close = rest.index("---", 1)
         head, rest = rest[:close + 1], rest[close + 1:]
-    while rest and rest[0].strip() == "":
+    # drop blank lines, and a bare ">" this function added to keep a following quote continuous
+    while rest and (rest[0].strip() == "" or (rest[0].strip() == ">" and len(rest) > 1 and rest[1].lstrip().startswith(">"))):
         rest = rest[1:]
     nav = ["", "> 🧭 " + " · ".join(parts) + " " + NAV] if parts else []
-    new = head + nav + ([""] if head or nav else []) + rest
+    # a blockquote straight after the nav line gets ">" (not a blank line) between them: no MD028
+    sep = ">" if nav and rest and rest[0].lstrip().startswith(">") else ""
+    new = head + nav + ([sep] if head or nav else []) + rest
     while new and new[0] == "":
         new = new[1:]
     write(rel, "\n".join(new), nl)
@@ -200,7 +203,25 @@ def report_kind_and_subject(rel):
 
 
 _WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
-_MDLINK = re.compile(r"\[(?:\.|[^\]\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+_MDLINK = re.compile(r"\[(?:\\.|[^\]\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+
+FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+INLINE = re.compile(r"(`+)[^`\n].*?\1")
+
+
+def strip_code(text):
+    """Drop fenced blocks and inline code (same rules as find-orphans.py): links in examples aren't links."""
+    out, fence = [], None
+    for line in text.split("\n"):
+        m = FENCE.match(line)
+        if fence is None:
+            if m:
+                fence = m.group(1)
+                continue
+            out.append(INLINE.sub("", line))
+        elif m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+            fence = None
+    return "\n".join(out)
 
 
 def stray_mirror_docs(name):
@@ -223,6 +244,7 @@ def stray_mirror_docs(name):
 
     def targets(d):
         text, _ = read(d)
+        text = strip_code(text)
         for t in _WIKI.findall(text) + _MDLINK.findall(text):
             t = unquote(t.split("#")[0].split("?")[0]).strip()
             if not t or re.match(r"^[a-z]+:", t, re.IGNORECASE):

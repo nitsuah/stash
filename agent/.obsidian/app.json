@@ -9,7 +9,7 @@
     "/^projects\\/MM\\/[^/]+\\/(out[0-9]*|dist|reports|raw|storage)\\//",
     "/node_modules\\//",
     "/\\.zip$/",
-    "/^projects\\/MM\\/(?!.*\\.md$)/",
+    "/^projects\\/MM\\/(?:.*\\/)?(?:[^/]+\\.(?:mjs|cjs|js|json|py|sh|html|css|csv|tsv|txt|yml|yaml|toml|lock|png|jpe?g|gif|webp|svg|ico|mp4|zip|pdf)|(?:Dockerfile|\\.gitignore|_redirects))$/",
     "/^reports\\/.*\\.json$/",
     "/^scripts\\/.*\\.(html|js)$/"
   ]

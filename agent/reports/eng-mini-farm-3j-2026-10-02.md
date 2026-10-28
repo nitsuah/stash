@@ -8,7 +8,7 @@ date: 2026-10-02
 # eng-mini: farm-3j — 2026-10-02 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/farm-3j|farm-3j]] · ← [[reports/eng-mini-farm-3j-2026-09-30|2026-09-30]] <!-- nav -->
-
+>
 > Report only — no moves executed, no changes made to the target repo. Follow-up batch run at the user's request. HEAD `f9d6a95` "fix: remediate brace-expansion CVE-2026-102277 (#369)", `git log -1 --format=%ci` 2026-09-30T20:53:35-04:00. Root audited from a throwaway `--depth 1` clone at `/home/user/farm-3j`.
 
 ## Root Audit — farm-3j/

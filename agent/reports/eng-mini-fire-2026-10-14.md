@@ -8,7 +8,6 @@ date: 2026-10-14
 # eng-mini: fire — 2026-10-14 (REPORT MODE / DRY RUN)
 
 > 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-10-07|2026-10-07]] · [[reports/eng-mini-fire-2026-10-28|2026-10-28]] → <!-- nav -->
-
 >
 > Report only — no moves executed, no changes made to the target repo. Selected as the #1 most recently active tracked repo this run (`git log -1 --format=%ci` from a fresh `--depth 1` clone: 2026-10-14T04:56:52-04:00, HEAD `9831200` "fix(prices): re-price server-side before snapshots; report data freshness (#187)"). Root audited from a throwaway clone at `/home/user/fire`.
 
