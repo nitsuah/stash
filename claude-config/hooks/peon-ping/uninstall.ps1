@@ -1,0 +1,243 @@
+# peon-ping Windows Uninstaller
+# Removes peon-ping hooks, skills, CLI command, and installation directory
+# Usage: powershell -File uninstall.ps1
+
+param(
+    [switch]$KeepSounds,
+    [switch]$Force
+)
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "=== peon-ping uninstaller ===" -ForegroundColor Cyan
+Write-Host ""
+
+# --- Paths ---
+$ClaudeDir = Join-Path $env:USERPROFILE ".claude"
+$InstallDir = Join-Path $ClaudeDir "hooks\peon-ping"
+$SettingsFile = Join-Path $ClaudeDir "settings.json"
+$SkillsDir = Join-Path $ClaudeDir "skills"
+$CliBinDir = Join-Path $env:USERPROFILE ".local\bin"
+$CliPath = Join-Path $CliBinDir "peon.cmd"
+
+# --- Check if installed ---
+if (-not (Test-Path $InstallDir)) {
+    Write-Host "peon-ping is not installed at $InstallDir" -ForegroundColor Yellow
+    Write-Host ""
+    exit 0
+}
+
+# --- Remove hooks from settings.json ---
+if (Test-Path $SettingsFile) {
+    Write-Host "Removing peon hooks from settings.json..."
+
+    try {
+        $settingsObj = Get-Content $SettingsFile -Raw | ConvertFrom-Json
+        $eventsChanged = @()
+
+        if ($settingsObj.hooks) {
+            $hooksObj = $settingsObj.hooks
+            $eventNames = $hooksObj.PSObject.Properties.Name
+
+            foreach ($event in $eventNames) {
+                $entries = @($hooksObj.$event)
+                $originalInnerTotal = 0
+                foreach ($entry in $entries) { $originalInnerTotal += @($entry.hooks).Count }
+
+                # Strip only peon/notify/hook-handle-use hooks from each matcher
+                # entry; keep sibling hooks users registered alongside ours.
+                # Drop a matcher entry only if its hooks list becomes empty.
+                $filtered = @($entries | ForEach-Object {
+                    $entry = $_
+                    $keptHooks = @(@($entry.hooks) | Where-Object {
+                        -not ($_.command -and ($_.command -match "peon\.ps1" -or $_.command -match "peon\.sh" -or $_.command -match "notify\.sh" -or $_.command -match "hook-handle-use"))
+                    })
+                    if ($keptHooks.Count -gt 0) {
+                        [PSCustomObject]@{
+                            matcher = $entry.matcher
+                            hooks   = $keptHooks
+                        }
+                    }
+                } | Where-Object { $_ -ne $null })
+
+                $keptInnerTotal = 0
+                foreach ($entry in $filtered) { $keptInnerTotal += @($entry.hooks).Count }
+                if ($keptInnerTotal -lt $originalInnerTotal) {
+                    $eventsChanged += $event
+                }
+
+                if ($filtered.Count -gt 0) {
+                    $hooksObj.$event = $filtered
+                } else {
+                    $hooksObj.PSObject.Properties.Remove($event)
+                }
+            }
+
+            $settingsObj.hooks = $hooksObj
+            $settingsObj | ConvertTo-Json -Depth 10 | Set-Content $SettingsFile -Encoding UTF8
+
+            if ($eventsChanged.Count -gt 0) {
+                Write-Host "  Removed hooks for: $($eventsChanged -join ', ')" -ForegroundColor Green
+            } else {
+                Write-Host "  No peon hooks found in settings.json" -ForegroundColor DarkGray
+            }
+        }
+    } catch {
+        Write-Host "  Warning: Could not update settings.json: $_" -ForegroundColor Yellow
+    }
+}
+
+# --- Remove Cursor hooks ---
+$CursorDir = Join-Path $env:USERPROFILE ".cursor"
+$CursorHooksFile = Join-Path $CursorDir "hooks.json"
+
+if (Test-Path $CursorHooksFile) {
+    Write-Host ""
+    Write-Host "Removing Cursor hooks..."
+    
+    try {
+        $cursorData = Get-Content $CursorHooksFile -Raw | ConvertFrom-Json
+        $eventsChanged = @()
+        
+        if ($cursorData.hooks) {
+            $hooksObj = $cursorData.hooks
+            $hooksIsArray = $hooksObj -is [Array]
+            
+            if ($hooksIsArray) {
+                # Flat array format [{event, command}]
+                $originalCount = $hooksObj.Count
+                $filtered = @($hooksObj | Where-Object {
+                    -not ($_.command -and $_.command -match "hook-handle-use")
+                })
+                if ($filtered.Count -lt $originalCount) {
+                    $eventsChanged += "beforeSubmitPrompt"
+                }
+                $cursorData.hooks = $filtered
+            } else {
+                # Dict format {event: [{command}]}
+                $eventNames = $hooksObj.PSObject.Properties.Name
+                foreach ($event in $eventNames) {
+                    $entries = @($hooksObj.$event)
+                    $originalCount = $entries.Count
+                    $filtered = @($entries | Where-Object {
+                        -not ($_.command -and $_.command -match "hook-handle-use")
+                    })
+                    if ($filtered.Count -lt $originalCount) {
+                        $eventsChanged += $event
+                    }
+                    if ($filtered.Count -gt 0) {
+                        $hooksObj.$event = $filtered
+                    } else {
+                        $hooksObj.PSObject.Properties.Remove($event)
+                    }
+                }
+                $cursorData.hooks = $hooksObj
+            }
+            $cursorData | ConvertTo-Json -Depth 10 | Set-Content $CursorHooksFile -Encoding UTF8
+            
+            if ($eventsChanged.Count -gt 0) {
+                Write-Host "  Removed Cursor hooks for: $($eventsChanged -join ', ')" -ForegroundColor Green
+            } else {
+                Write-Host "  No peon-ping Cursor hooks found" -ForegroundColor DarkGray
+            }
+        }
+    } catch {
+        Write-Host "  Warning: Could not update Cursor hooks.json: $_" -ForegroundColor Yellow
+    }
+}
+
+# --- Remove GitHub Copilot CLI hooks ---
+$CopilotHooksFile = Join-Path $env:USERPROFILE ".copilot\hooks\peon-ping.json"
+
+if (Test-Path $CopilotHooksFile) {
+    Write-Host ""
+    Write-Host "Removing Copilot CLI hooks..."
+    try {
+        Remove-Item -Path $CopilotHooksFile -Force
+        Write-Host "  Removed $CopilotHooksFile" -ForegroundColor Green
+    } catch {
+        Write-Host "  Warning: Could not remove ${CopilotHooksFile}: $_" -ForegroundColor Yellow
+    }
+}
+
+# --- Remove skills ---
+Write-Host ""
+Write-Host "Removing skills..."
+
+$skillsRemoved = 0
+foreach ($skillName in @("peon-ping-toggle", "peon-ping-config", "peon-ping-use")) {
+    $skillPath = Join-Path $SkillsDir $skillName
+    if (Test-Path $skillPath) {
+        Remove-Item -Path $skillPath -Recurse -Force
+        Write-Host "  /$skillName" -ForegroundColor DarkGray
+        $skillsRemoved++
+    }
+}
+
+if ($skillsRemoved -gt 0) {
+    Write-Host "  Removed $skillsRemoved skill(s)" -ForegroundColor Green
+} else {
+    Write-Host "  No skills found" -ForegroundColor DarkGray
+}
+
+# --- Remove CLI command ---
+if (Test-Path $CliPath) {
+    Write-Host ""
+    Write-Host "Removing CLI command..."
+    Remove-Item -Path $CliPath -Force
+    Write-Host "  Removed peon.cmd" -ForegroundColor Green
+}
+
+# --- Remove install directory ---
+if (Test-Path $InstallDir) {
+    Write-Host ""
+
+    if ($KeepSounds) {
+        Write-Host "Removing installation (keeping sound packs)..."
+        # Remove everything except packs directory
+        Get-ChildItem -Path $InstallDir | Where-Object { $_.Name -ne "packs" } | Remove-Item -Recurse -Force
+        Write-Host "  Removed (packs preserved at $InstallDir\packs)" -ForegroundColor Green
+    } else {
+        $packsDir = Join-Path $InstallDir "packs"
+        $packCount = 0
+        $soundCount = 0
+
+        if (Test-Path $packsDir) {
+            $packs = Get-ChildItem -Path $packsDir -Directory
+            $packCount = $packs.Count
+            foreach ($pack in $packs) {
+                $sounds = Get-ChildItem -Path (Join-Path $pack.FullName "sounds") -File -ErrorAction SilentlyContinue
+                $soundCount += $sounds.Count
+            }
+        }
+
+        Write-Host "Removing installation directory..."
+        if ($packCount -gt 0 -and -not $Force) {
+            Write-Host "  This will delete $packCount pack(s) ($soundCount sounds)" -ForegroundColor Yellow
+            Write-Host "  Location: $InstallDir" -ForegroundColor DarkGray
+            Write-Host ""
+            $confirm = Read-Host "  Continue? [Y/n]"
+
+            if ($confirm -match "^[Nn]") {
+                Write-Host ""
+                Write-Host "Cancelled. To keep sounds, run: .\uninstall.ps1 -KeepSounds" -ForegroundColor Yellow
+                exit 0
+            }
+        }
+
+        Remove-Item -Path $InstallDir -Recurse -Force
+        Write-Host "  Removed $InstallDir" -ForegroundColor Green
+    }
+}
+
+# --- Summary ---
+Write-Host ""
+Write-Host "=== Uninstall complete ===" -ForegroundColor Green
+Write-Host "Me go now." -ForegroundColor DarkGray
+Write-Host ""
+
+if ($KeepSounds) {
+    Write-Host "Your sound packs are still at: $InstallDir\packs" -ForegroundColor Cyan
+    Write-Host "To remove them: Remove-Item -Recurse '$InstallDir'" -ForegroundColor DarkGray
+    Write-Host ""
+}

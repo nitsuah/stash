@@ -1,0 +1,41 @@
+{
+    "path_rules":  [
+
+                   ],
+    "pack_rotation_mode":  "random",
+    "tts":  {
+                "backend":  "auto",
+                "rate":  1,
+                "volume":  0.5,
+                "voice":  "default",
+                "mode":  "sound-then-speak",
+                "enabled":  false
+            },
+    "volume":  0.5,
+    "categories":  {
+                       "task.acknowledge":  false,
+                       "session.start":  false,
+                       "input.required":  true,
+                       "task.error":  false,
+                       "resource.limit":  false,
+                       "task.complete":  true,
+                       "user.spam":  false
+                   },
+    "silent_window_seconds":  0,
+    "notification_title_ide":  false,
+    "ide_rules":  [
+
+                  ],
+    "pack_rotation":  [
+
+                      ],
+    "annoyed_window_seconds":  10,
+    "exclude_dirs":  [
+
+                     ],
+    "enabled":  true,
+    "default_pack": "peon",
+    "desktop_notifications":  true,
+    "annoyed_threshold":  3
+}
+
