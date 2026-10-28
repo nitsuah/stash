@@ -5,10 +5,18 @@ kind: findings-ledger
 # Findings ledger
 
 Maintained by [[TIRE]]. Read by [[PMO]] (`pmo` items) and [[RSI]] (aging).
-Last intake: 2026-09-30 (TIRE); RSI rows added 2026-10-07
+Last intake: 2026-10-28 (TIRE)
 
 | ID | First seen | Last seen | Seen | Source | Repo | Finding | Class | Status | Link |
 |----|-----------|-----------|------|--------|------|---------|-------|--------|------|
+| F-20261015-01 | 2026-10-15 | 2026-10-28 | 3 | week-vuln | bb-mcp | Bump sharp ^0.33.5 -> ^0.35.4 in brand/ and docs/brag/brand/ (GHSA-rgj7-g3m4-5g8c) | quick | done | [bb-mcp#161](https://github.com/nitsuah/bb-mcp/pull/161) merged 2026-10-28 |
+| F-20261015-02 | 2026-10-15 | 2026-10-28 | 3 | week-vuln | stash | Raise sequelize floor ^6.32.0 -> ^6.37.8 in backend/express (CVE-2026-30951) | quick | done | [stash#332](https://github.com/nitsuah/stash/pull/332) merged 2026-10-28 |
+| F-20261015-03 | 2026-10-15 | 2026-10-28 | 3 | week-vuln | motor-pool | Bump @modelcontextprotocol/sdk ^1.12.0 -> ^1.26.0 (tools/content-gen, tools/website; GHSA-345p-7cg4-v4c7) and axios ^1.7.2 -> ^1.16.1 (tools/content-gen; CVE-2026-42035, CVE-2026-44495). CodeRabbit added: set maxToolInputElements and a body limit (GHSA-46jr-4wx8-v453), done in the same PR | quick | pr-open | [motor-pool#119](https://github.com/nitsuah/motor-pool/pull/119), waiting on CodeRabbit re-review |
+| F-20261022-01 | 2026-10-22 | 2026-10-28 | 2 | week-vuln | vigil | Bump next 16.4.0 -> 16.4.1 (GHSA-673q-mjm6-r5xr, GHSA-2464-fhr4-w9xw) | quick | open | TIRE skipped: main checkout is on `fix/vitest-config-mjs` with extra worktrees |
+| F-20261022-02 | 2026-10-22 | 2026-10-28 | 2 | week-vuln | nitsuah-io | Bump next 16.4.0 -> 16.4.1 (same advisories) | quick | done | Verified 2026-10-28: main already declares `next ^16.4.2` |
+| F-20261023-01 | 2026-10-23 | 2026-10-23 | 1 | daily-brief | vhs, ats-fill | vhs#93 has failing checks; ats-fill#167 has changes requested. TIRE can't fix PRs it didn't open | human | open | |
+| F-20261023-02 | 2026-10-23 | 2026-10-23 | 1 | daily-brief | deployer, nitsuah-io | Open dependabot PRs: deployer #189-#194 (6), nitsuah-io #576-#578 | human | open | |
+| F-20261028-01 | 2026-10-28 | 2026-10-28 | 1 | obn-import | stash | Vault graph `--check` FAIL: 109 broken links under projects/MM-hub.md and 4 notes unreachable from VAULT-MAP (notes/2026-10-26.md, projects/ISSUE-QUEUE-PLAN.md, projects/MM-hub.md, daily-brief-2026-10-23) | routine | open | Same shape as F-20260930-02 |
 | F-20261007-01 | 2026-10-07 | 2026-10-09 | 1 | rsi | stash | Routine output stranded in the shared stash checkout and never reached GitHub: usage-report-2026-09 (USAGE said leave uncommitted), sotu-2026-W41 (SOTU skips commit when dirty), tire-kick-2026-09-30 + ledger (handed to a human, sat in a scratchpad 7 days), 10-02 index output (stash#184 closed). Also keeps daily-git-sync `SKIPPED_DIRTY` on stash every run since 9/18. ops-catchup counted the tire run as ok | routine | done | [stash#196](https://github.com/nitsuah/stash/pull/196) merged (verified 2026-10-09); SOTU now commits from a worktree when the checkout is dirty |
 | F-20261007-02 | 2026-10-07 | 2026-10-07 | 1 | rsi (scope check) | motor-pool | GitHub repo renamed `agent-board` → `motor-pool` (agent-board#87); scope.md still says agent-board. Your [stash#187](https://github.com/nitsuah/stash/pull/187) updates it but has been open since 10-04 | human | done | motor-pool rename rollup PR (supersedes stash#187): scope.md row, hub, mirror, KB overview, sotu.py tiers and routine wrappers |
 | F-20261007-03 | 2026-10-07 | 2026-10-07 | 1 | rsi (scope check) | .github | `nitsuah/.github` (profile repo, active: .github#12 merged 10-01) is in neither scope.md table. Track it or list it under Excluded | human | done | Already listed under scope.md's "Not tracked" table as `.github (nitsuah)` (community-health defaults, not a product). Closed in the motor-pool rollup PR |
