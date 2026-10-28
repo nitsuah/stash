@@ -18,7 +18,7 @@ repo: fire
 
 ## 1. Overview
 
-fire is a **local-first, privacy-by-design** personal finance tool. It is not a financial product, bank, or registered investment advisor. No financial data you enter is ever transmitted to any remote server operated by this application. The only remote copies are ones you opt into: eBay order sync, CoinTracker wallet balances (read from your CoinTracker account) and encrypted Google Drive backups to your own Drive (see Sections 2 and 4).
+fire is a **local-first, privacy-by-design** personal finance tool. It is not a financial product, bank, or registered investment advisor. No financial data you enter is transmitted to any remote server operated by this application unless you opt into a listed integration. The only remote copies are ones you opt into: eBay order sync, CoinTracker wallet balances (read from your CoinTracker account) and encrypted Google Drive backups to your own Drive (see Sections 2 and 4).
 
 ---
 
@@ -29,8 +29,9 @@ fire is a **local-first, privacy-by-design** personal finance tool. It is not a 
 When you use the hosted Netlify deployment:
 
 - **All data lives exclusively in your browser's `localStorage`**, keyed to `fire_tracker_state`.
-- Data never leaves your device through this application. It is not sent to Netlify servers, cloud databases, or any third party by this app.
+- Data does not leave your device through this application unless you opt into an integration described below. Without an opt-in, it is not sent to Netlify servers, cloud databases, or any third party by this app.
 - Clearing your browser data, switching browsers, or using a private/incognito session **will erase your data**. Use the Export JSON Backup feature regularly.
+- **Optional Google Drive backup.** If you connect Google Drive, the backup flow runs through this site's Netlify Function (`/api/backup/drive/*`). Your state is sent to that Function, encrypted there with a server-held key (`SYNC_MASTER_KEY`) using AES-256-GCM, and uploaded to **your own** Google Drive. The Drive OAuth token comes back to your browser sealed with the same key and is kept under the separate `localStorage` key `fire_tracker_gdrive_token`, which your browser can't decrypt. A restore sends the chosen backup back to the Function, which decrypts it server-side and returns your plaintext state to the browser. Because the key lives on the server, a backup can't be decrypted without this deployment, and losing `SYNC_MASTER_KEY` makes existing backups unreadable.
 - **Optional eBay order sync and CoinTracker wallet sync are the exceptions.** CoinTracker works like eBay below: its requests go through `/api/sync/cointracker/*`, nothing is kept server-side, and the encrypted token is stored under the separate `localStorage` key `fire_cointracker_token` (see Section 4). If you click *Connect eBay*, the connect and sync requests go through this site's Netlify Functions (`/api/sync/ebay/*`) to eBay. The Functions keep nothing: your eBay tokens come back to your browser encrypted with a server-held key (stored under the separate `localStorage` key `fire_tracker_ebay_token`, which your browser can't decrypt), and orders pulled during a sync are returned straight to your browser. They never log your eBay username or user ID.
 - **If you revoke this app's eBay access or close your eBay account**, the next sync gets an `invalid_grant` rejection from eBay. The app then deletes the eBay token and the sales it synced from eBay through the API from this browser and tells you. Sales you logged by hand and uploaded CSV reports are yours and are kept. eBay's account-deletion notifications reach the server, but the server holds no eBay data for you and can't reach your browser, so this cleanup happens the next time you open the app and sync.
 - The Netlify platform itself may log standard HTTP access metadata (IP address, timestamp, URL path) as part of normal CDN operation — this is governed by [Netlify's Privacy Policy](https://www.netlify.com/privacy/), not this document.
@@ -42,13 +43,13 @@ When you run the application locally via Docker:
 - Data is stored in a **local `data/db.json` file** on your machine.
 - The Express server (`localhost:3001`) is bound to `127.0.0.1` (loopback), so it's reachable only from your machine, not other devices on your network. `FIRE_API_KEY` is required by default (set `FIRE_AUTH_DISABLED=true` to explicitly opt out for local-only use) — see [security-hardening.md](https://github.com/nitsuah/fire/blob/main/docs/security-hardening.md).
 - The browser app syncs with this local server; `localStorage` serves as a fallback if the server is unreachable.
-- **Optional Google Drive backup.** The hosted site has no Drive backup; it exists only on a self-hosted server. If you connect Google Drive (Google OAuth, `drive.file` scope, so the app can see only the files it creates) and run a backup, the server encrypts a copy of `data/db.json` with AES-256-GCM using your `SYNC_MASTER_KEY` before upload, and stores it as a file in **your own** Google Drive (folder `fire-tracker-backups`, or the folder you configure). Google holds only ciphertext. The Drive OAuth token is stored on your machine in `data/tokens-gdrive.json`, also encrypted with `SYNC_MASTER_KEY`. Backups stay in your Drive until you delete them there; this app has no copy and no separate retention. Losing `SYNC_MASTER_KEY` makes those backups unreadable.
+- **Optional Google Drive backup.** On a self-hosted server, if you connect Google Drive (Google OAuth, `drive.file` scope, so the app can see only the files it creates) and run a backup, the server encrypts a copy of `data/db.json` with AES-256-GCM using your `SYNC_MASTER_KEY` before upload, and stores it as a file in **your own** Google Drive (folder `fire-tracker-backups`, or the folder you configure). Google holds only ciphertext. The Drive OAuth token is stored on your machine in `data/tokens-gdrive.json`, also encrypted with `SYNC_MASTER_KEY`. Backups stay in your Drive until you delete them there; this app has no copy and no separate retention. Losing `SYNC_MASTER_KEY` makes those backups unreadable. The hosted site offers the same feature through its Netlify Function — see Section 2a.
 
 ---
 
 ## 3. Data Never Collected or Transmitted by This App
 
-The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from the encrypted Google Drive backup you can opt into (Section 2), which only you can decrypt:
+The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from two exceptions: the encrypted Google Drive backup you can opt into (Section 2), which is unreadable without this app's key, and the Google Drive OAuth sign-in and token refresh described in Section 4:
 
 - Account balances, net worth, or investment values
 - Portfolio positions or CSV import contents
@@ -71,7 +72,7 @@ The following **external CDN requests** are made when loading the application. T
 
 No financial data, account information, or personal data is included in any of these requests.
 
-If you opt into Google Drive backup on a self-hosted server (Section 2b), that server also calls Google:
+If you opt into Google Drive backup (Section 2a on the hosted site, Section 2b self-hosted), the server or Netlify Function also calls Google:
 
 | Service | Purpose | What is sent |
 |---|---|---|
@@ -112,7 +113,7 @@ fire includes an optional **MCP (Model Context Protocol) server** (`app/mcp-serv
 
 **What the MCP server does:**
 
-- Exposes **16 read-only tools** that allow an AI assistant to query your FIRE data (net worth, trends, accounts, CDs, expenses, projections, portfolio positions, side-gig tax data, wallets, risk/diversification analysis, SWR sensitivity, rebalancing simulations, and emergency runway).
+- Exposes **20 read-only tools** that allow an AI assistant to query your FIRE data (net worth, trends, accounts, categorized transactions, detected recurring charges, CDs, upcoming CD maturities, expenses, insurance, projections, portfolio positions, side-gig tax data, wallets, risk/diversification analysis, SWR sensitivity, rebalancing simulations, and emergency runway).
 - Runs as a **local stdio process** spawned by your AI assistant client. It does not bind to a network port or expose any HTTP endpoint.
 - Reads from `data/db.json` only — it has no write access by design (no write tools are registered).
 

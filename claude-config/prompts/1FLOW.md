@@ -12,7 +12,7 @@ You must work entirely asynchronously without requiring user intervention, utili
 
 Before writing any code or modifying files, establish and verify your working environment:
 
-1. **Target Branch:** Ensure you are on the designated feature branch for this run (e.g., `feature/agent-velocity-update`). If it does not exist, create it from `main`/`master`.
+1. **Target Branch:** Ensure you are on the designated feature branch for this run (e.g., `feature/agent-velocity-update`, the canonical `<type>/<task-slug>` format from [[prompts/OPS|OPS]]). If it does not exist, create it from `main`/`master`.
 2. **State Inventory:** Read the following architectural and tracking files to understand the current state:
    * `ROADMAP.md` (High-level milestones and feature epics)
    * `TASKS.md` (Granular task lists, issue tracking, and current implementation states)
@@ -42,7 +42,7 @@ Execute the following four-stage loop continuously. Do not exit the loop until t
 
 You are forbidden from assuming code works without runtime verification. After code changes:
 
-1. **Trigger Docker Build:** Rebuild the application container(s) locally using the repository’s `Dockerfile` or `docker-compose.yml`.
+1. **Trigger Docker Build:** If the repository has a `Dockerfile` or `docker-compose.yml`, rebuild the application container(s) locally with it. If it has neither, skip Docker and run the repository's documented native build, test and runtime checks instead (README / package scripts / CI config), recording in the PR that Docker was not applicable.
 
    ```bash
    docker compose build --no-cache

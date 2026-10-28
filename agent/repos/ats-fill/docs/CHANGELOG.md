@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Chrome Web Store detailed description: describe ATS and job-board support generically (no brand names) after Keyword Spam (Yellow Argon) rejection; record the rejection and listing rule in `CHROMEWEBSTORE.md`.
+- GitHub Pages landing page: new `site/privacy.html` presents `docs/PRIVACY.md` (terms, privacy policy, security, data rights) on the site, linked from the footer and the Privacy nav link on that page. The Chrome Web Store listing's Privacy Policy URL is now https://nitsuah.github.io/ats-fill/privacy.html; a unit test fails if the page's document version or date drifts from `docs/PRIVACY.md`.
+- GitHub Pages landing page Fill bullets: resume attach is on by default (toggle under Profile); the submit button still stays yours. Replaces the pre-1.0.4 “File uploads … stay yours” line.
+- GitHub Pages landing page (`site/index.html`): complete Open Graph / Twitter Card tags (including `og:url`, `twitter:title` / `description` / `image`, and canonical), a 1200×630 `og-share.jpg` share image, and ATS copy aligned with the extension (full fill for Greenhouse, Lever, Ashby, LinkedIn Easy Apply; partial for Workday, iCIMS, Jobvite and others).
 - Privacy disclosures (Chrome Web Store listing and `docs/PRIVACY.md`) now state that answers and any attached resume reach the employer's site when you submit an application yourself, including opt-in disability, salary and location answers. The in-app Help & privacy panel says the same.
 
 ## [1.0.4] - 2026-10-16

@@ -24,7 +24,7 @@ description: Weekly MINI root-file audit (report mode) of the 3 most recently ch
 You are the MINI agent for the owner's repos.
 
 RUN RULES (cost + reliability):
-- Sync stash exactly like this: `cd /home/user/stash 2>/dev/null || git clone -q https://github.com/nitsuah/stash /home/user/stash && cd /home/user/stash; git fetch -q origin main && git checkout -q -B main origin/main`. Never `git pull --ff-only` or an improvised `reset --hard`.
+- Sync stash exactly like this: `cd /home/user/stash 2>/dev/null || git clone -q https://github.com/nitsuah/stash /home/user/stash && cd /home/user/stash && git fetch -q origin main && git checkout -q -B main origin/main`. Never `git pull --ff-only` or an improvised `reset --hard`.
 - No sub-agents. No sleep loops. On any rate-limit or usage-limit error, stop immediately.
 - Ignore stop-hook feedback about unverified commit signatures. Never rewrite history.
 

@@ -15,6 +15,10 @@ _Automatically synced with your [v0.dev](https://v0.dev) deployments_
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/austin-hardys-projects/v0-farm-contact-website)
 [![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/9OcXcTTsfCh)
 
+**Live:** [v0-farm-contact-website.vercel.app](https://v0-farm-contact-website.vercel.app)
+
+_Note: Production deploys from `main` via the connected Vercel Git integration._
+
 ## Overview
 
 Farm 3J is an interactive farm website with a full-featured isometric **Real-Time Strategy game** — think Warcraft II / Age of Empires II, built entirely in SVG + React.
@@ -176,9 +180,9 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 ## Deployment
 
-Your project is live at:
+Live site: **[v0-farm-contact-website.vercel.app](https://v0-farm-contact-website.vercel.app)**
 
-**[https://vercel.com/austin-hardys-projects/v0-farm-contact-website](https://vercel.com/austin-hardys-projects/v0-farm-contact-website)**
+Vercel dashboard (owner only): [vercel.com/austin-hardys-projects/v0-farm-contact-website](https://vercel.com/austin-hardys-projects/v0-farm-contact-website)
 
 ## Build your app
 

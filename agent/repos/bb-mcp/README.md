@@ -229,9 +229,9 @@ Copy `.env.example` to `.env` and set:
 | `OIDC_ISSUER`, `OIDC_AUDIENCE`, `OIDC_JWKS_URI` | Required for non-loopback deployments | Validate signed RS256 bearer access tokens against the configured issuer, API audience, and JWKS endpoint. Set all three together; provider-specific SDKs are not required. |
 | `OIDC_USER_ID_CLAIM` | — | Claim path for stable end-user ID (default `sub`). |
 | `OIDC_ROLE_CLAIM` | — | Claim path containing the role or group values (default `role`). |
-| `OIDC_ROLE_MAP` | Planned, pending implementation | Planned explicit comma-separated allowlist mapping institution-controlled claim/group values to `student`, `instructor`, `admin`, or `parent`; this is not enforced by the current implementation. |
-| `OIDC_FERPA_CLAIM` | Planned, pending implementation | Planned signed claim for FERPA authorization; the current implementation does not enforce this setting. |
-| `OIDC_MTLS_MODE` | Planned, pending implementation | Planned mTLS mode configuration; the current implementation does not enforce these modes or the related certificate settings. |
+| `OIDC_ROLE_MAP` | Required when OIDC is enabled | Explicit comma-separated allowlist mapping institution-controlled claim/group values to `student`, `instructor`, `admin`, or `parent`. There is no permissive default; a token must resolve to exactly one configured role. Never map user-editable metadata to privileged roles. |
+| `OIDC_FERPA_CLAIM` | — | Signed claim that must be boolean `true` to satisfy FERPA authorization (default `ferpa_authorized`). |
+| `OIDC_MTLS_MODE` | — | `disabled`, `optional`, `required`, or `trusted-proxy`. Direct mTLS modes require HTTPS plus `MTLS_CA_PATH` pointing to the trusted client-certificate CA bundle; proxy mode requires `TRUST_PROXY_TLS=true` and a trusted proxy that rewrites `X-Client-Cert-Verified`. |
 | `METRICS_PUSH_URL` | — | Prometheus push gateway URL (optional) |
 | `RESTRICTED_TOOLS` | — | Comma-separated tool names requiring FERPA auth (default: `get_at_risk_students,get_grade_distribution,get_submission_status,get_grades,list_users,get_user,list_enrollments,list_audit_logs`) |
 | `RATE_LIMIT_STUDENT_PER_MINUTE` | — | Max tool calls per minute for student role (default `60`) |

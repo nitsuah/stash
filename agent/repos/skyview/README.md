@@ -27,7 +27,7 @@ repo: skyview
 See [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md) (org default) for guidelines, code of conduct, and how to get involved.
 
 ## 🔗 Quick Links
-- [Live Site](https://skyviewd.netlify.app)
+- Live Site: https://skyviewd.netlify.app is offline (Netlify returns site-not-found); see the [Project Showcase](https://nitsuah.github.io/skyview/) for the booking flow
 - [Project Showcase](https://nitsuah.github.io/skyview/) (GitHub Pages: how clients and pilots get matched, with an 18s video; page source in `showcase/`, video source in [`promo/`](promo/README.md))
 - [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
 - [Owner Guide](docs/OWNER_GUIDE.md)

@@ -108,6 +108,7 @@ foreach ($repo in $TargetRepos) {
     # into this public vault. Untracked, staged, and modified files never sync.
     # .github/ (copilot instructions, issue/PR templates) and a root templates/
     # folder are repo config, not knowledge; mirroring them only added orphans.
+    # claude-config/ (a ~/.claude backup) is skipped for stash: its prompts/ duplicate the vault's, so [[RSI]] goes ambiguous.
     # fetch only updates remote refs; it never touches the checkout or local work,
     # so repos the daily routine skipped as dirty/on-a-branch still mirror current main.
     if (-not $DryRun) { git -C $src fetch -q origin 2>$null }
@@ -117,7 +118,15 @@ foreach ($repo in $TargetRepos) {
     $files = @(git -C $src ls-tree -r --name-only $ref 2>$null |
         Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' -and
                        $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' -and
-                       -not ($repo -eq 'stash' -and $_ -match '^agent/') })
+                       -not ($repo -eq 'stash' -and $_ -match '^(agent|claude-config)/') })
+    # Migration cleanup: an older sync mirrored stash's claude-config/ into the vault. It is excluded now,
+    # but the old copy would otherwise linger (the normal prune only runs with -Prune) and keep feeding
+    # duplicate names into the vault indexes, so remove that one subtree unconditionally.
+    $staleClaudeConfig = Join-Path $dest 'claude-config'
+    if ($repo -eq 'stash' -and (Test-Path $staleClaudeConfig)) {
+        if (-not $DryRun) { Remove-Item $staleClaudeConfig -Recurse -Force }
+        Write-Host "  [prune] $(if ($DryRun){'would remove'}else{'removed'}) stale mirror of claude-config/" -ForegroundColor DarkYellow
+    }
     if ($files.Count -eq 0) {
         Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
         continue

@@ -67,7 +67,7 @@ Two portfolio initiatives moved here from stash: (1) CI-generated diagrams and P
 
 ### P2 - Medium
 
-
+- [ ] Journeys review findings, 2026-10-09: ~~confirmed relationships listed under "Needs review" (#276)~~ (fixed in #333), ~~relationship graph edges cross node labels (#277)~~ (fixed in #323), ~~Pages site never links the live dashboard (#279)~~ (fixed in #328).
   - Priority: P2
 
 - [ ] Fold the visual-docs screenshots into the journeys (`{ docs: '<feature id>' }` steps + a `capture:screenshots` script), so one suite produces both. fire's `visual-docs.yml` is the reference.
@@ -125,8 +125,6 @@ _None open. The rate-limiter identity item is under Done._
   - Acceptance Criteria: a lightweight per-repo activity log surfaced in both the chat panel and the PMO view, built on the existing dispatch/queue seams rather than a new schema — persist a `sessionId` (correlating with the `motorPoolSessionId` already returned by `motorPoolBridge.dispatch()` in `lib/agent-bridge.ts`), a `filesTouched` list, and a `skipReason` string (distinct from the `TaskQueueItem.error` field in `app/api/agent/tasks/route.ts`, which represents failures, not deliberate skips) alongside each task's existing `result`/`status` fields; commits and PRs opened/merged are sourced from GitHub data already synced via `lib/github/prs.ts`, no new write path required.
 
 ## Done
-
-- [x] Done 2026-10-24: Journeys review findings #276, #277, and #279 were fixed in #333, #323, and #328.
 
 _Condensed, one line per item. Full detail lives in FEATURES.md and CHANGELOG.md. The section must stay, because vigil's own TASKS parser expects Done / In Progress / Todo._
 

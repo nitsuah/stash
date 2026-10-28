@@ -12,7 +12,7 @@ description: "Weekly State of the Union: rebuild the Portfolio Checklist artifac
 
 You are running the weekly State of the Union (week-sotu).
 
-Read `C:\Users\ajhar\code\stash\agent\prompts\SOTU.md` in full and follow it exactly. It's the canonical spec. If it isn't in the working tree yet, read it with `git -C C:\Users\ajhar\code\stash show origin/main:agent/prompts/SOTU.md`. If it isn't there either, stop and report that.
+Read `C:\Users\<user>\code\stash\agent\prompts\SOTU.md` in full and follow it exactly. It's the canonical spec. If it isn't in the working tree yet, read it with `git -C C:\Users\<user>\code\stash show origin/main:agent/prompts/SOTU.md`. If it isn't there either, stop and report that.
 
 Hard rules:
 - Step 1 is a usage check (`get_usage`). At 90%+ weekly, output `DEFERRED: weekly <n>%` as the first line and stop.

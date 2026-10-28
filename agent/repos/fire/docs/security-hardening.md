@@ -325,7 +325,31 @@ This is defense-in-depth — properly named accounts ("Fidelity Brokerage") are 
 
 ---
 
+#### H-14: Google Drive backup/restore authorization matrix
+
+**Gap (closed):** restore took a client-supplied `fileId` and fetched it with `alt=media` under the server's single Drive token, which reads *any* file that token can see — not just the ones this app uploaded. Nothing tied a restore to the backup folder.
+
+**Authn/authz matrix, route by route** (`app/routes/backup.js`, mounted at `/api/backup`). Unless noted, every route sits behind the `app.use('/api', …)` gate in `app/server.js`, which requires `X-Api-Key` to equal `FIRE_API_KEY` (or `FIRE_AUTH_DISABLED=true`). That gate is also the CSRF boundary: browsers cannot set a custom header cross-origin without a CORS preflight this server never grants, and session cookies cannot reach the API on their own.
+
+| Route | Method | Auth | Principal | Notes |
+|---|---|---|---|---|
+| `/drive/status` | GET | API key | single-user server | Reports configured flags only; no data, no token exposure |
+| `/drive/authorize` | GET | API key | single-user server | Requires OAuth client + `SYNC_MASTER_KEY`; `req.session.driveOauthState` set from 16 random bytes |
+| `/drive/callback` | GET | **exempt** | Google's redirect | Only exempt route here. Trust boundary is the session-held `state` compared before use, deleted immediately after; provider error text HTML-escaped |
+| `/drive` | POST | API key | single-user server | Uploads the local DB encrypted under `SYNC_MASTER_KEY`; success only after verified read-back |
+| `/drive/list` | GET | API key | single-user server | Lists the app's own folder only |
+| `/drive/restore` | POST | API key | single-user server | `fileId` validated against `DRIVE_FILE_ID_RE`, then **must be in the backup folder** and untrashed (`assertBackupFileInFolder`) before any content is fetched |
+
+Model: this is a single-user self-hosted server, so "cross-user" access is not a distinction the API draws — the one API key *is* the owner. What the routes must not allow is an authenticated caller (or a leaked key) reading arbitrary Drive content through the app's grant, and that is the ownership check above. The hosted function (`netlify/functions/gdrive-backup.mjs`) is stateless and holds no server-side token: the browser passes a sealed grant per request, so the same check exists mainly to stop a caller smuggling a non-backup file through it.
+
+**Logging:** `console.error` calls log `err.message` and Google's safe error explanation only. `driveError` truncates provider text to 300 chars; no tokens, backup contents, or keys are logged (`decryptBackup` errors surface as codes, not key material).
+
+**Regression tests:** `tests/unit/gdrive-backup.test.mjs` (outside-folder refusal, trashed refusal, no content fetch on refusal, no token in the error message) and `tests/unit/netlify-gdrive-backup.test.mjs` (hosted restore of an outside-folder file → 404 `gdrive_not_a_backup`, no `alt=media` call).
+
+---
+
 ### Low — Implement opportunistically
+
 
 ---
 

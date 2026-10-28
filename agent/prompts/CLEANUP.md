@@ -86,8 +86,8 @@ Before moving anything, output a table:
 
 For each file, answer these questions:
 
-1. **Is it loaded at module import time into an in-memory structure?** → Keep as flat file. Database adds latency for zero benefit.
-2. **Is it runtime-appended or runtime-generated?** → Migrate to database. Append-only logs, discovered results, and decision trails belong in a queryable table.
+1. **Is it runtime-appended or runtime-generated?** → Migrate to database. This wins over rule 2: a file that is appended at runtime can also be read at import on the next start, and it still belongs in a queryable table. Append-only logs, discovered results, and decision trails go here.
+2. **Is it immutable static data loaded at module import time into an in-memory structure?** → Keep as flat file. Database adds latency for zero benefit. (Only data nothing writes at runtime qualifies.)
 3. **Is it a stale snapshot / test artifact with no production reader?** → Delete.
 4. **Is it referenced by CLI `--flag` arguments?** → Check if the value is also in a config file. If yes, make the flag optional and delete the file. If no, keep the file but organize it into a subfolder.
 5. **Does the source code that reads this file use the correct path?** → Verify. Path bugs (wrong number of `..` traversals) are common and silently produce empty data.
@@ -138,7 +138,8 @@ Keep as flat files when:
 
 Grep all `.md` and `.html` files for links to files that no longer exist:
 ```
-grep -rn "\[.*\](" docs/ | grep -oP '(?<=\()([^)]+)' | sort -u
+# Portable (GNU or BSD grep, no -P): list every link target, then check each exists
+grep -rhoE '\]\([^)]+\)' docs/ | sed -e 's/^](//' -e 's/)$//' | sort -u
 ```
 For each broken link, either update it to the correct current path, remove it, or add an inline note explaining where the content moved.
 

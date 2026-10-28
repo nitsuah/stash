@@ -19,28 +19,44 @@ Run the sub-steps in order, starting with step 0. Each logs to its own file — 
 ```powershell
 $today = Get-Date -Format 'yyyy-MM-dd'
 git -C C:\Users\<user>\code\stash fetch -q origin
-git -C C:\Users\<user>\code\stash cat-file -e "origin/main:agent/notes/$today.md"   # exit 0 = note already merged
+if ($LASTEXITCODE -ne 0) { throw "git fetch failed (exit $LASTEXITCODE); cannot tell whether today's note exists" }
+git -C C:\Users\<user>\code\stash cat-file -e "origin/main:agent/notes/$today.md" 2>$null
+$noteMerged = switch ($LASTEXITCODE) {   # cat-file -e: 0 = file exists, 128 = path/ref missing (expected), anything else = real failure
+    0   { $true }
+    128 { $false }
+    default { throw "git cat-file failed (exit $LASTEXITCODE)" }
+}
 $filter = '.[] | select(.title == "obn: daily note ' + $today + '") | .title'   # build by concatenation: backslash/backtick-escaped quotes reach gh literally in PowerShell 7 and break the filter
-gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq $filter   # any output = PR already open
+$openPr = @(gh pr list --repo nitsuah/stash --state open --limit 100 --json title --jq $filter)   # any output = PR already open
+if ($LASTEXITCODE -ne 0) { throw "gh pr list failed (exit $LASTEXITCODE); empty output would be mistaken for 'no PR'" }
 ```
+
+**Fail closed.** Every command above must be checked: a transient fetch or GitHub failure otherwise yields stale refs or empty PR output, which looks like "no note yet" and creates a duplicate daily-note PR. If any check throws, log the error in `obn-review.log`, make the first line of the final output `INCOMPLETE: once-per-day guard could not run`, and stop. Only a clean exit 128 from `cat-file` means "not merged yet".
 
 (Verified under PowerShell 7.6 on 2026-09-24: an existing date returns the title, a future date returns nothing.)
 
-If either check hits, **don't** create a second note or PR. Do Repo sync and Stale worktree cleanup only, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
+If either check hits (`$noteMerged` is true, or `$openPr` is non-empty), **don't** create a second note or PR. Still run the close-the-loop pass below (it covers *older* `obn:` PRs, so a lingering PR for today can't block them), then Repo sync and Stale worktree cleanup, append the logs, and stop. On 2026-09-24 a manual run was followed by the scheduled one hours later; only a quota failure prevented a duplicate note and PR.
 
 **Close the loop on every open `obn:` PR (run before steps 1-2).** Auto-merge-later, added 2026-09-16 and extended 2026-09-24 to cover weekly PRs. Note content is narrative rather than machine-verified, so it gets a real review window, unlike [[METRICS]]'s immediate merge-on-green. This must run **before** steps 1-2: they rewrite `agent/repos/**`, and pulling a merged PR that touched those same files would then fail.
 
 1. **Merge gate (hardened 2026-09-24; stash is PUBLIC, so anyone can open a PR).** This step merges unattended, so a PR is a candidate only if **all** of these hold:
    - the title starts with `obn: ` **and** the branch starts with `obn/`. Use an exact filter, never GitHub's fuzzy search: `"obn: in:title"` also matches unrelated PRs like `obn-notes-run` (#100) and code PRs like #88/#89;
    - it is **not from a fork** (`isCrossRepository` is false). A stranger's fork can use the same title and branch names;
-   - the **author is `nitsuah`**, the account every routine and note PR is opened as.
+   - the **author is `nitsuah`**, the account every routine and note PR is opened as;
+   - it was **created before today's local date** (`createdAt`, converted to America/New_York). A PR for an older note date that was opened today is not a candidate: the review window is one full day and a note PR is never merged the day it was opened.
 
    ```powershell
-   $candidatesFilter = '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/")) and (.isCrossRepository | not) and (.author.login == "nitsuah")) | .number'
-   $candidates = @(gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName,isCrossRepository,author --jq $candidatesFilter)
+   $candidatesFilter = '.[] | select((.title | startswith("obn: ")) and (.headRefName | startswith("obn/")) and (.isCrossRepository | not) and (.author.login == "nitsuah")) | [.number, .createdAt] | @tsv'
+   $candidates = @(gh pr list --repo nitsuah/stash --state open --limit 100 --json number,title,headRefName,isCrossRepository,author,createdAt --jq $candidatesFilter)
+   if ($LASTEXITCODE -ne 0) { throw "gh pr list failed (exit $LASTEXITCODE)" }
+   # Drop anything opened today (local date); keep only PR numbers.
+   $candidates = @($candidates | ForEach-Object {
+       $n, $created = $_ -split "`t"
+       if ([datetime]::Parse($created).ToLocalTime().ToString('yyyy-MM-dd') -lt $today) { $n }
+   })
    ```
    Skip to step 3 if there are none.
-2. For each candidate (each is at least a day old by definition):
+2. For each candidate (each was opened on an earlier local date, per the `createdAt` check above):
    - **Routine-owned check:** every changed file must be a dated note (`agent/notes/YYYY-MM-DD.md` or `agent/notes/YYYY-Www.md`), under `agent/repos/`, or a file whose **only** changes are `build-vault-indexes.py` output (`<!-- nav -->` lines, `<!-- vault-links -->` blocks, a new folder-hub stub). The script matches the note **filename pattern**, not the `agent/notes/` folder: other files live there (e.g. `eng-loc-notes.md`) and must never become auto-mergeable. It compares content, so a hand edit riding along in `VAULT-MAP.md` or a report fails, even though the generator also touches those files:
      ```powershell
      git -C C:\Users\<user>\code\stash fetch origin main "pull/$pr/head"
@@ -213,7 +229,7 @@ If the script fails, log the error in the run summary and carry on. The board is
 ## Before you finish: prove the run did something
 
 Added 2026-09-24. The 2026-09-03 run was recorded as "succeeded" after 10 seconds, which is too short to have synced 17 repos, and nothing flagged it. Before ending, check that today's run left evidence:
-- a dated section for today in `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log` and `obn-review.log`;
+- a dated section for today in `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log` and `obn-review.log`. On a guarded run (step 0's once-per-day guard fired) `obn-repo` and `obn-review` are skipped, so a one-line `SKIPPED (guard: note/PR already exists)` entry in each counts as today's section;
 - today's daily-note PR is open (or step 0's once-per-day guard fired, and the log says so);
 - the branch has nothing unpushed (`git status -sb` shows no `ahead`).
 

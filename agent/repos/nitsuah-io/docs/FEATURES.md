@@ -77,12 +77,12 @@ WCAG 2.1 AA compliance with comprehensive keyboard navigation and screen reader 
 
 ### 🏠 Landing Page
 
-- **Featured Projects Landing Page**: `LandingHero` + `FeaturedProjects` components replace the Spline hero; top 4 featured projects (motor-pool, overseer, bb-mcp, darkmoon) appear in a 2×2 card grid above the fold.
+- **Featured Projects Landing Page**: `LandingHero` + `FeaturedProjects` components replace the Spline hero; top 4 featured projects (motor-pool, [vigil](https://github.com/nitsuah/vigil), bb-mcp, darkmoon) appear in a 2×2 card grid above the fold.
 - **Spline 3D Scene on `/3d` Route**: Spline scene moved from home page to a dedicated opt-in `/3d` page, removing bundle weight from the critical landing path and improving home page LCP.
 
 ### 🧰 Free Tools
 
-- **Browser tools at `/tools`** (25 tools; the newest are a heading outline checker, link text checker, time zone converter, hourly-to-salary and percentage calculators, JSON formatter, Base64 and URL encoders, timestamp converter and regex tester): WCAG contrast checker, freelance hourly-rate, project-quote, margin/markup and late-fee calculators, a local-business JSON-LD generator and an SRT subtitle shifter, an invoice generator (print or save as PDF), and a WCAG 2.2 AA accessibility checklist, a word counter, an aspect-ratio calculator, a HEX/RGB/HSL color converter, a text case converter, a UTM link builder and a random password generator. Static pages in `public/tools/`, client-side only (nothing is uploaded or tracked), with canonical URLs and sitemap entries; the slug list lives in `src/lib/data/free-tools.ts` and `src/__tests__/free-tools.test.ts` checks every page.
+- **Browser tools at `/tools`** (25 tools; the newest are a heading outline checker, link text checker, time zone converter, hourly-to-salary and percentage calculators, JSON formatter, Base64 and URL encoders, timestamp converter and regex tester): WCAG contrast checker, freelance hourly-rate, project-quote, margin/markup and late-fee calculators, a local-business JSON-LD generator and an SRT subtitle shifter, an invoice generator (print or save as PDF) a WCAG 2.2 AA accessibility checklist, a word counter, an aspect-ratio calculator, a HEX/RGB/HSL color converter, a text case converter, a UTM link builder and a random password generator. Static pages in `public/tools/`, client-side only (nothing is uploaded or tracked), with canonical URLs and sitemap entries; the slug list lives in `src/lib/data/free-tools.ts` and `src/__tests__/free-tools.test.ts` checks every page.
 
 ### 🎨 Dark Mode & Theming
 
@@ -161,7 +161,7 @@ Proactive security measures with automated vulnerability scanning and best pract
 
 ## Planned Capabilities
 
-> Features planned for 2026 Q2–Q4. Not yet shipped. Overseer agents execute against these blocks.
+> Features planned for 2026 Q2–Q4. Not yet shipped. Vigil (formerly Overseer) agents execute against these blocks.
 
 ### 🧠 AI/ML & Market Trends
 

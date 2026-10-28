@@ -13,7 +13,7 @@ repo: nitsuah-io
 **Last Updated:** 2026-04-03
 
 Maps the connection points between `nitsuah-io` and each sister repo in the Nitsuah-Labs ecosystem.
-Overseer agents use this file to know which repos to pull context from when executing portfolio tasks.
+Vigil (formerly Overseer) agents use this file to know which repos to pull context from when executing portfolio tasks.
 
 ---
 

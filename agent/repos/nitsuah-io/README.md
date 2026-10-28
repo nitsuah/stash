@@ -229,6 +229,7 @@ src/
 - ✅ TypeScript checking
 - ✅ ESLint validation
 - ✅ wagmi hook generation
+- **Resume gist sync:** On push to `main` when `src/data/resume.json` changes (or via **workflow_dispatch**), `.github/workflows/sync-resume-gist.yml` PATCHes [gist `086f7d1de6a5fd534ac4ccce226ac1d2`](https://gist.github.com/nitsuah/086f7d1de6a5fd534ac4ccce226ac1d2) (`resume.json`). Requires repo secret `GIST_TOKEN` (gist write); skips with a log message if the secret is missing. Site `/resume` remains the source of truth via `src/data/resume.json`.
 
 ---
 

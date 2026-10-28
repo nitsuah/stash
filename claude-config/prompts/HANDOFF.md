@@ -70,6 +70,7 @@ Use this file as the shared contract between PMO, Intake, Delivery/DevOps, and Q
 - Final disposition:
 
 ## Pipeline Context
+
 - Originates from [[prompts/PMO|PMO]] audit or [[projects/Intake|Intake]] shaping
 - Handed to [[prompts/OPS|DevOps]] for branch and environment setup
 - Validated by [[prompts/QA|QA]] against acceptance criteria above

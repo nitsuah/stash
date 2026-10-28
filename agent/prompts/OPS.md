@@ -41,14 +41,14 @@ DevOps is the execution agent between planning and [[prompts/QA|QA]].
    - Confirm current branch and default branch.
    - Pull latest default branch.
 2. Branching
-   - Create focused branch: delivery/<repo>/<task-or-theme>-<date>.
+   - Create a focused branch named `<type>/<task-slug>` (canonical for all prompts; `type` is `feature`, `fix`, `chore` or `docs`, e.g. `feature/user-authentication`). Add a `-<date>` suffix only if the name already exists.
    - Never commit directly to default branch.
 3. Implementation
    - Make smallest safe change set.
    - Preserve existing architecture and style unless task requires change.
 4. Validation
    - Run documented checks and tests.
-   - Prefer Docker-first validation when repository supports it.
+   - Prefer Docker-first validation when the repository has a Dockerfile or Compose file; otherwise run its documented native build, test and runtime checks.
    - Verify build and runtime behavior for touched surfaces.
 5. Documentation
    - Update docs when behavior/setup changes.

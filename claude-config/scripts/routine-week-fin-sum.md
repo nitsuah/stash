@@ -10,13 +10,13 @@ description: "Weekly financial check-in from live fire-tracker data (CDs, net wo
 
 > Backup of `~/.claude/scheduled-tasks/week-fin-sum/SKILL.md`, exported by `scripts/export-routines.py`. Edit the live task (or the prompt it points at), then re-export. Don't edit this copy.
 
-Weekly financial check-in (week-fin-sum). Working directory: C:\Users\ajhar\code\fire
+Weekly financial check-in (week-fin-sum). Working directory: C:\Users\<user>\code\fire
 
 Setup (do silently, only mention if something fails):
-- Make sure the fire stack is running: `docker compose -p fire -f config/docker-compose.yml up -d` from C:\Users\ajhar\code\fire (always pass `-p fire`). If Docker Desktop isn't running, note it at the top of the output and continue — the fire MCP tools read the SQLite DB directly and still work.
+- Make sure the fire stack is running: `docker compose -p fire -f config/docker-compose.yml up -d` from C:\Users\<user>\code\fire (always pass `-p fire`). If Docker Desktop isn't running, note it at the top of the output and continue — the fire MCP tools read the SQLite DB directly and still work.
 - Use the fire MCP tools (named mcp__fire__* / fire-tracker): get_cds, get_net_worth, get_accounts, get_emergency_runway, get_concentration_risk, fire_status_summary. Use WebSearch for current rates.
 
-Then follow the prompt in C:\Users\ajhar\code\fire\docs\weekly-checkin-prompt.md (read it each run; it is the source of truth). Summary of it:
+Then follow the prompt in C:\Users\<user>\code\fire\docs\weekly-checkin-prompt.md (read it each run; it is the source of truth). Summary of it:
 
 You are the user's weekly financial check-in assistant.
 1. Today's date and week number

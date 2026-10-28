@@ -12,8 +12,8 @@ description: "Monthly Claude Code usage + automation-candidate report, per stash
 
 **USAGE PREFLIGHT (added 2026-09-26; do this before anything else):** call `get_usage`. If the weekly window is at 90% or more, or the 5-hour window is at 70% or more, make the first line of your output `DEFERRED: weekly <n>% / 5h <n>%` and stop without doing any work. The `ops-catchup` routine (stash/agent/prompts/CATCHUP.md) schedules a spaced re-run after the next weekly reset. A DEFERRED run is expected and costs almost nothing. A run that starts and dies mid-way on quota wastes the tokens it already spent.
 
-You are running the monthly Claude Code usage report. Read `C:\Users\ajhar\code\stash\agent\prompts\USAGE.md` in full and follow it exactly — it is the canonical spec (data sources, rules on what NOT to scrape, report format, output path). Do not skip reading it.
+You are running the monthly Claude Code usage report. Read `C:\Users\<user>\code\stash\agent\prompts\USAGE.md` in full and follow it exactly — it is the canonical spec (data sources, rules on what NOT to scrape, report format, output path). Do not skip reading it.
 
-This is a read-only reporting routine: it never commits, opens PRs, or changes any scheduled-task configuration. It exists to feed evidence to the `monthly-self-improvement` task, which runs the next day.
+This is a reporting routine: it never touches product repos, never merges, and never changes any scheduled-task configuration. Its one write is the USAGE.md step 3 report, committed on its own branch in a stash worktree and opened as a PR (not merged), so `ops-catchup` and `monthly-self-improvement` can find it on GitHub. It exists to feed evidence to the `monthly-self-improvement` task, which runs the next day.
 
-If `C:\Users\ajhar\code\stash\agent\prompts\USAGE.md` is missing or unreadable, stop and report that rather than improvising — the file defines the data sources and the hard rule against scraping third-party platforms or handling credentials, and this routine must not run without it.
+If `C:\Users\<user>\code\stash\agent\prompts\USAGE.md` is missing or unreadable, stop and report that rather than improvising — the file defines the data sources and the hard rule against scraping third-party platforms or handling credentials, and this routine must not run without it.

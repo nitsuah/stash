@@ -21,7 +21,7 @@ Last Updated: 2026-10-14
 - [ ] **Confirmed review tapes don't appear in the Collection until it re-renders** ([#79](https://github.com/nitsuah/vhs/issues/79)) — ~~`setActiveTab()` never calls `renderInv()`~~ (fixed in #91); still to do: restore the 19-card check in `tests/journeys/review.spec.js`
   - Priority: P1
   - Type: Bug
-- [ ] **Tape count, value total and clickable stats chips are gone** ([#77](https://github.com/nitsuah/vhs/issues/77)) — `updateCount()` writes to a missing `#count` since #36; `quickFilter` was dropped
+- [x] **Tape count, value total and clickable stats chips are gone** ([#77](https://github.com/nitsuah/vhs/issues/77)) — `updateCount()` writes to a missing `#count` since #36; `quickFilter` was dropped
   - Priority: P2
   - Type: Bug
 - [x] **Phone toolbar wraps the Export button onto its own row** ([#78](https://github.com/nitsuah/vhs/issues/78))

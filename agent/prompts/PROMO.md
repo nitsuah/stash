@@ -40,6 +40,7 @@ Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 
 ## Run log
 
 ### 2026-10-09 · stash · spot (journeys-19s, additive; first repo with no frontend)
+
 - Ran: `journeys-19s` (19.0 s, −14 LUFS, web cut 1.1 MB) with a new compose-only `promo/build.sh` (Chromium frames from `compose.html`, numpy synth, ffmpeg) in Docker; a new `pages/journeys.html` linked from the existing page (2 added lines in index.html, nothing replaced); spots.json gained a feature, a spot and a reel. Checked at 375 px: no horizontal scroll, all media and local links load.
 - Checklist misses: readability. The first 18 s cut showed the terminal summary for ~1.4 s and the "plain code on a cron" line for ~1 s. Fixed by faster terminal ticks and +1 s on the lifecycle scene (now 19 s). The contact sheet caught it; the stills alone did not.
 - Friction: with no app to capture, /brag would have rebuilt UI. Composing real artifacts (issue titles, journey names, another repo's docs screenshots) was faster and more honest. `preview_start` picked up a launch.json from the parent folder, so the page was served with a throwaway nginx container instead.
@@ -48,6 +49,7 @@ Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 
   - Candidate rule (first sighting): check read time per text block on the contact sheet (≈0.3 s per word, fully settled), not just whether it's on screen.
 
 ### 2026-10-09 · fire · refresh (same PR as the journeys pilot, fire#176)
+
 - Ran: vigil audit → `apply` (+3 features), cull 38/95 to `none` (57 visible, 43 with a visual), 13 docs screenshots from the journeys, re-capture + re-render of the 3 published spots via `promo/build.sh` (brag-22s 22.0 s, chaos-24s 24.0 s, tour-85s 83 s), published.
 - Checklist misses: the demo seed showed a real person's ENS wallet (`vitalik.eth`, fire#175), and the API seed silently dropped the year of net-worth history (fire#174). Both fixed in the PR. The hero's MCP frame disagreed with its dashboard frame (288,278 vs $287,897.50; 13 vs ~12 yrs): filed fire#178, not edited around.
 - Friction: no screenshot CI. Rather than a second Playwright suite, the journeys emit `docs/screenshots/<id>.png` (`step({ docs })`). Six unpublished spots run 55–65 s; splitting them needs vigil's reusable composition ported first (fire TASKS, P2). FEATURES.md over-reports at 40% culled; trims proposed in TASKS.
@@ -136,12 +138,14 @@ Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 
   - Candidate rule (first sighting): have the visual-docs suite write element bounding boxes next to each screenshot (`<id>.regions.json`) so compositions read highlight positions instead of hard-coding them.
 
 ### 2026-10-14 · vhs · fix screenshots,diagrams,journeys,vertical
+
 - Ran: journeys (4 journeys / 13 baselines) → journey-tagged screenshots (11) + `visual-docs.yml`; 3 Mermaid diagrams; `vert brag-20s` → `brag-20s-vert` (1080×1920, 20.0 s, −18.6 LUFS, Kokoro VO, web cut 1.8 MB), published to a new Pages section. One PR, nitsuah/vhs#80. Locked `brag-20s` and `site/brag.*` byte-identical; the spot was read-only (iframe of its `composition.html`, `audio.py` run for the music bed).
 - Checklist misses: first poster (18.5 s, inherited from brag-20s) caught the last caption half-lit; moved to 19.6 s. VO line 2 ran 4.3 s into line 3; shortened the line and re-timed from measured `dur`. Nobody listened to the final mix (loudness only).
 - Friction: `fix vertical` alone would have turned `videos` 1/1 → 1/2 (unpublished spot), so the Pages slot isn't optional. A vertical over a locked spot can't use `--format vertical` re-renders; the vigil shell (iframe + captions) works but had to be served over http for same-origin. The tts image needed scipy added for `audio.py`/`mix.py`.
 - Promote: skill — `vertical` cell = render **and publish** (else `videos` regresses); ship vigil's `promo/tts` + vertical shell as a `nitsuah/.github/showcase/vert/` template that takes a locked base spot. visual_board: the `vertical` cell could require `published`.
 
 ### 2026-10-14 · T1 wave 1 · fix diagrams,linked (+ stash screenshots) · 6 repos in parallel
+
 - **Ran:** a coordinator (Opus) briefed one cheaper-model agent per repo (sonnet: fire, ats-fill, motor-pool, stash; haiku: vhs + vigil), with no local renders and CI as the check. About 130-150k subagent tokens and 4-7 min per repo. PRs: fire#197, ats-fill#141, motor-pool#95, stash#236, vhs#83, vigil#290.
   - **Diagrams (fire, ats-fill, motor-pool, stash):** 2-3 Mermaid sources each, read from the code. Render step added to the existing visual-docs/screenshot workflow. First SVGs committed.
   - **Linked:**
@@ -184,6 +188,7 @@ Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 
   - Next wave: `fix screenshots` per repo, working through the `Capture for promo:` TASKS lines, is what moves `linked` to ok.
 
 ### 2026-10-14/15 · T1 waves 2–3 · journeys + render (videos, vertical)
+
 - **Ran:**
   - Wave 2 (journeys) is logged in JOURNEYS.md.
   - Wave 3: one Sonnet agent rendered serially until it hit the session limit just before committing stash. The coordinator reviewed every render and finished stash.
@@ -206,6 +211,7 @@ Do this the first time `/promo` runs on Austin's primary desktop (Ryzen 7 + RTX 
   - Next: T2 (nitsuah-io, bb-mcp, darkmoon). `fix screenshots` per T1 repo, working through the "Capture for promo" TASKS lines, is what turns the remaining `linked` cells green.
 
 ### 2026-10-15 · T2 · nitsuah-io + bb-mcp · fix (only the board's missing cells)
+
 - **Ran:** two waves of Sonnet agents, each calling `/promo <repo> fix <cells>` through the Skill tool with only the missing cells. darkmoon and T3 were skipped by the owner's choice.
   - Wave A:
     - nitsuah-io#570: 33 full-page screenshots (19 pages, 9 phone, 5 states), 2 diagrams, and 8 journeys replacing `playwright-nightly`. Linked 1/77 → 17/21, with 56 culled as `none`.

@@ -13,7 +13,7 @@ repo: fire
 >
 > **Status:** Reference / current implementation  
 > **Last updated:** 2026-10-08  
-> **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md)
+> **See also:** [docs/prod-plan.md](prod-plan.md), [docs/backend-sync-architecture.md](backend-sync-architecture.md), [docs/integration-status-matrix.md](integration-status-matrix.md) — what each connector reports about itself in both deploy modes
 
 This document describes every planned external integration — what credentials are needed, what data is fetched, and what setup is required.
 

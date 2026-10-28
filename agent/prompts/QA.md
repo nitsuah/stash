@@ -102,7 +102,7 @@ Each QA report must include:
 - No Sev 1 issues for release.
 - Sev 2 issues require explicit acceptance or fix.
 - Known risks must be documented and assigned.
-- Tracking docs are part of the release: if the PR completes a TASKS/ROADMAP item, its diff must mark it done (plus CHANGELOG, and README/FEATURES where affected). Fail the gate if it doesn't; don't pass it on the promise of a follow-up docs PR.
+- Tracking docs are part of the release: if the PR completes a TASKS/ROADMAP item, its diff must mark it done (plus CHANGELOG, and README/FEATURES where affected; the exception is a `vigil` docs-only status PR, which may change only the cited TASKS.md item lines). Fail the gate if it doesn't; don't pass it on the promise of a follow-up docs PR.
 
 ## Parallel Execution Rules
 
