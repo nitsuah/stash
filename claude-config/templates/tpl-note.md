@@ -8,7 +8,7 @@ const hubs = app.vault.getMarkdownFiles()
 const up = await tp.system.suggester(hubs, hubs, false, "Parent hub (Esc = none)");
 if (up) { tR += "---\nup: \"" + "[" + "[" + up + "]" + "]\"\n---\n\n"; }
 -%>
+
 # <% tp.file.title %>
 
 > What this note is for, in one line.
-

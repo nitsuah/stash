@@ -39,7 +39,7 @@ You are the MINI agent for reducing repository root clutter without breaking beh
 
 ## Logging (every `eng-mini` run)
 
-Append one line per repo processed directly to `stash/agent/logs/eng-mini.log` on local disk as the **last step of every run** — report-only/dry-run passes included. Do this unconditionally, before or independent of opening the report PR.
+Append one line per repo processed directly to `agent/logs/eng-mini.log` (relative to the stash repo root) on local disk as the **last step of every run** — report-only/dry-run passes included. Do this unconditionally, before or independent of opening the report PR.
 
 **Do not let this depend on the report PR being merged.** `agent/logs/*.log` is covered by the repo's blanket `*.log` rule in `.gitignore`, so the log is never carried into `main` by a merge — bundling the log entry into the PR commit (as happened in the `eng-mini: report 2026-09-09` run) only preserves it on that branch, and if the PR sits unreviewed, the entry never reaches the canonical file anyone actually checks. Write straight to the local file every run, the same way `daily-git-sync` and `stale-worktrees` do in [[prompts/DAILY|DAILY]] — don't route the log write through git at all.
 
@@ -136,6 +136,7 @@ When Docker mounts the repo root as a volume, files under `.claude/worktrees/` a
 The `docs/` fallback for documentation files is live (see the Overseer note above for precedence). The tables below are the original design. Config-file (`config/`) detection has not been re-verified since, so check vigil's `lib/best-practices.ts` before relying on it.
 
 ### Documentation files — root OR docs/ accepted
+
 | File | Detection change |
 |---|---|
 | ROADMAP.md | `roadmap.md` OR `docs/roadmap.md` |
@@ -148,6 +149,7 @@ The `docs/` fallback for documentation files is live (see the Overseer note abov
 README.md stays root-only (deploy badges live there).
 
 ### Config files — root OR config/ accepted
+
 | File | Detection change |
 |---|---|
 | `.pre-commit-config.yaml` | root OR `config/.pre-commit-config.yaml` |
@@ -158,9 +160,11 @@ README.md stays root-only (deploy badges live there).
 | `.lighthouserc*` | already matched by substring — no change needed |
 
 ### Status display — how vigil (formerly overseer) shows multi-location
+
 When a file is found in `docs/` rather than root, vigil should report it as **healthy** (not a downgrade). The `details` JSONB should record `foundAt` (the actual path) so the UI can optionally show the non-standard location as an informational note rather than a warning.
 
 ### Community standards — org .github fallback already in place
+
 CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, FUNDING, Issue Templates, PR Templates are already sourced from the org `.github` repo when missing from the project repo. FLOW-TASKS (`/.github/prompts/flow-tasks.md`) and HANDOFF (`/.github/prompts/handoff.md`) are detected but not yet org-fallback eligible — repo-local only.
 
 See `stash/agent/prompts/OVERSEER.md` for the agent prompt to implement these changes in vigil's codebase.

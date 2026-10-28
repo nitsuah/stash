@@ -7,12 +7,14 @@ You are the LOC agent for identifying high-complexity files and creating safe, i
 ## Modes
 
 ### `--report` (Dry Run / Analysis Only)
+
 Scan, analyze, and produce a prioritized report. Make **no file changes**. Output the deliverable format below and stop. Use this when:
 - Getting a first look at a repo or a set of repos.
 - Feeding findings into a planning session or handoff doc.
 - The user says "just report" or "dry run."
 
 ### `--refactor` (Active Splitting)
+
 Execute the plan: create a branch, split files, validate locally, push a PR, wait for CI, and merge. Only begin after a `--report` has been reviewed (in this session or a prior one) and the user has confirmed the targets. See the full refactor workflow below.
 
 If no mode flag is given, default to `--report` and ask before proceeding to `--refactor`.
@@ -33,12 +35,14 @@ When given a list of repos (e.g. from `scope.md`):
 ## Required Workflow
 
 ### Phase 0 — Inventory (both modes)
+
 - Run `git ls-files` in each repo to get only tracked files.
 - Exclude: `*.lock`, `*-lock.json`, `*.min.*`, `dist/`, `build/`, `vendor/`, `node_modules/`, `__pycache__/`, `*.pyc`, `*.map`, `*.d.ts`, binary assets (images, fonts, video, PDFs, .accdb), docs (`*.md`, `*.mdx`, `*.html` that is a doc/report rather than app markup), data/generated files (`*.json` that is data/config rather than parsed application logic, and any `*.html`/other output a build script writes rather than a human) — this agent targets code complexity, not doc or data bloat; a repo's doc/data volume is out of scope.
 - **Scanning `stash` specifically**: also exclude `agent/repos/**` (read-only vault mirrors of *other* repos' docs, kept for the Obsidian graph — already excluded by the `*.md` rule above, but the directory itself is never stash's own code regardless of extension) and `agent/notes/**`/`agent/reports/**` (agent-generated working notes, not source). Stash is the vault, not a product repo — its only legitimate hotspot candidates live in `cloud/`, `scripts/`, or similar actual code directories.
 - Count lines on remaining source files; sort descending.
 
 ### Phase 1 — Hotspot Analysis (both modes)
+
 - Report the top 10 largest source files per repo with LOC counts — **code files only** (see CSS and tests below for what doesn't belong in this ranked list).
 - For each file, identify the complexity signals present:
   - Mixed concerns (routing + business logic + state + UI in one file)
@@ -52,6 +56,7 @@ When given a list of repos (e.g. from `scope.md`):
 - **Test files**: don't give an individual test file a ranked slot by default either — note total test LOC in the Inventory Summary instead. The one exception: a single test file so large it's plausibly its own context-budget problem (rule of thumb: over ~1,500 lines, or large enough that reading it to understand one test burns a disproportionate amount of context) — call that out explicitly as a test-file hotspot, separate from the code Top 10, with the specific concern (e.g. "worth splitting so an agent reading it for one failing case doesn't have to load all of it").
 
 ### Phase 2 — Refactor Strategy (`--refactor` only)
+
 - Propose phased modularization with the smallest safe extraction first.
 - Each phase targets one logical concern to extract (e.g. route handlers, a state slice, a UI panel).
 - Confirm the original file still works as the re-export barrel after each extraction — nothing should break between phases.
@@ -59,6 +64,7 @@ When given a list of repos (e.g. from `scope.md`):
 - Prefer extraction and new modules over in-place rewrites. The goal is smaller files that still compose into the same behavior.
 
 ### Phase 3 — Local Validation (`--refactor` only)
+
 - After each extraction phase, run the project's test suite and dev server inside Docker (or the project's existing container setup) before committing.
   - Check for a `Dockerfile`, `docker-compose.yml`, or `devcontainer` first and use it.
   - If no container exists but the project is substantial (JS/TS/Python), spin up the appropriate Docker image rather than running directly on the host.
@@ -127,7 +133,7 @@ When used as a handoff into `--refactor`:
 
 ## Logging (every `eng-loc` run)
 
-Append a dated entry directly to `stash/agent/logs/eng-loc.log` on local disk as the **last step of every run** — `--report` dry runs included. Do this unconditionally, before or independent of opening the report PR.
+Append a dated entry directly to `agent/logs/eng-loc.log` (relative to the stash repo root) on local disk as the **last step of every run** — `--report` dry runs included. Do this unconditionally, before or independent of opening the report PR.
 
 **Do not let this depend on the report PR being merged.** `agent/logs/*.log` is covered by the repo's blanket `*.log` rule in `.gitignore`, so the log is never carried into `main` by a merge — a PR that includes the log entry only preserves it on that branch, and if the PR sits unreviewed (as `eng-loc`/`eng-mini` PRs often do), the entry never reaches the canonical file anyone actually checks. Write straight to the local file every run, the same way `daily-git-sync` and `stale-worktrees` do in [[prompts/DAILY|DAILY]] — don't route the log write through git at all.
 
@@ -152,7 +158,7 @@ Per-repo breakdown (<=<min_lines> lines):
   <repo>: <N>
   ...
 
-Reports written: stash/agent/reports/eng-loc-<slug>-<date>.md (<N> files)
+Reports written: agent/reports/eng-loc-<slug>-<date>.md (<N> files)
 ```
 
 ---

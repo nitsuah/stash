@@ -10,11 +10,11 @@ description: "Daily git-pull sweep + stale-worktree cleanup across all nitsuah/N
 
 > Backup of `~/.claude/scheduled-tasks/daily-repo-sync/SKILL.md`, exported by `scripts/export-routines.py`. Edit the live task (or the prompt it points at), then re-export. Don't edit this copy.
 
-You are running the daily repo-sync routine defined in `C:\Users\ajhar\code\stash\agent\prompts\DAILY.md`. Read that file first; it is the canonical spec and it wins over anything below. It covers step 0 (once-per-day check + merging open `obn:` PRs), the daily note, the Monday weekly note and the Saturday week review (moved here from the cloud routines on 2026-09-24), and committing `agent/repos/**` via the daily-note PR.
+You are running the daily repo-sync routine defined in `C:\Users\<user>\code\stash\agent\prompts\DAILY.md`. Read that file first; it is the canonical spec and it wins over anything below. It covers step 0 (once-per-day check + merging open `obn:` PRs), the daily note, the Monday weekly note and the Saturday week review (moved here from the cloud routines on 2026-09-24), and committing `agent/repos/**` via the daily-note PR.
 
 Only if DAILY.md is missing or unreadable, fall back to the repo-sync steps below and skip the note steps entirely.
 
-Repos: the "Tracked" table in `C:\Users\ajhar\code\stash\agent\projects\scope.md`, read live (repo names, local paths, GitHub URLs). The cached list that used to be here drifted through three renames (`auto-apply-plugin` → ats-fill, `overseer` → vigil, `agent-board` → motor-pool) and was removed on 2026-10-07.
+Repos: the "Tracked" table in `C:\Users\<user>\code\stash\agent\projects\scope.md`, read live (repo names, local paths, GitHub URLs). The cached list that used to be here drifted through three renames (`auto-apply-plugin` → ats-fill, `overseer` → vigil, `agent-board` → motor-pool) and was removed on 2026-10-07.
 
 For each repo:
 1. Run `git -C <path> status --short --branch`.
@@ -26,8 +26,8 @@ For each repo:
 Also run a stale-worktree pass: for each repo, `git -C <path> worktree list`; prune broken refs (`git -C <path> worktree prune`); delete worktrees whose branch is already merged into the default branch; flag (list only, don't delete) worktrees older than 30 days that are NOT merged.
 
 Append two new dated sections (do not overwrite prior history) to:
-- `C:\Users\ajhar\code\stash\agent\logs\daily-git-sync.log` — table: `| repo | result | commits | note |`
-- `C:\Users\ajhar\code\stash\agent\logs\stale-worktrees.log` — same format as prior entries in that file (Actions taken / Live worktrees / Merged remote branches needing review / Stale live worktrees needing review)
+- `C:\Users\<user>\code\stash\agent\logs\daily-git-sync.log` — table: `| repo | result | commits | note |`
+- `C:\Users\<user>\code\stash\agent\logs\stale-worktrees.log` — same format as prior entries in that file (Actions taken / Live worktrees / Merged remote branches needing review / Stale live worktrees needing review)
 
 The `.log` files are gitignored in stash on purpose: write them locally and never commit them. (Everything under `agent/repos/**` plus the dated notes `agent/notes/YYYY-MM-DD.md` / `agent/notes/YYYY-Www.md` is committed through the daily-note PR per DAILY.md, not left uncommitted.)
 

@@ -7,6 +7,7 @@ const hubs = app.vault.getMarkdownFiles()
 const up = await tp.system.suggester(hubs, hubs, false, "Repo or project this decision belongs to");
 if (up) { tR += "---\nup: \"" + "[" + "[" + up + "]" + "]\"\nkind: decision\nstatus: proposed\n---\n\n"; }
 -%>
+
 # <% tp.file.title %>
 
 **Date:** <% tp.date.now("YYYY-MM-DD") %> · **Status:** proposed
@@ -16,4 +17,3 @@ if (up) { tR += "---\nup: \"" + "[" + "[" + up + "]" + "]\"\nkind: decision\nsta
 ## Decision
 
 ## Consequences
-

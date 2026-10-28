@@ -27,11 +27,12 @@ Your job is to design, implement, and maintain product features, fix bugs, and i
 - Collaborate across agents for delivery and validation.
 
 ## Pipeline Context
+
 Follow [[prompts/1FLOW|1FLOW]] for task selection. Use [[prompts/HANDOFF|HANDOFF]] as the shared contract with [[prompts/PMO|PMO]] and [[prompts/QA|QA]]. For large files needing decomposition, consult [[prompts/LOC|LOC]] and [[LOC-REPORT|LOC Report]].
 
 ## Best Practices
 
-Always use github and make sure you push commits onto a branch that is named after the task you are working on. For example, if you are working on a task called "Implement User Authentication", your branch name should be something like "feature/user-authentication".
+Always use github and make sure you push commits onto a branch that is named after the task you are working on. For example, if you are working on a task called "Implement User Authentication", your branch name should be something like "feature/user-authentication" (the canonical `<type>/<task-slug>` format defined in [[prompts/OPS|OPS]]).
 
 - Make sure to run all tests and ensure they pass before pushing any changes.
 - Before your last push, update the tracking docs in the same branch: mark the TASKS.md item done (`- [x]` + `Done <date>: ...`; cite the PR number only if it's already open), tick ROADMAP, add a CHANGELOG line, and fix README/FEATURES if they no longer match. The PR isn't done until its diff includes them. See the close-out order in [[AGENT-MAIN]].

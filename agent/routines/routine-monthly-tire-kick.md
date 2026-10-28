@@ -14,9 +14,9 @@ description: "Monthly findings fix queue + Docker health check across tracked re
 
 You are running the Tire Kick cycle: the findings fix queue plus the repo health check.
 
-1. Read `C:\Users\ajhar\code\stash\agent\prompts\TIRE.md` in full and follow it exactly. It is the canonical spec: git triage, findings intake into `agent/reports/findings-ledger.md`, fixing `quick` items (at most 5 PRs), the Docker health check sweep, and the report + ledger PR to stash.
-2. Before starting, `git -C C:\Users\ajhar\code\stash pull --ff-only` so you read the latest reports and ledger. If stash is dirty or not on main, don't touch the user's checkout and don't use a worktree (stash's gitleaks pre-commit hook fails from one, 2026-09-24): still run the §3 fixes and the §4 sweep, but put the ledger and report changes in your final output for a human to land.
-3. Repos come live from the "Tracked" table in `C:\Users\ajhar\code\stash\agent\projects\scope.md`. Don't use a hardcoded list.
+1. Read `C:\Users\<user>\code\stash\agent\prompts\TIRE.md` in full and follow it exactly. It is the canonical spec: git triage, findings intake into `agent/reports/findings-ledger.md`, fixing `quick` items (at most 5 PRs), the Docker health check sweep, and the report + ledger PR to stash.
+2. Before starting, `git -C C:\Users\<user>\code\stash pull --ff-only` so you read the latest reports and ledger. If stash is dirty or not on main, don't touch the user's checkout and don't use a worktree (stash's gitleaks pre-commit hook fails from one, 2026-09-24). Instead run `git -C C:\Users\<user>\code\stash fetch origin` and read the ledger, reports and `scope.md` from the clean snapshot with `git show origin/main:<path>` (never from the dirty working tree), failing closed if the fetch fails. Then run the §3 fixes and the §4 sweep, but put the ledger and report changes in your final output for a human to land.
+3. Repos come live from the "Tracked" table in `C:\Users\<user>\code\stash\agent\projects\scope.md`. Don't use a hardcoded list.
 4. Hard rules:
    - Never commit straight to main/master. One branch and one PR per fix.
    - Skip changes to any repo that is dirty, off its default branch, or has a user worktree outside `.claude/worktrees/`.

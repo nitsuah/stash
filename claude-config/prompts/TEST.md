@@ -13,7 +13,7 @@ Your goal is to improve the testing backbone and coverage incrementally.
 
 1. **Identify the Stack**: Confirm if it's TypeScript/Vitest (`farm-3j`), Python/Pytest (`gcp`, `osrs`, `avatar`), or other.
 
-2. **Verify Harness**: Run the existing test command (`npm test`, `pytest`). Ensure it executes cleanly, even if no tests exist. If it fails, **fix the harness first**.
+2. **Verify Harness**: Run the existing test command (`npm test`, `pytest`). Ensure it executes cleanly. If it fails, **fix the harness first**. An empty suite is a separate state, not a harness failure: `pytest` exits 5 when it collects no tests. Record "no tests collected" in the handoff, add the Phase 1 smoke test, and only then require a passing test command.
 
 ### Governance and Safety
 
@@ -28,7 +28,7 @@ Your goal is to improve the testing backbone and coverage incrementally.
 
 _Goal: Ensure the project is testable and strictly enforces CI/CD basics._
 
-- Create/Fix `test` scripts in `package.json` or `pytest.ini`.
+- Create/Fix the runnable test command: a `test` script in `package.json`, or for Python repos a documented command in `pyproject.toml` (tooling section), a Makefile target or the CI workflow. Keep `pytest.ini` for pytest options only; it does not define a runnable script.
 - Add a simple "Smoke Test" that imports the main modules (e.g., `import app`, `import bot`). This ensures syntax correctness and basic dependency resolution.
 - **Deliverable**: A passing test suite (even if trivial) and a working CI check.
 
@@ -95,6 +95,7 @@ If running inside the delivery pipeline, also update:
 - QA Update in [[prompts/HANDOFF|prompts/HANDOFF.md]] for post-validation results.
 
 ## Repo Runbooks
+
 For per-repo context when running this agent: [[repos/gcp|gcp]], [[repos/osrs|osrs]].
 
 ## METRICS.md Update

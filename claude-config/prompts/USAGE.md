@@ -20,7 +20,7 @@ Data sources, gather all before writing anything:
 
 - Never scrape a social media platform (Instagram, etc.) directly, and never fetch, hold, or enter login credentials for one — this was explicitly ruled out when this routine was scoped. Time-in-app totals from a local tracker are fine; content scraping is not.
 - Never fabricate a number. If a data source is unreachable, write "unavailable — <reason>", never a guess.
-- This routine is **read-only** against your repos and Claude account — it never commits, opens PRs, or edits scheduled-task configuration. That's [[RSI]]'s job, which reads this report as an input.
+- This routine is **read-only** against your repos and Claude account — it never touches product repos, never merges, and never edits scheduled-task configuration. The one write it makes is step 3: the usage report committed on its own branch in stash, shipped as an unmerged PR. [[RSI]] reads that report as an input and owns every spec or configuration change.
 
 ## Steps
 

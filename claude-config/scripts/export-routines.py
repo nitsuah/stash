@@ -31,6 +31,8 @@ REDACTIONS = [
     (re.compile(r"\s*Austin is (?:in a wealth-preservation phase|a technical professional)[^.]*\."), ""),
     (re.compile(r"recovering from burnout", re.I), "[personal context redacted]"),
     (re.compile(r"\bAustin Hardy's\b"), "the owner's"),
+    # Machine-specific home directory: publish a placeholder, keep the real path in the live task.
+    (re.compile(r"C:\\Users\\ajhar\b", re.I), r"C:\\Users\\<user>"),
     (re.compile(r"\b(?:he|she) could be earning\b"), "the owner could be earning"),
     (re.compile(r"\bwhat get_cds shows (?:he|she)'s earning\b"), "what get_cds shows is being earned"),
 ]

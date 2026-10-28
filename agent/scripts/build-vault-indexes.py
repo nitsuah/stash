@@ -98,10 +98,26 @@ def write(rel, text, nl="\n"):
             f.write(text.replace("\n", nl))
 
 
+# Generated/build trees are never vault content (deps, build output, scan reports).
+ALWAYS_GENERATED = {"node_modules", "__pycache__", "coverage"}
+NESTED_OUTPUT = re.compile(r"(dist|build|reports|out\d*)")
+
+
+def is_generated_dir(parent, name):
+    """True for dependency/build-output folders the walkers must not descend into.
+
+    dist/build/out*/reports are output anywhere except directly under the vault
+    root, where reports/ is real vault content.
+    """
+    if name in ALWAYS_GENERATED:
+        return True
+    return NESTED_OUTPUT.fullmatch(name) is not None and os.path.abspath(parent) != VAULT
+
+
 def md_files(folder):
     out = []
     for dp, dn, fn in os.walk(path_of(folder)):
-        dn[:] = sorted(d for d in dn if not d.startswith(".") and d != "node_modules")
+        dn[:] = sorted(d for d in dn if not d.startswith(".") and not is_generated_dir(dp, d))
         for f in fn:
             if f.endswith(".md"):
                 out.append(os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/"))
@@ -338,7 +354,7 @@ topic_notes = sorted(f"topics/{f}" for f in os.listdir(path_of("topics")) if f.e
 candidates = []
 if topic_notes:
     for dp, dn, fn in os.walk(VAULT):
-        dn[:] = sorted(d for d in dn if not d.startswith(".") and d != "node_modules")
+        dn[:] = sorted(d for d in dn if not d.startswith(".") and not is_generated_dir(dp, d))
         for f in fn:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.endswith(".md") and not SKIP_TOPIC.search(rel) and f[:-3].lower() not in CORE_DOCS:

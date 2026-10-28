@@ -46,7 +46,7 @@ Rollout order: **fire → vigil → ats-fill → nitsuah-io → skyview**, then 
 
 ## B. Write journeys
 
-> Read STANDARD.md § Writing a journey. Turn each confirmed happy path from FEATURES.md into one journey (2–4 `step()`s, user-voiced names, `@feature:<spots id>` tags, real seeded numbers in assertions). Put the repo fixture in `tests/journeys/<repo>.js`: seed, mocks, frozen clock, canvas-animation off, `networkidle`, and teardown settle. Generate baselines in the Playwright Docker image, then soak with `CI=true --retries 0 --repeat-each 3`, three runs, zero failures, before opening the PR. Same PR: caller workflow, `test:journeys` script, README/CHANGELOG/TASKS/FEATURES lines.
+> Read STANDARD.md § Writing a journey. Turn each confirmed happy path from FEATURES.md into one journey (2–4 `step()`s, user-voiced names, `@feature:<spots id>` tags, real seeded numbers in assertions). Put the repo fixture in `tests/journeys/<repo>.js`: seed, mocks, frozen clock, canvas-animation off, `networkidle`, and teardown settle. Generate baselines in the Playwright Docker image, then soak with the repo's journey script, e.g. `CI=true npm run test:journeys -- --retries 0 --repeat-each 3` (use the repo's own runner, in the Playwright Docker image), three runs, zero failures, before opening the PR. Same PR: caller workflow, `test:journeys` script, README/CHANGELOG/TASKS/FEATURES lines.
 
 ## C. Fix a `bot:journey` issue
 
@@ -58,7 +58,7 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - **Wait for `networkidle` after load, and let debounced saves settle in teardown.** Otherwise one journey's late save lands after the next journey reseeds.
 - **`has:` is scoped inside the outer locator.** Use `hasText` for "the card that contains X".
 - **A seed written through the app's API may be filtered.** fire's `POST /api/state` drops server-owned `netWorthHistory` (fire#174). Check that the seed you think you loaded is what renders.
-- **Use `maxDiffPixels: 1000`, not a ratio.** A 1% ratio (~13k px) let fire's renamed demo wallet (6,029 px) through. Exact zero failed on ~650 px of canvas emoji noise. Measure the noise with `--repeat-each` first.
+- **Set `maxDiffPixels` per surface from measured noise, never a ratio.** A 1% ratio (~13k px) let fire's renamed demo wallet (6,029 px) through. Exact zero failed on ~650 px of canvas emoji noise. Measure the noise with `--repeat-each` first, then use roughly `maxDiffPixels: 1000` for canvas/chart surfaces and about `20` for DOM-only surfaces (a flat 1000 let a one-letter DOM change, 66 px, through on vigil).
 - **Canvas text is drawn once.** Labels drawn before web fonts load keep the fallback font. Wait for `document.fonts.ready`, then `chart.update('none')`, after load and after each tab switch.
 - **Journeys are the screenshot CI too.** `step(..., { docs: '<feature id>' })` + `npm run capture:screenshots` writes `docs/screenshots/<id>.png`; a `visual-docs.yml` PRs them. Don't build a second screenshot suite.
 - **Known bugs live in baselines until fixed.** The fix PR updates them, and the PNG diff in that PR is the before/after.
@@ -87,6 +87,7 @@ Covered by [[1FLOW]] Phase 1: claim by self-assigning, reproduce with the issue'
 - Promote: STANDARD.md fixture checklist — seed `Math.random` (mulberry32 init script) alongside the frozen clock; check the unit runner's testMatch doesn't swallow `tests/journeys`. Same lesson as vigil#281: a count that flips between soak runs is a product race first.
 
 ### 2026-10-14/15 · skyview, motor-pool, ats-fill · review + adopt (T1 wave 2, one Sonnet agent, serial)
+
 - **Ran:** review pass + adopt in each repo, one Playwright container at a time. skyview#191 (9 journeys), motor-pool#98 (7, backend-free), ats-fill#143 (8, real extension under xvfb). 5 `bot:review` issues: skyview#189, #190, motor-pool#96, #97, ats-fill#142. All three review passes found phone-width layout bugs.
 - **Misses caught in review:**
   - CodeRabbit on skyview: PR runs had write tokens, so the callers were split into a read-only PR job and a write nightly job, pinned to one commit. Applied to all three callers and the template (.github#25).

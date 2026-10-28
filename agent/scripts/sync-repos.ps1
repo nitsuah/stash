@@ -119,6 +119,14 @@ foreach ($repo in $TargetRepos) {
         Where-Object { $_ -match '\.md$' -and $_ -notmatch '(^|/)node_modules/' -and
                        $_ -notmatch '(^|/)\.github/' -and $_ -notmatch '^templates/' -and
                        -not ($repo -eq 'stash' -and $_ -match '^(agent|claude-config)/') })
+    # Migration cleanup: an older sync mirrored stash's claude-config/ into the vault. It is excluded now,
+    # but the old copy would otherwise linger (the normal prune only runs with -Prune) and keep feeding
+    # duplicate names into the vault indexes, so remove that one subtree unconditionally.
+    $staleClaudeConfig = Join-Path $dest 'claude-config'
+    if ($repo -eq 'stash' -and (Test-Path $staleClaudeConfig)) {
+        if (-not $DryRun) { Remove-Item $staleClaudeConfig -Recurse -Force }
+        Write-Host "  [prune] $(if ($DryRun){'would remove'}else{'removed'}) stale mirror of claude-config/" -ForegroundColor DarkYellow
+    }
     if ($files.Count -eq 0) {
         Write-Host "  [SKIP] $repo — no committed .md files (or not a git repo)" -ForegroundColor Yellow
         continue
