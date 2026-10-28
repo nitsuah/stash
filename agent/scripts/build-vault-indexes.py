@@ -101,7 +101,7 @@ def write(rel, text, nl="\n"):
 def md_files(folder):
     out = []
     for dp, dn, fn in os.walk(path_of(folder)):
-        dn[:] = sorted(d for d in dn if not d.startswith("."))
+        dn[:] = sorted(d for d in dn if not d.startswith(".") and d != "node_modules")
         for f in fn:
             if f.endswith(".md"):
                 out.append(os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/"))
@@ -338,7 +338,7 @@ topic_notes = sorted(f"topics/{f}" for f in os.listdir(path_of("topics")) if f.e
 candidates = []
 if topic_notes:
     for dp, dn, fn in os.walk(VAULT):
-        dn[:] = sorted(d for d in dn if not d.startswith("."))
+        dn[:] = sorted(d for d in dn if not d.startswith(".") and d != "node_modules")
         for f in fn:
             rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
             if f.endswith(".md") and not SKIP_TOPIC.search(rel) and f[:-3].lower() not in CORE_DOCS:
