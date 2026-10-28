@@ -241,7 +241,7 @@ def stray_mirror_docs(name):
             if hit:
                 yield hit
 
-    seen = set(d for d in docs if d == f"repos/{name}/README.md")
+    seen = {d for d in docs if d == f"repos/{name}/README.md"}
     frontier = list(seen)
     while frontier:
         d = frontier.pop()
