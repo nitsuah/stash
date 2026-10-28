@@ -4,6 +4,8 @@ kind: usage-report
 
 # Usage report — 2026-10
 
+> 🧭 ← [[reports/usage-report-2026-09|2026-09]] <!-- nav -->
+
 Generated 2026-10-28 ~18:00 UTC by the catch-up run `catchup-monthly-usage-report-2026-10-28` (spec: [[USAGE]]). Window: **2026-10-01 → 2026-10-28**, so a partial month, written three days early. The 10/01 scheduled run produced the September report, which landed on main via stash#198 on 10/07. No October report existed on `origin/main` before this one. Read-only apart from this PR; no task config was changed.
 
 ## Claude usage trend

@@ -5,6 +5,9 @@
     "logs/",
     "Nexus/",
     "/\\.txt$/",
-    "/__pycache__/"
+    "/__pycache__/",
+    "/^projects\\/MM\\/[^/]+\\/(out[0-9]*|dist|reports|raw|storage)\\//",
+    "/node_modules\\//",
+    "/\\.zip$/"
   ]
 }
