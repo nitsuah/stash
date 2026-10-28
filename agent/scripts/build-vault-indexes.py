@@ -39,10 +39,12 @@ Usage:  python agent/scripts/build-vault-indexes.py [--check]
 """
 import datetime as dt
 import os
+import posixpath
 import re
 import sys
 from collections import defaultdict
 from contextlib import suppress
+from urllib.parse import unquote
 
 VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CHECK = "--check" in sys.argv
@@ -197,6 +199,59 @@ def report_kind_and_subject(rel):
     return stem or "(misc)", None
 
 
+_WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
+_MDLINK = re.compile(r"\[(?:\.|[^\]\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+
+
+def stray_mirror_docs(name):
+    """Mirrored docs of repos/<name>/ that no link chain from its README reaches.
+
+    Upstream docs index (README -> Docs Index) most of a repo, but nested READMEs,
+    promo storyboards and the like are often linked from nowhere; they would be loose
+    dots in the graph. The hub links these directly, so every mirror doc hangs off the
+    hub. Links resolve like find-orphans.py: relative to the note, then vault-relative,
+    then a unique base name inside the mirror.
+    """
+    docs = md_files(f"repos/{name}")
+    if not docs:
+        return []
+    by_base = defaultdict(list)
+    for d in docs:
+        by_base[os.path.basename(d)[:-3].lower()].append(d)
+    known = {d.lower(): d for d in docs}
+    known.update({d[:-3].lower(): d for d in docs})
+
+    def targets(d):
+        text, _ = read(d)
+        for t in _WIKI.findall(text) + _MDLINK.findall(text):
+            t = unquote(t.split("#")[0].split("?")[0]).strip()
+            if not t or re.match(r"^[a-z]+:", t, re.IGNORECASE):
+                continue
+            hit = None
+            for base in (posixpath.dirname(d), ""):
+                c = posixpath.normpath(posixpath.join(base, t)).lower()
+                hit = known.get(c) or known.get(c + ".md")
+                if hit:
+                    break
+            if not hit:
+                b = posixpath.basename(t)
+                b = (b[:-3] if b.lower().endswith(".md") else b).lower()
+                if len(by_base.get(b, [])) == 1:
+                    hit = by_base[b][0]
+            if hit:
+                yield hit
+
+    seen = set(d for d in docs if d == f"repos/{name}/README.md")
+    frontier = list(seen)
+    while frontier:
+        d = frontier.pop()
+        for t in targets(d):
+            if t not in seen:
+                seen.add(t)
+                frontier.append(t)
+    return [d for d in docs if d not in seen]
+
+
 hubs = [p for p in md_files("repos") if p.count("/") == 1]
 HUB_BY_NAME = {os.path.basename(h)[:-3].lower(): h for h in hubs}  # exact case, e.g. repos/Odysseus.md
 
@@ -248,6 +303,10 @@ for hub in hubs:
         lines.append(f"- Overview: {link(kb[hub], 'KB overview')}")
     for label, rel, date in sorted(hub_lines.get(hub, [])):
         lines.append(f"- Latest {label}: {link(rel, date)} (older ones chain from it)")
+    stray = stray_mirror_docs(name)
+    if stray:
+        lines.append(f"- Other mirrored docs the README doesn't link ({len(stray)}): "
+                     + " · ".join(link(d, d[len(f"repos/{name}/"):-3]) for d in stray))
     set_block(hub, ["## Vault links", "", GENERATED, ""] + lines if lines else [])
     olds = sorted(o for o, n in RENAMED.items() if n.lower() == name.lower())
     set_props(hub, {"kind": "repo-hub", "repo": name, "aliases": "[" + ", ".join(olds) + "]" if olds else None})

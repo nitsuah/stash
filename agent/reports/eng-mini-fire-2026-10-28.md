@@ -7,6 +7,8 @@ date: 2026-10-28
 
 # eng-mini: fire — 2026-10-28 (REPORT MODE)
 
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-mini-fire-2026-10-14|2026-10-14]] <!-- nav -->
+
 > Report only; no moves executed. Fresh `--depth 1` clone of `nitsuah/fire`. Latest commit 2026-10-28 17:48 +0000.
 
 ## Files Reviewed at Root
