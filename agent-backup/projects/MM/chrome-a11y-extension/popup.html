@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accessibility check</title>
+<style>
+  body { width: 380px; margin: 0; padding: 14px; font: 14px/1.45 system-ui, sans-serif; color: #111; background: #fff; }
+  h1 { font-size: 16px; margin: 0 0 8px; }
+  button { font: inherit; padding: 8px 14px; border: 0; border-radius: 6px; background: #0b5cad; color: #fff; cursor: pointer; }
+  button:focus-visible { outline: 3px solid #ffbf47; outline-offset: 2px; }
+  #score { font-size: 34px; font-weight: 700; margin: 10px 0 0; }
+  .muted { color: #4a4a4a; font-size: 12px; }
+  ul { padding-left: 18px; margin: 8px 0; max-height: 300px; overflow: auto; }
+  li { margin-bottom: 8px; }
+  .critical, .serious { color: #a40e26; font-weight: 600; }
+  code { font-size: 12px; word-break: break-all; }
+</style>
+</head>
+<body>
+  <h1>One-Click Accessibility Check</h1>
+  <button id="run" type="button">Check this page</button>
+  <div id="out" role="status" aria-live="polite"></div>
+  <p class="muted">Runs on your device with axe-core. Automated checks find only part of the problems; test with a keyboard and screen reader too.</p>
+  <script src="popup.js"></script>
+</body>
+</html>

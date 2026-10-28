@@ -1,0 +1,13 @@
+{
+    "name": "website-accessibility-audit",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "scripts": { "start": "node src/main.js" },
+    "dependencies": {
+        "apify": "^3.0.0",
+        "crawlee": "^3.0.0",
+        "playwright": "1.60.0",
+        "axe-core": "4.10.2"
+    }
+}

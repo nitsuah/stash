@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/static-site-starters/landing.html",
+    "loadMs": 25,
+    "bytes": 2081,
+    "violations": []
+  },
+  {
+    "path": "/static-site-starters/portfolio.html",
+    "loadMs": 15,
+    "bytes": 1739,
+    "violations": []
+  },
+  {
+    "path": "/static-site-starters/docs.html",
+    "loadMs": 18,
+    "bytes": 1760,
+    "violations": []
+  }
+]

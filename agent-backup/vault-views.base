@@ -1,0 +1,70 @@
+# Live views over the vault, built from the kind/repo/date properties that
+# scripts/build-vault-indexes.py (and enrich-mirror.py for repos/<repo>/ docs) maintain.
+# Replaces hand-kept INDEX notes: every view updates itself as notes are added.
+views:
+  - type: table
+    name: Latest reports
+    filters:
+      and:
+        - file.inFolder("reports")
+    order:
+      - file.name
+      - note.kind
+      - note.repo
+      - note.date
+    sort:
+      - property: note.date
+        direction: DESC
+  - type: table
+    name: Reports by repo
+    filters:
+      and:
+        - file.inFolder("reports")
+        - note.repo
+    groupBy:
+      property: note.repo
+      direction: ASC
+    order:
+      - file.name
+      - note.kind
+      - note.date
+    sort:
+      - property: note.date
+        direction: DESC
+  - type: table
+    name: Repo hubs
+    filters:
+      or:
+        - note.kind == "repo-hub"
+        - note.kind == "overview"
+    groupBy:
+      property: note.repo
+      direction: ASC
+    order:
+      - file.name
+      - note.kind
+      - file.mtime
+  - type: table
+    name: Repo docs
+    filters:
+      and:
+        - note.kind == "repo-doc"
+    groupBy:
+      property: note.repo
+      direction: ASC
+    order:
+      - file.name
+      - file.folder
+  - type: table
+    name: Daily and weekly notes
+    filters:
+      or:
+        - note.kind == "daily-note"
+        - note.kind == "weekly-note"
+    order:
+      - file.name
+      - note.kind
+      - note.date
+    sort:
+      - property: file.name
+        direction: DESC

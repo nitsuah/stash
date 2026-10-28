@@ -1,0 +1,3 @@
+Call (555) 010-4477 or email ops@example.com by 2026-03-15.
+Invoice total $1,250.00 at https://example.com/inv/9
+Other: 555.010.1234, due 4/2/26, $40

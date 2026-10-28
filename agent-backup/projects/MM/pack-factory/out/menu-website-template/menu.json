@@ -1,0 +1,42 @@
+{
+  "name": "Corner Cafe",
+  "tagline": "Fresh baked daily",
+  "phone": "(555) 010-0100",
+  "address": "123 Main Street, Your Town",
+  "hours": [
+    "Mon-Fri 7am-4pm",
+    "Sat-Sun 8am-2pm"
+  ],
+  "sections": [
+    {
+      "title": "Breakfast",
+      "items": [
+        {
+          "name": "Egg sandwich",
+          "price": "7.50",
+          "note": "Cheddar, brioche"
+        },
+        {
+          "name": "Granola bowl",
+          "price": "6.00",
+          "note": "Yogurt, berries"
+        }
+      ]
+    },
+    {
+      "title": "Coffee",
+      "items": [
+        {
+          "name": "Drip coffee",
+          "price": "2.75",
+          "note": ""
+        },
+        {
+          "name": "Latte",
+          "price": "4.50",
+          "note": "Oat milk available"
+        }
+      ]
+    }
+  ]
+}

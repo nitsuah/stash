@@ -1,0 +1,21 @@
+{
+  "name": "Your Name",
+  "bio": "What you do, in one line.",
+  "links": [
+    {
+      "label": "My website",
+      "url": "https://example.com"
+    },
+    {
+      "label": "Latest video",
+      "url": "https://example.com/video"
+    },
+    {
+      "label": "Email me",
+      "url": "mailto:you@example.com"
+    }
+  ],
+  "bg": "#0f1720",
+  "fg": "#f5f7fa",
+  "accent": "#34d399"
+}

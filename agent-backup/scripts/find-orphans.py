@@ -1,0 +1,251 @@
+"""Find orphaned notes in the Obsidian vault (stash/agent).
+
+An orphan is a note with no resolved links in either direction, which is what
+Obsidian's graph view shows as an unconnected dot. Notes with outbound links but
+no inbound links are reported separately as "unreferenced".
+
+Links are resolved roughly the way Obsidian does:
+  [[target]] / [[target|alias]] / [[target#heading]] / ![[embed]]
+  [text](path.md) (relative to the note, then vault-relative)
+  falling back to a unique basename match.
+
+Usage (from anywhere):
+  python stash/agent/scripts/find-orphans.py                 # summary by folder
+  python stash/agent/scripts/find-orphans.py --list          # every orphan path
+  python stash/agent/scripts/find-orphans.py --json out.json # machine-readable
+  python stash/agent/scripts/find-orphans.py --under repos   # limit the report to a subtree
+
+Written 2026-09-24 as prep for the obn orphan-detection routine; see
+reports/pmo-ff-2026-09-24.md.
+"""
+import argparse
+import json
+import os
+import re
+import sys
+from collections import Counter, defaultdict
+from urllib.parse import unquote
+
+VAULT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+SKIP_DIRS = {".obsidian", ".git", "node_modules", ".trash", "__pycache__"}
+IGNORED_DIRS = {"logs", "Nexus"}  # top-level folders excluded in .obsidian/app.json
+
+WIKI = re.compile(r"!?\[\[([^\]|#^]+)(?:[#^][^\]|]*)?(?:\|[^\]]*)?\]\]")
+MDLINK = re.compile(r"\[(?:\\.|[^\]\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")  # link text may hold \[ \]
+FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+INLINE = re.compile(r"(`+)[^`\n].*?\1")
+
+
+def strip_code(text):
+    """Drop fenced blocks (``` or ~~~, closed by the same char at >= the opening length) and inline code."""
+    out, fence = [], None
+    for line in text.splitlines():
+        m = FENCE.match(line)
+        if fence is None:
+            if m:
+                fence = m.group(1)
+                continue
+            out.append(INLINE.sub("", line))
+        elif m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+            fence = None
+    return "\n".join(out)
+
+
+def collect():
+    """Notes (.md) plus attachments (any other file the graph can show as a dot)."""
+    notes, attachments = [], []
+    for dp, dn, fn in os.walk(VAULT):
+        # same exclusions as .obsidian/app.json userIgnoreFilters (logs, plugin data, scratch .txt),
+        # applied to notes and attachments alike
+        top = dp == VAULT
+        dn[:] = [d for d in dn if d not in SKIP_DIRS and not d.startswith(".")
+                 and not (top and d in IGNORED_DIRS)]
+        for f in fn:
+            rel = os.path.relpath(os.path.join(dp, f), VAULT).replace(os.sep, "/")
+            if f.lower().endswith(".md"):
+                notes.append(rel)
+            elif not re.search(r"\.(log|jsonl|pyc|txt)$", f, re.IGNORECASE):  # scripts are knowledge: VAULT-MAP links them
+                attachments.append(rel)
+    return sorted(notes), sorted(attachments)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--list", action="store_true")
+    ap.add_argument("--json")
+    ap.add_argument("--under", default="")
+    ap.add_argument("--check", action="store_true",
+                    help="exit 1 if a note outside repo mirrors and the projects/MM source tree is orphaned or unreachable, or "
+                         "two notes outside repo mirrors and projects/MM share a name (an ambiguous [[wikilink]])")
+    ap.add_argument("--long", type=int, default=0, metavar="N",
+                    help="also list notes outside repo mirrors and projects/MM longer than N lines, longest first")
+    a = ap.parse_args()
+
+    notes, attachments = collect()
+    lower = {n.lower(): n for n in notes + attachments}
+    noext = {n[:-3].lower(): n for n in notes}
+    by_base = defaultdict(list)
+    for n in notes:
+        by_base[os.path.basename(n)[:-3].lower()].append(n)
+    for n in attachments:  # [[farm.png]] resolves by full file name
+        by_base[os.path.basename(n).lower()].append(n)
+    att_set = set(attachments)
+
+    def resolve(src, target):
+        t = unquote(target.split("#")[0].split("?")[0]).strip().rstrip("\\")
+        if not t or re.match(r"^[a-z]+:", t, re.IGNORECASE):
+            return None
+        cands = []
+        here = os.path.dirname(src)
+        for base in (here, ""):
+            p = os.path.normpath(os.path.join(base, t)).replace(os.sep, "/")
+            if p == ".." or p.startswith("../"):
+                continue  # resolves outside the vault
+            cands += [p.lower(), (p + ".md").lower()]
+        if not cands:
+            return None
+        for c in cands:
+            if c in lower:
+                return lower[c]
+            if c in noext:
+                return noext[c]
+        hits = by_base.get(os.path.basename(t)[:-3].lower() if t.lower().endswith(".md")
+                           else os.path.basename(t).lower(), [])
+        return hits[0] if len(hits) == 1 else None
+
+    out_links = defaultdict(set)
+    in_links = defaultdict(set)
+    unresolved = defaultdict(set)  # note -> link targets that match no note (ghost nodes in the graph)
+    for n in notes:
+        try:
+            text = open(os.path.join(VAULT, n), encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        text = strip_code(text)
+        # Markdown links count when they point at a note, or at an attachment that exists
+        # (![diagram](diagram.png)); other file links aren't graph nodes
+        targets = WIKI.findall(text) + [m for m in MDLINK.findall(text)
+                                        if m.lower().split("#")[0].endswith(".md")
+                                        or "." not in os.path.basename(m.split("#")[0])
+                                        or resolve(n, m) in att_set]
+        for t in targets:
+            r = resolve(n, t)
+            if r and r != n:
+                out_links[n].add(r)
+                in_links[r].add(n)
+            elif r is None and t.split("#")[0].strip() and not re.match(r"^[a-z]+:", t, re.IGNORECASE):
+                unresolved[n].add(t.split("#")[0].strip())
+
+    under = a.under.replace("\\", "/").strip("/")
+    scope = [n for n in notes if n == under or n.startswith(under + "/")] if under else notes
+    orphans = [n for n in scope if not out_links[n] and not in_links[n]]
+    unref = [n for n in scope if out_links[n] and not in_links[n]]
+
+    # agents navigate top-down: how many notes can they reach from the vault home (VAULT-MAP) by following links?
+    root = "VAULT-MAP.md" if "VAULT-MAP.md" in out_links else "AGENT-MAIN.md"
+    depth = {root: 0} if root in out_links else {}
+    frontier = list(depth)
+    while frontier:
+        nxt = []
+        for n in frontier:
+            for t in out_links[n]:
+                if t not in depth:
+                    depth[t] = depth[n] + 1
+                    nxt.append(t)
+        frontier = nxt
+    unreachable = [n for n in scope if n not in depth]
+    stars = sorted(((len(out_links[n]), n) for n in scope if len(out_links[n]) >= 40), reverse=True)
+
+    def top(n):
+        parts = n.split("/")
+        return "/".join(parts[:2]) if parts[0] == "repos" and len(parts) > 2 else parts[0] if len(parts) > 1 else "(root)"
+
+    print(f"vault: {VAULT}")
+    print(f"notes: {len(scope)}  orphans (no links in or out): {len(orphans)}  "
+          f"unreferenced (links out, none in): {len(unref)}")
+    hops = Counter(min(d, 4) for n, d in depth.items() if n in scope)
+    print(f"reachable from {root[:-3]}: {len(scope) - len(unreachable)}  unreachable: {len(unreachable)}  "
+          "by hops: " + ", ".join(f"{'4+' if k == 4 else k}:{v}" for k, v in sorted(hops.items())))
+    if stars:
+        print("star hubs (40+ out-links): " + ", ".join(f"{n} ({c})" for c, n in stars))
+    broken = {n: sorted(unresolved[n]) for n in scope if unresolved[n]}
+    print(f"unresolved links (ghost nodes): {sum(len(v) for v in broken.values())} in {len(broken)} notes")
+    loose = [f for f in attachments if not in_links[f]]
+    print(f"attachments: {len(attachments)}  unlinked (loose dots in the graph): {len(loose)}"
+          + ("  -> " + ", ".join(loose) if loose else ""))
+    if a.long:
+        sizes = []
+        for n in scope:
+            parts = n.split("/")
+            if (parts[0] == "repos" and len(parts) > 2) or n.startswith("projects/MM/"):
+                continue  # repo mirrors and MM source copies are checked in their source projects
+            try:
+                with open(os.path.join(VAULT, n), encoding="utf-8", errors="replace") as fh:
+                    lines = sum(1 for _ in fh)
+            except OSError:
+                continue
+            if lines > a.long:
+                sizes.append((lines, n))
+        print(f"long notes (over {a.long} lines, outside the mirrors): {len(sizes)}")
+        for lines, n in sorted(sizes, reverse=True):
+            print(f"  {lines:5d}  {n}")
+    print("\norphans by folder:")
+    for k, v in Counter(top(n) for n in orphans).most_common():
+        print(f"  {v:4d}  {k}")
+    if broken:
+        print("\nunresolved links by folder:")
+        for k, v in Counter(top(n) for n, ts in broken.items() for _ in ts).most_common():
+            print(f"  {v:4d}  {k}")
+    if a.list:
+        print("\nunresolved links:")
+        for n, ts in broken.items():
+            print(f"  {n}: " + ", ".join(ts))
+        print("\norphans:")
+        for n in orphans:
+            print("  " + n)
+        print("\nunreferenced:")
+        for n in unref:
+            print("  " + n)
+        print("\nunreachable from the vault home (outside repo mirrors):")
+        for n in unreachable:
+            if not re.match(r"^repos/[^/]+/", n) and not n.startswith("projects/MM/"):
+                print("  " + n)
+    if a.json:
+        with open(a.json, "w", encoding="utf-8") as f:
+            json.dump({"notes": len(scope), "orphans": orphans, "unreferenced": unref,
+                       "unreachable": unreachable, "unresolved": broken,
+                       "links": {n: sorted(out_links[n] | in_links[n]) for n in notes}}, f, indent=2)
+    if a.check:
+        native = [n for n in notes if not re.match(r"^repos/[^/]+/", n) and not n.startswith("projects/MM/")]
+        bad = sorted({n for n in orphans + unreachable if n in native})
+        names = defaultdict(list)
+        for n in native:
+            names[os.path.basename(n).lower()].append(n)
+        dupes = {k: v for k, v in names.items() if len(v) > 1}
+        ghosts = {n: ts for n, ts in broken.items() if n in native}
+        # .MD / .Md: the sync copies them (its match ignores case) but the link scripts skip them
+        odd_ext = [n for n in notes if not n.endswith(".md")]
+        if odd_ext:
+            print(f"\nFAIL: {len(odd_ext)} note(s) with an extension other than lower-case .md; rename upstream:")
+            for n in odd_ext:
+                print("  " + n)
+        if ghosts:
+            print(f"\nFAIL: {sum(len(v) for v in ghosts.values())} broken link(s) in notes outside repo mirrors and MM source tree "
+                  "(fix with scripts/fix-doc-links.py --vault):")
+            for n, ts in ghosts.items():
+                print(f"  {n}: " + ", ".join(ts))
+        if bad:
+            print(f"\nFAIL: {len(bad)} note(s) outside repo mirrors and MM source tree have no path from the vault home:")
+            for n in bad:
+                print("  " + n)
+        if dupes:
+            print(f"\nFAIL: {len(dupes)} name(s) shared by notes outside repo mirrors and MM source tree "
+                  "(a bare [[name]] is ambiguous and the graph shows look-alike nodes); rename one:")
+            for v in dupes.values():
+                print("  " + " · ".join(v))
+        if bad or dupes or ghosts or odd_ext:
+            sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,28 @@
+services:
+  photoprism:
+    image: photoprism/photoprism:latest
+    ports: ["2342:2342"]
+    environment:
+      PHOTOPRISM_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      PHOTOPRISM_DATABASE_DRIVER: mysql
+      PHOTOPRISM_DATABASE_SERVER: db:3306
+      PHOTOPRISM_DATABASE_NAME: photoprism
+      PHOTOPRISM_DATABASE_USER: photoprism
+      PHOTOPRISM_DATABASE_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./originals:/photoprism/originals
+      - photoprism-storage:/photoprism/storage
+    depends_on: [db]
+    restart: unless-stopped
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: photoprism
+      MARIADB_USER: photoprism
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes: [photoprism-db:/var/lib/mysql]
+    restart: unless-stopped
+volumes:
+  photoprism-storage:
+  photoprism-db:

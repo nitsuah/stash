@@ -1,0 +1,9 @@
+{
+	"id": "9syPc5JbUuAjPx1",
+	"json": "{\"id\":\"9syPc5JbUuAjPx1\",\"url\":\"https://dequeuniversity.com/demo/mars/\",\"loadedUrl\":\"https://dequeuniversity.com/demo/mars/\",\"uniqueKey\":\"https://dequeuniversity.com/demo/mars\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-10-23T07:15:23.538Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://dequeuniversity.com/demo/mars",
+	"url": "https://dequeuniversity.com/demo/mars/"
+}

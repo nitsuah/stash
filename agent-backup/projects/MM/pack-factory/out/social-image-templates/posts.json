@@ -1,0 +1,20 @@
+{
+  "brand": {
+    "bg": "#0f1720",
+    "fg": "#f5f7fa",
+    "accent": "#10b981",
+    "name": "Your Brand"
+  },
+  "posts": [
+    {
+      "slug": "tip-1",
+      "headline": "Invoice on day one",
+      "sub": "Do not wait for the work to finish."
+    },
+    {
+      "slug": "tip-2",
+      "headline": "Write the scope down",
+      "sub": "Out of scope matters most."
+    }
+  ]
+}

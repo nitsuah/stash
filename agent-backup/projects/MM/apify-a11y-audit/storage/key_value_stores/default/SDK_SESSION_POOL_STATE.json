@@ -1,0 +1,160 @@
+{
+  "usableSessionsCount": 3,
+  "retiredSessionsCount": 2,
+  "sessions": [
+    {
+      "id": "session_K3VP7sghMo",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-23T08:05:19.367Z",
+      "createdAt": "2026-10-23T07:15:19.367Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_GtcWxYeTfz",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "PHPSESSID",
+            "value": "cfa616ae3021bfe67b12102a50e343fb",
+            "expires": "2026-10-30T07:15:20.299Z",
+            "domain": "dequeuniversity.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": true,
+            "creation": "2026-10-23T07:15:22.266Z",
+            "lastAccessed": "2026-10-23T07:15:22.266Z"
+          },
+          {
+            "key": "modx_lingua_switcher",
+            "value": "en",
+            "expires": "2026-10-24T07:15:21.831Z",
+            "domain": "dequeuniversity.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": true,
+            "creation": "2026-10-23T07:15:22.267Z",
+            "lastAccessed": "2026-10-23T07:15:22.267Z"
+          },
+          {
+            "key": "userStartTimeCookie",
+            "value": "1792739721203",
+            "expires": "2026-10-23T08:05:22.265Z",
+            "domain": "dequeuniversity.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-23T07:15:22.269Z",
+            "lastAccessed": "2026-10-23T07:15:22.269Z"
+          },
+          {
+            "key": "waitPageVisited",
+            "value": "N",
+            "expires": "2026-10-24T07:15:21.000Z",
+            "domain": "dequeuniversity.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-23T07:15:22.269Z",
+            "lastAccessed": "2026-10-23T07:15:22.269Z"
+          },
+          {
+            "key": "__ar_v4",
+            "expires": "2027-11-27T07:15:21.437Z",
+            "domain": "dequeuniversity.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2026-10-23T07:15:22.269Z",
+            "lastAccessed": "2026-10-23T07:15:22.269Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-23T08:05:19.371Z",
+      "createdAt": "2026-10-23T07:15:19.371Z",
+      "usageCount": 5,
+      "maxUsageCount": 50,
+      "errorScore": 9.5
+    },
+    {
+      "id": "session_fZTwCb8Cc8",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-23T08:05:19.436Z",
+      "createdAt": "2026-10-23T07:15:19.436Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_6DpQOMK0ke",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-23T08:05:20.751Z",
+      "createdAt": "2026-10-23T07:15:20.751Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_0z84v9SFNn",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-23T08:05:20.752Z",
+      "createdAt": "2026-10-23T07:15:20.752Z",
+      "usageCount": 3,
+      "maxUsageCount": 50,
+      "errorScore": 7
+    }
+  ]
+}

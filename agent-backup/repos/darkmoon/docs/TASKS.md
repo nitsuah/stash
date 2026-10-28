@@ -1,0 +1,68 @@
+---
+up: "[[repos/darkmoon]]"
+title: "darkmoon · TASKS"
+source: https://github.com/nitsuah/darkmoon/blob/main/docs/TASKS.md
+kind: repo-doc
+repo: darkmoon
+---
+
+# Tasks
+
+> 🧭 [darkmoon](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Last Updated: 2026-10-01
+
+## In Progress
+
+_None._
+
+## Done
+
+_Shipped work is condensed into `docs/FEATURES.md`
+(gameplay/server capabilities), and `docs/CHANGELOG.md` (change-by-change history) —
+see those files rather than a duplicated narrative here._
+
+## Todo
+
+- [ ] Revisit the eslint 10 bump (issue #446, closed-unmerged PR #445) once `eslint-plugin-jsx-a11y` supports it. (P3 · Tech Debt · Confidence: High) Blocked externally: as of the 2026-09-24 PMO audit, `npm view eslint-plugin-jsx-a11y peerDependencies` still caps `eslint` at `^9`. Acceptance Criteria: when a jsx-a11y release allows eslint 10, remove the `eslint` semver-major `ignore` rule from `.github/dependabot.yml`, bump both, `npm run lint` passes in Docker, and #446 is closed. Canonical tracker: nitsuah/vigil#212.
+
+- [ ] **[2027-Q1] 21st.dev component integration pass** — replace or augment key game site UI surfaces (lobby, scoreboard, game-over, nav) with 21st.dev components to improve visual quality and interactivity.
+  - Priority: P1
+  - Problem: current UI is functional but prototype-grade; 21st.dev components can significantly improve look, feel, and animation quality without a full rewrite.
+  - Acceptance Criteria: at least lobby, scoreboard, and game-over screens use 21st.dev components; hover states, transitions, and layout quality are demonstrably improved; no regression in game functionality.
+
+- [ ] **[2027-Q1] UI/UX interactivity improvements** — improve micro-interactions, card layouts, and overall interactivity across the site using 21st.dev patterns.
+  - Priority: P1
+  - Problem: the site feels static outside of actual gameplay; improving interactivity increases perceived quality and engagement before a player even starts a game.
+  - Acceptance Criteria: game cards, stat panels, and navigation have consistent hover/focus states; page transitions are smooth; Lighthouse performance score does not regress.
+
+- [ ] **[2027-Q1] Open-source safety scrub** — sanitize repository content to remove potentially sensitive, proprietary, or over-specific company and resume details before broader sharing/open sourcing.
+  - Priority: P1
+  - Problem: historical examples may include details that are too specific for public exposure.
+  - Acceptance Criteria: sensitive examples are removed or anonymized; docs are reviewed for proprietary references; a final pass confirms public-share readiness.
+
+- [ ] Re-baseline the remaining large-file refactor work.
+  - Priority: P2
+  - Problem: older refactor tasks no longer match the codebase hotspots.
+  - Acceptance Criteria: only current, high-value refactors remain and each one ties back to reliability, testability, or performance.
+  - Baseline 2026-10-01 (PMO audit, `wc -l` over non-test `src/**/*.ts(x)` on `main`): `pages/Solo/components/ShootingGallery.tsx` 657, `pages/Solo.tsx` 651, `pages/Solo/components/Bots.tsx` 629, `components/characters/useBotAI.ts` 594, `characters/player/PlayerWeapon.tsx` 546, `characters/player/PlayerMovement.tsx` 538.
+  - First candidate (findings ledger F-20260916-04): split `useBotAI.ts` into perception, movement and combat hooks. It's the lowest-risk start, because `src/__tests__/useBotAI.test.ts` and `useBotAI.unit.test.tsx` already pin its behavior. Done when the three hooks exist, `useBotAI` composes them, and both test files pass unchanged.
+
+- [ ] **[Phase E remaining] Over-the-shoulder aim camera + combat music** — remaining Phase E items after PR #391 landed most of the polish pass.
+  - Priority: P2
+  - Note: HUD, ammo, reload bar, kill feed, damage numbers, hit marker, ShotgunVFX, reserve ammo, tag-mode health, reload snap mechanic, homepage redesign, and GameUI/Solo componentization are all done. Remaining: over-the-shoulder aim-mode camera offset and a combat music layer that cross-fades when shooting/hit events occur.
+  - Acceptance Criteria: see `docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md` Phase E "Remaining" section.
+
+- [ ] Ship the first validated multiplayer-capable experience now that the readiness gate and server-side tag parity are both done — remaining work is a shipped client experience driving the existing socket events. See `docs/ROADMAP.md` 2027 Q1.
+  - Priority: P1
+  - Type: Feature
+
+- [ ] **Set `WALLET_AUTH_SECRET` on the hosted multiplayer socket server** — wallet sign-in tokens are signed with this secret, and without it sessions reset on every server restart.
+  - Priority: P2
+  - Problem: no hosted socket server exists yet (the darkmoon.dev Netlify site has no `VITE_SOCKET_SERVER_URL`). When it is deployed, an unset `WALLET_AUTH_SECRET` means wallet sign-in sessions are invalidated on every restart. Found in the 2026-10-14 auth audit.
+  - Acceptance Criteria: when the socket server is deployed, `WALLET_AUTH_SECRET` is set on that server to a long random value (e.g. 32 random bytes, base64-encoded); a restart keeps an existing wallet session valid. See `docs/API.md` → Wallet sign-in.
+
+## Notes
+
+- See [INSTRUCTIONS](./INSTRUCTIONS.md) for agent handoff and workflow best practices.
+- The deployed site presents solo mode as live and multiplayer or tournament work as planned.

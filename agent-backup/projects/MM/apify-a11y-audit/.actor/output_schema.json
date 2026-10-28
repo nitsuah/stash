@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Website Accessibility Audit output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Audit results",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

@@ -1,0 +1,894 @@
+# ENG LOC Report: 9router (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1731 | 9router/src/app/(dashboard)/dashboard/providers/[id]/page.js
+1502 | 9router/src/lib/oauth/providers.js
+1307 | 9router/src/app/(dashboard)/dashboard/usage/components/ProviderLimits/index.js
+1295 | 9router/src/app/(dashboard)/dashboard/endpoint/EndpointPageClient.js
+1182 | 9router/src/app/(dashboard)/dashboard/profile/page.js
+1063 | 9router/src/app/(dashboard)/dashboard/proxy-pools/page.js
+967 | 9router/src/app/(dashboard)/dashboard/basic-chat/BasicChatPageClient.js
+966 | 9router/src/app/(dashboard)/dashboard/providers/page.js
+904 | 9router/open-sse/utils/cursorProtobuf.js
+877 | 9router/src/mitm/manager.js
+859 | 9router/src/lib/tunnel/tailscale/tailscale.js
+846 | 9router/cli/src/cli/menus/providers.js
+830 | 9router/cli/cli.js
+783 | 9router/src/app/api/providers/[id]/test/testUtils.js
+780 | 9router/src/lib/db/repos/usageRepo.js
+704 | 9router/src/shared/components/OAuthModal.js
+688 | 9router/open-sse/executors/cursor.js
+654 | 9router/src/app/(dashboard)/dashboard/combos/page.js
+646 | 9router/tests/unit/embeddingsCore.test.js
+631 | 9router/src/app/api/providers/validate/route.js
+624 | 9router/open-sse/services/tokenRefresh/providers.js
+618 | 9router/cli/src/cli/menus/cliTools.js
+601 | 9router/open-sse/executors/antigravity.js
+597 | 9router/src/app/(dashboard)/dashboard/cli-tools/components/CoworkToolCard.js
+596 | 9router/open-sse/translator/request/openai-to-kiro.js
+595 | 9router/src/shared/components/KiroAuthModal.js
+585 | 9router/src/app/api/v1beta/models/[...path]/route.js
+581 | 9router/src/shared/components/ModelSelectModal.js
+571 | 9router/open-sse/services/combo.js
+568 | 9router/open-sse/executors/kiro.js
+566 | 9router/src/app/(dashboard)/dashboard/media-providers/[kind]/[id]/components/TtsExampleCard.js
+556 | 9router/cli/src/cli/api/client.js
+551 | 9router/src/app/api/providers/[id]/models/route.js
+546 | 9router/tests/unit/image-generation.test.js
+539 | 9router/src/app/(dashboard)/dashboard/media-providers/[kind]/[id]/components/GenericExampleCard.js
+535 | 9router/open-sse/translator/response/openai-responses.js
+526 | 9router/src/mitm/handlers/kiro.js
+524 | 9router/tests/unit/embeddings.cloud.test.js
+522 | 9router/src/shared/components/UsageStats.js
+505 | 9router/open-sse/executors/perplexity-web.js
+
+## Files < 30 lines (merge candidates)
+
+1 | 9router/src/app/api/v1/route.js
+1 | 9router/src/shared/utils/clineAuth.js
+2 | 9router/src/lib/qoder/constants.js
+2 | 9router/src/lib/qoder/cosy.js
+2 | 9router/src/lib/qoder/encoding.js
+3 | 9router/src/shared/hooks/index.js
+4 | 9router/open-sse/config/constants.js
+4 | 9router/open-sse/handlers/embeddingProviders/_base.js
+4 | 9router/src/app/(dashboard)/dashboard/basic-chat/page.js
+4 | 9router/src/app/api/init/route.js
+4 | 9router/src/lib/disabledModelsDb.js
+4 | 9router/src/lib/requestDetailsDb.js
+4 | 9router/src/shared/components/layouts/index.js
+4 | 9router/src/shared/constants/index.js
+5 | 9router/open-sse/translator/concerns/json.js
+5 | 9router/src/app/(dashboard)/dashboard/mitm/page.js
+5 | 9router/src/app/(dashboard)/dashboard/token-saver/page.js
+5 | 9router/src/app/page.js
+6 | 9router/src/app/(dashboard)/layout.js
+6 | 9router/src/shared/utils/connectionStatus.js
+6 | 9router/src/shared/utils/machine.js
+6 | 9router/src/store/index.js
+7 | 9router/open-sse/translator/concerns/message.js
+7 | 9router/open-sse/translator/schema/defaults.js
+7 | 9router/src/app/(dashboard)/dashboard/cli-tools/page.js
+7 | 9router/src/app/(dashboard)/dashboard/endpoint/page.js
+7 | 9router/src/app/(dashboard)/dashboard/page.js
+7 | 9router/src/lib/tunnel/tailscale/config.js
+7 | 9router/src/lib/usageDb.js
+8 | 9router/open-sse/translator/schema/index.js
+8 | 9router/src/app/(dashboard)/dashboard/console-log/page.js
+8 | 9router/src/lib/tunnel/shared/watchdogConfig.js
+9 | 9router/open-sse/rtk/caveman.js
+9 | 9router/open-sse/rtk/ponytail.js
+9 | 9router/src/lib/db/helpers/jsonCol.js
+9 | 9router/src/lib/tunnel/cloudflare/config.js
+9 | 9router/src/proxy.js
+10 | 9router/src/lib/db/migrations/index.js
+11 | 9router/open-sse/translator/concerns/chunk.js
+11 | 9router/src/app/(dashboard)/dashboard/cli-tools/[toolId]/page.js
+11 | 9router/src/app/(dashboard)/dashboard/quota/page.js
+11 | 9router/src/shared/utils/cn.js
+12 | 9router/open-sse/config/defaultThinkingSignature.js
+12 | 9router/open-sse/handlers/imageProviders/comfyui.js
+12 | 9router/src/app/api/auth/logout/route.js
+12 | 9router/src/app/api/tunnel/disable/route.js
+12 | 9router/src/app/api/tunnel/tailscale-disable/route.js
+12 | 9router/src/app/api/tunnel/tailscale-enable/route.js
+12 | 9router/src/app/api/usage/history/route.js
+12 | 9router/src/app/api/usage/logs/route.js
+12 | 9router/src/shared/constants/mitmToolHosts.js
+12 | 9router/src/shared/constants/providersDisplay.js
+12 | 9router/src/shared/services/bootstrap.js
+12 | 9router/tests/unit/capabilities.test.js
+12 | 9router/tests/unit/hf-model-routing.test.js
+13 | 9router/gitbook/components/DocsContent.js
+13 | 9router/open-sse/config/models.js
+13 | 9router/open-sse/handlers/embeddingProviders/openaiCompatNode.js
+13 | 9router/src/app/(dashboard)/dashboard/cli-tools/components/cliEndpointMatch.js
+13 | 9router/src/app/(dashboard)/dashboard/endpoint/components/Tooltip.js
+13 | 9router/src/app/api/auth/reset-password/route.js
+13 | 9router/src/app/api/tunnel/status/route.js
+13 | 9router/src/app/api/usage/request-logs/route.js
+14 | 9router/open-sse/executors/ollama-local.js
+14 | 9router/open-sse/utils/debugLog.js
+14 | 9router/open-sse/utils/sse.js
+14 | 9router/src/app/api/headroom/stop/route.js
+14 | 9router/src/app/api/models/test/route.js
+14 | 9router/src/lib/db/migrations/001-initial.js
+15 | 9router/open-sse/rtk/applyFilter.js
+15 | 9router/open-sse/rtk/filters/smartTruncate.js
+15 | 9router/src/app/api/health/route.js
+15 | 9router/src/app/api/settings/require-login/route.js
+15 | 9router/src/app/api/version/shutdown/route.js
+15 | 9router/src/mitm/handlers/cursor.js
+15 | 9router/src/shared/components/ThemeProvider.js
+15 | 9router/tests/unit/capabilities-service-kind.test.js
+16 | 9router/open-sse/translator/schema/roles.js
+16 | 9router/src/app/api/tunnel/enable/route.js
+16 | 9router/src/app/api/v1/audio/speech/route.js
+16 | 9router/src/app/api/v1/images/generations/route.js
+17 | 9router/src/lib/oauth/services/index.js
+17 | 9router/src/lib/tunnel/shared/dnsResolver.js
+17 | 9router/tests/unit/provider-thinking-config.test.js
+18 | 9router/src/app/api/headroom/status/route.js
+18 | 9router/src/app/api/tags/route.js
+18 | 9router/src/lib/db/paths.js
+19 | 9router/gitbook/constants/languages.js
+19 | 9router/open-sse/config/ollamaModels.js
+19 | 9router/open-sse/config/providers.js
+19 | 9router/open-sse/providers/registry/mmf.js
+19 | 9router/open-sse/providers/registry/ollama-local.js
+19 | 9router/open-sse/providers/registry/topaz.js
+19 | 9router/open-sse/shared/machineId.js
+19 | 9router/src/app/(dashboard)/dashboard/cli-tools/components/index.js
+19 | 9router/src/app/api/mcp/[plugin]/message/route.js
+19 | 9router/src/app/api/v1/audio/transcriptions/route.js
+19 | 9router/src/store/headerSearchStore.js
+20 | 9router/open-sse/executors/xiaomi-tokenplan.js
+20 | 9router/open-sse/handlers/imageProviders/sdwebui.js
+20 | 9router/open-sse/providers/models/helpers.js
+20 | 9router/open-sse/providers/registry/comfyui.js
+20 | 9router/open-sse/providers/registry/sdwebui.js
+20 | 9router/src/store/userStore.js
+21 | 9router/gitbook/app/layout.js
+21 | 9router/open-sse/providers/registry/azure.js
+21 | 9router/src/app/api/usage/chart/route.js
+21 | 9router/src/app/api/v1/embeddings/route.js
+21 | 9router/src/app/api/v1/search/route.js
+21 | 9router/src/app/api/v1/web/fetch/route.js
+21 | 9router/src/app/api/version/update/route.js
+21 | 9router/src/lib/db/version.js
+21 | 9router/src/lib/localDb.js
+22 | 9router/cli/hooks/postinstall.js
+22 | 9router/public/sw.js
+22 | 9router/src/app/(dashboard)/dashboard/endpoint/components/EndpointRow.js
+22 | 9router/src/lib/db/helpers/metaStore.js
+22 | 9router/src/mitm/dbReader.js
+22 | 9router/tests/unit/token-refresh-dispatch.test.js
+23 | 9router/open-sse/handlers/imageProviders/huggingface.js
+23 | 9router/open-sse/utils/sseConstants.js
+23 | 9router/src/app/(dashboard)/dashboard/endpoint/components/SecurityWarning.js
+23 | 9router/src/app/(dashboard)/dashboard/endpoint/components/StatusAlert.js
+23 | 9router/src/app/api/providers/[id]/test/route.js
+23 | 9router/src/app/api/settings/proxy-test/route.js
+23 | 9router/src/app/api/usage/stats/route.js
+23 | 9router/src/lib/tunnel/cloudflare/pid.js
+23 | 9router/src/shared/components/NineRemoteButton.js
+24 | 9router/open-sse/handlers/embeddingProviders/index.js
+24 | 9router/open-sse/providers/registry/chutes.js
+24 | 9router/open-sse/providers/registry/edge-tts.js
+24 | 9router/open-sse/providers/registry/google-tts.js
+24 | 9router/open-sse/providers/registry/local-device.js
+24 | 9router/open-sse/providers/registry/mimo-free.js
+24 | 9router/open-sse/providers/registry/recraft.js
+24 | 9router/open-sse/translator/concerns/reasoning.js
+24 | 9router/src/app/api/shutdown/route.js
+24 | 9router/src/app/api/translator/console-logs/route.js
+24 | 9router/tests/translator/registerAll.js
+25 | 9router/gitbook/components/DocsLayout.js
+25 | 9router/open-sse/providers/registry/cohere.js
+25 | 9router/open-sse/providers/registry/opencode.js
+25 | 9router/src/lib/network/initOutboundProxy.js
+25 | 9router/src/shared/components/Tooltip.js
+26 | 9router/gitbook/app/[lang]/page.js
+26 | 9router/gitbook/app/page.js
+26 | 9router/open-sse/handlers/imageProviders/gemini.js
+26 | 9router/src/app/api/providers/suggested-models/filters.js
+26 | 9router/src/lib/tunnel/shared/internetCheck.js
+27 | 9router/open-sse/config/mediaConfig.js
+27 | 9router/open-sse/providers/registry/nebius.js
+27 | 9router/open-sse/rtk/filters/readNumbered.js
+27 | 9router/open-sse/translator/schema/finishReasons.js
+27 | 9router/src/i18n/RuntimeI18nProvider.js
+28 | 9router/src/shared/components/CapacityBadges.js
+28 | 9router/tests/unit/model-name-regex.test.js
+28 | 9router/tests/unit/provider-pricing-minimax-m3.test.js
+29 | 9router/open-sse/providers/registry/fireworks.js
+29 | 9router/open-sse/providers/registry/vertex-partner.js
+29 | 9router/src/app/(dashboard)/dashboard/endpoint/endpointPing.js
+29 | 9router/src/lib/tunnel/cloudflare/healthCheck.js
+29 | 9router/src/lib/tunnel/tailscale/healthCheck.js
+29 | 9router/src/shared/components/layouts/AuthLayout.js
+29 | 9router/tests/vitest.config.js
+
+# ENG LOC Report: agent-board (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1819 | agent-board/tools/opencut/apps/web/src/stickers/providers/countries-data.ts
+1508 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/services/voice.py
+1451 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/webui/Main.py
+1361 | agent-board/tools/opencut/apps/web/src/animation/keyframes.ts
+1298 | agent-board/tools/opencut/apps/web/src/timeline/components/timeline-element.tsx
+1087 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/services/video.py
+1039 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/services/llm.py
+1022 | agent-board/tools/opencut/apps/web/src/app/projects/page.tsx
+988 | agent-board/dashboard/src/App.jsx
+953 | agent-board/tools/opencut/apps/web/src/timeline/components/index.tsx
+935 | agent-board/tools/opencut/apps/web/src/core/managers/timeline-manager.ts
+923 | agent-board/tools/opencut/apps/web/src/gradients/canvas.ts
+921 | agent-board/dashboard/src/components/LiminalDashboard.jsx
+870 | agent-board/tools/opencut/rust/crates/compositor/src/compositor.rs
+867 | agent-board/tools/opencut/apps/web/src/media/audio.ts
+863 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/test/services/test_llm.py
+852 | agent-board/tools/opencut/apps/web/src/masks/components/masks-tab.tsx
+835 | agent-board/tools/opencut/apps/web/src/masks/freeform/path.ts
+820 | agent-board/dashboard/src/components/WorkspaceView.jsx
+788 | agent-board/tools/opencut/apps/web/src/preview/controllers/transform-handle-controller.ts
+774 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/v1-to-v2.ts
+731 | agent-board/tools/opencut/apps/web/src/timeline/controllers/element-interaction-controller.ts
+722 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/test/services/test_voice.py
+707 | agent-board/tools/opencut/apps/web/src/core/managers/project-manager.ts
+701 | agent-board/tools/opencut/apps/web/src/timeline/components/graph-editor/session.ts
+700 | agent-board/tools/opencut/apps/web/src/core/managers/audio-manager.ts
+700 | agent-board/dashboard/server.js
+695 | agent-board/tools/opencut/rust/crates/gpu/src/context.rs
+681 | agent-board/tools/opencut/apps/web/src/timeline/placement/__tests__/resolve.test.ts
+652 | agent-board/tools/opencut/apps/web/src/gradients/parser.ts
+642 | agent-board/tools/opencut/apps/web/src/components/editor/panels/assets/views/assets.tsx
+642 | agent-board/dashboard/src/components/SystemPanel.jsx
+638 | agent-board/tools/opencut/apps/web/src/masks/freeform/definition.ts
+637 | agent-board/tools/opencut/apps/web/src/masks/use-mask-handles.ts
+636 | agent-board/dashboard/routes/docker.js
+584 | agent-board/tools/opencut/apps/web/src/preview/controllers/preview-interaction-controller.ts
+583 | agent-board/tools/opencut/apps/web/src/timeline/controllers/drag-drop-controller.ts
+581 | agent-board/tools/opencut/apps/web/src/services/renderer/compositor/frame-descriptor.ts
+575 | agent-board/tools/opencut/apps/web/src/services/storage/service.ts
+572 | agent-board/tools/opencut/apps/web/src/preview/components/preview-viewport.tsx
+566 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/test/services/test_video.py
+563 | agent-board/tools/opencut/apps/web/src/sounds/components/assets-view.tsx
+560 | agent-board/tools/opencut/apps/web/src/components/ui/color-picker.tsx
+545 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/v21-to-v22.ts
+539 | agent-board/tools/opencut/apps/web/src/preview/preview-snap.ts
+523 | agent-board/tools/opencut/apps/web/src/masks/__tests__/snap.test.ts
+520 | agent-board/tools/opencut/apps/web/src/actions/use-editor-actions.ts
+518 | agent-board/tools/opencut/apps/web/src/masks/handle-positions.ts
+514 | agent-board/tools/opencut/apps/web/src/subtitles/ass.ts
+
+## Files < 30 lines (merge candidates)
+
+0 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/__init__.py
+0 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/models/__init__.py
+0 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/services/__init__.py
+0 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/test/services/__init__.py
+1 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/test/__init__.py
+1 | agent-board/tools/opencut/apps/web/src/animation/transform.ts
+1 | agent-board/tools/opencut/apps/web/src/background/color.ts
+1 | agent-board/tools/opencut/apps/web/src/commands/project/index.ts
+1 | agent-board/tools/opencut/apps/web/src/selection/attributes.ts
+1 | agent-board/tools/opencut/apps/web/src/stickers/intrinsic-size.ts
+1 | agent-board/tools/opencut/apps/web/src/transcription/supported-languages.ts
+1 | agent-board/tools/opencut/apps/web/src/wasm/index.ts
+2 | agent-board/tools/opencut/apps/web/open-next.config.ts
+2 | agent-board/tools/opencut/apps/web/src/clipboard/index.ts
+2 | agent-board/tools/opencut/apps/web/src/commands/media/index.ts
+2 | agent-board/tools/opencut/apps/web/src/commands/timeline/clipboard/index.ts
+2 | agent-board/tools/opencut/apps/web/src/components/icons/index.tsx
+2 | agent-board/tools/opencut/apps/web/src/gradients/index.ts
+2 | agent-board/tools/opencut/apps/web/src/masks/dimensions.ts
+2 | agent-board/tools/opencut/apps/web/src/masks/feather.ts
+2 | agent-board/tools/opencut/apps/web/src/timeline/audio-constants.ts
+2 | agent-board/tools/opencut/apps/web/src/transcription/caption-defaults.ts
+3 | agent-board/tools/opencut/apps/web/src/actions/index.ts
+3 | agent-board/tools/opencut/apps/web/src/app/api/health/route.ts
+3 | agent-board/tools/opencut/apps/web/src/feedback/index.ts
+3 | agent-board/tools/opencut/apps/web/src/fps/defaults.ts
+3 | agent-board/tools/opencut/apps/web/src/timeline/scale.ts
+4 | agent-board/tools/opencut/apps/web/src/app/api/auth/[...all]/route.ts
+4 | agent-board/tools/opencut/apps/web/src/commands/timeline/element/masks/index.ts
+4 | agent-board/tools/opencut/apps/web/src/commands/timeline/track/index.ts
+4 | agent-board/tools/opencut/apps/web/src/components/icons/types.ts
+4 | agent-board/tools/opencut/apps/web/src/export/mime-types.ts
+4 | agent-board/tools/opencut/apps/web/src/guides/grid.ts
+4 | agent-board/tools/opencut/apps/web/src/ripple/index.ts
+4 | agent-board/tools/opencut/apps/web/src/selection/index.ts
+4 | agent-board/tools/opencut/apps/web/src/timeline/components/interaction.ts
+4 | agent-board/tools/opencut/apps/web/src/transcription/audio.ts
+5 | agent-board/tools/opencut/apps/web/src/commands/timeline/element/effects/index.ts
+5 | agent-board/tools/opencut/apps/web/src/commands/timeline/index.ts
+5 | agent-board/tools/opencut/apps/web/src/retime/index.ts
+5 | agent-board/tools/opencut/apps/web/src/site/social.ts
+5 | agent-board/tools/opencut/rust/crates/effects/src/effects.rs
+5 | agent-board/tools/opencut/rust/crates/masks/src/masks.rs
+6 | agent-board/tools/opencut/apps/web/src/auth/client.ts
+6 | agent-board/tools/opencut/apps/web/src/commands/timeline/element/keyframes/index.ts
+6 | agent-board/tools/opencut/apps/web/src/timeline/components/layers.ts
+6 | agent-board/tools/opencut/apps/web/src/utils/ui.ts
+7 | agent-board/dashboard/src/utils/serviceErrors.js
+7 | agent-board/tools/opencut/apps/web/src/commands/scene/index.ts
+7 | agent-board/tools/opencut/apps/web/src/components/ui/aspect-ratio.tsx
+7 | agent-board/tools/opencut/apps/web/src/export/defaults.ts
+7 | agent-board/tools/opencut/apps/web/src/fps/presets.ts
+7 | agent-board/tools/opencut/apps/web/src/preview/zoom.ts
+7 | agent-board/tools/opencut/apps/web/src/services/renderer/nodes/color-node.ts
+7 | agent-board/tools/opencut/apps/web/src/stickers/categories.ts
+7 | agent-board/tools/opencut/apps/web/src/utils/date.ts
+7 | agent-board/tools/opencut/apps/web/src/utils/string.ts
+8 | agent-board/tools/opencut/apps/web/src/commands/index.ts
+8 | agent-board/tools/opencut/apps/web/src/diagnostics/types.ts
+8 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/index.ts
+9 | agent-board/tools/opencut/apps/web/src/media/types.ts
+9 | agent-board/tools/opencut/apps/web/src/panels/layout.ts
+9 | agent-board/tools/opencut/apps/web/src/text/typography.ts
+9 | agent-board/tools/opencut/apps/web/src/timeline/group-resize/index.ts
+9 | agent-board/tools/opencut/apps/web/src/timeline/snapping/index.ts
+9 | agent-board/tools/opencut/apps/web/src/timeline/tracks.ts
+10 | agent-board/tools/opencut/apps/web/src/background/blur.ts
+10 | agent-board/tools/opencut/apps/web/src/canvas/sizes.ts
+10 | agent-board/tools/opencut/apps/web/src/effects/registry.ts
+10 | agent-board/tools/opencut/apps/web/src/graphics/registry.ts
+10 | agent-board/tools/opencut/apps/web/src/params/__tests__/channel-layout.test.ts
+10 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/__tests__/fixtures/index.ts
+10 | agent-board/tools/opencut/apps/web/src/stickers/registry.ts
+10 | agent-board/tools/opencut/apps/web/src/timeline/playhead-snap-source.ts
+11 | agent-board/dashboard/modules/logger.js
+11 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/controllers/v1/base.py
+11 | agent-board/tools/opencut/apps/web/src/commands/timeline/element/index.ts
+11 | agent-board/tools/opencut/apps/web/src/components/ui/collapsible.tsx
+11 | agent-board/tools/opencut/apps/web/src/feedback/types.ts
+11 | agent-board/tools/opencut/apps/web/src/fonts/system-fonts.ts
+11 | agent-board/tools/opencut/apps/web/src/hooks/use-committed-ref.ts
+11 | agent-board/tools/opencut/apps/web/src/services/renderer/nodes/root-node.ts
+11 | agent-board/tools/opencut/apps/web/src/utils/platform.ts
+12 | agent-board/tools/opencut/apps/web/src/retime/presets.ts
+12 | agent-board/tools/opencut/apps/web/src/text/background.ts
+12 | agent-board/tools/opencut/apps/web/src/timeline/group-move/index.ts
+12 | agent-board/tools/opencut/apps/web/src/timeline/placement/index.ts
+12 | agent-board/tools/opencut/rust/crates/compositor/src/lib.rs
+13 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/controllers/ping.py
+13 | agent-board/tools/opencut/apps/web/src/actions/keybindings/migrations/v4-to-v5.ts
+13 | agent-board/tools/opencut/apps/web/src/actions/keybindings/migrations/v5-to-v6.ts
+13 | agent-board/tools/opencut/apps/web/src/app/robots.ts
+13 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/types.ts
+13 | agent-board/tools/opencut/apps/web/src/site/brand.ts
+13 | agent-board/tools/opencut/apps/web/src/types/eyedropper.d.ts
+13 | agent-board/tools/opencut/rust/crates/effects/src/types.rs
+14 | agent-board/dashboard/src/main.jsx
+14 | agent-board/tools/opencut/apps/web/src/feedback/queries.ts
+14 | agent-board/tools/opencut/apps/web/src/guides/index.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v0-to-v1.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v10-to-v11.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v11-to-v12.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v12-to-v13.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v13-to-v14.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v14-to-v15.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v15-to-v16.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v16-to-v17.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v17-to-v18.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v18-to-v19.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v19-to-v20.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v20-to-v21.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v21-to-v22.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v22-to-v23.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v23-to-v24.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v24-to-v25.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v25-to-v26.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v26-to-v27.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v27-to-v28.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v28-to-v29.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v29-to-v30.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v2-to-v3.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v30-to-v31.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v3-to-v4.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v4-to-v5.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v5-to-v6.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v6-to-v7.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v7-to-v8.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v8-to-v9.ts
+14 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/v9-to-v10.ts
+14 | agent-board/tools/opencut/apps/web/src/transcription/languages.ts
+14 | agent-board/tools/opencut/apps/web/src/types/soundtouchjs.d.ts
+15 | agent-board/tools/opencut/apps/web/src/actions/keybindings/migrations/v6-to-v7.ts
+15 | agent-board/tools/opencut/apps/web/src/components/ui/skeleton.tsx
+15 | agent-board/tools/opencut/apps/web/src/timeline/snapping/threshold.ts
+16 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/main.py
+16 | agent-board/tools/opencut/apps/web/src/effects/definitions/index.ts
+16 | agent-board/tools/opencut/apps/web/src/graphics/definitions/shared.ts
+16 | agent-board/tools/opencut/apps/web/src/services/renderer/nodes/video-node.ts
+16 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/base.ts
+17 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/router.py
+17 | agent-board/tools/opencut/apps/web/src/components/ui/spinner.tsx
+17 | agent-board/tools/opencut/apps/web/src/ripple/shift.ts
+17 | agent-board/tools/opencut/apps/web/src/services/renderer/canvas-utils.ts
+17 | agent-board/tools/opencut/apps/web/src/timeline/creation.ts
+17 | agent-board/tools/opencut/apps/web/src/timeline/snapping/build.ts
+18 | agent-board/dashboard/vite.config.js
+18 | agent-board/tools/opencut/apps/web/src/components/ui/scroll-area.tsx
+19 | agent-board/tools/opencut/apps/web/src/components/editor/panels/properties/stores/properties-store.ts
+19 | agent-board/tools/opencut/apps/web/src/db/index.ts
+19 | agent-board/tools/opencut/apps/web/src/hooks/use-container-size.ts
+19 | agent-board/tools/opencut/apps/web/src/hooks/use-mobile.ts
+19 | agent-board/tools/opencut/apps/web/src/services/renderer/nodes/effect-layer-node.ts
+19 | agent-board/tools/opencut/apps/web/src/timeline/bookmarks/index.ts
+19 | agent-board/tools/opencut/apps/web/src/timeline/components/graph-editor/easing-presets.ts
+19 | agent-board/tools/opencut/apps/web/src/utils/geometry.ts
+19 | agent-board/tools/opencut/rust/crates/time/src/time.rs
+20 | agent-board/tools/opencut/apps/web/src/actions/keybindings/migrations/v3-to-v4.ts
+20 | agent-board/tools/opencut/apps/web/src/components/editor/panels/properties/empty-view.tsx
+20 | agent-board/tools/opencut/apps/web/src/guides/types.ts
+20 | agent-board/tools/opencut/apps/web/src/hooks/use-raf-loop.ts
+20 | agent-board/tools/opencut/apps/web/src/services/renderer/mask-feather.ts
+20 | agent-board/tools/opencut/apps/web/src/stickers/resolver.ts
+20 | agent-board/tools/opencut/apps/web/src/timeline/components/layout.ts
+20 | agent-board/tools/opencut/apps/web/src/timeline/track-capabilities.ts
+21 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/controllers/manager/memory_manager.py
+21 | agent-board/tools/opencut/apps/web/src/app/page.tsx
+21 | agent-board/tools/opencut/apps/web/src/auth/rate-limit.ts
+21 | agent-board/tools/opencut/apps/web/src/preview/components/cursors.ts
+21 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/v9-to-v10.ts
+21 | agent-board/tools/opencut/apps/web/src/timeline/bookmarks/snap-source.ts
+21 | agent-board/tools/opencut/rust/crates/gpu/src/lib.rs
+22 | agent-board/tools/opencut/apps/web/src/actions/keybindings/migrations/v2-to-v3.ts
+22 | agent-board/tools/opencut/apps/web/src/animation/path.ts
+22 | agent-board/tools/opencut/rust/wasm/src/wasm.rs
+23 | agent-board/tools/opencut/apps/web/src/commands/preview-tracker.ts
+23 | agent-board/tools/opencut/apps/web/src/graphics/types.ts
+23 | agent-board/tools/opencut/apps/web/src/selection/selection-box.tsx
+23 | agent-board/tools/opencut/apps/web/src/timeline/drag-utils.ts
+23 | agent-board/tools/opencut/apps/web/src/timeline/snapping/types.ts
+24 | agent-board/tools/opencut/apps/web/src/components/ui/textarea.tsx
+24 | agent-board/tools/opencut/apps/web/src/editor/cancel-interaction.ts
+24 | agent-board/tools/opencut/apps/web/src/editor/editor-store.ts
+24 | agent-board/tools/opencut/apps/web/src/fonts/types.ts
+24 | agent-board/tools/opencut/apps/web/src/guides/definitions/custom.tsx
+24 | agent-board/tools/opencut/apps/web/src/site/external-tools.ts
+24 | agent-board/tools/opencut/apps/web/src/site/sponsors.ts
+24 | agent-board/tools/opencut/apps/web/src/stickers/providers/index.ts
+25 | agent-board/tools/opencut/apps/web/src/components/editor/panels/properties/hooks/use-element-playhead.ts
+25 | agent-board/tools/opencut/apps/web/src/retime/rate.ts
+25 | agent-board/tools/opencut/apps/web/src/selection/editor-selection.ts
+25 | agent-board/tools/opencut/apps/web/src/selection/hooks/use-selection-scope.ts
+25 | agent-board/tools/opencut/apps/web/src/transcription/diagnostics.ts
+26 | agent-board/tools/opencut/apps/web/drizzle.config.ts
+26 | agent-board/tools/opencut/apps/web/src/components/ui/label.tsx
+26 | agent-board/tools/opencut/apps/web/src/editor/use-menu-preview.ts
+26 | agent-board/tools/opencut/apps/web/src/hooks/use-resize-observer.ts
+26 | agent-board/tools/opencut/apps/web/src/masks/param-update.ts
+26 | agent-board/tools/opencut/apps/web/src/services/renderer/nodes/base-node.ts
+27 | agent-board/dashboard/tests/persistence-status.js
+28 | agent-board/tools/content-gen/modules/MoneyPrinterTurbo/app/models/exception.py
+28 | agent-board/tools/opencut/apps/web/src/components/ui/progress.tsx
+28 | agent-board/tools/opencut/apps/web/src/env/web.ts
+28 | agent-board/tools/opencut/apps/web/src/guides/registry.tsx
+28 | agent-board/tools/opencut/apps/web/src/services/storage/migrations/transformers/utils.ts
+28 | agent-board/tools/opencut/apps/web/src/subtitles/parse.ts
+28 | agent-board/tools/opencut/apps/web/src/utils/id.ts
+29 | agent-board/tools/opencut/apps/web/src/commands/timeline/tracks-snapshot.ts
+29 | agent-board/tools/opencut/apps/web/src/components/ui/hover-card.tsx
+29 | agent-board/tools/opencut/apps/web/src/components/ui/switch.tsx
+29 | agent-board/tools/opencut/apps/web/src/timeline/components/drag-line.tsx
+29 | agent-board/tools/opencut/apps/web/src/timeline/snapping/resolve.ts
+
+# ENG LOC Report: auto-apply-plugin (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1504 | auto-apply-plugin/background/service-worker.js
+1283 | auto-apply-plugin/lib/job-search.js
+1233 | auto-apply-plugin/content/content.js
+972 | auto-apply-plugin/popup/tracker/tracker-handlers.js
+893 | auto-apply-plugin/popup/tracker/tracker-ui.js
+658 | auto-apply-plugin/content/form-filler.js
+550 | auto-apply-plugin/lib/gemini.js
+537 | auto-apply-plugin/lib/tracker.js
+537 | auto-apply-plugin/lib/form-filler.js
+517 | auto-apply-plugin/popup/search/job-search.js
+
+## Files < 30 lines (merge candidates)
+
+16 | auto-apply-plugin/popup/ats/ats.js
+19 | auto-apply-plugin/popup/ux/consent.js
+26 | auto-apply-plugin/popup/tracker/tracker-state.js
+29 | auto-apply-plugin/tests/e2e/chrome-mock.js
+
+# ENG LOC Report: darkmoon (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+2078 | darkmoon/src/components/GameUI.tsx
+956 | darkmoon/src/pages/Solo.tsx
+863 | darkmoon/src/__tests__/useBotAI.test.ts
+657 | darkmoon/src/pages/Solo/components/ShootingGallery.tsx
+626 | darkmoon/src/pages/Solo/components/Bots.tsx
+594 | darkmoon/src/components/characters/useBotAI.ts
+560 | darkmoon/src/__tests__/useBotAI.unit.test.tsx
+513 | darkmoon/src/components/characters/PlayerCharacter.tsx
+507 | darkmoon/src/components/SoundManager.ts
+
+## Files < 30 lines (merge candidates)
+
+1 | darkmoon/src/pages/Solo/index.tsx
+7 | darkmoon/src/components/characters/player/index.ts
+8 | darkmoon/playwright.config.ts
+8 | darkmoon/src/index.tsx
+8 | darkmoon/src/types/react-three-fiber-jsx-runtime.d.ts
+10 | darkmoon/server/profanity.d.ts
+14 | darkmoon/e2e/smoke.spec.ts
+16 | darkmoon/src/global.d.ts
+17 | darkmoon/src/__tests__/camera-controls.test.tsx
+19 | darkmoon/src/components/__tests__/SoundEngine.test.ts
+19 | darkmoon/src/types/socket.ts
+20 | darkmoon/src/components/Footer.tsx
+23 | darkmoon/src/components/soundNodeFactory.ts
+24 | darkmoon/server/profanity.js
+24 | darkmoon/src/__tests__/profanity.test.ts
+24 | darkmoon/src/components/soundHelpers.ts
+25 | darkmoon/src/components/__tests__/soundHelpers.test.ts
+25 | darkmoon/src/lib/hooks/useMouseControls.ts
+26 | darkmoon/src/components/world/__tests__/HealthPickups.test.ts
+27 | darkmoon/src/__tests__/useSocketConnection.test.tsx
+27 | darkmoon/src/components/21st.dev/Spinner.tsx
+27 | darkmoon/src/lib/hooks/useRockPositions.ts
+28 | darkmoon/src/components/__tests__/ThemeToggle.test.tsx
+28 | darkmoon/src/vite-env.d.ts
+29 | darkmoon/scripts/run-tests-inprocess.js
+
+# ENG LOC Report: farm-3j (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+4703 | farm-3j/components/rts/hooks/useGameLoop.tsx
+3871 | farm-3j/components/rts/RTSMap.tsx
+2057 | farm-3j/components/rts/RTSUI.tsx
+1088 | farm-3j/components/rts/map/BuildingsLayer.tsx
+937 | farm-3j/components/animations/HeaderCropRow.tsx
+813 | farm-3j/lib/farm/__tests__/farmReducer.test.ts
+728 | farm-3j/lib/farm/__tests__/gameLogic.test.ts
+603 | farm-3j/components/rts/hooks/useTowerCombat.tsx
+595 | farm-3j/components/rts/map/WorkersLayer.tsx
+584 | farm-3j/components/rts/hooks/useWaveSpawner.tsx
+576 | farm-3j/components/rts/game/constants.ts
+563 | farm-3j/components/rts/map/EnemySiegeCastersLayer.tsx
+536 | farm-3j/components/rts/hud/ResourceBar.tsx
+
+## Files < 30 lines (merge candidates)
+
+2 | farm-3j/coverage/lcov-report/prettify.js
+2 | farm-3j/coverage/prettify.js
+2 | farm-3j/global.d.ts
+5 | farm-3j/app/farm/page.tsx
+5 | farm-3j/app/rtsfarm/layout.tsx
+6 | farm-3j/lib/utils.ts
+6 | farm-3j/next-env.d.ts
+7 | farm-3j/app/rtsfarm/page.tsx
+8 | farm-3j/app/not-found.tsx
+8 | farm-3j/components/animations/index.ts
+8 | farm-3j/config/vitest.setup.ts
+9 | farm-3j/app/farm/layout.tsx
+18 | farm-3j/components/rts/map/HpBar.tsx
+21 | farm-3j/app/global-error.tsx
+23 | farm-3j/components/rts/map/StructureDamageSmoke.tsx
+23 | farm-3j/components/rts/ui/Stat.tsx
+25 | farm-3j/components/rts/CommandCard.tsx
+29 | farm-3j/scripts/print-docker-port.js
+
+# ENG LOC Report: fire (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1352 | fire/tests/unit/finance-core.test.js
+822 | fire/app/server.js
+680 | fire/app/lib/charts.js
+622 | fire/app/lib/tables-assets.js
+515 | fire/app/lib/tables-positions.js
+
+## Files < 30 lines (merge candidates)
+
+2 | fire/coverage/prettify.js
+
+# ENG LOC Report: games (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+829 | games/app/lib/asteroid/_comp/Game/Game.jsx
+808 | games/app/utils/audio/SoundManager.js
+664 | games/app/tests/asteroid/_comp/Game/handleTargetHit.test.js
+529 | games/app/_components/home/ArcadeLayout.tsx
+
+## Files < 30 lines (merge candidates)
+
+1 | games/app/__mocks__/fileMock.js
+1 | games/app/__mocks__/styleMock.js
+1 | games/app/utils/time.js
+4 | games/app/lib/asteroid/_comp/Game/updateScore.js
+5 | games/app/pages/fps/_comps/Bullet.jsx
+5 | games/app/pages/fps/_comps/Controls.js
+5 | games/app/pages/fps/_comps/PlayerLogic.jsx
+5 | games/app/pages/fps/_comps/PowerUp.jsx
+5 | games/app/pages/fps/_comps/ShatterCube.jsx
+5 | games/app/pages/fps/_comps/ShootingHandler.jsx
+7 | games/app/lib/asteroid/_comp/Game/loadSavedScores.js
+7 | games/app/lib/shared/audio/index.js
+7 | games/app/lib/shared/input/index.js
+7 | games/app/next-env.d.ts
+7 | games/app/pages/fps/_comps/Decal.jsx
+8 | games/app/lib/shared/scoring/index.js
+9 | games/app/lib/asteroid/_comp/UI/ShotReticle.jsx
+9 | games/app/lib/breakout/components/Ball.jsx
+9 | games/app/tests/shared/input/index.test.js
+10 | games/app/lib/asteroid/_comp/UI/Crosshair.jsx
+10 | games/app/lib/fps/_comps/Crosshair.jsx
+10 | games/app/pages/fps/_comps/Crosshair.jsx
+11 | games/app/e2e/debug-space-invaders.js
+11 | games/app/lib/fps/_comps/ComboDisplay.jsx
+11 | games/app/lib/shared/ui/ArcadeHeader.jsx
+11 | games/app/tests/shared/scoring/index.test.js
+12 | games/app/lib/asteroid/_comp/Game/handleMiss.js
+12 | games/app/middleware.js
+13 | games/app/pages/fps/_comps/Target.jsx
+14 | games/app/layout.jsx
+14 | games/app/lib/asteroid/_comp/UI/SlowMotionOverlay.jsx
+14 | games/app/public/register-sw.js
+15 | games/app/lib/breakout/components/Paddle.jsx
+17 | games/app/e2e/a11y.spec.js
+17 | games/app/lib/asteroid/_comp/UI/OnboardingOverlay.jsx
+17 | games/app/lib/breakout/components/Brick.jsx
+17 | games/app/pages/index.tsx
+19 | games/app/_components/objects/Colosseum.js
+19 | games/app/_components/objects/Cube.js
+19 | games/app/lib/asteroid/_comp/UI/BoundaryBox.jsx
+19 | games/app/lib/shared/ui/ArcadeMenu.jsx
+20 | games/app/_components/objects/Floor.js
+22 | games/app/lib/asteroid/_comp/UI/PowerUpPopup.jsx
+22 | games/app/lib/asteroid/_comp/UI/ScoreDisplay.jsx
+23 | games/app/lib/asteroid/_comp/UI/FlashOverlays.jsx
+25 | games/app/_components/shared/gamepad/ShootButton.tsx
+25 | games/app/lib/asteroid/_comp/Target/TargetList.jsx
+25 | games/app/lib/breakout/BreakoutCanvas.jsx
+26 | games/app/lib/asteroid/_comp/Game/handleKeyDown.js
+27 | games/app/pages/dodge-blocks.jsx
+27 | games/app/pages/memory-match.jsx
+28 | games/app/lib/asteroid/_comp/UI/PointerLockControls.js
+
+# ENG LOC Report: kryptos (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+903 | kryptos/src/kryptos/k4/transposition_analysis.py
+897 | kryptos/src/kryptos/k4/hypotheses.py
+756 | kryptos/src/kryptos/cli/main.py
+733 | kryptos/htmlcov/coverage_html_cb_497bf287.js
+658 | kryptos/src/kryptos/k4/scoring.py
+650 | kryptos/src/kryptos/agents/ops_director.py
+610 | kryptos/src/kryptos/k4/vigenere_key_recovery.py
+606 | kryptos/src/kryptos/autonomous_coordinator.py
+591 | kryptos/tests/functional/test_k4_hypotheses.py
+579 | kryptos/src/kryptos/pipeline/attack_generator.py
+
+## Files < 30 lines (merge candidates)
+
+0 | kryptos/tests/e2e/__init__.py
+0 | kryptos/tests/functional/__init__.py
+0 | kryptos/tests/smoke/__init__.py
+0 | kryptos/tests/tests.py
+1 | kryptos/tests/__init__.py
+4 | kryptos/src/kryptos/stages/__init__.py
+5 | kryptos/src/kryptos/provenance/__init__.py
+5 | kryptos/src/kryptos/scoring/__init__.py
+5 | kryptos/src/kryptos/tuning/__init__.py
+7 | kryptos/src/kryptos/research/__init__.py
+8 | kryptos/frontend/src/components/MetricCard.tsx
+8 | kryptos/src/kryptos/api/__init__.py
+8 | kryptos/tests/smoke/test_cli.py
+10 | kryptos/frontend/src/main.tsx
+10 | kryptos/src/kryptos/cli/__init__.py
+10 | kryptos/src/kryptos/rag/__init__.py
+11 | kryptos/tests/e2e/test_k4_demo.py
+12 | kryptos/tests/e2e/test_autopilot_demo.py
+13 | kryptos/scripts/find_free_port.py
+13 | kryptos/src/kryptos/pipeline/__init__.py
+13 | kryptos/tests/functional/test_logging_setup.py
+13 | kryptos/tests/smoke/test_deprecation_warning.py
+14 | kryptos/frontend/src/components/MetricCards.tsx
+14 | kryptos/tests/functional/test_ciphers_rotate_matrix_minimal.py
+14 | kryptos/tests/functional/test_scoring_letter_coverage_empty.py
+15 | kryptos/tests/functional/test_transposition_constraints_empty.py
+16 | kryptos/frontend/src/components/FormField.tsx
+16 | kryptos/src/kryptos/agents/__init__.py
+16 | kryptos/tests/functional/test_public_api.py
+17 | kryptos/frontend/src/components/CandidateRow.tsx
+17 | kryptos/frontend/src/components/StatusIndicator.tsx
+17 | kryptos/frontend/vite.config.ts
+17 | kryptos/tests/functional/test_analysis_edge_cases.py
+17 | kryptos/tests/functional/test_pipeline_parallel_hill_variants.py
+18 | kryptos/tests/functional/test_multi_crib_attempt_log.py
+18 | kryptos/tests/functional/test_scoring_cache_branch.py
+19 | kryptos/frontend/src/components/KeyedAlphabetTable.tsx
+19 | kryptos/src/kryptos/k4/hill_search.py
+19 | kryptos/src/kryptos/stages/mock_stage.py
+19 | kryptos/tests/functional/test_docs_breadcrumbs.py
+19 | kryptos/tests/functional/test_k4_decrypt_best.py
+19 | kryptos/tests/functional/test_scoring_positional_empty.py
+20 | kryptos/src/kryptos/deprecation.py
+20 | kryptos/tests/functional/test_hill_cipher_edge.py
+20 | kryptos/tests/functional/test_pipeline_adaptive_transposition_stage.py
+20 | kryptos/tests/functional/test_pipeline_masking_null_chars.py
+20 | kryptos/tests/functional/test_pipeline_noop_multi_crib.py
+20 | kryptos/tests/functional/test_pipeline_route_stage.py
+21 | kryptos/src/kryptos/k2/__init__.py
+21 | kryptos/tests/functional/test_pipeline_clock_attempt_log.py
+22 | kryptos/tests/e2e/test_k4_pipeline_stage.py
+22 | kryptos/tests/functional/test_ciphers_polybius_expected.py
+22 | kryptos/tests/functional/test_k4_scoring.py
+22 | kryptos/tests/functional/test_pipeline_dynamic_adaptive.py
+22 | kryptos/tests/functional/test_pipeline_pruning.py
+22 | kryptos/tests/functional/test_scoring_letter_freq_fallback.py
+23 | kryptos/src/kryptos/analysis.py
+23 | kryptos/tests/functional/test_hill_search_module.py
+23 | kryptos/tests/functional/test_k4_entropy.py
+23 | kryptos/tests/functional/test_transposition.py
+23 | kryptos/tests/functional/test_transposition_constraints_bonus.py
+24 | kryptos/frontend/src/components/AttackVectorVisualizer.tsx
+24 | kryptos/tests/functional/test_rarity_weighted_crib_bonus.py
+24 | kryptos/tests/functional/test_scoring_error_paths.py
+24 | kryptos/tests/functional/test_transposition_constraints_early_continue.py
+25 | kryptos/frontend/src/components/RunRow.tsx
+25 | kryptos/src/kryptos/k3/__init__.py
+25 | kryptos/src/kryptos/k4/tuning/__init__.py
+25 | kryptos/tests/functional/test_ciphers_polybius_abc.py
+25 | kryptos/tests/functional/test_cribs_functions.py
+26 | kryptos/frontend/src/components/CandidatesTable.tsx
+26 | kryptos/src/kryptos/rag/embeddings.py
+26 | kryptos/tests/e2e/test_k4_fusion.py
+26 | kryptos/tests/functional/test_ciphers_edge_cases.py
+26 | kryptos/tests/functional/test_multiproc_helpers.py
+26 | kryptos/tests/functional/test_spy_extractor_threshold.py
+27 | kryptos/src/kryptos/k1/__init__.py
+27 | kryptos/src/kryptos/spy/__init__.py
+27 | kryptos/tests/functional/test_spy_extractor.py
+28 | kryptos/tests/functional/test_k4_transposition_adaptive.py
+28 | kryptos/tests/functional/test_scoring_additional_branches.py
+29 | kryptos/tests/functional/test_composite_report_no_weights.py
+29 | kryptos/tests/functional/test_positional_letter_deviation.py
+
+# ENG LOC Report: nitsuah-io (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+535 | nitsuah-io/src/generated.ts
+509 | nitsuah-io/src/app/projects/clients/_comp/NFTDemo.tsx
+508 | nitsuah-io/src/app/crypto/page.tsx
+507 | nitsuah-io/src/utils/__tests__/validation.test.ts
+
+## Files < 30 lines (merge candidates)
+
+1 | nitsuah-io/src/app/about/_components/index.ts
+1 | nitsuah-io/src/components/ui/ScrollIndicator/index.ts
+2 | nitsuah-io/__mocks__/viem.js
+2 | nitsuah-io/coverage/lcov-report/prettify.js
+2 | nitsuah-io/src/components/ui/Badge/index.ts
+2 | nitsuah-io/src/components/ui/Button/index.ts
+2 | nitsuah-io/src/components/ui/Card/index.ts
+2 | nitsuah-io/src/components/ui/Modal/index.ts
+3 | nitsuah-io/src/lib/constants/wallets.ts
+3 | nitsuah-io/tests/_utils/playwright-helpers.d.ts
+4 | nitsuah-io/src/types/styles.d.ts
+5 | nitsuah-io/src/__tests__/sanity.test.ts
+5 | nitsuah-io/src/components/demos/index.ts
+6 | nitsuah-io/next-env.d.ts
+6 | nitsuah-io/src/app/blogs/page.tsx
+6 | nitsuah-io/src/app/clients/page.tsx
+6 | nitsuah-io/src/hooks/index.ts
+7 | nitsuah-io/src/types/jest-dom.d.ts
+7 | nitsuah-io/src/utils/index.ts
+8 | nitsuah-io/src/app/head.tsx
+8 | nitsuah-io/src/app/resume/_components/index.ts
+9 | nitsuah-io/src/types/next-types.d.ts
+11 | nitsuah-io/src/app/_components/_web3/Connected.tsx
+11 | nitsuah-io/src/app/_components/SSRFooter.tsx
+11 | nitsuah-io/src/app/projects/clients/_comp/resume/__tests__/SkillsSection.test.tsx
+12 | nitsuah-io/__mocks__/generated.js
+12 | nitsuah-io/src/app/projects/clients/_comp/resume/__tests__/ExperienceSection.test.tsx
+14 | nitsuah-io/src/app/_components/_labs/_utils/networks.js
+15 | nitsuah-io/src/app/_components/_site/Search.tsx
+15 | nitsuah-io/src/app/_components/_web3/Account.tsx
+15 | nitsuah-io/src/hooks/useDelayedVisibility.ts
+16 | nitsuah-io/src/app/_components/_labs/DomainsNotConnected.tsx
+16 | nitsuah-io/src/app/_components/_site/_comp/homebar/__tests__/Brand.test.tsx
+16 | nitsuah-io/src/hooks/useModal.ts
+16 | nitsuah-io/src/hooks/useScrollPosition.ts
+16 | nitsuah-io/src/lib/constants/networks.ts
+17 | nitsuah-io/src/hooks/useHoverStyle.ts
+17 | nitsuah-io/src/lib/data/project-filters.ts
+18 | nitsuah-io/src/app/_components/_site/_comp/homebar/ExportPDF.tsx
+18 | nitsuah-io/src/app/_components/SSRHeader.tsx
+18 | nitsuah-io/src/app/projects/blogs/_api/fetchBlogs.js
+18 | nitsuah-io/src/app/projects/clients/_comp/SaaSDemo.tsx
+18 | nitsuah-io/src/hooks/useScrollOpacity.ts
+20 | nitsuah-io/src/lib/constants/projectCategories.ts
+21 | nitsuah-io/src/lib/data/blogs.ts
+23 | nitsuah-io/src/app/_components/__tests__/HeroSection.test.tsx
+23 | nitsuah-io/src/app/sw.js/route.ts
+24 | nitsuah-io/__mocks__/wagmi-codegen.js
+24 | nitsuah-io/src/components/ui/ScrollIndicator/ScrollIndicator.tsx
+24 | nitsuah-io/src/types/images.d.ts
+26 | nitsuah-io/scripts/debug-resume.js
+26 | nitsuah-io/src/app/labs/register/page.tsx
+26 | nitsuah-io/src/app/resume/_components/LanguagesSection.tsx
+27 | nitsuah-io/src/app/page.tsx
+29 | nitsuah-io/scripts/debug-resume-html.js
+29 | nitsuah-io/src/app/projects/clients/_comp/resume/__tests__/ContactForm.test.tsx
+29 | nitsuah-io/src/proxy.ts
+29 | nitsuah-io/tests/global-setup.ts
+
+# ENG LOC Report: overseer (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+853 | overseer/lib/github.ts
+754 | overseer/app/api/enrich-template/route.ts
+750 | overseer/components/GuidedTour.tsx
+670 | overseer/lib/ai-prompt-chain.ts
+643 | overseer/lib/github.test.ts
+639 | overseer/hooks/useRepoActions.ts
+631 | overseer/lib/sync.ts
+548 | overseer/components/dashboard/RepoTableRow.tsx
+516 | overseer/components/Header.tsx
+507 | overseer/components/repo-details/RoadmapSection.tsx
+
+## Files < 30 lines (merge candidates)
+
+2 | overseer/lib/constants.ts
+6 | overseer/next-env.d.ts
+9 | overseer/scripts/check-last-sync.ts
+14 | overseer/next.config.ts
+14 | overseer/types/next-auth.d.ts
+15 | overseer/components/ScrollPane.tsx
+15 | overseer/lib/default-repos.ts
+17 | overseer/components/Toast.tsx
+18 | overseer/templates/testing/vitest.config.ts
+19 | overseer/components/dashboard/repo-row/repo-row-utils.ts
+20 | overseer/tests/auth.setup.ts
+20 | overseer/tests/setup-env.ts
+22 | overseer/components/icons/GithubIcon.tsx
+23 | overseer/scripts/migrate.ts
+24 | overseer/lib/log.ts
+28 | overseer/lib/markdown-utils.tsx
+29 | overseer/scripts/test-parser.ts
+
+# ENG LOC Report: stash (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1051 | stash/atlassian/jira/validate_project.py
+562 | stash/cloud/aws/examples.py
+
+## Files < 30 lines (merge candidates)
+
+
+# ENG LOC Report: vhs (2026-07-03)
+
+## Files > 500 lines (refactor candidates)
+
+1165 | vhs/public/js/inventory.js
+1002 | vhs/src/server.js
+571 | vhs/tests/coverage-boost.test.js
+514 | vhs/tests/test-omdb-enhancements.spec.js
+508 | vhs/tests/server.test.js
+
+## Files < 30 lines (merge candidates)
+
+11 | vhs/playwright.config.js
+11 | vhs/tests/basic.test.js
+16 | vhs/jest.config.js
+25 | vhs/public/js/init.js
+

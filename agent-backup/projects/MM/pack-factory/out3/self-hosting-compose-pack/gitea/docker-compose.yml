@@ -1,0 +1,8 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    ports: ["3002:3000", "2222:22"]
+    volumes: [gitea-data:/data]
+    restart: unless-stopped
+volumes:
+  gitea-data:

@@ -1,0 +1,161 @@
+{
+	"url": "https://dequeuniversity.com/demo/mars/",
+	"title": "Mars Commuter: Travel to Mars for Work or Pleasure!",
+	"score": 40,
+	"violationCount": 9,
+	"byImpact": {
+		"critical": 3,
+		"serious": 6,
+		"moderate": 0,
+		"minor": 0
+	},
+	"passedRules": 30,
+	"violations": [
+		{
+			"rule": "button-name",
+			"impact": "critical",
+			"help": "Buttons must have discernible text",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/button-name?application=axeAPI",
+			"affectedElements": 1,
+			"examples": [
+				{
+					"selector": ".departure-date > .ui-datepicker-trigger:nth-child(4)",
+					"html": "<button class=\"ui-datepicker-trigger\" type=\"button\">\n<!-- <img title=\"...\" alt=\"...\" src=\"/redesign/assets/demo-sites/mars/images/calendar.png\"> -->\n</button>"
+				}
+			]
+		},
+		{
+			"rule": "color-contrast",
+			"impact": "serious",
+			"help": "Elements must meet minimum color contrast ratio thresholds",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI",
+			"affectedElements": 6,
+			"examples": [
+				{
+					"selector": "a[href=\"mars2.html?a=be_bold\"] > h3",
+					"html": "<h3>Be Bold...</h3>"
+				},
+				{
+					"selector": "#vap-plan > p:nth-child(3)",
+					"html": "<p>Step out of your comfort zone, and into a rocket with enough fuel to blast a Manhattan-sized crater if it explodes. But it won't. Probably.<br>\n&nbsp; </p>"
+				}
+			]
+		},
+		{
+			"rule": "frame-title",
+			"impact": "serious",
+			"help": "Frames must have an accessible name",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/frame-title?application=axeAPI",
+			"affectedElements": 1,
+			"examples": [
+				{
+					"selector": "#fafbba78",
+					"html": "<iframe id=\"fafbba78\" name=\"f2bc5e72d\" scrolling=\"no\" style=\"border: none; overflow: hidden; height: 62px; width: 292px;\" class=\"fb_ltr\" src=\"/assets/demo-sites/mars/js/likebox.html\"></iframe>"
+				}
+			]
+		},
+		{
+			"rule": "html-has-lang",
+			"impact": "serious",
+			"help": "<html> element must have a lang attribute",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/html-has-lang?application=axeAPI",
+			"affectedElements": 1,
+			"examples": [
+				{
+					"selector": "html",
+					"html": "<html class=\" js no-flexbox flexbox-legacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssr"
+				}
+			]
+		},
+		{
+			"rule": "image-alt",
+			"impact": "critical",
+			"help": "Images must have alternative text",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/image-alt?application=axeAPI",
+			"affectedElements": 4,
+			"examples": [
+				{
+					"selector": "img[src$=\"seg\"]",
+					"html": "<img src=\"/assets/demo-sites/mars/js/seg\" width=\"1\" height=\"1\">"
+				},
+				{
+					"selector": "li:nth-child(1) > a[href=\"mars2.html?a=crater_adventure\"] > img[width=\"210\"][height=\"120\"]",
+					"html": "<img src=\"/assets/demo-sites/mars/images/mars-spaceman.jpg\" class=\"\" width=\"210\" height=\"120\">"
+				}
+			]
+		},
+		{
+			"rule": "link-in-text-block",
+			"impact": "serious",
+			"help": "Links must be distinguishable without relying on color",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/link-in-text-block?application=axeAPI",
+			"affectedElements": 1,
+			"examples": [
+				{
+					"selector": "a[href=\"mars2.html?a=last_will\"]",
+					"html": "<a href=\"mars2.html?a=last_will\">prepare your last will and testament</a>"
+				}
+			]
+		},
+		{
+			"rule": "link-name",
+			"impact": "serious",
+			"help": "Links must have discernible text",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/link-name?application=axeAPI",
+			"affectedElements": 8,
+			"examples": [
+				{
+					"selector": ".link[href$=\"mars/#\"]",
+					"html": "<a class=\"link\" href=\"/demo/mars/#\"><i class=\"icon-menu-home\"></i></a>"
+				},
+				{
+					"selector": "li:nth-child(1) > a[href=\"mars2.html?a=crater_adventure\"]",
+					"html": "<a href=\"mars2.html?a=crater_adventure\">\n<img src=\"/assets/demo-sites/mars/images/mars-spaceman.jpg\" class=\"\" width=\"210\" height=\"120\"></a>"
+				}
+			]
+		},
+		{
+			"rule": "select-name",
+			"impact": "critical",
+			"help": "Select element must have an accessible name",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/select-name?application=axeAPI",
+			"affectedElements": 2,
+			"examples": [
+				{
+					"selector": "#time0",
+					"html": "<select name=\"time0\" id=\"time0\" class=\"select-time\" tabindex=\"4\">"
+				},
+				{
+					"selector": "#passenger0 > .age-range.wrapper > .traveler-type",
+					"html": "<select id=\"traveler0\" class=\"traveler-type\">\n<option value=\"0\">Adult (26+)</option>\n<option value=\"1\">Youth (12-25)</option>\n<option value=\"2\">Child (4-11)</option>\n<option value=\"3\">Senior (60+)</option>\n</select>"
+				}
+			]
+		},
+		{
+			"rule": "target-size",
+			"impact": "serious",
+			"help": "All touch targets must be 24px large, or leave sufficient space",
+			"helpUrl": "https://dequeuniversity.com/rules/axe/4.10/target-size?application=axeAPI",
+			"affectedElements": 22,
+			"examples": [
+				{
+					"selector": ".loginnow > .container-fluid-full > .container > .span5.pull-left.left-first > .pull-left:nth-child(2) > form[method=\"get\"][action=\"/demo/mars/mars2\"] > .control-search[type=\"submit\"]",
+					"html": "<input type=\"submit\" class=\"control-search\">"
+				},
+				{
+					"selector": ".departure-date > .ui-datepicker-trigger:nth-child(3)",
+					"html": "<button type=\"button\" class=\"ui-datepicker-trigger\"><img src=\"/assets/demo-sites/mars/images/calendar.png\" alt=\"...\" title=\"...\"></button>"
+				}
+			]
+		}
+	],
+	"standards": [
+		"wcag2a",
+		"wcag2aa",
+		"wcag21a",
+		"wcag21aa",
+		"wcag22aa"
+	],
+	"axeVersion": "4.10.2",
+	"auditedAt": "2026-10-23T07:15:23.524Z"
+}

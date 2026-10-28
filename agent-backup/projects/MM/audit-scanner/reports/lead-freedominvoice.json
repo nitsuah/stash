@@ -1,0 +1,330 @@
+[
+  {
+    "path": "/",
+    "loadMs": 1065,
+    "bytes": 1070562,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "tags": [
+          "cat.color",
+          "wcag2aa",
+          "wcag143",
+          "TTv5",
+          "TT13.c",
+          "EN-301-549",
+          "EN-9.1.4.3",
+          "ACT"
+        ],
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI",
+        "nodes": [
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#94a0b2",
+                  "bgColor": "#ffffff",
+                  "contrastRatio": 2.64,
+                  "fontSize": "9.8pt (13px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<section class=\"hp-hero\" id=\"hero\">",
+                    "target": [
+                      "#hero"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 2.64 (foreground color: #94a0b2, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<span>or</span>",
+            "target": [
+              ".pi-ai-divider > span"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #94a0b2, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#94a0b2",
+                  "bgColor": "#ffffff",
+                  "contrastRatio": 2.64,
+                  "fontSize": "7.5pt (10px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<div class=\"pi-ai-window\" aria-hidden=\"true\">",
+                    "target": [
+                      ".pi-ai-window"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 2.64 (foreground color: #94a0b2, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<small>Example</small>",
+            "target": [
+              ".pi-ai-toolbar > small"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #94a0b2, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#738091",
+                  "bgColor": "#ffffff",
+                  "contrastRatio": 4.01,
+                  "fontSize": "9.8pt (13px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<a href=\"/tools/invoice-generator/?template=7\" target=\"_blank\" rel=\"noopener\" data-event=\"create_invoice\" data-event-placement=\"template-card\" data-event-style=\"7\" style=\"transform: scale(0.901772) rotateY(26.5823deg);\">",
+                    "target": [
+                      "a[data-event-style=\"7\"]"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 4.01 (foreground color: #738091, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<h3>Industrial</h3>",
+            "target": [
+              "a[data-event-style=\"7\"] > h3"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.01 (foreground color: #738091, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#738091",
+                  "bgColor": "#ffffff",
+                  "contrastRatio": 4.01,
+                  "fontSize": "9.8pt (13px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<a href=\"/tools/invoice-generator/?template=9\" target=\"_blank\" rel=\"noopener\" data-event=\"create_invoice\" data-event-placement=\"template-card\" data-event-style=\"9\" style=\"transform: scale(0.901772) rotateY(-26.5823deg);\">",
+                    "target": [
+                      "a[data-event-style=\"9\"]"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 4.01 (foreground color: #738091, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<h3>Service Repair</h3>",
+            "target": [
+              "a[data-event-style=\"9\"] > h3"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.01 (foreground color: #738091, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#697b93",
+                  "bgColor": "#f5f8ff",
+                  "contrastRatio": 4.06,
+                  "fontSize": "7.5pt (10px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<figure class=\"hp-review-card\" data-review-id=\"8824867520\">",
+                    "target": [
+                      ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8824867520\"]"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<span class=\"hp-review-store\">App Store</span>",
+            "target": [
+              ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8824867520\"] > figcaption > .hp-review-store"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#697b93",
+                  "bgColor": "#f5f8ff",
+                  "contrastRatio": 4.06,
+                  "fontSize": "7.5pt (10px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<figure class=\"hp-review-card\" data-review-id=\"8155649792\">",
+                    "target": [
+                      ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8155649792\"]"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<span class=\"hp-review-store\">App Store</span>",
+            "target": [
+              ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8155649792\"] > figcaption > .hp-review-store"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "any": [
+              {
+                "id": "color-contrast",
+                "data": {
+                  "fgColor": "#697b93",
+                  "bgColor": "#f5f8ff",
+                  "contrastRatio": 4.06,
+                  "fontSize": "7.5pt (10px)",
+                  "fontWeight": "normal",
+                  "messageKey": null,
+                  "expectedContrastRatio": "4.5:1"
+                },
+                "relatedNodes": [
+                  {
+                    "html": "<figure class=\"hp-review-card\" data-review-id=\"8430415185\">",
+                    "target": [
+                      ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8430415185\"]"
+                    ]
+                  }
+                ],
+                "impact": "serious",
+                "message": "Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "serious",
+            "html": "<span class=\"hp-review-store\">App Store</span>",
+            "target": [
+              ".hp-review-group:nth-child(1) > .hp-review-card[data-review-id=\"8430415185\"] > figcaption > .hp-review-store"
+            ],
+            "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.06 (foreground color: #697b93, background color: #f5f8ff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      },
+      {
+        "id": "heading-order",
+        "impact": "moderate",
+        "tags": [
+          "cat.semantics",
+          "best-practice"
+        ],
+        "description": "Ensure the order of headings is semantically correct",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/heading-order?application=axeAPI",
+        "nodes": [
+          {
+            "any": [
+              {
+                "id": "heading-order",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "moderate",
+                "message": "Heading order invalid"
+              }
+            ],
+            "all": [],
+            "none": [],
+            "impact": "moderate",
+            "html": "<h3>Connect your AI</h3>",
+            "target": [
+              "li:nth-child(1) > .pi-ai-step-heading > h3"
+            ],
+            "failureSummary": "Fix any of the following:\n  Heading order invalid"
+          }
+        ]
+      },
+      {
+        "id": "image-redundant-alt",
+        "impact": "minor",
+        "tags": [
+          "cat.text-alternatives",
+          "best-practice"
+        ],
+        "description": "Ensure image alternative is not repeated as text",
+        "help": "Alternative text of images should not be repeated as text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/image-redundant-alt?application=axeAPI",
+        "nodes": [
+          {
+            "any": [],
+            "all": [],
+            "none": [
+              {
+                "id": "duplicate-img-label",
+                "data": null,
+                "relatedNodes": [],
+                "impact": "minor",
+                "message": "Element contains <img> element with alt text that duplicates existing text"
+              }
+            ],
+            "impact": "minor",
+            "html": "<img src=\"/assets/homepage/hvac.webp\" alt=\"HVAC\" width=\"900\" height=\"1350\" loading=\"lazy\" decoding=\"async\">",
+            "target": [
+              "img[src$=\"hvac.webp\"]"
+            ],
+            "failureSummary": "Fix all of the following:\n  Element contains <img> element with alt text that duplicates existing text"
+          }
+        ]
+      }
+    ]
+  }
+]

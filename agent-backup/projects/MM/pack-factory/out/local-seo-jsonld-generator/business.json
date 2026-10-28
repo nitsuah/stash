@@ -1,0 +1,38 @@
+{
+  "type": "LocalBusiness",
+  "name": "Corner Cafe",
+  "url": "https://example.com",
+  "telephone": "+1-555-010-0100",
+  "address": {
+    "street": "123 Main Street",
+    "city": "Your Town",
+    "state": "VA",
+    "zip": "20000",
+    "country": "US"
+  },
+  "hours": [
+    {
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "07:00",
+      "closes": "16:00"
+    },
+    {
+      "days": [
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "14:00"
+    }
+  ],
+  "priceRange": "$$",
+  "sameAs": [
+    "https://www.facebook.com/yourpage"
+  ]
+}

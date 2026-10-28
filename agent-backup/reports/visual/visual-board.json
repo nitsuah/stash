@@ -1,0 +1,1108 @@
+{
+ "generated_at": "2026-10-23T11:11Z",
+ "columns": [
+  {
+   "key": "actions_pr",
+   "label": "Actions PRs"
+  },
+  {
+   "key": "spots",
+   "label": "Promo manifest"
+  },
+  {
+   "key": "screenshots",
+   "label": "Screenshots"
+  },
+  {
+   "key": "pages",
+   "label": "Pages"
+  },
+  {
+   "key": "linked",
+   "label": "Features linked"
+  },
+  {
+   "key": "videos",
+   "label": "Spots published"
+  },
+  {
+   "key": "diagrams",
+   "label": "Diagrams"
+  },
+  {
+   "key": "brand",
+   "label": "Brand"
+  },
+  {
+   "key": "reels",
+   "label": "Hero reel"
+  },
+  {
+   "key": "journeys",
+   "label": "Journeys"
+  },
+  {
+   "key": "vertical",
+   "label": "Vertical"
+  }
+ ],
+ "rows": [
+  {
+   "repo": "bb-mcp",
+   "full_name": "nitsuah/bb-mcp",
+   "tier": "2",
+   "path": "C:\\Users\\ajhar\\code\\bb-mcp",
+   "found": true,
+   "score": 100,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "76 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 3"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "ok",
+     "label": "38/39"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "3/3"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "course-courseid"
+   ],
+   "token_perm": "read",
+   "next": null
+  },
+  {
+   "repo": "nitsuah-io",
+   "full_name": "Nitsuah-Labs/nitsuah-io",
+   "tier": "3",
+   "path": "C:\\Users\\ajhar\\code\\nitsuah-io",
+   "found": true,
+   "score": 100,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "78 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 32"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "ok",
+     "label": "17/21"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "3/3"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "interactive-3d-scenes",
+    "ens-resolution",
+    "domain-registration",
+    "spline-3d-scene-on-3d-route"
+   ],
+   "token_perm": "write",
+   "next": null
+  },
+  {
+   "repo": "skyview",
+   "full_name": "nitsuah/skyview",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\skyview",
+   "found": true,
+   "score": 100,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "23 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 26"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "ok",
+     "label": "10/12"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "5/5"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "campaign-personalization",
+    "csv-json-export"
+   ],
+   "token_perm": "read",
+   "next": null
+  },
+  {
+   "repo": "stash",
+   "full_name": "nitsuah/stash",
+   "tier": "3",
+   "path": "C:\\Users\\ajhar\\code\\stash",
+   "found": true,
+   "score": 100,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "24 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 6"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "ok",
+     "label": "8/10"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "3/3"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 6"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "2"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "vmt",
+    "auto"
+   ],
+   "token_perm": "read",
+   "next": null
+  },
+  {
+   "repo": "fire",
+   "full_name": "nitsuah/fire",
+   "tier": "1",
+   "path": "C:\\Users\\ajhar\\code\\fire",
+   "found": true,
+   "score": 95,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "95 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 13"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "ok",
+     "label": "48/54"
+    },
+    "videos": {
+     "status": "partial",
+     "label": "4/10"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "2"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "diversification-suggestion-block",
+    "collapse-all-toggle",
+    "phone-width-positions",
+    "swr-curves",
+    "metric-tooltips",
+    "vehicle-value-estimates"
+   ],
+   "token_perm": "read",
+   "next": {
+    "column": "videos",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\fire: render and publish the remaining spots"
+   }
+  },
+  {
+   "repo": "vhs",
+   "full_name": "nitsuah/vhs",
+   "tier": "2",
+   "path": "C:\\Users\\ajhar\\code\\vhs",
+   "found": true,
+   "score": 95,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "47 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 11"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "partial",
+     "label": "14/40"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "2/2"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 6"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "zoom-slider",
+    "google-oauth",
+    "public-collection-sharing",
+    "write-gate-ui",
+    "barcode-scanning",
+    "upc-lookup",
+    "tape-registry",
+    "status-tracking",
+    "sold-price-tracking",
+    "tags-genres",
+    "bulk-selection",
+    "filter-bar",
+    "clickable-stats-bar",
+    "omdb-verification",
+    "batch-ai-metadata-fill",
+    "analytics",
+    "sell-drafts-ebay-mercari",
+    "json-export-import",
+    "csv-import",
+    "print-price-tags",
+    "printable-html-list",
+    "easter-eggs",
+    "ebay-valuation",
+    "local-ai-discovery",
+    "metadata-audit-tool",
+    "photo-upload-crop-editor-fixes"
+   ],
+   "token_perm": "read",
+   "next": {
+    "column": "linked",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\vhs: link the visual features in promo/spots.json to spots or screenshots"
+   }
+  },
+  {
+   "repo": "vigil",
+   "full_name": "nitsuah/vigil",
+   "tier": "1",
+   "path": "C:\\Users\\ajhar\\code\\vigil",
+   "found": true,
+   "score": 95,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "203 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 5"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "partial",
+     "label": "38/58"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "6/6"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 3"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "ok",
+     "label": "1"
+    }
+   },
+   "unlinked": [
+    "readme-freshness-tracking",
+    "activity-monitoring",
+    "test-case-counting",
+    "vulnerability-tracking",
+    "token-density-comment-to-code-ratio",
+    "velocity-health-score-trending",
+    "features-parser",
+    "org-level-fallback-awareness",
+    "stale-review-detector",
+    "ai-summaries",
+    "ai-feature-suggestions",
+    "ai-doc-improvement",
+    "diff-view",
+    "dev-flow-handoff",
+    "ai-roadmap-suggestions",
+    "guided-tour-system",
+    "enhanced-health-shields",
+    "filtering-sorting",
+    "manual-sync",
+    "custom-repository-support"
+   ],
+   "token_perm": "read",
+   "next": {
+    "column": "linked",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\vigil: link the visual features in promo/spots.json to spots or screenshots"
+   }
+  },
+  {
+   "repo": "ats-fill",
+   "full_name": "nitsuah/ats-fill",
+   "tier": "1",
+   "path": "C:\\Users\\ajhar\\code\\ats-fill",
+   "found": true,
+   "score": 86,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "50 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 10"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "partial",
+     "label": "30/40"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "1/1"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [
+    "tailored-answer-generation",
+    "answer-drafting",
+    "jd-summarize",
+    "jd-clean-up",
+    "search-result-ai-tools",
+    "google-oauth-import",
+    "custom-rss-job-sources",
+    "source-confidence-hints",
+    "pay-filter-with-hide-unknown-toggle",
+    "remote-type-and-location-filters"
+   ],
+   "token_perm": "read",
+   "next": {
+    "column": "linked",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\ats-fill: link the visual features in promo/spots.json to spots or screenshots"
+   }
+  },
+  {
+   "repo": "motor-pool",
+   "full_name": "nitsuah/motor-pool",
+   "tier": "1",
+   "path": "C:\\Users\\ajhar\\code\\motor-pool",
+   "found": true,
+   "score": 86,
+   "cells": {
+    "actions_pr": {
+     "status": "ok",
+     "label": "on"
+    },
+    "spots": {
+     "status": "ok",
+     "label": "47 features"
+    },
+    "screenshots": {
+     "status": "ok",
+     "label": "CI · 14"
+    },
+    "pages": {
+     "status": "ok",
+     "label": "deployed"
+    },
+    "linked": {
+     "status": "partial",
+     "label": "16/25"
+    },
+    "videos": {
+     "status": "ok",
+     "label": "1/1"
+    },
+    "diagrams": {
+     "status": "ok",
+     "label": "CI · 4"
+    },
+    "brand": {
+     "status": "ok",
+     "label": "set"
+    },
+    "reels": {
+     "status": "ok",
+     "label": "1"
+    },
+    "journeys": {
+     "status": "ok",
+     "label": "nightly"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [
+    "dynamic-task-assignment",
+    "workspace-file-engine",
+    "workspace-ide",
+    "bb-mcp-streaming-ui",
+    "multi-persona-blackboard-selector",
+    "responsive-dashboard",
+    "dark-light-mode-support",
+    "tmux-multi-agent-worktrees",
+    "tool-result-visibility-artifacts-tab"
+   ],
+   "token_perm": "read",
+   "next": {
+    "column": "linked",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\motor-pool: link the visual features in promo/spots.json to spots or screenshots"
+   }
+  },
+  {
+   "repo": "games",
+   "full_name": "nitsuah/games",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\games",
+   "found": true,
+   "score": 6,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "partial",
+     "label": "static · 48"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\games (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "avatar",
+   "full_name": "nitsuah/avatar",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\avatar",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\avatar (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "darkmoon",
+   "full_name": "nitsuah/darkmoon",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\darkmoon",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "write",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\darkmoon (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "farm-3j",
+   "full_name": "nitsuah/farm-3j",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\farm-3j",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\farm-3j (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "gcp",
+   "full_name": "nitsuah/gcp",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\gcp",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\gcp (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "kryptos",
+   "full_name": "nitsuah/kryptos",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\kryptos",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\kryptos (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  },
+  {
+   "repo": "osrs",
+   "full_name": "nitsuah/osrs",
+   "tier": "-",
+   "path": "C:\\Users\\ajhar\\code\\osrs",
+   "found": true,
+   "score": 0,
+   "cells": {
+    "actions_pr": {
+     "status": "na",
+     "label": "no visual CI"
+    },
+    "spots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "screenshots": {
+     "status": "missing",
+     "label": "none"
+    },
+    "pages": {
+     "status": "missing",
+     "label": "none"
+    },
+    "linked": {
+     "status": "na",
+     "label": "—"
+    },
+    "videos": {
+     "status": "missing",
+     "label": "none"
+    },
+    "diagrams": {
+     "status": "missing",
+     "label": "none"
+    },
+    "brand": {
+     "status": "missing",
+     "label": "none"
+    },
+    "reels": {
+     "status": "missing",
+     "label": "none"
+    },
+    "journeys": {
+     "status": "missing",
+     "label": "none"
+    },
+    "vertical": {
+     "status": "missing",
+     "label": "none"
+    }
+   },
+   "unlinked": [],
+   "token_perm": "read",
+   "next": {
+    "column": "spots",
+    "hint": "Run /promo in C:\\Users\\ajhar\\code\\osrs (first run: builds promo/spots.json from FEATURES.md)"
+   }
+  }
+ ],
+ "pick": {
+  "repo": "fire",
+  "column": "videos",
+  "hint": "Run /promo in C:\\Users\\ajhar\\code\\fire: render and publish the remaining spots"
+ },
+ "totals": {
+  "actions_pr": 9,
+  "spots": 9,
+  "screenshots": 9,
+  "pages": 9,
+  "linked": 5,
+  "videos": 8,
+  "diagrams": 9,
+  "brand": 9,
+  "reels": 9,
+  "journeys": 9,
+  "vertical": 7
+ },
+ "scored_repos": 16,
+ "portfolio_score": 54
+}

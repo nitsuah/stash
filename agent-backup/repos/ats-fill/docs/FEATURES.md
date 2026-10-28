@@ -1,0 +1,142 @@
+---
+up: "[[repos/ats-fill]]"
+title: "ats-fill · FEATURES"
+source: https://github.com/nitsuah/ats-fill/blob/main/docs/FEATURES.md
+kind: repo-doc
+repo: ats-fill
+---
+
+# Features
+
+> 🧭 [ats-fill](../README.md) · **Features** · [Roadmap](./ROADMAP.md) · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Core capabilities are grouped below by category.
+
+### 🧠 Candidate Profile Intelligence
+
+Learns from your resume and saved profile data so future applications can be completed more accurately and consistently.
+
+- **Resume Learning**: Extracts and reuses experience, education, skills, and personal details from your resume
+- **Profile Reuse**: Applies previously captured candidate information across multiple job applications
+- **Memory Review Controls**: Lets you edit, ignore, restore, and remove remembered answers directly from Profile
+- **Your Answers Only**: Memory and page drafts keep what you typed or changed, not values ats-fill filled that you never touched, and skip placeholder non-answers
+
+### 🎯 Job Matching and Response Generation
+
+Uses job-specific context to understand role requirements and tailor application content.
+
+- **JD Parsing**: Reads job descriptions to identify requirements, keywords, and role-specific context
+- **Tailored Answer Generation**: Produces customized answers aligned to the job description and your background
+
+### 📝 Application Automation
+
+Focuses on reducing manual effort during the application process.
+
+- **Form Fill Automation**: Automatically fills supported application forms with candidate and job-specific data
+- **Supported ATS Platforms**: Works with supported applicant tracking systems used by common job portals and employer sites
+- **Resume Attach**: Attaches your saved resume PDF to Resume/CV upload fields when you fill (toggle under Profile → Saved local copy)
+- **Type-Ahead Dropdowns**: Picks the matching option in searchable dropdowns (country, city, Yes/No, EEO lists) instead of leaving typed text behind; unmatched dropdowns are flagged for review
+- **Yes/No Button Questions**: Answers Ashby-style Yes/No button questions when the answer is an explicit yes or no; anything else is left for review
+- **Receiver Auto-Recovery**: Retries content-script injection automatically when a supported page initially has no active receiver
+
+### 🤖 AI-Powered Writing Tools
+
+Optional Gemini-powered tools that augment the application workflow without requiring a key for core autofill.
+
+- **Resume Parsing**: Extracts structured profile data from uploaded PDF/DOCX/text using Gemini
+- **Answer Drafting**: Generates tailored answers to custom application questions aligned to the JD and your background
+- **JD Summarize**: Condenses long job descriptions into a scannable labeled-bullet brief
+- **JD Clean-up**: Strips nav/cookie/boilerplate noise from scraped job descriptions
+- **Search Result AI Tools**: Per-card ✨ Summarize and 🧹 Clean-up buttons on job search result cards and preview answer cards apply the same transforms in-place
+- **Auto-detect Best Model**: Queries `models.list` at runtime and selects the best available Gemini model with a multi-step fallback chain
+
+### 🔒 Privacy & Consent
+
+Designed so the user stays in control of all data without relying on any external account.
+
+- **Local-First Storage**: All profile data, resume, memory, tracker, and settings live only in `chrome.storage.local` on the user's device
+- **Consent Gate**: Privacy consent must be accepted once before any profile data is stored; consent date is recorded
+- **Sensitive Data Opt-In**: Demographic fields (race, gender, veteran, disability) are off by default and never sent to AI models
+- **BYOK (Bring Your Own Key)**: Gemini and all optional job-board integrations use keys the user supplies; no shared credentials
+- **Full Reset Controls**: One-click "Delete all local data" wipes everything including consent; "Clear temp cache" removes only working state
+- **GDPR / CCPA Compliance**: Data export via CSV, in-app rectification, and right-to-erasure all available without contacting anyone
+
+### 🔗 Profile Import
+
+- **LinkedIn OAuth Import**: BYO LinkedIn app Client ID/Secret; launches OIDC sign-in to pre-fill name and email into the profile (local-only, consent-based)
+- **Google OAuth Import**: BYO Google Cloud OAuth Client ID/Secret; same local-only, consent-based OIDC sign-in flow as LinkedIn, pre-fills name and email
+- **Resume Upload**: Supports PDF, DOCX, and plain-text paste; parsed locally via Gemini if a key is present
+- **Remove Duplicates**: One button merges tracker entries for the same posting (matched by job ID in the URL, or company + title logged within a week), keeping the furthest-along status and every detail, after showing you each merge
+- **CSV Tracker Import**: Import past applications from any spreadsheet export using flexible header matching
+- **Tracker CLI and inbox sync** (`npx -y github:nitsuah/ats-fill`): read the pipeline from a terminal or scheduled routine straight from the extension's on-disk storage, and turn job emails (application confirmations, interview requests, rejections, offers) into forward-only tracker updates
+- **AI assistant access** (optional): let Claude or another assistant on your computer add and update tracker entries through a local helper, without remote debugging or any open port; it can't delete or see anything else
+- **LinkedIn Session Scraping**: When signed into LinkedIn in any browser tab, the extension can search LinkedIn Jobs via the Voyager API using your active session — no separate API key needed
+
+### 🔍 Multi-Source Job Search
+
+Aggregates listings from multiple job boards in one panel so you can discover, filter, and save jobs without leaving the extension.
+
+- **16 Built-in Job Sources**: Nine keyless boards active by default (Remotive, Arbeitnow, The Muse, Remote OK, Jobicy, Working Nomads, HN Who's Hiring, We Work Remotely, remote.co); four BYOK keyed sources (Adzuna, USAJOBS, Reed, Jooble); Indeed and Hackajob (always available, no key); LinkedIn session source (active when signed into LinkedIn in any tab)
+- **Custom RSS Job Sources**: Add any RSS-based board the built-in list doesn't cover — state workforce boards (e.g. JOBS4TN.gov), internal careers feeds, niche boards — from the Settings panel. Merges into the same registry as built-in sources, so custom boards get filter chips, dedupe, and pay filtering automatically. Adding one requests one-time permission to read that origin rather than broadening the extension's default site access.
+- **Source Confidence Hints**: Each search result card shows a confidence indicator reflecting the reliability and data completeness of its source board; helps prioritize high-signal listings at a glance
+- **Per-Source Filter Chips**: Toggle individual sources on/off; locked chips route to the Settings panel to configure keys
+- **Pay Filter with Hide-Unknown Toggle**: Annual/hourly dual-slider with an explicit checkbox to hide jobs without a published salary range
+- **Remote, Type, and Location Filters**: Narrow results by work mode, employment type, and region (USA / Europe / Remote / Other)
+- **One-Click Save to Tracker**: Captures any result directly into the application pipeline as a draft with title, company, salary, and description
+- **Plug-and-Play Source Registry**: New built-in boards added in `lib/job-search.js` by appending a single registry entry; no other plumbing required
+
+### 📊 Application Analytics
+
+Aggregate stats computed entirely from local tracker data, with no new API calls or permissions.
+
+- **Response Rate by Source**: Shows which job boards are actually yielding replies, not just applications
+- **Salary-Band Effectiveness**: Correlates target pay range with response rate
+- **Time-to-First-Response Distribution**: Tracks how long employers typically take to reply, using a sticky `first_response_at` timestamp so later status changes (interview → offer → rejected) never overwrite the original reply time. Entries logged before this field existed backfill from `updated_at` and are approximate.
+
+### ✨ Interview Prep
+
+- **AI Interview Question Generation**: Generates tailored interview questions based on the job description and your profile, with suggested answer structures.
+- **Answer Editing and Saving**: Allows you to draft and save your answers to generated questions locally.
+
+### 🗂️ Job Tracker Workspace
+
+Turns saved applications into a reviewable job workspace rather than a flat list.
+
+- **Job Workspace View**: Stores JD metadata, location, employment type, and structured pay bands per job, with search/filter controls and a wide scrolling popup layout
+- **Verdicts & Scorecards**: Per-job verdict controls and scorecard fields, plus job-fit scoring and verdict assistance
+- **Picker-Style JD Capture**: Capture job details from the current page or from pasted JD text straight into the tracker
+
+### ♿ Accessibility Enhancements
+
+- **axe Accessibility Audit**: `@axe-core/playwright` checks over popup navigation, labels, and contrast
+- **WCAG AA Contrast Audit**: Automated checks for color contrast compliance to WCAG AA standards.
+- **Improved Keyboard Navigation**: Enhanced focus management and keyboard shortcuts for better accessibility.
+- **Accessible Form Elements**: Programmatic labels and aria attributes for form fields to improve screen reader compatibility.
+
+### 🖼️ UI/UX Enhancements
+
+- **Responsive Tracker View**: Tracker view now adapts to narrower viewports, allowing it to shrink gracefully.
+- **Collapsible Header Nav**: Header nav reorders to Search → Pipeline → Interview Prep → Settings → Profile → Help/Privacy, collapsing to a hamburger menu with the 3 primary buttons below a 700px breakpoint
+- **Auto-Collapsing Settings Cards**: Settings cards collapse into a "✅ Configured" summary once saved and reopen on click to edit; Pipeline stage columns and Help/Privacy sections default collapsed when empty
+- **Chrome Mock for E2E Tests**: Consolidated and reusable Chrome mock setup for consistent e2e testing.
+- **Nightly Journeys**: `tests/journeys/` drives the real extension like a job seeker (fictional demo state, frozen clock, 8 journeys, a visual baseline per step); `.github/workflows/journeys.yml` files and auto-closes `bot:journey` issues with no AI, replacing the artifact-only nightly
+- **Dynamic CSS Variable Mapping**: Custom CSS property values are now derived directly from `popup.css` for up-to-date contrast checks.
+
+<!--
+AGENT INSTRUCTIONS:
+This file documents features using a structured format for parsing.
+
+CRITICAL FORMAT REQUIREMENTS:
+1. Use ### (h3) for category headers - DO NOT use ## or ####
+2. Category names can include emojis (e.g., "### 📊 Repository Intelligence")
+3. Each feature MUST be a bullet list item: "- **Feature Name**: Description"
+4. Keep feature descriptions on single lines for reliable parsing
+5. You can add brief category descriptions as regular text after the header
+6. Avoid nested lists or complex markdown that breaks parsing
+
+When adding features:
+1. Group related features under appropriate ### categories
+2. Use bold (**Feature Name**) followed by colon and description
+3. Keep descriptions concise and single-line
+4. Add emojis to category headers for visual appeal (optional)
+-->

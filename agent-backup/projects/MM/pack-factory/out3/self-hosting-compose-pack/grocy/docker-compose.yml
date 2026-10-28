@@ -1,0 +1,12 @@
+services:
+  grocy:
+    image: lscr.io/linuxserver/grocy:latest
+    ports: ["9283:80"]
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: ${TZ}
+    volumes: [grocy-config:/config]
+    restart: unless-stopped
+volumes:
+  grocy-config:

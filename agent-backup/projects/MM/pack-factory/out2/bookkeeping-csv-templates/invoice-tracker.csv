@@ -1,0 +1,2 @@
+invoice_number,client,issued,due,amount,status,paid_on
+1001,Example Client,2026-01-15,2026-02-14,1200.00,sent,

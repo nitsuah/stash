@@ -1,0 +1,9 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy
+    command: serve
+    ports: ["8090:80"]
+    volumes: [ntfy-cache:/var/cache/ntfy]
+    restart: unless-stopped
+volumes:
+  ntfy-cache:

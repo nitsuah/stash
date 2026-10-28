@@ -1,0 +1,25 @@
+services:
+  app:
+    image: listmonk/listmonk:latest
+    ports: ["9000:9000"]
+    environment:
+      LISTMONK_app__address: 0.0.0.0:9000
+      LISTMONK_db__user: listmonk
+      LISTMONK_db__password: ${DB_PASSWORD}
+      LISTMONK_db__database: listmonk
+      LISTMONK_db__host: db
+      LISTMONK_db__port: 5432
+      LISTMONK_ADMIN_USER: ${ADMIN_USER}
+      LISTMONK_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    depends_on: [db]
+    restart: unless-stopped
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: listmonk
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: listmonk
+    volumes: [listmonk-db:/var/lib/postgresql/data]
+    restart: unless-stopped
+volumes:
+  listmonk-db:

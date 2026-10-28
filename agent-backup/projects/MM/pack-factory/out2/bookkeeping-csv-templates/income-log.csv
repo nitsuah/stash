@@ -1,0 +1,2 @@
+date,client,invoice_number,description,amount,payment_method,notes
+2026-01-15,Example Client,1001,Website work,1200.00,bank transfer,

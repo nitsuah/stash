@@ -1,0 +1,51 @@
+{
+  "requestsFinished": 1,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 13,
+  "requestsFinishedPerMinute": 13,
+  "requestMinDurationMillis": 4184,
+  "requestMaxDurationMillis": 4184,
+  "requestTotalFailedDurationMillis": 1391,
+  "requestTotalFinishedDurationMillis": 4184,
+  "crawlerStartedAt": "2026-10-23T07:15:19.275Z",
+  "crawlerFinishedAt": "2026-10-23T07:15:23.566Z",
+  "statsPersistedAt": "2026-10-23T07:15:23.567Z",
+  "crawlerRuntimeMillis": 4535,
+  "crawlerLastStartTimestamp": 1792739719032,
+  "requestRetryHistogram": [
+    1,
+    1
+  ],
+  "statsId": "0",
+  "requestAvgFailedDurationMillis": 1391,
+  "requestAvgFinishedDurationMillis": 4184,
+  "requestTotalDurationMillis": 5575,
+  "requestsTotal": 2,
+  "requestsWithStatusCode": {
+    "200": 1,
+    "403": 2
+  },
+  "errors": {
+    "/home/myuser/node_modules/@crawlee/basic/internals/basic-crawler.js:954:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "/home/myuser/node_modules/@crawlee/basic/internals/basic-crawler.js:954:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
+}

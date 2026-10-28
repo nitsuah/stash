@@ -1,0 +1,27 @@
+---
+up: "[[repos/gcp]]"
+title: "gcp · TASKS"
+source: https://github.com/nitsuah/gcp/blob/main/docs/TASKS.md
+kind: repo-doc
+repo: gcp
+---
+
+# Tasks
+
+> 🧭 [gcp](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
+
+Last Updated: 2026-09-27
+
+All completed work is documented in [FEATURES.md](./FEATURES.md) and [CHANGELOG.md](./CHANGELOG.md).
+
+## In Progress
+
+## Todo
+
+- [ ] Evaluate lightweight web UI for credential and folder configuration (2027 Q1 exploratory, see [ROADMAP.md](./ROADMAP.md))
+  - Priority: P3
+  - Type: Feature
+
+## Done
+
+- _None yet._

@@ -1,0 +1,422 @@
+---
+up: "[[repos/ats-fill]]"
+title: "ats-fill · README"
+source: https://github.com/nitsuah/ats-fill/blob/main/README.md
+kind: repo-doc
+repo: ats-fill
+---
+
+# ats-fill — Local-First AI Job Application Chrome Extension
+
+> 🧭 **ats-fill** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./docs/CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+>
+> Save your profile once. Land on any job page. Review tailored answers. Fill faster.
+> No Docker. No server. No subscription. Review before submitting.
+
+[![CI](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/ats-fill/actions/workflows/ci.yml)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Add_to_Chrome-c4411a?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn)
+
+**🧩 [Add to Chrome](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn)**: install from the Chrome Web Store.
+
+**🌐 [nitsuah.github.io/ats-fill](https://nitsuah.github.io/ats-fill/)** — landing page with the 23-second demo video.
+
+---
+
+## The Problem
+
+Job applications are the same 20 questions on 47 different forms.
+Nobody has time for that. Nobody should have to.
+
+---
+
+## The Solution
+
+A Chrome extension that:
+1. **Stores your profile locally** once (resume, defaults, safe memory)
+2. **Detects job application forms** automatically
+3. **Reads the JD** from the page or pasted text
+4. **Generates tailored answers** per role using your own Gemini API key
+5. **Keeps you in review** before filling the form in place
+
+**Local-first. Review-first. Private. Fast.**
+
+---
+
+## Quick Start (< 5 minutes)
+
+1. Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/ats-fill/amofaeopfmaicbiijgjaojenedkkadmn), or load it unpacked: clone this repo (or download the ZIP), open `chrome://extensions`, enable **Developer mode**, click **Load unpacked** and select the repo folder
+2. Click the extension icon → paste your [free Gemini API key](https://aistudio.google.com/app/apikey) and leave the model on **Auto**
+3. Upload your resume (PDF, DOCX, or paste text)
+4. Navigate to a job page → click the icon → **Fill Form**
+
+---
+
+## Project Structure
+
+```
+ats-fill/
+├── manifest.json          # Chrome MV3 manifest
+├── popup/                 # Extension popup UI
+│   ├── popup.html
+│   ├── popup.js
+│   ├── popup.css
+│   ├── ai/                # AI settings panel
+│   ├── ats/               # ATS-specific popup helpers
+│   ├── forms/             # Answer preview, memory, form handling
+│   ├── search/            # Job search panel
+│   ├── tracker/           # Tracker state, UI, handlers, CSV, metadata
+│   └── ux/                # Navigation, profile, consent, a11y, interview prep
+├── screenshots/           # README gallery assets
+├── content/               # Content scripts — run on job pages
+│   ├── content.js         # Entry point: orchestration & messaging
+│   ├── ats-detector.js    # ATS platform detection (direct + embedded)
+│   ├── form-filler.js     # DOM injection + field mapping
+│   ├── job-processor.js   # JD extraction from page
+│   ├── message-listener.js# Message handler wiring
+│   └── utils.js           # Shared content-script helpers
+├── background/
+│   ├── service-worker.js  # SW entry point
+│   ├── message-router.js  # Dispatch table for SW messages
+│   └── modules/handlers/  # Per-domain handler modules (answers, jobs, resume, oauth, …)
+├── lib/
+│   ├── gemini.js          # Gemini API wrapper + model auto-select
+│   ├── resume-parser.js   # Resume structuring
+│   ├── jd-parser.js       # JD extraction helpers
+│   ├── form-filler.js     # Shared form-fill logic (lib copy)
+│   ├── job-search.js      # Multi-source job search registry
+│   ├── oauth.js           # LinkedIn + Google OAuth / OIDC flows
+│   ├── tracker.js         # Application tracking storage
+│   └── utils.js           # Shared lib utilities
+├── data/
+│   └── field-map.json     # Common field name → answer key mappings
+└── icons/                 # Extension icons
+```
+
+---
+
+## Supported ATS Platforms
+
+| Platform | Detection | Form Fill | Status |
+|----------|-----------|-----------|--------|
+| Greenhouse | ✅ | ✅ | Phase 1 |
+| Ashby | ✅ | ✅ | Phase 1 |
+| Lever | ✅ | ✅ | Phase 1 |
+| LinkedIn Easy Apply | ✅ | ✅ | Phase 1 |
+| Jobvite | ✅ | 🔄 | Phase 2 |
+| Circle Careers / Phenom | ✅ | 🔄 | Phase 2 |
+| Workday | ✅ | 🔄 | Phase 2 |
+| iCIMS | ✅ | 🔄 | Phase 2 |
+| Generic (any form) | ✅ | 🔄 | Phase 2 |
+
+---
+
+## Screenshots
+
+> The gallery is generated from deterministic fictional Playwright fixture data; never use personal resume, API-key, or application data in committed screenshots.
+> The UI screenshot workflow refreshes these images and the version/date metadata automatically after UI changes.
+> Last refreshed: 2026-10-22 · UI snapshot: v1.0.4 ("Ledger" UI refresh: paper & ink design system, bundled type, dark mode, seeded demo data)
+
+### Main dashboard
+
+![ats-fill main dashboard](https://github.com/nitsuah/ats-fill/blob/main/screenshots/main-dashboard.png)
+
+### Toolbar popup
+
+![ats-fill toolbar popup](https://github.com/nitsuah/ats-fill/blob/main/screenshots/popup.png)
+
+### Tracker workspace (Pipeline)
+
+![ats-fill tracker workspace](https://github.com/nitsuah/ats-fill/blob/main/screenshots/tracker-workspace.png)
+
+Dark mode follows your system theme:
+
+![ats-fill tracker workspace in dark mode](https://github.com/nitsuah/ats-fill/blob/main/screenshots/tracker-workspace-dark.png)
+
+### Analytics
+
+![ats-fill analytics](https://github.com/nitsuah/ats-fill/blob/main/screenshots/analytics.png)
+
+### Profile + Memory
+
+![ats-fill profile and memory](https://github.com/nitsuah/ats-fill/blob/main/screenshots/profile-memory.png)
+
+### Job Search
+
+![ats-fill job search panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/job-search.png)
+
+### Settings
+
+![ats-fill settings panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/ai-settings.png)
+
+### Help & Privacy
+
+![ats-fill help and privacy panel](https://github.com/nitsuah/ats-fill/blob/main/screenshots/help-privacy.png)
+
+### Interview Prep
+
+![ats-fill interview prep](https://github.com/nitsuah/ats-fill/blob/main/screenshots/interview-prep.png)
+
+## Architecture & flow diagrams
+
+<!-- visual-docs:start -->
+Rendered from the Mermaid sources in [`docs/diagrams/`](https://github.com/nitsuah/ats-fill/tree/main/docs/diagrams) by the screenshot-gallery job in CI.
+
+**Architecture** ([source](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/architecture.mmd))
+
+![ats-fill architecture: popup, content script, service worker, storage and optional services](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/architecture.svg)
+
+**Form fill flow** ([source](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/form-fill-flow.mmd))
+
+![ats-fill form fill flow from the Fill button to review](https://github.com/nitsuah/ats-fill/blob/main/docs/diagrams/form-fill-flow.svg)
+<!-- visual-docs:end -->
+
+---
+
+## Job Search
+
+Click **🔍 Search** in the header to open the job search panel. Results are pulled from up to **16 built-in sources** (plus any custom RSS sources you add) and deduplicated automatically.
+
+### Keyless sources (always on)
+
+| Source | Coverage |
+|--------|----------|
+| Remotive | Remote tech / knowledge-worker roles worldwide |
+| Arbeitnow | Global remote & hybrid listings |
+| The Muse | US-centric roles across many industries |
+| Remote OK | High-volume remote tech board |
+| Jobicy | Remote jobs with structured salary data |
+| Working Nomads | Curated remote listings |
+| HN: Who's Hiring | Monthly HackerNews hiring thread (tech-heavy, often salary posted) |
+| We Work Remotely | Large curated remote jobs board |
+| remote.co | Vetted remote positions across categories |
+
+### Always-available sources (no key or session needed)
+
+| Source | Coverage |
+|--------|----------|
+| Indeed | RSS-based search across Indeed's listings |
+| Hackajob | Tech-focused UK/EU roles, scraped from the public sitemap + job-posting metadata |
+
+### Session-based sources (active when you're signed in)
+
+| Source | How it works |
+|--------|-------------|
+| LinkedIn | Uses your active LinkedIn tab session via the Voyager API — no separate key needed; shows ⚡ chip when a LinkedIn tab is open |
+
+### Optional keyed sources (add credentials in Settings)
+
+| Source | Coverage | Key source |
+|--------|----------|------------|
+| Adzuna | Millions of listings across 16+ countries | [developer.adzuna.com](https://developer.adzuna.com/signup) |
+| USAJOBS | All US federal government positions | [developer.usajobs.gov](https://developer.usajobs.gov/apirequest/) |
+| Reed | Major UK job board | [reed.co.uk/developers](https://www.reed.co.uk/developers/jobseeker) |
+| Jooble | Global aggregator (190+ countries) | [jooble.org/api/about](https://jooble.org/api/about) |
+
+### Custom job sources (bring your own RSS feed)
+
+Add any RSS-based job board from **Settings → Custom job sources** — a state workforce board (e.g. [JOBS4TN.gov](https://www.jobs4tn.gov/)), an internal careers feed, or any niche board with an RSS endpoint. Your search terms are appended as a `?q=` param when the feed doesn't already encode a query. The extension asks for one-time permission to read that specific site rather than requesting broad site access up front.
+
+### Filters
+
+- **Sources** — toggle individual boards on/off via chip buttons; locked chips (🔒) open the Settings panel
+- **Pay** — annual or hourly dual-slider; optional toggle to **hide jobs without a published salary**
+- **Remote / Type / Location** — filter by work mode, employment type, and region
+
+---
+
+## CSV Import for Tracker History
+
+Use **Tracker → Import CSV** to bring in past applications from another sheet or export.
+Accepted headers are case-insensitive and can include:
+
+- `Company`
+- `Role Title` / `Title`
+- `Status`
+- `Date`
+- `Employment Type`
+- `Remote`
+- `Location`
+- `Salary Range`
+- `Pay Min`
+- `Pay Max`
+- `Scorecard`
+- `Verdict`
+- `URL`
+- `Notes`
+
+Example header row:
+
+```csv
+Company,Role Title,Status,Date,Employment Type,Remote,Location,Pay Min,Pay Max,Scorecard,Verdict,URL,Notes
+```
+
+---
+
+## Claude Skill
+
+[`skills/ats-fill-job-search`](./skills/ats-fill-job-search/SKILL.md) is a job-search coach for Claude (or any agent that reads `SKILL.md` files). It pairs the ats-fill workflow with practical advice and keeps final decisions and submission with the candidate. `SKILL.md` routes to focused references that load only when needed:
+
+| Reference | Covers |
+| --- | --- |
+| [using-ats-fill.md](./skills/ats-fill-job-search/references/using-ats-fill.md) | Setup, form fill, job search, pipeline, analytics, Interview Prep, privacy, a weekly rhythm |
+| [search-strategy.md](./skills/ats-fill-job-search/references/search-strategy.md) | Targeting, channels, JD triage, networking, outreach templates, weekly metrics |
+| [applications.md](./skills/ats-fill-job-search/references/applications.md) | Resumes, the truth about "ATS optimization", cover letters, application questions |
+| [interviews.md](./skills/ats-fill-job-search/references/interviews.md) | Prep sheet, STAR story bank, technical and system design, questions to ask, thank-yous |
+| [offers.md](./skills/ats-fill-job-search/references/offers.md) | Pay research, negotiation scripts, comparing offers, rejections |
+| [resources.md](./skills/ats-fill-job-search/references/resources.md) | Curated, primary-source links (O*NET, BLS, CareerOneStop, EEOC, FTC and more) |
+| [automation.md](./skills/ats-fill-job-search/references/automation.md) | Tracker CLI, Gmail-to-tracker sync, low-token daily/weekly routines |
+
+**Install**
+
+```bash
+npx skills add nitsuah/ats-fill --skill ats-fill-job-search -g
+```
+
+Or copy `skills/ats-fill-job-search/` into `~/.claude/skills/` (Claude Code) or a project's `.claude/skills/`. In the Claude apps, zip the folder, go to **Customize → Skills → + → Create skill → Upload a skill**, upload the ZIP, then toggle the skill on (skills need **Code execution and file creation** enabled). Then ask things like *"Is this role a fit for me?"*, *"Prep me for tomorrow's system design interview"* or *"Help me negotiate this offer."*
+
+## Feature tour video
+
+A longer walkthrough for YouTube is generated from the real extension and fictional demo data: one short per feature plus a narrated combined cut with chapters, rendered in 4K (2160p) for YouTube. A 1080p cut plays in the [feature tour](https://nitsuah.github.io/ats-fill/#tour) section of the landing page. See [video/README.md](./video/README.md).
+
+## Tech Stack
+
+- **Chrome MV3** extension
+- **Auto-selected Gemini 2.5 models** via REST API (`models.list` + fallback strategy)
+- Data is stored locally in `chrome.storage.local`; external requests only go to the Gemini API using your key.  
+
+- Zero dependencies, zero build step — just load and use
+
+---
+
+## Storage Schema
+
+```json
+{
+  "resume": {
+    "structured": { "name": "", "email": "", "skills": [], "experience": [], ... },
+    "excerpt": "plain-text excerpt/preview (≤1000 chars, including uploaded file/data-URL resumes)"
+  },
+  "settings": {
+    "gemini_api_key": "...",
+    "preferred_salary_min": 150000,
+    "preferred_salary_max": 325000,
+    "work_authorization": "US Citizen",
+    "preferred_remote": true
+  },
+  "applications": [
+    {
+      "id": "uuid",
+      "company": "Anthropic",
+      "title": "IT Systems Engineer",
+      "url": "...",
+      "status": "submitted",
+      "date": "2026-04-04",
+      "pay_min": 150000,
+      "pay_max": 230000,
+      "jd_snippet": "...",
+      "answers_generated": true
+    }
+  ]
+}
+```
+
+---
+
+## Privacy
+
+- Your resume and API key are stored **only** in your local browser storage.
+- External network calls happen **only** for actions you trigger (AI help with your Gemini key; optional job-search sources including any custom RSS source you add / LinkedIn or Google profile import with your own OAuth credentials).
+- No servers, no accounts, no telemetry.
+
+See **[docs/PRIVACY.md](docs/PRIVACY.md)** for the full Terms of Use (EULA), Privacy Policy, Security posture, and your GDPR/CCPA data rights — the same content shown in the app's **Help & privacy** panel.
+
+---
+
+## Development
+
+All checks run via Docker — no local Node.js required.
+
+```bash
+# Unit tests (106 unit tests + 14 Playwright e2e, no browser needed for unit)
+docker compose -f config/docker-compose.yml run --rm test
+
+# Lint
+docker compose -f config/docker-compose.yml run --rm lint
+
+# E2E (Playwright, requires headed or CI browser)
+docker compose -f config/docker-compose.yml run --rm e2e
+
+# Nightly journeys: "AI user" paths with visual baselines (Linux, Playwright image only; see tests/journeys/README.md).
+# Run nightly by .github/workflows/journeys.yml; failures file bot:journey issues and BUGS.md on bot/journeys lists them.
+docker run --rm -v "$PWD:/w" -w /w mcr.microsoft.com/playwright:v1.64.0-jammy sh -c "npm ci && npm run test:journeys"
+
+# Coverage
+docker compose -f config/docker-compose.yml run --rm coverage
+```
+
+**Pre-commit hooks** (lint on commit, tests on push):
+```bash
+pip install pre-commit && pre-commit install && pre-commit install --hook-type pre-push
+```
+
+---
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every committed Markdown doc in this repo (other than this README, `.github/` and `templates/`), the same set mirrored into the Obsidian vault, so none of them is orphaned.
+
+**`docs/`**
+
+- [Changelog](./docs/CHANGELOG.md) — `docs/CHANGELOG.md`
+- [Chrome Web Store assets](./docs/CHROME_WEB_STORE_ASSETS.md) — `docs/CHROME_WEB_STORE_ASSETS.md`
+- [Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [ats-fill — Terms, Privacy & Security](./docs/PRIVACY.md) — `docs/PRIVACY.md`
+- [Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/release/`**
+
+- [Chrome Web Store release setup](./docs/release/chrome-web-store.md) — `docs/release/chrome-web-store.md`
+- [Release process](./docs/release/release-process.md) — `docs/release/release-process.md`
+
+**`repo root`**
+
+- [ats-fill agent notes](./CLAUDE.md) — `CLAUDE.md`
+
+**`skills/ats-fill-job-search/`**
+
+- [ats-fill job-search coach](./skills/ats-fill-job-search/SKILL.md) — `skills/ats-fill-job-search/SKILL.md`
+
+**`skills/ats-fill-job-search/references/`**
+
+- [Resumes, cover letters and application answers](./skills/ats-fill-job-search/references/applications.md) — `skills/ats-fill-job-search/references/applications.md`
+- [Interviews](./skills/ats-fill-job-search/references/interviews.md) — `skills/ats-fill-job-search/references/interviews.md`
+- [Offers, negotiation and setbacks](./skills/ats-fill-job-search/references/offers.md) — `skills/ats-fill-job-search/references/offers.md`
+- [Resources](./skills/ats-fill-job-search/references/resources.md) — `skills/ats-fill-job-search/references/resources.md`
+- [Search strategy, networking and outreach](./skills/ats-fill-job-search/references/search-strategy.md) — `skills/ats-fill-job-search/references/search-strategy.md`
+- [Using ats-fill effectively](./skills/ats-fill-job-search/references/using-ats-fill.md) — `skills/ats-fill-job-search/references/using-ats-fill.md`
+
+**`video/`**
+
+- [Feature tour video](./video/README.md) — `video/README.md`
+
+<!-- docs-index:end -->
+
+## License
+
+MIT — built because filling out the same form 47 times is beneath EVERYONE. 🤙
+## Automation & CI
+
+The repository uses GitHub Actions to run the blocking test, lint, coverage, security, and Playwright checks. The same CI pipeline also generates the deterministic screenshot gallery and validates the resulting assets before publishing a documentation PR when the UI snapshot changes.
+
+Screenshot publication is deliberately **rerun-safe** and uses a **single rolling PR**. Every refresh rebuilds the fixed `automation/ui-screenshot-gallery` branch from `main` and updates its open PR instead of opening a new one. Commits that merge a gallery refresh are skipped, so publication can't loop. When `main` already matches the captured gallery, any open refresh PR is closed. Gallery screenshots are generated from fictional fixture data and never contain personal resume, API-key, or application data.
+
+## Community Standards
+
+Shared community policies are centralized in https://github.com/nitsuah/.github:
+- Contributing: https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md
+- Code of Conduct: https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md
+- Security: https://github.com/nitsuah/.github/blob/main/SECURITY.md

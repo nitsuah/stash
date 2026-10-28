@@ -1,0 +1,23 @@
+{
+  "updated": "2026-10-15",
+  "method": "WSJF = (business value + time criticality + risk reduction) / job size, each on a 1-13 scale. Curated by hand; week-sotu drops finished items (SOTU.md step 5).",
+  "initiatives": [],
+  "top5": [],
+  "done": [
+    {
+      "title": "CI-generated diagrams and Playwright screenshots in each repo",
+      "closed": "2026-10-15",
+      "evidence": "showcase board scan 2026-10-15: screenshots + diagrams ok for all tier I repos, nitsuah-io and bb-mcp"
+    },
+    {
+      "title": "Portfolio showcase: Pages + brag video per product",
+      "closed": "2026-10-15",
+      "evidence": "showcase board: Pages + videos ok for vigil, vhs, skyview, nitsuah-io (vigil#297)"
+    },
+    {
+      "title": "Replace placeholder-heavy and duplicate demo/project assets (nitsuah-io)",
+      "closed": "2026-10-10",
+      "evidence": "Nitsuah-Labs/nitsuah-io#559; TASKS cleared in #575"
+    }
+  ]
+}

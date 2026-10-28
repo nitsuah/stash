@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "loadMs": 160,
+    "bytes": 3879,
+    "violations": []
+  },
+  {
+    "path": "/contrast-checker.html",
+    "loadMs": 235,
+    "bytes": 3934,
+    "violations": []
+  },
+  {
+    "path": "/freelance-hourly-rate-calculator.html",
+    "loadMs": 268,
+    "bytes": 3570,
+    "violations": []
+  },
+  {
+    "path": "/project-quote-calculator.html",
+    "loadMs": 220,
+    "bytes": 3376,
+    "violations": []
+  },
+  {
+    "path": "/margin-markup-calculator.html",
+    "loadMs": 261,
+    "bytes": 3142,
+    "violations": []
+  },
+  {
+    "path": "/late-fee-calculator.html",
+    "loadMs": 348,
+    "bytes": 3230,
+    "violations": []
+  },
+  {
+    "path": "/local-business-json-ld-generator.html",
+    "loadMs": 285,
+    "bytes": 5205,
+    "violations": []
+  },
+  {
+    "path": "/srt-subtitle-shifter.html",
+    "loadMs": 216,
+    "bytes": 3959,
+    "violations": []
+  }
+]

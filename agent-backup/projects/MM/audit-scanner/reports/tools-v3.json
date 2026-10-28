@@ -1,0 +1,44 @@
+[
+  {
+    "path": "/index.html",
+    "loadMs": 44,
+    "bytes": 6173,
+    "violations": []
+  },
+  {
+    "path": "/word-counter.html",
+    "loadMs": 78,
+    "bytes": 4021,
+    "violations": []
+  },
+  {
+    "path": "/aspect-ratio-calculator.html",
+    "loadMs": 63,
+    "bytes": 4257,
+    "violations": []
+  },
+  {
+    "path": "/color-converter.html",
+    "loadMs": 72,
+    "bytes": 4578,
+    "violations": []
+  },
+  {
+    "path": "/text-case-converter.html",
+    "loadMs": 54,
+    "bytes": 4342,
+    "violations": []
+  },
+  {
+    "path": "/utm-link-builder.html",
+    "loadMs": 49,
+    "bytes": 4354,
+    "violations": []
+  },
+  {
+    "path": "/password-generator.html",
+    "loadMs": 55,
+    "bytes": 4849,
+    "violations": []
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "path": "/index.html",
+    "loadMs": 25,
+    "bytes": 8081,
+    "violations": []
+  },
+  {
+    "path": "/heading-outline-checker.html",
+    "loadMs": 33,
+    "bytes": 4613,
+    "violations": []
+  },
+  {
+    "path": "/link-text-checker.html",
+    "loadMs": 30,
+    "bytes": 4684,
+    "violations": []
+  },
+  {
+    "path": "/time-zone-converter.html",
+    "loadMs": 47,
+    "bytes": 5507,
+    "violations": []
+  },
+  {
+    "path": "/hourly-to-salary-calculator.html",
+    "loadMs": 88,
+    "bytes": 4230,
+    "violations": []
+  },
+  {
+    "path": "/percentage-calculator.html",
+    "loadMs": 39,
+    "bytes": 3821,
+    "violations": []
+  },
+  {
+    "path": "/json-formatter.html",
+    "loadMs": 28,
+    "bytes": 3841,
+    "violations": []
+  },
+  {
+    "path": "/base64-encoder-decoder.html",
+    "loadMs": 37,
+    "bytes": 4183,
+    "violations": []
+  },
+  {
+    "path": "/url-encoder-decoder.html",
+    "loadMs": 18,
+    "bytes": 3973,
+    "violations": []
+  },
+  {
+    "path": "/unix-timestamp-converter.html",
+    "loadMs": 30,
+    "bytes": 4112,
+    "violations": []
+  },
+  {
+    "path": "/regex-tester.html",
+    "loadMs": 25,
+    "bytes": 4567,
+    "violations": []
+  }
+]

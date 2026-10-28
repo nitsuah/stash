@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/tools",
+    "loadMs": 155,
+    "bytes": 10375,
+    "violations": []
+  },
+  {
+    "path": "/tools/invoice-generator",
+    "loadMs": 196,
+    "bytes": 11434,
+    "violations": []
+  },
+  {
+    "path": "/tools/contrast-checker",
+    "loadMs": 213,
+    "bytes": 8852,
+    "violations": []
+  },
+  {
+    "path": "/tools/password-generator",
+    "loadMs": 224,
+    "bytes": 9129,
+    "violations": []
+  },
+  {
+    "path": "/tools/accessibility-checklist",
+    "loadMs": 286,
+    "bytes": 11451,
+    "violations": []
+  }
+]

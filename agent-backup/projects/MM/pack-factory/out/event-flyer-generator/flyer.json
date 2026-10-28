@@ -1,0 +1,13 @@
+{
+  "title": "Open Mic Night",
+  "subtitle": "Every Friday",
+  "date": "Fri 7pm",
+  "place": "Corner Cafe, 123 Main St",
+  "details": [
+    "Free entry",
+    "Sign up at the counter"
+  ],
+  "bg": "#0f1720",
+  "fg": "#f5f7fa",
+  "accent": "#10b981"
+}

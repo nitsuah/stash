@@ -1,0 +1,91 @@
+---
+kind: repo-hub
+repo: fire
+---
+
+# fire
+
+> Reviewed: 2026-10-16
+
+## Overview
+
+Self-hosted FIRE (Financial Independence, Retire Early) tracker and API server (Node/Express + vanilla JS SPA), run locally via Docker on port 3001. All financial data lives in `data/db.json` (optional AES-256-GCM encryption via `SYNC_MASTER_KEY`); read-only with respect to external accounts, local CRUD fully supported. Being productionized toward real-time API-driven sync (eBay, Web3 wallets, Fidelity/Plaid, Google Drive backup) across four PROD phases — see `docs/prod-plan.md`. Ships an MCP server (`app/mcp-server.mjs`, 12 functional tools) for Claude/LLM integration.
+
+## Current Goals / Roadmap Focus
+
+**Q2 2026** ✅ Completed — full tracker foundation.
+
+**Q3 2026** ✅ Completed — side hustle hub & auto-calculators.
+
+**Q4 2026: Advanced Scenarios & Integrations** — nearly done
+- [x] Multi-scenario FIRE comparison, webhook sync templates (JSONata + HMAC), MCP server (12 tools + 7 stubs), mobile-responsive layout, drawdown/depletion age modeling, milestone presets, diversification tips redesign, unified Settings page, eBay/Plaid integration UI, vehicle estimate overlay, webhook sync end-to-end testing
+- [ ] Tax drag estimation engine (custom federal/state brackets, capital gains)
+- [ ] Lightweight PWA packaging
+
+**PROD Phase 1 — Real-Time Data Connectors (Q1 2027)** ✅ live, cleanup remaining
+- [x] eBay OAuth sync, Web3 wallet tracking (8 chains), vehicle VIN decode, Google Drive encrypted backup — all shipped with UI (fee-rate validation, sync toggle, wallet manager, refresh-value button, backup panel all done as of the 2026-09-10 cycle)
+- [ ] Route-level (HTTP) tests still missing for `/ebay/authorize`, `/ebay/callback`, `/ebay/refresh` (need a session-backed OAuth flow to test properly)
+
+**PROD Phase 2 — Financial Institution Integration (Q2 2027)** — nearly done
+- [x] Plaid link-token/exchange/positions/accounts sync, price provider abstraction (Yahoo/Alpha Vantage/Polygon), SSE live price push
+- [x] `POST /api/sync/plaid/transactions` → expense categorization (paginated sync with cursor persistence, handles added/modified/removed); Fidelity CSV import UI now disabled while Plaid sync is active; Plaid route tests added
+- [ ] Tests for `app/lib/prices-provider.js` (Alpha Vantage + Polygon paths) still missing
+
+**PROD Phase 3 — Security Hardening (Q3 2027)** — nearly done
+- [x] Rate limiting, security headers, session-secret fail-fast, admin key rotation, MCP audit log, wallet address truncation, HTTPS via Caddy reverse proxy (rebound to loopback-only after a CodeRabbit LAN-exposure finding on PR #105), `FIRE_API_KEY` required-by-default flip, MCP write-tool-absence test (caught and fixed a real violation: `set_price_target_alert` was writing to disk), branch/function coverage gap closed (branch 71.04%/functions 84.16%, up from 68.33%/75.67%)
+- [ ] Full penetration-testing checklist — triaged; most items checkable in the sandboxed dev environment, but the Transport/TLS section and full network-isolation verification need a live deployment
+
+**PROD Phase 4 — Feature Parity (Q4 2027)** — not started
+- Portfolio rebalancing suggestions, tax-loss harvesting alerts, income/expense rolling trend, PWA, CD/FIRE-milestone notifications, optional multi-user mode
+
+## Open P0/P1 Tasks
+
+_Refreshed 2026-10-16 against the mirrored `docs/TASKS.md` (Drive backup P0 closed 2026-10-14/15; eBay toast and Side Gig theming marked done in #138)._
+
+- [ ] **P1 (updated 2026-10-24)** Fix the remaining journeys review-pass findings (label `bot:review`): #178 MCP `fire_status_summary` disagrees with the dashboard. #169 (crypto counted in insights equity %) was fixed in #236; #170 (single-stock warning on broad ETFs) was fixed in #230. P2 findings remain #166, #167, #168, #171, #172, #173. A fix may change a journey baseline; regenerate it in Docker in the same PR.
+
+- [ ] **P1 (split from the closed P0, 2026-10-15)** Google Drive backup: report success only after a verified round trip. Live backup/restore through Drive is confirmed (self-hosted and lifefire.netlify.app); remaining: `runGDriveBackupNow()` in `app/lib/managers/gdrive-backup.js` says "Backup saved" as soon as the upload returns. Download and decrypt (or digest-check) first, with a unit test for the failed-verify path.
+- [ ] **P1** Serve Plaid on the Netlify deploy (lifefire.netlify.app). Progress 2026-09-30 (PR #146): `netlify/functions/plaid.mjs` serves all `/api/sync/plaid/*` routes with unit coverage. Remaining: a live Link → sync run on the hosted site and browser smoke coverage. Rule: any new `/api/*` route the SPA calls needs a Netlify Function or a documented browser-only fallback in the same PR.
+- [ ] **P1, blocked on CoinTracker** CoinTracker MCP integration (#139 shipped the OAuth 2.1 + PKCE connector, merge rules and 42 tests). The issued token has `permissions: []` because the test account isn't enrolled in CoinTracker MCP early access. A P2 export-file fallback is queued, blocked on a sample export.
+- [ ] **P1** Browser/production-pass items: provider-contract tests for every price/balance integration (HTML-instead-of-JSON failures) and sync-health state in the Side Hustle Hub. (eBay connection toast + first sync and Side Gig Ledger theming were done in #138, 2026-09-28.)
+- [ ] **P1** Docs/promo: README feature-parity refresh, promo ledger audit, feature-discovery pass for the GitHub landing page.
+- [ ] **P1** Model real eBay fee brackets in `calculateEbayFeesTotal` (per-category fee-rule schema; CodeRabbit on PR #103).
+
+Shipped 2026-10-09: nightly "AI user" journeys pilot (fire#176: 7 journeys, 19 baselines, nightly caller on the shared nitsuah/.github harness) and the /promo refresh (spots.json culled, 38 of 95 marked `"visual": "none"`; 13 docs screenshots from the journeys; promo findings #174/#175 fixed). New P2s: split the 55–85 s spots into ~21 s feature spots plus a hero cut, and journey coverage (23 of 92 spots.json features tagged). New P3 needing owner sign-off: confirm the FEATURES.md trims.
+
+Shipped 2026-10-08: Marketplace hookups beyond eBay (P1 closed): Etsy PKCE receipts sync with a Netlify function, browser-side Mercari/Poshmark/FB CSV import, Mercari/Poshmark calculator tabs; follow-ups are P2 (exact Etsy fees from ledger entries, verify Mercari/Poshmark headers against real exports) plus an Etsy live run once an app keystring is approved. The `sync.js` split P1 is now marked done (fire#146); its leftover, sharing Plaid operations between Express and the Netlify function, is a P2. Done 2026-10-09: `prices-provider.js` tests (26). Shipped 2026-10-07: offline Kokoro TTS narration for the promo spots plus seven narrated feature tours (`promo/tour/`), and two new Claude skills, `skills/reseller-autopilot/` and `skills/passive-income-lab/` (fire-coach hands off to both). Shipped 2026-10-01: multichain ENS/0x crypto valuation across 7 chains, hosted gold/silver + crypto refresh restored (#154, #155), Chaos mode with follow-up chains and mitigations, per-tab section layouts, and the `skills/fire-coach/` Claude skill. Remaining open work below P1: pen-test checklist, classic-script globals cleanup, PROD Phase 4 (trend view, PWA, multi-user).
+
+## Blockers
+
+None documented.
+
+## Recent Changes (Unreleased)
+
+- **PR #126 (2026-09):** live gold/silver valuation (`/api/metals`, dealer payout % of spot), Other Assets card, HYSA/CD interest estimates rolled into Annual Income; Yahoo v7→v8 price fallback fixed stalled stock prices; eBay import no longer double-counts shipping labels; MCP `get_net_worth` reports `otherAssets` separately. PR #127 indexed `docs/weekly-checkin-prompt.md`, now on `main` and mirrored.
+- **MCP Server** (`app/mcp-server.mjs`) — grew from 8 to 12 functional tools (`fire_status_summary`, `get_net_worth`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_projection_settings`, `get_side_gig_income`, `get_wallets`, `get_concentration_risk`, `simulate_rebalance`, `get_emergency_runway`) plus 7 registered stubs; `.mcp.json` project config and `scripts/test-mcp.mjs` smoke test.
+- **PROD Phase 1 UI completion (2026-09-10 cycle)** — eBay fee-rate validation against current published rates, eBay sync enable/disable toggle with last-sync timestamp, wallet manager UI (add/remove/balance display), vehicle "Refresh Value" button, Google Drive backup panel (trigger/list/restore); tests added for wallets, vehicle-api, and gdrive-backup routes.
+- **Settings Page**, **Milestone Presets** (5 financial profiles), **Diversification Tips Redesign** (dismissible tiles), **Vehicle Estimate Overlay** styling, **eBay & Plaid Integration UI** (connection status + Plaid Link SDK).
+- **Retirement projection drawdown fix** — portfolio now correctly withdraws `annualExpenses`/year post-retirement instead of continuing to accumulate; fixed a duplicate-return syntax error in the depletion-age calculation.
+- Security: XSS `escHtml()` applied across all table renderers; CSRF `oauthState` consumed immediately post-verification; webhook HMAC requires `req.rawBody`; session cookies now `httpOnly`/`sameSite: lax` with a startup warning on weak/missing `SESSION_SECRET`.
+- Hardening: atomic `db.json` writes (tmp file + rename), corrupt-vs-missing-file distinction in `readState`, Express global error handler, JSONata webhook mapping validated + time-boxed at 5s, Yahoo Finance fetches timeout at 10s.
+- Fixed: `DELETE /api/accounts/:id` returned 444 instead of 404 for a missing account.
+- Test suite grew past the 251-test/16-file baseline with new Plaid transaction-sync tests and targeted coverage-gap tests. METRICS.md (Docker run, 2026-10-01): 715 Vitest tests (59 files) plus 67 Playwright tests, all passing; coverage 84.31% statements, 84.97% lines, 77.16% branch, 84.66% functions. Thresholds are met for the measured scope only (the 8 files in `coverage.include`; routes, managers, Netlify Functions and the browser app are unmeasured).
+
+## Verified Runbook (PMO 2026-09-24)
+
+> Commands verified during the 2026-09-24 PMO audit (`agent/reports/pmo-audit-2026-09-24.md` §7). **obn-review: keep this section when refreshing the summary.**
+
+- `docker build --target test -t fire-test . && docker run --rm -u root fire-test npm run test:coverage`
+- `-u root` is needed until the Dockerfile `chown` fix lands: `WORKDIR /app` is owned by root, then `USER node`, which gives EACCES on `/app/coverage`.
+- CI runs `npm test`, not coverage, so a branch-coverage threshold failure (68.68% < 70%) is invisible in CI.
+
+<!-- vault-links:start -->
+## Vault links
+
+_Generated by `scripts/build-vault-indexes.py`; edits inside this block are overwritten._
+
+- Docs: [[repos/fire/README|README]] (every doc hangs off its Docs Index)
+- Overview: [[projects/KB/fire-overview|KB overview]]
+- Latest LOC report: [[reports/eng-loc-fire-2026-10-22|2026-10-22]] (older ones chain from it)
+- Latest MINI report: [[reports/eng-mini-fire-2026-10-14|2026-10-14]] (older ones chain from it)
+<!-- vault-links:end -->

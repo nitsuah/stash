@@ -1,0 +1,217 @@
+---
+up: "[[repos/osrs]]"
+title: "osrs · README"
+source: https://github.com/nitsuah/osrs/blob/main/README.md
+kind: repo-doc
+repo: osrs
+---
+
+# OSRS Bot
+
+> 🧭 **osrs** · [Features](./docs/FEATURES.md) · [Roadmap](./docs/ROADMAP.md) · [Tasks](./docs/TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./docs/METRICS.md) <!-- nav -->
+
+[![CI](https://github.com/nitsuah/osrs/actions/workflows/ci.yml/badge.svg)](https://github.com/nitsuah/osrs/actions)
+
+A Python-based bot designed to automate Old School RuneScape tasks with computer vision and chat-response handling. Thieving and fishing are the shipped automation paths today; broader recovery and expansion work remains planned.
+
+---
+
+## Dependencies
+
+- Python 3.12 is the single supported version, used consistently in CI, Docker (both build stages), and local tooling (`pyproject.toml` targets `py312`). It was raised from 3.10 on 2026-09-24 because numpy 2.5.x requires Python ≥3.12. CI now also builds the Docker image, so a version drift like this one fails the PR instead of reaching `main`. One version was chosen over documenting multiple compatible versions to avoid interpreter/wheel drift between where dependencies are built and where the bot runs — see `docs/archive/HANDOFF-docker-entrypoint-20260403.md` for context on prior Docker/runtime mismatches.
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract): Manually installed (required for text recognition)
+- Additional Python packages (see `requirements.txt`):
+  - `pyautogui`
+  - `opencv-python-headless` (headless build only — no GUI/X11 dependency; the bot only uses `cvtColor`/`imwrite`)
+  - `pillow`
+  - `numpy`
+  - `pytesseract`
+  - `keyboard`
+  - `textblob`
+  - `pygetwindow`
+  - `nltk`
+  - `pynput` (used by `bot/recorder.py`; not yet in `requirements.txt` — install separately: `pip install pynput`)
+
+## Setup
+
+1. Clone the repository: `git clone https://github.com/nitsuah/osrs.git`
+
+2. Create and activate a virtual environment:
+
+  ```bash
+  python -m venv venv
+  source venv/bin/activate   # Linux/Mac
+  .\venv\Scripts\activate    # Windows
+  ```
+
+3. Install required Python packages:
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+---
+
+## Docker-based Test & Coverage
+
+To run all tests and collect coverage in Docker:
+
+```sh
+docker build --no-cache -t osrs-test .
+docker run --rm osrs-test xvfb-run -a /opt/venv/bin/python -m pytest -c config/pytest.ini --rootdir=. --cov
+```
+
+This uses the dev dependencies and includes all test files. `xvfb-run` supplies the virtual display that `pyautogui`/`mouseinfo` need just to import (`camera.py`/`compass.py` tests), matching the CI job's `xvfb-run -a pytest` step. Coverage output will be shown in the container log.
+
+4. Verify Tesseract installation:
+   - Ensure Tesseract is installed and added to your system's PATH.
+   - Check its version by running: `tesseract --version`
+
+## Features
+
+Status guide: fishing and thieving automation are shipped today. Recovery hardening and new skills remain planned.
+
+### Core Functions
+
+  - `load_config`: Loads the configuration from an INI file, checking for required sections and validating values. This is essential for setting up coordinates and other constants for the bot's operation. The function also logs available keys in the 'constants' and 'coordinates' sections for debugging.
+
+- **Game State**:
+  - `compass.py` - `click_compass`: Clicks the compass to reset the camera orientation to North.
+  - `camera.py` - `check_and_zoom_in` / `hold_up_arrow`: Zooms in using configurable scroll steps then tilts the camera upward.
+
+#### Skill Automation
+
+
+- **Fishing (`fishing.py`)**:
+  - `fish_from_spot`: Automates fishing by interacting with a fishing spot and responding to inventory full prompts (from `actions.py`).
+  
+- **Thieving  (`thieving.py`)**:
+  - `thieve_from_stall`: Automates thieving from stalls, including handling inventory prompts and stopping if certain items (like Onyx) are detected (from `actions.py`).
+
+#### Vision and Input (`screen_processing.py`)
+
+- **Screen Capture and Image Processing**:
+  - `capture_screen`: Captures the full screen using `ImageGrab` and processes it into a NumPy array.
+  - `capture_and_process_chat`: Captures and processes the chat region from the screen using OCR to extract text.
+  - `save_screenshot`: Saves a screenshot of the chat region for later analysis.
+
+- **Image Processing with OpenCV**:
+
+## Makefile & Docker-based DevOps
+
+### Local test, coverage, lint, build
+
+```sh
+make test        # Run all tests
+make coverage    # Run tests with coverage
+make lint        # Lint with flake8
+make build       # Build with pyinstaller
+```
+
+The pre-commit config lives in `config/`, not the repo root, so pass it explicitly:
+
+```sh
+pre-commit install --config config/.pre-commit-config.yaml   # re-run this if hooks were installed before the move
+pre-commit run --config config/.pre-commit-config.yaml --all-files
+```
+
+### Docker-based test/coverage
+
+```sh
+make docker-test   # Build Docker image and run tests with coverage
+make docker-build  # Build production Docker image
+```
+
+### CI/CD
+- See .github/workflows/ci.yml for full pipeline: lint, test, coverage, build, artifact.
+
+### Tesseract
+- Ensure Tesseract is installed and in your PATH for local runs.
+  - Check its version by running: `tesseract --version`
+
+#### Chat Recognition
+
+- Detects specific chat queries related to teleportation and responds accordingly using predefined responses.
+- This utilizes the following custom functions in a specific order:
+  - `capture_and_process_chat`: Captures and processes the chat region from the screen using OCR (imported from `screen_processing.py`).
+  - `lookup_response`: Looks up appropriate responses for skill-related questions and prompts in the game using predefined answers.
+  - `respond_to_question`: Responds to game prompts (in game) such as trivia about or actions in the game.
+
+#### Clicking Actions (`actions.py`)
+
+- **Clicking Utilities**:
+  - `click_with_variance`: Simulates clicks with slight random variance to mimic human interaction with the game.
+  
+- **Skill Interaction**:
+  - `thieve_from_stall`: Handles thieving interactions, including responding to inventory prompts or stopping the bot if certain items (like Onyx) are found.
+  - `fish_from_spot`: Handles fishing spot interaction, including inventory management when the player's pouch is full.
+
+#### Natural Language Processing
+
+- **Question Handling** (`question_handler.py`):
+  - `load_question_responses`: Loads predefined question and answer pairs from a JSON file (`questions.json`).
+  - `clean_question`: Cleans up the question text by removing irrelevant parts like `"Click here to continue."`
+  - `correct_text`: Uses the `TextBlob` library to correct misspelled or ungrammatical text extracted from the game. - FIXME: This function is not yet refined.
+
+## Usage
+
+To run the bot's core functionality:
+`python bot/core.py`
+
+To automate a specific skill:
+`python bot/skills/fishing.py`
+
+Project Layout
+
+```plaintext
+├── bot/
+│   ├── core.py                    # Main entry point (compass reset → camera tilt → Theft loop)
+│   ├── camera.py                  # Zoom and camera tilt utilities
+│   ├── compass.py                 # Compass reset click
+│   ├── config.py                  # Config loader (returns ConfigParser)
+│   ├── recorder.py                # Mouse-click recorder for coordinate capture
+│   ├── utils.py                   # Validated config loader (returns dict)
+│   ├── skills/
+│   │   ├── actions.py             # click_with_variance, thieve_from_stall, fish_from_spot
+│   │   ├── fishing.py             # Fishing automation loop (F1 pause/resume)
+│   │   ├── question_handler.py    # NLP question lookup (TextBlob + JSON KB)
+│   │   ├── questions.json         # Anti-bot Q&A knowledge base (131 entries)
+│   │   ├── screen_processing.py   # Screen capture, OCR chat parsing, screenshot save
+│   │   └── thieving.py            # Thieving automation loop (F1 pause/resume)
+│   ├── config.ini                 # Coordinates, constants, logger, Tesseract path
+│   └── logs/                      # Runtime log output
+├── tests/
+│   ├── conftest.py
+│   ├── test_camera.py
+│   ├── test_compass.py
+│   ├── test_smoke.py
+│   └── test_utils.py
+└── .github/workflows/ci.yml       # Lint → test (xvfb) → pyinstaller build
+```
+## Community Standards
+
+Shared community policies are centralized in [nitsuah/.github](https://github.com/nitsuah/.github):
+- Contributing: [CONTRIBUTING.md](https://github.com/nitsuah/.github/blob/main/CONTRIBUTING.md)
+- Code of Conduct: [CODE_OF_CONDUCT.md](https://github.com/nitsuah/.github/blob/main/CODE_OF_CONDUCT.md)
+- Security: [SECURITY.md](https://github.com/nitsuah/.github/blob/main/SECURITY.md)
+
+<!-- docs-index:start -->
+
+## Docs Index
+
+Every doc at the repo root (other than this README) and under `docs/` (the files mirrored into the Obsidian vault), so none of them is orphaned.
+
+- [OSRS Bot Features](./docs/FEATURES.md) — `docs/FEATURES.md`
+- [Metrics](./docs/METRICS.md) — `docs/METRICS.md`
+- [OSRS Bot Roadmap](./docs/ROADMAP.md) — `docs/ROADMAP.md`
+- [Tasks](./docs/TASKS.md) — `docs/TASKS.md`
+
+**`docs/archive/`**
+
+- [Delivery Pipeline Handoff](./docs/archive/HANDOFF-docker-entrypoint-20260403.md) — `docs/archive/HANDOFF-docker-entrypoint-20260403.md`
+
+**`repo root`**
+
+- [Changelog](./CHANGELOG.md) — `CHANGELOG.md`
+
+<!-- docs-index:end -->

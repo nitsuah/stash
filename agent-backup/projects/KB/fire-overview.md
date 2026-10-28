@@ -1,0 +1,17 @@
+---
+name: fire-overview
+description: Central synthesis document for the Fire application.
+metadata:
+  type: project
+kind: overview
+repo: fire
+---
+
+# Fire Overview
+
+Fire is an internal application focused on feedback and planning.
+
+## Related Resources
+- **Source Code**: [[repos/fire/README.md|Fire README]]
+- **Feedback**: [[repos/fire/docs/archive/fire-feedback|Fire Feedback]]
+- **Planning**: [[repos/fire/docs/archive/fire-plan|Fire Plan]]
