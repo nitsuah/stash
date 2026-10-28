@@ -1,6 +1,6 @@
 # Scope
 
-> The canonical repo registry for every routine (local and cloud) — paths, GitHub URLs, org, visibility. `LOC.md`, `MINI.md`, and the cloud skills (`stale-worktrees`, `obn-weekly`, `gh-overseer`) were already written assuming this file exists and is authoritative; it just wasn't kept up to date. Rebuilt 2026-09-16 from `gh repo list nitsuah` / `gh repo list Nitsuah-Labs` (ground truth) cross-checked against `C:\Users\ajhar\code\*` (local clones).
+> The canonical repo registry for every routine (local and cloud) — paths, GitHub URLs, org, visibility. `LOC.md`, `MINI.md`, and the cloud skills (`stale-worktrees`, `obn-weekly`, `gh-overseer`) were already written assuming this file exists and is authoritative; it just wasn't kept up to date. Rebuilt 2026-09-16 from `gh repo list nitsuah` / `gh repo list Nitsuah-Labs` (ground truth) cross-checked against `C:\Users\$username\code\*` (local clones).
 
 **Rule for every routine, local or cloud: read this file for the repo list. Don't hardcode a separate one.** If you add or drop a repo from active tracking, update this file in the same change — that's the whole point of having one source of truth instead of five.
 
@@ -12,25 +12,29 @@ These 17 are what `DAILY.md`, `PMO.md`, `METRICS.md` and the cloud `metrics`/`en
 
 **Tier column**: pulled from vigil's live `repos.tier` (`GET https://gh-vigil.netlify.app/api/context` with `$VIGIL_MCP_KEY`, same call `routine-cloud-daily-brief.md` already makes) on 2026-10-15, re-checked 2026-10-21 (skyview now unregistered in vigil, so `—`). `sotu.py` now reads the live tiers on every run and reports drift, and SOTU covers only T1/T2 repos. It's user-assigned in vigil, never auto-detected, so it drifts out of date here — re-pull before trusting it for a prioritization call more than a few weeks old. `—` means the repo isn't registered in vigil yet (no tier to read), not that it's unimportant. T1 Critical, T2 Important, T3 Standard, T4 Low (see vigil's README for the full rubric).
 
+### usernames
+
+Now that stash is deployed to many machines we may need to review references for usernames like $username and use them interchangably with the "current" user or host of a machine to ensure that the pathing works as expected on any given host. ex $username: ajhar, apok
+
 | Repo | Tier | Local path | GitHub URL | Org | Visibility |
 |---|---|---|---|---|---|
-| motor-pool | T1 | `C:\Users\ajhar\code\motor-pool` (formerly `agent-board`; clone moved to `code\motor-pool` by 2026-10-09, default branch `master`; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
-| ats-fill | T1 | `C:\Users\ajhar\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
-| avatar | — | `C:\Users\ajhar\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
-| bb-mcp | T2 | `C:\Users\ajhar\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
-| darkmoon | — | `C:\Users\ajhar\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |
-| deployer | — | `C:\Users\ajhar\code\deployer` | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |
-| farm-3j | — | `C:\Users\ajhar\code\farm-3j` | https://github.com/nitsuah/farm-3j | nitsuah | public |
-| fire | T1 | `C:\Users\ajhar\code\fire` | https://github.com/nitsuah/fire | nitsuah | public |
-| games | — | `C:\Users\ajhar\code\games` | https://github.com/nitsuah/games | nitsuah | public |
-| gcp | — | `C:\Users\ajhar\code\gcp` | https://github.com/nitsuah/gcp | nitsuah | public |
-| kryptos | — | `C:\Users\ajhar\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
-| nitsuah-io | T3 | `C:\Users\ajhar\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
-| osrs | — | `C:\Users\ajhar\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
-| vigil | T1 | `C:\Users\ajhar\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
-| skyview | — | `C:\Users\ajhar\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
-| stash | T3 | `C:\Users\ajhar\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
-| vhs | T2 | `C:\Users\ajhar\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
+| motor-pool | T1 | `C:\Users\$username\code\motor-pool` (formerly `agent-board`; clone moved to `code\motor-pool` by 2026-10-09, default branch `master`; vault mirror at `repos/motor-pool/`) | https://github.com/nitsuah/motor-pool (renamed from `nitsuah/agent-board` in 2026-10; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| ats-fill | T1 | `C:\Users\$username\code\ats-fill` (formerly `auto-apply-plugin`; vault mirror at `repos/ats-fill/`) | https://github.com/nitsuah/ats-fill (renamed from `nitsuah/auto-apply-plugin`; old URL redirects, but `gh pr list --search` against the old name returns nothing) | nitsuah | public |
+| avatar | — | `C:\Users\$username\code\avatar` | https://github.com/nitsuah/avatar | nitsuah | public |
+| bb-mcp | T2 | `C:\Users\$username\code\bb-mcp` | https://github.com/nitsuah/bb-mcp | nitsuah | public |
+| darkmoon | — | `C:\Users\$username\code\darkmoon` | https://github.com/nitsuah/darkmoon | nitsuah | public |
+| deployer | — | `C:\Users\$username\code\deployer` | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |
+| farm-3j | — | `C:\Users\$username\code\farm-3j` | https://github.com/nitsuah/farm-3j | nitsuah | public |
+| fire | T1 | `C:\Users\$username\code\fire` | https://github.com/nitsuah/fire | nitsuah | public |
+| games | — | `C:\Users\$username\code\games` | https://github.com/nitsuah/games | nitsuah | public |
+| gcp | — | `C:\Users\$username\code\gcp` | https://github.com/nitsuah/gcp | nitsuah | public |
+| kryptos | — | `C:\Users\$username\code\kryptos` | https://github.com/nitsuah/kryptos | nitsuah | public |
+| nitsuah-io | T3 | `C:\Users\$username\code\nitsuah-io` | https://github.com/Nitsuah-Labs/nitsuah-io | Nitsuah-Labs | public |
+| osrs | — | `C:\Users\$username\code\osrs` | https://github.com/nitsuah/osrs | nitsuah | public |
+| vigil | T1 | `C:\Users\$username\code\vigil` (formerly `overseer`; vault mirror at `repos/vigil/`. Older routines and logs may still say `overseer`) | https://github.com/nitsuah/vigil (renamed from `nitsuah/overseer`; old URL redirects) | nitsuah | public |
+| skyview | — | `C:\Users\$username\code\skyview` | https://github.com/nitsuah/skyview | nitsuah | public |
+| stash | T3 | `C:\Users\$username\code\stash` | https://github.com/nitsuah/stash | nitsuah | public |
+| vhs | T2 | `C:\Users\$username\code\vhs` | https://github.com/nitsuah/vhs | nitsuah | public |
 
 `stash` is the vault these prompts live in — audited for metrics/docs by the routines above, but skipped by name in `PMO.md`'s repo loop ("it's the vault, not a product repo").
 
@@ -42,8 +46,8 @@ Exist on GitHub, cloned or not, but out of scope for PMO/metrics/LOC/MINI automa
 
 | Repo | Local path | GitHub URL | Why excluded |
 |---|---|---|---|
-| 9router | `C:\Users\ajhar\code\9router` | https://github.com/nitsuah/9router | fork |
-| windirstat-mcp | `C:\Users\ajhar\code\windirstat-mcp` | https://github.com/nitsuah/windirstat-mcp | fork |
+| 9router | `C:\Users\$username\code\9router` | https://github.com/nitsuah/9router | fork |
+| windirstat-mcp | `C:\Users\$username\code\windirstat-mcp` | https://github.com/nitsuah/windirstat-mcp | fork |
 | gods-eye-view | not cloned locally | https://github.com/nitsuah/gods-eye-view | fork |
 | odysseus | not cloned locally | https://github.com/nitsuah/odysseus | fork |
 | opencut-classic | not cloned locally as this name (see the `project-opencut` Claude memory — cloned as `opencut` from a different fork, `nitsuah/opencut-classic` on GitHub isn't the same working copy) | https://github.com/nitsuah/opencut-classic | fork |

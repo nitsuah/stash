@@ -6,9 +6,9 @@ aliases: [agent-board]
 
 # motor-pool
 
-> Reviewed: 2026-10-15
+> Reviewed: 2026-10-28 (remote `master` mirror refreshed from committed files)
 
-> **Renamed from `agent-board`** in 2026-10 (`nitsuah/agent-board` redirects to `nitsuah/motor-pool`). The local clone is still at `code\agent-board`; reports from before the rename keep the old name in their filenames.
+> **Renamed from `agent-board`** in 2026-10 (`nitsuah/agent-board` redirects to `nitsuah/motor-pool`). Older reports may retain the former project name in their filenames.
 
 ## Overview
 
@@ -16,25 +16,13 @@ Local-first AI ops cockpit — chat surface, safety rails, and live observabilit
 
 ## Current Goals / Roadmap Focus
 
-**Q2 2026 (active):**
-- Persistence for agent history, logs, state snapshots
-- Agent command interface (start/stop/restart)
-- Heartbeat + resource monitoring
-- Conversation replay mode (step-through debugging)
-- Validated production deployment path (P2)
+**2026 Q4 (active):** Imps — safe async agent tasks. See [[repos/motor-pool/docs/IMPS-PLAN|IMPS-PLAN]].
 
-**Q3 2026 (planned):**
-- Multi-tenancy / RBAC planning
-- Named pub/sub event channels for reactive multi-agent pipelines
-- Plugin architecture for task extensions
-- BYOK external LLM integration (Claude, Gemini, etc.)
-- MCP container manager (spin tool containers on demand)
-- tmux multi-agent worktrees
-- 3D Memory Palace context (Neo4j + Graphiti + WebGL)
+**2027 Q1 critical path:** service lifecycle dashboard → authentication gate and scoped exec token → persistent BYOK endpoints; Windows host profiling and event-bus validation are also tracked.
 
-**Q1 2027 critical path:** Docker optimization + GPU → service lifecycle → plugin arch + BYOK → MCP container manager
+**2027 Q2:** Blackboard showcase and MCP ecosystem: offline demo mode, registry panel, MCP container manager, Odysseus routing, and 3D Memory Palace exploration.
 
-**2027 Q2:** Blackboard / bb-mcp frontend layer (streaming UI, persona selector, demo mode)
+**2027 Q3:** platform hardening and scale, including multi-tenancy/RBAC, audit logging, analytics, runtime decoupling, guardrails, and RAG foundations.
 
 ## Open P0/P1 Tasks
 
