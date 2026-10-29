@@ -3,9 +3,11 @@ import { Actor, log } from 'apify';
 import * as cheerio from 'cheerio';
 import { detect } from './detect.js';
 import { loadFingerprints } from './load.js';
+import { readTextCapped } from './body.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; TechStackDetector/1.0; +https://apify.com)';
+const MAX_HTML_BYTES = 2_000_000;
 
 await Actor.init();
 const input = (await Actor.getInput()) ?? {};
@@ -20,7 +22,7 @@ async function inspect(url) {
         const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*' }, signal: AbortSignal.timeout(timeoutMs) });
         row.status = res.status;
         row.finalUrl = res.url;
-        const html = (await res.text()).slice(0, 2_000_000);
+        const html = await readTextCapped(res, MAX_HTML_BYTES);
         const $ = cheerio.load(html);
         const headers = Object.fromEntries([...res.headers.entries()]);
         const cookies = typeof res.headers.getSetCookie === 'function' ? res.headers.getSetCookie().map((c) => c.split(';')[0]) : [];
