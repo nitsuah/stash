@@ -1,9 +1,9 @@
 # API / MCP endpoint authorization matrix
 
 No keys, tokens, or secrets in this file. Tracking: nitsuah/stash#302.
-Routes detected are auto-counted from tracked source (a lead, not proof). Values marked "prior lead" come from earlier docs and stay unverified until the per-repo review completes. Findings from this review are tracked privately, not here.
+The AuthZ column records the principal and any tenant or object-ownership check (per user, per account, per object); it stays unverified until the per-repo review completes. Routes detected are auto-counted from tracked source (a lead, not proof). Values marked "prior lead" come from earlier docs and stay unverified until the per-repo review completes. Findings from this review are tracked privately, not here.
 
-| Repo | Surface | Routes detected | AuthN | AuthZ / principal | Rate limit | Deny behaviour | Tracking | Status |
+| Repo | Surface | Routes detected | AuthN | AuthZ / principal / tenant checks | Rate limit | Deny behaviour | Tracking | Status |
 |---|---|---|---|---|---|---|---|---|
 | ats-fill | browser extension (message router) | 0 | TBD | TBD | TBD | TBD | nitsuah/ats-fill#176 | unverified |
 | gcp | dashboard (apps/server.js) | 9 | TBD | TBD | TBD | TBD | nitsuah/gcp#78 | unverified |
