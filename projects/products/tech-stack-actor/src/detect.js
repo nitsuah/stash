@@ -10,6 +10,16 @@
 
 const re = (pattern) => new RegExp(pattern, 'i');
 
+// Remote values are untrusted: clip each string and cap the counts so a fingerprint regex cannot be driven into quadratic scans.
+export const MAX_VALUE_LENGTH = 1024;
+export const MAX_VALUES = 500;
+const clip = (s) => String(s).slice(0, MAX_VALUE_LENGTH);
+export function boundPage(page) {
+    const list = (a) => (a ?? []).slice(0, MAX_VALUES).map(clip);
+    const dict = (o) => Object.fromEntries(Object.entries(o ?? {}).slice(0, MAX_VALUES).map(([k, v]) => [k, clip(v)]));
+    return { ...page, scripts: list(page.scripts), links: list(page.links), cookies: list(page.cookies), headers: dict(page.headers), meta: dict(page.meta) };
+}
+
 /** Returns the evidence strings for one fingerprint against one page, empty when nothing matched. */
 export function evidenceFor(fp, page) {
     const m = fp.match ?? {};
@@ -35,9 +45,10 @@ export function evidenceFor(fp, page) {
  * @returns {{name: string, category: string, website?: string, evidence: string[], implied?: boolean}[]}
  */
 export function detect(page, fingerprints) {
+    const safe = boundPage(page);
     const hits = new Map();
     for (const fp of fingerprints) {
-        const evidence = evidenceFor(fp, page);
+        const evidence = evidenceFor(fp, safe);
         if (evidence.length) hits.set(fp.name, { name: fp.name, category: fp.category, website: fp.website, evidence });
     }
     // Implied technologies (WordPress implies PHP) are added once, marked as implied, unless seen directly.

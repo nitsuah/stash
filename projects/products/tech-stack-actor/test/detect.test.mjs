@@ -1,7 +1,7 @@
 // Run: node --test projects/products/tech-stack-actor/test   (Node 22, no dependencies)
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detect, lintFingerprints } from '../src/detect.js';
+import { detect, lintFingerprints, boundPage, MAX_VALUE_LENGTH } from '../src/detect.js';
 import { loadFingerprints } from '../src/load.js';
 
 const all = loadFingerprints();
@@ -68,4 +68,20 @@ test('lint catches bad data', () => {
     assert.ok(problems.some((p) => /invalid regex/.test(p)));
     assert.ok(problems.some((p) => /duplicate name/.test(p)));
     assert.ok(problems.some((p) => /no match patterns/.test(p)));
+});
+
+test('hostile page values cannot trigger quadratic regex scans', () => {
+    const hostile = 'prestashop.com'.repeat(20_000);
+    const started = performance.now();
+    detect({ html: '', scripts: [hostile], links: [hostile], cookies: [hostile], headers: { server: hostile }, meta: { generator: hostile } }, all);
+    assert.ok(performance.now() - started < 1500, 'detect must stay fast on a 280 KB hostile value');
+});
+
+test('values are clipped but matches inside the clip still work', () => {
+    const names = detect({ scripts: ['/themes/classic/js/theme.js' + 'a'.repeat(5000)] }, all).map((h) => h.name);
+    assert.ok(names.includes('PrestaShop'));
+    const bounded = boundPage({ scripts: Array.from({ length: 600 }, () => 'x'.repeat(5000)), headers: { server: 'y'.repeat(5000) } });
+    assert.equal(bounded.scripts.length, 500);
+    assert.equal(bounded.scripts[0].length, MAX_VALUE_LENGTH);
+    assert.equal(bounded.headers.server.length, MAX_VALUE_LENGTH);
 });
