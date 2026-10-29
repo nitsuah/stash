@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · **Roadmap** · [Tasks](./TASKS.md) · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-09-29
+Last Updated: 2026-10-28
 
 > 2027 planning reset (2026-09-24): 2026 Q1–Q2 (planning integrity, docs baseline, security hygiene, open-source
 > sanitization, backend/database/SSO examples, IaC consolidation) and the completed 2026 Q3 items (Jira runbook,
@@ -10,6 +10,13 @@ Last Updated: 2026-09-29
 > 2026 Q3/Q4 item was carried into 2027 Q1 below; the old "2027 Q1+ (Backlog)" list follows it unchanged.
 
 ## 2027 Q1 (Status: Planned)
+
+### Security program
+
+- [ ] OAuth, API/MCP and tiered application security review (In Progress)
+	- Objective: complete OAuth and endpoint-authorization inventories, close critical findings, and roll shared security controls out by repo tier.
+	- Exit Criteria: every tier 0 and tier 1 repo has a verified endpoint matrix, shared controls adopted, API-key system in place for multi-user apps, consent screens branded and verified.
+	- Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md).
 
 ### Carried from 2026 Q3
 

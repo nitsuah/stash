@@ -16,12 +16,13 @@ Tracking: nitsuah/stash#302. Never put secrets or tokens in issues, PRs, or thes
 
 ## Scope
 
-CodeRabbit is out of scope.
+CodeRabbit scan results are in scope. Exploitable findings go to private draft security advisories on the owning repo (most repos are public); only hardening items and docs work are filed as public issues. Findings in upstream forks are reported privately to the upstream maintainers.
 
 ## Index
 
 - [OAUTH-INVENTORY.md](OAUTH-INVENTORY.md)
 - [ENDPOINT-ACL.md](ENDPOINT-ACL.md)
+- [SECURITY-ROADMAP.md](SECURITY-ROADMAP.md)
 - nitsuah/gcp#78
 - nitsuah/ats-fill#176
 - nitsuah/skyview#213
