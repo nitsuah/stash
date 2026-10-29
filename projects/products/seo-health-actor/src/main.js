@@ -1,10 +1,12 @@
 // SEO health Actor: crawls a site and flags missing or weak titles, descriptions, headings, canonicals, noindex tags and sitemap/robots problems.
 import { Actor } from 'apify';
 import { CheerioCrawler } from 'crawlee';
+import { readTextCapped } from './body.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const TITLE = { min: 15, max: 60 };
 const DESC = { min: 70, max: 160 };
+const MAX_CHECK_BYTES = 2 * 1024 * 1024; // robots.txt / sitemap.xml are read at most this far (decoded bytes)
 
 await Actor.init();
 
@@ -71,7 +73,11 @@ markDuplicates('description', 'description-duplicate', 'Description');
 const siteChecks = [];
 for (const origin of new Set(startUrls.map((u) => new URL(u).origin))) {
     const get = async (path) => {
-        try { const r = await fetch(origin + path, { signal: AbortSignal.timeout(15000) }); return { status: r.status, text: r.ok ? await r.text() : '' }; } catch { return { status: null, text: '' }; }
+        try {
+            const r = await fetch(origin + path, { signal: AbortSignal.timeout(15000) });
+            if (!r.ok) { await r.body?.cancel().catch(() => {}); return { status: r.status, text: '' }; }
+            return { status: r.status, text: await readTextCapped(r, MAX_CHECK_BYTES) };
+        } catch { return { status: null, text: '' }; }
     };
     const robots = await get('/robots.txt');
     const sitemap = await get('/sitemap.xml');
