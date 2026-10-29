@@ -29,7 +29,7 @@ async function get(url) {
     } catch (err) { return { status: res?.status ?? null, text: '', error: err.cause?.code ?? err.message }; }
 }
 
-const locs = (xml) => [...xml.matchAll(/<loc>\s*([^<\s][^<]*?)\s*<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&'));
+export const locs = (xml) => [...xml.matchAll(/<loc>([^<]*)<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&').trim());
 
 // Walk sitemap indexes up to three levels deep, with independent fetch and entry budgets.
 async function collect(sitemapUrl, depth, seen, out, notes) {
