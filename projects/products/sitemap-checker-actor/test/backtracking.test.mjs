@@ -31,3 +31,12 @@ test('fixed regex correctly replaces &', () => {
     const result = locs(xml);
     assert.equal(result[0], 'https://example.com/?a=1&b=2');
 });
+
+test('lastmod regex handles pathological input linearly', () => {
+    const pathological = '<lastmod>' + '/'.repeat(50000) + '</lastmod>';
+    const start = Date.now();
+    const match = pathological.match(/<lastmod>([^<]*)<\/lastmod>/i);
+    const elapsed = Date.now() - start;
+    assert.ok(elapsed < 100, `Lastmod regex took ${elapsed}ms, expected < 100ms`);
+    assert.ok(match && match[1]);
+});

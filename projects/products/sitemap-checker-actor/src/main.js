@@ -50,7 +50,7 @@ async function collect(sitemapUrl, depth, seen, out, notes) {
         for (const block of r.text.split(/<url>/i).slice(1)) {
             if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped collecting entries at the configured limit of ' + maxEntries }); break; }
             const [loc] = locs(block);
-            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: (block.match(/<lastmod>\s*([^<]+?)\s*<\/lastmod>/i) ?? [])[1] ?? null });
+            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: (block.match(/<lastmod>([^<]*)<\/lastmod>/i) ?? [])[1] ?? null });
         }
     } else notes.push({ sitemap: sitemapUrl, problem: 'Not a valid sitemap (no urlset or sitemapindex element)' });
 }
