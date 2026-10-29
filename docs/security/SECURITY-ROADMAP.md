@@ -18,7 +18,7 @@ Program tracker: nitsuah/stash#302 (inventory) - this file is the plan of record
 
 ## Phases
 
-0. **Gate-last critical response** - highest-impact findings, handled as private advisories after planning is signed off.
+0. **Critical response (immediate)** - the highest-impact findings are filed as private advisories and contained right away; plan sign-off governs the broader remediation, never emergency handling.
 1. **Fix-once controls** - shared helpers and lint rules for the cross-repo themes below.
 2. **Tiered remediation** - per-repo work in tier order, one small tracked item each.
 3. **API keys & rotation** - one standard key-management design (generate/rotate/revoke from the GUI, encrypted at rest), themed per app.
