@@ -16,6 +16,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-28 — Security program plan
+
+- **Added:** `docs/security/SECURITY-ROADMAP.md` (principles, tiers, phases, fix-once controls) and a verified OAuth client inventory; `ENDPOINT-ACL.md` now lists detected routes per repo.
+- **Changed:** `docs/security/README.md` no longer treats CodeRabbit output as out of scope and states the private-advisory reporting channel.
+
 ### 2026-10-16 — SOTU scoped to tier 1–2 apps
 
 - **Changed:** `sotu.py` reads each repo's tier live from vigil's `/api/context` (falling back to scope.md's Tier column) and covers only T1/T2 repos: ats-fill, bb-mcp, fire, motor-pool, skyview, vhs and vigil. `stash` remains out of scope as the T3 vault. Out-of-scope repos' tasks and ledger rows drop out; `--all-tiers` restores the full list. Tier drift against scope.md is reported in the report and the page header.

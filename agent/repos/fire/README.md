@@ -192,7 +192,7 @@ Connect Claude Code to your live financial data. The project ships a `.mcp.json`
 }
 ```
 
-**Tools (17, all read-only):** `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_cds`, `get_expenses`, `get_insurances`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`
+**Tools (20, all read-only):** `fire_status_summary`, `get_net_worth`, `get_net_worth_trend`, `get_accounts`, `get_portfolio`, `get_transactions`, `get_recurring_charges`, `get_cds`, `get_upcoming_events`, `get_expenses`, `get_insurances`, `get_projection_settings`, `get_side_gig_income`, `get_side_gig_tax_summary`, `get_wallets`, `get_concentration_risk`, `get_diversification_score`, `get_swr_sensitivity`, `simulate_rebalance`, `get_emergency_runway`
 
 `simulate_rebalance` is a what-if: it reports allocation and diversification score before/after moving money between asset classes, and never trades or saves anything. With `chaos: true` it sweeps every single-leg move across liquid classes and your top positions at several sizes, scores each under bear/base/bull return assumptions you supply (defaults are placeholders) net of estimated capital-gains tax, and ranks the rows by a metric you pick. It reports a table, never a recommendation.
 

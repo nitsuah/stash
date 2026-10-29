@@ -28,7 +28,7 @@ fire is a **local-first, privacy-by-design** personal finance tool. It is not a 
 
 When you use the hosted Netlify deployment:
 
-- **All data lives exclusively in your browser's `localStorage`**, keyed to `fire_tracker_state`.
+- **Your data lives in your browser's `localStorage`**, keyed to `fire_tracker_state`. The only copies that can exist elsewhere are ones you create by opting into an integration below (Google Drive backup, eBay order sync, CoinTracker wallet sync).
 - Data does not leave your device through this application unless you opt into an integration described below. Without an opt-in, it is not sent to Netlify servers, cloud databases, or any third party by this app.
 - Clearing your browser data, switching browsers, or using a private/incognito session **will erase your data**. Use the Export JSON Backup feature regularly.
 - **Optional Google Drive backup.** If you connect Google Drive, the backup flow runs through this site's Netlify Function (`/api/backup/drive/*`). Your state is sent to that Function, encrypted there with a server-held key (`SYNC_MASTER_KEY`) using AES-256-GCM, and uploaded to **your own** Google Drive. The Drive OAuth token comes back to your browser sealed with the same key and is kept under the separate `localStorage` key `fire_tracker_gdrive_token`, which your browser can't decrypt. A restore sends the chosen backup back to the Function, which decrypts it server-side and returns your plaintext state to the browser. Because the key lives on the server, a backup can't be decrypted without this deployment, and losing `SYNC_MASTER_KEY` makes existing backups unreadable.
@@ -49,7 +49,7 @@ When you run the application locally via Docker:
 
 ## 3. Data Never Collected or Transmitted by This App
 
-The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from two exceptions: the encrypted Google Drive backup you can opt into (Section 2), which is unreadable without this app's key, and the Google Drive OAuth sign-in and token refresh described in Section 4:
+The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from the integrations you opt into (Sections 2 and 4): the encrypted Google Drive backup (unreadable without this app's key) and its OAuth sign-in and token refresh; eBay order sync, where orders are fetched from eBay through this app's server or Netlify Function and returned straight to your browser; and CoinTracker wallet sync, where wallet names, public addresses and balances are fetched the same way. On the hosted site the eBay and CoinTracker integrations keep nothing on the server; when self-hosted, eBay tokens are stored on your own machine in `data/tokens-ebay.json`. Without an opt-in, none of this applies:
 
 - Account balances, net worth, or investment values
 - Portfolio positions or CSV import contents

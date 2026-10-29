@@ -420,7 +420,7 @@ Run this before any external-facing deployment or after major changes to the syn
 ### MCP-Specific
 
 - [x] MCP server registers no write tools — see `tests/unit/mcp-server-read-only.test.mjs`: a name-based check, a byte-diff check that db.json is untouched after calling every registered tool (caught and fixed a real violation in `set_price_target_alert`), a write-syscall spy on `fs.writeFileSync`/`renameSync` (catches a same-content rewrite the byte-diff alone can't distinguish from never writing — flagged by CodeRabbit on PR #105), and a static check that the file never references `writeState`/`mutateState` at all
-- [ ] MCP server does not make external network calls (run with network blocked; all 8 tools should still respond from db.json)
+- [ ] MCP server does not make external network calls (run with network blocked; all 20 tools should still respond from db.json)
 - [ ] MCP audit log records tool calls without logging response content
 
 ---

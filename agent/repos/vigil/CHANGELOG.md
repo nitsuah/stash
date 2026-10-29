@@ -17,7 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Per-tool authorization on `/api/mcp` and `/api/context` (#345): optional least-privilege keys via `MCP_SCOPED_KEYS` (scopes `repo:read`, `portfolio:read`, `security:read`, `relationships:read`, `relationships:write`); `MCP_API_KEY` stays the all-scope admin key; keys compared in constant time; an authenticated key lacking a tool's scope gets 403, unknown tools are denied; ACL matrix in docs/MCP.md.
+
 ### Added
+
+- Security health badge ("Sec NN%") in the repo health row, scored with the same inputs as the Health Breakdown popup; "Sec —" when the repo has not been security-checked yet (vigil-340).
 
 - Link-preview tags completed for the live app and GitHub Pages showcase: canonical URL, `og:url`, and Twitter title/description/image on Pages; app home/login page-specific `alternates.canonical` (not inherited from the root layout) plus a shared 1200×630 Open Graph image (`public/og-1200x630.jpg`, `site/assets/og-1200x630.jpg`) center-cropped from the existing poster. Live app `metadataBase` / README / Pages “live demo” / `promo/spots.json` `live` point at `https://vigil.nitsuah.io` (custom domain live 2026-10-25).
 - Showcase rollout completed: Pages and `/brag` spots are live for vhs, skyview and nitsuah-io, and Actions PRs are enabled for vigil, fire and motor-pool (2026-10-15).
@@ -36,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Pre-commit hook runs lint-staged from git worktrees too: it uses `node_modules/.bin/lint-staged` when present, otherwise lints in a `node:22` Docker container when Docker is running, and otherwise warns and skips (CI still runs lint). Dependencies install into a named volume, so later commits skip the install.
 - Metrics and Testing cards put a space between a value and its label (e.g. "2.4992 functions", "151 🟢 Pass") (#313).
 - PMO relationships: confirmed links get their own "Confirmed (n)" heading instead of sitting under "Needs review" (#276).
 - Visual Docs: "Open visual-docs CI recipe PR" now opens the PR instead of failing with `Unknown practice type: visual_docs`. The `visual_docs` practice is template-driven; `handleFixPractice` now skips the AI prompt chain and POSTs directly to `fix-best-practice` (#315).
