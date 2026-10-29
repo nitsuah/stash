@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isValidLastmod, isSameHostname, readLimitedBody } from '../src/validation.js';
+import { isValidLastmod, isSameHostname, readLimitedBody, locs, lastmodOf, sitemapsFromRobots } from '../src/validation.js';
 
 test('lastmod validates ISO syntax, real calendar dates, clock and offset ranges', () => {
     assert.equal(isValidLastmod('2026-02-28'), true);
