@@ -8,11 +8,11 @@ async function readLimited(res, limit) {
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
-            total += value.length;
-            if (total > limit) {
-                reader.releaseLock();
+            if (total + value.length > limit) {
+                reader.cancel();
                 throw new Error(`Response body exceeds ${limit} byte limit`);
             }
+            total += value.length;
             chunks.push(value);
         }
     } finally {

@@ -21,6 +21,31 @@ function mockResponse(bodyBytes) {
     };
 }
 
+function mockStreamingReader(chunkSizes) {
+    return {
+        readCount: 0,
+        cancelled: false,
+        chunkSizes,
+        async read() {
+            this.readCount += 1;
+            if (this.readCount > this.chunkSizes.length) {
+                return { done: true, value: undefined };
+            }
+            return { done: false, value: new Uint8Array(this.chunkSizes[this.readCount - 1]) };
+        },
+        cancel() { this.cancelled = true; },
+        releaseLock() {}
+    };
+}
+
+function mockStreamingResponse(reader) {
+    return {
+        body: {
+            getReader() { return reader; }
+        }
+    };
+}
+
 test('readLimited accepts body under limit', async () => {
     const res = mockResponse([72, 101, 108, 108, 111]);
     const html = await readLimited(res, MAX_HTML_BYTES);
@@ -41,4 +66,34 @@ test('readLimited enforces exact limit boundary', async () => {
     const res = mockResponse(exact);
     const html = await readLimited(res, MAX_HTML_BYTES);
     assert.equal(html.length, MAX_HTML_BYTES);
+});
+
+test('readLimited rejects single oversized chunk without allocating full chunk buffer', async () => {
+    const reader = mockStreamingReader([10_000_000]);
+    const res = mockStreamingResponse(reader);
+    await assert.rejects(
+        readLimited(res, 100),
+        /exceeds.*byte limit/
+    );
+    assert.equal(reader.readCount, 1, 'should read at most once before rejecting');
+});
+
+test('readLimited cancels reader when body exceeds limit', async () => {
+    const reader = mockStreamingReader([MAX_HTML_BYTES + 100]);
+    const res = mockStreamingResponse(reader);
+    let threw = false;
+    try {
+        await readLimited(res, MAX_HTML_BYTES);
+    } catch {
+        threw = true;
+    }
+    assert.ok(threw, 'readLimited should have thrown');
+    assert.equal(reader.cancelled, true, 'reader.cancel() should be called on over-limit');
+});
+
+test('readLimited does not cancel reader under limit', async () => {
+    const reader = mockStreamingReader([10, 20, 30]);
+    const res = mockStreamingResponse(reader);
+    const html = await readLimited(res, MAX_HTML_BYTES);
+    assert.equal(reader.cancelled, false, 'reader.cancel() should not be called under limit');
 });
