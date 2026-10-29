@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readLimited, MAX_HTML_BYTES } from '../src/main.js';
+import { readLimited, MAX_HTML_BYTES } from '../src/readLimited.js';
 
 function mockResponse(bodyBytes) {
     const uint8 = new Uint8Array(bodyBytes);
