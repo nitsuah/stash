@@ -2,11 +2,29 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-09
+Last Updated: 2026-10-28
 
 ## In Progress
 
 ## Todo
+
+### Security program (OAuth, API/MCP, tiered review)
+
+Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: nitsuah/stash#302.
+
+- [x] Inventory OAuth clients and consent-screen state across Google, GitHub and eBay consoles.
+  - Done 2026-10-28: [security/OAUTH-INVENTORY.md](./security/OAUTH-INVENTORY.md).
+- [x] Triage CodeRabbit scan output and route it: private advisories for exploitable items, small public hardening issues for the rest.
+  - Done 2026-10-28.
+- [ ] Per-repo endpoint authorization matrix (authn, authz, tenant checks, rate limits).
+  - Priority: P0
+  - Next: fill [security/ENDPOINT-ACL.md](./security/ENDPOINT-ACL.md) from the read-only per-repo passes.
+- [ ] Fix-once controls: shared path-containment, capped fetch, SSRF guard, OAuth state/PKCE helper, fail-closed secret config.
+  - Priority: P1
+- [ ] One standard API-key system (show-once, hashed, scoped, rotate/revoke from the UI) for multi-user apps.
+  - Priority: P1
+- [ ] Deterministic logo/icon generation per repo and consent-screen branding updates.
+  - Priority: P2
 
 ### Journeys rollout (low-inference "AI user" loop)
 
