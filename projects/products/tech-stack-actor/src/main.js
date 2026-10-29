@@ -6,6 +6,28 @@ import { loadFingerprints } from './load.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; TechStackDetector/1.0; +https://apify.com)';
+const MAX_HTML_BYTES = 2_000_000;
+
+async function readLimited(res, limit) {
+    const reader = res.body.getReader();
+    const chunks = [];
+    let total = 0;
+    try {
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            total += value.length;
+            if (total > limit) {
+                reader.releaseLock();
+                throw new Error(`Response body exceeds ${limit} byte limit`);
+            }
+            chunks.push(value);
+        }
+    } finally {
+        reader.releaseLock();
+    }
+    return new TextDecoder().decode(Buffer.concat(chunks));
+}
 
 await Actor.init();
 const input = (await Actor.getInput()) ?? {};
@@ -20,7 +42,7 @@ async function inspect(url) {
         const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*' }, signal: AbortSignal.timeout(timeoutMs) });
         row.status = res.status;
         row.finalUrl = res.url;
-        const html = (await res.text()).slice(0, 2_000_000);
+        const html = await readLimited(res, MAX_HTML_BYTES);
         const $ = cheerio.load(html);
         const headers = Object.fromEntries([...res.headers.entries()]);
         const cookies = typeof res.headers.getSetCookie === 'function' ? res.headers.getSetCookie().map((c) => c.split(';')[0]) : [];
