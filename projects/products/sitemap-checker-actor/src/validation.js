@@ -37,3 +37,31 @@ export function isValidLastmod(value) {
     }
     return true;
 }
+
+// Linear-time field extraction for untrusted sitemap/robots text: no overlapping quantifiers, no backtracking blow-up.
+const MAX_ROBOTS_LINE = 4096;
+
+export function locs(xml) {
+    const out = [];
+    for (const m of xml.matchAll(/<loc>([^<]*)<\/loc>/gi)) {
+        const value = m[1].trim();
+        if (value) out.push(value.replace(/&/g, '&'));
+    }
+    return out;
+}
+
+export function lastmodOf(xml) {
+    const m = /<lastmod>([^<]*)<\/lastmod>/i.exec(xml);
+    const value = m ? m[1].trim() : '';
+    return value || null;
+}
+
+export function sitemapsFromRobots(text) {
+    const out = [];
+    for (const line of text.split(/\r?\n/)) {
+        if (line.length > MAX_ROBOTS_LINE) continue;
+        const m = /^\s*sitemap:\s*(\S+)/i.exec(line);
+        if (m) out.push(m[1]);
+    }
+    return out;
+}
