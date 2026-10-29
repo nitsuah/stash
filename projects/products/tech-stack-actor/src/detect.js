@@ -15,27 +15,35 @@ const re = (pattern) => {
     return r;
 };
 
-// Bound the work any single pattern can do: page HTML and each other value are truncated before matching.
+// Page HTML is truncated before matching (boundPage below clips the other values).
 export const MAX_HTML_CHARS = 1_000_000;
-export const MAX_VALUE_CHARS = 8192;
 const capHtml = (s) => (s.length > MAX_HTML_CHARS ? s.slice(0, MAX_HTML_CHARS) : s);
-const capValue = (s) => { const v = String(s); return v.length > MAX_VALUE_CHARS ? v.slice(0, MAX_VALUE_CHARS) : v; };
+
+// Remote values are untrusted: clip each string and cap the counts so a fingerprint regex cannot be driven into quadratic scans.
+export const MAX_VALUE_LENGTH = 1024;
+export const MAX_VALUES = 500;
+const clip = (s) => String(s).slice(0, MAX_VALUE_LENGTH);
+export function boundPage(page) {
+    const list = (a) => (a ?? []).slice(0, MAX_VALUES).map(clip);
+    const dict = (o) => Object.fromEntries(Object.entries(o ?? {}).slice(0, MAX_VALUES).map(([k, v]) => [k, clip(v)]));
+    return { ...page, scripts: list(page.scripts), links: list(page.links), cookies: list(page.cookies), headers: dict(page.headers), meta: dict(page.meta) };
+}
 
 /** Returns the evidence strings for one fingerprint against one page, empty when nothing matched. */
 export function evidenceFor(fp, page) {
     const m = fp.match ?? {};
     const found = [];
     for (const p of m.html ?? []) if (re(p).test(capHtml(page.html ?? ''))) found.push(`html:${p}`);
-    for (const p of m.scripts ?? []) if ((page.scripts ?? []).some((s) => re(p).test(capValue(s)))) found.push(`script:${p}`);
-    for (const p of m.links ?? []) if ((page.links ?? []).some((s) => re(p).test(capValue(s)))) found.push(`link:${p}`);
+    for (const p of m.scripts ?? []) if ((page.scripts ?? []).some((s) => re(p).test(s))) found.push(`script:${p}`);
+    for (const p of m.links ?? []) if ((page.links ?? []).some((s) => re(p).test(s))) found.push(`link:${p}`);
     for (const [name, p] of Object.entries(m.headers ?? {})) {
         const value = (page.headers ?? {})[name.toLowerCase()];
-        if (value !== undefined && re(p).test(capValue(value))) found.push(`header:${name}`);
+        if (value !== undefined && re(p).test(String(value))) found.push(`header:${name}`);
     }
-    for (const p of m.cookies ?? []) if ((page.cookies ?? []).some((c) => re(p).test(capValue(c)))) found.push(`cookie:${p}`);
+    for (const p of m.cookies ?? []) if ((page.cookies ?? []).some((c) => re(p).test(c))) found.push(`cookie:${p}`);
     for (const [name, p] of Object.entries(m.meta ?? {})) {
         const value = (page.meta ?? {})[name.toLowerCase()];
-        if (value !== undefined && re(p).test(capValue(value))) found.push(`meta:${name}`);
+        if (value !== undefined && re(p).test(String(value))) found.push(`meta:${name}`);
     }
     return found;
 }
@@ -46,9 +54,10 @@ export function evidenceFor(fp, page) {
  * @returns {{name: string, category: string, website?: string, evidence: string[], implied?: boolean}[]}
  */
 export function detect(page, fingerprints) {
+    const safe = boundPage(page);
     const hits = new Map();
     for (const fp of fingerprints) {
-        const evidence = evidenceFor(fp, page);
+        const evidence = evidenceFor(fp, safe);
         if (evidence.length) hits.set(fp.name, { name: fp.name, category: fp.category, website: fp.website, evidence });
     }
     // Implied technologies (WordPress implies PHP) are added once, marked as implied, unless seen directly.

@@ -1,7 +1,7 @@
 // Run: node --test projects/products/tech-stack-actor/test   (Node 22, no dependencies)
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detect, lintFingerprints, MAX_HTML_CHARS, MAX_VALUE_CHARS } from '../src/detect.js';
+import { detect, lintFingerprints, boundPage, MAX_VALUE_LENGTH, MAX_HTML_CHARS } from '../src/detect.js';
 import { loadFingerprints } from '../src/load.js';
 
 const all = loadFingerprints();
@@ -76,10 +76,25 @@ test('lint rejects a nested-quantifier pattern but accepts the shipped data', ()
     assert.deepEqual(lintFingerprints(all), []);
 });
 
-test('matching work is bounded: oversized html and values are truncated before matching', () => {
-    const fp = [{ name: 'Tail', category: 'CMS', match: { html: ['needle-at-the-very-end'], scripts: ['needle-at-the-very-end'] } }];
-    const big = 'a'.repeat(MAX_HTML_CHARS + 10) + 'needle-at-the-very-end';
-    assert.deepEqual(detect({ html: big }, fp), []);
-    assert.deepEqual(detect({ scripts: ['b'.repeat(MAX_VALUE_CHARS + 10) + 'needle-at-the-very-end'] }, fp), []);
+
+test('oversized html is truncated before matching', () => {
+    const fp = [{ name: 'Tail', category: 'CMS', match: { html: ['needle-at-the-very-end'] } }];
+    assert.deepEqual(detect({ html: 'a'.repeat(MAX_HTML_CHARS + 10) + 'needle-at-the-very-end' }, fp), []);
     assert.equal(detect({ html: 'x needle-at-the-very-end' }, fp).length, 1);
+});
+
+test('hostile page values cannot trigger quadratic regex scans', () => {
+    const hostile = 'prestashop.com'.repeat(20_000);
+    const started = performance.now();
+    detect({ html: '', scripts: [hostile], links: [hostile], cookies: [hostile], headers: { server: hostile }, meta: { generator: hostile } }, all);
+    assert.ok(performance.now() - started < 1500, 'detect must stay fast on a 280 KB hostile value');
+});
+
+test('values are clipped but matches inside the clip still work', () => {
+    const names = detect({ scripts: ['/themes/classic/js/theme.js' + 'a'.repeat(5000)] }, all).map((h) => h.name);
+    assert.ok(names.includes('PrestaShop'));
+    const bounded = boundPage({ scripts: Array.from({ length: 600 }, () => 'x'.repeat(5000)), headers: { server: 'y'.repeat(5000) } });
+    assert.equal(bounded.scripts.length, 500);
+    assert.equal(bounded.scripts[0].length, MAX_VALUE_LENGTH);
+    assert.equal(bounded.headers.server.length, MAX_VALUE_LENGTH);
 });

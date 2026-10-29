@@ -10,7 +10,7 @@ Notable additions and changes to this repository.
 
 ### 2026-10-29 — Hardening
 
-- **Changed:** `tech-stack-actor` caches compiled fingerprint regexes, truncates page HTML (1 MB) and per-value strings (8 KB) before matching, and fingerprint lint rejects nested-quantifier patterns.
+- **Changed:** `tech-stack-actor` caches compiled fingerprint regexes, truncates page HTML (1 MB) before matching, and fingerprint lint rejects nested-quantifier patterns.
 
 ### 2026-10-28 — Security program plan
 
