@@ -8,23 +8,34 @@
 
 /** @typedef {{html?: string, scripts?: string[], links?: string[], headers?: Record<string,string>, cookies?: string[], meta?: Record<string,string>}} PageData */
 
-const re = (pattern) => new RegExp(pattern, 'i');
+const compiled = new Map();
+const re = (pattern) => {
+    let r = compiled.get(pattern);
+    if (!r) { r = new RegExp(pattern, 'i'); compiled.set(pattern, r); }
+    return r;
+};
+
+// Bound the work any single pattern can do: page HTML and each other value are truncated before matching.
+export const MAX_HTML_CHARS = 1_000_000;
+export const MAX_VALUE_CHARS = 8192;
+const capHtml = (s) => (s.length > MAX_HTML_CHARS ? s.slice(0, MAX_HTML_CHARS) : s);
+const capValue = (s) => { const v = String(s); return v.length > MAX_VALUE_CHARS ? v.slice(0, MAX_VALUE_CHARS) : v; };
 
 /** Returns the evidence strings for one fingerprint against one page, empty when nothing matched. */
 export function evidenceFor(fp, page) {
     const m = fp.match ?? {};
     const found = [];
-    for (const p of m.html ?? []) if (re(p).test(page.html ?? '')) found.push(`html:${p}`);
-    for (const p of m.scripts ?? []) if ((page.scripts ?? []).some((s) => re(p).test(s))) found.push(`script:${p}`);
-    for (const p of m.links ?? []) if ((page.links ?? []).some((s) => re(p).test(s))) found.push(`link:${p}`);
+    for (const p of m.html ?? []) if (re(p).test(capHtml(page.html ?? ''))) found.push(`html:${p}`);
+    for (const p of m.scripts ?? []) if ((page.scripts ?? []).some((s) => re(p).test(capValue(s)))) found.push(`script:${p}`);
+    for (const p of m.links ?? []) if ((page.links ?? []).some((s) => re(p).test(capValue(s)))) found.push(`link:${p}`);
     for (const [name, p] of Object.entries(m.headers ?? {})) {
         const value = (page.headers ?? {})[name.toLowerCase()];
-        if (value !== undefined && re(p).test(String(value))) found.push(`header:${name}`);
+        if (value !== undefined && re(p).test(capValue(value))) found.push(`header:${name}`);
     }
-    for (const p of m.cookies ?? []) if ((page.cookies ?? []).some((c) => re(p).test(c))) found.push(`cookie:${p}`);
+    for (const p of m.cookies ?? []) if ((page.cookies ?? []).some((c) => re(p).test(capValue(c)))) found.push(`cookie:${p}`);
     for (const [name, p] of Object.entries(m.meta ?? {})) {
         const value = (page.meta ?? {})[name.toLowerCase()];
-        if (value !== undefined && re(p).test(String(value))) found.push(`meta:${name}`);
+        if (value !== undefined && re(p).test(capValue(value))) found.push(`meta:${name}`);
     }
     return found;
 }
@@ -75,7 +86,9 @@ export function lintFingerprints(fingerprints) {
                 problems.push(`${id}: pattern must be a string ${p}`);
                 continue;
             }
-            try { re(p); } catch { valid = false; problems.push(`${id}: invalid regex ${p}`); }
+            try { re(p); } catch { valid = false; problems.push(`${id}: invalid regex ${p}`); continue; }
+            // A quantified group that itself ends in a quantifier, e.g. (a+)+ or (.*)*, can backtrack exponentially.
+            if (/\([^()]*[+*][^()]*\)[+*{]/.test(p)) problems.push(`${id}: nested quantifier can backtrack catastrophically: ${p}`);
         }
         // Content patterns must be specific: a short or common path matches thousands of sites that do not use the technology.
         for (const p of [...(m.html ?? []), ...(m.scripts ?? []), ...(m.links ?? [])]) {

@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-29 — Hardening
+
+- **Changed:** `tech-stack-actor` caches compiled fingerprint regexes, truncates page HTML (1 MB) and per-value strings (8 KB) before matching, and fingerprint lint rejects nested-quantifier patterns.
+
 ### 2026-10-28 — Security program plan
 
 - **Added:** `docs/security/SECURITY-ROADMAP.md` (principles, tiers, phases, fix-once controls) and a verified OAuth client inventory; `ENDPOINT-ACL.md` now lists detected routes per repo.

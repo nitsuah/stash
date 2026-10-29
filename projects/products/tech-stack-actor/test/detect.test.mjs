@@ -1,7 +1,7 @@
 // Run: node --test projects/products/tech-stack-actor/test   (Node 22, no dependencies)
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detect, lintFingerprints } from '../src/detect.js';
+import { detect, lintFingerprints, MAX_HTML_CHARS, MAX_VALUE_CHARS } from '../src/detect.js';
 import { loadFingerprints } from '../src/load.js';
 
 const all = loadFingerprints();
@@ -68,4 +68,18 @@ test('lint catches bad data', () => {
     assert.ok(problems.some((p) => /invalid regex/.test(p)));
     assert.ok(problems.some((p) => /duplicate name/.test(p)));
     assert.ok(problems.some((p) => /no match patterns/.test(p)));
+});
+
+test('lint rejects a nested-quantifier pattern but accepts the shipped data', () => {
+    const bad = [{ name: 'X', category: 'CMS', match: { html: ['(abcde+)+fghij'] }, example: { html: 'abcdefghij' } }];
+    assert.ok(lintFingerprints(bad).some((p) => p.includes('nested quantifier')));
+    assert.deepEqual(lintFingerprints(all), []);
+});
+
+test('matching work is bounded: oversized html and values are truncated before matching', () => {
+    const fp = [{ name: 'Tail', category: 'CMS', match: { html: ['needle-at-the-very-end'], scripts: ['needle-at-the-very-end'] } }];
+    const big = 'a'.repeat(MAX_HTML_CHARS + 10) + 'needle-at-the-very-end';
+    assert.deepEqual(detect({ html: big }, fp), []);
+    assert.deepEqual(detect({ scripts: ['b'.repeat(MAX_VALUE_CHARS + 10) + 'needle-at-the-very-end'] }, fp), []);
+    assert.equal(detect({ html: 'x needle-at-the-very-end' }, fp).length, 1);
 });
