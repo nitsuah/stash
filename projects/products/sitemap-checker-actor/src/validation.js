@@ -37,3 +37,13 @@ export function isValidLastmod(value) {
     }
     return true;
 }
+
+// Linear-time extraction: match the tag body with a single negated class, then trim (no lazy/whitespace overlap that backtracks).
+export function extractLocs(xml) {
+    return [...xml.matchAll(/<loc>([^<]*)<\/loc>/gi)].map((m) => m[1].trim()).filter(Boolean).map((u) => u.replace(/&amp;/g, '&'));
+}
+
+export function extractLastmod(block) {
+    const m = block.match(/<lastmod>([^<]*)<\/lastmod>/i);
+    return m && m[1].trim() ? m[1].trim() : null;
+}

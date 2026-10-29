@@ -1,7 +1,7 @@
 // Sitemap URL checker: finds a site's sitemaps (robots.txt or /sitemap.xml), lists every URL in them and tests each one.
 import zlib from 'node:zlib';
 import { Actor } from 'apify';
-import { isValidLastmod, isSameHostname, readLimitedBody } from './validation.js';
+import { isValidLastmod, isSameHostname, readLimitedBody, extractLocs, extractLastmod } from './validation.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SitemapUrlChecker/1.0; +https://apify.com)';
@@ -29,7 +29,7 @@ async function get(url) {
     } catch (err) { return { status: res?.status ?? null, text: '', error: err.cause?.code ?? err.message }; }
 }
 
-export const locs = (xml) => [...xml.matchAll(/<loc>([^<]*)<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&').trim());
+const locs = extractLocs;
 
 // Walk sitemap indexes up to three levels deep, with independent fetch and entry budgets.
 async function collect(sitemapUrl, depth, seen, out, notes) {
@@ -50,7 +50,7 @@ async function collect(sitemapUrl, depth, seen, out, notes) {
         for (const block of r.text.split(/<url>/i).slice(1)) {
             if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped collecting entries at the configured limit of ' + maxEntries }); break; }
             const [loc] = locs(block);
-            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: (block.match(/<lastmod>([^<]*)<\/lastmod>/i) ?? [])[1] ?? null });
+            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: extractLastmod(block) });
         }
     } else notes.push({ sitemap: sitemapUrl, problem: 'Not a valid sitemap (no urlset or sitemapindex element)' });
 }

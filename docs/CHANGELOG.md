@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-29 — Hardening
+
+- **Changed:** `sitemap-checker-actor` extracts `<loc>`/`<lastmod>` values with linear-time patterns (`extractLocs`/`extractLastmod` in `src/validation.js`).
+
 ### 2026-10-28 — Security program plan
 
 - **Added:** `docs/security/SECURITY-ROADMAP.md` (principles, tiers, phases, fix-once controls) and a verified OAuth client inventory; `ENDPOINT-ACL.md` now lists detected routes per repo.
