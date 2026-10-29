@@ -14,6 +14,7 @@ function mockResponse(bodyBytes) {
                         done = true;
                         return { done: false, value: uint8 };
                     },
+                    cancel() {},
                     releaseLock() {}
                 };
             }
