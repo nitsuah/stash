@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-29 — Hardening
+
+- **Changed:** `tech-stack-actor` now reads fetched pages through a streaming byte cap instead of buffering the whole response; empty-body responses return an empty page.
+
 ### 2026-10-28 — Security program plan
 
 - **Added:** `docs/security/SECURITY-ROADMAP.md` (principles, tiers, phases, fix-once controls) and a verified OAuth client inventory; `ENDPOINT-ACL.md` now lists detected routes per repo.

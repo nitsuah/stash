@@ -98,3 +98,7 @@ test('readLimited does not cancel reader under limit', async () => {
     const html = await readLimited(res, MAX_HTML_BYTES);
     assert.equal(reader.cancelled, false, 'reader.cancel() should not be called under limit');
 });
+
+test('readLimited returns empty string for a response with no body (HEAD, 204, 304)', async () => {
+    assert.equal(await readLimited({ body: null }, 1000), '');
+});

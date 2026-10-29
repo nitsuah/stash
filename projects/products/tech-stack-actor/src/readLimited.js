@@ -1,6 +1,7 @@
 const MAX_HTML_BYTES = 2_000_000;
 
 async function readLimited(res, limit) {
+    if (!res.body) return '';
     const reader = res.body.getReader();
     const chunks = [];
     let total = 0;
@@ -9,7 +10,7 @@ async function readLimited(res, limit) {
             const { done, value } = await reader.read();
             if (done) break;
             if (total + value.length > limit) {
-                reader.cancel();
+                await reader.cancel();
                 throw new Error(`Response body exceeds ${limit} byte limit`);
             }
             total += value.length;
