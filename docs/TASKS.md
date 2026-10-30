@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-29
+Last Updated: 2026-10-30
 
 ## In Progress
 
@@ -32,7 +32,11 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
   - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
-- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Remaining: add the caller to each tracked repo and disable the three cloud routines.
+- [x] Slim `agent/prompts/DAILY.md` (32 KB to about 16 KB re-sent every turn): history trimmed, repo-sync prose points at the wrapper and `sync-repos.ps1`, step 2 gated on changed or stale mirrors, model tiers stated, failed-run lookup and Showcase publish made weekly.
+  - Priority: P1 · Owner: stash · Done 2026-10-30.
+- [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
+  - Priority: P2 · Owner: stash (script) + routine (DAILY.md)
+- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Caller PRs are open in the 16 other tracked repos; remaining: merge them, confirm one run each, then disable the three cloud routines.
   - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
   - Priority: P1 · Owner: routine
 - [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
