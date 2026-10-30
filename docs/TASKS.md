@@ -31,12 +31,8 @@ Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: n
 Plan: move every routine that is mostly data gathering to GitHub Actions or a zero-AI script, to reduce the shared weekly quota use. Order: cloud first, then local.
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
-  - Priority: P1 · Owner: stash · Done 2026-10-29. Disable the cloud routine (`trig_01BG8SNdHvDBaHRTp3UKRK8r`) after the first green scheduled run on a Wednesday.
-- [ ] `week-vuln` to per-repo osv-scanner plus Dependabot security updates (reusable workflow in nitsuah/.github), with a script that emits the `## For TIRE` lines.
-  - Priority: P1 · Owner: routine
-- [ ] `week-eng-loc` to a reusable workflow running `analyze-loc.py` per repo.
-  - Priority: P1 · Owner: routine
-- [ ] `week-eng-mini` to a per-repo root-file allowlist check.
+  - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
+- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123); piloting in stash, then add the caller to each tracked repo, point TIRE at `bot:repo-health` issues, and disable the three cloud routines.
   - Priority: P1 · Owner: routine
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
   - Priority: P2 · Owner: routine
