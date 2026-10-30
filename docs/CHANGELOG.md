@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Installer start date
+
+- **Added:** `install-tasks.ps1 -StartDate yyyy-MM-dd` so the code-driven tasks can be registered now and first run after the Nov 4 limit reset.
+
 ### 2026-10-30 — Orchestrators and task registration
 
 - **Added:** `agent/scripts/pipeline-run.mjs` (week-sotu, monthly-tire-kick, monthly-pmo-audit as code: pre-step script, model only when needed), `agent/prompts/SOTU-MODEL.md`, and `agent/scripts/install-tasks.ps1` (idempotent Task Scheduler registration, prints unless `-Apply`). Untested by design; the first runs are planned after the Nov 4 limit reset.

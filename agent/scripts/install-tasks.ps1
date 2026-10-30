@@ -9,6 +9,7 @@
 .EXAMPLE
   pwsh -File agent/scripts/install-tasks.ps1            # print only
   pwsh -File agent/scripts/install-tasks.ps1 -Apply     # register
+  pwsh -File agent/scripts/install-tasks.ps1 -Apply -StartDate 2026-11-04   # register, first runs on/after that date
   pwsh -File agent/scripts/install-tasks.ps1 -Apply -Remove   # unregister
 .NOTES
   Set VIGIL_MCP_KEY as a user environment variable for daily-run's Tasks section; the key is
@@ -17,12 +18,16 @@
 param(
     [switch]$Apply,
     [switch]$Remove,
+    [string]$StartDate = '',   # yyyy-MM-dd: first run on or after this date (e.g. 2026-11-04)
     [string]$StashRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path,
     [string]$FireRoot = (Join-Path (Split-Path $StashRoot -Parent) 'fire')
 )
 
 $ErrorActionPreference = 'Stop'
 $logDir = Join-Path $StashRoot 'agent\logs'
+# schtasks wants the date in the machine's short-date format.
+$sd = @()
+if ($StartDate) { $sd = @('/SD', (Get-Date $StartDate).ToString('d')) }
 $node = 'node'
 
 # name, schtasks schedule args, working dir, command
@@ -44,7 +49,7 @@ foreach ($t in $tasks) {
         $args = @('/Delete', '/TN', $t.Name, '/F')
     } else {
         $tr = "cmd /c cd /d $($t.Dir) && $($t.Cmd) >> $($t.Log) 2>&1"
-        $args = @('/Create', '/TN', $t.Name, '/TR', $tr, '/F') + $t.Sched
+        $args = @('/Create', '/TN', $t.Name, '/TR', $tr, '/F') + $t.Sched + $sd
     }
     if (-not $Apply) { Write-Host "schtasks $($args -join ' ')"; continue }
     if (-not $Remove) { New-Item -ItemType Directory -Force -Path (Split-Path $t.Log -Parent) | Out-Null }
