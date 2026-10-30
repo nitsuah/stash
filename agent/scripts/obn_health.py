@@ -39,10 +39,9 @@ FOLLOWUP_DAYS = 14
 
 # label -> (directory under reports/, filename glob prefix or None for every .md, max age days)
 CADENCE = {
-    "cloud/daily-brief": ("cloud/daily-brief", None, 4),
-    "cloud/week-vuln": ("cloud/week-vuln", None, 9),
-    "eng-loc": ("", "eng-loc-", 9),
-    "eng-mini": ("", "eng-mini-", 9),
+    # cloud/daily-brief, week-vuln, eng-loc and eng-mini left this list on 2026-10-30: their
+    # output is now job summaries and bot:repo-health issues from the repo-health Action, and
+    # the daily brief no longer writes a report.
     "sotu-data": ("sotu", "sotu-", 11),
     "tire-kick": ("", "tire-kick-", 35),
     "pmo-audit": ("", "pmo-audit-", 35),

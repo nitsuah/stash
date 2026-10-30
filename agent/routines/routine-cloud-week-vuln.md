@@ -10,6 +10,8 @@ description: Weekly dependency/advisory scan of tracked repos; advisory only, fe
 
 > Snapshot of cloud routine `⚡ week-vuln` (`trig_01BbYVwcsZPFV4QrQrTZAhJb`), taken 2026-09-30 from `RemoteTrigger get`. The live prompt is at claude.ai/code/routines.
 
+> **Superseded 2026-10-30 by repo-health Action** (`nitsuah/.github` reusable `repo-health` workflow; findings arrive as `bot:repo-health` issues). This note is kept as a backup of the retired routine's prompt.
+
 | Field | Value |
 |---|---|
 | Schedule | `0 15 * * 4` (Thu 15:00 UTC) |

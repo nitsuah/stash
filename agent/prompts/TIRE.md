@@ -1,6 +1,6 @@
 # Tire Kick: Findings Fix Queue + Repo Health Check
 
-TIRE closes the loop on the report routines. Most routines only report: eng-mini, eng-loc, week-vuln, daily-brief and obn-import. Since 2026-09-26 TIRE also owns the monthly coverage refresh ([[METRICS]], moved here from the retired cloud week-metrics) and remote stale-branch pruning (from the retired sun-stale-worktrees). TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
+TIRE closes the loop on the report routines. Most of what it reads is report output: `bot:repo-health` issues (from the shared repo-health Action), metrics and pmo-audit reports. Since 2026-09-26 TIRE also owns the monthly coverage refresh ([[METRICS]], moved here from the retired cloud week-metrics) and remote stale-branch pruning (from the retired sun-stale-worktrees). TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
 
 **Runs:** monthly on the 28th (`monthly-tire-kick` scheduled task), so the ledger is current before [[PMO]] (1st) and [[RSI]] (2nd). It can also be run on demand at any time.
 
@@ -30,14 +30,15 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 
 1. **Window:** reports dated after the ledger's `Last intake:` date (first run: the last 35 days).
 2. **Sources:** read every report in the window:
-   - `agent/reports/eng-mini-*`, `eng-loc-*`, `metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
-   - `agent/reports/cloud/**` (week-vuln, daily-brief's PR section, obn-import, plus older vuln-patcher / stale-worktrees / daily-pr-review files)
-   - **week-vuln's `## For TIRE` section** is pre-classified: each `quick | <repo> | bump ...` line becomes a `quick` ledger item as written. Re-verify it in §2.5 before fixing, and treat a `peer-dep risk` note as a reason to pin exact versions (see the darkmoon#450 / farm-3j#338 pattern in `rsi-changes.log`).
+   - `agent/reports/metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
+   - `gh issue list -R <repo> --label bot:repo-health --state open` for each tracked repo
+   - `agent/reports/cloud/**` (older week-vuln / obn-import / vuln-patcher files only; daily-brief writes no report since 2026-10-30)
+   - **The `## For TIRE` section of each repo-health issue body** is pre-classified: each `quick | <repo> | bump <pkg> a->b (<id>) | peer-dep risk: ...` line becomes a `quick` ledger item as written. Re-verify it in §2.5 before fixing, and treat a `peer-dep risk` note as a reason to pin exact versions (see the darkmoon#450 / farm-3j#338 pattern in `rsi-changes.log`).
    - the `## Notes` section of the daily notes (`agent/notes/YYYY-MM-DD.md`) in the window
-   - Skip `daily-email`, `daily-checkin`, daily-brief's calendar and inbox sections, and `week-fin-sum` output. That's personal, not repo work.
+   - Skip `daily-email`, `daily-checkin`, any daily-brief output, and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
 4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
-5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
+5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. For advisory items, re-check the advisory itself against `main` (is the package still at an affected version?). If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
 6. **Classify** each open item:
    - `quick`: small, mechanical, low risk, and verifiable with tests or CI. Examples: `git rm --cached` a generated file, a patch/minor dependency bump for an advisory, `.gitignore` or lint-config fixes, a doc fact that is provably wrong, deleting remote branches whose PR is merged or closed.
    - `pmo`: planning or roadmap work, anything that needs product judgment, and multi-file refactors. **Most eng-loc (LOC) findings belong here.**
