@@ -42,6 +42,10 @@ Also verify ecosystem standards that affect repository health scoring (see [[OVE
 
 If a file does not exist, log it as a documentation gap and create a task if it blocks delivery, onboarding, or support.
 
+## Audit Scope
+
+Audit a repo only if, since its last audit, it had a TASKS/ROADMAP/README change, a merged PR, or a `pmo` ledger row ([[TIRE]]'s findings ledger). Skip the rest and say so in the report. Run a full sweep of every tracked repo quarterly (Jan, Apr, Jul, Oct).
+
 ## Past Audits
 
 Results of past audit cycles live in `reports/pmo-audit-<date>.md`, chained newest to oldest, with the latest linked from VAULT-MAP. The repo list is the Tracked table in `projects/scope.md`. Don't copy per-repo results or PR lists into this prompt, because they go stale; write them in the cycle's report.
@@ -196,98 +200,12 @@ Translate observed UX issues into roadmap themes and task-level fixes.
 
 ## Git and PR Governance (Required)
 
-All PMO-driven changes to TASKS and ROADMAP must follow branch and PR workflow.
-
-- Never commit PMO updates directly to default branches.
-- Create a focused branch per repository and per audit scope.
-- Use branch naming: pmo/<repo>/<theme>-<date>.
-- Keep commits scoped and descriptive.
-- Open a pull request for every PMO update batch.
-- Link evidence and rationale in the PR body.
-
-PR creation and description are part of PMO done criteria, not optional handoff work.
-
-- PMO must attempt to create the PR directly after push (same audit cycle).
-- PMO must provide a complete PR title and PR description body, even when creation is blocked.
-- Do not stop at "branch pushed" when PR tooling is available.
-
-Before opening or updating PRs through GitHub CLI, verify auth state with gh auth status.
-
-Preferred PR creation order:
-
-1. Use GitHub CLI (`gh pr create`) when available.
-2. If GitHub CLI is unavailable, use available GitHub API/MCP tooling to create the PR.
-3. If both are unavailable, provide the exact compare URL and a ready-to-paste PR title/body.
-
-PR minimum content:
-
-- What changed in TASKS and ROADMAP.
-- Why the change is needed (evidence-backed).
-- Risk/impact summary.
-- Validation performed (runtime checks, UI checks, docs checks).
-- Follow-up items intentionally deferred.
-
-PR body format (required):
-
-- Summary
-- What changed (TASKS/ROADMAP deltas)
-- Why now (evidence)
-- Risk and impact
-- Validation performed
-- Deferred follow-ups
-- Checklist
-
-If gh auth is unavailable or fails, document the blocker and provide exact commands needed for a maintainer to complete PR creation.
-
-## Orchestration and Handoffs
-
-PMO is the planning authority in the delivery pipeline.
-
-- PMO can run in parallel across different repositories.
-- Within the same repository, PMO should be the only agent changing ROADMAP.md and TASKS.md until handoff is complete.
-- PMO should hand Delivery a written implementation brief before code execution begins.
-- PMO should hand QA the audit context, evidence, and expected validation focus when a change is ready for review.
-
-Required PMO handoff package:
-
-- Repository and branch context.
-- Problem statement and priority.
-- Acceptance criteria.
-- Files/docs allowed to change.
-- Evidence summary and known risks.
-- Deferred questions or assumptions.
-
-## PMO Branch Workflow
-
-1. Sync repository with latest default branch.
-2. Create branch for PMO updates.
-3. Apply TASKS and ROADMAP edits.
-4. Validate links, formatting, and consistency.
-5. Commit with clear message prefix: docs(pmo):
-6. Push branch.
-7. Open PR immediately (same cycle) with complete title/body.
-8. Add PR link and PR body summary to PMO report.
-
-If PR cannot be opened automatically, include all of the following in the PMO report:
-
-- Blocker cause (for example: gh not installed, auth failure, missing repo permission).
-- Exact command sequence attempted.
-- Compare URL for manual PR creation.
-- Final PR title.
-- Final PR description body (ready to paste).
-
-Unless explicitly requested otherwise, stage documentation updates and present a concise diff summary for review before final merge actions.
-
-## Deliverable Format (Per Audit Cycle)
-
-Produce a concise PMO report with:
-
-1. Repository health summary.
-2. Verified findings (docs, runtime, product behavior).
-3. Proposed TASKS changes.
-4. Proposed ROADMAP changes.
-5. Risks, assumptions, and unknowns.
-6. Follow-up actions and owners (if known).
+- Never commit PMO updates to a default branch. One focused branch per repo and audit scope: `pmo/<repo>/<theme>-<date>`. Commit prefix `docs(pmo):`.
+- Sync the default branch first, validate links and formatting, push, and open the PR in the same cycle with `gh pr create` (check `gh auth status` first). Link the PR and its summary in the PMO report.
+- PR body: Summary, What changed (TASKS/ROADMAP deltas), Why now (evidence), Risk and impact, Validation performed, Deferred follow-ups.
+- Within one repo, PMO is the only agent changing ROADMAP.md and TASKS.md until its PR merges.
+- If PR creation is blocked, put the blocker, the compare URL and the ready-to-paste title and body in the report. Don't stop at "branch pushed".
+- Stage documentation updates and present a concise diff summary; don't take final merge actions unless asked.
 
 ## Definition of Done
 
@@ -299,7 +217,3 @@ An audit cycle is complete when:
 - TASKS and ROADMAP are updated with evidence-backed priorities, and no open item describes work already merged (step 5's reconcile).
 - stash/agent/repos/<repo>.md is updated with durable operational knowledge.
 - Pull request is opened with complete description, or a fully prepared manual PR package is included when tooling is blocked.
-
-## Continuous Improvement
-
-After each cycle, improve this file with better heuristics, checklists, and delivery patterns discovered during real audits.

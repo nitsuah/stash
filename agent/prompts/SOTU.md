@@ -17,7 +17,7 @@
 2. **Clean check (before Build, since Build writes the report files).** Run `git -C C:\Users\ajhar\code\stash status --porcelain` and `branch --show-current`, and record whether stash is clean and on `main`. Step 9 uses the answer. You don't need to fetch: `sotu.py` runs `git fetch` in every in-scope repo before reading `origin` refs (60 s timeout each). Repos whose fetch fails are listed in the report as possibly stale.
 3. **Routine health.** Write `%TEMP%\sotu-routines.json` in this shape: `{"quota": {"weekly": n, "five_hour": n, "weekly_resets": "..."}, "routines": [{"name", "last_run", "status", "next_run", "note"}]}`. Keep `status` to one word (`succeeded`, `failed`, `running`, `deferred`, `new`) and put any detail in `note`, so the health table stays aligned.
    - Local tasks: `list_scheduled_tasks`, plus `list_task_runs` with limit 1 for each.
-   - Cloud routines: `RemoteTrigger get` on each ID in the `reference-cloud-routine-ids` memory. Take only `enabled`, `last_run.status`, `last_run.failure_reason` and `next_run_at` from each response and ignore the prompt text.
+   - Repo-health: open `bot:repo-health` issue count per repo, from `gh search issues --owner nitsuah --label bot:repo-health --state open`. Add it to the routines JSON as one `repo-health` row, with the count in `note`.
    - Mark a run `INCOMPLETE` or `DEFERRED` if its summary starts with that word.
 4. **Build.** `python C:\Users\ajhar\code\stash\agent\scripts\sotu.py --routines %TEMP%\sotu-routines.json`.
    - Tasks come from each in-scope repo's TASKS.md on `origin` after the fetch. Don't pass `--vigil-tasks`: vigil's task cache lags same-day merges by hours (on 2026-10-16 it still served a P0 closed that morning).
@@ -42,7 +42,7 @@
 9. **Save.** Commit `agent/reports/sotu/sotu-<week>.md`, `sotu-data.json`, and (if steps 5 or 7 changed them) `agent/projects/scope.md` and `priorities.json` on a branch `sotu/<week>` cut from `origin/main`.
    - Use the step 2 answer. If stash was clean and on main, `git switch -c sotu/<week> origin/main` there. If it was dirty or off main **before** Build, run `git worktree add .claude/worktrees/sotu-<week> -b sotu/<week> origin/main` instead, copy the files in, commit there, and remove the worktree once pushed. The pre-commit hook works from a worktree (stash#171). Commit exactly those paths; if anything else changed, leave it alone.
    - Push and open a PR. It's a machine-generated report, but don't enable auto-merge straight away: a non-required CodeRabbit review can land after checks pass and after the PR has merged. Wait a 3-5 minute backoff, re-fetch the PR's review threads, and only when none is unresolved run `gh pr merge --squash --auto --delete-branch`. If CodeRabbit requests changes, fix what's real and rebut the rest with a reason (it reviews against the vault mirrors in `agent/repos/*/docs/`, which lag the real repos). If the merge is still refused, leave the PR open and say so.
-10. **Output.** One line: the artifact link, the counts line, the number of items closed at the source, and the focus note's first sentence. Then end the run. Don't take follow-up work in this session; start a new one.
+10. **Output.** One line: the artifact link, the counts line, the number of items closed at the source, and the focus note's first sentence. Then end the run.
 
 ## Rules
 
