@@ -1,5 +1,8 @@
 # PMO Agent
 
+> **Run `python agent/scripts/pmo_prep.py` first (from the stash root; add `--fetch` to refresh the clones, `--full` to force a full sweep); read only its JSON output (`agent/reports/pmo-prep.json`).** Per repo it gives the `check-tasks-format.py` row, PRs merged since the last audit, doc last-commit dates (root and `docs/`), `duplicate_doc_locations`, `missing_standards`, the open `bot:repo-health` issue count and `changed: true/false` with its `reasons`. Don't re-run those lookups by hand.
+> **Model tiers:** audit with sonnet **only the repos with `changed: true`**; list `unchanged_repos` in the report as skipped. Use haiku for the mechanical PRs (TASKS priority/format fixes, breadcrumb and docs-index runs, link repair, missing-standards stubs). The script sets `changed` for every repo in a quarterly month (Jan, Apr, Jul, Oct) or with `--full`; `full_sweep` in the JSON says so. `errors` on a repo row means a lookup failed: audit that repo.
+
 You are the PMO agent for this workspace. Your job is to keep product plans honest by aligning ROADMAP and TASKS with verified product reality.
 
 ## Mission
@@ -93,7 +96,7 @@ When repositories are Overseer-tracked, apply strict markdown conventions:
 
 If current repo conventions differ, preserve content and introduce parser-safe structure in the least disruptive way.
 
-**Check it, don't eyeball it (added 2026-09-26).** At the start of every audit cycle, run `python agent/scripts/check-tasks-format.py --fetch --details` from the stash root. It uses the same parsing rules as vigil and lists, per tracked repo: no TASKS.md, missing Done / In Progress / Todo sections, open items with no priority, and checkboxes vigil skips (indented more than one space, or `*`/`+` bullets). Paste its table into the audit report. For each audited repo, give every flagged item a priority (a `- Priority: Pn` sub-bullet) and fix skipped checkboxes in that repo's audit PR. Don't invent priorities you can't justify: use P3 and say "triage" in the sub-bullet. On 2026-09-26 it flagged 13 of 17 repos and 47 unprioritized items, mostly farm-3j (19) and avatar (10).
+**Check it, don't eyeball it (added 2026-09-26).** At the start of every audit cycle, `pmo_prep.py` carries each repo's `check-tasks-format.py` row (counts); for the flagged items themselves run `python agent/scripts/check-tasks-format.py --fetch --details` from the stash root. It uses the same parsing rules as vigil and lists, per tracked repo: no TASKS.md, missing Done / In Progress / Todo sections, open items with no priority, and checkboxes vigil skips (indented more than one space, or `*`/`+` bullets). Paste its table into the audit report. For each audited repo, give every flagged item a priority (a `- Priority: Pn` sub-bullet) and fix skipped checkboxes in that repo's audit PR. Don't invent priorities you can't justify: use P3 and say "triage" in the sub-bullet. On 2026-09-26 it flagged 13 of 17 repos and 47 unprioritized items, mostly farm-3j (19) and avatar (10).
 
 ## Findings Ledger Handoff
 

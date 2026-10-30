@@ -1,5 +1,8 @@
 # USAGE
 
+> **Run `python agent/scripts/usage_gather.py` first (`--month YYYY-MM` for a specific month; the default is the previous completed month); read only its JSON output (`agent/reports/usage-data.json`).** It covers source 2 (merged PRs and commits per tracked repo) and the workflow-run half of source 1 (`obn-health` and each caller's `repo-health`), plus scheduled-task run stats when run records exist on disk; otherwise that block is `unavailable: <reason>` and you write that line as is. Claude session and quota numbers (`list_sessions`, `get_usage`, `list_task_runs` with `limit: 50`) are MCP-only, so those you still fetch.
+> **Model tier: haiku.** The model's own work is the session/quota summary and the ranked **Automation candidates** paragraph (about 10 lines); everything else is copied from the JSON.
+
 > Monthly Claude Code usage report — surfaces what you actually used Claude time on this month and flags recurring manual work worth automating. This is about *your* usage of Claude Code, not the simulated product team's — unrelated to [[AUTO]].
 
 **Status:** created 2026-09-16 following the routine-pipeline audit (see [[notes/2026-09-16|that day's note]] and [[reports/pmo-audit-2026-09-16|PMO audit]]). First scheduled run: 1st of next month.
@@ -22,7 +25,7 @@ Data sources, gather all before writing anything:
 
 ## Steps
 
-1. Gather sources 1-3 above.
+1. Run `usage_gather.py`, then fetch only the MCP-only parts of source 1 and read source 3.
 2. Build the report:
    - **Claude usage trend** — 5hr/weekly % samples if available, sessions started this month, top 5 repos/skills touched by session count.
    - **Scheduled-task health** — per task: run count, success/fail rate, most common failure reason. Same table shape as the 2026-09-16 audit, so months are comparable.

@@ -45,6 +45,8 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Priority: P2 · Owner: routine
 - [x] SOTU pre-step: `sotu.py` builds routine health itself (`--routines auto`: local task names, `obn-health`/`repo-health` runs, `bot:repo-health` issue counts, `unknown` where unreadable), adds a `delta` block and a `## Changes since last run` section, and `--verify-hints` writes `sotu-verify.json` (merged-PR and path evidence, `skip_model`). SOTU.md steps 3 and 6 use them; a quiet week skips the model judgment. Tests: `agent/scripts/test_sotu_prestep.py`.
   - Priority: P2 · Owner: stash · Done 2026-10-30.
+- [x] TIRE, PMO and USAGE pre-step scripts (`agent/scripts/tire_intake.py`, `pmo_prep.py`, `usage_gather.py`, shared `prestep_common.py`, tests run in CI): the specs start with "run the script first; read only its JSON", state model tiers, and TIRE ends without a model when `skip_model` is true. Open: run each routine once on the new path, then confirm the first `skip_model` month.
+  - Priority: P2 · Owner: stash · Done 2026-10-30.
 - [ ] Local tasks: ats-fill weekly review and inbox sync, week-fin-sum, daily-repo-sync git sweep and the ops-catchup jobs audit become zero-AI scripts on Task Scheduler; split imps-triage merge, PMO doc checks and TIRE health into CI.
   - Priority: P2 · Owner: routine
 

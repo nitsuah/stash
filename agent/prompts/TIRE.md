@@ -1,5 +1,11 @@
 # Tire Kick: Findings Fix Queue + Repo Health Check
 
+> **Run `agent/scripts/tire_intake.py` first; read only its JSON output (`agent/reports/tire-input.json`).** It does §2's bot-issue intake, dedup and advisory re-verification with no model.
+> 1. In stash: `git fetch origin`, `git worktree add .claude/worktrees/tire-<YYYY-MM-DD> -b tire/stash/ledger-<YYYY-MM-DD> origin/main`, then run `python agent/scripts/tire_intake.py --apply` from that worktree (the dry run, without `--apply`, only prints a summary and edits nothing; `--no-verify` skips the lockfile network checks).
+> 2. **`skip_model: true`** (no new or changed `quick` item, no repo failed to load): `--apply` has already written the ledger update and a stub `tire-kick-<date>.md`. Commit those two files, open the report-only PR, merge it per §5 and **end**: no model pass, no fix PRs, no Docker sweep. `prose_sources` (metrics, pmo-audit, routine-run-findings, cloud reports, daily notes with a `## Notes` section) are not parsed by the script; when any exist, `Last intake` is left unchanged so the next non-skipped run reads them.
+> 3. **`skip_model: false`:** read `items` only. Work from them (§3). Read the files in `prose_sources` for the extra intake §2 describes, and add those rows to the ledger by hand.
+> **Model tiers:** haiku for the bump PRs in §3 (mechanical; pin exact versions when `peer_dep_risk` names a peer-dependency conflict); escalate to sonnet only if CI fails on a PR and the fix isn't obvious. Sonnet for the §5 report and any `pmo`/`human` classification of prose items.
+
 TIRE closes the loop on the report routines. Most of what it reads is report output: `bot:repo-health` issues (from the shared repo-health Action), metrics and pmo-audit reports. Since 2026-09-26 TIRE also owns the monthly coverage refresh ([[METRICS]], moved here from the retired cloud week-metrics) and remote stale-branch pruning (from the retired sun-stale-worktrees). TIRE reads what they found, keeps one **findings ledger**, fixes the small safe items with PRs, and hands the rest on. After that it runs the Docker health check sweep across the tracked repos.
 
 **Runs:** monthly on the 28th (`monthly-tire-kick` scheduled task), so the ledger is current before [[PMO]] (1st) and [[RSI]] (2nd). It can also be run on demand at any time.
@@ -31,13 +37,13 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 1. **Window:** reports dated after the ledger's `Last intake:` date (first run: the last 35 days).
 2. **Sources:** read every report in the window:
    - `agent/reports/metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
-   - `gh issue list -R <repo> --label bot:repo-health --state open` for each tracked repo
+   - `gh issue list -R <repo> --label bot:repo-health --state open` for each tracked repo (**done by `tire_intake.py`**)
    - `agent/reports/cloud/**` (older week-vuln / obn-import / vuln-patcher files only; daily-brief writes no report since 2026-10-30)
    - **The `## For TIRE` section of each repo-health issue body** is pre-classified: each `quick | <repo> | bump <pkg> a->b (<id>) | peer-dep risk: ...` line becomes a `quick` ledger item as written. Re-verify it in §2.5 before fixing, and treat a `peer-dep risk` note as a reason to pin exact versions (see the darkmoon#450 / farm-3j#338 pattern in `rsi-changes.log`).
    - the `## Notes` section of the daily notes (`agent/notes/YYYY-MM-DD.md`) in the window
    - Skip `daily-email`, `daily-checkin`, any daily-brief output, and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
-4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
+4. **Deduplicate** by repo + target (file, package or branch) + problem (**the script does this for bot-issue items**; do it by hand for prose items). If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
 5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. For advisory items, re-check the advisory itself against `main` (is the package still at an affected version?). If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
 6. **Classify** each open item:
    - `quick`: small, mechanical, low risk, and verifiable with tests or CI. Examples: `git rm --cached` a generated file, a patch/minor dependency bump for an advisory, `.gitignore` or lint-config fixes, a doc fact that is provably wrong, deleting remote branches whose PR is merged or closed.
@@ -90,7 +96,7 @@ stash is a **PUBLIC** repo. Ledger and report entries name repos, files, package
    - **Handed off:** the `pmo`, `human` and `routine` items, one line each.
    - **Health check:** per repo: checks run and result (✅/❌), or skipped and why.
    - **Aging:** open items with `Seen` ≥ 3 or first seen more than 21 days ago. This is RSI's input.
-2. Set the ledger's `Last intake:` to today.
+2. Set the ledger's `Last intake:` to today (`--apply` already did, unless `prose_sources` was non-empty; then set it after you have read them).
 3. In stash: branch `tire/stash/ledger-<YYYY-MM-DD>`, commit **only** `agent/reports/findings-ledger.md` and `agent/reports/tire-kick-<date>.md`, then open a PR. It's a report-only PR, so once `Install & syntax check` passes, squash-merge **that PR only**.
 
 ### Ledger template
