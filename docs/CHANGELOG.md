@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Installer task settings
+
+- **Fixed:** `install-tasks.ps1` now sets StartWhenAvailable, allows running on battery and caps a run at 2 h; the schtasks defaults skipped runs on battery and never caught up after sleep.
+
 ### 2026-10-30 — Templated Reflections
 
 - **Changed:** `daily-run.mjs` writes the note's Reflections from counts instead of asking the model, so `skip_model` is true on days with no changed mirror, no stale hub and no Monday/Saturday step. `DAILY-MODEL.md` drops the Reflections item.
