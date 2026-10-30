@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Templated Reflections
+
+- **Changed:** `daily-run.mjs` writes the note's Reflections from counts instead of asking the model, so `skip_model` is true on days with no changed mirror, no stale hub and no Monday/Saturday step. `DAILY-MODEL.md` drops the Reflections item.
+
 ### 2026-10-30 — Installer start date
 
 - **Added:** `install-tasks.ps1 -StartDate yyyy-MM-dd` so the code-driven tasks can be registered now and first run after the Nov 4 limit reset.
