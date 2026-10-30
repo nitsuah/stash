@@ -1,0 +1,64 @@
+name: obn-health
+
+# Deterministic replacement for the cloud week-obn-import routine (no model, no report PR).
+# Runs the vault/routine-output health check weekly and keeps ONE open issue while it is red.
+# The issue is closed when a later run is green.
+on:
+  schedule:
+    - cron: "0 10 * * 3" # Wed 10:00 UTC, same slot as the old routine
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    name: Vault and routine-output health
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # stale-note dates come from git log
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+
+      # Same index regeneration the CI graph check does, so unreferenced-note results match.
+      - name: Regenerate vault indexes (workspace only)
+        run: python3 agent/scripts/build-vault-indexes.py > /dev/null
+
+      - name: Health check
+        id: check
+        run: |
+          set +e
+          python3 agent/scripts/obn_health.py > obn-health.md
+          rc=$?
+          if [ "$rc" -ne 0 ]; then echo "red=true" >> "$GITHUB_OUTPUT"; else echo "red=false" >> "$GITHUB_OUTPUT"; fi
+          cat obn-health.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open or update the issue when red
+        if: steps.check.outputs.red == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="obn-health: vault or routine output needs attention"
+          num=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body-file obn-health.md
+          else
+            gh issue create --title "$title" --body-file obn-health.md
+          fi
+
+      - name: Close the issue when green
+        if: steps.check.outputs.red == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="obn-health: vault or routine output needs attention"
+          num=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --comment "Green on $(date -u +%F). Closing."
+          fi

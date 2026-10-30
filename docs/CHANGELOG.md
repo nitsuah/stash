@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-29 — Routines to CI: obn-health
+
+- **Added:** `.github/workflows/obn-health.yml` and `agent/scripts/obn_health.py` (with tests): the weekly notes, report-cadence, placeholder-prompt, untracked-repo and vault-graph checks run with no model and keep a single issue open while red. Replaces the cloud `week-obn-import` routine, which is disabled after the first green run.
+
 ### 2026-10-29 — Hardening
 
 - **Changed:** `tech-stack-actor` caches compiled fingerprint regexes, truncates page HTML (1 MB) before matching, and fingerprint lint rejects nested-quantifier patterns.
