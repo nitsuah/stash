@@ -5,7 +5,7 @@ repo: deployer
 
 # Contract Safe
 
-> Reviewed: 2026-09-23
+> Reviewed: 2026-10-29 (since 2026-09-23: only Dependabot dependency bumps merged, incl. mocha 12 + hardhat-mocha 4 with `npm audit` cleared in #183; open Dependabot PRs #193-#196; no contract or P0/P1 changes)
 
 ## Overview
 

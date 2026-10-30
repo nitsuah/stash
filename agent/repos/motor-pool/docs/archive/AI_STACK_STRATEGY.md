@@ -14,7 +14,7 @@ repo: motor-pool
 
 **Last updated:** June 2026
 **Author:** nitsuah
-**Status:** Working doc — evolving with motor-pool Q2/Q3 roadmap
+**Status:** Historical strategy snapshot — check the current README, Deployment, Roadmap, and Metrics docs before acting on its hardware assumptions, model picks, or priorities.
 Repos: `motor-pool`
 
 ---

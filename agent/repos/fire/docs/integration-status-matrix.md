@@ -28,7 +28,7 @@ that can only fail.
 | Etsy | `data/tokens-etsy.json` | browser `localStorage`, sealed blob | `/api/sync/etsy/status`; hosted function reports `configured` only |
 | Plaid | `data/tokens-plaid.json` | browser, sealed `plaidToken` | `/api/sync/plaid/status` in both runtimes |
 | CoinTracker | none — browser-held in **both** modes | browser `localStorage`, sealed blob | `/api/sync/cointracker/status` in both runtimes (#294) |
-| Google Drive backup | `data/drive-token` | sealed per request, browser-held | `/api/backup/drive/status` in both runtimes |
+| Google Drive backup | `data/tokens-gdrive.json` | sealed per request, browser-held | `/api/backup/drive/status` in both runtimes |
 
 CoinTracker is the one deliberate inversion: it keeps no server-side token
 even when self-hosted, because its token was browser-sealed from the start.
