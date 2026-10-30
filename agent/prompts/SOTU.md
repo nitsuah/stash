@@ -2,7 +2,7 @@
 
 > Weekly State of the Union. It builds one view of what needs the user, what product work is ready to kick off, how the routines are doing, and what's open across the **tier 1 and tier 2 apps**. It replaces the cloud `week-vigil-check` and the hand-built Portfolio Checklist (2026-09-26, see [[routine-audit-2026-09-26]]). Scope narrowed to vigil tiers 1–2 on 2026-10-16 (user direction).
 
-**Runs:** `week-sotu` local scheduled task, Mondays. It's cheap by design: a script does the gathering and rendering, and the model checks the top of the list against reality and writes a short focus note.
+**Runs:** `week-sotu` local scheduled task, Mondays. It's cheap by design: a script does the gathering, the routine health, the week-over-week `delta` and the evidence hints, and the model only judges items that have hints and writes a short focus note.
 
 ## Scope
 
@@ -15,28 +15,26 @@
 
 1. **Usage preflight.** Call `get_usage`. If the weekly window is at 90% or more, stop and make the first line of your output `DEFERRED: weekly <n>%`. [[CATCHUP]] runs it after the reset.
 2. **Clean check (before Build, since Build writes the report files).** Run `git -C C:\Users\ajhar\code\stash status --porcelain` and `branch --show-current`, and record whether stash is clean and on `main`. Step 9 uses the answer. You don't need to fetch: `sotu.py` runs `git fetch` in every in-scope repo before reading `origin` refs (60 s timeout each). Repos whose fetch fails are listed in the report as possibly stale.
-3. **Routine health.** Write `%TEMP%\sotu-routines.json` in this shape: `{"quota": {"weekly": n, "five_hour": n, "weekly_resets": "..."}, "routines": [{"name", "last_run", "status", "next_run", "note"}]}`. Keep `status` to one word (`succeeded`, `failed`, `running`, `deferred`, `new`) and put any detail in `note`, so the health table stays aligned.
-   - Local tasks: `list_scheduled_tasks`, plus `list_task_runs` with limit 1 for each.
-   - Repo-health: open `bot:repo-health` issue count per repo, from `gh search issues --owner nitsuah --label bot:repo-health --state open`. Add it to the routines JSON as one `repo-health` row, with the count in `note`.
-   - Mark a run `INCOMPLETE` or `DEFERRED` if its summary starts with that word.
-4. **Build.** `python C:\Users\ajhar\code\stash\agent\scripts\sotu.py --routines %TEMP%\sotu-routines.json`.
+3. **Routine health.** Nothing to write: step 4's `sotu.py` builds it (`--routines auto`, the default). It lists the local tasks from their `SKILL.md` files, the `obn-health` and `repo-health` Actions runs (conclusion and date) and the open `bot:repo-health` issue count per repo. Anything it can't read is `unknown`; don't fill it in by guessing. Local task run state isn't on disk, so those rows stay `unknown` unless you add them. Quota is optional: to show it, take the numbers from the step 1 `get_usage` call and write `%TEMP%\sotu-routines.json` as `{"quota": {"weekly": n, "five_hour": n, "weekly_resets": "..."}, "routines": [...]}` (the old shape) and pass it as `--routines` in step 4.
+4. **Build.** `python C:\Users\ajhar\code\stash\agent\scripts\sotu.py --verify-hints`.
    - Tasks come from each in-scope repo's TASKS.md on `origin` after the fetch. Don't pass `--vigil-tasks`: vigil's task cache lags same-day merges by hours (on 2026-10-16 it still served a P0 closed that morning).
-   - It writes `agent/reports/sotu/sotu-data.json` and `agent/reports/sotu/sotu-<YYYY>-W<ww>.md`.
+   - It writes `agent/reports/sotu/sotu-data.json`, `agent/reports/sotu/sotu-<YYYY>-W<ww>.md` and the sidecar `agent/reports/sotu/sotu-verify.json` (git-ignored, never commit it).
+   - `sotu-data.json` has a `delta` block (new, closed and moved items against the previous run), and the `.md` has a short `## Changes since last run` section from it. You don't need to read last week's report.
    - Read the `.md` it wrote. It's about 10 KB; don't read the JSON.
 5. **Tier drift.** If the report has a tier-drift line, update the Tier column in `agent/projects/scope.md` to match vigil, set the pull date in the paragraph above the table, and commit it with the report in step 9. Don't change tiers in vigil yourself.
-6. **Verify the top of the list.** TASKS.md checkboxes go stale: agents ship the work and forget to tick the item (16 such items were found on 2026-10-16). Before you write the focus note, check every **Needs you** item, every **kickoff** item and every open **P0/P1** against reality:
-   - merged PRs in that repo since the item was filed (`gh pr list -R <repo> --state merged --search "merged:>=<date>"`), and their bodies;
-   - the issues the item names (`gh issue view`);
-   - the code on the default branch (does the function or file the item describes now exist or behave as asked?);
-   - CI or release runs where the item is about a pipeline (for example a release that now authenticates).
+6. **Verify the top of the list.** TASKS.md checkboxes go stale: agents ship the work and forget to tick the item (16 such items were found on 2026-10-16). `sotu.py --verify-hints` already did the gathering. Read `sotu-verify.json` (not the `.md` items again): one entry per **Needs you** item, **kickoff** item and open **P0/P1**, with `pr_hints` (merged PRs in that repo since the item was filed whose title or body share its key words), `path_checks` (files named in backticks and whether they exist on the default branch), `changed` (new or moved since last run) and `skip_model`.
+   - **Skip:** entries with `skip_model: true` have no evidence either way and nothing changed since last week. Leave them as they are; don't look them up.
+   - **Judge only entries with hints** (a `pr_hints` entry, or a `path_checks` result of `exists: true/false`) **or `lookup_failed`/`changed`**. For each, read the hinted PR (`gh pr view`), plus the issues the item names (`gh issue view`) and the code or CI run only where the hint doesn't settle it. This is the only step that needs the sonnet tier.
    - Results:
      - **Done, with unambiguous evidence** (a merged PR or closed issue that names the item, or code that meets its acceptance criteria): close it at the source. Open one docs-only PR per repo from a worktree that ticks the item, or removes it where the repo condenses Done items into CHANGELOG. Add the CHANGELOG line that repo's convention needs, and link the evidence in the PR body, **except in `vigil`**: a vigil status PR is docs-only and changes only the cited TASKS.md item lines, with no CHANGELOG edit (the QA release gate carries the same exception). Then follow the review rule in step 9 before turning on auto-merge. This is the one write this routine makes outside stash.
      - **Partly done:** don't tick it. Rewrite the item down to what's left, in the same PR.
-     - **Unclear** (it needs a live run or the user's word): leave it, and name it in the focus note as "check: …".
+     - **Unclear** (it needs a live run or the user's word): leave it, and name it in the focus note as "check: ...".
    - Once those PRs merge, re-run step 4 so the page reflects them. If they haven't merged within the run, publish anyway and say which PRs are pending.
+   - **Quiet week:** if `delta.empty` is true in `sotu-verify.json` (`delta_empty`) and `all_skip` is true, skip the model judgment in steps 6, 7 and 8: don't verify, don't touch priorities, and write a one-line focus note ("No change since last run.") and publish. Steps 5 and 9 still apply.
 7. **Priorities.** Open `agent/reports/sotu/priorities.json` (the top 2 initiatives and the WSJF top 5). Drop any item whose task, finding or PR is now done (move it to `done` with its evidence) and renumber. Drop items for repos that are out of scope. Don't re-rank or add items yourself: say in the focus note that a slot is free, and the user picks the next one. If you changed the file, re-run the step 4 Build command and commit it with the report.
 8. **Focus note and publish.**
-   - Write 2–4 plain sentences: what changed since last week's `sotu-*.md`; the one thing that most needs the user; which kickoff item looks most worth starting, and why; plus any "check: …" items from step 6.
+   - Model tier: **haiku** for this note and the publish; **sonnet** only for the step 6 judgment, and only when some entry has hints.
+   - Write 2–4 plain sentences: what changed (from `delta`, not from reading last week's report); the one thing that most needs the user; which kickoff item looks most worth starting, and why; plus any "check: …" items from step 6.
    - Put the note in the `.md` in place of the `<!-- focus -->` line. Also set it as `"focus"` in `sotu-data.json`: load the JSON with a one-line Python command, set the key, and write it back.
    - `Artifact read` on https://claude.ai/artifact/EwZkbsE5ZBGZASFSZpJNbm (a small shell, about 10 KB), then `Artifact publish` with that `url`, `file_path` = `agent/scripts/sotu-page.html`, and `files` = `{"sotu-data.json": "agent/reports/sotu/sotu-data.json"}`. If the publish asks you to read `sotu-data.json` first, list the artifact's files instead (`action: list`, `scope: files`). Leave the icon alone.
 9. **Save.** Commit `agent/reports/sotu/sotu-<week>.md`, `sotu-data.json`, and (if steps 5 or 7 changed them) `agent/projects/scope.md` and `priorities.json` on a branch `sotu/<week>` cut from `origin/main`.

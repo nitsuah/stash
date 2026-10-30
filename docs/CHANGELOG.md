@@ -8,6 +8,16 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Monthly routine pre-steps
+
+- **Added:** `agent/scripts/tire_intake.py` (TIRE section 2 without a model: `bot:repo-health` `## For TIRE` intake, dedup, lockfile re-verification, `tire-input.json` with `skip_model`, ledger edits only with `--apply`), `pmo_prep.py` (per-repo `check-tasks-format` row, merged PRs since the last audit, doc dates, duplicate docs, missing standards files, `changed` flag; full sweep in Jan/Apr/Jul/Oct or `--full`) and `usage_gather.py` (workflow-run, merged PR and commit counts for the previous calendar month; scheduled-task stats or `unavailable: <reason>`). Shared helpers in `prestep_common.py`; tests with stubbed `gh`/`git` run in CI.
+- **Changed:** TIRE, PMO and USAGE specs start with "run the script first; read only its JSON" and state model tiers (TIRE haiku for bump PRs, sonnet only if CI fails; PMO sonnet only for `changed` repos; USAGE haiku). TIRE ends after `--apply` when `skip_model` is true. Step numbers and section names are unchanged. The three output JSON files are git-ignored.
+
+### 2026-10-30 — SOTU pre-step in the script
+
+- **Added:** `agent/scripts/sotu.py` now builds routine health by default (`--routines auto`: local task `SKILL.md` names, `obn-health` and `repo-health` Actions runs, open `bot:repo-health` issue counts; unreadable fields are `unknown`), a `delta` block against the previous `sotu-data.json` with a `## Changes since last run` section, and `--verify-hints`, which writes the git-ignored sidecar `sotu-verify.json` (merged-PR keyword hits, backtick path checks, `skip_model`). `--routines path.json` and `--routines none` still work. Tests: `agent/scripts/test_sotu_prestep.py`.
+- **Changed:** `agent/prompts/SOTU.md` steps 3 and 6 use these outputs: the model only judges items with hints, a quiet week gets a one-line focus note, haiku for the note and sonnet only for step 6 judgment. Step numbers are unchanged.
+
 ### 2026-10-30 — Local routine runner and jobs audit
 
 - **Added:** `agent/scripts/routine-run.mjs` runs a routine prompt through `claude -p` and 9router via the imps kit runner, with a lock, a zero-model `--pre` skip gate (`--skip-exit`), a router probe and a one-line run log; `agent/scripts/local-audit.mjs` is the zero-model CATCHUP "Local jobs audit" (Task Scheduler, imps loop, 9router drift, local task files, obn-health and repo-health runs). Both have node tests, run in CI. Docs: `agent/prompts/ROUTINE-RUN.md`.
