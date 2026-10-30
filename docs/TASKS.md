@@ -28,6 +28,8 @@ Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: n
 
 ### Routines to deterministic CI (cut model-driven routines)
 
+Done 2026-10-30: the four cloud report routines are disabled, `ops-catchup` is retired, `analyze-loc.*` removed, and the retired routines' backup notes are under `agent/routines/archive/`.
+
 Plan: move every routine that is mostly data gathering to GitHub Actions or a zero-AI script, to reduce the shared weekly quota use. Order: cloud first, then local.
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
