@@ -30,6 +30,8 @@ Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: n
 
 Done 2026-10-30: the four cloud report routines are disabled, `ops-catchup` is retired, `analyze-loc.*` removed, and the retired routines' backup notes are under `agent/routines/archive/`.
 
+Done 2026-10-30 (untested): `pipeline-run.mjs`, `SOTU-MODEL.md` and `install-tasks.ps1` are merged. After the Nov 4 reset: dry-run each (`pipeline-run.mjs sotu|tire|pmo`, `daily-run.mjs`, `fin-checkin.mjs`), run `install-tasks.ps1 -Apply`, then disable the matching Claude-plan tasks.
+
 Plan: move every routine that is mostly data gathering to GitHub Actions or a zero-AI script, to reduce the shared weekly quota use. Order: cloud first, then local.
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.

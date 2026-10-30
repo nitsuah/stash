@@ -18,7 +18,10 @@ const LOG = join(HERE, '..', 'logs', 'ops-catchup.log');
 const GH_REPO = 'nitsuah/stash';
 
 // Known root-folder jobs (keep in sync with the CATCHUP.md table). Interval in hours.
-export const KNOWN_TASKS = { 'imps-dispatch': 1, 'imps-label-watch': 5 / 60, 'Sync 9router fork': 1 };
+export const KNOWN_TASKS = {
+    'imps-dispatch': 1, 'imps-label-watch': 5 / 60, 'Sync 9router fork': 1,
+    'routine-daily-run': 48, 'routine-sotu': 168, 'routine-tire': 744, 'routine-pmo': 744, 'routine-fin-checkin': 744,
+};
 
 const row = (id, job, status, detail) => ({ id, job, status, detail });
 

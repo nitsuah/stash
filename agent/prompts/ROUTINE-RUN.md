@@ -37,6 +37,12 @@ Task Scheduler registration (not registered by this repo; run by hand once, then
 schtasks /Create /TN "daily-run" /SC DAILY /ST 07:00 /TR "node C:\Users\<you>\code\stash\agent\scripts\daily-run.mjs --apply --root C:\Users\<you>\code\stash"
 ```
 
+## pipeline-run and install-tasks
+
+`agent/scripts/pipeline-run.mjs <sotu|tire|pmo>` runs week-sotu, monthly-tire-kick and monthly-pmo-audit as code: the pre-step script first (`sotu.py --verify-hints`, `tire_intake.py`, `pmo_prep.py`), the model only when it reports something to judge (a quiet SOTU week and a TIRE run with no `quick` items need none). Dry run by default; `--apply` runs it, `--no-model` never calls the model. Not automated: the SOTU artifact publish (needs the Claude app) and the tier-drift edit to `scope.md`. Model prompts are [[SOTU-MODEL]] and the TIRE and PMO specs.
+
+`agent/scripts/install-tasks.ps1` registers all code-driven routines (daily-run, sotu, tire, pmo, fin-checkin) in Task Scheduler, idempotently; it prints the commands unless `-Apply` is passed (`-Remove` unregisters). It is meant to be run by hand once, after which the matching Claude-plan tasks are disabled. None of this was tested end to end when it was added (2026-10-30).
+
 ## Limits
 
 - No MCP servers (`--strict-mcp-config`), so no `get_usage`, Gmail, Calendar or vigil tools. Routines that need those stay on the cloud or Claude plan.
