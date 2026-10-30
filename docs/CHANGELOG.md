@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Routines to CI: repo-health pilot
+
+- **Added:** `.github/workflows/repo-health.yml` calls the shared `nitsuah/.github` repo-health workflow weekly (Thu 15:00 UTC): osv-scanner advisories, LOC hotspots and root hygiene, with one `bot:repo-health` issue while a HIGH/CRITICAL advisory exists.
+
 ### 2026-10-29 — Routines to CI: obn-health
 
 - **Added:** `.github/workflows/obn-health.yml` and `agent/scripts/obn_health.py` (with tests): the weekly notes, report-cadence, placeholder-prompt, untracked-repo and vault-graph checks run with no model and keep a single issue open while red. Replaces the cloud `week-obn-import` routine, which is disabled after the first green run.
