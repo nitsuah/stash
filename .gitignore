@@ -219,3 +219,4 @@ agent/projects/MM/pack-factory/out*/
 
 # Local routine runner output (routine-run.mjs, local-audit.mjs)
 agent/logs/
+agent/reports/sotu/sotu-verify.json

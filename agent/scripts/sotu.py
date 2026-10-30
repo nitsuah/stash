@@ -15,10 +15,18 @@ Sources, in order:
      the default because vigil's task cache lags same-day merges by hours.
   2. vigil MCP `get_open_tasks` instead, only with --vigil-tasks.
   3. Open rows in agent/reports/findings-ledger.md.
-  4. Optional --routines JSON written by the routine (routine health + quota).
+  4. Routine health: by default (`--routines auto`) built here from the local scheduled-task
+     SKILL.md files, `gh run list` for the obn-health and repo-health workflows, and the open
+     `bot:repo-health` issue count per repo. Anything it can't determine is "unknown", never
+     guessed. `--routines path.json` still takes a routine-written JSON (e.g. to add quota);
+     `--routines none` skips routine health.
+
+Also: a `delta` block against the previous sotu-data.json (new / closed / moved items), and
+with --verify-hints a sidecar sotu-verify.json of merged-PR and path evidence per item.
 
 Usage:
-  python agent/scripts/sotu.py [--routines path.json] [--no-vigil] [--vigil-tasks] [--all-tiers]
+  python agent/scripts/sotu.py [--routines auto|none|path.json] [--verify-hints] [--no-vigil]
+                               [--vigil-tasks] [--all-tiers]
 Writes agent/reports/sotu/sotu-data.json and agent/reports/sotu/sotu-<YYYY>-W<ww>.md.
 """
 from __future__ import annotations
@@ -289,6 +297,244 @@ def public_view(t: dict, private: set[str]) -> dict:
     return {**t, "ref": safe_ref, "criteria": None, "owner": None, "section": None}
 
 
+# ---- routine health (auto), delta and verify hints --------------------------------------------
+LOCAL_TASKS_DIR = Path(os.environ.get("SOTU_TASKS_DIR", Path.home() / ".claude" / "scheduled-tasks"))
+HEALTH_OWNERS = ("nitsuah", "Nitsuah-Labs")
+HEALTH_WORKFLOWS = (("obn-health", "obn-health.yml"), ("repo-health", "repo-health.yml"))
+GH_REPO = "nitsuah/stash"
+GH_TIMEOUT = 60
+STOPWORDS = {"about", "after", "again", "also", "build", "check", "every", "first", "from", "into", "item",
+             "make", "move", "needs", "other", "should", "some", "than", "that", "their", "them", "then",
+             "there", "these", "this", "update", "using", "when", "which", "with", "work", "write"}
+
+
+def run_gh(args: list[str]) -> tuple[int, str, str]:
+    """Run `gh`; returns (returncode, stdout, stderr). returncode -1 when gh is missing or times out."""
+    try:
+        p = subprocess.run(["gh", *args], capture_output=True, text=True, encoding="utf-8", timeout=GH_TIMEOUT)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return -1, "", "gh unavailable"
+    return p.returncode, p.stdout, p.stderr
+
+
+def gh_json(args: list[str]):
+    """Parsed JSON from `gh`, or None when the call fails (callers then report 'unknown')."""
+    rc, out, _ = run_gh(args)
+    if rc != 0:
+        return None
+    try:
+        return json.loads(out)
+    except ValueError:
+        return None
+
+
+def local_task_rows(tasks_dir: Path | None = None) -> list[dict]:
+    """One row per local scheduled task from SKILL.md frontmatter. Run state isn't on disk: it stays unknown."""
+    d = tasks_dir or LOCAL_TASKS_DIR
+    rows = []
+    if not d.is_dir():
+        return rows
+    for skill in sorted(d.glob("*/SKILL.md")):
+        if skill.parent.name.startswith("_"):
+            continue
+        m = re.match(r"---\s*\n(.*?)\n---", skill.read_text(encoding="utf-8", errors="replace"), re.DOTALL)
+        name = None
+        if m:
+            nm = re.search(r"^name:\s*(.+?)\s*$", m.group(1), re.MULTILINE)
+            name = nm.group(1).strip("'\"") if nm else None
+        rows.append({"name": name or skill.parent.name, "last_run": "unknown", "status": "unknown",
+                     "next_run": "unknown", "note": "local task; enabled and last run not readable from disk"})
+    return rows
+
+
+def actions_row(name: str, workflow: str, repo: str = GH_REPO) -> dict:
+    runs = gh_json(["run", "list", "-R", repo, "--workflow", workflow, "--limit", "1",
+                    "--json", "conclusion,status,createdAt"])
+    if not runs:
+        return {"name": name, "last_run": "unknown", "status": "unknown", "next_run": "unknown",
+                "note": f"GitHub Actions {workflow}: no run data"}
+    r = runs[0]
+    conclusion = r.get("conclusion") or r.get("status") or "unknown"
+    status = {"success": "succeeded", "failure": "failed", "in_progress": "running",
+              "queued": "running"}.get(conclusion, conclusion)
+    return {"name": name, "last_run": (r.get("createdAt") or "unknown")[:10], "status": status,
+            "next_run": "unknown", "note": f"GitHub Actions {workflow}"}
+
+
+def repo_health_counts(repos: list[str] | None = None) -> dict[str, int] | None:
+    """Open bot:repo-health issues per repo name across the owners; None if any search failed."""
+    counts: dict[str, int] = {}
+    for owner in HEALTH_OWNERS:
+        found = gh_json(["search", "issues", "--owner", owner, "--label", "bot:repo-health", "--state", "open",
+                         "--json", "repository", "--limit", "200"])
+        if found is None:
+            return None
+        for it in found:
+            name = (it.get("repository") or {}).get("name") or "unknown"
+            counts[name] = counts.get(name, 0) + 1
+    for r in repos or []:
+        counts.setdefault(r, 0)
+    return counts
+
+
+def auto_routines(repos: list[str] | None = None, tasks_dir: Path | None = None) -> dict:
+    rows = local_task_rows(tasks_dir)
+    rows += [actions_row(n, w) for n, w in HEALTH_WORKFLOWS]
+    counts = repo_health_counts(repos)
+    if counts is None:
+        rows.append({"name": "repo-health issues", "last_run": "unknown", "status": "unknown", "next_run": "unknown",
+                     "note": "gh search failed; open issue count unknown"})
+    else:
+        total = sum(counts.values())
+        detail = ", ".join(f"{r} {n}" for r, n in sorted(counts.items()) if n) or "none open"
+        rows.append({"name": "repo-health issues", "last_run": "unknown", "status": "issues" if total else "clean",
+                     "next_run": "unknown", "note": f"{total} open: {detail}"})
+    return {"routines": rows, "quota": None, "repo_health_issues": counts}
+
+
+def _item_key(t: dict) -> str:
+    return f"{t.get('repo')}|{t.get('title') or t.get('finding') or t.get('id')}"
+
+
+def _brief(t: dict) -> dict:
+    return {"repo": t.get("repo"), "title": t.get("title") or t.get("finding"), "priority": t.get("priority")}
+
+
+def _diff(prev: list[dict], cur: list[dict], moved_fields: tuple[str, ...] = ()) -> dict:
+    p = {_item_key(t): t for t in prev}
+    c = {_item_key(t): t for t in cur}
+    out = {"new": [_brief(c[k]) for k in c if k not in p], "closed": [_brief(p[k]) for k in p if k not in c]}
+    if moved_fields:
+        out["moved"] = [{**_brief(c[k]), "from": {f: p[k].get(f) for f in moved_fields},
+                         "to": {f: c[k].get(f) for f in moved_fields}}
+                        for k in c if k in p and any(p[k].get(f) != c[k].get(f) for f in moved_fields)]
+    return out
+
+
+def compute_delta(prev: dict | None, cur: dict) -> dict:
+    """Changes against the previous run's JSON. `empty` is False when there is no baseline."""
+    if not prev:
+        return {"previous": None, "empty": False, "note": "no previous sotu-data.json"}
+    d = {"previous": prev.get("generated_at"),
+         "tasks": _diff(prev.get("tasks", []), cur.get("tasks", []), ("priority", "status")),
+         "needs_you": _diff(prev.get("needs_you", []), cur.get("needs_you", [])),
+         "kickoff": _diff(prev.get("kickoff", []), cur.get("kickoff", []))}
+    d["empty"] = not any(d[s][k] for s in ("tasks", "needs_you", "kickoff") for k in d[s])
+    return d
+
+
+def delta_markdown(d: dict, cap: int = 8) -> list[str]:
+    L = ["## Changes since last run\n"]
+    if d.get("previous") is None:
+        return L + ["- no previous run to compare\n"]
+    if d["empty"]:
+        return L + ["- nothing changed\n"]
+    for section, label in (("needs_you", "Needs you"), ("kickoff", "Kickoff"), ("tasks", "Tasks")):
+        for kind, items in d[section].items():
+            if not items:
+                continue
+            shown = [f"{i['repo']}: {i['title']}" + (f" ({i['from']} -> {i['to']})" if kind == "moved" else "")
+                     for i in items[:cap]]
+            more = f" (+{len(items) - cap} more)" if len(items) > cap else ""
+            L.append(f"- {label} {kind} ({len(items)}): " + "; ".join(shown) + more)
+    return L + [""]
+
+
+def _keywords(text: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z][a-z0-9-]{4,}", text.lower()) if w not in STOPWORDS}
+
+
+def _backtick_paths(text: str) -> list[str]:
+    out = []
+    for tok in re.findall(r"`([^`\s]+)`", text or ""):
+        if tok.startswith("./"):
+            tok = tok[2:]
+        if re.fullmatch(r"[\w.@-]+(/[\w.@-]+)+/?|[\w-]+\.[A-Za-z0-9]{1,5}", tok) and ".." not in tok and tok not in out:
+            out.append(tok)
+    return out
+
+
+def _since(t: dict, today: dt.date) -> tuple[str, str]:
+    m = re.search(r"20\d\d-\d\d-\d\d", f"{t.get('first_seen') or ''} {t.get('title') or ''}")
+    if m:
+        return m.group(0), "item"
+    return (today - dt.timedelta(days=28)).isoformat(), "default-28d"
+
+
+def verify_items(data: dict) -> list[dict]:
+    """Needs-you, kickoff and open P0/P1 items, deduped by repo+title."""
+    seen, items = set(), []
+    pools = [("needs_you", data.get("needs_you", [])), ("kickoff", data.get("kickoff", [])),
+             ("p0p1", [t for t in data.get("tasks", []) if t.get("priority") in ("P0", "P1")])]
+    for kind, pool in pools:
+        for t in pool:
+            k = _item_key(t)
+            if k not in seen:
+                seen.add(k)
+                items.append({**t, "_kind": kind})
+    return items
+
+
+def build_verify(data: dict, repos: dict[str, dict], today: dt.date | None = None, max_path_checks: int = 15) -> dict:
+    """Evidence per item. One `gh pr list` per repo. Private repos expose PR numbers/dates only."""
+    today = today or dt.date.today()
+    items = verify_items(data)
+    delta = data.get("delta") or {}
+    changed = set()
+    for sec in ("needs_you", "kickoff", "tasks"):
+        for kind in ("new", "moved"):
+            changed |= {f"{i['repo']}|{i['title']}" for i in (delta.get(sec) or {}).get(kind, [])}
+    no_baseline = delta.get("previous") is None
+    since = {_item_key(t): _since(t, today) for t in items}
+    by_repo: dict[str, list[dict]] = {}
+    for t in items:
+        by_repo.setdefault(t["repo"], []).append(t)
+    prs: dict[str, list[dict] | None] = {}
+    for repo, its in by_repo.items():
+        meta = repos.get(repo)
+        if not meta:
+            prs[repo] = None
+            continue
+        earliest = min(since[_item_key(t)][0] for t in its)
+        prs[repo] = gh_json(["pr", "list", "-R", meta["full_name"], "--state", "merged", "--search",
+                             f"merged:>={earliest}", "--json", "number,title,body,mergedAt", "--limit", "100"])
+    checks_left = max_path_checks
+    out = []
+    for t in items:
+        repo, meta = t["repo"], repos.get(t["repo"], {})
+        key = _item_key(t)
+        since_date, src = since[key]
+        kws = _keywords(t.get("title") or t.get("finding") or "")
+        need = 1 if len(kws) <= 2 else 2
+        hints, lookup_failed = [], prs.get(repo) is None
+        for pr in prs.get(repo) or []:
+            if (pr.get("mergedAt") or "")[:10] < since_date:
+                continue
+            hit = _keywords(f"{pr.get('title') or ''} {pr.get('body') or ''}") & kws
+            if len(hit) >= need:
+                h = {"number": pr["number"], "mergedAt": pr.get("mergedAt"), "matched": sorted(hit)}
+                if not meta.get("private"):
+                    h["title"] = pr.get("title")
+                hints.append(h)
+        path_checks = []
+        if not meta.get("private") and meta.get("full_name"):
+            for path in _backtick_paths(f"{t.get('title') or ''} {t.get('criteria') or ''}")[:3]:
+                if checks_left <= 0:
+                    path_checks.append({"path": path, "exists": None})
+                    continue
+                checks_left -= 1
+                rc, _, err = run_gh(["api", f"repos/{meta['full_name']}/contents/{path}", "--silent"])
+                path_checks.append({"path": path, "exists": True if rc == 0 else (False if "404" in err else None)})
+        is_changed = no_baseline or key in changed
+        no_evidence = not hints and all(c["exists"] is None for c in path_checks)
+        out.append({"key": key, "kind": t["_kind"], "repo": repo, "title": t.get("title") or t.get("finding"),
+                    "priority": t.get("priority"), "since": since_date, "since_source": src,
+                    "pr_hints": hints, "path_checks": path_checks, "lookup_failed": lookup_failed,
+                    "changed": is_changed, "skip_model": bool(no_evidence and not is_changed and not lookup_failed)})
+    return {"generated_at": data.get("generated_at"), "items": out,
+            "all_skip": all(i["skip_model"] for i in out), "delta_empty": bool(delta.get("empty"))}
+
+
 def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_tiers: bool = False,
           vigil_task_source: bool = False) -> dict:
     all_repos = tracked_repos()
@@ -348,7 +594,12 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_ti
 
     today = dt.date.today()
     aging = [i for i in ledger if i["seen"] >= 3 or (today - dt.date.fromisoformat(i["first_seen"])).days > 21]
-    routines = json.loads(Path(routines_path).read_text(encoding="utf-8")) if routines_path else {}
+    if routines_path == "auto":
+        routines = auto_routines([r["repo"] for r in all_repos])
+    elif routines_path and routines_path != "none":
+        routines = json.loads(Path(routines_path).read_text(encoding="utf-8"))
+    else:
+        routines = {}
     prio_path = OUT_DIR / "priorities.json"  # curated top initiatives + WSJF top 5 (SOTU.md step 5)
     priorities = json.loads(prio_path.read_text(encoding="utf-8")) if prio_path.exists() else {}
     # Same rule as ledger rows: repo-specific entries for out-of-scope repos drop out of the
@@ -367,6 +618,7 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_ti
         "tier_drift": drift,
         "ledger_open": ledger,
         "routines": routines.get("routines", []), "quota": routines.get("quota"),
+        "repo_health_issues": routines.get("repo_health_issues"),
         "priorities": priorities,
     }
 
@@ -379,6 +631,8 @@ def to_markdown(d: dict, week: str) -> str:
          f"per {d['scope']['tier_source']} ({', '.join(d['scope']['repos'])}). "
          f"Left out: {', '.join(d['scope']['excluded']) or 'none'}.\n",
          "<!-- focus -->\n"]
+    if d.get("delta"):
+        L += delta_markdown(d["delta"])
     if d.get("quota"):
         q = d["quota"]
         L.append(f"Quota: weekly {q.get('weekly')}%, 5-hour {q.get('five_hour')}% (resets {q.get('weekly_resets')}).\n")
@@ -421,19 +675,35 @@ def to_markdown(d: dict, week: str) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--routines", help="JSON with {routines: [...], quota: {...}} written by the routine")
+    ap.add_argument("--routines", default="auto",
+                    help="'auto' (default): build routine health here; 'none': skip; or a JSON path with "
+                         "{routines: [...], quota: {...}} written by the routine")
+    ap.add_argument("--verify-hints", action="store_true",
+                    help="also write sotu-verify.json: merged-PR and path evidence for Needs-you, kickoff, P0/P1 items")
     ap.add_argument("--no-vigil", action="store_true", help="skip vigil (tiers fall back to scope.md)")
     ap.add_argument("--vigil-tasks", action="store_true", help="read tasks from vigil's cache instead of TASKS.md")
     ap.add_argument("--no-fetch", action="store_true", help="don't git fetch the tracked repos first")
     ap.add_argument("--all-tiers", action="store_true", help="include tier 3/4 and unregistered repos")
     args = ap.parse_args()
     data = build(args.routines, not args.no_vigil, not args.no_fetch, args.all_tiers, args.vigil_tasks)
+    prev_path = OUT_DIR / "sotu-data.json"
+    try:
+        prev = json.loads(prev_path.read_text(encoding="utf-8")) if prev_path.exists() else None
+    except ValueError:
+        prev = None
+    data["delta"] = compute_delta(prev, data)
     data["tasks"].sort(key=lambda t: (t["tier"], t["repo"], PRIO_RANK.get(t["priority"], 4)))
     y, w, _ = dt.date.today().isocalendar()
     week = f"{y}-W{w:02d}"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "sotu-data.json").write_text(json.dumps(data, separators=(",", ":")), encoding="utf-8")
     (OUT_DIR / f"sotu-{week}.md").write_text(to_markdown(data, week), encoding="utf-8")
+    if args.verify_hints:
+        repos = {r["repo"]: r for r in tracked_repos()}
+        verify = build_verify(data, repos)
+        (OUT_DIR / "sotu-verify.json").write_text(json.dumps(verify, indent=1), encoding="utf-8")
+        print(f"sotu: verify hints for {len(verify['items'])} items, "
+              f"{sum(1 for i in verify['items'] if i['skip_model'])} skip_model, all_skip={verify['all_skip']}")
     print(f"sotu: {len(data['tasks'])} tasks ({data['source']}), {len(data['needs_you'])} need you, "
           f"{len(data['kickoff'])} kickoff, {len(data['aging'])} aging -> agent/reports/sotu/sotu-{week}.md")
     return 0
