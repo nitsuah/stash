@@ -36,8 +36,7 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
   - Priority: P2 · Owner: stash (script) + routine (DAILY.md)
-- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123); piloting in stash, then add the caller to each tracked repo, point TIRE at `bot:repo-health` issues, and disable the three cloud routines.
-- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Remaining: add the caller to each tracked repo and disable the three cloud routines.
+- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Caller PRs are open in the 16 other tracked repos; remaining: merge them, confirm one run each, then disable the three cloud routines.
   - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
   - Priority: P1 · Owner: routine
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
