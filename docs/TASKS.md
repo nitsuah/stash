@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-28
+Last Updated: 2026-10-29
 
 ## In Progress
 
@@ -25,6 +25,23 @@ Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: n
   - Priority: P1
 - [ ] Deterministic logo/icon generation per repo and consent-screen branding updates.
   - Priority: P2
+
+### Routines to deterministic CI (cut model-driven routines)
+
+Plan: move every routine that is mostly data gathering to GitHub Actions or a zero-AI script, to reduce the shared weekly quota use. Order: cloud first, then local.
+
+- [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
+  - Priority: P1 · Owner: stash · Done 2026-10-29. Disable the cloud routine (`trig_01BG8SNdHvDBaHRTp3UKRK8r`) after the first green scheduled run on a Wednesday.
+- [ ] `week-vuln` to per-repo osv-scanner plus Dependabot security updates (reusable workflow in nitsuah/.github), with a script that emits the `## For TIRE` lines.
+  - Priority: P1 · Owner: routine
+- [ ] `week-eng-loc` to a reusable workflow running `analyze-loc.py` per repo.
+  - Priority: P1 · Owner: routine
+- [ ] `week-eng-mini` to a per-repo root-file allowlist check.
+  - Priority: P1 · Owner: routine
+- [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
+  - Priority: P2 · Owner: routine
+- [ ] Local tasks: ats-fill weekly review and inbox sync, week-fin-sum, daily-repo-sync git sweep and the ops-catchup jobs audit become zero-AI scripts on Task Scheduler; split imps-triage merge, SOTU gather, PMO doc checks and TIRE health into CI.
+  - Priority: P2 · Owner: routine
 
 ### Journeys rollout (low-inference "AI user" loop)
 

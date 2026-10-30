@@ -8,6 +8,8 @@ description: Weekly read-only health check of stash notes, report cadence and th
 
 # routine · cloud · week-obn-import
 
+> **Superseded 2026-10-29** by the stash workflow `.github/workflows/obn-health.yml` (`agent/scripts/obn_health.py`). Disable the cloud routine after the first green scheduled run.
+>
 > Snapshot of cloud routine `⚡ week-obn-import` (`trig_01BG8SNdHvDBaHRTp3UKRK8r`), taken 2026-09-30 from `RemoteTrigger get`. The live prompt is at claude.ai/code/routines.
 
 | Field | Value |
