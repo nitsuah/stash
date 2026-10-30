@@ -592,8 +592,10 @@ export async function runDaily(opts = {}) {
     ];
     const weekly = weeklyChain(ctx, today);
     const noteFile = `agent/notes/${today}.md`;
-    const reflectionsDue = Boolean(active.size || gate.changed.length || gate.stale.length || weekly.mondayGoals?.due || weekly.saturdayReview?.due);
-    const reflections = reflectionsDue ? REFLECTIONS_PENDING : 'No tracked-repo activity and no mirror changes today; nothing to synthesize.';
+    // Reflections are templated from counts (no model): the model runs only for hub synthesis,
+    // Monday goals or the Saturday review.
+    const reflectionsDue = false;
+    const reflections = `${active.size} repo(s) with activity, ${gate.changed.length} mirror change(s), ${gate.stale.length} stale hub(s). No model synthesis.`;
     const note = renderNote({ today, activity: activitySection(rows, today), tasks: tasksSection({ keySet: vigil.keySet, ctx: vigil.ctx, fetchError: vigil.fetchError, active, skips, today }), notes, reflections });
     const handoff = buildHandoff({ today, changed: gate.changed, stale: gate.stale, reflectionsDue, mondayGoals: weekly.mondayGoals, saturdayReview: weekly.saturdayReview, noteFile });
     handoff.mirror_diffs = gate.detail;
