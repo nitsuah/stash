@@ -16,6 +16,52 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — daily-run: DAILY as code
+
+- **Added:** `agent/scripts/daily-run.mjs` runs the deterministic steps of `DAILY.md` with no model: once-per-day guard (fails closed), merge gate for older `obn:` PRs, `sync-repos.ps1`, the four log appends, mirror skip-gate, note skeleton (Repo Activity, vigil Tasks, Notes), vault indexes, link repair and orphan check, Monday weekly skeleton, and branch/commit/push/PR. Default is `--dry-run`; `--apply` pushes and opens the PR. It writes the git-ignored `agent/reports/daily-handoff.json` and calls `routine-run.mjs` with the new `agent/prompts/DAILY-MODEL.md` (hub synthesis, Reflections, Monday goals, Saturday review; no Bash) only when `skip_model` is false. Unautomated steps print `NOT AUTOMATED: <step>`. Tests: `agent/scripts/daily-run.test.mjs`, run in CI.
+- **Changed:** `DAILY.md` gains a header saying which steps the script implements; step numbers are unchanged. `ROUTINE-RUN.md` documents the Task Scheduler registration (not registered here).
+
+### 2026-10-30 — Retired routine cleanup
+
+- **Removed:** `analyze-loc.py`/`.ps1` (superseded by the repo-health `loc.py`). **Archived:** backup notes for the four disabled cloud routines under `agent/routines/archive/`. **Retired:** the `ops-catchup` task (audit lives in `local-audit.mjs`).
+
+### 2026-10-30 — Monthly routine pre-steps
+
+- **Added:** `agent/scripts/tire_intake.py` (TIRE section 2 without a model: `bot:repo-health` `## For TIRE` intake, dedup, lockfile re-verification, `tire-input.json` with `skip_model`, ledger edits only with `--apply`), `pmo_prep.py` (per-repo `check-tasks-format` row, merged PRs since the last audit, doc dates, duplicate docs, missing standards files, `changed` flag; full sweep in Jan/Apr/Jul/Oct or `--full`) and `usage_gather.py` (workflow-run, merged PR and commit counts for the previous calendar month; scheduled-task stats or `unavailable: <reason>`). Shared helpers in `prestep_common.py`; tests with stubbed `gh`/`git` run in CI.
+- **Changed:** TIRE, PMO and USAGE specs start with "run the script first; read only its JSON" and state model tiers (TIRE haiku for bump PRs, sonnet only if CI fails; PMO sonnet only for `changed` repos; USAGE haiku). TIRE ends after `--apply` when `skip_model` is true. Step numbers and section names are unchanged. The three output JSON files are git-ignored.
+
+### 2026-10-30 — SOTU pre-step in the script
+
+- **Added:** `agent/scripts/sotu.py` now builds routine health by default (`--routines auto`: local task `SKILL.md` names, `obn-health` and `repo-health` Actions runs, open `bot:repo-health` issue counts; unreadable fields are `unknown`), a `delta` block against the previous `sotu-data.json` with a `## Changes since last run` section, and `--verify-hints`, which writes the git-ignored sidecar `sotu-verify.json` (merged-PR keyword hits, backtick path checks, `skip_model`). `--routines path.json` and `--routines none` still work. Tests: `agent/scripts/test_sotu_prestep.py`.
+- **Changed:** `agent/prompts/SOTU.md` steps 3 and 6 use these outputs: the model only judges items with hints, a quiet week gets a one-line focus note, haiku for the note and sonnet only for step 6 judgment. Step numbers are unchanged.
+
+### 2026-10-30 — Local routine runner and jobs audit
+
+- **Added:** `agent/scripts/routine-run.mjs` runs a routine prompt through `claude -p` and 9router via the imps kit runner, with a lock, a zero-model `--pre` skip gate (`--skip-exit`), a router probe and a one-line run log; `agent/scripts/local-audit.mjs` is the zero-model CATCHUP "Local jobs audit" (Task Scheduler, imps loop, 9router drift, local task files, obn-health and repo-health runs). Both have node tests, run in CI. Docs: `agent/prompts/ROUTINE-RUN.md`.
+
+### 2026-10-30 — Slimmer DAILY spec
+
+- **Changed:** `agent/prompts/DAILY.md` shrinks from 32 KB to about 16 KB (it is re-sent every turn of the daily routine). History and rationale are trimmed to one-clause rules; repo-sync and worktree prose points at the wrapper and `sync-repos.ps1`; a skip-gate runs step 2 (hub synthesis) only for repos whose mirror changed or whose hub is on the VAULT-MAP Stale hubs line; model tiers are stated; the failed cloud routine lookup and Showcase board publish run weekly (Mondays), and the publish only when the board JSON changed. Step numbers 0-4 are unchanged.
+### 2026-10-30 — Routine specs trimmed for CI
+
+- **Changed:** TIRE, SOTU, USAGE, RSI, CATCHUP and PMO now read `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud eng-mini, eng-loc, week-vuln and obn-import reports. Dropped the `RemoteTrigger` lookups, the ActivityWatch section and most PR-format boilerplate in PMO; PMO now audits only repos with changes since the last audit (full sweep quarterly); RSI runs quarterly unless TIRE's Aging section is non-empty or a routine failed 2+ times.
+- **Docs:** week-vuln, week-eng-loc and week-eng-mini backup notes marked superseded.
+### 2026-10-30 — Lean daily brief
+
+- **Changed:** the cloud `daily-brief` no longer writes a sanitized report or opens a PR each weekday (about 8 tool calls); Gmail is read by snippet only. `obn_health.py` drops the daily-brief, week-vuln, eng-loc and eng-mini report cadences, since those are now repo-health Action output.
+
+### 2026-10-30 — Routines to CI: repo-health pilot
+
+- **Added:** `.github/workflows/repo-health.yml` calls the shared `nitsuah/.github` repo-health workflow weekly (Thu 15:00 UTC): osv-scanner advisories, LOC hotspots and root hygiene, with one `bot:repo-health` issue while a HIGH/CRITICAL advisory exists.
+
+### 2026-10-29 — Routines to CI: obn-health
+
+- **Added:** `.github/workflows/obn-health.yml` and `agent/scripts/obn_health.py` (with tests): the weekly notes, report-cadence, placeholder-prompt, untracked-repo and vault-graph checks run with no model and keep a single issue open while red. Replaces the cloud `week-obn-import` routine, which is disabled after the first green run.
+
+### 2026-10-29 — Hardening
+
+- **Changed:** `tech-stack-actor` caches compiled fingerprint regexes, truncates page HTML (1 MB) before matching, and fingerprint lint rejects nested-quantifier patterns.
+
 ### 2026-10-28 — Security program plan
 
 - **Added:** `docs/security/SECURITY-ROADMAP.md` (principles, tiers, phases, fix-once controls) and a verified OAuth client inventory; `ENDPOINT-ACL.md` now lists detected routes per repo.

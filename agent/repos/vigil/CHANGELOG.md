@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **Fixed (critical):** the roadmap, tasks, features and metrics parsers no longer let a repository document run JavaScript on the server through a `---js` front-matter fence. Front matter is now parsed as YAML/JSON only (`lib/parsers/front-matter.ts`); other languages are treated as no front matter.
+
 - Per-tool authorization on `/api/mcp` and `/api/context` (#345): optional least-privilege keys via `MCP_SCOPED_KEYS` (scopes `repo:read`, `portfolio:read`, `security:read`, `relationships:read`, `relationships:write`); `MCP_API_KEY` stays the all-scope admin key; keys compared in constant time; an authenticated key lacking a tool's scope gets 403, unknown tools are denied; ACL matrix in docs/MCP.md.
 
 ### Added
@@ -41,6 +43,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The demo portfolio and API mocks moved from `e2e/visual-docs/screenshots.spec.ts` to `e2e/fixtures/demo-portfolio.ts`, shared by the screenshots and the journeys.
 
 ### Fixed
+
+- **Fixed:** a refused front-matter fence that sits behind a UTF-8 BOM is now dropped like any other (`lib/parsers/front-matter.ts`), and the parser tests assert that YAML/JSON bodies exclude their fence.
+- **Fixed:** `extractBadges` uses bounded character classes and caps its input at 100,000 characters, so a malformed README can no longer cause super-linear regex backtracking.
+
+- **Fixed:** the diff preview bounds its LCS matrix (about 4 million cells); larger inputs match only the identical leading and trailing lines instead of freezing the browser tab (`lib/diff-lcs.ts`).
+- **Fixed:** the showcase script's atomic write now creates its temp file exclusively with an unpredictable name (`lib/atomic-write.ts`), so a symlink planted at the temp path is refused instead of followed and truncated.
+- **Fixed:** `createPrForFile` and `createPrForFiles` reject file content over 1 MiB (the Contents API limit) before making any GitHub call, so an oversized file can no longer leave a half-created branch.
+- **Fixed:** the pre-commit hook's Docker fallback (used in git worktrees, where there is no local `node_modules`) installs its lint dependencies from the lockfile (`npm ci`) and runs the repo's `postinstall` patch (which makes `gray-matter` work with `js-yaml` 5), so parser changes no longer fail there with `Cannot read properties of undefined (reading 'bind')`. A local checkout that installed with scripts disabled still needs `npm run postinstall`.
+- **Fixed:** the README HTML-badge scan in `checkBestPractices` finds each `<img>` tag in one linear pass, reads `src`/`alt` from that tag only, and scans at most 200,000 characters, so a malformed README can no longer cause super-linear regex backtracking.
 
 - Pre-commit hook runs lint-staged from git worktrees too: it uses `node_modules/.bin/lint-staged` when present, otherwise lints in a `node:22` Docker container when Docker is running, and otherwise warns and skips (CI still runs lint). Dependencies install into a named volume, so later commits skip the install.
 - Metrics and Testing cards put a space between a value and its label (e.g. "2.4992 functions", "151 🟢 Pass") (#313).

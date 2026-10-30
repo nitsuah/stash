@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: bb-mcp
+date: 2026-10-29
+---
+
 # eng-loc · bb-mcp · 2026-10-29
+
+> 🧭 [[repos/bb-mcp|bb-mcp]] · ← [[reports/eng-loc-bb-mcp-2026-10-01|2026-10-01]] <!-- nav -->
+
 HEAD: 58c2085da73e2b1d26832bcb3ab86701eb121dac
 
 kind: eng-loc · repo: bb-mcp · tier: T2 (vigil snapshot 2026-10-21) · mode: --report · last commit: 2026-10-28 23:24 -0400

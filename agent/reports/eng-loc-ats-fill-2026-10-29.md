@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: ats-fill
+date: 2026-10-29
+---
+
 # eng-loc · ats-fill · 2026-10-29
+
+> 🧭 [[repos/ats-fill|ats-fill]] · ← [[reports/eng-loc-ats-fill-2026-10-08|2026-10-08]] <!-- nav -->
+
 HEAD: d619b02d6671fe28dd46eb21f09e991942cf0793
 
 kind: eng-loc · repo: ats-fill · tier: T1 (vigil snapshot 2026-10-21) · mode: --report · last commit: 2026-10-28 23:24 -0400

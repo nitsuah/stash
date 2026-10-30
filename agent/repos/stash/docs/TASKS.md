@@ -10,7 +10,7 @@ repo: stash
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-28
+Last Updated: 2026-10-30
 
 ## In Progress
 
@@ -33,6 +33,34 @@ Plan: [security/SECURITY-ROADMAP.md](./security/SECURITY-ROADMAP.md). Tracker: n
   - Priority: P1
 - [ ] Deterministic logo/icon generation per repo and consent-screen branding updates.
   - Priority: P2
+
+### Routines to deterministic CI (cut model-driven routines)
+
+Done 2026-10-30: the four cloud report routines are disabled, `ops-catchup` is retired, `analyze-loc.*` removed, and the retired routines' backup notes are under `agent/routines/archive/`.
+
+Plan: move every routine that is mostly data gathering to GitHub Actions or a zero-AI script, to reduce the shared weekly quota use. Order: cloud first, then local.
+
+- [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
+  - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
+- [x] Slim `agent/prompts/DAILY.md` (32 KB to about 16 KB re-sent every turn): history trimmed, repo-sync prose points at the wrapper and `sync-repos.ps1`, step 2 gated on changed or stale mirrors, model tiers stated, failed-run lookup and Showcase publish made weekly.
+  - Priority: P1 · Owner: stash · Done 2026-10-30.
+- [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
+  - Priority: P2 · Owner: stash (script) + routine (DAILY.md)
+- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Caller PRs are open in the 16 other tracked repos; remaining: merge them, confirm one run each, then disable the three cloud routines.
+  - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
+  - Priority: P1 · Owner: routine
+- [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](https://github.com/nitsuah/stash/blob/main/agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
+  - Priority: P2 · Owner: routine
+- [x] `daily-repo-sync` as code: `agent/scripts/daily-run.mjs` does DAILY's deterministic steps (guard, merge gate, repo sync, logs, note skeleton, indexes, PR) and calls the model only through `routine-run.mjs` with `agent/prompts/DAILY-MODEL.md` when `skip_model` is false. Tests in CI. Open: register the Task Scheduler job (command in [ROUTINE-RUN](https://github.com/nitsuah/stash/blob/main/agent/prompts/ROUTINE-RUN.md)), run it once with `--apply`, then disable the Claude-plan task; Monday cloud-run lookup and Showcase publish stay manual (`NOT AUTOMATED`).
+  - Priority: P1 · Owner: stash · Done 2026-10-30.
+- [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
+  - Priority: P2 · Owner: routine
+- [x] SOTU pre-step: `sotu.py` builds routine health itself (`--routines auto`: local task names, `obn-health`/`repo-health` runs, `bot:repo-health` issue counts, `unknown` where unreadable), adds a `delta` block and a `## Changes since last run` section, and `--verify-hints` writes `sotu-verify.json` (merged-PR and path evidence, `skip_model`). SOTU.md steps 3 and 6 use them; a quiet week skips the model judgment. Tests: `agent/scripts/test_sotu_prestep.py`.
+  - Priority: P2 · Owner: stash · Done 2026-10-30.
+- [x] TIRE, PMO and USAGE pre-step scripts (`agent/scripts/tire_intake.py`, `pmo_prep.py`, `usage_gather.py`, shared `prestep_common.py`, tests run in CI): the specs start with "run the script first; read only its JSON", state model tiers, and TIRE ends without a model when `skip_model` is true. Open: run each routine once on the new path, then confirm the first `skip_model` month.
+  - Priority: P2 · Owner: stash · Done 2026-10-30.
+- [ ] Local tasks: ats-fill weekly review and inbox sync, week-fin-sum, daily-repo-sync git sweep and the ops-catchup jobs audit become zero-AI scripts on Task Scheduler; split imps-triage merge, PMO doc checks and TIRE health into CI.
+  - Priority: P2 · Owner: routine
 
 ### Journeys rollout (low-inference "AI user" loop)
 
