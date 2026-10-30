@@ -43,6 +43,8 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Priority: P1 · Owner: routine
 - [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
   - Priority: P2 · Owner: routine
+- [x] `daily-repo-sync` as code: `agent/scripts/daily-run.mjs` does DAILY's deterministic steps (guard, merge gate, repo sync, logs, note skeleton, indexes, PR) and calls the model only through `routine-run.mjs` with `agent/prompts/DAILY-MODEL.md` when `skip_model` is false. Tests in CI. Open: register the Task Scheduler job (command in [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md)), run it once with `--apply`, then disable the Claude-plan task; Monday cloud-run lookup and Showcase publish stay manual (`NOT AUTOMATED`).
+  - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
   - Priority: P2 · Owner: routine
 - [x] SOTU pre-step: `sotu.py` builds routine health itself (`--routines auto`: local task names, `obn-health`/`repo-health` runs, `bot:repo-health` issue counts, `unknown` where unreadable), adds a `delta` block and a `## Changes since last run` section, and `--verify-hints` writes `sotu-verify.json` (merged-PR and path evidence, `skip_model`). SOTU.md steps 3 and 6 use them; a quiet week skips the model judgment. Tests: `agent/scripts/test_sotu_prestep.py`.

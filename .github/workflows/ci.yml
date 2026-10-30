@@ -137,4 +137,4 @@ jobs:
         run: python -m pytest atlassian/jira/test_examples.py atlassian/bitbucket/test_bitbucket_examples.py atlassian/confluence/test_confluence_examples.py atlassian/statuspage/test_statuspage_examples.py agent/scripts/test_enrich_mirror.py agent/scripts/test_graph_filters.py agent/scripts/test_obn_health.py agent/scripts/test_tire_intake.py agent/scripts/test_pmo_prep.py agent/scripts/test_usage_gather.py -v
 
       - name: Run node tests (routine tooling)
-        run: node --test agent/scripts/routine-run.test.mjs agent/scripts/local-audit.test.mjs
+        run: node --test agent/scripts/routine-run.test.mjs agent/scripts/local-audit.test.mjs agent/scripts/daily-run.test.mjs

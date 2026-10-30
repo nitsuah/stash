@@ -2,6 +2,8 @@
 
 > Run by the scheduled task `daily-repo-sync` (wrapper `~/.claude/scheduled-tasks/daily-repo-sync/SKILL.md`, backup in `agent/routines/`). This file is the canonical spec and wins over the wrapper.
 
+> **Automation:** `agent/scripts/daily-run.mjs` implements the deterministic steps with no model (step 0 guard and merge gate, step 1 sync and skip-gate, the four log appends, the step 3 note skeleton, the step 4 Monday skeleton, vault indexes/link repair/orphan check, branch/commit/push/PR); it is `--dry-run` unless `--apply`. **Model-driven, via `agent/prompts/DAILY-MODEL.md` ([[DAILY-MODEL]]):** step 2 hub synthesis, `## Reflections`, Monday goal seeding, Saturday week review. **Not automated:** Monday failed-cloud-routine lookup, Showcase board publish, "Unchanged human-gated P1s" dedup, the `.obsidian` clean-filter check (the script prints `NOT AUTOMATED: ...` for each). See [[ROUTINE-RUN]], section daily-run.
+
 **If short on time/turns:** finish `obn` (steps 0-4) before repo sync or worktree pruning. Other files cite steps 0-4 by number (`RSI.md`, `build-vault-indexes.py`): keep them.
 
 **Model tiers.** Everything not listed is a plain command: run it, don't reason about it. Model work: step 2 hub synthesis (sonnet; haiku when a hub's mirror diff is a few lines; **only for changed or stale repos**, see skip-gate), `## Reflections`, Monday goal seeding, Saturday week review (all haiku). Repo Activity / Tasks / Notes are command output plus a log roll-up (haiku).

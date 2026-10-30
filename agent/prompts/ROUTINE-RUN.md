@@ -23,6 +23,20 @@ schtasks /Create /TN "routine-week-example" /SC WEEKLY /D MON /ST 08:00 /TR "nod
 
 Add the new task to the [[CATCHUP]] audit table and `KNOWN_TASKS` in `local-audit.mjs` in the same PR, or the audit flags it as unknown.
 
+## daily-run
+
+`agent/scripts/daily-run.mjs` is the deterministic half of [[DAILY]] as code (guard, merge gate, repo sync, logs, note skeleton, indexes, PR). It writes `agent/reports/daily-handoff.json` (gitignored) and calls `routine-run.mjs` with `agent/prompts/DAILY-MODEL.md` (`--model MAX`, tools `Read,Write,Edit,Glob,Grep`, no Bash) only when `skip_model` is false.
+
+- `node agent/scripts/daily-run.mjs` is a dry-run: it prints what it would merge, pull, write and open, and writes nothing tracked. `--apply` merges, writes, pushes and opens the PR; `--no-model` skips the model call.
+- Unautomated steps print `NOT AUTOMATED: <step>`; the list is `NOT_AUTOMATED` in the script.
+- Set `VIGIL_MCP_KEY` in the task's environment for `## Tasks`; without it the note says `vigil key not set`.
+
+Task Scheduler registration (not registered by this repo; run by hand once, then retire the Claude-plan `daily-repo-sync` task):
+
+```
+schtasks /Create /TN "daily-run" /SC DAILY /ST 07:00 /TR "node C:\Users\<you>\code\stash\agent\scripts\daily-run.mjs --apply --root C:\Users\<you>\code\stash"
+```
+
 ## Limits
 
 - No MCP servers (`--strict-mcp-config`), so no `get_usage`, Gmail, Calendar or vigil tools. Routines that need those stay on the cloud or Claude plan.
