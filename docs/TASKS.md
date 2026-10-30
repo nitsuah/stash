@@ -34,6 +34,8 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
 - [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123); piloting in stash, then add the caller to each tracked repo, point TIRE at `bot:repo-health` issues, and disable the three cloud routines.
   - Priority: P1 · Owner: routine
+- [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
+  - Priority: P2 · Owner: routine
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
   - Priority: P2 · Owner: routine
 - [ ] Local tasks: ats-fill weekly review and inbox sync, week-fin-sum, daily-repo-sync git sweep and the ops-catchup jobs audit become zero-AI scripts on Task Scheduler; split imps-triage merge, SOTU gather, PMO doc checks and TIRE health into CI.
