@@ -36,7 +36,7 @@ $tasks = @(
     @{ Name = 'routine-pmo'; Sched = @('/SC', 'MONTHLY', '/D', '1', '/ST', '08:00'); Dir = $StashRoot
        Cmd = "$node agent\scripts\pipeline-run.mjs pmo --apply --root $StashRoot"; Log = (Join-Path $logDir 'pipeline-pmo.log') }
     @{ Name = 'routine-fin-checkin'; Sched = @('/SC', 'MONTHLY', '/D', '1', '/ST', '17:33'); Dir = $FireRoot
-       Cmd = "$node scripts\fin-checkin.mjs"; Log = (Join-Path $env:USERPROFILE '.fire\weekly-checkin.log') }
+       Cmd = "$node scripts\fin-checkin.mjs --no-model"; Log = (Join-Path $env:USERPROFILE '.fire\weekly-checkin.log') }
 )
 
 foreach ($t in $tasks) {
