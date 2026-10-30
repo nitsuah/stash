@@ -32,10 +32,10 @@ Ledger: `C:\Users\ajhar\code\stash\agent\reports\findings-ledger.md`. Create it 
 2. **Sources:** read every report in the window:
    - `agent/reports/metrics-*`, `pmo-audit-*`, `routine-run-findings-*`
    - `gh issue list -R <repo> --label bot:repo-health --state open` for each tracked repo
-   - `agent/reports/cloud/**` (daily-brief's PR section only)
+   - `agent/reports/cloud/**` (older week-vuln / obn-import / vuln-patcher files only; daily-brief writes no report since 2026-10-30)
    - **The `## For TIRE` section of each repo-health issue body** is pre-classified: each `quick | <repo> | bump <pkg> a->b (<id>) | peer-dep risk: ...` line becomes a `quick` ledger item as written. Re-verify it in §2.5 before fixing, and treat a `peer-dep risk` note as a reason to pin exact versions (see the darkmoon#450 / farm-3j#338 pattern in `rsi-changes.log`).
    - the `## Notes` section of the daily notes (`agent/notes/YYYY-MM-DD.md`) in the window
-   - Skip `daily-email`, `daily-checkin`, daily-brief's calendar and inbox sections, and `week-fin-sum` output. That's personal, not repo work.
+   - Skip `daily-email`, `daily-checkin`, any daily-brief output, and `week-fin-sum` output. That's personal, not repo work.
 3. **Extract actionable items only.** An item is actionable if it has a concrete repo, file or package and a concrete change: untrack a generated file, bump a package past a published advisory, delete a merged stale branch, fix a broken CI step, refresh a stale `agent/repos/<repo>.md` claim. Observations that say "no action needed" don't go in.
 4. **Deduplicate** by repo + target (file, package or branch) + problem. If the item already exists, bump `Seen` and `Last seen` instead of adding a row. Repeated sightings are the signal that the loop isn't closing.
 5. **Re-verify before trusting a report.** Check the current state on `main`, since reports go stale. For advisory items, re-check the advisory itself against `main` (is the package still at an affected version?). If it's already fixed, mark the item `done` with the evidence, such as the commit or PR that fixed it. **This includes `routine`-class items:** re-read the current prompt, scheduled-task `SKILL.md` or script the finding names (and `agent/logs/rsi-changes.log`, where RSI and manual sessions log prompt edits) before carrying one forward as open. The first run (2026-09-24) listed three `routine` items as open that had already been fixed.
