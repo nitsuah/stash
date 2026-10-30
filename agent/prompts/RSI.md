@@ -24,7 +24,7 @@ Keep the Claude Code routine stack healthy and improving month over month, using
 
 Before making changes, understand the full input/output graph. Verify it's still accurate each cycle — routines get added, and this map goes stale exactly like everything else in this stack.
 
-**Substrate:** `agent/projects/scope.md` is the one file everything else should key off for "which repos are in scope." `LOC.md`, `MINI.md`, and three cloud routines (`stale-worktrees`, `vuln-patcher`, `gh-overseer`) already read it live (fixed 2026-09-16). `DAILY.md`, `METRICS.md` and the `monthly-pmo-audit` wrapper dropped their cached copies on 2026-10-07 and now read it live too. The caches had drifted twice: the `auto-apply-plugin`/`overseer` renames, then `agent-board` → `motor-pool`.
+**Substrate:** `agent/projects/scope.md` is the one file everything else should key off for "which repos are in scope." The retired `LOC.md`, `MINI.md` and cloud routines (`stale-worktrees`, `vuln-patcher`, `gh-overseer`) read it live (fixed 2026-09-16); the `repo-health` Action replaced the first three. `DAILY.md`, `METRICS.md` and the `monthly-pmo-audit` wrapper dropped their cached copies on 2026-10-07 and now read it live too. The caches had drifted twice: the `auto-apply-plugin`/`overseer` renames, then `agent-board` → `motor-pool`.
 
 **Stage 1 (sync) →Stage 2 (audit) → Stage 3 (notes/reports) → Stage 4 (report/govern)** — see the 2026-09-16 audit artifact for the full pipeline diagram. Concretely, per routine:
 
@@ -32,23 +32,17 @@ Before making changes, understand the full input/output graph. Verify it's still
 |---|---|---|
 | `daily-repo-sync` (local, runs [[DAILY]]) | scope.md (live), each tracked repo's git state | `daily-git-sync.log`, `stale-worktrees.log`, `obn-repo.log`, `obn-review.log`, `agent/repos/**`, `agent/notes/<date>.md` + Mon/Sat `agent/notes/<YYYY>-W<ww>.md` (PR, auto-merges the *previous* day's note once reviewed) |
 | `monthly-pmo-audit` (local, runs [[PMO]]) | scope.md (live), each tracked repo's docs | per-repo TASKS/ROADMAP/METRICS.md (PR), `agent/repos/<repo>.md`, `pmo-audit-<date>.md` |
-| ~~`week-metrics` (cloud)~~ | — | **Disabled 2026-09-26.** Coverage refresh moved into [[TIRE]] §4b (needs Docker) |
-| `week-eng-loc` (cloud, **Thu 17:00 UTC** since 2026-09-26, runs `LOC.md`) | scope.md (live); `git clone --depth 1` only; skips repos whose HEAD matches the last report's `HEAD:` line (2026-09-25) | `agent/reports/eng-loc-<repo>-<date>.md` (PR) |
-| `week-eng-mini` (cloud, Wed 18:00 UTC since 2026-09-24, runs `MINI.md`) | scope.md (live); `git clone --depth 1` only; same HEAD-SHA gate (2026-09-25) | `agent/reports/eng-mini-<repo>-<date>.md` (PR) |
 | ~~`week-obn-notes` / `week-obn-review` (cloud)~~ | — | **Disabled 2026-09-24.** Weekly note (Mon) and week review (Sat) now run inside `daily-repo-sync` (DAILY.md step 4) and ship in that day's daily-note PR, because the cloud versions' PRs were never merged, which broke the Mon → Fri → Mon chain |
-| `week-obn-import` (**now the `obn-health` GitHub workflow**, Wed 10:00 UTC, no model, 2026-10-29; cloud routine disabled after its first green run) | stash on GitHub | a single open issue while red; no report file |
+| `repo-health` (GitHub Action, `nitsuah/.github` reusable workflow, weekly per repo; replaces cloud `week-eng-loc`, `week-eng-mini` and `week-vuln`, 2026-10-30) | each repo's lockfiles and tree (osv-scanner, LOC, root hygiene) | one `bot:repo-health` issue per repo with a `## For TIRE` section that [[TIRE]] ingests; no report file |
+| `obn-health` (GitHub Action, stash, Wed 10:00 UTC, no model, 2026-10-29; replaces cloud `week-obn-import`) | stash on GitHub | a single open issue while red; no report file |
 | `daily-brief` (cloud, weekdays 13:00 UTC, created 2026-09-26; replaces daily-checkin + daily-email + daily-pr-review) | Calendar, Gmail, GitHub search | `agent/reports/cloud/daily-brief/` (sanitized, PR auto-merged), one push notification |
-| `week-vuln` (cloud, Thu 15:00 UTC; was sun-vuln-patcher) | scope.md, shallow clones, lockfile-SHA gate | `agent/reports/cloud/week-vuln/` with a `## For TIRE` section that [[TIRE]] ingests |
 | `week-sotu` (local, Mon 08:00 ET, runs [[SOTU]]; replaces week-vigil-check) | vigil MCP or TASKS.md, ledger, routine health | Portfolio Checklist artifact + `agent/reports/sotu/` |
 | `ops-catchup` (local, Wed 07:45 ET, runs [[CATCHUP]]) | `get_usage`, critical tasks' runs | spaced one-shot catch-up tasks, `ops-catchup.log` |
-| ~~`sun-stale-worktrees` / `week-vigil-check` / `daily-checkin` / `daily-email` / `daily-pr-review`~~ | — | **Disabled 2026-09-26** (see [[routine-audit-2026-09-26]]) |
 | `import-memory` (cloud) | `agent/notes`, `agent/reports`, `agent/prompts`, `agent/repos`, `agent/jobs` | advisory report only |
 | [[USAGE]] (local, `monthly-usage-report`, 1st 14:00) | Claude session/task history, git log across scope.md repos | `usage-report-<month>.md` (own PR from a worktree since 2026-10-07; it was left uncommitted before) |
 | `week-fin-sum` (local, Mon 08:30) | fire MCP, `fire/docs/weekly-checkin-prompt.md` | transcript only; read-only, never commits (personal finance stays out of public stash) |
 | `monthly-tire-kick` (local, runs [[TIRE]], 28th) | every report in `agent/reports/**` since last intake, daily notes' `## Notes` (`agent/notes/`), scope.md (live) | `findings-ledger.md`, `tire-kick-<date>.md` (stash PR, self-merge on green), `tire/<repo>/*` fix PRs (≤5/run) |
 | RSI itself | inputs 1-7 above | routine prompts, memory files, `rsi-changes.log`, `rsi-report-<month>.md`, product-repo PRs |
-
-**Known gap, not yet RSI's to fix alone:** several cloud routines (`obn-weekly`, `stale-worktrees`, `vuln-patcher`, `gh-overseer`, `daily-git-sync`, `eng-loc`, `eng-mini`) each have a same-named **account-level claude.ai skill** (`ListSkills`/`SearchSkills`) that describes a different, more elaborate, not-actually-wired-up system — "Odysseus notes," an "Overseer app DB," `config/*.toml` files, a `scope.md` meant for *local* git worktrees rather than this cloud setup. Every observed run has correctly recognized the mismatch and ignored the skill in favor of the routine's own prompt — but that's the model's judgment call each time, not a guarantee. If a future run ever follows one of those skills instead of the real task, that's the root cause to check first. Worth a real decision eventually (retire the mismatched skills, or actually build what they describe) — flag it in the monthly report if it keeps coming up, don't silently fix it by deleting account-level skills unattended.
 
 ## What it's allowed to touch, and how
 
@@ -68,6 +62,8 @@ Before making changes, understand the full input/output graph. Verify it's still
 **Still disallowed even under the broadened scope:** touching credentials, secrets, `.env` files, or account/billing settings; disabling or deleting a routine (local or cloud) without flagging it in the report first and getting the user to confirm (same as the human-in-the-loop cleanup done in the 2026-09-16 audit — RSI can propose a cut, not execute one silently, given how much personal/job-search context lives in the cloud routine fleet); cloud routines cannot be deleted via API at all (per the `schedule` skill, only claude.ai/code/routines can delete one) — RSI can disable (`enabled:false`) or update, and must tell the user which ones it thinks should be deleted there.
 
 ## Steps
+
+**Cadence:** RSI runs quarterly, unless [[TIRE]]'s Aging section is non-empty or a routine (scheduled task or Action) failed 2 or more times in the window; then run it that month.
 
 1. Read Inputs 1-5 and 9, and re-verify the Artifacts & cycles map above is still accurate (routines get added/removed — if it's drifted, fix the map in this same file before moving on).
 2. Diagnose: for each task/skill with a failure pattern, a stale/dead state, a scope.md/cached-list mismatch, or a proposal in the usage report's "automation candidates," decide a concrete fix.

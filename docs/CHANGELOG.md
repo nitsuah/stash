@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Routine specs trimmed for CI
+
+- **Changed:** TIRE, SOTU, USAGE, RSI, CATCHUP and PMO now read `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud eng-mini, eng-loc, week-vuln and obn-import reports. Dropped the `RemoteTrigger` lookups, the ActivityWatch section and most PR-format boilerplate in PMO; PMO now audits only repos with changes since the last audit (full sweep quarterly); RSI runs quarterly unless TIRE's Aging section is non-empty or a routine failed 2+ times.
+- **Docs:** week-vuln, week-eng-loc and week-eng-mini backup notes marked superseded.
 ### 2026-10-30 — Lean daily brief
 
 - **Changed:** the cloud `daily-brief` no longer writes a sanitized report or opens a PR each weekday (about 8 tool calls); Gmail is read by snippet only. `obn_health.py` drops the daily-brief, week-vuln, eng-loc and eng-mini report cadences, since those are now repo-health Action output.
