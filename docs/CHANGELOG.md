@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Slimmer DAILY spec
+
+- **Changed:** `agent/prompts/DAILY.md` shrinks from 32 KB to about 16 KB (it is re-sent every turn of the daily routine). History and rationale are trimmed to one-clause rules; repo-sync and worktree prose points at the wrapper and `sync-repos.ps1`; a skip-gate runs step 2 (hub synthesis) only for repos whose mirror changed or whose hub is on the VAULT-MAP Stale hubs line; model tiers are stated; the failed cloud routine lookup and Showcase board publish run weekly (Mondays), and the publish only when the board JSON changed. Step numbers 0-4 are unchanged.
+
 ### 2026-10-30 — Routines to CI: repo-health pilot
 
 - **Added:** `.github/workflows/repo-health.yml` calls the shared `nitsuah/.github` repo-health workflow weekly (Thu 15:00 UTC): osv-scanner advisories, LOC hotspots and root hygiene, with one `bot:repo-health` issue while a HIGH/CRITICAL advisory exists.
