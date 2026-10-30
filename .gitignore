@@ -219,3 +219,8 @@ agent/projects/MM/pack-factory/out*/
 
 # Local routine runner output (routine-run.mjs, local-audit.mjs)
 agent/logs/
+
+# Routine pre-step outputs (regenerated each run, never committed)
+agent/reports/tire-input.json
+agent/reports/pmo-prep.json
+agent/reports/usage-data.json
