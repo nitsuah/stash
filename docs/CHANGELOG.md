@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Lean daily brief
+
+- **Changed:** the cloud `daily-brief` no longer writes a sanitized report or opens a PR each weekday (about 8 tool calls); Gmail is read by snippet only. `obn_health.py` drops the daily-brief, week-vuln, eng-loc and eng-mini report cadences, since those are now repo-health Action output.
+
 ### 2026-10-30 — Routines to CI: repo-health pilot
 
 - **Added:** `.github/workflows/repo-health.yml` calls the shared `nitsuah/.github` repo-health workflow weekly (Thu 15:00 UTC): osv-scanner advisories, LOC hotspots and root hygiene, with one `bot:repo-health` issue while a HIGH/CRITICAL advisory exists.

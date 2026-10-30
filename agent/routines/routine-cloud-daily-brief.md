@@ -8,6 +8,8 @@ description: Weekday morning brief (calendar, inbox, PRs, open work); the only r
 
 # routine · cloud · daily-brief
 
+> **Slimmed 2026-10-30:** no report file or PR any more (the cloud prompt only reads Calendar, Gmail, GitHub search and vigil, then sends one notification). Gmail uses snippets only; no grounding-thought section. The snapshot below predates this change; the live prompt is on claude.ai/code/routines.
+>
 > Snapshot of cloud routine `⚡ daily-brief` (`trig_01LZ1JrGn9J2FRPBuTnrPxvA`), taken 2026-09-30 from `RemoteTrigger get`. The live prompt is at claude.ai/code/routines; this copy is for recovery and review. Personal tone/health context in the opening paragraph is redacted here.
 
 | Field | Value |
