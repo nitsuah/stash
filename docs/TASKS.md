@@ -32,7 +32,8 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
   - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
-- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123); piloting in stash, then add the caller to each tracked repo, point TIRE at `bot:repo-health` issues, and disable the three cloud routines.
+- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Remaining: add the caller to each tracked repo and disable the three cloud routines.
+  - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
   - Priority: P1 · Owner: routine
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
   - Priority: P2 · Owner: routine

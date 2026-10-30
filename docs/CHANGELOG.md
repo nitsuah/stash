@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Routine specs trimmed for CI
+
+- **Changed:** TIRE, SOTU, USAGE, RSI, CATCHUP and PMO now read `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud eng-mini, eng-loc, week-vuln and obn-import reports. Dropped the `RemoteTrigger` lookups, the ActivityWatch section and most PR-format boilerplate in PMO; PMO now audits only repos with changes since the last audit (full sweep quarterly); RSI runs quarterly unless TIRE's Aging section is non-empty or a routine failed 2+ times.
+- **Docs:** week-vuln, week-eng-loc and week-eng-mini backup notes marked superseded.
+
 ### 2026-10-30 — Routines to CI: repo-health pilot
 
 - **Added:** `.github/workflows/repo-health.yml` calls the shared `nitsuah/.github` repo-health workflow weekly (Thu 15:00 UTC): osv-scanner advisories, LOC hotspots and root hygiene, with one `bot:repo-health` issue while a HIGH/CRITICAL advisory exists.

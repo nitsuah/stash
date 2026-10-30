@@ -10,6 +10,8 @@ description: Weekly MINI root-file audit (report mode) of the 3 most recently ch
 
 > Snapshot of cloud routine `⚡ week-eng-mini` (`trig_01N2UynTFCkPoNJbm6jiWgt3`), taken 2026-09-30 from `RemoteTrigger get`. The live prompt is at claude.ai/code/routines; the spec it runs is [[prompts/MINI|MINI]].
 
+> **Superseded 2026-10-30 by repo-health Action** (`nitsuah/.github` reusable `repo-health` workflow; findings arrive as `bot:repo-health` issues). This note is kept as a backup of the retired routine's prompt.
+
 | Field | Value |
 |---|---|
 | Schedule | `0 18 * * 3` (Wed 18:00 UTC) |

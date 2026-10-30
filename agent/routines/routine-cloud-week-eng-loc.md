@@ -10,6 +10,8 @@ description: Weekly LOC hotspot report (report mode) for up to 3 due, changed tr
 
 > Snapshot of cloud routine `⚡ week-eng-loc` (`trig_01DFtorzK5HJ9js31HhYun7L`), taken 2026-09-30 from `RemoteTrigger get`. The live prompt is at claude.ai/code/routines; the spec it runs is [[prompts/LOC|LOC]].
 
+> **Superseded 2026-10-30 by repo-health Action** (`nitsuah/.github` reusable `repo-health` workflow; findings arrive as `bot:repo-health` issues). This note is kept as a backup of the retired routine's prompt.
+
 | Field | Value |
 |---|---|
 | Schedule | `0 17 * * 4` (Thu 17:00 UTC) |
