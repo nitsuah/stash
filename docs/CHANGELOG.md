@@ -8,6 +8,11 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — SOTU pre-step in the script
+
+- **Added:** `agent/scripts/sotu.py` now builds routine health by default (`--routines auto`: local task `SKILL.md` names, `obn-health` and `repo-health` Actions runs, open `bot:repo-health` issue counts; unreadable fields are `unknown`), a `delta` block against the previous `sotu-data.json` with a `## Changes since last run` section, and `--verify-hints`, which writes the git-ignored sidecar `sotu-verify.json` (merged-PR keyword hits, backtick path checks, `skip_model`). `--routines path.json` and `--routines none` still work. Tests: `agent/scripts/test_sotu_prestep.py`.
+- **Changed:** `agent/prompts/SOTU.md` steps 3 and 6 use these outputs: the model only judges items with hints, a quiet week gets a one-line focus note, haiku for the note and sonnet only for step 6 judgment. Step numbers are unchanged.
+
 ### 2026-10-30 — Local routine runner and jobs audit
 
 - **Added:** `agent/scripts/routine-run.mjs` runs a routine prompt through `claude -p` and 9router via the imps kit runner, with a lock, a zero-model `--pre` skip gate (`--skip-exit`), a router probe and a one-line run log; `agent/scripts/local-audit.mjs` is the zero-model CATCHUP "Local jobs audit" (Task Scheduler, imps loop, 9router drift, local task files, obn-health and repo-health runs). Both have node tests, run in CI. Docs: `agent/prompts/ROUTINE-RUN.md`.
