@@ -55,5 +55,10 @@ foreach ($t in $tasks) {
     if (-not $Remove) { New-Item -ItemType Directory -Force -Path (Split-Path $t.Log -Parent) | Out-Null }
     & schtasks.exe @args
     if ($LASTEXITCODE -ne 0) { Write-Warning "$($t.Name): schtasks exited $LASTEXITCODE" }
+    if (-not $Remove -and $LASTEXITCODE -eq 0) {
+        # schtasks defaults skip runs on battery and never catch up after sleep; fix both, cap a run at 2 h.
+        $set = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+        Set-ScheduledTask -TaskName $t.Name -Settings $set | Out-Null
+    }
 }
 if (-not $Apply) { Write-Host 'Dry run only. Re-run with -Apply to register.' }
