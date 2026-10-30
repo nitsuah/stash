@@ -25,9 +25,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $logDir = Join-Path $StashRoot 'agent\logs'
-# schtasks wants the date in the machine's short-date format.
+# schtasks /SD wants mm/dd/yyyy.
 $sd = @()
-if ($StartDate) { $sd = @('/SD', (Get-Date $StartDate).ToString('d')) }
+if ($StartDate) { $sd = @('/SD', (Get-Date $StartDate).ToString('MM/dd/yyyy', [cultureinfo]::InvariantCulture)) }
 $node = 'node'
 
 # name, schtasks schedule args, working dir, command
