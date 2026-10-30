@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Orchestrators and task registration
+
+- **Added:** `agent/scripts/pipeline-run.mjs` (week-sotu, monthly-tire-kick, monthly-pmo-audit as code: pre-step script, model only when needed), `agent/prompts/SOTU-MODEL.md`, and `agent/scripts/install-tasks.ps1` (idempotent Task Scheduler registration, prints unless `-Apply`). Untested by design; the first runs are planned after the Nov 4 limit reset.
+
 ### 2026-10-30 — daily-run: DAILY as code
 
 - **Added:** `agent/scripts/daily-run.mjs` runs the deterministic steps of `DAILY.md` with no model: once-per-day guard (fails closed), merge gate for older `obn:` PRs, `sync-repos.ps1`, the four log appends, mirror skip-gate, note skeleton (Repo Activity, vigil Tasks, Notes), vault indexes, link repair and orphan check, Monday weekly skeleton, and branch/commit/push/PR. Default is `--dry-run`; `--apply` pushes and opens the PR. It writes the git-ignored `agent/reports/daily-handoff.json` and calls `routine-run.mjs` with the new `agent/prompts/DAILY-MODEL.md` (hub synthesis, Reflections, Monday goals, Saturday review; no Bash) only when `skip_model` is false. Unautomated steps print `NOT AUTOMATED: <step>`. Tests: `agent/scripts/daily-run.test.mjs`, run in CI.
