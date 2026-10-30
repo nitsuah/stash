@@ -31,7 +31,7 @@ Snapshots taken by hand on 2026-09-30, because the prompts can only be read thro
 | Routine | Schedule (UTC) | Publishes |
 |---|---|---|
 | [[routine-cloud-daily-brief]] | weekdays 13:00 | `reports/cloud/daily-brief/` (counts only) |
-| [[routine-cloud-week-obn-import]] | Wed 10:00 | `reports/cloud/obn-import/` |
-| [[routine-cloud-week-eng-mini]] | Wed 18:00 | `reports/eng-mini-*` |
-| [[routine-cloud-week-vuln]] | Thu 15:00 | `reports/cloud/week-vuln/` |
-| [[routine-cloud-week-eng-loc]] | Thu 17:00 | `reports/eng-loc-*` |
+| [[routine-cloud-week-obn-import]] | Wed 10:00 | `reports/cloud/obn-import/` (archived 2026-10-30, now a GitHub Action) |
+| [[routine-cloud-week-eng-mini]] | Wed 18:00 | `reports/eng-mini-*` (archived 2026-10-30, now a GitHub Action) |
+| [[routine-cloud-week-vuln]] | Thu 15:00 | `reports/cloud/week-vuln/` (archived 2026-10-30, now a GitHub Action) |
+| [[routine-cloud-week-eng-loc]] | Thu 17:00 | `reports/eng-loc-*` (archived 2026-10-30, now a GitHub Action) |

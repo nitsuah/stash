@@ -65,7 +65,7 @@ Plugin binaries (`main.js`, `styles.css`, the MCP server exe) are gitignored and
 5. **Regenerate links and check the graph.** `build-vault-indexes.py` (nav lines, hub link blocks, VAULT-MAP), `fix-doc-links.py --vault`, `find-orphans.py --check`.
 6. **Commit by exact path** onto `obn/daily-note-<date>`: `repos/**`, the dated notes, and the files the generator reported changing. Never `git add` a whole folder.
 
-Other scripts: `sotu.py` builds the weekly State of the Union (private repos reduced to titles only), `repo-breadcrumbs.py` adds doc indexes upstream, `analyze-loc.*` backs the LOC reports, `check-tasks-format.py` lints TASKS.md files, `export-routines.py` refreshes the routine backups.
+Other scripts: `sotu.py` builds the weekly State of the Union (private repos reduced to titles only), `repo-breadcrumbs.py` adds doc indexes upstream, `check-tasks-format.py` lints TASKS.md files, `export-routines.py` refreshes the routine backups.
 
 ## 4. The routines
 

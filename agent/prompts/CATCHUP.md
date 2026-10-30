@@ -1,5 +1,7 @@
 # CATCHUP
 
+> **Retired 2026-10-30:** the `ops-catchup` task is disabled. Its Local jobs audit is `agent/scripts/local-audit.mjs` (run it by hand or from Task Scheduler); quota catch-up is no longer needed now that the cloud report routines are CI. This spec stays as a reference for the audit table.
+
 > Reset-aware catch-up for routines that the chain depends on. It replaces manual "Try again" re-runs and the hand-made "Claude resets" calendar event (2026-09-26, see [[routine-audit-2026-09-26]]).
 
 **Design rule from the user:** once quota runs out, it stays out until the reset, and the user may be burning it elsewhere (other harnesses and providers). So this routine **never retries into an exhausted window**. It runs once, right after the weekly reset, and schedules the missed chain runs spaced safely apart. It doesn't loop, poll or retry blindly.

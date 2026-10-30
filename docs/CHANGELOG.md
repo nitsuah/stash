@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-10-30 — Retired routine cleanup
+
+- **Removed:** `analyze-loc.py`/`.ps1` (superseded by the repo-health `loc.py`). **Archived:** backup notes for the four disabled cloud routines under `agent/routines/archive/`. **Retired:** the `ops-catchup` task (audit lives in `local-audit.mjs`).
+
 ### 2026-10-30 — Monthly routine pre-steps
 
 - **Added:** `agent/scripts/tire_intake.py` (TIRE section 2 without a model: `bot:repo-health` `## For TIRE` intake, dedup, lockfile re-verification, `tire-input.json` with `skip_model`, ledger edits only with `--apply`), `pmo_prep.py` (per-repo `check-tasks-format` row, merged PRs since the last audit, doc dates, duplicate docs, missing standards files, `changed` flag; full sweep in Jan/Apr/Jul/Oct or `--full`) and `usage_gather.py` (workflow-run, merged PR and commit counts for the previous calendar month; scheduled-task stats or `unavailable: <reason>`). Shared helpers in `prestep_common.py`; tests with stubbed `gh`/`git` run in CI.
