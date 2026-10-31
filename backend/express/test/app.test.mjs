@@ -10,7 +10,7 @@ const __dirname = join(dirname(__filename), '..');
 function getConfig(env) {
   return {
     databaseUrl: env.DATABASE_URL || "sqlite::memory:",
-    jwtSecret: env.JWT_SECRET || "change-me-in-production",
+    jwtSecret: env.JWT_SECRET,
     jwtExpiry: "1h",
     port: parseInt(env.PORT || "8080", 10),
     isDev: env.NODE_ENV !== "production",

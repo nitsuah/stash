@@ -39,7 +39,7 @@ const { Sequelize, DataTypes, Op } = require("sequelize");
 
 const config = {
   databaseUrl: process.env.DATABASE_URL || "sqlite::memory:",
-  jwtSecret:   process.env.JWT_SECRET   || "change-me-in-production",
+  jwtSecret:   process.env.JWT_SECRET,
   jwtExpiry:   "1h",
   port:        parseInt(process.env.PORT || "8080", 10),
   isDev:       process.env.NODE_ENV !== "production",
