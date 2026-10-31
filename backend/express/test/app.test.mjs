@@ -90,3 +90,30 @@ test('JWT authentication rejects tokens signed with fallback secret when real se
   assert.ok(verifyError !== null, 'Token signed with fallback secret should not verify with real secret');
   assert.equal(verifyError.name, 'JsonWebTokenError');
 });
+
+test('app fails to start when JWT_SECRET is unset', async () => {
+  const originalJwtSecret = process.env.JWT_SECRET;
+  const originalNodeEnv = process.env.NODE_ENV;
+  const originalDatabaseUrl = process.env.DATABASE_URL;
+
+  delete process.env.JWT_SECRET;
+  process.env.NODE_ENV = 'development';
+  process.env.DATABASE_URL = 'sqlite::memory:';
+
+  let error = null;
+  try {
+    await import('../app.js');
+  } catch (e) {
+    error = e;
+  }
+
+  if (originalJwtSecret !== undefined) process.env.JWT_SECRET = originalJwtSecret;
+  else delete process.env.JWT_SECRET;
+  if (originalNodeEnv !== undefined) process.env.NODE_ENV = originalNodeEnv;
+  else delete process.env.NODE_ENV;
+  if (originalDatabaseUrl !== undefined) process.env.DATABASE_URL = originalDatabaseUrl;
+  else delete process.env.DATABASE_URL;
+
+  assert.ok(error !== null, 'App should throw when JWT_SECRET is unset');
+  assert.match(error.message, /JWT_SECRET must be set/);
+});

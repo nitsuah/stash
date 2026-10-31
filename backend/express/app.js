@@ -45,6 +45,10 @@ const config = {
   isDev:       process.env.NODE_ENV !== "production",
 };
 
+if (!config.jwtSecret) {
+  throw new Error("JWT_SECRET must be set");
+}
+
 // ---------------------------------------------------------------------------
 // Database
 // ---------------------------------------------------------------------------
