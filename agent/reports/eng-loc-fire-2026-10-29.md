@@ -1,4 +1,13 @@
+---
+kind: eng-loc
+repo: fire
+date: 2026-10-29
+---
+
 # eng-loc · fire · 2026-10-29
+
+> 🧭 [[repos/fire|fire]] · ← [[reports/eng-loc-fire-2026-10-22|2026-10-22]] <!-- nav -->
+
 HEAD: f5c6ce4a129e62c81f21bb45a13fc2d8c7696632
 
 kind: eng-loc · repo: fire · tier: T1 (vigil snapshot 2026-10-21) · mode: --report · last commit: 2026-10-29 00:17 -0400

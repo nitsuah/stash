@@ -42,4 +42,6 @@ weren't refreshed.
 5. One concrete action item based on real data (e.g. a specific CD maturing this month)
 6. One-sentence reminder to stay mindful of spending during this phase
 
+The same steps run deterministically via `node scripts/fin-checkin.mjs` (see the README's "Weekly check-in script"); this prompt remains the source of truth for its tone and rules.
+
 Keep it concise. Do not push, commit, or open PRs anywhere — output the check-in only.

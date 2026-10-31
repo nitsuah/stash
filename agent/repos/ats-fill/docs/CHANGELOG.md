@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Tracker automation without a model: `scripts/tracker/weekly-review.mjs` (read-only weekly review from the CLI) and `scripts/tracker/inbox-sync.mjs` (Gmail REST API with a `gmail.readonly` refresh token, then `cli sync-email --apply`) replace the two model-driven scheduled tasks; setup and Task Scheduler examples in `scripts/tracker/README-automation.md`.
 - Chrome Web Store detailed description: describe ATS and job-board support generically (no brand names) after Keyword Spam (Yellow Argon) rejection; record the rejection and listing rule in `CHROMEWEBSTORE.md`.
 - GitHub Pages landing page: new `site/privacy.html` presents `docs/PRIVACY.md` (terms, privacy policy, security, data rights) on the site, linked from the footer and the Privacy nav link on that page. The Chrome Web Store listing's Privacy Policy URL is now https://nitsuah.github.io/ats-fill/privacy.html; a unit test fails if the page's document version or date drifts from `docs/PRIVACY.md`.
 - GitHub Pages landing page Fill bullets: resume attach is on by default (toggle under Profile); the submit button still stays yours. Replaces the pre-1.0.4 “File uploads … stay yours” line.
