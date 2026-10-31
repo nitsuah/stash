@@ -1,7 +1,7 @@
 // Sitemap URL checker: finds a site's sitemaps (robots.txt or /sitemap.xml), lists every URL in them and tests each one.
 import zlib from 'node:zlib';
 import { Actor } from 'apify';
-import { isValidLastmod, isSameHostname, readLimitedBody, locs, lastmodOf, sitemapsFromRobots } from './validation.js';
+import { isValidLastmod, isSameHostname, readLimitedBody, locs, lastmodOf, sitemapsFromRobots, admitEntry, MAX_LOC_LENGTH, MAX_RETAINED_CHARS } from './validation.js';
 
 const clamp = (n, lo, hi) => Math.min(Math.max(Number.isFinite(n) ? n : lo, lo), hi);
 const UA = 'Mozilla/5.0 (compatible; SitemapUrlChecker/1.0; +https://apify.com)';
@@ -30,25 +30,37 @@ async function get(url) {
 }
 
 // Walk sitemap indexes up to three levels deep, with independent fetch and entry budgets.
-async function collect(sitemapUrl, depth, seen, out, notes) {
+async function collect(sitemapUrl, depth, seen, out, notes, budget) {
     if (seen.has(sitemapUrl)) return;
     if (depth > 3) { notes.push({ sitemap: sitemapUrl, problem: 'Maximum sitemap nesting depth reached' }); return; }
     const maxEntries = Math.min(maxUrls * 2, 10000);
     if (seen.size >= MAX_SITEMAPS_PER_SITE) { notes.push({ sitemap: sitemapUrl, problem: 'Sitemap fetch budget reached (' + MAX_SITEMAPS_PER_SITE + ')' }); return; }
-    if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Sitemap entry budget reached (' + maxEntries + ')' }); return; }
+    if (out.length >= maxEntries || budget.used >= MAX_RETAINED_CHARS) { notes.push({ sitemap: sitemapUrl, problem: 'Sitemap entry or character budget reached' }); return; }
     seen.add(sitemapUrl);
     const r = await get(sitemapUrl);
     if (r.error || r.status !== 200) { notes.push({ sitemap: sitemapUrl, problem: r.error ? 'Could not fetch (' + r.error + ')' : 'Returned HTTP ' + r.status }); return; }
     if (/<sitemapindex/i.test(r.text)) {
         for (const child of locs(r.text)) {
-            if (seen.size >= MAX_SITEMAPS_PER_SITE || out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped sitemap traversal at the configured resource budget' }); break; }
-            await collect(child, depth + 1, seen, out, notes);
+            if (seen.size >= MAX_SITEMAPS_PER_SITE || out.length >= maxEntries || budget.used >= MAX_RETAINED_CHARS) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped sitemap traversal at the configured resource budget' }); break; }
+            await collect(child, depth + 1, seen, out, notes, budget);
         }
     } else if (/<urlset/i.test(r.text)) {
         for (const block of r.text.split(/<url>/i).slice(1)) {
-            if (out.length >= maxEntries) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped collecting entries at the configured limit of ' + maxEntries }); break; }
+            if (out.length >= maxEntries || budget.used >= MAX_RETAINED_CHARS) { notes.push({ sitemap: sitemapUrl, problem: 'Stopped collecting entries at the configured limit' }); break; }
             const [loc] = locs(block);
-            if (loc) out.push({ url: loc, sitemap: sitemapUrl, lastmod: lastmodOf(block) });
+            if (loc) {
+                const lastmod = lastmodOf(block);
+                if (admitEntry(budget, loc, lastmod)) {
+                    out.push({ url: loc, sitemap: sitemapUrl, lastmod });
+                } else {
+                    if (loc.length > MAX_LOC_LENGTH) {
+                        notes.push({ sitemap: sitemapUrl, problem: 'URL exceeds maximum length of ' + MAX_LOC_LENGTH });
+                    } else {
+                        notes.push({ sitemap: sitemapUrl, problem: 'Per-site retained character budget exceeded' });
+                    }
+                    break;
+                }
+            }
         }
     } else notes.push({ sitemap: sitemapUrl, problem: 'Not a valid sitemap (no urlset or sitemapindex element)' });
 }
