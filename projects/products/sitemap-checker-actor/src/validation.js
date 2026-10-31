@@ -65,3 +65,14 @@ export function sitemapsFromRobots(text) {
     }
     return out;
 }
+
+export const MAX_LOC_LENGTH = 2048;
+export const MAX_RETAINED_CHARS = 4_000_000;
+
+export function admitEntry(budget, loc, lastmod) {
+    if (loc.length > MAX_LOC_LENGTH) return false;
+    const cost = loc.length + (lastmod ? lastmod.length : 0);
+    if (budget.used + cost > MAX_RETAINED_CHARS) return false;
+    budget.used += cost;
+    return true;
+}
