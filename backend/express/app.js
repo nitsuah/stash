@@ -27,6 +27,7 @@
 "use strict";
 
 require("dotenv").config();
+const rateLimit = require("express-rate-limit");
 
 const express    = require("express");
 const jwt        = require("jsonwebtoken");
@@ -257,6 +258,17 @@ itemsRouter.delete("/:id", async (req, res) => {
 
 async function createApp() {
   const app = express();
+
+  // Rate limiter: 100 requests per 15 minutes per IP
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many requests, please try again later." },
+  });
+
+  app.use(limiter);
   app.use(express.json());
 
   app.get("/health", (req, res) =>

@@ -45,7 +45,7 @@ export function locs(xml) {
     const out = [];
     for (const m of xml.matchAll(/<loc>([^<]*)<\/loc>/gi)) {
         const value = m[1].trim();
-        if (value) out.push(value.replace(/&/g, '&'));
+        if (value) out.push(value);
     }
     return out;
 }
