@@ -56,7 +56,10 @@ function checkCookies(h) {
 
 function certInfo(hostname, port = 443) {
     return new Promise((resolve) => {
-        const socket = tls.connect({ host: hostname, port, servername: hostname, timeout: timeoutMs, rejectUnauthorized: false }, () => {  // Intentional: we check cert.authorized and authorizationError below to grade TLS/cert issues
+const socket = tls.connect({ host: hostname, port, servername: hostname, timeout: timeoutMs, rejectUnauthorized: false }, () => {
+            // rejectUnauthorized: false is intentional — we want to inspect the
+            // certificate even when validation fails. The caller checks
+            // socket.authorized and socket.authorizationError to report findings.
             const cert = socket.getPeerCertificate();
             const validTo = cert?.valid_to ? new Date(cert.valid_to) : null;
             resolve({
