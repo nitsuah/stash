@@ -5,9 +5,14 @@
     "private": true,
     "scripts": { "start": "node src/main.js" },
     "dependencies": {
-        "apify": "^3.0.0",
-        "crawlee": "^3.0.0",
+        "apify": "^4.0.0-rc.0",
+        "crawlee": "^4.0.0-rc.0",
         "playwright": "1.60.0",
         "axe-core": "4.10.2"
+    },
+    "overrides": {
+        "minimatch": "^11.0.4",
+        "uuid": "^11.1.1",
+        "basic-ftp": "^6.2.5"
     }
 }
