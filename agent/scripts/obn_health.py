@@ -159,7 +159,7 @@ def tracked_repo_details(scope_path=SCOPE):
             name = cells[0].strip("` ")
             if not name or name.lower() == "repo" or set(name) <= set("-: "):
                 continue
-            aliases = re.findall(r"formerly `([\w.-]+)`", line)
+            aliases = re.findall(r"formerly `([\\w.-]+)`", line)
             url = next((cell for cell in cells if cell.startswith("https://github.com/")), "")
             owner = url.rstrip("/").split("/")[-2] if url else ""
             visibility = "private" if "private" in line.lower() else "public"
