@@ -57,6 +57,7 @@ function checkCookies(h) {
 function certInfo(hostname, port = 443) {
     return new Promise((resolve) => {
 	// codeql[js/disabling-certificate-validation]: Intentional — we inspect certs even when validation fails; caller checks socket.authorized
+	// codeql[js/disabling-certificate-validation]: rejectUnauthorized:false is intentional for certificate inspection; caller validates socket.authorized
 	const socket = tls.connect({ host: hostname, port, servername: hostname, timeout: timeoutMs, rejectUnauthorized: false }, () => {
             // rejectUnauthorized: false is intentional — we want to inspect the
             // certificate even when validation fails. The caller checks
