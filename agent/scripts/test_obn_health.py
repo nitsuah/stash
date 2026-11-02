@@ -72,6 +72,27 @@ def test_tracked_repos_and_untracked(tmp_path):
     assert [name for name, _ in oh.untracked_repos(TODAY, repos, r)] == ["fire"]
 
 
+def test_tracked_repo_details_reads_visibility_and_owner(tmp_path):
+    scope = tmp_path / "scope.md"
+    scope.write_text(
+        "## Tracked\\n\\n| Repo | Tier | Local path | GitHub URL | Org | Visibility |\\n"
+        "|---|---|---|---|---|---|\\n"
+        "| deployer | — | local | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |\\n"
+        "| stash | T3 | local | https://github.com/nitsuah/stash | nitsuah | public |\\n",
+        encoding="utf-8",
+    )
+    repos = oh.tracked_repo_details(str(scope))
+    assert repos["deployer"]["visibility"] == "private"
+    assert repos["deployer"]["owner"] == "Nitsuah-Labs"
+    assert repos["stash"]["visibility"] == "public"
+
+
+def test_private_repo_access_gap_does_not_flag_overdue(tmp_path):
+    reports = str(tmp_path / "reports")
+    repos = {"deployer": [], "stash": []}
+    assert oh.untracked_repos(TODAY, repos, reports, inaccessible={"deployer"}) == [("stash", None)]
+
+
 def test_pending_followups_absent_dir_is_none(tmp_path):
     assert oh.pending_followups(TODAY, str(tmp_path / "jobs")) is None
     j = str(tmp_path / "jobs")
