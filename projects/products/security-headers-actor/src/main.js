@@ -56,10 +56,11 @@ function checkCookies(h) {
 
 function certInfo(hostname, port = 443) {
     return new Promise((resolve) => {
+	// rejectUnauthorized: false is intentional — we want to inspect the
+	// certificate even when validation fails. The caller checks
+	// socket.authorized and socket.authorizationError to report findings.
+	// codeql[js/disabling-certificate-validation] intentional: cert inspection requires accepting unverified certs
 const socket = tls.connect({ host: hostname, port, servername: hostname, timeout: timeoutMs, rejectUnauthorized: false }, () => {
-            // rejectUnauthorized: false is intentional — we want to inspect the
-            // certificate even when validation fails. The caller checks
-            // socket.authorized and socket.authorizationError to report findings.
             const cert = socket.getPeerCertificate();
             const validTo = cert?.valid_to ? new Date(cert.valid_to) : null;
             resolve({
