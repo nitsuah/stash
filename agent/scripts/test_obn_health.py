@@ -75,10 +75,10 @@ def test_tracked_repos_and_untracked(tmp_path):
 def test_tracked_repo_details_reads_visibility_and_owner(tmp_path):
     scope = tmp_path / "scope.md"
     scope.write_text(
-        "## Tracked\\n\\n| Repo | Tier | Local path | GitHub URL | Org | Visibility |\\n"
-        "|---|---|---|---|---|---|\\n"
-        "| deployer | — | local | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |\\n"
-        "| stash | T3 | local | https://github.com/nitsuah/stash | nitsuah | public |\\n",
+        "## Tracked\n\n| Repo | Tier | Local path | GitHub URL | Org | Visibility |\n"
+        "|---|---|---|---|---|---|\n"
+        "| deployer | — | local | https://github.com/Nitsuah-Labs/deployer | Nitsuah-Labs | **private** |\n"
+        "| stash | T3 | local | https://github.com/nitsuah/stash | nitsuah | public |\n",
         encoding="utf-8",
     )
     repos = oh.tracked_repo_details(str(scope))
