@@ -142,8 +142,8 @@ def placeholder_prompts(prompts_dir=PROMPTS):
     return out
 
 
-def tracked_repos(scope_path=SCOPE):
-    """Return {repo: [aliases]} from the 'Tracked' table in scope.md."""
+def tracked_repo_details(scope_path=SCOPE):
+    """Return tracked repo aliases, owner, and visibility from the canonical scope table."""
     repos = {}
     if not os.path.isfile(scope_path):
         return repos
@@ -160,8 +160,16 @@ def tracked_repos(scope_path=SCOPE):
             if not name or name.lower() == "repo" or set(name) <= set("-: "):
                 continue
             aliases = re.findall(r"formerly `([\w.-]+)`", line)
-            repos[name] = aliases
+            url = next((cell for cell in cells if cell.startswith("https://github.com/")), "")
+            owner = url.rstrip("/").split("/")[-2] if url else ""
+            visibility = "private" if "private" in line.lower() else "public"
+            repos[name] = {"aliases": aliases, "owner": owner, "visibility": visibility}
     return repos
+
+
+def tracked_repos(scope_path=SCOPE):
+    """Return {repo: [aliases]} for compatibility with existing callers."""
+    return {name: details["aliases"] for name, details in tracked_repo_details(scope_path).items()}
 
 
 def all_report_files(reports_dir=REPORTS):
@@ -171,17 +179,19 @@ def all_report_files(reports_dir=REPORTS):
                 yield name
 
 
-def untracked_repos(today, repos, reports_dir=REPORTS):
-    """Tracked repos with no dated report naming them (or an alias) in UNTRACKED_DAYS."""
+def untracked_repos(today, repos, reports_dir=REPORTS, inaccessible=()):
+    """Tracked repos with no recent report, excluding private repos inaccessible to this token."""
     names = list(all_report_files(reports_dir))
     stale = []
+    inaccessible = set(inaccessible)
     for repo, aliases in sorted(repos.items()):
         keys = [repo, *aliases]
         dates = [file_date(n) for n in names if any(k in n for k in keys)]
         dates = [d for d in dates if d]
         newest = max(dates) if dates else None
         if newest is None or (today - newest).days >= UNTRACKED_DAYS:
-            stale.append((repo, newest))
+            if repo not in inaccessible:
+                stale.append((repo, newest))
     return stale
 
 
@@ -222,7 +232,11 @@ def build_report(today, graph=True):
 
     overdue = missing_reports(today)
     placeholders = placeholder_prompts()
-    untracked = untracked_repos(today, tracked_repos())
+    repo_details = tracked_repo_details()
+    private_repos = sorted(name for name, details in repo_details.items()
+                           if details["visibility"] == "private")
+    # GITHUB_TOKEN is scoped to stash and cannot inspect private sibling repositories.
+    untracked = untracked_repos(today, tracked_repos(), inaccessible=private_repos)
     followups = pending_followups(today)
 
     lines.append(f"# obn-health: {today.isoformat()}")
@@ -262,6 +276,11 @@ def build_report(today, graph=True):
         red.append("untracked repos")
     else:
         lines.append("None flagged.")
+    if private_repos:
+        lines.append("")
+        lines.append("Private repositories (not checked by this repo-scoped workflow):")
+        lines.extend(f"- {name}: skipped; scheduled token cannot inspect private sibling repos"
+                     for name in private_repos)
 
     lines.append("")
     lines.append("## 5. Follow-ups")
