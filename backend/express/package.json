@@ -1,7 +1,7 @@
 {
-  "name": "express-api-example",
+  "name": "express-backend",
   "version": "1.0.0",
-  "description": "Express REST API reference implementation",
+  "description": "Express backend for stash",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -10,7 +10,8 @@
   "dependencies": {
     "dotenv": "^18.0.0",
     "express": "^5.2.1",
-    "joi": "^18.2.1",
+    "express-rate-limit": "^8.7.1",
+    "joi": "^18.3.1",
     "jsonwebtoken": "^9.0.0",
     "minimatch": "^11.0.3",
     "pg": "^8.11.0",

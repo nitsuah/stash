@@ -22,6 +22,7 @@ All notable changes to this project are documented here.
 - README phone-camera setup: the iOS steps now include turning on full trust (Settings → General → About → Certificate Trust Settings); installing the profile alone doesn't make iOS trust the local CA for HTTPS.
 - Launch-video sources moved from `docs/brag/` to `promo/brag-20s/` (the showcase standard keeps spot sources in `promo/<spot>/`); README commands and `promo/spots.json` point at the new folder.
 - Collection toolbar stays on one row on phones; the search box shrinks instead of pushing Export to a second row (#78).
+- Long-press trailer and held-card Easter eggs now work on read-only shared collections; opening, selecting and editing stay blocked (#86).
 
 ### Fixed
 

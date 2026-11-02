@@ -505,7 +505,12 @@ def script_summary(rel):
         m = re.search(r"\.SYNOPSIS\s*\n\s*(.+)", text) or re.search(r"<#\s*\n?\s*(.+)", text)
     else:
         m = re.search(r"^#(?!!)\s*(.+)", text, re.MULTILINE)
-    return (m.group(m.lastindex) if m else "").strip().rstrip(".")
+    summary = (m.group(m.lastindex) if m else "").strip()
+    for delimiter in ('"""', "'''"):
+        if summary.endswith(delimiter):
+            summary = summary[:-3].rstrip()
+            break
+    return summary.rstrip(".")
 
 
 if topic_notes:

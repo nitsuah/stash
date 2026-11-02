@@ -45,7 +45,7 @@ export function locs(xml) {
     const out = [];
     for (const m of xml.matchAll(/<loc>([^<]*)<\/loc>/gi)) {
         const value = m[1].trim();
-        if (value) out.push(value.replace(/&/g, '&'));
+        if (value) out.push(value);
     }
     return out;
 }
@@ -64,4 +64,15 @@ export function sitemapsFromRobots(text) {
         if (m) out.push(m[1]);
     }
     return out;
+}
+
+export const MAX_LOC_LENGTH = 2048;
+export const MAX_RETAINED_CHARS = 4_000_000;
+
+export function admitEntry(budget, loc, lastmod) {
+    if (loc.length > MAX_LOC_LENGTH) return false;
+    const cost = loc.length + (lastmod ? lastmod.length : 0);
+    if (budget.used + cost > MAX_RETAINED_CHARS) return false;
+    budget.used += cost;
+    return true;
 }

@@ -87,7 +87,7 @@ function page(p, mode) {
 <div class="brand">NITSUAH LABS</div>
 <div class="copy"><h1>${esc(p.title)}</h1><div class="tag">${esc(p.tagline)}</div><ul>${p.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul><div class="chips">${p.chips.map((c) => `<span class="chip">${esc(c)}</span>`).join('')}</div></div>
 <div class="frame"><div class="panel" style="${p.visual.bg ? `background:${p.visual.bg}` : ''}">${visualHtml(p.visual, mode)}</div></div>
-</div></body></html>`.replace('<body class="thumb">', '<body class="thumb">');
+</div></body></html>`;
 }
 
 mkdirSync('out', { recursive: true });

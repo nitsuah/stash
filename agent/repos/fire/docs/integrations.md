@@ -80,6 +80,7 @@ format caps a site's env vars at 4KB, and lifefire exceeds that.
 | `GET /api/sync/ebay/callback` | `ebay-callback` | Exchanges the code, returns the tokens **encrypted with `SYNC_MASTER_KEY`** to the SPA in the URL fragment (`/#ebay-connected=…`). The SPA accepts it only if this tab started the connect (a `sessionStorage` marker set on the Connect click) |
 | `POST /api/sync/ebay/sync` | `ebay-sync` | Body `{tokens: <blob>}`; returns ledger `entries` (+ a new blob if refreshed). The SPA merges them into `localStorage` |
 | `GET/POST /api/sync/ebay/marketplace-account-deletion` | `ebay-marketplace-account-deletion` | See below |
+| `GET /api/sync/ebay/status` | `ebay-status` | Reports `configured` only. Connected and last-sync state stay in the browser blob |
 
 No eBay data is stored server-side. The browser holds an opaque blob
 (`localStorage` key `fire_tracker_ebay_token`, kept out of JSON backups) that

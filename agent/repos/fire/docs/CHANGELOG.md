@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `scripts/fin-checkin.mjs`: the weekly financial check-in as a script. It pulls net worth, runway, CDs, concentration and price freshness through the read-only MCP code, picks the action item by fixed rules, and makes at most one 9router call to rewrite the templated text (templated fallback when it is down). Flags `--no-model`, `--rates`, `--json`; documented in the README with a Task Scheduler example.
 - Insights: a Precious Metals Share tile appears when metals are over 10% of net worth (#222).
 - `docs/integration-status-matrix.md` records, for every connector and both deploy modes, where the credential lives, which endpoint answers "connected", how the five states (not configured / not connected / never synced / sync failed / re-link) are expressed, and which test pins each row. It also lists the known gaps — eBay reports no `configured` state in either mode and has no hosted status endpoint, and Etsy/eBay record no last-sync outcome — so those get follow-ups instead of staying implicit (#295).
 - CoinTracker: `GET /api/sync/cointracker/status` (both the Express route and the hosted function) answers `configured` and `connected`, and the card hydrates from it on load instead of showing whatever the last client call happened to write. The sealed token travels in the `Authorization` header rather than the query string, so it never lands in access logs; a blob the server cannot unseal is dropped so the card offers Connect instead of failing on every sync, and a deploy without `SYNC_MASTER_KEY` says "not configured" and hides Connect (#294).
@@ -31,6 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Etsy card (self-hosted) now shows "Last sync failed (code)" from the status endpoint's `lastSyncOutcome` instead of a success-colored timestamp (step 1 of #302; hosted deploy is step 2).
+- Vehicle depreciation estimate returns no value for model years before 1886 or more than one year ahead, instead of looping once per year of age.
+- Imported-files table escapes file name, source and date before inserting them into the page.
+- **Fixed:** projection span is capped at 120 years
+- eBay: self-hosted `GET /api/sync/ebay/status` now reports `configured`, so a deploy with no `EBAY_CLIENT_ID` is distinguishable from a revoked token (step 1 of #301).
+- eBay: self-hosted sync records its last outcome. `GET /api/sync/ebay/status` returns `lastSyncOutcome: { at, ok, errorCode }`, so a failed sync stays visible after a reload and a successful one clears it. Codes only, never tokens or provider messages (step 2 of #301).
+- eBay (hosted): `GET /api/sync/ebay/status` is a Netlify Function that reports `configured`, so the browser-only deploy can tell "no credentials" from "no token" (step 3 of #301).
 - Promo: re-rendered the hero spot (`brag-22s`, `site/assets/fire-tracker.mp4` and `poster.jpg`) from the current demo seed, so it shows the 95% metals payout (gold $7,220, net worth $287,897.50) and the shared FIRE headline (25.8%, ~12 years to FIRE) that the dashboard and MCP `fire_status_summary` now agree on (#309).
 - Docs: MCP tool count is 20 in the README tool list (now including `get_transactions`, `get_recurring_charges`, `get_upcoming_events`), FEATURES.md and the security checklist; the integration matrix names the Drive token file `data/tokens-gdrive.json`; the privacy policy no longer says data lives "exclusively" in `localStorage`, and Section 3 now covers the opt-in eBay and CoinTracker integrations.
 - MCP `fire_status_summary` now uses the dashboard's FIRE calculation (`FireAggregates.fireStatus`: net worth, progress, years to FIRE), and the promo demo seed stores the mocked metals payout, so Claude and the dashboard report identical numbers (#178).

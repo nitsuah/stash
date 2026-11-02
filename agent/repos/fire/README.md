@@ -207,6 +207,26 @@ docker compose exec fire node scripts/test-mcp.mjs
 
 ---
 
+## Weekly check-in script
+
+`scripts/fin-checkin.mjs` prints the weekly financial check-in without an agent session. The numbers come straight from the read-only MCP code over `db.json` (date and ISO week, month and quarter end, each CD's maturity and rate, net worth, runway, concentration, stale-price warnings), and one deterministic rule picks the action item: a CD within 30 days of maturity, then stale prices, runway under 12 months, a position at 20% or more of net worth, then a rate gap of 0.5 points or more when rates are known. At most one model call rewrites the templated text as a few calm sentences, through the local 9router proxy (`ANTHROPIC_BASE_URL`, default `http://localhost:20128/v1`; key `NINEROUTER_KEY` from the environment or `~/.claude/settings.json`, never printed). If 9router is down, or the reply changes any number, the templated text is printed instead. The tone rules live in [docs/weekly-checkin-prompt.md](./docs/weekly-checkin-prompt.md).
+
+```bash
+node scripts/fin-checkin.mjs --no-model                  # templated only, no network
+node scripts/fin-checkin.mjs --rates rates.json          # {"hysa":x,"cd3":x,"cd6":x,"cd12":x} in percent
+node scripts/fin-checkin.mjs --json                      # facts, action and comparison as JSON (no model call)
+```
+
+Market rates are never invented: pass `--rates <file>` or set `FIN_RATES_URL` to a URL serving that JSON; otherwise the output says `market rates: unavailable (provide --rates)` and skips the comparison. The script writes nothing to the repo or the database. Keep its output out of the repo: redirect to a local log.
+
+Task Scheduler, Mondays at 17:33 (adjust the repo path; `FIRE_DATA_DIR` if your data is elsewhere):
+
+```bat
+schtasks /Create /TN "fire weekly check-in" /SC WEEKLY /D MON /ST 17:33 /TR "cmd /c cd /d C:\Users\you\code\fire && node scripts\fin-checkin.mjs >> %USERPROFILE%\.fire\weekly-checkin.log 2>&1"
+```
+
+Create `%USERPROFILE%\.fire` first. The script needs the repo's dependencies installed (`npm ci`).
+
 ## Chaos mode
 
 ![Retirement growth path with Chaos mode on](https://github.com/nitsuah/fire/blob/main/site/assets/proj-chaos.webp)

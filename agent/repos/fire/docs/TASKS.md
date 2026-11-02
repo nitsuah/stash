@@ -10,7 +10,7 @@ repo: fire
 
 > 🧭 [fire](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-updated: 2026-10-14
+updated: 2026-10-30
 
 ---
 
@@ -195,6 +195,9 @@ These items came from the current browser/production pass. **P0** items are corr
   - Priority: P3 (needs owner sign-off)
 - [ ] **Journey coverage**: 23 of 92 spots.json features are tagged. After /promo culls `"visual": "none"`, add journeys for the user-visible rest (chaos mode, CD ladder, customize layout, CSV import, settings).
   - Priority: P2
+
+- [x] **Weekly check-in as a script**
+  - Done 2026-10-30: `scripts/fin-checkin.mjs` does the data pulls deterministically and makes at most one 9router call for prose (templated fallback). The `week-fin-sum` scheduled task can switch to running it; the Task Scheduler example is in the README. Remaining (owner): schedule it and retire the agentic run.
 
 ## In Progress
 
