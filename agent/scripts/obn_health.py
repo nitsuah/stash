@@ -189,9 +189,8 @@ def untracked_repos(today, repos, reports_dir=REPORTS, inaccessible=()):
         dates = [file_date(n) for n in names if any(k in n for k in keys)]
         dates = [d for d in dates if d]
         newest = max(dates) if dates else None
-        if newest is None or (today - newest).days >= UNTRACKED_DAYS:
-            if repo not in inaccessible:
-                stale.append((repo, newest))
+        if (newest is None or (today - newest).days >= UNTRACKED_DAYS) and repo not in inaccessible:
+            stale.append((repo, newest))
     return stale
 
 
