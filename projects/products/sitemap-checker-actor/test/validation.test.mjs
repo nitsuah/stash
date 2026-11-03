@@ -40,7 +40,7 @@ test('admitEntry enforces MAX_LOC_LENGTH and MAX_RETAINED_CHARS boundaries', () 
     assert.equal(admitEntry(budget3, locToBudget, null), true);
     assert.equal(budget3.used, MAX_RETAINED_CHARS);
 
-    // Keep the location at its limit so rejection exercises the retained budget.
+    // The location is at its limit, so only the retained-character budget can reject it.
     const budget4 = { used: MAX_RETAINED_CHARS - MAX_LOC_LENGTH + 1 };
     const locOverBudget = 'b'.repeat(MAX_LOC_LENGTH);
     assert.equal(admitEntry(budget4, locOverBudget, null), false);
