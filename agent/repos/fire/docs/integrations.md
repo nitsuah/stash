@@ -80,7 +80,7 @@ format caps a site's env vars at 4KB, and lifefire exceeds that.
 | `GET /api/sync/ebay/callback` | `ebay-callback` | Exchanges the code, returns the tokens **encrypted with `SYNC_MASTER_KEY`** to the SPA in the URL fragment (`/#ebay-connected=…`). The SPA accepts it only if this tab started the connect (a `sessionStorage` marker set on the Connect click) |
 | `POST /api/sync/ebay/sync` | `ebay-sync` | Body `{tokens: <blob>}`; returns ledger `entries` (+ a new blob if refreshed). The SPA merges them into `localStorage` |
 | `GET/POST /api/sync/ebay/marketplace-account-deletion` | `ebay-marketplace-account-deletion` | See below |
-| `GET /api/sync/ebay/status` | `ebay-status` | Reports `configured` only. Connected and last-sync state stay in the browser blob |
+| `GET /api/sync/ebay/status` | `ebay-status` | Express returns `configured`/`connected`/`lastSyncOutcome`; the Netlify function returns `configured` only. Hosted connection state stays in the sealed browser blob; hosted outcome persistence is pending #326 |
 
 No eBay data is stored server-side. The browser holds an opaque blob
 (`localStorage` key `fire_tracker_ebay_token`, kept out of JSON backups) that
@@ -240,7 +240,7 @@ If an export doesn't import, its headers differ from the assumptions above: open
 
 ## CoinTracker (Wallet Discovery & Balances)
 
-**Purpose:** Pull every wallet and exchange account the user already tracks in CoinTracker, with current USD balances, so they don't have to add each address and chain by hand.
+**Purpose:** Offer read-only wallet and exchange-account balance/holding suggestions so users can add selected CoinTracker wallets without re-entering addresses or chains.
 **Status:** Implemented and optional. Live-tested 2026-10-01: login works, but the MCP server needs `mcp:read`, which CoinTracker grants only to accounts enrolled in MCP early access (see "Token audience" below).
 **Auth type:** OAuth 2.1 Authorization Code + PKCE, public client, dynamic client registration
 
@@ -266,22 +266,26 @@ The callback is exempt from the Express `FIRE_API_KEY` gate, because it is a bro
 
 ### What's fetched and how it's used
 
-- **Read:** wallets and accounts with name, chain(s), public addresses or ENS, current USD value, and per-asset holdings (symbol, quantity, USD value).
-- **Never read:** transactions, cost basis, P&L, tax lots or reports. That stays in CoinTracker. fire never requests `mcp:write`, private keys or signing.
-- Each wallet becomes one `customAccounts` row: `type: 'Crypto'`, `source: 'cointracker'`, `cointracker: {providerId, kind, chains, addresses, holdings, syncedAt}`. The dashboard's crypto total is the sum of these rows, and each row holds one wallet's value. The account table tags them **CoinTracker**, with the sync time in the tooltip.
+- **Read:** wallet/account name, chain(s), public addresses or ENS, current USD value, and per-asset holdings (symbol, quantity, USD value).
+- **Never read:** transactions, cost basis, P&L, tax lots or reports. Those stay in CoinTracker. Fire never requests `mcp:write`, private keys or signing.
+- **Suggestions and confirmation:** Sync presents new wallets as suggestions. Nothing is added or adopted until the user explicitly clicks **Add** for that wallet. Dismiss persists; addresses/ENS already tracked in Fire are not suggested again. Add confirms only the selected wallet and leaves unrelated manual/direct-chain rows unchanged.
+- **Exclude / Include:** Exclude hides only the selected provider wallet and persists its ID. Include restores a previously confirmed wallet from cached normalized data without a provider re-import and does not auto-add other suggestions. Failed or partial syncs preserve unrelated manual/direct-chain data.
+- **Stored after confirmation:** Each confirmed wallet becomes one `customAccounts` row: `type: 'Crypto'`, `source: 'cointracker'`, `cointracker: {providerId, kind, chains, addresses, holdings, syncedAt}`. The dashboard's crypto total sums confirmed rows, and each row holds one wallet's value. The account table tags them **CoinTracker**, with sync time in the tooltip.
 
 ### Dedupe (CoinTracker is the source of truth)
 
 The logic is in `app/lib/cointracker-merge.js`, which is pure and unit-tested:
 
-- A manual Crypto account whose identifier (address or ENS, case-insensitive) matches a CoinTracker wallet address is **adopted**. It keeps its id, name and APY, takes CoinTracker's value, and its manual `value`/`identifier`/`quantity` move to `manualSnapshot`. Disconnecting restores it exactly.
+- After the user explicitly adds a suggestion, a manual Crypto account whose identifier (address or ENS, case-insensitive) matches that wallet is **adopted**. It keeps its id, name and APY, takes CoinTracker's value, and its manual `value`/`identifier`/`quantity` move to `manualSnapshot`. Disconnecting restores it exactly.
 - Manual Crypto rows with no address, or with a ticker that CoinTracker also holds, are listed as **possible duplicates** in the card. They are never changed automatically.
 - A wallet missing from a **partial** sync (nothing recognized, or an empty result) is kept, and so is one CoinTracker still lists but returned without a USD value this time. A wallet is removed only after a complete sync without it.
 - All CoinTracker calls from the browser run one at a time across tabs (Web Locks), and every server request has a 15-second timeout. Auth0 rotates refresh tokens, so two parallel refreshes of the same token would break the connection. A token refreshed before a failure is still returned to the browser.
-- Excluding a wallet in the card, or deleting its row, adds its id to `state.coinTrackerExcluded`, and later syncs skip it.
+- Dismiss and Exclude persist the provider id in `state.coinTrackerExcluded`; later syncs skip it. Include restores only a previously confirmed wallet from cached normalized data; it does not re-import from the provider or add other suggestions.
 - When a wallet in `/api/wallets` has an address that CoinTracker reports, the MCP server's `get_net_worth` doesn't count it a second time, and `get_wallets` flags it `coveredByCoinTracker`.
 
 Direct-chain tracking (Etherscan and the others below) is unchanged and still works without CoinTracker.
+
+See [Canonical transaction model](canonical-transactions.md) for Stripe identity/counting rules, cross-provider overlap, and current reconciliation limitations.
 
 ### Token audience
 
