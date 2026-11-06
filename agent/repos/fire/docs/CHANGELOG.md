@@ -17,11 +17,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- CoinTracker docs now describe suggestion-first wallet discovery, explicit Add/Dismiss, Exclude/Include restoration, and the balances/holdings-only read boundary (#242).
+- Stripe (self-hosted): document the encrypted restricted-key credential/status contract and local-only disconnect; live provider verification and hosted credential storage remain unavailable (#409).
+
+### Removed
+- Dead CSS for legacy banner: `.fire-prog-*`, `.banner-target`, `.banner-fire-eta`, `.banner-networth`, `.banner-alloc-bars`, `.alloc-mini-bars`, `.alloc-bar-track`, `.alloc-bar-seg` (superseded by `#compact-fire-bar` in #351). Updated FEATURES.md and app-guide.md accordingly (#352).
+
 ### Added
 
+- Chaos Mode household profile controls: a 👤 toggle opens a panel to save or clear a household profile that persists and rehydrates with Chaos state, and hides when Chaos is off (#399).
+- Insights: add an Early-Retirement Cash Buffer tile (warns when FIRE is reached and cash plus CDs cover under 2 years of expenses) and cover the CD Maturity Concentration tile with e2e tests using relative maturity dates (#335, #336).
+
+- Stripe (self-hosted): add a read-only balance-transaction client with cursor pagination, safe 401/429 errors, and partial-page recovery; no route/UI or credential persistence is added (#346).
+- Stripe (self-hosted): sync read-only balance transactions into the side-gig ledger by canonical transaction ID, preserve manual/Etsy rows, resume partial batches without reporting full success, and record bounded outcomes; payouts remain excluded (#347).
+- Stripe (self-hosted): bound each balance-transaction page fetch to a 10-second deadline; timeout errors are sanitized and later-page failures preserve partial rows/cursor (#454).
+
+- Etsy (hosted): persist a sanitized last-sync outcome in browser storage so failures survive reloads; clear it on success, disconnect, lost grant, or reconnect (#321).
+- eBay (hosted): persist a sanitized last-sync outcome in browser storage; failures survive reloads, success replaces failure, and OAuth reconnect or lost grant clears stale state (#326).
+
+- Docs: `docs/stripe-overlap-audit.md` records where a Stripe connector could overlap eBay, Etsy, manual rows and bank deposits, the canonical Stripe key, and the rule that payouts are never income (#261).
+- Docs: add `docs/canonical-transactions.md` describing the current Stripe mapper, source provenance, cross-provider duplicate limits, and the manual user correction path (#344).
 - `scripts/fin-checkin.mjs`: the weekly financial check-in as a script. It pulls net worth, runway, CDs, concentration and price freshness through the read-only MCP code, picks the action item by fixed rules, and makes at most one 9router call to rewrite the templated text (templated fallback when it is down). Flags `--no-model`, `--rates`, `--json`; documented in the README with a Task Scheduler example.
 - Insights: a Precious Metals Share tile appears when metals are over 10% of net worth (#222).
-- `docs/integration-status-matrix.md` records, for every connector and both deploy modes, where the credential lives, which endpoint answers "connected", how the five states (not configured / not connected / never synced / sync failed / re-link) are expressed, and which test pins each row. It also lists the known gaps — eBay reports no `configured` state in either mode and has no hosted status endpoint, and Etsy/eBay record no last-sync outcome — so those get follow-ups instead of staying implicit (#295).
+- `docs/integration-status-matrix.md` records each connector's credential location, status source, five-state vocabulary and test coverage. It now reflects eBay's completed configured/status work in both runtimes (#322/#324) and self-hosted last-sync outcome (#323); hosted browser outcome persistence remains tracked by #326. Live provider/account acceptance remains manual (#301).
 - CoinTracker: `GET /api/sync/cointracker/status` (both the Express route and the hosted function) answers `configured` and `connected`, and the card hydrates from it on load instead of showing whatever the last client call happened to write. The sealed token travels in the `Authorization` header rather than the query string, so it never lands in access logs; a blob the server cannot unseal is dropped so the card offers Connect instead of failing on every sync, and a deploy without `SYNC_MASTER_KEY` says "not configured" and hides Connect (#294).
 - Accounts: `HSA` is now its own account type, selectable in the Add Account form and accepted by `POST`/`PUT /api/accounts`. It counts as invested (the equities bucket) in the dashboard, allocation chart, rebalancing table and MCP `get_net_worth`, so it never lands in "Other Assets"; `get_accounts` gains an `hsaTotal` and an optional `type` filter (#271).
 - MCP: `get_recurring_charges({ minOccurrences })` infers subscriptions and recurring bills from the stored spending transactions — merchants charged at a steady weekly (3+), monthly (3+) or annual (2+) interval with amounts within 10% — and reports each one's amount, last/next expected date, monthly equivalent and the combined monthly and annual totals. Grouping strips per-store noise from merchant strings, and a price rise inside the tolerance keeps the series. There is no subscriptions model; this detects, it doesn't store (#268).
@@ -32,10 +51,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Compact summary bar now reflows when the device rotates within the narrow breakpoint, and the e2e layout test waits for the tab fade-in animation before measuring card positions (fixes flaky `chaos-and-layout.spec.js` "a card alone in its section spans the full width").
+- Side Gig Ledger manual-entry form now stacks with visible labels at tablet/phone widths, and the tax summary wraps without horizontal overflow (#173).
+
+- Expenses: budget hints and Tax Estimator summary rows have explicit spacing and stay within their layout cells at desktop and mobile widths (#168).
+- Privacy policy now describes the Plaid and Etsy integrations: what each fetches, that both are opt-in, where tokens live (a sealed blob in browser `localStorage` on the hosted site, `data/tokens-*.json` self-hosted), the third-party hosts contacted, and how to delete or revoke them (#314).
+
 - Etsy card (self-hosted) now shows "Last sync failed (code)" from the status endpoint's `lastSyncOutcome` instead of a success-colored timestamp (step 1 of #302; hosted deploy is step 2).
 - Vehicle depreciation estimate returns no value for model years before 1886 or more than one year ahead, instead of looping once per year of age.
 - Imported-files table escapes file name, source and date before inserting them into the page.
-- **Fixed:** projection span is capped at 120 years
+- **Fixed:** projection span uses shared normalizeSpanYears (browser & server) — capped at 120 years, defaults to 30
+- **Fixed:** projection settings summary values are HTML-escaped
 - eBay: self-hosted `GET /api/sync/ebay/status` now reports `configured`, so a deploy with no `EBAY_CLIENT_ID` is distinguishable from a revoked token (step 1 of #301).
 - eBay: self-hosted sync records its last outcome. `GET /api/sync/ebay/status` returns `lastSyncOutcome: { at, ok, errorCode }`, so a failed sync stays visible after a reload and a successful one clears it. Codes only, never tokens or provider messages (step 2 of #301).
 - eBay (hosted): `GET /api/sync/ebay/status` is a Netlify Function that reports `configured`, so the browser-only deploy can tell "no credentials" from "no token" (step 3 of #301).
@@ -53,6 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Insights: the equity share excludes crypto, matching the Asset Allocation chart (#169).
 - **Fixed:** the production `ignore` command now returns 1 (build) when `CACHED_COMMIT_REF` or `COMMIT_REF` is empty, and quotes both. Unquoted, an empty `CACHED_COMMIT_REF` made the shell drop the argument, so `git diff --quiet` compared a commit to the working tree and could exit 0, skipping a production deploy instead of failing open.
 - Privacy modal no longer shows the GitHub docs nav row (#166).
+- **Fixed:** tax rate is HTML-escaped in the tax-harvest summary
 - Insights: broad-market funds such as VTI no longer trigger the single-stock concentration warning, and its copy and the CD-maturity copy read correctly (#170).
 - Dashboard: the Asset Allocation legend sits under the chart, so long labels are no longer clipped (#167).
 

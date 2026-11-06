@@ -6,7 +6,7 @@ aliases: [auto-apply-plugin]
 
 # auto-apply-plugin
 
-> Reviewed: 2026-10-16
+> Reviewed: 2026-11-06
 
 ## Overview
 
