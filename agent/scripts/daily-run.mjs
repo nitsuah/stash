@@ -463,7 +463,7 @@ function weeklyChain(ctx, today) {
 
 export function invokeModel(ctx, handoffPath) {
     const args = [join('agent', 'scripts', 'routine-run.mjs'), '--prompt', 'agent/prompts/DAILY-MODEL.md', '--model', 'MAX',
-        '--tools', 'Read,Write,Edit,Glob,Grep', '--cwd', ctx.root, '--budget', '1', '--max-turns', '40', '--minutes', '20'];
+        '--tools', 'Read,Write,Edit,Glob,Grep', '--cwd', ctx.root, '--budget', '4', '--max-turns', '60', '--minutes', '30'];
     if (!ctx.apply || ctx.noModel) { ctx.out(`model: WOULD run node ${args.join(' ')}`); return 'not run'; }
     const r = ctx.run(process.execPath, args, { cwd: ctx.root, timeout: 30 * 60_000 });
     return r.code === 0 ? 'ran' : `failed (exit ${r.code})`;

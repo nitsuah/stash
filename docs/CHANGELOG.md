@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-11-05 — daily-run model budget
+
+- **Fixed:** the first live `daily-run` (2026-11-04) hit `error_max_budget_usd` on the hub-synthesis model step after reading 13 files and writing none. Budget is now \$4 / 60 turns / 30 min, and `DAILY-MODEL.md` says to write each hub before reading the next (at most 2 files per hub).
+
 ### Fixed
 
 - **Fixed:** Backend fails to start when JWT_SECRET is unset
