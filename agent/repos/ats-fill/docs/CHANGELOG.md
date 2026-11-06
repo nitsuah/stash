@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Standalone popup navigation collapses at tablet widths (up to 860px) to prevent horizontal overflow.
+
 - Tracker automation without a model: `scripts/tracker/weekly-review.mjs` (read-only weekly review from the CLI) and `scripts/tracker/inbox-sync.mjs` (Gmail REST API with a `gmail.readonly` refresh token, then `cli sync-email --apply`) replace the two model-driven scheduled tasks; setup and Task Scheduler examples in `scripts/tracker/README-automation.md`.
 - Chrome Web Store detailed description: describe ATS and job-board support generically (no brand names) after Keyword Spam (Yellow Argon) rejection; record the rejection and listing rule in `CHROMEWEBSTORE.md`.
 - GitHub Pages landing page: new `site/privacy.html` presents `docs/PRIVACY.md` (terms, privacy policy, security, data rights) on the site, linked from the footer and the Privacy nav link on that page. The Chrome Web Store listing's Privacy Policy URL is now https://nitsuah.github.io/ats-fill/privacy.html; a unit test fails if the page's document version or date drifts from `docs/PRIVACY.md`.
@@ -28,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- HTML entity decoders now accept uppercase `X` in hexadecimal numeric references across job and page extraction.
+
+- **Fixed:** CDP tracker helper no longer passes credential-named fields through
 - Long unresolved-question labels in the fill report no longer push the popup into horizontal scrolling: the label truncates with an ellipsis, and the full question is still available as the button's accessible name and tooltip (#169).
 
 ## [1.0.4] - 2026-10-16
