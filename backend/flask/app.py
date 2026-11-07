@@ -183,11 +183,11 @@ def login():
     # Demo login: one fixed account only, and it can be switched off.
     # Replace with real credential verification.
     enabled = os.environ.get("DEMO_LOGIN_ENABLED", "").strip().lower() not in ("false", "0", "no", "off")
-    demo_email = os.environ.get("DEMO_EMAIL", "user@example.com").lower()
+    demo_email = os.environ.get("DEMO_EMAIL", "user@example.com").strip().lower()
     if not enabled or data["password"] != "password" or data["email"].lower() != demo_email:
         return error_response("Invalid credentials", 401)
 
-    user = db.session.scalar(sa.select(User).where(User.email == demo_email))
+    user = db.session.scalar(sa.select(User).where(sa.func.lower(User.email) == demo_email))
     if not user:
         # Auto-create the demo account on first login
         user = User(email=demo_email, name=demo_email.split("@")[0])

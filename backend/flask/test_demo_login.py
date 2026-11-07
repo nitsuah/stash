@@ -50,3 +50,15 @@ def test_demo_email_override(client, monkeypatch):
 def test_disabled(client, monkeypatch, value):
     monkeypatch.setenv("DEMO_LOGIN_ENABLED", value)
     assert login(client, "user@example.com").status_code == 401
+
+
+def test_existing_mixed_case_demo_account_is_reused(client):
+    user = flask_app.User(email="User@Example.com", name="user")
+    flask_app.db.session.add(user)
+    flask_app.db.session.commit()
+    assert login(client, "user@example.com").status_code == 200
+    from sqlalchemy import func, select
+    count = flask_app.db.session.scalar(
+        select(func.count()).select_from(flask_app.User).where(func.lower(flask_app.User.email) == "user@example.com")
+    )
+    assert count == 1
