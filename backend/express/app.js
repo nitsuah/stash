@@ -173,7 +173,9 @@ authRouter.post("/login", validate(loginSchema), async (req, res) => {
   const { email, password } = req.validated;
 
   // Demo login: one fixed account only, and it can be switched off.
-  const demoEnabled = process.env.DEMO_LOGIN_ENABLED !== "false";
+  const demoEnabled = !["false", "0", "no", "off"].includes(
+    (process.env.DEMO_LOGIN_ENABLED || "").trim().toLowerCase()
+  );
   const demoEmail   = (process.env.DEMO_EMAIL || "user@example.com").toLowerCase();
   if (!demoEnabled || password !== "password" || email.toLowerCase() !== demoEmail) {
     return res.status(401).json({ error: "Invalid credentials" });

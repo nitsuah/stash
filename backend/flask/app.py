@@ -17,6 +17,8 @@ Environment:
     JWT_SECRET     random 32+ char string
     FLASK_ENV      development | production
     PORT           8080 (default)
+    DEMO_EMAIL     demo account email (default user@example.com)
+    DEMO_LOGIN_ENABLED  set to "false" to disable the demo login
 
 Usage:
     python backend/flask/app.py
@@ -178,15 +180,17 @@ def login():
     except ValidationError as e:
         return error_response("Validation failed", 422, e.messages)
 
-    # Demo: accept any email with password "password"
-    # Replace with real credential verification
-    if data["password"] != "password":
+    # Demo login: one fixed account only, and it can be switched off.
+    # Replace with real credential verification.
+    enabled = os.environ.get("DEMO_LOGIN_ENABLED", "").strip().lower() not in ("false", "0", "no", "off")
+    demo_email = os.environ.get("DEMO_EMAIL", "user@example.com").lower()
+    if not enabled or data["password"] != "password" or data["email"].lower() != demo_email:
         return error_response("Invalid credentials", 401)
 
-    user = db.session.scalar(sa.select(User).where(User.email == data["email"]))
+    user = db.session.scalar(sa.select(User).where(User.email == demo_email))
     if not user:
-        # Auto-create on first login for demo purposes
-        user = User(email=data["email"], name=data["email"].split("@")[0])
+        # Auto-create the demo account on first login
+        user = User(email=demo_email, name=demo_email.split("@")[0])
         db.session.add(user)
         db.session.commit()
 

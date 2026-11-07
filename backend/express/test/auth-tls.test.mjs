@@ -81,6 +81,23 @@ test('DEMO_LOGIN_ENABLED=false disables demo login', async () => {
   }
 });
 
+test('DEMO_LOGIN_ENABLED is parsed case-insensitively and fails closed', async () => {
+  for (const v of ['False', 'FALSE', '0', 'no', 'off', ' false ']) {
+    process.env.DEMO_LOGIN_ENABLED = v;
+    try {
+      assert.equal((await login('user@example.com', 'password')).status, 401, v);
+    } finally {
+      delete process.env.DEMO_LOGIN_ENABLED;
+    }
+  }
+  process.env.DEMO_LOGIN_ENABLED = 'true';
+  try {
+    assert.equal((await login('user@example.com', 'password')).status, 200);
+  } finally {
+    delete process.env.DEMO_LOGIN_ENABLED;
+  }
+});
+
 test('postgres TLS verifies certificates by default', () => {
   const o = mod.dbDialectOptions('postgres://u:p@db.example.com/x', {});
   assert.equal(o.ssl.require, true);

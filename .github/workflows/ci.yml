@@ -35,6 +35,9 @@ jobs:
       - name: Syntax check
         run: node --check app.js
 
+      - name: Tests
+        run: npm ci && npm test
+
       # stash is PUBLIC and cloud routines auto-merge their reports once this
       # job passes, so the PII/credential scan lives here to block that merge.
       - name: PII / credential scan (public reports)
