@@ -101,5 +101,5 @@ GET /items/
 Authorization: Bearer eyJ...
 ```
 
-Demo accepts any email with password `"password"` and auto-creates the user.
+Demo login accepts password `"password"` for the single `DEMO_EMAIL` account only (created on first use); other emails are rejected.
 Replace the credential check in `login` with real password hashing (`bcrypt`).
