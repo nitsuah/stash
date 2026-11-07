@@ -119,6 +119,14 @@ test('demo login is off under NODE_ENV=production by default', async () => {
   });
 });
 
+test('NODE_ENV production is matched case- and space-insensitively', async () => {
+  for (const v of ['Production', ' production ', 'PRODUCTION']) {
+    await withEnv({ NODE_ENV: v }, async () => {
+      assert.equal((await login('user@example.com', 'password')).status, 401, v);
+    });
+  }
+});
+
 test('production needs an explicit true/1/yes/on to enable demo login', async () => {
   for (const v of ['true', 'TRUE', '1', 'yes', 'on', ' on ']) {
     await withEnv({ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: v }, async () => {

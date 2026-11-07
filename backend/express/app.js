@@ -185,7 +185,7 @@ function demoLoginEnabled(env = process.env) {
   const flag = (env.DEMO_LOGIN_ENABLED || "").trim().toLowerCase();
   if (["true", "1", "yes", "on"].includes(flag)) return true;
   if (["false", "0", "no", "off"].includes(flag)) return false;
-  return env.NODE_ENV !== "production";
+  return String(env.NODE_ENV || "").trim().toLowerCase() !== "production";
 }
 
 const authRouter = express.Router();
