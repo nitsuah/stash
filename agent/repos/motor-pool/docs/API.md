@@ -729,6 +729,8 @@ Content-Type: application/json
 
 The workspace routes require `WORKSPACE_PATH` to be set in `.env` and the `docker-compose.workspace.yml` overlay to be applied. Paths are sandboxed to `WORKSPACE_ROOT` — attempts to escape via `..` are rejected.
 
+Shell execution (`POST /api/workspace/exec` and the agent `bash` tool) is off by default and returns `403` until `WORKSPACE_EXEC=1` (or `true`) is set.
+
 ### Status
 
 ```
@@ -1021,6 +1023,58 @@ Valid `event` values: `ci_pass`, `ci_fail`, `deploy`, `deploy_fail`, `alert`, `r
 | POST | `/api/plugins/:name/tools/:tool/invoke` | Call a plugin tool |
 | POST | `/api/plugins/:name/events` | Emit a declared plugin event |
 | GET | `/api/worktrees` | List agent tmux worktrees |
+
+## TokenEconomizer Plugin
+
+The TokenEconomizer plugin exposes Microsoft's TokenEconomizer CLI as HTTP tools.
+Requires the `tool-tokeneconomizer` service running (enable with `--profile tools`).
+
+### TokenEconomizer Tools
+
+All endpoints: `POST /api/plugins/tokeneconomizer/tools/<tool>/invoke`
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `status` | Show TE status: learned facts, actions, costs | `{ scope?: "repo" \| "global" \| "none" }` |
+| `microskills` | List injected and forming micro-skill facts | `{ format?: "json" \| "text" }` |
+| `toolprune` | Tool pruning: denied tools, apply/restore/refresh | `{ action?: "measure" \| "apply" \| "restore" \| "refresh-catalog", measure?: object }` |
+| `config` | View or set TE config | `{ operation?: "list" \| "set" \| "unset", key?: string, value?: string }` |
+| `repomap` | Show representation map for current repo | `{}` |
+| `repos` | List managed repos or migrate/merge | `{ operation?: "list" \| "migrate" \| "merge" }` |
+| `doctor` | Run diagnostics on TE installation | `{}` |
+
+### Example Usage
+
+```bash
+# Show TokenEconomizer status
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/status/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {}}'
+
+# List micro-skills
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/microskills/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {"format": "json"}}'
+
+# Apply tool pruning
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/toolprune/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {"action": "apply"}}'
+
+# Run diagnostics
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/doctor/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {}}'
+```
+
+### TokenEconomizer Events
+
+The plugin emits events on the `plugins` channel:
+- `tokeneconomizer.invoked` — tool called
+- `tokeneconomizer.failed` — tool failed
+- `tokeneconomizer.toolprune-applied` — tool pruning applied
+
+Subscribe via WebSocket `/ws/events` or query history: `GET /api/channels/plugins/history`.
 | POST | `/api/worktrees` | Launch an agent in a tmux worktree |
 | DELETE | `/api/worktrees/:slug` | Kill window + remove worktree |
 

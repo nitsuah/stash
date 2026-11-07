@@ -6,7 +6,7 @@ aliases: [agent-board]
 
 # motor-pool
 
-> Reviewed: 2026-10-15
+> Reviewed: 2026-11-07
 
 > **Renamed from `agent-board`** in 2026-10 (`nitsuah/agent-board` redirects to `nitsuah/motor-pool`). The local clone is still at `code\agent-board`; reports from before the rename keep the old name in their filenames.
 

@@ -57,7 +57,7 @@ repo: fire
 - **eBay Order Sync** — OAuth 2.0 flow (`GET /api/sync/ebay/authorize` → callback → `POST /api/sync/ebay/sync`) auto-imports completed sales into the side gig ledger; includes the **Marketplace Account Deletion** endpoint eBay requires (`/api/sync/ebay/marketplace-account-deletion`, see [docs/integrations.md](docs/integrations.md))
 - **Etsy Order Sync** — Etsy Open API v3 OAuth with PKCE (read-only `transactions_r shops_r`): **Connect Etsy** in the Side Hustle Hub (or Settings → Marketplace Connections) pulls paid shop receipts into the ledger, deduplicated by receipt ID, with fees estimated from Etsy's schedule and tax tags left for you. Works self-hosted and on the hosted deploy (see [docs/integrations.md](docs/integrations.md#etsy-open-api-v3))
 - **Plaid integration** — link-token flow, position/account sync, and transaction sync with auto-categorization into Expenses (`POST /api/sync/plaid/*`); manual CSV import is disabled while Plaid sync is active. Connector controls live in Settings
-- **CoinTracker wallets (optional)** — connect CoinTracker (OAuth, read-only MCP) to import all wallets and exchange accounts with current balances. It becomes the source of truth for matching manual crypto entries. See [docs/integrations.md](docs/integrations.md#cointracker-wallet-discovery--balances)
+- **CoinTracker wallets (optional)** — read-only MCP balance/holding suggestions; nothing is added until you click **Add**. Dismiss/Exclude persists, and Include restores a previously confirmed wallet. No transactions, cost basis, P&L, tax lots or private keys are read. See [docs/integrations.md](docs/integrations.md#cointracker-wallet-discovery--balances)
 - **Web3 wallet tracking** — full wallet CRUD (`/api/wallets`) with on-chain balance refresh; supports ETH/EVM, BTC, SOL, BNB, Polygon, Arbitrum, Base, Avalanche
 - **Google Drive encrypted backup** — `POST /api/backup/drive`, `GET /api/backup/drive/list`, `POST /api/backup/drive/restore` (requires `GDRIVE_CLIENT_ID` + `GDRIVE_CLIENT_SECRET` for Google OAuth, and a 64-hex `SYNC_MASTER_KEY`)
 - **Vehicle VIN decode & value refresh** — NHTSA VIN decode (`GET /api/vehicles/vin/:vin`) and value refresh (`POST /api/vehicles/:id/refresh-value`)
@@ -122,6 +122,7 @@ basic local use — the one exception is `FIRE_API_KEY` (or its explicit
 | `FIRE_AUTH_DISABLED` | Set to `true` to run with no API auth at all (local-only use). Leave unset if anyone else could reach the server — see security-hardening.md |
 | `FIRE_ADMIN_KEY` | **Required in production.** Gates `POST /api/admin/rotate-key` via `X-Admin-Key` header |
 | `SYNC_MASTER_KEY` | 64-hex-char key to encrypt `db.json` at rest with AES-256-GCM |
+| `FIRE_ALLOW_LEGACY_BACKUP_RESTORE` | Set to `1` to allow restoring older Google Drive backups that are not bound to an account. Off by default |
 | `SESSION_SECRET` | Secret for signing session cookies (random string; server exits in production if unset) |
 | `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | eBay Developer app credentials for Order API sync |
 | `EBAY_ENVIRONMENT` | `sandbox` (default) or `production` |

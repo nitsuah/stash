@@ -76,7 +76,12 @@ npm install
 
 ### Environment variables
 
-Same as Flask above — `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV`, `PORT`.
+Same as Flask above — `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV`, `PORT` — plus:
+
+- `PGSSL_CA` — PEM string or file path for a custom database CA (Postgres TLS is verified by default).
+- `PGSSL_REJECT_UNAUTHORIZED` — set to `false` to skip database certificate verification (logs a warning).
+- `DEMO_EMAIL` — the single demo account email (default `user@example.com`).
+- `DEMO_LOGIN_ENABLED` — set to `false` to disable the demo login.
 
 ### Quick start
 
@@ -101,5 +106,5 @@ GET /items/
 Authorization: Bearer eyJ...
 ```
 
-Demo accepts any email with password `"password"` and auto-creates the user.
+Demo login accepts password `"password"` for the single `DEMO_EMAIL` account only (created on first use); other emails are rejected.
 Replace the credential check in `login` with real password hashing (`bcrypt`).
