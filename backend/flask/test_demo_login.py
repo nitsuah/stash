@@ -96,6 +96,8 @@ def test_development_stays_on(client, monkeypatch):
      ({"APP_ENV": "production", "DEMO_LOGIN_ENABLED": "true"}, "enabled")],
 )
 def test_startup_line(monkeypatch, capsys, env, expected):
+    for k in ("FLASK_ENV", "APP_ENV", "DEMO_LOGIN_ENABLED"):
+        monkeypatch.delenv(k, raising=False)
     for k, v in env.items():
         monkeypatch.setenv(k, v)
     flask_app.create_app(TestConfig)
