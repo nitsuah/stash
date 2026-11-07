@@ -18,7 +18,9 @@ Environment:
     FLASK_ENV      development | production
     PORT           8080 (default)
     DEMO_EMAIL     demo account email (default user@example.com)
-    DEMO_LOGIN_ENABLED  set to "false" to disable the demo login
+    APP_ENV        development | production (also read; FLASK_ENV works too)
+    DEMO_LOGIN_ENABLED  true/false; demo login is on by default, except when
+                   FLASK_ENV or APP_ENV is production (then it needs an explicit "true")
 
 Usage:
     python backend/flask/app.py
@@ -43,6 +45,18 @@ from marshmallow import Schema, ValidationError, fields, validate  # type: ignor
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
+
+def demo_login_enabled(env=None) -> bool:
+    """Demo login is on for local and dev use and off in production unless explicitly enabled."""
+    env = os.environ if env is None else env
+    flag = env.get("DEMO_LOGIN_ENABLED", "").strip().lower()
+    if flag in ("true", "1", "yes", "on"):
+        return True
+    if flag in ("false", "0", "no", "off"):
+        return False
+    modes = {env.get("FLASK_ENV", "").strip().lower(), env.get("APP_ENV", "").strip().lower()}
+    return "production" not in modes
+
 
 class Config:
     DATABASE_URL   = os.environ.get("DATABASE_URL", "sqlite:///dev.db")
@@ -182,7 +196,7 @@ def login():
 
     # Demo login: one fixed account only, and it can be switched off.
     # Replace with real credential verification.
-    enabled = os.environ.get("DEMO_LOGIN_ENABLED", "").strip().lower() not in ("false", "0", "no", "off")
+    enabled = demo_login_enabled()
     demo_email = os.environ.get("DEMO_EMAIL", "user@example.com").strip().lower()
     if not enabled or data["password"] != "password" or data["email"].lower() != demo_email:
         return error_response("Invalid credentials", 401)
@@ -365,6 +379,8 @@ def create_app(config: type = Config) -> Flask:
     @app.errorhandler(500)
     def server_error(e):
         return error_response("Internal server error", 500)
+
+    print(f"Demo login: {'enabled' if demo_login_enabled() else 'disabled'}")
 
     with app.app_context():
         db.create_all()
