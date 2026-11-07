@@ -69,7 +69,15 @@ function dbDialectOptions(url, env = process.env) {
     console.warn("PGSSL_REJECT_UNAUTHORIZED=false: database certificate verification is disabled");
   }
   if (env.PGSSL_CA) {
-    ssl.ca = fs.existsSync(env.PGSSL_CA) ? fs.readFileSync(env.PGSSL_CA, "utf8") : env.PGSSL_CA;
+    if (env.PGSSL_CA.includes("-----BEGIN")) {
+      ssl.ca = env.PGSSL_CA;
+    } else {
+      try {
+        ssl.ca = fs.readFileSync(env.PGSSL_CA, "utf8");
+      } catch (err) {
+        throw new Error(`PGSSL_CA: cannot read CA file "${env.PGSSL_CA}": ${err.message}`);
+      }
+    }
   }
   return { ssl };
 }

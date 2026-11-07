@@ -1,6 +1,5 @@
-import pytest
-
 import app as flask_app
+import pytest
 
 
 class TestConfig(flask_app.Config):

@@ -8,8 +8,10 @@ const require = createRequire(import.meta.url);
 process.env.JWT_SECRET = 'test-secret-' + 'x'.repeat(32);
 process.env.DATABASE_URL = 'postgres://u:p@127.0.0.1:1/x'; // never connected; models are stubbed below
 process.env.NODE_ENV = 'test';
-delete process.env.DEMO_EMAIL;
-delete process.env.DEMO_LOGIN_ENABLED;
+// Pin everything app.js reads at import so dotenv or the host env cannot change results.
+process.env.PGSSL_CA = ['-----BEGIN CERTIFICATE-----', 'TEST', '-----END CERTIFICATE-----', ''].join('\n');
+process.env.PORT = '0';
+for (const k of ['DEMO_EMAIL', 'DEMO_LOGIN_ENABLED', 'PGSSL_REJECT_UNAUTHORIZED']) delete process.env[k];
 
 const mod = require('../app.js');
 const { createApp, User, sequelize } = mod;
@@ -118,7 +120,7 @@ test('PGSSL_REJECT_UNAUTHORIZED=false is an explicit opt-out', () => {
   assert.equal(warns.length, 1);
 });
 
-test('PGSSL_CA accepts a PEM string or a file path', async () => {
+test('PGSSL_CA accepts a PEM string or a file path (path read, not passed through)', async () => {
   const pem = '-----BEGIN CERTIFICATE-----\nABC\n-----END CERTIFICATE-----\n';
   assert.equal(mod.dbDialectOptions('postgres://h/x', { PGSSL_CA: pem }).ssl.ca, pem);
   const fs = await import('node:fs');
@@ -127,6 +129,14 @@ test('PGSSL_CA accepts a PEM string or a file path', async () => {
   const f = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ca-')), 'ca.pem');
   fs.writeFileSync(f, pem);
   assert.equal(mod.dbDialectOptions('postgres://h/x', { PGSSL_CA: f }).ssl.ca, pem);
+});
+
+test('PGSSL_CA that is neither PEM nor a readable file fails at startup', () => {
+  const missing = '/nonexistent/ca-missing.pem';
+  assert.throws(
+    () => mod.dbDialectOptions('postgres://h/x', { PGSSL_CA: missing }),
+    err => err.message.includes('PGSSL_CA') && err.message.includes(missing),
+  );
 });
 
 test('non-postgres URLs get no ssl options', () => {
