@@ -100,6 +100,65 @@ test('DEMO_LOGIN_ENABLED is parsed case-insensitively and fails closed', async (
   }
 });
 
+async function withEnv(vars, fn) {
+  const saved = {};
+  for (const k of Object.keys(vars)) saved[k] = process.env[k];
+  Object.assign(process.env, vars);
+  try {
+    return await fn();
+  } finally {
+    for (const [k, v] of Object.entries(saved)) {
+      if (v === undefined) delete process.env[k]; else process.env[k] = v;
+    }
+  }
+}
+
+test('demo login is off under NODE_ENV=production by default', async () => {
+  await withEnv({ NODE_ENV: 'production' }, async () => {
+    assert.equal((await login('user@example.com', 'password')).status, 401);
+  });
+});
+
+test('production needs an explicit true/1/yes/on to enable demo login', async () => {
+  for (const v of ['true', 'TRUE', '1', 'yes', 'on', ' on ']) {
+    await withEnv({ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: v }, async () => {
+      assert.equal((await login('user@example.com', 'password')).status, 200, v);
+    });
+  }
+  await withEnv({ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: 'maybe' }, async () => {
+    assert.equal((await login('user@example.com', 'password')).status, 401);
+  });
+});
+
+test('demo login stays on for development and test environments', async () => {
+  for (const env of ['development', 'test']) {
+    await withEnv({ NODE_ENV: env }, async () => {
+      assert.equal((await login('user@example.com', 'password')).status, 200, env);
+    });
+  }
+});
+
+test('startup logs one line saying whether demo login is on', async () => {
+  const cases = [
+    [{ NODE_ENV: 'development' }, 'Demo login: enabled'],
+    [{ NODE_ENV: 'production' }, 'Demo login: disabled'],
+    [{ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: 'true' }, 'Demo login: enabled'],
+  ];
+  for (const [vars, expected] of cases) {
+    await withEnv(vars, async () => {
+      const lines = [];
+      const orig = console.log;
+      console.log = m => lines.push(String(m));
+      try {
+        await createApp();
+      } finally {
+        console.log = orig;
+      }
+      assert.deepEqual(lines.filter(l => l.startsWith('Demo login')), [expected]);
+    });
+  }
+});
+
 test('postgres TLS verifies certificates by default', () => {
   const o = mod.dbDialectOptions('postgres://u:p@db.example.com/x', {});
   assert.equal(o.ssl.require, true);

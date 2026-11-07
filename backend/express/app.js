@@ -20,7 +20,8 @@
  *   PGSSL_CA       PEM string or file path for a custom database CA (optional)
  *   PGSSL_REJECT_UNAUTHORIZED  set to "false" to skip database cert verification
  *   DEMO_EMAIL     demo account email (default user@example.com)
- *   DEMO_LOGIN_ENABLED  set to "false" to disable the demo login
+ *   DEMO_LOGIN_ENABLED  true/false; demo login is on by default, except when
+ *                      NODE_ENV=production (then it needs an explicit "true")
  *
  * Usage:
  *   node backend/express/app.js
@@ -175,15 +176,25 @@ const itemUpdateSchema = Joi.object({
 // Routes — Auth
 // ---------------------------------------------------------------------------
 
+/**
+ * Demo login is on for local and dev use, and off when NODE_ENV=production
+ * unless DEMO_LOGIN_ENABLED is explicitly true/1/yes/on. An explicit false/0/no/off
+ * always turns it off.
+ */
+function demoLoginEnabled(env = process.env) {
+  const flag = (env.DEMO_LOGIN_ENABLED || "").trim().toLowerCase();
+  if (["true", "1", "yes", "on"].includes(flag)) return true;
+  if (["false", "0", "no", "off"].includes(flag)) return false;
+  return env.NODE_ENV !== "production";
+}
+
 const authRouter = express.Router();
 
 authRouter.post("/login", validate(loginSchema), async (req, res) => {
   const { email, password } = req.validated;
 
   // Demo login: one fixed account only, and it can be switched off.
-  const demoEnabled = !["false", "0", "no", "off"].includes(
-    (process.env.DEMO_LOGIN_ENABLED || "").trim().toLowerCase()
-  );
+  const demoEnabled = demoLoginEnabled();
   const demoEmail   = (process.env.DEMO_EMAIL || "user@example.com").toLowerCase();
   if (!demoEnabled || password !== "password" || email.toLowerCase() !== demoEmail) {
     return res.status(401).json({ error: "Invalid credentials" });
@@ -320,6 +331,7 @@ async function createApp() {
     res.status(500).json({ error: "Internal server error" });
   });
 
+  console.log(`Demo login: ${demoLoginEnabled() ? "enabled" : "disabled"}`);
   await sequelize.sync({ alter: config.isDev });
   return app;
 }
@@ -342,4 +354,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createApp, dbDialectOptions, User, Item, sequelize };
+module.exports = { createApp, dbDialectOptions, demoLoginEnabled, User, Item, sequelize };
