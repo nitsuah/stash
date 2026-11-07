@@ -17,6 +17,10 @@
  *   JWT_SECRET     random 32+ char string
  *   NODE_ENV       development | production
  *   PORT           8080 (default)
+ *   PGSSL_CA       PEM string or file path for a custom database CA (optional)
+ *   PGSSL_REJECT_UNAUTHORIZED  set to "false" to skip database cert verification
+ *   DEMO_EMAIL     demo account email (default user@example.com)
+ *   DEMO_LOGIN_ENABLED  set to "false" to disable the demo login
  *
  * Usage:
  *   node backend/express/app.js
@@ -27,6 +31,7 @@
 "use strict";
 
 require("dotenv").config();
+const fs = require("fs");
 const rateLimit = require("express-rate-limit");
 
 const express    = require("express");
@@ -54,11 +59,24 @@ if (!config.jwtSecret) {
 // Database
 // ---------------------------------------------------------------------------
 
+// Postgres connections use verified TLS. PGSSL_CA may hold a PEM string or a
+// path to a PEM file; PGSSL_REJECT_UNAUTHORIZED=false is an explicit opt-out.
+function dbDialectOptions(url, env = process.env) {
+  if (!url.startsWith("postgres")) return {};
+  const ssl = { require: true, rejectUnauthorized: true };
+  if (env.PGSSL_REJECT_UNAUTHORIZED === "false") {
+    ssl.rejectUnauthorized = false;
+    console.warn("PGSSL_REJECT_UNAUTHORIZED=false: database certificate verification is disabled");
+  }
+  if (env.PGSSL_CA) {
+    ssl.ca = fs.existsSync(env.PGSSL_CA) ? fs.readFileSync(env.PGSSL_CA, "utf8") : env.PGSSL_CA;
+  }
+  return { ssl };
+}
+
 const sequelize = new Sequelize(config.databaseUrl, {
   logging: config.isDev ? console.log : false,
-  dialectOptions: config.databaseUrl.startsWith("postgres")
-    ? { ssl: { require: true, rejectUnauthorized: false } }
-    : {},
+  dialectOptions: dbDialectOptions(config.databaseUrl),
 });
 
 const User = sequelize.define("User", {
@@ -154,14 +172,16 @@ const authRouter = express.Router();
 authRouter.post("/login", validate(loginSchema), async (req, res) => {
   const { email, password } = req.validated;
 
-  // Demo: accept any email with password "password"
-  if (password !== "password") {
+  // Demo login: one fixed account only, and it can be switched off.
+  const demoEnabled = process.env.DEMO_LOGIN_ENABLED !== "false";
+  const demoEmail   = (process.env.DEMO_EMAIL || "user@example.com").toLowerCase();
+  if (!demoEnabled || password !== "password" || email.toLowerCase() !== demoEmail) {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  let user = await User.findOne({ where: { email } });
+  let user = await User.findOne({ where: { email: demoEmail } });
   if (!user) {
-    user = await User.create({ email, name: email.split("@")[0] });
+    user = await User.create({ email: demoEmail, name: demoEmail.split("@")[0] });
   }
 
   const token = jwt.sign({ id: user.id, role: user.role }, config.jwtSecret, {
@@ -312,4 +332,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createApp, User, Item, sequelize };
+module.exports = { createApp, dbDialectOptions, User, Item, sequelize };
