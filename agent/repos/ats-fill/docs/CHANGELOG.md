@@ -19,6 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Custom job feeds on the local network (localhost, private and link-local IP addresses, single-label names, and `.local`, `.internal`, `.lan`, `.home`, `.corp`, `.intranet`, `.private` names) are refused unless the new **Allow local-network feeds** setting is on (default off). The setting is checked when a feed is added and on every search; with it on, only those hosts may use `http://`. Public feeds must use `https://`.
+- Saving the profile or a resume keeps stored custom job sources and the local-network feed setting instead of replacing all settings. A feed whose save fails no longer keeps the site permission that was just granted.
+- The local-network check also covers site-local, Teredo and local-use NAT64 IPv6 ranges, and a response with no readable body stream is read only when it declares a size within the cap.
+- Feed requests omit cookies, skip the HTTP cache, refuse redirects, time out, stop reading at the size cap and require an XML content type.
+- Embedded application frames on another origin now receive answers only when they are an iframe present in the page and belong to the same ATS tenant as that iframe; frames whose tenant cannot be read are skipped.
+- The local tracker helper's live (`--live`) mode picks the extension by id (`ATS_FILL_EXTENSION_ID`, a manifest `key`, or an unpacked install of this repo's build), not by manifest name.
+- Answer injection from the preview now targets the verified application document and is accepted only from the extension and only in frames that pass the fill guard.
+- Page drafts are keyed by a normalised query string (sorted params, tracking params removed); older query-less drafts are shown only on URLs with no non-tracking query; older drafts saved for query URLs are no longer restored.
+- Standalone popup navigation collapses at tablet widths (up to 860px) to prevent horizontal overflow.
+
 - Tracker automation without a model: `scripts/tracker/weekly-review.mjs` (read-only weekly review from the CLI) and `scripts/tracker/inbox-sync.mjs` (Gmail REST API with a `gmail.readonly` refresh token, then `cli sync-email --apply`) replace the two model-driven scheduled tasks; setup and Task Scheduler examples in `scripts/tracker/README-automation.md`.
 - Chrome Web Store detailed description: describe ATS and job-board support generically (no brand names) after Keyword Spam (Yellow Argon) rejection; record the rejection and listing rule in `CHROMEWEBSTORE.md`.
 - GitHub Pages landing page: new `site/privacy.html` presents `docs/PRIVACY.md` (terms, privacy policy, security, data rights) on the site, linked from the footer and the Privacy nav link on that page. The Chrome Web Store listing's Privacy Policy URL is now https://nitsuah.github.io/ats-fill/privacy.html; a unit test fails if the page's document version or date drifts from `docs/PRIVACY.md`.
@@ -28,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Settings, stored-credential and key-spending messages are accepted only from the extension's own pages, and page scripts no longer receive the saved settings. Custom RSS job feeds and the Hackajob sitemap and detail pages go through one bounded fetch: the requested URL and the final URL after redirects must be allowed https hosts (a disallowed final host is refused before its body is read), with size and time limits.
+
+- HTML entity decoders now accept uppercase `X` in hexadecimal numeric references across job and page extraction.
+
+- **Fixed:** CDP tracker helper no longer passes credential-named fields through
 - Long unresolved-question labels in the fill report no longer push the popup into horizontal scrolling: the label truncates with an ellipsis, and the full question is still available as the button's accessible name and tooltip (#169).
 
 ## [1.0.4] - 2026-10-16

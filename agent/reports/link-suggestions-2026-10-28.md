@@ -5,6 +5,8 @@ date: 2026-10-28
 
 # link-suggestions — 2026-10-28
 
+> 🧭 [[reports/link-suggestions-2026-11-09|2026-11-09]] → <!-- nav -->
+
 Weakly connected notes (≤1 link) outside the repo mirrors, with the most similar notes they don't link to yet (Smart Connections embeddings, cosine ≥ 0.8). Suggestions only: add a link where the note actually depends on the other one, and ignore the rest.
 
 6 weakly connected note(s) checked, 3 with suggestions.

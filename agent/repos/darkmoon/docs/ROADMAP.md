@@ -30,7 +30,7 @@ Last Updated: 2026-09-24
 
 ### Needs scoping
 
-- [ ] **Crosshair vs. actual aim point under pointer lock** — the reticle (`Crosshair.tsx`) is positioned from raw `mousemove` `clientX/clientY`, which Pointer Lock freezes at lock time, while firing raycasts from screen-center in `PlayerWeapon.tsx`. Needs a design decision (snap the reticle to center on lock, or drive it from camera-forward) before implementing.
+- [x] **Crosshair vs. actual aim point under pointer lock** — the reticle (`Crosshair.tsx`) is positioned from raw `mousemove` `clientX/clientY`, which Pointer Lock freezes at lock time, while firing raycasts from screen-center in `PlayerWeapon.tsx`. Resolved in #482: the reticle is locked to the viewport centre in every mode and fire raycasts from NDC (0, 0).
 - [ ] **Over-the-shoulder aim camera + combat music layer** — Phase E remaining items; see [`docs/projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md`](./projects/multi/MULTIPLAYER_SHOOTER_ROADMAP.md) Phase E "Remaining".
 - [ ] **Re-scope the remaining refactor backlog** against the current codebase _(carried from 2026 Q2)_.
 - [ ] **Additional gameplay modes** — revisit only after the live multiplayer foundation is stable _(carried from 2026 Q3)_.

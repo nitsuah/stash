@@ -202,7 +202,7 @@ scripts/                      # Setup & management scripts
 
 ## Models & Loading
 
-At startup, `ollama-init` pulls and preloads the single model selected by `PRIMARY_LLM_MODEL` (default: `llama3.2:3b`); the dashboard's model-management panel can pull additional models on demand. `config/model-manifest.json` is a portfolio draft and is not currently consumed by the runtime, so editing its `enabled` array does not load models.
+At startup, `ollama-init` pulls and preloads the single model selected by `PRIMARY_LLM_MODEL` (default: `llama3.1:8b-instruct-q4_K_M`); the dashboard's model-management panel can pull additional models on demand. `config/model-manifest.json` is a portfolio draft and is not currently consumed by the runtime, so editing its `enabled` array does not load models.
 
 To change the startup model, set `PRIMARY_LLM_MODEL` in the root `.env` file (or override it in the Compose environment) and restart the stack. To pull an additional model without changing startup selection, use the dashboard's Models panel or run `docker exec ollama ollama pull <model>`.
 
@@ -219,8 +219,9 @@ To change the startup model, set `PRIMARY_LLM_MODEL` in the root `.env` file (or
 
 | Model | Size | Use |
 | --- | --- | --- |
-| `llama3.2:3b` | 2 GB | **Default** — modern, fast on CPU, fits in RAM |
-| `llama2:latest` | 3.8 GB | Legacy baseline; superseded by llama3.2:3b |
+| `llama3.1:8b-instruct-q4_K_M` | 4.9 GB | **Default** — tool calls verified; ~11–14 s for 200 tokens on CPU |
+| `llama3.2:3b` | 2 GB | Smaller, faster option |
+| `llama2:latest` | 3.8 GB | Legacy baseline; superseded by the 8B default |
 | `qwen3-coder:latest` | 18 GB | Code generation (requires ~18 GB free RAM) |
 | `qwen3:latest` | 5.2 GB | General (MoE, loads as 17.7 GB at runtime) |
 
@@ -268,13 +269,44 @@ paired with a tool workbench panel that lists the server's MCP tools and execute
 Both are gated behind the `tools` compose profile:
 
 ```powershell
-docker compose --env-file .env -f config/docker-compose.yml --profile tools up -d --build tool-content-gen tool-website
+docker compose --env-file .env -f config/docker-compose.yml --profile tools up -d --build tool-content-gen tool-website tool-tokeneconomizer
 ```
 
 If a tool server is offline, the workbench shows the exact start command (and a Start
 button when `AGENT_BOARD_ENABLE_DOCKER_CONTROL=true`). The dashboard talks to the
 servers via `POST /api/tools/:toolKey/call`, which proxies MCP `tools/call` over
 Streamable HTTP — no MCP client is needed in the browser.
+
+### TokenEconomizer (optional)
+
+Microsoft TokenEconomizer reduces coding agent costs by learning from past sessions in
+a repository. It provides three mechanisms:
+
+1. **Micro-skills** — remembers repo-specific facts (commands, env vars, build steps)
+   from repeated failures and a model proposer run every *k* sessions (default 3).
+2. **Tool pruning** — removes unused tools/capability packages after *p* unused prompts
+   across *m* sessions (default 10/2) or *s* sessions (default 5).
+3. **Failure-loop intervention** — a judge model detects stuck turns (confidence ≥ *c*,
+   default 0.7) and injects a redirect, up to *r* times per turn (default 1).
+
+Enable TokenEconomizer via the `tools` compose profile (same as other tools):
+
+```powershell
+docker compose --env-file .env -f config/docker-compose.yml --profile tools up -d --build tool-tokeneconomizer
+```
+
+**Prerequisites:**
+- Install TokenEconomizer locally: `git clone https://github.com/microsoft/TokenEconomizer`
+- Set `TE_PYTHON` in `.env` to your python3 path (e.g., `TE_PYTHON=python3`)
+- The container mounts `tokeneconomizer_data` volume for learned data persistence
+
+TokenEconomizer runs model calls through your existing agent on the same plan/login —
+no API keys needed. All data stays in the `tokeneconomizer_data` volume.
+
+The plugin exposes read-only CLI commands as HTTP tools: `status`, `microskills`, `toolprune`
+(show/measure), `config` (show), `repomap`, `repos` (list), `doctor`. Mutating operations are
+disabled over HTTP, and the service has no published host port (private `tokeneconomizer-network`). See the plugin manifest at
+`dashboard/config/plugins/tokeneconomizer.plugin.json`.
 
 ### Docker control & model pulls (opt-in)
 
@@ -363,7 +395,15 @@ Reset the sandbox with `docker volume rm <project>_agent_workspace`.
 
 To let agents edit a real project instead, set `WORKSPACE_PATH` in `.env` and
 apply the `docker-compose.workspace.yml` overlay (it sets `WORKSPACE_SANDBOX=false`).
-Paths are always confined to the workspace root to prevent traversal.
+Paths are always confined to the workspace root to prevent traversal, and opened
+files are verified against the real root before any data is read or written.
+This needs descriptor pinning (`/proc` on Linux); without it, workspace file operations
+are refused on every platform. For local development only, `WORKSPACE_REQUIRE_PINNED_FS=0`
+selects an unpinned best-effort check; it is ignored under `NODE_ENV=production` or a
+non-loopback `HOST`. Under the opt-out, a read, write, delete, mkdir or rename can reach or change files outside the workspace during a directory swap, and a delete, mkdir or rename can already have taken effect when the request fails, and a directory swapped and restored during a listing is not detected; it is for local development only.
+
+Shell execution (the `/workspace/exec` route and the agent `bash` tool) is off by
+default. Set `WORKSPACE_EXEC=1` in `.env` to enable it.
 
 - `GET /api/workspace/status` — Workspace mount status and git repo info
 - `GET /api/workspace/ls` — List a workspace directory
@@ -393,6 +433,9 @@ Paths are always confined to the workspace root to prevent traversal.
 
 ### Runtime Config
 
+- `HOST` — Interface the dashboard binds to (default `127.0.0.1`). The Compose stack sets `0.0.0.0` inside the container and publishes the port on `127.0.0.1` only.
+- `ALLOWED_HOSTS` — Extra hostnames (comma-separated) the dashboard answers to. Loopback names (`localhost`, `127.0.0.1`, `[::1]`), the Compose service name `agent-dashboard` and the hosts of `CORS_ALLOWED_ORIGINS` are always allowed; any other `Host` header gets a 403.
+- `CORS_ALLOWED_ORIGINS` — Comma-separated browser origins allowed to call the API cross-origin; other non-GET requests carrying a foreign `Origin` get a 403.
 - `PRIMARY_LLM_URL` — Default primary Ollama URL fallback.
 - `PRIMARY_LLM_URL_CANDIDATES` — Comma-separated discovery candidates for primary Ollama URL resolution.
 - `AGENT_BOARD_ENABLE_DOCKER_CONTROL` — Set `true` to enable service action API endpoints.
@@ -488,7 +531,7 @@ cd dashboard && npm run test:integration
 
 - Check Ollama has models: `docker exec ollama ollama list`
 - Check memory — large models (qwen3-coder 18 GB) need enough free RAM
-- Default model is `llama3.2:3b` which is safe for ~8 GB+ systems
+- Default model is `llama3.1:8b-instruct-q4_K_M`; on smaller hosts set `PRIMARY_LLM_MODEL=llama3.2:3b`
 
 > **Container unhealthy**
 

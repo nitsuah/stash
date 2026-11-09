@@ -128,6 +128,8 @@ any kind.
   custom RSS source is whatever URL you add, and the extension requires it
   to be `https://` — non-HTTPS custom source URLs are rejected before any
   request is made, since the search query is sent as a plaintext GET param.
+  The one exception is a feed on your own computer or local network, which is
+  refused unless you turn on **Allow local-network feeds** (off by default).
 - **Credentials:** API keys and OAuth client secrets are stored locally and used
   only to authenticate the requests you trigger. They are never sent to us.
 - **Permissions:** the extension requests only the host permissions needed to

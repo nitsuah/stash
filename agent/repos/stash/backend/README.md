@@ -38,6 +38,9 @@ pip install flask flask-sqlalchemy flask-jwt-extended marshmallow psycopg2-binar
 | `DATABASE_URL` | `sqlite:///dev.db` | SQLAlchemy DB connection string |
 | `JWT_SECRET` | *(insecure default)* | Random 32+ char secret |
 | `FLASK_ENV` | — | Set to `development` for debug mode |
+| `APP_ENV` | — | `production` also turns the demo login off (like `FLASK_ENV=production`) |
+| `DEMO_EMAIL` | `user@example.com` | The single demo account email |
+| `DEMO_LOGIN_ENABLED` | on, except in production | `true`/`1`/`yes`/`on` forces it on; `false`/`0`/`no`/`off` forces it off |
 | `PORT` | `8080` | Bind port |
 
 ### Quick start
@@ -76,7 +79,12 @@ npm install
 
 ### Environment variables
 
-Same as Flask above — `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV`, `PORT`.
+Same as Flask above — `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV`, `PORT` — plus:
+
+- `PGSSL_CA` — PEM string or file path for a custom database CA (Postgres TLS is verified by default).
+- `PGSSL_REJECT_UNAUTHORIZED` — set to `false` to skip database certificate verification (logs a warning).
+- `DEMO_EMAIL` — the single demo account email (default `user@example.com`).
+- `DEMO_LOGIN_ENABLED` — the demo login is on by default and off when `NODE_ENV=production`; set `true`/`1`/`yes`/`on` to force it on, or `false`/`0`/`no`/`off` to force it off. One startup line reports which.
 
 ### Quick start
 
@@ -101,5 +109,5 @@ GET /items/
 Authorization: Bearer eyJ...
 ```
 
-Demo accepts any email with password `"password"` and auto-creates the user.
+Demo login accepts password `"password"` for the single `DEMO_EMAIL` account only (created on first use); other emails are rejected.
 Replace the credential check in `login` with real password hashing (`bcrypt`).
