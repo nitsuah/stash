@@ -43,7 +43,7 @@ If the switch is off, writes become a CSV (`~/.ats-fill/import-<date>.csv`) for 
 
 Never ask the candidate to turn on Chrome remote debugging: it exposes every logged-in site. `--live` exists only for development.
 
-Save per-machine defaults in `~/.ats-fill/config.json`, e.g. `{"extensionId": "<unpacked build id>", "profile": "Profile 1", "staleDays": 14}`. The environment variables `ATS_FILL_EXTENSION_ID`, `ATS_FILL_PROFILE` and `ATS_FILL_STALE_DAYS` override it. Run `setup` again after setting `extensionId`, so the helper also accepts that build.
+Save per-machine defaults in `~/.ats-fill/config.json`, e.g. `{"extensionId": "<unpacked build id>", "profile": "Profile 1", "staleDays": 14}`. The environment variables `ATS_FILL_EXTENSION_ID`, `ATS_FILL_PROFILE` and `ATS_FILL_STALE_DAYS` override it. Run `setup` again after setting `extensionId`, so the helper also accepts that build. The development-only `--live` mode picks the extension by that id (or by an unpacked install of this repo's build); it never matches by name.
 
 ## Browser and environment rules (for agents)
 

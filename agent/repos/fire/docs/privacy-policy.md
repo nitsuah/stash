@@ -28,12 +28,13 @@ fire is a **local-first, privacy-by-design** personal finance tool. It is not a 
 
 When you use the hosted Netlify deployment:
 
-- **Your data lives in your browser's `localStorage`**, keyed to `fire_tracker_state`. The only copies that can exist elsewhere are ones you create by opting into an integration below (Google Drive backup, eBay order sync, CoinTracker wallet sync).
+- **Your data lives in your browser's `localStorage`**, keyed to `fire_tracker_state`. The only copies that can exist elsewhere are ones you create by opting into an integration below (Google Drive backup, eBay order sync, CoinTracker wallet sync, Plaid account sync, Etsy order sync).
 - Data does not leave your device through this application unless you opt into an integration described below. Without an opt-in, it is not sent to Netlify servers, cloud databases, or any third party by this app.
 - Clearing your browser data, switching browsers, or using a private/incognito session **will erase your data**. Use the Export JSON Backup feature regularly.
 - **Optional Google Drive backup.** If you connect Google Drive, the backup flow runs through this site's Netlify Function (`/api/backup/drive/*`). Your state is sent to that Function, encrypted there with a server-held key (`SYNC_MASTER_KEY`) using AES-256-GCM, and uploaded to **your own** Google Drive. The Drive OAuth token comes back to your browser sealed with the same key and is kept under the separate `localStorage` key `fire_tracker_gdrive_token`, which your browser can't decrypt. A restore sends the chosen backup back to the Function, which decrypts it server-side and returns your plaintext state to the browser. Because the key lives on the server, a backup can't be decrypted without this deployment, and losing `SYNC_MASTER_KEY` makes existing backups unreadable.
 - **Optional eBay order sync and CoinTracker wallet sync are the exceptions.** CoinTracker works like eBay below: its requests go through `/api/sync/cointracker/*`, nothing is kept server-side, and the encrypted token is stored under the separate `localStorage` key `fire_cointracker_token` (see Section 4). If you click *Connect eBay*, the connect and sync requests go through this site's Netlify Functions (`/api/sync/ebay/*`) to eBay. The Functions keep nothing: your eBay tokens come back to your browser encrypted with a server-held key (stored under the separate `localStorage` key `fire_tracker_ebay_token`, which your browser can't decrypt), and orders pulled during a sync are returned straight to your browser. They never log your eBay username or user ID.
 - **If you revoke this app's eBay access or close your eBay account**, the next sync gets an `invalid_grant` rejection from eBay. The app then deletes the eBay token and the sales it synced from eBay through the API from this browser and tells you. Sales you logged by hand and uploaded CSV reports are yours and are kept. eBay's account-deletion notifications reach the server, but the server holds no eBay data for you and can't reach your browser, so this cleanup happens the next time you open the app and sync.
+- **Optional Plaid and Etsy sync.** Both are opt-in; nothing is fetched until you connect. For Plaid, you sign in only in Plaid's Link window; this app never receives your bank or brokerage login. On the hosted site, requests go through the Netlify Functions (`/api/sync/plaid/*`), which call Plaid for account balances, investment holdings and transactions. The access token is returned to your browser sealed with `SYNC_MASTER_KEY` and stored under `fire_plaid_hosted_token` in `localStorage`; the browser cannot decrypt it. The token expires after 180 days without use. Etsy is read-only: OAuth with PKCE and scopes `transactions_r` and `shops_r` fetches your shop's paid receipts through `/api/sync/etsy/*`. Its sealed token is stored under `fire_tracker_etsy_token` in `localStorage`; receipts are returned straight to your browser. Neither hosted Function retains a copy of the integration data or tokens.
 - The Netlify platform itself may log standard HTTP access metadata (IP address, timestamp, URL path) as part of normal CDN operation — this is governed by [Netlify's Privacy Policy](https://www.netlify.com/privacy/), not this document.
 
 ### 2b. Self-Hosted / Local Docker Mode
@@ -45,11 +46,13 @@ When you run the application locally via Docker:
 - The browser app syncs with this local server; `localStorage` serves as a fallback if the server is unreachable.
 - **Optional Google Drive backup.** On a self-hosted server, if you connect Google Drive (Google OAuth, `drive.file` scope, so the app can see only the files it creates) and run a backup, the server encrypts a copy of `data/db.json` with AES-256-GCM using your `SYNC_MASTER_KEY` before upload, and stores it as a file in **your own** Google Drive (folder `fire-tracker-backups`, or the folder you configure). Google holds only ciphertext. The Drive OAuth token is stored on your machine in `data/tokens-gdrive.json`, also encrypted with `SYNC_MASTER_KEY`. Backups stay in your Drive until you delete them there; this app has no copy and no separate retention. Losing `SYNC_MASTER_KEY` makes those backups unreadable. The hosted site offers the same feature through its Netlify Function — see Section 2a.
 
+- **Optional Plaid and Etsy sync.** If connected, the self-hosted server calls Plaid for balances, investment holdings and transactions, and Etsy for read-only paid receipts. Their tokens are stored on your machine in `data/tokens-plaid.json` and `data/tokens-etsy.json`, encrypted with `SYNC_MASTER_KEY`. Synced accounts, positions, transactions and Etsy receipts are merged into `data/db.json`. This app does not retain those tokens or synced data elsewhere.
+
 ---
 
 ## 3. Data Never Collected or Transmitted by This App
 
-The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from the integrations you opt into (Sections 2 and 4): the encrypted Google Drive backup (unreadable without this app's key) and its OAuth sign-in and token refresh; eBay order sync, where orders are fetched from eBay through this app's server or Netlify Function and returned straight to your browser; and CoinTracker wallet sync, where wallet names, public addresses and balances are fetched the same way. On the hosted site the eBay and CoinTracker integrations keep nothing on the server; when self-hosted, eBay tokens are stored on your own machine in `data/tokens-ebay.json`. Without an opt-in, none of this applies:
+The following data is explicitly **never collected, stored remotely, or shared** by this application, apart from the integrations you opt into (Sections 2 and 4): the encrypted Google Drive backup (unreadable without this app's key) and its OAuth sign-in and token refresh; eBay order sync, where orders are fetched from eBay through this app's server or Netlify Function and returned straight to your browser; CoinTracker wallet sync, where wallet names, public addresses and balances are fetched the same way; Plaid account sync, where balances, holdings and transactions come back the same way; and Etsy order sync, where paid receipts do. On the hosted site the eBay, CoinTracker, Plaid and Etsy integrations keep nothing on the server. When self-hosted, eBay, Plaid and Etsy tokens are stored on your machine in `data/tokens-ebay.json`, `data/tokens-plaid.json` and `data/tokens-etsy.json`; CoinTracker remains browser-held in both modes. Without an opt-in, none of this applies:
 
 - Account balances, net worth, or investment values
 - Portfolio positions or CSV import contents
@@ -94,6 +97,19 @@ If you connect CoinTracker (optional, on the hosted site or self-hosted), the se
 |---|---|---|
 | `login.cointracker.com` | OAuth client registration, sign-in, token refresh and revocation | Callback URL, authorization code, PKCE verifier, refresh token |
 | `mcp.cointracker.com` | Read-only wallet balances (MCP `mcp:read`) | Your CoinTracker access token. The response (wallet names, public addresses, USD balances and holdings) is merged into your crypto accounts. Transactions, cost basis and tax data are never requested |
+
+If you connect Plaid (optional, hosted or self-hosted), the server (Express or the Netlify Function) calls Plaid on your behalf. Your bank or brokerage login is entered only in Plaid's Link window and never reaches this app. The access token is stored on your machine when self-hosted, and returned to your browser sealed with `SYNC_MASTER_KEY` on the hosted site.
+
+| Service | Purpose | What is sent |
+|---|---|---|
+| `production.plaid.com` (or `development.plaid.com` / `sandbox.plaid.com`, per `PLAID_ENV`) | Link token creation, public-token exchange, account balances, investment holdings and transactions | This app's Plaid client ID and secret, the Link public token, and your Plaid access token. The responses (account names and types, balances, holdings, transactions) are merged into your accounts, positions and expenses |
+
+If you connect Etsy (optional, hosted or self-hosted), the server calls Etsy on your behalf. The sign-in uses OAuth with PKCE; the app asks only for the read scopes `transactions_r` and `shops_r`.
+
+| Service | Purpose | What is sent |
+|---|---|---|
+| `www.etsy.com`, `api.etsy.com` | OAuth sign-in and token refresh | Callback URL, authorization code, PKCE verifier, refresh token |
+| `openapi.etsy.com` | Read-only paid receipts for your shop | Your Etsy access token and shop ID. The response (order totals, dates, item titles) is converted into Side Gig Ledger rows |
 
 ---
 
@@ -141,9 +157,10 @@ The optional webhook feature allows external services to push data updates into 
 ## 8. Data Backup & Deletion
 
 - **Export:** Use "Export JSON Backup" in the sidebar to download a complete copy of your data at any time.
-- **Delete (browser mode):** Clear `localStorage` in your browser (DevTools → Application → Storage → Clear Site Data). This also removes the encrypted eBay and CoinTracker tokens, if you connected them. To revoke CoinTracker's grant itself, use *Disconnect* in Settings or remove the connection in your CoinTracker settings.
-- **Delete (local server mode):** Delete `data/db.json` (and `data/tokens-gdrive.json`, if you connected Google Drive) from your machine.
+- **Delete (browser mode):** Clear `localStorage` in your browser (DevTools → Application → Storage → Clear Site Data). This also removes the encrypted eBay, CoinTracker, Plaid and Etsy tokens, if you connected them. To revoke CoinTracker's grant itself, use *Disconnect* in Settings or remove the connection in your CoinTracker settings.
+- **Delete (local server mode):** Delete `data/db.json` (and `data/tokens-gdrive.json`, `data/tokens-ebay.json`, `data/tokens-plaid.json` or `data/tokens-etsy.json`, for the integrations you connected) from your machine.
 - **Delete (Google Drive backups):** delete the `fire-backup-*.json` files from your backup folder in Google Drive (`fire-tracker-backups` by default, or the folder set in `GDRIVE_BACKUP_FOLDER_ID`), and revoke this app's access in your Google Account settings.
+- **Revoke Plaid or Etsy access.** Use *Disconnect* on the Etsy card in Settings, or remove the app in your Etsy account settings. For Plaid, revoke the connection through Plaid or your financial institution; deleting the stored token as described above stops this app from syncing.
 - This application operates no server-side account or database of its own, so there is no account to close or app-held data to request deletion of.
 
 ---

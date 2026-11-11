@@ -727,7 +727,9 @@ Content-Type: application/json
 
 ## Workspace File I/O
 
-The workspace routes require `WORKSPACE_PATH` to be set in `.env` and the `docker-compose.workspace.yml` overlay to be applied. Paths are sandboxed to `WORKSPACE_ROOT` — attempts to escape via `..` are rejected.
+The workspace routes require `WORKSPACE_PATH` to be set in `.env` and the `docker-compose.workspace.yml` overlay to be applied. Paths are sandboxed to `WORKSPACE_ROOT` — attempts to escape via `..` are rejected. Opened files and parent directories are also verified against the real workspace root before data is read or written (via `/proc/self/fd` on Linux; real-path and inode comparison on Windows and macOS), and a path that fails the check returns `400 Invalid path`. Workspace file operations require descriptor pinning (`/proc` on Linux) and are refused on every platform where it is unavailable. `WORKSPACE_REQUIRE_PINNED_FS=0` (also `false`, `no`, `off`) selects an unpinned best-effort check instead; it is ignored when `NODE_ENV` is `production` or `HOST` is not a loopback address, and a single startup warning is logged while it is active. Under the opt-out, a read, write, delete, mkdir or rename can reach or change files outside the workspace during a directory swap, and a delete, mkdir or rename can already have taken effect when the request fails, and a directory swapped and restored during a listing is not detected; it is for local development only. Writes through a file with more than one hard link are refused. Setting `WORKSPACE_REQUIRE_PINNED_FS=1` (or leaving it unset) requires pinning on every platform and refuses operations only where pinning is unavailable; behaviour is unchanged where it is available.
+
+Shell execution (`POST /api/workspace/exec` and the agent `bash` tool) is off by default and returns `403` until `WORKSPACE_EXEC=1` (or `true`) is set.
 
 ### Status
 
@@ -1021,6 +1023,62 @@ Valid `event` values: `ci_pass`, `ci_fail`, `deploy`, `deploy_fail`, `alert`, `r
 | POST | `/api/plugins/:name/tools/:tool/invoke` | Call a plugin tool |
 | POST | `/api/plugins/:name/events` | Emit a declared plugin event |
 | GET | `/api/worktrees` | List agent tmux worktrees |
+
+## TokenEconomizer Plugin
+
+The TokenEconomizer plugin exposes a **read-only** subset of Microsoft's TokenEconomizer CLI as HTTP tools.
+Requires the `tool-tokeneconomizer` service running (enable with `--profile tools`).
+
+The wrapper publishes no host port and listens only on the private `tokeneconomizer-network`, which
+only the dashboard joins. Outside a container it binds to `127.0.0.1` unless `TOKEN_ECONOMIZER_HOST`
+is set. There is no generic `/exec` route; request bodies only select from the enums below and are never
+passed to the CLI. The wrapper answers mutating operations with `403` and other invalid input (including
+unknown properties) with `400`. Through the dashboard invoke route, any non-2xx wrapper response is returned
+as HTTP `502`, with the wrapper's status in the response body's `status` field.
+
+### TokenEconomizer Tools
+
+All endpoints: `POST /api/plugins/tokeneconomizer/tools/<tool>/invoke`
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `status` | Show TE status: learned facts, actions, costs | `{ json?: boolean }` |
+| `microskills` | List injected and forming micro-skill facts | `{}` |
+| `toolprune` | Show the proposed deny list, or measure it | `{ action?: "show" \| "measure" }` |
+| `config` | Show TE config | `{ operation?: "show" }` |
+| `repomap` | Show representation map for current repo | `{}` |
+| `repos` | List repos with TE state | `{ operation?: "list" }` |
+| `doctor` | Run diagnostics on TE installation | `{}` |
+
+`toolprune apply|restore|refresh-catalog`, `config set|unset` and `repos migrate|merge` are disabled over HTTP
+(wrapper status `403`); run them with the `te` CLI directly.
+
+### Example Usage
+
+```bash
+# Show TokenEconomizer status
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/status/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {}}'
+
+# Show the proposed tool deny list
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/toolprune/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {"action": "show"}}'
+
+# Run diagnostics
+curl -X POST http://localhost:3000/api/plugins/tokeneconomizer/tools/doctor/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": {}}'
+```
+
+### TokenEconomizer Events
+
+The plugin emits events on the `plugins` channel:
+- `tokeneconomizer.invoked` — tool called
+- `tokeneconomizer.failed` — tool failed
+
+Subscribe via WebSocket `/ws/events` or query history: `GET /api/channels/plugins/history`.
 | POST | `/api/worktrees` | Launch an agent in a tmux worktree |
 | DELETE | `/api/worktrees/:slug` | Kill window + remove worktree |
 
