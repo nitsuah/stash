@@ -16,6 +16,30 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### 2026-11-05 — daily-run model budget
+
+- **Fixed:** the first live `daily-run` (2026-11-04) hit `error_max_budget_usd` on the hub-synthesis model step after reading 13 files and writing none. Budget is now \$4 / 60 turns / 30 min, and `DAILY-MODEL.md` says to write each hub before reading the next (at most 2 files per hub).
+
+### Fixed
+
+- **Fixed:** Backend fails to start when JWT_SECRET is unset
+
+### 2026-10-30 — Installer task settings
+
+- **Fixed:** `install-tasks.ps1` now sets StartWhenAvailable, allows running on battery and caps a run at 2 h; the schtasks defaults skipped runs on battery and never caught up after sleep.
+
+### 2026-10-30 — Templated Reflections
+
+- **Changed:** `daily-run.mjs` writes the note's Reflections from counts instead of asking the model, so `skip_model` is true on days with no changed mirror, no stale hub and no Monday/Saturday step. `DAILY-MODEL.md` drops the Reflections item.
+
+### 2026-10-30 — Installer start date
+
+- **Added:** `install-tasks.ps1 -StartDate yyyy-MM-dd` so the code-driven tasks can be registered now and first run after the Nov 4 limit reset.
+
+### 2026-10-30 — Orchestrators and task registration
+
+- **Added:** `agent/scripts/pipeline-run.mjs` (week-sotu, monthly-tire-kick, monthly-pmo-audit as code: pre-step script, model only when needed), `agent/prompts/SOTU-MODEL.md`, and `agent/scripts/install-tasks.ps1` (idempotent Task Scheduler registration, prints unless `-Apply`). Untested by design; the first runs are planned after the Nov 4 limit reset.
+
 ### 2026-10-30 — daily-run: DAILY as code
 
 - **Added:** `agent/scripts/daily-run.mjs` runs the deterministic steps of `DAILY.md` with no model: once-per-day guard (fails closed), merge gate for older `obn:` PRs, `sync-repos.ps1`, the four log appends, mirror skip-gate, note skeleton (Repo Activity, vigil Tasks, Notes), vault indexes, link repair and orphan check, Monday weekly skeleton, and branch/commit/push/PR. Default is `--dry-run`; `--apply` pushes and opens the PR. It writes the git-ignored `agent/reports/daily-handoff.json` and calls `routine-run.mjs` with the new `agent/prompts/DAILY-MODEL.md` (hub synthesis, Reflections, Monday goals, Saturday review; no Bash) only when `skip_model` is false. Unautomated steps print `NOT AUTOMATED: <step>`. Tests: `agent/scripts/daily-run.test.mjs`, run in CI.

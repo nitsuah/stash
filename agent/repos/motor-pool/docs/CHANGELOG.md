@@ -17,14 +17,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Workspace files are verified by descriptor** — new `dashboard/modules/workspace-fs.js` is used by the workspace routes and the agent `read_file`/`write_file`/`list_files`/`write_artifact` tools. On Linux the parent directory is opened first and checked against the real workspace root through `/proc/self/fd`, then the operation runs relative to that descriptor; opened files are checked the same way before any byte is read or written, and writes no longer truncate until the descriptor is verified. Elsewhere (Windows, macOS) the parent's real path is checked before and after, and an opened file must match `realpath` by device and inode (a symlink-free path is required where the inode is unusable). Workspace file operations are refused wherever `/proc` pinning is unavailable, on every platform. `WORKSPACE_REQUIRE_PINNED_FS=0` (false/no/off, trimmed and case-insensitive) opts out for local development only; it is ignored under `NODE_ENV=production` or a non-loopback `HOST`, logs one startup warning, and is re-checked on every call. Under the opt-out, a read, write, delete, mkdir or rename can reach or change files outside the workspace during a directory swap, and a delete, mkdir or rename can already have taken effect when the request fails, and a directory swapped and restored during a listing is not detected; it is for local development only. Recursive deletes first run a read-only descriptor pass (depth cap 64, kernel-path checks) and only then delete, walking through descriptors on Linux (an unpinned non-empty directory delete needs an explicit `WORKSPACE_REQUIRE_PINNED_FS=0`), writes through a hard-linked file are refused, and the artifacts list and download use the same checks (regular files only, bounded streams, handles released on client abort). New tests: `dashboard/tests/workspace-fd-verify.js`, `dashboard/tests/workspace-artifacts-containment.js`.
+- Workspace, content and output routes check the resolved path at each file operation.
+- Workspace file routes (read, write, mkdir, git add/discard of a file) refuse the workspace root itself with `400 Invalid path`; previously a root read returned `400 Path is a directory`, a root mkdir returned success, and a root git add/discard acted on the whole tree. `/workspace/ls` still lists the root.
+- Workspace shell execution (`/workspace/exec` and the agent bash tool) is off unless `WORKSPACE_EXEC=1`.
+- **Workspace git and script calls use argument arrays** — the workspace routes (commit, add, checkout, discard, search, push, pull) and the website/content-gen PowerShell runners call `execFile` with argument lists; branch names starting with `-` or containing `..` are refused, and workspace, content-download and session-output paths are checked against their resolved base directory. New tests: `dashboard/tests/workspace-argv-git.js`, `dashboard/tests/content-download-containment.js`.
+
+### Added
+
+- **TokenEconomizer integration** — Microsoft TokenEconomizer plugin for motor-pool.
+  TokenEconomizer reduces coding agent costs by learning from past sessions in a
+  repository. Provides three mechanisms: micro-skills (repo-specific facts from
+  repeated failures), tool pruning (removes unused tools/capability packages),
+  and failure-loop intervention (judge model detects stuck turns and injects
+  redirects). Runs as a composable tool service (`tool-tokeneconomizer` under
+  `--profile tools`) and exposes CLI commands via the plugin system:
+  `status`, `microskills`, `toolprune`, `config`, `repomap`, `repos`, `doctor`.
+  Data persists in `tokeneconomizer_data` volume. See
+  https://github.com/microsoft/TokenEconomizer.
+
 ### Fixed
 
+- **Fixed:** prepareSessionForLlmCall no longer returns apiKey in the prepared session object. Callers now fetch apiKey directly from LLM_CONFIG.
+- `detect-profile.ps1` now lists every host GPU (NVIDIA, AMD, Intel, or other) and distinguishes host inventory from container GPU access (#117).
 - Agent workspace file tools (`read_file`, `write_file`, `list_files`) now resolve symbolic links and refuse any path whose real location is outside the workspace, including dangling links.
+- **Fixed:** workspace path resolution follows links before checking the root
 - Dashboard session snapshots now live in a dedicated persistent volume, so active sessions and message history survive container recreation. The dashboard also restarts unless explicitly stopped.
+- **Fixed:** CORS middleware now validates Origin header against CORS_ALLOWED_ORIGINS allowlist. Unauthorized origins receive 403 Forbidden instead of being allowed.
 - Ollama remains the primary LLM service rather than being advertised as an MCP connector. The selected 8B Q4 model tag is valid in the Ollama library; the model manifest is still an unconsumed portfolio draft, and runtime startup selection comes from `PRIMARY_LLM_MODEL`.
 - Docker builds now use the dashboard lockfile, and refreshed tool dependency floors/lockfiles resolve the current npm audit findings. The demo-mode routing test uses an isolated unreachable model URL so endpoint discovery cannot consume its timeout.
 - `/api/health` and `/api/models` now probe independent model providers concurrently and share the runner catalog request between runner-backed models, so unavailable providers do not stack their timeouts.
 - Health checks now use the OpenAI-compatible `/v1/models` path for OpenLLM and custom endpoints, while Docker Model Runner keeps `/models`; pending session snapshots flush at shutdown so the debounce window does not discard the latest state.
+- **Fixed:** prepareSessionForLlmCall no longer returns apiKey in the prepared session object. Callers now fetch apiKey directly from LLM_CONFIG.
 - `OLLAMA_KEEP_ALIVE` is now configurable through the Compose environment, retaining the 30-minute default.
 - Tool-enabled developer, research, and website turns now stream Ollama/OpenAI-compatible model text and completed tool results during the turn; disconnects abort the active model stream, and strict output-filter modes still send only the sanitized final reply.
 - Recorded a three-pair local CPU Ollama comparison for each tool-enabled experience: median visible first-token latency fell 59.8% for Developer, 62.6% for Research, and 45.6% for Website; total-loop results and methodology are in `docs/METRICS.md`.
@@ -33,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Visual docs now regenerate screenshots: the workflow ran a Playwright step guarded on a `playwright.visual-docs.config.ts` that never existed, so it only rendered diagrams. A new `npm run capture:screenshots` reuses the journeys (steps tagged `{ docs: '<feature-id>' }`) to write `docs/screenshots/<feature-id>.png` (9 new captures), and the README's visual-docs block now lists the screenshots, replacing the hand-written Screenshots section with its absolute `blob/master` links.
 - Dashboard top bar no longer clips its second row at phone width, so session tabs and the workspace button are reachable (#96).
 - Chat header session name is styled as a heading button on the dark theme instead of a default white button (#97).
+- **Fixed:** slugifyWorktreeName now uses a linear-time character loop instead of regex replace chains.
 
 ### Added
 
@@ -187,6 +214,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **TokenEconomizer wrapper is read-only and private.** Removed `POST /exec` and the generic per-subcommand routes; the service now exposes a fixed table of read-only commands (`status`, `microskills`, `toolprune` show/measure, `config` show, `repomap`, `repos` list, `doctor`) selected only by enum values, with mutating operations returning `403`. `/health` no longer reports paths or settings. It binds to `127.0.0.1` by default; in compose it publishes no host port and sits on a dedicated `tokeneconomizer-network` shared only with the dashboard. New tests: `test/tokeneconomizer-readonly.test.mjs`.
 - **`POST /api/sessions/:id/stream` bypassed the safety layer.** The chat UI
   streams by default, but the stream route never ran prompt handlers, input
   classification/blocking, PII redaction or output sanitization — injections

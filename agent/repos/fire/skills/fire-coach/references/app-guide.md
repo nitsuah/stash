@@ -14,9 +14,8 @@ Hosted demo: https://lifefire.netlify.app/. Self-hosted: `docker compose up -d`
 
 ## Header (every tab)
 
-Estimated Net Worth (with allocation mini-bars), Annual Income (plus
-interest/yield and side income), Annual Spend Rate, and a **FIRE Progress**
-bar showing the target and years to FIRE. The 🔔 bell lists alerts (CD
+Estimated Net Worth, Annual Income (plus
+interest/yield and side income), Annual Spend Rate. The 🔔 bell lists alerts (CD
 maturities, FIRE milestones, big price moves). On phones these collapse into
 one tappable summary bar.
 

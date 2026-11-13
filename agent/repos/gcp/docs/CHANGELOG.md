@@ -17,9 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Retry backoff jitter and generated project-ID suffixes use `secrets.SystemRandom` (same API, same ranges); `tests/test_retry.py` covers the jitter range and the backoff cap.
+
 ### Security
 
 - `apps/server.js` no longer falls back to a hard-coded token-encryption key: `ENCRYPTION_KEY` is required and the server exits at startup if it is missing (demo mode, with no OAuth credentials, uses a clearly marked dev-only key). Tokens encrypted with the old default key cannot be read with a new key, so linked accounts must be re-authorized. Demo mode now stores its mock tokens in `data/tokens.demo.json`, leaving `data/tokens.json` untouched.
+
+### Changed
+
+- gcp_setup runs gcloud with argument lists instead of shell strings.
 
 ### 2026-09 — Hardening & coverage
 

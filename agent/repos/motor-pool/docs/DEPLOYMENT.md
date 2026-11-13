@@ -40,7 +40,7 @@ Edit the repository-root `.env` — at minimum set:
 POSTGRES_DB=agent_board
 POSTGRES_USER=agent
 POSTGRES_PASSWORD=<strong-random-password>
-PRIMARY_LLM_MODEL=llama3.2:3b
+PRIMARY_LLM_MODEL=llama3.1:8b-instruct-q4_K_M
 DEVICE_PROFILE=minimal                    # minimal | laptop | desktop
 ```
 
@@ -48,7 +48,7 @@ DEVICE_PROFILE=minimal                    # minimal | laptop | desktop
 
 ## 2. Start the Ollama-first stack
 
-The default Compose stack starts the dashboard, Postgres, and an Ollama container. `ollama-init` pulls and warms the model selected by `PRIMARY_LLM_MODEL` (default `llama3.2:3b`).
+The default Compose stack starts the dashboard, Postgres, and an Ollama container. `ollama-init` pulls and warms the model selected by `PRIMARY_LLM_MODEL` (default `llama3.1:8b-instruct-q4_K_M`).
 
 ```bash
 docker compose --env-file .env -f config/docker-compose.yml up -d
@@ -62,6 +62,16 @@ docker exec ollama ollama ps
 ```
 
 Docker Model Runner is an additional endpoint. Enable it in Docker Desktop, then select it in motor-pool; there is no `ACTIVE_LLM_BACKEND` selector in the current runtime. The OpenLLM endpoint is an optional, deferred profile.
+
+### GPU access and profile selection
+
+The detector reports host GPU inventory separately from the GPU access available to Ollama's container. A host GPU name alone does not prove that the container can use it.
+
+- `Container GPU access: verified` means the host `nvidia-smi` probe succeeded and `docker info --format '{{json .Runtimes}}'` lists the `nvidia` runtime. Only verified container access allows NVIDIA VRAM to count toward the `laptop` or `desktop` profile.
+- `Container GPU access: unverified` means NVIDIA host hardware was detected but the NVIDIA probe or Docker runtime could not be verified. The detector selects the CPU-safe `minimal` profile and prints the fallback reason.
+- `Container GPU access: none` means no NVIDIA host GPU was detected. AMD/Intel devices may still appear in the host inventory; the current Compose GPU overlay is NVIDIA-only.
+
+The AMD Radeon RX 470 is CPU-only in the current Docker Desktop configuration unless a supported alternative is proven. Do not assume that setting `NVIDIA_VISIBLE_DEVICES=all` enables AMD/Vulkan passthrough. Use CPU-only inference until a supported AMD path is verified; this repository does not currently provide an AMD/Vulkan overlay.
 
 ---
 
@@ -183,10 +193,11 @@ automatically on server start via `db.js`.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DEVICE_PROFILE` | `minimal` | `minimal`, `laptop`, `desktop` — profile-aware endpoint/model guidance; hardware detection is currently NVIDIA-specific |
+| `DEVICE_PROFILE` | `minimal` | `minimal`, `laptop`, `desktop` — profile-aware endpoint/model guidance; accelerated profiles require verified NVIDIA container access; host inventory may also report AMD/Intel |
 | `PRIMARY_LLM_URL` | `http://ollama:8080` | Override Ollama endpoint |
-| `PRIMARY_LLM_MODEL` | `llama3.2:3b` | Ollama model pulled and warmed at stack startup |
+| `PRIMARY_LLM_MODEL` | `llama3.1:8b-instruct-q4_K_M` | Ollama model pulled and warmed at stack startup |
 | `OLLAMA_KEEP_ALIVE` | `30m` | Keep the startup model resident between requests |
+| `OLLAMA_CONTEXT_LENGTH` | `16384` | Context window in tokens (Ollama's default depends on VRAM: 4096 tokens below 24 GiB, so on small or CPU-only hosts longer prompts are silently truncated and tool definitions dropped) |
 | `POSTGRES_DB/USER/PASSWORD` | `agent_board / agent / agent` | Database credentials |
 | `PORT` | `3000` | Dashboard HTTP port |
 | `AGENT_BOARD_ENABLE_DOCKER_CONTROL` | `false` | Enable start/stop/restart buttons in UI |
@@ -214,5 +225,5 @@ services:
     deploy:
       resources:
         limits:
-          memory: 6G
+          memory: 8G   # 4.9 GB model + ~1.5 GiB KV cache at 16k context + runtime overhead
 ```
