@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### Changed
+
+- **Changed:** `repo-health` workflow pins the shared kit to `nitsuah/.github@a0df883` (kit lockfile: msgpack 1.2.4, urllib3 2.8.0, certifi 2026.10.23), clearing the Python rows in the repo-health advisory issue (#364).
+
 ### 2026-11-05 — daily-run model budget
 
 - **Fixed:** the first live `daily-run` (2026-11-04) hit `error_max_budget_usd` on the hub-synthesis model step after reading 13 files and writing none. Budget is now \$4 / 60 turns / 30 min, and `DAILY-MODEL.md` says to write each hub before reading the next (at most 2 files per hub).
