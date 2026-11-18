@@ -193,11 +193,11 @@ def test_delta_distinguishes_scope_exclusions_and_kickoff_queue_removals():
     assert [item["title"] for item in delta["tasks"]["out_of_scope"]] == ["search_users"]
     assert [item["title"] for item in delta["kickoff"]["removed"]] == ["queued", "also queued"]
     assert "closed" not in delta["kickoff"]
-    markdown = "\\n".join(sotu.delta_markdown(delta))
+    markdown = "\n".join(sotu.delta_markdown(delta))
     assert "Kickoff removed from queue" in markdown
     assert "Tasks out of scope" in markdown
 
 def test_parse_tasks_preserves_long_titles():
     long_title = "Capture for promo: interactive-3d-scenes, spline-3d-scene-on-3d-route (the `/3d` scene once it loads, ENS registrations, and domain registration) [#568](https://github.com/Nitsuah-Labs/nitsuah-io/issues/568)"
-    parsed = sotu.parse_tasks(f"## P1\\n- [ ] {long_title}\\n", "nitsuah-io", "docs/TASKS.md")
+    parsed = sotu.parse_tasks(f"## P1\n- [ ] {long_title}\n", "nitsuah-io", "docs/TASKS.md")
     assert parsed[0]["title"] == long_title
