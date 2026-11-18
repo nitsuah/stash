@@ -173,7 +173,7 @@ def parse_tasks(text: str, repo: str, rel: str) -> list[dict]:
         item = re.match(r"^(\s*)- \[( |/)\]\s+(.*)", line)
         if item and len(item.group(1)) <= 1:
             full = item.group(3).replace("**", "").strip()
-            title = full if len(full) <= 160 else full[:157] + "..."
+            title = full
             inline = re.search(r"[\[(]P([0-3])\b", title)
             current = {
                 "repo": repo, "title": title, "ref": f"{rel}:{n}",
@@ -361,26 +361,35 @@ def actions_row(name: str, workflow: str, repo: str = GH_REPO) -> dict:
             "next_run": "unknown", "note": f"GitHub Actions {workflow}"}
 
 
-def repo_health_counts(repos: list[str] | None = None) -> dict[str, int] | None:
-    """Open bot:repo-health issues per repo name across the owners; None if any search failed."""
+def repo_health_counts(repos: list[str] | None = None) -> tuple[dict[str, int], list[dict]] | None:
+    """Open bot:repo-health issue counts and direct issue links across the owners."""
     counts: dict[str, int] = {}
+    links: list[dict] = []
     for owner in HEALTH_OWNERS:
         found = gh_json(["search", "issues", "--owner", owner, "--label", "bot:repo-health", "--state", "open",
-                         "--json", "repository", "--limit", "200"])
+                         "--json", "repository,number,url,title", "--limit", "200"])
         if found is None:
             return None
         for it in found:
-            name = (it.get("repository") or {}).get("name") or "unknown"
+            repository = it.get("repository") or {}
+            name = repository.get("name") or "unknown"
+            full_name = repository.get("nameWithOwner") or f"{owner}/{name}"
             counts[name] = counts.get(name, 0) + 1
+            url = it.get("url") or f"https://github.com/{full_name}/issues?q=is%3Aissue+is%3Aopen+label%3Abot%3Arepo-health"
+            links.append({"repo": name, "number": it.get("number"), "title": it.get("title"), "url": url})
     for r in repos or []:
         counts.setdefault(r, 0)
-    return counts
+    return counts, links
 
 
 def auto_routines(repos: list[str] | None = None, tasks_dir: Path | None = None) -> dict:
     rows = local_task_rows(tasks_dir)
     rows += [actions_row(n, w) for n, w in HEALTH_WORKFLOWS]
-    counts = repo_health_counts(repos)
+    health = repo_health_counts(repos)
+    if health is None:
+        counts, links = None, []
+    else:
+        counts, links = health
     if counts is None:
         rows.append({"name": "repo-health issues", "last_run": "unknown", "status": "unknown", "next_run": "unknown",
                      "note": "gh search failed; open issue count unknown"})
@@ -389,7 +398,7 @@ def auto_routines(repos: list[str] | None = None, tasks_dir: Path | None = None)
         detail = ", ".join(f"{r} {n}" for r, n in sorted(counts.items()) if n) or "none open"
         rows.append({"name": "repo-health issues", "last_run": "unknown", "status": "issues" if total else "clean",
                      "next_run": "unknown", "note": f"{total} open: {detail}"})
-    return {"routines": rows, "quota": None, "repo_health_issues": counts}
+    return {"routines": rows, "quota": None, "repo_health_issues": counts, "repo_health_issue_links": links}
 
 
 def _item_key(t: dict) -> str:
@@ -419,6 +428,11 @@ def compute_delta(prev: dict | None, cur: dict) -> dict:
          "tasks": _diff(prev.get("tasks", []), cur.get("tasks", []), ("priority", "status")),
          "needs_you": _diff(prev.get("needs_you", []), cur.get("needs_you", [])),
          "kickoff": _diff(prev.get("kickoff", []), cur.get("kickoff", []))}
+    current_repos = set((cur.get("scope") or {}).get("repos") or [])
+    if current_repos:
+        d["tasks"]["out_of_scope"] = [item for item in d["tasks"]["closed"] if item.get("repo") not in current_repos]
+        d["tasks"]["closed"] = [item for item in d["tasks"]["closed"] if item.get("repo") in current_repos]
+    d["kickoff"]["removed"] = d["kickoff"].pop("closed", [])
     d["empty"] = not any(d[s][k] for s in ("tasks", "needs_you", "kickoff") for k in d[s])
     return d
 
@@ -436,7 +450,8 @@ def delta_markdown(d: dict, cap: int = 8) -> list[str]:
             shown = [f"{i['repo']}: {i['title']}" + (f" ({i['from']} -> {i['to']})" if kind == "moved" else "")
                      for i in items[:cap]]
             more = f" (+{len(items) - cap} more)" if len(items) > cap else ""
-            L.append(f"- {label} {kind} ({len(items)}): " + "; ".join(shown) + more)
+            display_label = "Kickoff removed from queue" if section == "kickoff" and kind == "removed" else ("Tasks out of scope" if section == "tasks" and kind == "out_of_scope" else label)
+            L.append(f"- {display_label} ({len(items)}): " + "; ".join(shown) + more)
     return L + [""]
 
 
@@ -619,6 +634,7 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_ti
         "ledger_open": ledger,
         "routines": routines.get("routines", []), "quota": routines.get("quota"),
         "repo_health_issues": routines.get("repo_health_issues"),
+        "repo_health_issue_links": routines.get("repo_health_issue_links", []),
         "priorities": priorities,
     }
 
@@ -645,8 +661,15 @@ def to_markdown(d: dict, week: str) -> str:
     L += [f"- {t['priority'] or '-'} {'[routine candidate] ' if t['routine_candidate'] else ''}{t['title']} ({t['repo']} {t['ref']})"
           for t in d["initiatives"]] or ["- none"]
     if d["routines"]:
-        L.append("\n## Routine health\n\n| Routine | Last run | Status | Next |\n|---|---|---|---|")
-        L += [f"| {r.get('name')} | {r.get('last_run', '')} | {r.get('status', '')} | {r.get('next_run', '')} |" for r in d["routines"]]
+        L.append("\n## Routine health\n\n| Routine | Last run | Status | Next | Notes / locations |\n|---|---|---|---|---|")
+        for r in d["routines"]:
+            note = r.get("note", "")
+            if r.get("name") == "repo-health issues":
+                links = d.get("repo_health_issue_links") or []
+                locations = ", ".join(f"[{x['repo']}#{x['number']}]({x['url']})" if x.get("number") else f"[{x['repo']}]({x['url']})" for x in links)
+                if locations:
+                    note = f"{note}; issues: {locations}"
+            L.append(f"| {r.get('name')} | {r.get('last_run', '')} | {r.get('status', '')} | {r.get('next_run', '')} | {note} |")
     L.append("\n## Findings aging (seen 3+ times or older than 21 days)\n")
     L += [f"- {i['id']} {i['repo']}: {i['finding']} ({i['class']}, {i['status']})" for i in d["aging"]] or ["- none"]
     L.append("\n## Open work by repo\n")
