@@ -54,6 +54,8 @@ def test_auto_routines_happy_path(monkeypatch, tmp_path):
     assert by["obn-health"]["status"] == "succeeded" and by["obn-health"]["last_run"] == "2026-10-29"
     assert by["repo-health issues"]["status"] == "issues" and "fire 2" in by["repo-health issues"]["note"]
     assert out["repo_health_issues"] == {"fire": 2, "vigil": 0}
+    assert len(out["repo_health_issue_links"]) == 2
+    assert out["repo_health_issue_links"][0]["url"].startswith("https://github.com/")
     assert out["quota"] is None
 
 
@@ -180,3 +182,22 @@ def test_routines_none_and_file_backcompat(tmp_path, monkeypatch):
     d = sotu.build(str(f), False, fetch=False)
     assert d["routines"] == [{"name": "x"}] and d["quota"] == {"weekly": 5}
     assert sotu.build("none", False, fetch=False)["routines"] == []
+
+def test_delta_distinguishes_scope_exclusions_and_kickoff_queue_removals():
+    prev = {"generated_at": "w1", "tasks": [t("fire", "still open"), t("bb-mcp", "search_users")],
+            "needs_you": [], "kickoff": [t("fire", "queued"), t("bb-mcp", "also queued")]}
+    cur = {"scope": {"repos": ["fire"], "excluded": ["bb-mcp"]}, "tasks": [t("fire", "still open")],
+           "needs_you": [], "kickoff": []}
+    delta = sotu.compute_delta(prev, cur)
+    assert [item["title"] for item in delta["tasks"]["closed"]] == []
+    assert [item["title"] for item in delta["tasks"]["out_of_scope"]] == ["search_users"]
+    assert [item["title"] for item in delta["kickoff"]["removed"]] == ["queued", "also queued"]
+    assert "closed" not in delta["kickoff"]
+    markdown = "\n".join(sotu.delta_markdown(delta))
+    assert "Kickoff removed from queue" in markdown
+    assert "Tasks out of scope" in markdown
+
+def test_parse_tasks_preserves_long_titles():
+    long_title = "Capture for promo: interactive-3d-scenes, spline-3d-scene-on-3d-route (the `/3d` scene once it loads, ENS registrations, and domain registration) [#568](https://github.com/Nitsuah-Labs/nitsuah-io/issues/568)"
+    parsed = sotu.parse_tasks(f"## P1\n- [ ] {long_title}\n", "nitsuah-io", "docs/TASKS.md")
+    assert parsed[0]["title"] == long_title
