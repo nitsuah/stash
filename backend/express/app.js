@@ -20,8 +20,9 @@
  *   PGSSL_CA       PEM string or file path for a custom database CA (optional)
  *   PGSSL_REJECT_UNAUTHORIZED  set to "false" to skip database cert verification
  *   DEMO_EMAIL     demo account email (default user@example.com)
- *   DEMO_LOGIN_ENABLED  true/false; demo login is on by default, except when
- *                      NODE_ENV=production (then it needs an explicit "true")
+ *   DEMO_PASSWORD  demo account password (default "password"; the default is refused
+ *                  when NODE_ENV=production)
+ *   DEMO_LOGIN_ENABLED  demo login is off unless this is exactly "true" or "1"
  *
  * Usage:
  *   node backend/express/app.js
@@ -176,16 +177,25 @@ const itemUpdateSchema = Joi.object({
 // Routes — Auth
 // ---------------------------------------------------------------------------
 
+const DEFAULT_DEMO_PASSWORD = "password";
+
 /**
- * Demo login is on for local and dev use, and off when NODE_ENV=production
- * unless DEMO_LOGIN_ENABLED is explicitly true/1/yes/on. An explicit false/0/no/off
- * always turns it off.
+ * Demo login is opt-in: it is enabled only when DEMO_LOGIN_ENABLED is exactly
+ * "true" or "1". The default demo password is refused when NODE_ENV=production.
+ * Returns { enabled, reason }.
  */
+function demoLoginStatus(env = process.env) {
+  const flag = env.DEMO_LOGIN_ENABLED;
+  if (flag !== "true" && flag !== "1") return { enabled: false, reason: "not enabled" };
+  const usingDefault = (env.DEMO_PASSWORD || DEFAULT_DEMO_PASSWORD) === DEFAULT_DEMO_PASSWORD;
+  if (env.NODE_ENV === "production" && usingDefault) {
+    return { enabled: false, reason: "default demo password is not allowed in production; set DEMO_PASSWORD" };
+  }
+  return { enabled: true, reason: "enabled" };
+}
+
 function demoLoginEnabled(env = process.env) {
-  const flag = (env.DEMO_LOGIN_ENABLED || "").trim().toLowerCase();
-  if (["true", "1", "yes", "on"].includes(flag)) return true;
-  if (["false", "0", "no", "off"].includes(flag)) return false;
-  return String(env.NODE_ENV || "").trim().toLowerCase() !== "production";
+  return demoLoginStatus(env).enabled;
 }
 
 const authRouter = express.Router();
@@ -196,7 +206,8 @@ authRouter.post("/login", validate(loginSchema), async (req, res) => {
   // Demo login: one fixed account only, and it can be switched off.
   const demoEnabled = demoLoginEnabled();
   const demoEmail   = (process.env.DEMO_EMAIL || "user@example.com").toLowerCase();
-  if (!demoEnabled || password !== "password" || email.toLowerCase() !== demoEmail) {
+  const demoPassword = process.env.DEMO_PASSWORD || DEFAULT_DEMO_PASSWORD;
+  if (!demoEnabled || password !== demoPassword || email.toLowerCase() !== demoEmail) {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
@@ -331,7 +342,9 @@ async function createApp() {
     res.status(500).json({ error: "Internal server error" });
   });
 
-  console.log(`Demo login: ${demoLoginEnabled() ? "enabled" : "disabled"}`);
+  const demo = demoLoginStatus();
+  console.log(`Demo login: ${demo.enabled ? "enabled" : "disabled"}`);
+  if (!demo.enabled && demo.reason !== "not enabled") console.warn(`Demo login disabled: ${demo.reason}`);
   await sequelize.sync({ alter: config.isDev });
   return app;
 }
@@ -354,4 +367,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createApp, dbDialectOptions, demoLoginEnabled, User, Item, sequelize };
+module.exports = { createApp, dbDialectOptions, demoLoginEnabled, demoLoginStatus, User, Item, sequelize };

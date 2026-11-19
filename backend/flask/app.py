@@ -19,8 +19,9 @@ Environment:
     PORT           8080 (default)
     DEMO_EMAIL     demo account email (default user@example.com)
     APP_ENV        development | production (also read; FLASK_ENV works too)
-    DEMO_LOGIN_ENABLED  true/false; demo login is on by default, except when
-                   FLASK_ENV or APP_ENV is production (then it needs an explicit "true")
+    DEMO_PASSWORD  demo account password (default "password"; the default is refused
+                   when FLASK_ENV or APP_ENV is production)
+    DEMO_LOGIN_ENABLED  demo login is off unless this is exactly "true" or "1"
 
 Usage:
     python backend/flask/app.py
@@ -46,21 +47,32 @@ from marshmallow import Schema, ValidationError, fields, validate  # type: ignor
 # Config
 # ---------------------------------------------------------------------------
 
-def demo_login_enabled(env=None) -> bool:
-    """Demo login is on for local and dev use and off in production unless explicitly enabled."""
+DEFAULT_DEMO_PASSWORD = "password"
+
+
+def demo_login_status(env=None) -> tuple:
+    """Demo login is opt-in: enabled only when DEMO_LOGIN_ENABLED is exactly "true" or "1".
+
+    The default demo password is refused in production (FLASK_ENV or APP_ENV).
+    Returns (enabled, reason).
+    """
     env = os.environ if env is None else env
-    flag = env.get("DEMO_LOGIN_ENABLED", "").strip().lower()
-    if flag in ("true", "1", "yes", "on"):
-        return True
-    if flag in ("false", "0", "no", "off"):
-        return False
+    if env.get("DEMO_LOGIN_ENABLED") not in ("true", "1"):
+        return False, "not enabled"
+    using_default = (env.get("DEMO_PASSWORD") or DEFAULT_DEMO_PASSWORD) == DEFAULT_DEMO_PASSWORD
     modes = {env.get("FLASK_ENV", "").strip().lower(), env.get("APP_ENV", "").strip().lower()}
-    return "production" not in modes
+    if "production" in modes and using_default:
+        return False, "default demo password is not allowed in production; set DEMO_PASSWORD"
+    return True, "enabled"
+
+
+def demo_login_enabled(env=None) -> bool:
+    return demo_login_status(env)[0]
 
 
 class Config:
     DATABASE_URL   = os.environ.get("DATABASE_URL", "sqlite:///dev.db")
-    JWT_SECRET_KEY = os.environ.get("JWT_SECRET", "change-me-in-production")
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
     SQLALCHEMY_DATABASE_URI    = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -198,7 +210,7 @@ def login():
     # Replace with real credential verification.
     enabled = demo_login_enabled()
     demo_email = os.environ.get("DEMO_EMAIL", "user@example.com").strip().lower()
-    if not enabled or data["password"] != "password" or data["email"].lower() != demo_email:
+    if not enabled or data["password"] != (os.environ.get("DEMO_PASSWORD") or DEFAULT_DEMO_PASSWORD) or data["email"].lower() != demo_email:
         return error_response("Invalid credentials", 401)
 
     user = db.session.scalar(sa.select(User).where(sa.func.lower(User.email) == demo_email))
@@ -357,6 +369,9 @@ def create_app(config: type = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config)
 
+    if not app.config.get("JWT_SECRET_KEY"):
+        raise RuntimeError("JWT_SECRET must be set")
+
     db.init_app(app)
     jwt.init_app(app)
 
@@ -380,7 +395,10 @@ def create_app(config: type = Config) -> Flask:
     def server_error(e):
         return error_response("Internal server error", 500)
 
-    print(f"Demo login: {'enabled' if demo_login_enabled() else 'disabled'}")
+    demo_enabled, demo_reason = demo_login_status()
+    print(f"Demo login: {'enabled' if demo_enabled else 'disabled'}")
+    if not demo_enabled and demo_reason != "not enabled":
+        print(f"Demo login disabled: {demo_reason}")
 
     with app.app_context():
         db.create_all()
