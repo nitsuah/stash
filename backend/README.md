@@ -28,17 +28,19 @@ pip install flask flask-sqlalchemy flask-jwt-extended marshmallow psycopg2-binar
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `DATABASE_URL` | `sqlite:///dev.db` | SQLAlchemy DB connection string |
-| `JWT_SECRET` | *(insecure default)* | Random 32+ char secret |
+| `JWT_SECRET` | *(required)* | Random 32+ char secret; startup fails if unset |
 | `FLASK_ENV` | — | Set to `development` for debug mode |
-| `APP_ENV` | — | `production` also turns the demo login off (like `FLASK_ENV=production`) |
+| `APP_ENV` | — | `production` is treated like `FLASK_ENV=production` |
 | `DEMO_EMAIL` | `user@example.com` | The single demo account email |
-| `DEMO_LOGIN_ENABLED` | on, except in production | `true`/`1`/`yes`/`on` forces it on; `false`/`0`/`no`/`off` forces it off |
+| `DEMO_LOGIN_ENABLED` | off | Demo login is enabled only when this is exactly `true` or `1` |
+| `DEMO_PASSWORD` | `password` | Demo account password; the default is refused when the env is `production` |
 | `PORT` | `8080` | Bind port |
 
 ### Quick start
 
 ```bash
-DATABASE_URL=sqlite:///dev.db JWT_SECRET=devsecret python backend/flask/app.py
+# copy backend/.env.example to .env and export it, or inline:
+DATABASE_URL=sqlite:///dev.db JWT_SECRET=dev-only-secret-change-me-0123456789 DEMO_LOGIN_ENABLED=true python backend/flask/app.py
 ```
 
 ### Endpoints
@@ -76,13 +78,14 @@ Same as Flask above — `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV`, `PORT` — plu
 - `PGSSL_CA` — PEM string or file path for a custom database CA (Postgres TLS is verified by default).
 - `PGSSL_REJECT_UNAUTHORIZED` — set to `false` to skip database certificate verification (logs a warning).
 - `DEMO_EMAIL` — the single demo account email (default `user@example.com`).
-- `DEMO_LOGIN_ENABLED` — the demo login is on by default and off when `NODE_ENV=production`; set `true`/`1`/`yes`/`on` to force it on, or `false`/`0`/`no`/`off` to force it off. One startup line reports which.
+- `DEMO_LOGIN_ENABLED` — the demo login is off unless this is exactly `true` or `1`. One startup line reports which.
+- `DEMO_PASSWORD` — demo account password (default `password`); the default is refused when `NODE_ENV=production`.
 
 ### Quick start
 
 ```bash
 cd backend/express
-DATABASE_URL=sqlite::memory: JWT_SECRET=devsecret node app.js
+DATABASE_URL=sqlite::memory: JWT_SECRET=dev-only-secret-change-me-0123456789 DEMO_LOGIN_ENABLED=true node app.js
 ```
 
 ### Endpoints
@@ -101,5 +104,5 @@ GET /items/
 Authorization: Bearer eyJ...
 ```
 
-Demo login accepts password `"password"` for the single `DEMO_EMAIL` account only (created on first use); other emails are rejected.
+When enabled, demo login accepts `DEMO_PASSWORD` (default `"password"`) for the single `DEMO_EMAIL` account only (created on first use); other emails are rejected.
 Replace the credential check in `login` with real password hashing (`bcrypt`).

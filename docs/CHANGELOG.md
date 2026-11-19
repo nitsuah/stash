@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### Changed
 
+- **Changed:** Backend demo login (Express and Flask) is opt-in: enabled only when `DEMO_LOGIN_ENABLED` is exactly `true` or `1`, with `DEMO_PASSWORD` configurable and the default password refused in production. Flask now requires `JWT_SECRET` at startup, matching Express. Local dev values are in `backend/.env.example`.
 - **Changed:** `repo-health` workflow pins the shared kit to `nitsuah/.github@a0df883` (kit lockfile: msgpack 1.2.4, urllib3 2.8.0, certifi 2026.10.23), clearing the Python rows in the repo-health advisory issue (#364).
 
 ### 2026-11-05 — daily-run model budget

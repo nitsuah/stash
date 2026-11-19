@@ -11,7 +11,7 @@ process.env.NODE_ENV = 'test';
 // Pin everything app.js reads at import so dotenv or the host env cannot change results.
 process.env.PGSSL_CA = ['-----BEGIN CERTIFICATE-----', 'TEST', '-----END CERTIFICATE-----', ''].join('\n');
 process.env.PORT = '0';
-for (const k of ['DEMO_EMAIL', 'DEMO_LOGIN_ENABLED', 'PGSSL_REJECT_UNAUTHORIZED']) delete process.env[k];
+for (const k of ['DEMO_EMAIL', 'DEMO_LOGIN_ENABLED', 'DEMO_PASSWORD', 'PGSSL_REJECT_UNAUTHORIZED']) delete process.env[k];
 
 const mod = require('../app.js');
 const { createApp, User, sequelize } = mod;
@@ -47,63 +47,12 @@ async function login(email, password) {
   return { status: res.status, body: await res.json() };
 }
 
-test('demo password with another email is rejected and creates no user', async () => {
-  const r = await login('someone@else.com', 'password');
-  assert.equal(r.status, 401);
-  assert.equal(store.has('someone@else.com'), false);
-});
-
-test('demo password with the demo email works', async () => {
-  const r = await login('user@example.com', 'password');
-  assert.equal(r.status, 200);
-  assert.ok(r.body.access_token);
-});
-
-test('wrong password for the demo email is rejected', async () => {
-  const r = await login('user@example.com', 'nope');
-  assert.equal(r.status, 401);
-});
-
-test('DEMO_EMAIL overrides the demo account', async () => {
-  process.env.DEMO_EMAIL = 'demo@corp.example.com';
-  try {
-    assert.equal((await login('demo@corp.example.com', 'password')).status, 200);
-    assert.equal((await login('user@example.com', 'password')).status, 401);
-  } finally {
-    delete process.env.DEMO_EMAIL;
-  }
-});
-
-test('DEMO_LOGIN_ENABLED=false disables demo login', async () => {
-  process.env.DEMO_LOGIN_ENABLED = 'false';
-  try {
-    assert.equal((await login('user@example.com', 'password')).status, 401);
-  } finally {
-    delete process.env.DEMO_LOGIN_ENABLED;
-  }
-});
-
-test('DEMO_LOGIN_ENABLED is parsed case-insensitively and fails closed', async () => {
-  for (const v of ['False', 'FALSE', '0', 'no', 'off', ' false ']) {
-    process.env.DEMO_LOGIN_ENABLED = v;
-    try {
-      assert.equal((await login('user@example.com', 'password')).status, 401, v);
-    } finally {
-      delete process.env.DEMO_LOGIN_ENABLED;
-    }
-  }
-  process.env.DEMO_LOGIN_ENABLED = 'true';
-  try {
-    assert.equal((await login('user@example.com', 'password')).status, 200);
-  } finally {
-    delete process.env.DEMO_LOGIN_ENABLED;
-  }
-});
-
 async function withEnv(vars, fn) {
   const saved = {};
   for (const k of Object.keys(vars)) saved[k] = process.env[k];
-  Object.assign(process.env, vars);
+  for (const [k, v] of Object.entries(vars)) {
+    if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
   try {
     return await fn();
   } finally {
@@ -113,54 +62,102 @@ async function withEnv(vars, fn) {
   }
 }
 
-test('demo login is off under NODE_ENV=production by default', async () => {
-  await withEnv({ NODE_ENV: 'production' }, async () => {
+const on = (extra = {}) => ({ DEMO_LOGIN_ENABLED: 'true', ...extra });
+
+test('demo login is off by default with NODE_ENV and DEMO_LOGIN_ENABLED unset', async () => {
+  await withEnv({ NODE_ENV: undefined, DEMO_LOGIN_ENABLED: undefined }, async () => {
     assert.equal((await login('user@example.com', 'password')).status, 401);
   });
 });
 
-test('NODE_ENV production is matched case- and space-insensitively', async () => {
-  for (const v of ['Production', ' production ', 'PRODUCTION']) {
-    await withEnv({ NODE_ENV: v }, async () => {
-      assert.equal((await login('user@example.com', 'password')).status, 401, v);
+test('only exactly "true" or "1" enables demo login', async () => {
+  for (const v of ['', 'false', '0', 'yes', 'on', 'True', 'TRUE', ' true', 'true ', 'maybe']) {
+    await withEnv({ DEMO_LOGIN_ENABLED: v }, async () => {
+      assert.equal((await login('user@example.com', 'password')).status, 401, JSON.stringify(v));
     });
   }
-});
-
-test('production needs an explicit true/1/yes/on to enable demo login', async () => {
-  for (const v of ['true', 'TRUE', '1', 'yes', 'on', ' on ']) {
-    await withEnv({ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: v }, async () => {
+  for (const v of ['true', '1']) {
+    await withEnv({ DEMO_LOGIN_ENABLED: v }, async () => {
       assert.equal((await login('user@example.com', 'password')).status, 200, v);
     });
   }
-  await withEnv({ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: 'maybe' }, async () => {
+});
+
+test('enabled flag works regardless of NODE_ENV (non-production)', async () => {
+  for (const env of [undefined, 'development', 'test', 'staging']) {
+    await withEnv(on({ NODE_ENV: env }), async () => {
+      assert.equal((await login('user@example.com', 'password')).status, 200, String(env));
+    });
+  }
+});
+
+test('production refuses the default demo password even when enabled', async () => {
+  await withEnv(on({ NODE_ENV: 'production' }), async () => {
     assert.equal((await login('user@example.com', 'password')).status, 401);
   });
 });
 
-test('demo login stays on for development and test environments', async () => {
-  for (const env of ['development', 'test']) {
-    await withEnv({ NODE_ENV: env }, async () => {
-      assert.equal((await login('user@example.com', 'password')).status, 200, env);
-    });
-  }
+test('production allows a custom demo password', async () => {
+  await withEnv(on({ NODE_ENV: 'production', DEMO_PASSWORD: 's3cret-demo-pw' }), async () => {
+    assert.equal((await login('user@example.com', 's3cret-demo-pw')).status, 200);
+    assert.equal((await login('user@example.com', 'password')).status, 401);
+  });
+});
+
+test('DEMO_PASSWORD overrides the demo password outside production', async () => {
+  await withEnv(on({ DEMO_PASSWORD: 'other-pw' }), async () => {
+    assert.equal((await login('user@example.com', 'other-pw')).status, 200);
+    assert.equal((await login('user@example.com', 'password')).status, 401);
+  });
+});
+
+test('demo password with another email is rejected and creates no user', async () => {
+  await withEnv(on(), async () => {
+    const r = await login('someone@else.com', 'password');
+    assert.equal(r.status, 401);
+    assert.equal(store.has('someone@else.com'), false);
+  });
+});
+
+test('demo password with the demo email works when enabled', async () => {
+  await withEnv(on(), async () => {
+    const r = await login('user@example.com', 'password');
+    assert.equal(r.status, 200);
+    assert.ok(r.body.access_token);
+  });
+});
+
+test('wrong password for the demo email is rejected', async () => {
+  await withEnv(on(), async () => {
+    assert.equal((await login('user@example.com', 'nope')).status, 401);
+  });
+});
+
+test('DEMO_EMAIL overrides the demo account', async () => {
+  await withEnv(on({ DEMO_EMAIL: 'demo@corp.example.com' }), async () => {
+    assert.equal((await login('demo@corp.example.com', 'password')).status, 200);
+    assert.equal((await login('user@example.com', 'password')).status, 401);
+  });
 });
 
 test('startup logs one line saying whether demo login is on', async () => {
   const cases = [
-    [{ NODE_ENV: 'development' }, 'Demo login: enabled'],
-    [{ NODE_ENV: 'production' }, 'Demo login: disabled'],
-    [{ NODE_ENV: 'production', DEMO_LOGIN_ENABLED: 'true' }, 'Demo login: enabled'],
+    [{}, 'Demo login: disabled'],
+    [{ DEMO_LOGIN_ENABLED: 'true' }, 'Demo login: enabled'],
+    [{ DEMO_LOGIN_ENABLED: 'true', NODE_ENV: 'production' }, 'Demo login: disabled'],
   ];
   for (const [vars, expected] of cases) {
-    await withEnv(vars, async () => {
+    await withEnv({ DEMO_LOGIN_ENABLED: undefined, NODE_ENV: undefined, ...vars }, async () => {
       const lines = [];
       const orig = console.log;
+      const origWarn = console.warn;
       console.log = m => lines.push(String(m));
+      console.warn = () => {};
       try {
         await createApp();
       } finally {
         console.log = orig;
+        console.warn = origWarn;
       }
       assert.deepEqual(lines.filter(l => l.startsWith('Demo login')), [expected]);
     });
