@@ -6,7 +6,7 @@
 
 ## Scope
 
-- **In scope:** repos that vigil tiers T1 (Critical) or T2 (Important). `sotu.py` reads the tiers live from vigil's `GET https://gh-vigil.netlify.app/api/context` (`repos[].tier`, with `$VIGIL_MCP_KEY`). If vigil can't be read, it falls back to the Tier column in `agent/projects/scope.md` and says so in the report.
+- **In scope:** repos that vigil tiers T1 (Critical) or T2 (Important). `sotu.py` reads the tiers live from vigil's `GET https://vigil.nitsuah.io/api/context` (`repos[].tier`, with `$VIGIL_MCP_KEY`). If vigil can't be read, it falls back to the Tier column in `agent/projects/scope.md` and says so in the report.
 - **Out of scope:** T3/T4 and repos vigil doesn't track (`—` in scope.md), stash included. Their tasks, kickoff items and ledger rows are left out. Cross-cutting ledger rows (for example `cloud routines`) stay. To see everything, run with `--all-tiers`, but don't publish that build.
 - **Tier drift:** when vigil and scope.md disagree, the report ends with a `scope.md Tier column differs from vigil` line, and the page shows it in the header. Fix it in step 5.
 - To move a repo in or out of scope, change its tier in vigil, not here.
