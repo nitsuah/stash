@@ -16,7 +16,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const REPO_SLUG = 'nitsuah/stash';
-export const VIGIL_URL = 'https://gh-vigil.netlify.app/api/context';
+export const VIGIL_URL = 'https://vigil.nitsuah.io/api/context';
 export const NOT_AUTOMATED = [
     'step 3 Tasks: "Unchanged human-gated P1s" dedup against the last daily note, and the .obsidian/*.json clean-filter check',
     'step 3 Tasks: parked-branch-N-days flags beyond the SKIPPED_* results of today\'s sync',

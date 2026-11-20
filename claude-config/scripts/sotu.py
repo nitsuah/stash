@@ -37,8 +37,8 @@ STASH = Path(__file__).resolve().parents[2]
 SCOPE = STASH / "agent" / "projects" / "scope.md"
 LEDGER = STASH / "agent" / "reports" / "findings-ledger.md"
 OUT_DIR = STASH / "agent" / "reports" / "sotu"
-VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://gh-vigil.netlify.app/api/mcp")
-VIGIL_CONTEXT_URL = os.environ.get("VIGIL_CONTEXT_URL", "https://gh-vigil.netlify.app/api/context")
+VIGIL_URL = os.environ.get("VIGIL_MCP_URL", "https://vigil.nitsuah.io/api/mcp")
+VIGIL_CONTEXT_URL = os.environ.get("VIGIL_CONTEXT_URL", "https://vigil.nitsuah.io/api/context")
 
 # SOTU covers vigil tiers 1 and 2 only (T1 Critical, T2 Important). "-" = not registered in vigil.
 SCOPE_TIERS = {"1", "2"}
