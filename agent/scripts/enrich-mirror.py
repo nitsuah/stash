@@ -56,7 +56,7 @@ for d in list(updirs):
 mirrored = set()
 for dp, _, fn in os.walk(dest):
     for f in fn:
-        if f.endswith(".md"):
+        if f.endswith(".md") and not os.path.islink(os.path.join(dp, f)):
             mirrored.add(os.path.relpath(os.path.join(dp, f), dest).replace(os.sep, "/"))
 
 
@@ -133,9 +133,18 @@ def enrich(doc, text):
     return "---\n" + "".join(f"{k}: {v}\n" for k, v in ours.items()) + "---\n\n" + body
 
 
+def writable(path):
+    """Only plain files inside the mirror: never write through a symlink."""
+    root = os.path.realpath(dest)
+    return not os.path.islink(path) and os.path.realpath(path).startswith(root + os.sep)
+
+
 changed = 0
 for doc in sorted(mirrored):
     path = os.path.join(dest, *doc.split("/"))
+    if not writable(path):
+        print(f"  [enrich] skipped {doc}: not a regular file inside the mirror")
+        continue
     raw = open(path, encoding="utf-8", errors="replace").read()
     nl = "\r\n" if "\r\n" in raw else "\n"
     text = raw.replace("\r\n", "\n")

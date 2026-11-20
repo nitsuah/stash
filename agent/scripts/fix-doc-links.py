@@ -67,8 +67,16 @@ def rewrite(text, fix_line):
     return "\n".join(out)
 
 
-def save(path, text, new, nl):
+def writable(path, root):
+    """Only plain files inside `root`: never write through a symlink."""
+    return not os.path.islink(path) and os.path.realpath(path).startswith(os.path.realpath(root) + os.sep)
+
+
+def save(path, text, new, nl, root):
     if new != text and WRITE:
+        if not writable(path, root):
+            print(f"  skipped {path}: not a regular file inside the tree")
+            return
         with open(path, "w", encoding="utf-8", newline="") as f:
             f.write(new.replace("\n", nl))
 
@@ -156,7 +164,7 @@ def repo_mode(repo):
 
         text, nl = load(os.path.join(repo, doc))
         new = rewrite(text, lambda s: WIKI.sub(fix_wiki, MDLINK.sub(fix, s)))
-        save(os.path.join(repo, doc), text, new, nl)
+        save(os.path.join(repo, doc), text, new, nl, repo)
         unfixable += [f"{doc}: {t}" for t in found]
     return fixed, unfixable
 
@@ -208,7 +216,7 @@ def vault_mode(vault):
         path = os.path.join(vault, note + ".md")
         text, nl = load(path)
         new = rewrite(text, lambda s: WIKI.sub(fix, s))
-        save(path, text, new, nl)
+        save(path, text, new, nl, vault)
         unfixable += [f"{note}.md: {t}" for t in found]
     return fixed, unfixable
 
