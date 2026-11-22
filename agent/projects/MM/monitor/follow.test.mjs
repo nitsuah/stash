@@ -38,3 +38,11 @@ test('fetchFollow caps redirect loops', async () => {
   const f = async href => res(302, href.endsWith('/a') ? '/b' : '/a');
   await assert.rejects(fetchFollow('https://a.com/a', {}, f), /too-many-redirects/);
 });
+
+test('fetchFollow refuses an https -> http downgrade after an upgrade, before requesting it', async () => {
+  const hops = { 'http://a.com/': res(301, 'https://a.com/secure'), 'https://a.com/secure': res(302, 'http://a.com/plain') };
+  const seen = [];
+  const fetchImpl = async u => { seen.push(u); return hops[u] ?? res(200); };
+  await assert.rejects(fetchFollow('http://a.com/', {}, fetchImpl), /redirect-blocked/);
+  assert.deepEqual(seen, ['http://a.com/', 'https://a.com/secure']);
+});

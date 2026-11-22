@@ -162,6 +162,9 @@ def repo_mode(repo):
             alias = m.group(3).split("|", 1)[1][:-2] if "|" in m.group(3) else None
             return alias or f"`{t}`"
 
+        if not writable(os.path.join(repo, doc), repo):
+            print(f"  skipped {doc}: not a regular file inside the tree")
+            continue
         text, nl = load(os.path.join(repo, doc))
         new = rewrite(text, lambda s: WIKI.sub(fix_wiki, MDLINK.sub(fix, s)))
         save(os.path.join(repo, doc), text, new, nl, repo)
@@ -214,6 +217,9 @@ def vault_mode(vault):
             return m.group(1) + cands[0] + escaped + m.group(3)
 
         path = os.path.join(vault, note + ".md")
+        if not writable(path, vault):
+            print(f"  skipped {note}.md: not a regular file inside the tree")
+            continue
         text, nl = load(path)
         new = rewrite(text, lambda s: WIKI.sub(fix, s))
         save(path, text, new, nl, vault)

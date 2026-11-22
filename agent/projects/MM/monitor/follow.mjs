@@ -21,7 +21,8 @@ export async function fetchFollow(url, init, fetchImpl = fetch) {
     try { await r.body?.cancel(); } catch {}
     let next;
     try { next = new URL(loc, current); } catch { throw new Error('bad-redirect'); }
-    if (!hopAllowed(origin, next)) throw new Error('redirect-blocked');
+    // Check against the original host, and never step down from https after an upgrade.
+    if (!hopAllowed(origin, next) || !hopAllowed(current, next)) throw new Error('redirect-blocked');
     if (hop >= MAX_HOPS) throw new Error('too-many-redirects');
     current = next;
   }
