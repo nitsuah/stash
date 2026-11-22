@@ -1,14 +1,15 @@
 // Zero-LLM uptime + broken-link checker. Usage: node monitor.mjs <url> [<url>...]
 // Prints JSON: per-URL status/latency, plus internal links on the page that return >=400.
+import { fetchFollow } from './follow.mjs';
+
 const urls = process.argv.slice(2);
 const timeout = ms => AbortSignal.timeout(ms);
 
 async function check(url, method = 'GET', includeBody = false) {
   const t0 = Date.now();
   try {
-    const r = await fetch(url, {
+    const { response: r, finalUrl } = await fetchFollow(url, {
       method,
-      redirect: 'follow',
       signal: timeout(15000),
       headers: { 'user-agent': 'mm-monitor/0.1' }
     });
@@ -18,7 +19,7 @@ async function check(url, method = 'GET', includeBody = false) {
     }
     return {
       url,
-      finalUrl: r.url || url,
+      finalUrl,
       status: r.status,
       ok: r.ok,
       ms: Date.now() - t0,
