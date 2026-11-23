@@ -19,6 +19,7 @@ Notable additions and changes to this repository.
 
 ### Fixed
 
+- **Fixed:** NODE_ENV is normalized, and the Postgres certificate-verification opt-out only works in development or test.
 - **Fixed:** Backend fails to start when JWT_SECRET is unset
 
 ### 2026-10-30 — Installer task settings
