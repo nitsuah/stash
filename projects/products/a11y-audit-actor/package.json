@@ -6,7 +6,7 @@
     "scripts": { "start": "node src/main.js" },
     "dependencies": {
         "apify": "^4.0.0-rc.0",
-        "crawlee": "^4.0.0-rc.0",
+        "crawlee": "^4.0.0-rc.2",
         "playwright": "1.65.1",
         "axe-core": "4.14.1"
     },
