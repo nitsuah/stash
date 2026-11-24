@@ -7,7 +7,7 @@
         "start": "node src/main.js"
     },
     "dependencies": {
-        "apify": "^4.0.0-rc.0",
+        "apify": "^4.0.0-rc.1",
         "basic-ftp": "^6.2.5"
     },
     "overrides": {
