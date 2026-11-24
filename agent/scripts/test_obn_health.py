@@ -22,6 +22,18 @@ def test_file_date_formats():
     assert oh.file_date("usage-report-2026-09.md") == dt.date(2026, 9, 1)
     assert oh.file_date("sotu-2026-W43.md") == dt.date(2026, 10, 19)
     assert oh.file_date("scope.md") is None
+    assert oh.file_date("usage-report-2026-10.md", month_end=True) == dt.date(2026, 10, 31)
+    assert oh.file_date("usage-report-2026-12.md", month_end=True) == dt.date(2026, 12, 31)
+    assert oh.file_date("usage-report-2026-02-14.md", month_end=True) == dt.date(2026, 2, 14)
+
+
+def test_monthly_report_ages_from_month_end(tmp_path):
+    r = str(tmp_path)
+    touch(os.path.join(r, "usage-report-2026-10.md"))
+    cad = {"usage-report": ("", "usage-report-", 35)}
+    # Oct report, written in early Nov: still fine on Nov 24 (24d from Oct 31), overdue Dec 6.
+    assert oh.missing_reports(dt.date(2026, 11, 24), r, cad) == []
+    assert [o[0] for o in oh.missing_reports(dt.date(2026, 12, 6), r, cad)] == ["usage-report"]
 
 
 def test_missing_reports_flags_old_and_absent(tmp_path):
