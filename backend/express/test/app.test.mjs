@@ -119,14 +119,20 @@ test('app fails to start when JWT_SECRET is unset', () => {
   // dotenv cannot supply one; the module-level guard must refuse to start.
   const { spawnSync } = require('node:child_process');
   const { tmpdir } = require('node:os');
+  const { mkdtempSync, rmSync } = require('node:fs');
   const env = { ...process.env, NODE_ENV: 'test', DATABASE_URL: 'sqlite::memory:' };
   delete env.JWT_SECRET;
   const appPath = join(__dirname, 'app.js');
-  const res = spawnSync(process.execPath, ['-e', `require(${JSON.stringify(appPath)})`], {
-    cwd: tmpdir(), env, encoding: 'utf8', timeout: 30000,
-  });
-  assert.notEqual(res.status, 0, 'app.js should exit non-zero without JWT_SECRET');
-  assert.match(res.stderr, /JWT_SECRET must be set/);
+  const cwd = mkdtempSync(join(tmpdir(), 'stash-nosecret-'));
+  try {
+    const res = spawnSync(process.execPath, ['-e', `require(${JSON.stringify(appPath)})`], {
+      cwd, env, encoding: 'utf8', timeout: 30000,
+    });
+    assert.notEqual(res.status, 0, 'app.js should exit non-zero without JWT_SECRET');
+    assert.match(res.stderr, /JWT_SECRET must be set/);
+  } finally {
+    rmSync(cwd, { recursive: true, force: true });
+  }
 });
 
 // --- TLS Certificate Verification Tests ---
