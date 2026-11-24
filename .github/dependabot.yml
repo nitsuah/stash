@@ -50,3 +50,115 @@ updates:
           - 'patch'
     commit-message:
       prefix: 'chore(ci)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/a11y-audit-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/broken-link-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/security-headers-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/seo-health-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/sitemap-checker-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/structured-data-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
+
+  - package-ecosystem: 'npm'
+    directory: '/projects/products/tech-stack-actor'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'chore(deps)'
