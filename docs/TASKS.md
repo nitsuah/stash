@@ -131,17 +131,17 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Acceptance: Ruff, PSScriptAnalyzer, shellcheck locally
   - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
 
-- [ ] Add dependabot/renovate
+- [x] Add dependabot/renovate
   - Priority: P3
   - Type: CI
   - Acceptance: Auto-update GitHub Actions, Python deps
-  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
+  - Done 2026-11-24: `.github/dependabot.yml` covers GitHub Actions weekly, the Express backend and the seven product actors (npm), grouped minor/patch updates; the repo has no pip manifest with dependencies.
 
-- [ ] Add CodeQL / SAST scanning
+- [x] Add CodeQL / SAST scanning
   - Priority: P3
   - Type: CI
   - Acceptance: GitHub Advanced Security or OSS equivalent
-  - Source: unsourced, added by PR #160 (2026-09-29) without a request. Confirm or drop.
+  - Done 2026-11-24: GitHub code scanning default setup is enabled on the repo (verified via the code-scanning API), and gitleaks runs in the pre-commit hook and CI.
 
 - [ ] Add changelog automation
   - Priority: P3

@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### Changed
 
+- Dependabot now also watches the seven product actors (`projects/products/*`, npm), monthly and grouped; the done-but-unticked dependabot and CodeQL items in `docs/TASKS.md` are ticked (standards sweep).
 - `obn_health.py` ages a monthly report (`usage-report-2026-10.md`) from the last day of its month instead of the first, so a report written after its month closes no longer reads as 5+ days overdue the day it lands (nitsuah/stash#402).
 - `daily-run.mjs` and `pipeline-run.mjs` push to origin's fetch URL instead of the remote name, so the PMO loop's `pushurl = no_push` toggle no longer breaks the daily-note and SOTU PRs (both failed 2026-11-23).
 
