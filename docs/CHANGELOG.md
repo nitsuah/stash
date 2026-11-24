@@ -14,6 +14,7 @@ Notable additions and changes to this repository.
 
 ### Changed
 
+- TASKS: the `repo-health` rollout item is split so `deployer` and `nitsuah-io` (no caller yet) stay open as their own item.
 - `obn-health.yml` labels its report issue `bot:repo-health` (new issues get it on creation, an existing open one on the next red run), matching the other repo-health issues.
 - Dependabot now also watches the seven product actors (`projects/products/*`, npm), monthly and grouped; the done-but-unticked dependabot and CodeQL items in `docs/TASKS.md` are ticked (standards sweep).
 - `obn_health.py` ages a monthly report (`usage-report-2026-10.md`) from the last day of its month instead of the first, so a report written after its month closes no longer reads as 5+ days overdue the day it lands (nitsuah/stash#402).
