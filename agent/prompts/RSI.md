@@ -26,6 +26,8 @@ Before making changes, understand the full input/output graph. Verify it's still
 
 **Substrate:** `agent/projects/scope.md` is the one file everything else should key off for "which repos are in scope." The retired `LOC.md`, `MINI.md` and cloud routines (`stale-worktrees`, `vuln-patcher`, `gh-overseer`) read it live (fixed 2026-09-16); the `repo-health` Action replaced the first three. `DAILY.md`, `METRICS.md` and the `monthly-pmo-audit` wrapper dropped their cached copies on 2026-10-07 and now read it live too. The caches had drifted twice: the `auto-apply-plugin`/`overseer` renames, then `agent-board` → `motor-pool`.
 
+**2026-11 update (verify before trusting the table below):** on 2026-10-30 the local Claude-plan tasks `daily-repo-sync`, `week-sotu`, `monthly-tire-kick`, `monthly-pmo-audit` and `week-fin-sum` were replaced by Windows Task Scheduler jobs `routine-daily-run`, `routine-sotu`, `routine-tire`, `routine-pmo` and `routine-fin-checkin` (stash#375, `agent/scripts/install-tasks.ps1`), which run `daily-run.mjs` / `pipeline-run.mjs` with 9router for model steps. Logs: `agent/logs/daily-run.log`, `pipeline-*.log`, `routine-run.log`. `ops-catchup` is retired (stash#372). The desktop `pmo-loop` task (4x daily, `~/.claude/skills/pmo-loop`) was added 2026-11-22. `monthly-usage-report` is disabled with no Windows replacement, so Input 1 is missing until that's decided. Check live state with `schtasks /Query /FO CSV /NH | grep routine` as well as `list_scheduled_tasks`.
+
 **Stage 1 (sync) →Stage 2 (audit) → Stage 3 (notes/reports) → Stage 4 (report/govern)** — see the 2026-09-16 audit artifact for the full pipeline diagram. Concretely, per routine:
 
 | Routine | Reads | Writes |
