@@ -25,6 +25,8 @@ def test_file_date_formats():
     assert oh.file_date("usage-report-2026-10.md", month_end=True) == dt.date(2026, 10, 31)
     assert oh.file_date("usage-report-2026-12.md", month_end=True) == dt.date(2026, 12, 31)
     assert oh.file_date("usage-report-2026-02-14.md", month_end=True) == dt.date(2026, 2, 14)
+    assert oh.file_date("usage-report-2026-13.md", month_end=True) is None
+    assert oh.file_date("usage-report-2026-00.md", month_end=True) is None
 
 
 def test_monthly_report_ages_from_month_end(tmp_path):

@@ -71,6 +71,7 @@ def file_date(name, month_end=False):
     try:
         if month_end and not m.group(3):
             year, month = int(m.group(1)), int(m.group(2))
+            dt.date(year, month, 1)  # raises ValueError for month 0 or 13+
             nxt = dt.date(year + (month == 12), month % 12 + 1, 1)
             return nxt - dt.timedelta(days=1)
         return dt.date(int(m.group(1)), int(m.group(2)), int(m.group(3) or 1))
