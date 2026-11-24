@@ -63,6 +63,7 @@ ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger
 PRIO_SCORE = {"P0": 100, "P1": 60, "P2": 30, "P3": 10, None: 5}
 
 
+_CONTEXT_FAILED: dict = {}  # sentinel: a failed read is cached by identity, so an empty-but-valid response is not mistaken for it
 _CONTEXT_CACHE: dict | None = None
 
 
@@ -76,7 +77,7 @@ def vigil_context() -> dict | None:
     """Vigil's portfolio /api/context, read once per run. None when vigil can't be read."""
     global _CONTEXT_CACHE
     if _CONTEXT_CACHE is not None:
-        return _CONTEXT_CACHE or None
+        return None if _CONTEXT_CACHE is _CONTEXT_FAILED else _CONTEXT_CACHE
     key = os.environ.get("VIGIL_MCP_KEY")
     if not key or not VIGIL_CONTEXT_URL.startswith("https://"):
         return None
@@ -86,7 +87,7 @@ def vigil_context() -> dict | None:
             _CONTEXT_CACHE = json.load(resp)
     except Exception as exc:  # fall back to scope.md, but say why
         print(f"vigil context unavailable ({exc}); using scope.md's Tier column, no metrics digest", file=sys.stderr)
-        _CONTEXT_CACHE = {}
+        _CONTEXT_CACHE = _CONTEXT_FAILED
         return None
     return _CONTEXT_CACHE
 

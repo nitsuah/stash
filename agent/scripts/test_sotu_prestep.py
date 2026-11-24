@@ -216,7 +216,7 @@ def test_metrics_digest_comes_from_vigil_context(monkeypatch):
 def test_metrics_digest_absent_or_unreadable_is_none(monkeypatch):
     _ctx(monkeypatch, {"repos": [], "metrics": None})
     assert sotu.vigil_metrics_digest() is None
-    _ctx(monkeypatch, {})  # a failed read is cached as {} so it is not retried per call
+    _ctx(monkeypatch, sotu._CONTEXT_FAILED)  # a failed read is cached so it is not retried per call
     assert sotu.vigil_metrics_digest() is None
 
 
@@ -229,3 +229,10 @@ def test_markdown_includes_the_digest_section(monkeypatch):
     assert md.index("Delivery metrics") < md.index("## Needs you")
     d["metrics_digest"] = None
     assert "Delivery metrics" not in sotu.to_markdown(d, "2026-W48")
+
+
+def test_empty_but_valid_context_is_not_a_failure(monkeypatch):
+    _ctx(monkeypatch, {})
+    assert sotu.vigil_context() == {}
+    assert sotu.vigil_tiers() == {}
+    assert sotu.vigil_metrics_digest() is None
