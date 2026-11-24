@@ -498,7 +498,9 @@ export function openPr(ctx, extraPaths) {
     }
     // Push to the fetch URL, not the remote name: the PMO loop's push toggle leaves
     // remote.origin.pushurl = no_push in every clone (~/.imps/pmo/bin/push.sh).
-    const url = ctx.git(['remote', 'get-url', 'origin']).stdout.trim() || 'origin';
+    const remote = ctx.git(['remote', 'get-url', 'origin']);
+    const url = remote.code === 0 ? remote.stdout.trim() : '';
+    if (!url) throw new Error(`cannot read origin URL: ${(remote.stderr || '').trim().slice(0, 200)}`);
     const push = ctx.git(['push', url, `HEAD:refs/heads/${branch}`]);
     if (push.code !== 0) throw new Error(`push failed: ${push.stderr.trim().slice(0, 200)}`);
     const body = `Daily note and mirror sync for ${date}, produced by agent/scripts/daily-run.mjs.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)`;

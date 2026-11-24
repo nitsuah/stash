@@ -129,6 +129,7 @@ function stub(calls, over = {}) {
         calls.push(line);
         for (const [re, res] of Object.entries(over)) if (new RegExp(re).test(line)) return res;
         if (/^git cat-file/.test(line)) return { code: 128, stdout: '', stderr: '' };
+        if (/^git remote get-url origin$/.test(line)) return { code: 0, stdout: 'https://github.com/nitsuah/stash.git\n', stderr: '' };
         if (/^gh pr list .*--json title$/.test(line)) return { code: 0, stdout: '[]', stderr: '' };
         if (/^gh pr list .*isCrossRepository/.test(line)) {
             const pr = { number: 7, title: 'obn: daily note 2026-10-29', headRefName: 'obn/daily-note-2026-10-29', isCrossRepository: false, author: { login: 'nitsuah' }, createdAt: new Date(2026, 9, 29, 9).toISOString() };

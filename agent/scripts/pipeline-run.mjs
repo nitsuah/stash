@@ -115,7 +115,9 @@ function commitAndPr(root, wt, branch, title, body, prefixes) {
         `${title}\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`]);
     if (c.code) return `commit failed: ${c.err.trim()}`;
     // Fetch URL, not 'origin': the PMO loop leaves remote.origin.pushurl = no_push.
-    const url = sh('git', ['-C', wt, 'remote', 'get-url', 'origin']).out.trim() || 'origin';
+    const remote = sh('git', ['-C', wt, 'remote', 'get-url', 'origin']);
+    const url = remote.code ? '' : remote.out.trim();
+    if (!url) return `cannot read origin URL: ${(remote.err || '').trim()}`;
     const p = sh('git', ['-C', wt, 'push', '-q', url, `HEAD:refs/heads/${branch}`]);
     if (p.code) return `push failed: ${p.err.trim()}`;
     const pr = sh('gh', ['pr', 'create', '--repo', 'nitsuah/stash', '--base', 'main', '--head', branch,
