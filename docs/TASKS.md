@@ -41,11 +41,13 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
   - Priority: P2 · Owner: stash (script) + routine (DAILY.md)
-- [ ] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363). Caller PRs are open in the 16 other tracked repos; remaining: merge them, confirm one run each, then disable the three cloud routines.
+- [x] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363).
+  - Done 2026-11-24 (verified): the shared workflow is merged (nitsuah/.github#123 and follow-ups), the `Repo health` caller is on main in 15 repos (stash plus 14 others), each ran green on schedule 2026-11-19, and the cloud routines are disabled (2026-10-30). `deployer` and `nitsuah-io` have no caller: `nitsuah-io` is outside the nitsuah org and `deployer` is private, so the workflow can't see it.
   - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
   - Priority: P1 · Owner: routine
 - [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
   - Priority: P2 · Owner: routine
+  - Checked 2026-11-24: scripts and tests are on main (#367), but no Task Scheduler job is registered, so this stays open (owner's machine).
 - [x] `daily-repo-sync` as code: `agent/scripts/daily-run.mjs` does DAILY's deterministic steps (guard, merge gate, repo sync, logs, note skeleton, indexes, PR) and calls the model only through `routine-run.mjs` with `agent/prompts/DAILY-MODEL.md` when `skip_model` is false. Tests in CI. Open: register the Task Scheduler job (command in [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md)), run it once with `--apply`, then disable the Claude-plan task; Monday cloud-run lookup and Showcase publish stay manual (`NOT AUTOMATED`).
   - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
@@ -76,6 +78,8 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
   - Priority: P2
   - Check first that Nitsuah-Labs GitHub Actions may call `nitsuah/.github`'s reusable workflow.
   - Done 2026-10-15: both run `.github/workflows/journeys.yml` (ats-fill#143, nitsuah-io#570); neither has `playwright-nightly.yml` any more.
+- [x] stash itself: the Pages site (`pages/`, the only UI in this repo) gets the journeys caller and two journeys (tour and link/asset check, phone-width overflow), `tests/journeys/`, soaked 5/5.
+  - Done 2026-11-24.
 - [ ] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
   - Progress 2026-10-16: skyview (skyview#191) and vhs (vhs#80) run the journeys caller; darkmoon and games are left.
   - Priority: P3

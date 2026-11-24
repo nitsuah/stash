@@ -48,8 +48,9 @@ jobs:
           num=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')
           if [ -n "$num" ]; then
             gh issue comment "$num" --body-file obn-health.md
+            gh issue edit "$num" --add-label bot:repo-health # also labels older, unlabelled reports
           else
-            gh issue create --title "$title" --body-file obn-health.md
+            gh issue create --title "$title" --label bot:repo-health --body-file obn-health.md
           fi
 
       - name: Close the issue when green

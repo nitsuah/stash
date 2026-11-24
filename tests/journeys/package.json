@@ -1,0 +1,11 @@
+{
+  "name": "stash-journeys",
+  "private": true,
+  "description": "Nightly journeys for the stash Pages site (pages/). Run from this folder: npm ci && npm run test:journeys.",
+  "scripts": {
+    "test:journeys": "playwright test -c playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}
