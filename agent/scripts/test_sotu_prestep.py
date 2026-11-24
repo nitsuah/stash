@@ -201,3 +201,38 @@ def test_parse_tasks_preserves_long_titles():
     long_title = "Capture for promo: interactive-3d-scenes, spline-3d-scene-on-3d-route (the `/3d` scene once it loads, ENS registrations, and domain registration) [#568](https://github.com/Nitsuah-Labs/nitsuah-io/issues/568)"
     parsed = sotu.parse_tasks(f"## P1\n- [ ] {long_title}\n", "nitsuah-io", "docs/TASKS.md")
     assert parsed[0]["title"] == long_title
+
+
+def _ctx(monkeypatch, ctx):
+    monkeypatch.setattr(sotu, "_CONTEXT_CACHE", ctx)
+
+
+def test_metrics_digest_comes_from_vigil_context(monkeypatch):
+    digest = "### Delivery metrics (2026-W48)\n\nclosed 7 issues"
+    _ctx(monkeypatch, {"repos": [], "metrics": {"week": "2026-W48", "digest": digest}})
+    assert sotu.vigil_metrics_digest().startswith("### Delivery metrics (2026-W48)")
+
+
+def test_metrics_digest_absent_or_unreadable_is_none(monkeypatch):
+    _ctx(monkeypatch, {"repos": [], "metrics": None})
+    assert sotu.vigil_metrics_digest() is None
+    _ctx(monkeypatch, sotu._CONTEXT_FAILED)  # a failed read is cached so it is not retried per call
+    assert sotu.vigil_metrics_digest() is None
+
+
+def test_markdown_includes_the_digest_section(monkeypatch):
+    d = {"generated_at": "t", "source": "local", "counts": {"P0": 0}, "scope": {"tiers": ["1"], "repos": ["vigil"], "excluded": [], "tier_source": "vigil"},
+         "needs_you": [], "kickoff": [], "initiatives": [], "routines": [], "aging": [], "tasks": [], "missing_tasks_file": [],
+         "metrics_digest": "### Delivery metrics (2026-W48)\n\nclosed 7 issues"}
+    md = sotu.to_markdown(d, "2026-W48")
+    assert "### Delivery metrics (2026-W48)" in md
+    assert md.index("Delivery metrics") < md.index("## Needs you")
+    d["metrics_digest"] = None
+    assert "Delivery metrics" not in sotu.to_markdown(d, "2026-W48")
+
+
+def test_empty_but_valid_context_is_not_a_failure(monkeypatch):
+    _ctx(monkeypatch, {})
+    assert sotu.vigil_context() == {}
+    assert sotu.vigil_tiers() == {}
+    assert sotu.vigil_metrics_digest() is None

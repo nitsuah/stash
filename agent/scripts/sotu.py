@@ -63,25 +63,48 @@ ROUTINE_CANDIDATE = re.compile(r"\b(routines?|DAILY|PMO|TIRE|audit|report|ledger
 PRIO_SCORE = {"P0": 100, "P1": 60, "P2": 30, "P3": 10, None: 5}
 
 
+_CONTEXT_FAILED: dict = {}  # sentinel: a failed read is cached by identity, so an empty-but-valid response is not mistaken for it
+_CONTEXT_CACHE: dict | None = None
+
+
 def norm_tier(raw: str | None) -> str:
     """'T1' / 'Tier 1' / '1' -> '1'; anything else (unregistered, '—') -> '-'."""
     m = re.search(r"([1-4])", raw or "")
     return m.group(1) if m else "-"
 
 
-def vigil_tiers() -> dict[str, str] | None:
-    """Live tiers from vigil's /api/context, keyed by repo name. None when vigil can't be read."""
+def vigil_context() -> dict | None:
+    """Vigil's portfolio /api/context, read once per run. None when vigil can't be read."""
+    global _CONTEXT_CACHE
+    if _CONTEXT_CACHE is not None:
+        return None if _CONTEXT_CACHE is _CONTEXT_FAILED else _CONTEXT_CACHE
     key = os.environ.get("VIGIL_MCP_KEY")
     if not key or not VIGIL_CONTEXT_URL.startswith("https://"):
         return None
     req = urllib.request.Request(VIGIL_CONTEXT_URL, headers={"Authorization": f"Bearer {key}"})
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
-            ctx = json.load(resp)
+            _CONTEXT_CACHE = json.load(resp)
     except Exception as exc:  # fall back to scope.md, but say why
-        print(f"vigil tiers unavailable ({exc}); using scope.md's Tier column", file=sys.stderr)
+        print(f"vigil context unavailable ({exc}); using scope.md's Tier column, no metrics digest", file=sys.stderr)
+        _CONTEXT_CACHE = _CONTEXT_FAILED
+        return None
+    return _CONTEXT_CACHE
+
+
+def vigil_tiers() -> dict[str, str] | None:
+    """Live tiers from vigil's /api/context, keyed by repo name. None when vigil can't be read."""
+    ctx = vigil_context()
+    if ctx is None:
         return None
     return {r["name"]: norm_tier(r.get("tier")) for r in ctx.get("repos", []) if r.get("name")}
+
+
+def vigil_metrics_digest() -> str | None:
+    """The weekly delivery-metrics section vigil renders (vigil#456): the same numbers as its /metrics page."""
+    ctx = vigil_context()
+    digest = ((ctx or {}).get("metrics") or {}).get("digest")
+    return digest if isinstance(digest, str) and digest.strip() else None
 
 
 def apply_tiers(repos: list[dict], live: dict[str, str] | None) -> list[dict]:
@@ -636,6 +659,7 @@ def build(routines_path: str | None, use_vigil: bool, fetch: bool = True, all_ti
         "repo_health_issues": routines.get("repo_health_issues"),
         "repo_health_issue_links": routines.get("repo_health_issue_links", []),
         "priorities": priorities,
+        "metrics_digest": vigil_metrics_digest() if use_vigil else None,
     }
 
 
@@ -652,6 +676,8 @@ def to_markdown(d: dict, week: str) -> str:
     if d.get("quota"):
         q = d["quota"]
         L.append(f"Quota: weekly {q.get('weekly')}%, 5-hour {q.get('five_hour')}% (resets {q.get('weekly_resets')}).\n")
+    if d.get("metrics_digest"):
+        L.append(d["metrics_digest"] + "\n")
     L.append("## Needs you\n")
     L += [f"- **{i['repo']}**: {i.get('title') or i.get('finding')} ({i.get('ref') or i.get('id')})" for i in d["needs_you"]] or ["- nothing"]
     L.append("\n## Kickoff queue\n")
