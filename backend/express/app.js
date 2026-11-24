@@ -45,12 +45,16 @@ const { Sequelize, DataTypes, Op } = require("sequelize");
 // Config
 // ---------------------------------------------------------------------------
 
+function normalizeNodeEnv(env = process.env) {
+  return String(env.NODE_ENV ?? "").trim().toLowerCase();
+}
+
 const config = {
   databaseUrl: process.env.DATABASE_URL || "sqlite::memory:",
   jwtSecret:   process.env.JWT_SECRET,
   jwtExpiry:   "1h",
   port:        parseInt(process.env.PORT || "8080", 10),
-  isDev:       process.env.NODE_ENV !== "production",
+  isDev:       normalizeNodeEnv() !== "production",
 };
 
 if (!config.jwtSecret) {
@@ -62,11 +66,18 @@ if (!config.jwtSecret) {
 // ---------------------------------------------------------------------------
 
 // Postgres connections use verified TLS. PGSSL_CA may hold a PEM string or a
-// path to a PEM file; PGSSL_REJECT_UNAUTHORIZED=false is an explicit opt-out.
+// path to a PEM file; PGSSL_REJECT_UNAUTHORIZED=false is an explicit opt-out
+// allowed only when NODE_ENV is 'development' or 'test' (trimmed, lowercased).
+// In production (or unset/unknown NODE_ENV), the opt-out is refused.
 function dbDialectOptions(url, env = process.env) {
   if (!url.startsWith("postgres")) return {};
   const ssl = { require: true, rejectUnauthorized: true };
+  const nodeEnv = String(env.NODE_ENV ?? process.env.NODE_ENV ?? "").trim().toLowerCase();
+  const allowOptOut = nodeEnv === "development" || nodeEnv === "test";
   if (env.PGSSL_REJECT_UNAUTHORIZED === "false") {
+    if (!allowOptOut) {
+      throw new Error("PGSSL_REJECT_UNAUTHORIZED=false is not allowed when NODE_ENV=production");
+    }
     ssl.rejectUnauthorized = false;
     console.warn("PGSSL_REJECT_UNAUTHORIZED=false: database certificate verification is disabled");
   }
@@ -188,7 +199,8 @@ function demoLoginStatus(env = process.env) {
   const flag = env.DEMO_LOGIN_ENABLED;
   if (flag !== "true" && flag !== "1") return { enabled: false, reason: "not enabled" };
   const usingDefault = (env.DEMO_PASSWORD || DEFAULT_DEMO_PASSWORD) === DEFAULT_DEMO_PASSWORD;
-  if (env.NODE_ENV === "production" && usingDefault) {
+  const nodeEnv = normalizeNodeEnv(env);
+  if (nodeEnv === "production" && usingDefault) {
     return { enabled: false, reason: "default demo password is not allowed in production; set DEMO_PASSWORD" };
   }
   return { enabled: true, reason: "enabled" };
@@ -367,4 +379,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createApp, dbDialectOptions, demoLoginEnabled, demoLoginStatus, User, Item, sequelize };
+module.exports = { createApp, dbDialectOptions, demoLoginEnabled, demoLoginStatus, normalizeNodeEnv, User, Item, sequelize };
