@@ -114,32 +114,19 @@ before(async () => {
   sequelize.sync = async () => {};
 });
 
-test('app fails to start when JWT_SECRET is unset', async () => {
-  // This test demonstrates the app fails closed when JWT_SECRET is unset
-  // Since the module is already loaded in the before() hook, we can't easily
-  // re-test the module-level validation. Instead, we test the config function.
-  const originalJwtSecret = process.env.JWT_SECRET;
-  delete process.env.JWT_SECRET;
-
-  try {
-    // The config validation happens at module level, we test the logic
-    const config = {
-      databaseUrl: process.env.DATABASE_URL || "sqlite::memory:",
-      jwtSecret: process.env.JWT_SECRET,
-      jwtExpiry: "1h",
-      port: parseInt(process.env.PORT || "8080", 10),
-      isDev: process.env.NODE_ENV !== "production",
-    };
-    if (!config.jwtSecret) {
-      throw new Error("JWT_SECRET must be set");
-    }
-    assert.fail('Should have thrown');
-  } catch (e) {
-    assert.match(e.message, /JWT_SECRET must be set/);
-  } finally {
-    if (originalJwtSecret !== undefined) process.env.JWT_SECRET = originalJwtSecret;
-    else delete process.env.JWT_SECRET;
-  }
+test('app fails to start when JWT_SECRET is unset', () => {
+  // Load the real app.js in a fresh process with no secret, from an empty cwd so
+  // dotenv cannot supply one; the module-level guard must refuse to start.
+  const { spawnSync } = require('node:child_process');
+  const { tmpdir } = require('node:os');
+  const env = { ...process.env, NODE_ENV: 'test', DATABASE_URL: 'sqlite::memory:' };
+  delete env.JWT_SECRET;
+  const appPath = join(__dirname, 'app.js');
+  const res = spawnSync(process.execPath, ['-e', `require(${JSON.stringify(appPath)})`], {
+    cwd: tmpdir(), env, encoding: 'utf8', timeout: 30000,
+  });
+  assert.notEqual(res.status, 0, 'app.js should exit non-zero without JWT_SECRET');
+  assert.match(res.stderr, /JWT_SECRET must be set/);
 });
 
 // --- TLS Certificate Verification Tests ---
