@@ -55,8 +55,10 @@ DAILY_NOTE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
 WEEKLY_NOTE_RE = re.compile(r"^\d{4}-W\d{2}\.md$")
 
 
-def file_date(name):
-    """Date a report by its filename: YYYY-MM-DD, YYYY-MM (month start) or YYYY-Www (Monday)."""
+def file_date(name, month_end=False):
+    """Date a report by its filename: YYYY-MM-DD, YYYY-MM or YYYY-Www (Monday).
+
+    A bare YYYY-MM is the month start, or its last day with month_end=True."""
     m = WEEK_RE.search(name)
     if m:
         try:
@@ -67,6 +69,11 @@ def file_date(name):
     if not m:
         return None
     try:
+        if month_end and not m.group(3):
+            year, month = int(m.group(1)), int(m.group(2))
+            dt.date(year, month, 1)  # raises ValueError for month 0 or 13+
+            nxt = dt.date(year + (month == 12), month % 12 + 1, 1)
+            return nxt - dt.timedelta(days=1)
         return dt.date(int(m.group(1)), int(m.group(2)), int(m.group(3) or 1))
     except ValueError:
         return None
@@ -111,7 +118,10 @@ def newest_report_date(directory, prefix):
     for name in os.listdir(directory):
         if not name.endswith(".md") or (prefix and not name.startswith(prefix)):
             continue
-        d = file_date(name)
+        # A monthly report (YYYY-MM) is written after its month ends, so age it from the
+        # last day of that month; dating it at the month start made it read 5+ days
+        # overdue on the day it was written.
+        d = file_date(name, month_end=True)
         if d and (newest is None or d > newest):
             newest = d
     return newest

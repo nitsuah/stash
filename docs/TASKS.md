@@ -36,6 +36,7 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
 
 - [x] `week-obn-import` to a weekly stash workflow (`.github/workflows/obn-health.yml`, `agent/scripts/obn_health.py`); it keeps one open issue while red instead of a report PR each week.
   - Priority: P1 · Owner: stash · Done 2026-10-29; first dispatch ran green and the cloud routine is disabled (2026-10-30).
+  - 2026-11-24 (#402): monthly reports are aged from month end, which clears a false RED for `usage-report`/`rsi-report`. Still RED and needing the owner: no daily note since 2026-11-04, and no `pmo-audit` since 2026-10-01 (decide to restart the routine or drop it from `CADENCE`).
 - [x] Slim `agent/prompts/DAILY.md` (32 KB to about 16 KB re-sent every turn): history trimmed, repo-sync prose points at the wrapper and `sync-repos.ps1`, step 2 gated on changed or stale mirrors, model tiers stated, failed-run lookup and Showcase publish made weekly.
   - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
