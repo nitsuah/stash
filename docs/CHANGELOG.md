@@ -13,6 +13,7 @@ Notable additions and changes to this repository.
 - `.github/workflows/journeys.yml` and `tests/journeys/`: nightly journeys for the Pages site in `pages/` (a reader tours landing, Journeys, Imps and Setup and every local link, image and video resolves; each page fits a 390 px phone with no horizontal scroll), one landing-hero baseline, soaked 5/5 in the pinned Playwright image. Failures file `bot:journey` issues.
 - pytest coverage for `agent/scripts/prestep_common.py`.
 - pytest coverage for `agent/scripts/obsidian-json-clean.py`.
+- pytest coverage for `agent/scripts/repo-breadcrumbs.py` helpers.
 - `agent/scripts/week_review.py` lists the Mon-Fri daily notes and their Repo Activity lines for the Saturday review (#452).
 - CI's pytest step collects the whole `agent/scripts` directory instead of a hand-kept file list, so `test_week_review.py`, `test_sotu_prestep.py`, `test_build_vault_indexes.py` and `test_check_generated_diff.py` run too, and new test files are picked up without editing the workflow.
 
