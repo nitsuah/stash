@@ -76,6 +76,8 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
 
     saturday = dt.date.fromisoformat(a.saturday)
+    if saturday.weekday() != 5:
+        ap.error("--saturday must be a Saturday (weekday 5)")
     result = collect(Path(a.notes_dir), saturday)
     print(json.dumps(result, indent=2))
     return 0

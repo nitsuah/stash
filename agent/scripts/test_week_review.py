@@ -1,6 +1,5 @@
 """week_review.py: week_days, repo_activity, collect JSON shape."""
 import datetime as dt
-import json
 
 import week_review as wr
 
