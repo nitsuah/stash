@@ -287,7 +287,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Type: Privacy / human decision
   - Acceptance: names replaced with roles (or kept with a note that the people agreed), city kept or reduced to state/country.
 
-- [ ] Drop the stale "agent/reports/ is gitignored" line from the week-eng-mini and week-eng-loc cloud prompts (reports have been tracked since 2026-09-24), then refresh `agent/routines/routine-cloud-week-eng-*.md`.
+- [x] Drop the stale "agent/reports/ is gitignored" line from the week-eng-mini and week-eng-loc cloud prompts (reports have been tracked since 2026-09-24), then refresh `agent/routines/routine-cloud-week-eng-*.md`. Obsolete: the week-eng routines were retired 2026-10-30 and archived under `agent/routines/archive/`; nothing live to refresh (#454).
   - Priority: P3
   - Type: Routine
 
