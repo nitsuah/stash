@@ -14,6 +14,7 @@ Notable additions and changes to this repository.
 - pytest coverage for `agent/scripts/prestep_common.py`.
 - pytest coverage for `agent/scripts/obsidian-json-clean.py`.
 - pytest coverage for `agent/scripts/repo-breadcrumbs.py` helpers.
+- pytest coverage for the redaction helpers in `agent/scripts/export-routines.py`.
 - `agent/scripts/week_review.py` lists the Mon-Fri daily notes and their Repo Activity lines for the Saturday review (#452).
 - CI's pytest step collects the whole `agent/scripts` directory instead of a hand-kept file list, so `test_week_review.py`, `test_sotu_prestep.py`, `test_build_vault_indexes.py` and `test_check_generated_diff.py` run too, and new test files are picked up without editing the workflow.
 
