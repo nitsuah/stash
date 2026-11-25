@@ -11,6 +11,7 @@ Notable additions and changes to this repository.
 ### Added
 
 - `.github/workflows/journeys.yml` and `tests/journeys/`: nightly journeys for the Pages site in `pages/` (a reader tours landing, Journeys, Imps and Setup and every local link, image and video resolves; each page fits a 390 px phone with no horizontal scroll), one landing-hero baseline, soaked 5/5 in the pinned Playwright image. Failures file `bot:journey` issues.
+- `agent/scripts/week_review.py` lists the Mon-Fri daily notes and their Repo Activity lines for the Saturday review (#452).
 
 ### Changed
 
