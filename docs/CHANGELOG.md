@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### Added
 
+- Unit tests for suggest-links.py (embeddings parsing, link_map).
 - Unit tests for the sotu.py apply_tiers, kickoff_prompt and _keywords helpers.
 - Unit tests for find-orphans.py (strip_code, link regexes, collect).
 - Unit tests for visual_board.py (COLUMNS table, fix_hint).
