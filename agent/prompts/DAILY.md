@@ -104,7 +104,7 @@ Both ride in the day's daily-note PR. Weeks are ISO (`YYYY-Www`, Monday start); 
 
 Seed Goals from last week's "Next week priorities", then uncovered "Recurring issues", max 3. No last review: one line saying so, not blank checkboxes. Also run `python agent/scripts/suggest-links.py --write` (writes `agent/reports/link-suggestions-<date>.md`; never edits notes; don't act on it); add "review N link suggestions" under Goals and commit the report.
 
-**Saturday:** Friday's note is merged, so all five weekdays are on `main`. Read only the Mon-Fri notes' `## Repo Activity` and `## Tasks` plus this week's note (no existing script pre-extracts Coverage/Wins yet; tracked in `docs/TASKS.md`), then **append** (never rewrite earlier sections) to `agent/notes/<YYYY>-W<ww>.md`:
+**Saturday:** Friday's note is merged, so all five weekdays are on `main`. Run `python agent/scripts/week_review.py --saturday <YYYY-MM-DD>` first, take **Coverage** from `present` and `missing`, and **Wins** from `repo_activity`. Still read each Mon-Fri note's `## Tasks` and this week's note for the other three lines, then **append** (never rewrite earlier sections) to `agent/notes/<YYYY>-W<ww>.md`:
 
 ```
 ## Week Review — Saturday <YYYY-MM-DD>

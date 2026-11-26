@@ -10,6 +10,8 @@ Notable additions and changes to this repository.
 
 ### Added
 
+- DAILY step 4 now calls `week_review.py --saturday` for Coverage/Wins pre-extraction (#478).
+
 - Unit tests for suggest-links.py (embeddings parsing, link_map).
 - Unit tests for the sotu.py apply_tiers, kickoff_prompt and _keywords helpers.
 - Unit tests for find-orphans.py (strip_code, link regexes, collect).

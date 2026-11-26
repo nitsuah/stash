@@ -39,9 +39,9 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - 2026-11-24 (#402): monthly reports are aged from month end, which clears a false RED for `usage-report`/`rsi-report`. Still RED and needing the owner: no daily note since 2026-11-04, and no `pmo-audit` since 2026-10-01 (decide to restart the routine or drop it from `CADENCE`).
 - [x] Slim `agent/prompts/DAILY.md` (32 KB to about 16 KB re-sent every turn): history trimmed, repo-sync prose points at the wrapper and `sync-repos.ps1`, step 2 gated on changed or stale mirrors, model tiers stated, failed-run lookup and Showcase publish made weekly.
   - Priority: P1 · Owner: stash · Done 2026-10-30.
-- [ ] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
+- [x] Pre-extract the Saturday week-review Coverage and Wins by script (a `week-review` mode that lists the Mon-Fri notes present and their `## Repo Activity` lines), so the review reads script output instead of five notes. `suggest-links.py` and the other scripts don't do this today, so DAILY step 4 still reads the notes' `## Repo Activity`/`## Tasks`.
   - Priority: P2 · Owner: stash (script) + routine (DAILY.md)
-  - Script done: `agent/scripts/week_review.py` (#452); DAILY step 4 still has to call it.
+  - Script done: `agent/scripts/week_review.py` (#452); DAILY step 4 now calls it.
 - [x] `week-vuln`, `week-eng-loc`, `week-eng-mini`: reusable `repo-health` workflow shipped in nitsuah/.github (#123) and piloting in stash (#363).
   - Done 2026-11-24 (verified): the shared workflow is merged (nitsuah/.github#123 and follow-ups), the `Repo health` caller is on main in 15 repos (stash plus 14 others), each ran green on schedule 2026-11-19, and the cloud routines are disabled (2026-10-30). The two repos without a caller are tracked in the next item.
   - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
