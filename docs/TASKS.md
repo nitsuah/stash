@@ -300,6 +300,7 @@ Each item names its owner. **vigil**: app feature, tracked in nitsuah/vigil. **r
 **Semantic layer (7.5 → 9)**
 - [ ] Embedding freshness: `suggest-links.py` reports notes missing a Smart Connections embedding, or embedded before their last edit, so suggestions aren't built on stale vectors.
   - Priority: P3 · Owner: stash
+  - Done: missing embeddings are reported (#480). Remaining: notes edited after their last embedding.
 - [x] Close the loop on suggestions: the PMO audit reads the latest `reports/link-suggestions-*.md`, adds the links that reflect a real dependency (in the note body), and records accepted/ignored counts in its report. See also "Review the first weekly link-suggestions" and "Tune topic hubs" above.
   - Priority: P3 · Owner: routine (PMO.md) · Done 2026-09-26: PMO step 7 adds the real-dependency links and records accepted/ignored counts.
 

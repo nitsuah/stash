@@ -68,3 +68,15 @@ def test_link_map_records_links_in_both_directions(tmp_path, monkeypatch):
     assert links["a.md"] == ["b.md"]
     assert links["b.md"] == ["a.md"]
     assert links["c.md"] == []
+
+
+def test_missing_embeddings_some_missing():
+    notes = ["a.md", "b.md", "c.md", "d.md"]
+    vecs = {"a.md": [1, 0], "c.md": [0, 1]}
+    assert sl.missing_embeddings(notes, vecs) == ["b.md", "d.md"]
+
+
+def test_missing_embeddings_none_missing():
+    notes = ["a.md", "b.md"]
+    vecs = {"a.md": [1, 0], "b.md": [0, 1]}
+    assert sl.missing_embeddings(notes, vecs) == []
