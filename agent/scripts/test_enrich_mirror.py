@@ -44,3 +44,37 @@ def test_refuses_unnormalizable_userinfo(tmp_path, origin):
     assert proc.returncode != 0
     assert FAKE_TOKEN not in proc.stdout + proc.stderr
     assert out == "# Demo\n\nSee [license](LICENSE).\n"
+
+
+def test_archived_status_on_docs_archive(tmp_path):
+    src, dest = tmp_path / "src", tmp_path / "dest"
+    dest.mkdir()
+    subprocess.run(["git", "init", "-q", str(src)], check=True)
+    subprocess.run(["git", "-C", str(src), "remote", "add", "origin", "https://github.com/nitsuah/demo.git"], check=True)
+
+    # Archive doc without status
+    (dest / "docs" / "archive").mkdir(parents=True)
+    (dest / "docs" / "archive" / "old.md").write_text("---\ntitle: Old\n---\n\nOld content.\n", encoding="utf-8")
+
+    # Root doc (not in archive)
+    (dest / "README.md").write_text("---\ntitle: Root\n---\n\nRoot content.\n", encoding="utf-8")
+
+    # Archive doc that already has status
+    (dest / "docs" / "archive" / "has-status.md").write_text("---\nstatus: active\n---\n\nHas status.\n", encoding="utf-8")
+
+    proc = subprocess.run([sys.executable, str(SCRIPT), str(src), str(dest), "demo"],
+                          capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
+
+    # Archive doc without status gains status: archived
+    out_archive = (dest / "docs" / "archive" / "old.md").read_text(encoding="utf-8")
+    assert "status: archived" in out_archive
+
+    # Root doc has no status line
+    out_readme = (dest / "README.md").read_text(encoding="utf-8")
+    assert "status:" not in out_readme
+
+    # Archive doc with existing status keeps it
+    out_has_status = (dest / "docs" / "archive" / "has-status.md").read_text(encoding="utf-8")
+    assert "status: active" in out_has_status
+    assert out_has_status.count("status:") == 1

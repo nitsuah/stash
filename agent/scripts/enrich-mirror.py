@@ -125,6 +125,8 @@ def enrich(doc, text):
     name = posixpath.splitext(posixpath.basename(doc))[0]
     ours = {"up": f'"[[repos/{repo}]]"', "title": json.dumps(f"{repo} · {name}", ensure_ascii=False), "source": url(doc),
             "kind": "repo-doc", "repo": repo}
+    if doc.startswith("docs/archive/"):
+        ours["status"] = "archived"
     m = re.match(r"^---\n(.*?)\n---\n", body, re.DOTALL)
     if m:
         keys = {line.split(":", 1)[0].strip() for line in m.group(1).split("\n") if ":" in line}

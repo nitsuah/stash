@@ -244,6 +244,7 @@ Done 2026-09-25 (stash #139-#144): flat INDEX files retired for generated hub li
   - Type: Vault
 
 - [ ] Richer properties: add `status` (active/archived/superseded) where it is cheap to derive (e.g. `docs/archive/` → archived), and a Bases view that hides archived docs.
+  - Done: archived status from docs/archive/ (#479). Remaining: the Bases view that hides archived docs (needs a look in Obsidian).
   - Priority: P3
   - Type: Vault
 
