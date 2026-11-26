@@ -10,7 +10,11 @@ Notable additions and changes to this repository.
 
 ### Added
 
+<<<<<<< HEAD
 - Unit tests for the sotu.py norm_tier, classify and public_view helpers.
+=======
+- Unit tests for visual_board.py (COLUMNS table, fix_hint).
+>>>>>>> origin/main
 - `.github/workflows/journeys.yml` and `tests/journeys/`: nightly journeys for the Pages site in `pages/` (a reader tours landing, Journeys, Imps and Setup and every local link, image and video resolves; each page fits a 390 px phone with no horizontal scroll), one landing-hero baseline, soaked 5/5 in the pinned Playwright image. Failures file `bot:journey` issues.
 - pytest coverage for `agent/scripts/prestep_common.py`.
 - pytest coverage for `agent/scripts/obsidian-json-clean.py`.
