@@ -14,6 +14,8 @@ Notable additions and changes to this repository.
 
 - `enrich-mirror.py` adds `status: archived` to docs under `docs/archive/`; test covers archive doc, root doc, and pre-existing status (#479).
 
+- `suggest-links.py` reports notes without a Smart Connections embedding (#480).
+
 - Unit tests for suggest-links.py (embeddings parsing, link_map).
 - Unit tests for the sotu.py apply_tiers, kickoff_prompt and _keywords helpers.
 - Unit tests for find-orphans.py (strip_code, link regexes, collect).

@@ -68,9 +68,15 @@ def link_map():
     return json.load(open(out, encoding="utf-8"))["links"]
 
 
+def missing_embeddings(notes, vecs):
+    return sorted(n for n in notes if n not in vecs)
+
+
 vecs, links = embeddings(), link_map()
-native = [n for n in links if not re.match(r"^repos/[^/]+/", n)
-          and not re.match(r"^(notes/\d{4}-|reports/)", n) and n in vecs]
+candidates = [n for n in links if not re.match(r"^repos/[^/]+/", n)
+              and not re.match(r"^(notes/\d{4}-|reports/)", n)]
+native = [n for n in candidates if n in vecs]
+missing = missing_embeddings(candidates, vecs)
 weak = [n for n in native if len(links[n]) <= MAX_LINKS]
 rows = []
 for n in sorted(weak):
@@ -85,7 +91,16 @@ body = [f"# link-suggestions — {today}", "",
         (f"Weakly connected notes (≤{MAX_LINKS} link) outside the repo mirrors, with the most similar "
         f"notes they don't link to yet (Smart Connections embeddings, cosine ≥ {MIN_SCORE}). "
         "Suggestions only: add a link where the note actually depends on the other one, and ignore the rest."),
-        "", f"{len(weak)} weakly connected note(s) checked, {len(rows)} with suggestions.", ""] + (rows or ["None this week."])
+        "", f"{len(weak)} weakly connected note(s) checked, {len(rows)} with suggestions.", ""]
+if rows:
+    body += rows
+else:
+    body.append("None this week.")
+body += ["", "## Notes without an embedding", ""]
+if missing:
+    body += [f"- `{n}`" for n in missing]
+else:
+    body.append("None.")
 print("\n".join(body))
 if "--write" in sys.argv:
     path = os.path.join(VAULT, "reports", f"link-suggestions-{today}.md")
