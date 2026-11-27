@@ -188,10 +188,12 @@ td code { white-space: nowrap; }
 footer { border-top: 1px solid var(--border); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 
-/* The wide diagram is unreadable on a phone, so show the same loop as a list. */
+/* The wide diagram is hard to read on a phone: lead with the same loop as a list.
+   The full diagram stays below it and scrolls sideways inside its own box. */
 @media (max-width: 760px) {
-  .diagram svg { display: none; }
-  .diagram-steps { display: block; }
+  .diagram-steps { display: block; margin-bottom: 16px; }
+  .diagram { display: flex; flex-direction: column; }
+  .diagram svg { order: 1; flex-shrink: 0; }
 }
 
 @media (max-width: 640px) {
