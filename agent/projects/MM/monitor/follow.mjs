@@ -5,14 +5,14 @@ const MAX_HOPS = 5;
 const bare = h => h.toLowerCase().replace(/^www\./, '');
 
 export function hopAllowed(from, to) {
-  if (!['http:', 'https:'].includes(to.protocol)) return false;
-  if (to.username || to.password) return false;
+  if (!isAllowedTarget(to)) return false;
   if (from.protocol === 'https:' && to.protocol === 'http:') return false;
   return bare(to.hostname) === bare(from.hostname) && (to.port || '') === (from.port || '');
 }
 
 export async function fetchFollow(url, init, fetchImpl = fetch) {
   const origin = new URL(url);
+  if (!isAllowedTarget(origin)) throw new Error('url-blocked');
   let current = origin;
   for (let hop = 0; ; hop++) {
     const r = await fetchImpl(current.href, { ...init, redirect: 'manual' });
