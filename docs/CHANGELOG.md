@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### CI
+
+- CI: adopt the shared risk guard workflow (#484).
+
 ### Added
 
 - Pages (#489): audience line and Journeys/Imps gloss, a "First 15 minutes" path with optional steps labelled and fork advice first, Copy buttons, social preview tags, a phone-friendly header and stacked loop diagram, an accessible diagram name, fixed heading levels, and `brag-20s` mapped in `promo/spots.json`.
