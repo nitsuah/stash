@@ -164,7 +164,18 @@ td code { white-space: nowrap; }
 .steps { counter-reset: step; }
 .step { position: relative; padding-left: 52px; margin: 0 0 36px; scroll-margin-top: 72px; }
 .step::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font: 700 14px var(--mono); }
-.step h3 { font-size: 20px; margin-bottom: 8px; }
+.step > h2 { font-size: 20px; margin: 0 0 8px; }
+.opt { font: 600 11px/1 var(--mono); text-transform: uppercase; padding: 3px 6px; border-radius: 6px; background: var(--surface-2); color: var(--muted); vertical-align: 2px; }
+.quick { border: 1px solid var(--accent); background: var(--accent-soft); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 36px; }
+.quick h2 { font-size: 20px; margin-top: 0; }
+.codebox { position: relative; margin: 14px 0; }
+.codebox pre { margin: 0; padding-top: 40px; }
+.codebox button { position: absolute; top: 8px; right: 8px; font: 12px var(--sans); padding: 3px 10px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; }
+.codebox button:hover { color: var(--text); border-color: var(--accent); }
+.audience { margin: 0 0 12px; max-width: 720px; }
+.gloss { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
+.diagram-steps { display: none; margin: 0; padding-left: 20px; }
+.diagram-steps li { margin-bottom: 8px; }
 .step p, .step li { color: var(--muted); }
 .step p strong, .step li strong { color: var(--text); }
 .callout { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: 15px; }
@@ -177,7 +188,20 @@ td code { white-space: nowrap; }
 footer { border-top: 1px solid var(--border); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 
+/* The wide diagram is hard to read on a phone: lead with the same loop as a list.
+   The full diagram stays below it and scrolls sideways inside its own box. */
+@media (max-width: 760px) {
+  .diagram-steps { display: block; margin-bottom: 16px; }
+  .diagram { display: flex; flex-direction: column; }
+  .diagram svg { order: 1; flex-shrink: 0; }
+}
+
 @media (max-width: 640px) {
+  .nav .wrap { height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; gap: 8px 16px; }
+  .nav .links { margin-left: 0; width: 100%; flex-wrap: wrap; white-space: normal; overflow: visible; }
+  .nav .links a[href^="#"] { display: none; }
+  .wrap.steps > *, .step > * { min-width: 0; }
+  .step, .step p, .step li, .step td { overflow-wrap: anywhere; }
   .hero { padding: 44px 0 24px; }
   section { padding: 40px 0; }
   .nav .links { gap: 14px; }

@@ -105,7 +105,9 @@
       "screenshots": [
         "docs/screenshots/vault-graph.png"
       ],
-      "spots": []
+      "spots": [
+        "brag-20s"
+      ]
     },
     {
       "id": "vault-hub-links",
@@ -114,7 +116,9 @@
       "screenshots": [
         "docs/screenshots/vault-graph.png"
       ],
-      "spots": []
+      "spots": [
+        "brag-20s"
+      ]
     },
     {
       "id": "mirror-enrichment",
@@ -193,7 +197,8 @@
       "title": "VMT",
       "category": "Projects",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     },
     {
       "id": "pfa",
@@ -210,7 +215,8 @@
       "title": "Auto",
       "category": "Projects",
       "screenshots": [],
-      "spots": []
+      "spots": [],
+      "visual": "none"
     }
   ],
   "spots": [
@@ -219,7 +225,10 @@
       "seconds": 20,
       "format": "landscape",
       "tool": "brag (one-off, source not kept)",
-      "features": [],
+      "features": [
+        "repo-docs-sync",
+        "vault-hub-links"
+      ],
       "published": "pages/assets/stash-brag.mp4",
       "rendered": "2026-10-02"
     },

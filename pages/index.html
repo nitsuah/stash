@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>stash · One Brain</title>
   <meta name="description" content="How nitsuah/stash wires Claude agents, scheduled routines and a set of small scripts into one Obsidian vault that links 17 repos across machines, in a public repo that stays clean.">
+  <link rel="canonical" href="https://nitsuah.github.io/stash/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nitsuah.github.io/stash/">
+  <meta property="og:title" content="stash · One Brain">
+  <meta property="og:description" content="One person's working setup: Claude agents and scripts that keep an Obsidian vault in a public repo. A reference, not a product.">
+  <meta property="og:image" content="https://nitsuah.github.io/stash/assets/stash-brag.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="stash · One Brain">
+  <meta name="twitter:description" content="One person's working setup: Claude agents and scripts that keep an Obsidian vault in a public repo. A reference, not a product.">
+  <meta name="twitter:image" content="https://nitsuah.github.io/stash/assets/stash-brag.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 9v14l12 7 12-7V9z' fill='%237c4dff'/%3E%3Cpath d='M16 9 10 12.5v7L16 23l6-3.5v-7z' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -35,6 +47,7 @@
   <div class="wrap">
     <div class="eyebrow">nitsuah/stash · agent/</div>
     <h1>17 repos, 13 routines, <em>one Obsidian brain</em>.</h1>
+    <p class="audience">For developers who want their own agent-maintained Obsidian vault and would rather read a real setup than a template. <strong>It is a reference, not a product.</strong></p>
     <p class="lede">
       <code>stash/agent/</code> is an Obsidian vault that sits inside a public git repo. Claude agents write to it
       on a schedule, a set of small scripts keeps every note linked, and git carries it to every machine.
@@ -46,6 +59,8 @@
       <a class="btn" href="https://github.com/nitsuah/stash/tree/main/agent">Browse the vault on GitHub</a>
       <a class="btn" href="https://github.com/nitsuah/stash/blob/main/agent/projects/obsidian-vault-guide.md">Read the vault guide</a>
     </div>
+
+    <p class="gloss">Also here: <a href="journeys.html">Journeys</a>, nightly scripted user tests that file their own bugs, and <a href="imps.html">Imps</a>, small agents that turn one GitHub issue into one small PR.</p>
 
     <div class="stats">
       <div class="stat"><b>17</b><span>tracked repos, one registry</span></div>
@@ -70,7 +85,7 @@
 
 <section id="what">
   <div class="wrap">
-    <div class="eyebrow">This is a reference, not a product</div>
+    <div class="eyebrow">What this is</div>
     <h2>What this page is</h2>
     <p class="sub">
       Nothing here is packaged or versioned for reuse. It's one person's working setup, and it's public so you can read
@@ -99,7 +114,7 @@
       <picture>
         <source srcset="assets/vault-graph.webp" type="image/webp">
         <img src="assets/vault-graph.gif" width="1200" height="676" loading="lazy"
-             alt="Animated Obsidian graph of the stash/agent vault: about 580 nodes settling into one cluster per tracked repo, each around a bright repo hub, with reports, notes and prompts linking the clusters together.">
+             alt="Animated Obsidian graph of the stash/agent vault: the vault's notes settling into one cluster per tracked repo, each around a bright repo hub, with reports, notes and prompts linking the clusters together.">
       </picture>
       <figcaption>
         <span class="legend">
@@ -116,8 +131,8 @@
       </figcaption>
     </figure>
 
-    <div class="diagram" role="img" aria-label="Diagram: tracked repos feed sync scripts, which write the stash/agent vault; the vault goes to GitHub main through a gated PR; cloud routines clone main and write reports back by PR; every machine git-pulls main and opens it in Obsidian.">
-      <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
+    <div class="diagram">
+      <svg role="img" aria-label="Diagram: tracked repos feed sync scripts, which write the stash/agent vault; the vault goes to GitHub main through a gated PR; cloud routines clone main and write reports back by PR; every machine git-pulls main and opens it in Obsidian." viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"/></marker>
         </defs>
@@ -199,6 +214,14 @@
         <path class="arrow" stroke-dasharray="5 5" d="M980 135 H992 V458 H120 V424"/>
         <text class="small" x="420" y="452">git pull on every machine: same graph, same hubs, same reports everywhere</text>
       </svg>
+      <ol class="diagram-steps">
+        <li><b>Tracked repos</b> (listed in <code>projects/scope.md</code>): public docs are mirrored; private repos get a hub summary only.</li>
+        <li><b>Pipeline scripts</b> mirror, enrich, link and verify them.</li>
+        <li><b><code>stash/agent</code>, the vault</b>: every note is reachable from <code>VAULT-MAP</code>. Your machines write here through Obsidian, MCP and local routines.</li>
+        <li><b>GitHub <code>main</code></b>: CI gates every PR.</li>
+        <li><b>Cloud routines</b> clone <code>main</code> and report back by PR.</li>
+        <li><b>Every machine</b> runs <code>git pull</code> and sees the same graph.</li>
+      </ol>
     </div>
 
     <div class="grid g2" style="margin-top:20px">
