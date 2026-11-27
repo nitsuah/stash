@@ -15,6 +15,30 @@ test('hopAllowed: same host, www and https upgrade only', () => {
   assert.ok(!hopAllowed(u('https://a.com/'), u('file:///etc/passwd')));
 });
 
+test('metadata destinations are blocked before the first request', async () => {
+  const seen = [];
+  const fetchImpl = async href => { seen.push(href); return res(200); };
+  for (const url of [
+    'http://169.254.169.254/latest/meta-data/',
+    'http://169.254.170.2/v2/metadata',
+    'http://metadata.google.internal/computeMetadata/v1/',
+    'http://metadata./',
+  ]) {
+    await assert.rejects(fetchFollow(url, {}, fetchImpl), /url-blocked/);
+  }
+  assert.deepEqual(seen, []);
+});
+
+test('redirects to cloud metadata hostnames are refused before requesting them', async () => {
+  const seen = [];
+  const fetchImpl = async href => {
+    seen.push(href);
+    return res(302, 'http://metadata.google.internal/computeMetadata/v1/');
+  };
+  await assert.rejects(fetchFollow('https://a.com/', {}, fetchImpl), /redirect-blocked/);
+  assert.deepEqual(seen, ['https://a.com/']);
+});
+
 test('fetchFollow follows allowed hops and uses manual redirect mode', async () => {
   const calls = [];
   const f = async (href, init) => {
