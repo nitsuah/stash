@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### CI
+
+- CI: adopt the shared risk guard workflow (#484).
+
 ### Added
 
 - DAILY step 4 now calls `week_review.py --saturday` for Coverage/Wins pre-extraction (#478).
