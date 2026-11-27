@@ -29,6 +29,19 @@ test('metadata destinations are blocked before the first request', async () => {
   assert.deepEqual(seen, []);
 });
 
+test('IPv4-mapped IPv6 metadata destinations are blocked before the first request', async () => {
+  const seen = [];
+  const fetchImpl = async href => { seen.push(href); return res(200); };
+  for (const url of [
+    'http://[::ffff:169.254.169.254]/latest/meta-data/',
+    'http://[::ffff:169.254.170.2]/v2/metadata',
+    'http://[::ffff:100.100.100.200]/latest/meta-data/',
+  ]) {
+    await assert.rejects(fetchFollow(url, {}, fetchImpl), /url-blocked/);
+  }
+  assert.deepEqual(seen, []);
+});
+
 test('redirects to cloud metadata hostnames are refused before requesting them', async () => {
   const seen = [];
   const fetchImpl = async href => {
