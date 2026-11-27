@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### Security
+
+- The MM monitor now refuses direct requests and redirects to cloud metadata endpoints (AWS/GCP/Alibaba metadata hosts) before issuing the request; private LAN monitoring remains an explicit local CLI capability.
+
 ### CI
 
 - CI: adopt the shared risk guard workflow (#484).
