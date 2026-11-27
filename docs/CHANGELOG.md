@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### Added
 
+- Pages (#489): audience line and Journeys/Imps gloss, a "First 15 minutes" path with optional steps labelled and fork advice first, Copy buttons, social preview tags, a phone-friendly header and stacked loop diagram, an accessible diagram name, fixed heading levels, and `brag-20s` mapped in `promo/spots.json`.
 - DAILY step 4 now calls `week_review.py --saturday` for Coverage/Wins pre-extraction (#478).
 
 - `enrich-mirror.py` adds `status: archived` to docs under `docs/archive/`; test covers archive doc, root doc, and pre-existing status (#479).
