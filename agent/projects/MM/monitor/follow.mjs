@@ -2,13 +2,15 @@
 // A hop is allowed only on http(s), without credentials, and on the same host as the
 // original URL (a leading "www." and an http -> https upgrade are tolerated).
 const MAX_HOPS = 5;
-const bare = h => h.toLowerCase().replace(/^www\./, '');
+const bare = h => h.toLowerCase().replace(/^www\\./, '');
 const BLOCKED_METADATA_HOSTS = new Set([
   'metadata', 'metadata.google.internal', 'instance-data',
   '169.254.169.254', '169.254.170.2', '100.100.100.200', 'fd00:ec2::254',
+  // WHATWG URL serializes IPv4-mapped IPv6 literals in canonical hexadecimal form.
+  '::ffff:a9fe:a9fe', '::ffff:a9fe:aa02', '::ffff:6464:64c8',
 ]);
 function isAllowedTarget(url) {
-  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, '').replace(/\.$/, '');
+  const host = url.hostname.toLowerCase().replace(/^\\[|\\]$/g, '').replace(/\\.$/, '');
   return ['http:', 'https:'].includes(url.protocol)
     && !url.username && !url.password
     && !BLOCKED_METADATA_HOSTS.has(host);
