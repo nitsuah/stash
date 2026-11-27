@@ -3,6 +3,16 @@
 // original URL (a leading "www." and an http -> https upgrade are tolerated).
 const MAX_HOPS = 5;
 const bare = h => h.toLowerCase().replace(/^www\./, '');
+const BLOCKED_METADATA_HOSTS = new Set([
+  'metadata', 'metadata.google.internal', 'instance-data',
+  '169.254.169.254', '169.254.170.2', '100.100.100.200', 'fd00:ec2::254',
+]);
+function isAllowedTarget(url) {
+  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, '').replace(/\.$/, '');
+  return ['http:', 'https:'].includes(url.protocol)
+    && !url.username && !url.password
+    && !BLOCKED_METADATA_HOSTS.has(host);
+}
 
 export function hopAllowed(from, to) {
   if (!isAllowedTarget(to)) return false;
