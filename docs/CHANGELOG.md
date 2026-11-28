@@ -8,6 +8,10 @@ Notable additions and changes to this repository.
 
 ## [Unreleased]
 
+### Docs
+
+- TASKS: close `repo-health` coverage and the journeys rollout to darkmoon and games after checking their runs; note the scheduled push failure and its imps kit fix (#453).
+
 ### Security
 
 - The MM monitor now refuses direct requests and redirects to cloud metadata endpoints (AWS/GCP/Alibaba metadata hosts) before issuing the request; private LAN monitoring remains an explicit local CLI capability.
