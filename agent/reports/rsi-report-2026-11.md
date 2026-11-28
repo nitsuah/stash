@@ -1,5 +1,11 @@
+---
+kind: rsi-report
+---
+
 # RSI report — 2026-11
 
+> 🧭 ← [[reports/rsi-report-2026-10|2026-10]] <!-- nav -->
+>
 > Run 2026-11-24, off the quarterly cadence. Usage at start: weekly 34%, 5-hour 45%. Prior cycle: [[rsi-report-2026-10]].
 
 ## Inputs and what was missing
