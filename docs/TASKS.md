@@ -2,7 +2,7 @@
 
 > 🧭 [stash](../README.md) · [Features](./FEATURES.md) · [Roadmap](./ROADMAP.md) · **Tasks** · [Changelog](./CHANGELOG.md) · [Metrics](./METRICS.md) <!-- nav -->
 
-Last Updated: 2026-10-30
+Last Updated: 2026-11-28
 
 ## In Progress
 
@@ -46,11 +46,13 @@ Plan: move every routine that is mostly data gathering to GitHub Actions or a ze
   - Done 2026-11-24 (verified): the shared workflow is merged (nitsuah/.github#123 and follow-ups), the `Repo health` caller is on main in 15 repos (stash plus 14 others), each ran green on schedule 2026-11-19, and the cloud routines are disabled (2026-10-30). The two repos without a caller are tracked in the next item.
   - Done 2026-10-30: TIRE, SOTU, USAGE, RSI, CATCHUP and PMO specs point at `bot:repo-health` issues and the `obn-health`/`repo-health` Actions instead of the retired cloud reports.
   - Priority: P1 · Owner: routine
-- [ ] `repo-health` coverage for `deployer` (private) and `nitsuah-io` (outside the nitsuah org): neither has a `Repo health` caller, so TIRE and SOTU see no advisories or LOC for them. Add the caller there, or record why equivalent coverage exists.
+- [x] `repo-health` coverage for `deployer` (private) and `nitsuah-io` (outside the nitsuah org): neither has a `Repo health` caller, so TIRE and SOTU see no advisories or LOC for them. Add the caller there, or record why equivalent coverage exists.
   - Priority: P2 · Owner: routine
+  - Done 2026-11-28 (verified): both Nitsuah-Labs repos have `.github/workflows/repo-health.yml`, and each ran green on schedule 2026-11-26.
 - [ ] Local model-driven routines on 9router: `agent/scripts/routine-run.mjs` (lock, zero-model `--pre` skip gate, 9router probe, `claude -p` through the imps kit runner) and zero-model `agent/scripts/local-audit.mjs` shipped with tests; see [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md). Open: register Task Scheduler jobs per routine and point each at a `--pre` gate.
   - Priority: P2 · Owner: routine
   - Checked 2026-11-24: scripts and tests are on main (#367), but no Task Scheduler job is registered, so this stays open (owner's machine).
+  - Checked 2026-11-28: the owner's machine has `routine-daily-run`, `routine-sotu`, `routine-tire`, `routine-pmo` and `routine-fin-checkin` registered. `daily-run` push failed 2026-11-21 to 11-27, and `sotu` on 11-23: the imps kit's push lock leaked into the main checkout (fix: nitsuah/.github#443).
 - [x] `daily-repo-sync` as code: `agent/scripts/daily-run.mjs` does DAILY's deterministic steps (guard, merge gate, repo sync, logs, note skeleton, indexes, PR) and calls the model only through `routine-run.mjs` with `agent/prompts/DAILY-MODEL.md` when `skip_model` is false. Tests in CI. Open: register the Task Scheduler job (command in [ROUTINE-RUN](../agent/prompts/ROUTINE-RUN.md)), run it once with `--apply`, then disable the Claude-plan task; Monday cloud-run lookup and Showcase publish stay manual (`NOT AUTOMATED`).
   - Priority: P1 · Owner: stash · Done 2026-10-30.
 - [ ] `daily-brief`: move the PR search and vigil open-work call to a cron job; keep Calendar and Gmail triage in the routine and drop the daily report PR.
@@ -77,15 +79,17 @@ Contract: [nitsuah/.github journeys/STANDARD.md](https://github.com/nitsuah/.git
 - [ ] vigil: journeys on top of the existing visual-docs mocks; fold `e2e.yml` failures into the reporter.
   - Priority: P2
   - Progress 2026-10-09: review pass filed vigil#275–#279 and #281; 6 journeys, 12 baselines, soak 54/54 in nitsuah/vigil#282. Remaining: merge it (after nitsuah/.github#21 if you want the updated rules first), one `workflow_dispatch` run, then fold `e2e.yml` failures into the reporter.
+  - Checked 2026-11-28: nitsuah/vigil#282 merged 2026-10-09 and the 2026-11-28 nightly passed. Remaining: `e2e.yml` still uploads only a Playwright report.
 - [x] ats-fill and nitsuah-io: replace their artifact-only `playwright-nightly.yml` with the journeys caller.
   - Priority: P2
   - Check first that Nitsuah-Labs GitHub Actions may call `nitsuah/.github`'s reusable workflow.
   - Done 2026-10-15: both run `.github/workflows/journeys.yml` (ats-fill#143, nitsuah-io#570); neither has `playwright-nightly.yml` any more.
 - [x] stash itself: the Pages site (`pages/`, the only UI in this repo) gets the journeys caller and two journeys (tour and link/asset check, phone-width overflow), `tests/journeys/`, soaked 5/5.
   - Done 2026-11-24.
-- [ ] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
+- [x] skyview, then vhs, darkmoon, games once each has `promo/spots.json`.
   - Progress 2026-10-16: skyview (skyview#191) and vhs (vhs#80) run the journeys caller; darkmoon and games are left.
   - Priority: P3
+  - Done 2026-11-28 (verified): darkmoon and games run the journeys caller too; both nightly runs passed on 2026-11-28.
 - [ ] First monthly metrics row (RSI, 2026-11-02): flaky rate, reopen rate, time-to-fix, coverage.
   - Priority: P2
 
