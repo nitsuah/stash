@@ -10,6 +10,7 @@ Notable additions and changes to this repository.
 
 ### Docs
 
+- Recover the daily notes for 11-21 to 11-28, the W48 weekly note and the W48 SOTU report that scheduled runs could not push.
 - TASKS: close `repo-health` coverage and the journeys rollout to darkmoon and games after checking their runs; note the scheduled push failure and its imps kit fix (#453).
 
 ### Security
